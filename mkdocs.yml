@@ -1,0 +1,81 @@
+site_name: Informatique en CPGE
+site_description: Cours d'informatique en MP2I et ITC  (lycée Leconte de Lisle)
+site_author: Fabrice NATIVEL
+
+docs_dir: docs
+
+nav:
+- "<img src='../icones/home.svg' width=16px height=16px>&thinsp; Accueil" :
+    - index.md
+- "<img src='../icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I" :
+      - "Index" : mp2i/Progression.md
+      - "C0-Notions d'architecture et de systèmes" : mp2i/systemes.md
+      - "C1-Premiers pas en langage C" : mp2i/introC.md
+      - "C2-Arithmétique des ordinateurs" : mp2i/arithmetique.md
+- "<img src='../icones/links.svg' width=16px height=16px>&thinsp; Liens" :
+    - liens.md
+
+theme:
+  name: material
+  language : fr 
+  features:
+    - content.code.copy #copie et annotation du code
+    - content.code.annotate 
+    - content.tabs.link # Lien volets
+    - navigation.tabs # barre de navigation dans l'en-tête
+
+
+
+extra_css:
+  - stylesheets/fenarius.css
+
+
+markdown_extensions:
+  - pymdownx.arithmatex: #Mathjax
+      generic: true
+  - admonition  # Admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path:
+        - "docs/mp2i/files/"
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+      options:
+        custom_icons:
+          - overrides/.icons
+  - attr_list
+  - md_in_html
+  - pymdownx.tabbed:    # Possibilité de créer des volets
+      alternate_style: true 
+  - pymdownx.superfences: # Mermaid pour les graphes
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+
+plugins:
+  - search
+  - macros
+
+# Pour mathjax
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://kit.fontawesome.com/1a2b3c4d5e.js
+
