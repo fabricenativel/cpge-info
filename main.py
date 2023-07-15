@@ -30,11 +30,11 @@ def define_env(env):
     env.variables['progression_mp2i']={
         0 : [5,"Systèmes",1,"systemes.md"],
         1 : [8,"Premiers pas en langage C",2,"introC.md"],
-        2 : [1,"Arithmétique des ordinateurs",1,"arithmetique.md"],
-        3 : [2,"Récursivité",1,"recursivite.md"],
-        4 : [3,"Pile et files",1,"piles_files.md"],
-        5 : [8,"Pointeurs",1,"pointeurs.md"],
-        6 : [3,"Liste chainées",1,"listechainees.md"]
+        2 : [1,"Terminaison, correction et complexité",1,"terminaison.md"],
+        3 : [8,"Pointeurs et types structurés",1,"pointeurs.md"],
+        4 : [3,"Arithmétique des ordinateurs",1,"arithmetique.md"],
+        5 : [8,"Récursivité",1,"recursivite.md"],
+        6 : [3,"Liste chainées, piles et files",1,"listechainees.md"]
     }
 
     # affichage d'un chapitre dans la progression
@@ -112,3 +112,11 @@ def define_env(env):
         if source!=None:
             co+=f"<span class='source'>({source})</span>"
         return co
+
+    # Téléchargement d'un fichier
+    @env.macro
+    def telecharger(description,fichier,center=True):
+        liens =f"[{description} :material-download:]({fichier})"
+        liens+="{.md-button}"
+        if center: liens="<span class='centre'>"+liens+"</span>"
+        return liens
