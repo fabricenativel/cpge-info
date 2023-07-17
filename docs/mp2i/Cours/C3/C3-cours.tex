@@ -1,0 +1,218 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{1}
+\newcommand{\Ctitle}{\cnum {Pointeurs, types structurés}}
+
+
+\makess{Mémoire en C}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Introduction}
+		\begin{itemize}
+			\item<1-> De façon schématique, la mémoire d'un ordinateur s'apparente à un immense tableau dont chaque case a une adresse.
+			\item<2-> Un \textcolor{blue}{pointeur} est une variable contenant une de ces adresses.
+			\item<3-> Le schéma ci-dessous représente un pointeur \kw{p} contenant l'adresse d'une variable \kw{x} qui vaut 42. \\
+				\onslide<4->{
+					\renewcommand{\arraystretch}{1.7}
+					\begin{tabular}{ccccccccc}
+						\textcolor{blue}{variable}     &       &                                    & \kw{x}                        &                                    &       &       & \kw{p}                          &        \\
+						\cline{3-5} \cline{8-8}
+						\cdashline{2-2} \cdashline{6-7} \cdashline{9-9}
+						valeur  &       & \multicolumn{1}{|c|}{\phantom{4242}} & \multicolumn{1}{|c|}{\rnode{x}{42}} & \multicolumn{1}{|c|}{\phantom{4242}} &       &       & \multicolumn{1}{|c|}{\ovalnode[linecolor=BrickRed,linewidth=0.7pt]{pp}{2741}} &         \\
+						\cline{3-5} \cline{8-8}
+						\cdashline{2-2} \cdashline{6-7} \cdashline{9-9}
+						\textcolor{Sepia}{adresse} & \dots &      \textcolor{Sepia}{\scriptsize 2740}                               & \ovalnode[linecolor=BrickRed,linewidth=0.7pt]{p}{\textcolor{Sepia}{\scriptsize 2741}}                     &   \textcolor{Sepia}{\scriptsize 2742}                                  & \dots & \dots & \textcolor{Sepia}{\scriptsize 3154}                       & \dots   \\
+					\end{tabular}
+                    \ncline[linecolor=BrickRed,linewidth=1pt]{->}{p}{x}
+				}
+            \item<5-> En C, la gestion de la mémoire n'est pas totalement automatique (comme en Python ou en OCaml). Certains aspects reviennent au programmeur, ce qui impose de comprendre le modèle mémoire du C.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+		\rput(4.4,0.9){\rnode{stat}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Données statiques  \end{cadre}}}
+		\rput(9.5,0.9){\parbox{6cm}{\center \scriptsize Taille connue à la compilation \\ initialisées ou non.}}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+		\rput(4.4,0.9){\rnode{stat}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Données statiques  \end{cadre}}}
+		\rput(9.5,0.9){\parbox{6cm}{\center \scriptsize Taille connue à la compilation \\ initialisées ou non.}}
+		\rput(4.4,2.2){\rnode{tas}{\begin{cadre}{white}{BrickRed}{4.8}{2}   Tas (\textit{heap}) \end{cadre}}}
+		\rput(9.5,2.2){\parbox{6cm}{\center \scriptsize Taille variable \\ Allouée dynamiquement par le programmeur avec \kw{malloc} et libéré avec \kw{free} }}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+		\rput(4.4,0.9){\rnode{stat}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Données statiques  \end{cadre}}}
+		\rput(9.5,0.9){\parbox{6cm}{\center \scriptsize Taille connue à la compilation \\ initialisées ou non.}}
+		\rput(4.4,2.2){\rnode{tas}{\begin{cadre}{white}{BrickRed}{4.8}{2}   Tas (\textit{heap}) \end{cadre}}}
+		\rput(9.5,2.2){\parbox{6cm}{\center \scriptsize Taille variable \\ Allouée dynamiquement par le programmeur avec \kw{malloc} et libéré avec \kw{free} }}
+		\rput(4.4,5.6){\rnode{pile}{\begin{cadre}{white}{BrickRed}{4.8}{0.6}   Pile (\textit{stack}) \end{cadre}}}
+		\rput(9.5,5.6){\parbox{6cm}{\center \scriptsize Empile les contextes d'appel des fonctions \\ (variables locales, adresse de retour, \dots) }}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+		\rput(4.4,0.9){\rnode{stat}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Données statiques  \end{cadre}}}
+		\rput(9.5,0.9){\parbox{6cm}{\center \scriptsize Taille connue à la compilation \\ initialisées ou non.}}
+		\rput(4.4,2.2){\rnode{tas}{\begin{cadre}{white}{BrickRed}{4.8}{2}   Tas (\textit{heap}) \end{cadre}}}
+		\rput(9.5,2.2){\parbox{6cm}{\center \scriptsize Taille variable \\ Allouée dynamiquement par le programmeur avec \kw{malloc} et libéré avec \kw{free} }}
+		\rput(4.4,5.6){\rnode{pile}{\begin{cadre}{white}{BrickRed}{4.8}{0.6}   Pile (\textit{stack}) \end{cadre}}}
+		\rput(9.5,5.6){\parbox{6cm}{\center \scriptsize Empile les contextes d'appel des fonctions \\ (variables locales, adresse de retour, \dots) }}
+		\psline[linecolor=BrickRed,linestyle=dashed]{}(2,5.3)(2,3.2)
+		\psline[linecolor=BrickRed,linestyle=dashed]{}(6.78,5.3)(6.78,3.2)
+		\rput(4.5,4.4){Mémoire libre}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+		\rput(4.4,0.9){\rnode{stat}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Données statiques  \end{cadre}}}
+		\rput(9.5,0.9){\parbox{6cm}{\center \scriptsize Taille connue à la compilation \\ initialisées ou non.}}
+		\rput(4.4,2.2){\rnode{tas}{\begin{cadre}{white}{BrickRed}{4.8}{2}   Tas (\textit{heap}) \end{cadre}}}
+		\rput(9.5,2.2){\parbox{6cm}{\center \scriptsize Taille variable \\ Allouée dynamiquement par le programmeur avec \kw{malloc} et libéré avec \kw{free} }}
+		\rput(4.4,5.6){\rnode{pile}{\begin{cadre}{white}{BrickRed}{4.8}{0.6}   Pile (\textit{stack}) \end{cadre}}}
+		\rput(9.5,5.6){\parbox{6cm}{\center \scriptsize Empile les contextes d'appel des fonctions \\ (variables locales, adresse de retour, \dots) }}
+		\psline[linecolor=BrickRed,linestyle=dashed]{}(2,5.3)(2,3.2)
+		\psline[linecolor=BrickRed,linestyle=dashed]{}(6.78,5.3)(6.78,3.2)
+		\rput(4.5,4.4){Mémoire libre}
+		\ncline[nodesepB=1.2,linewidth=1pt,linestyle=dashed,linecolor=BrickRed]{->}{tas}{pile}
+		\ncline[nodesepB=1.5,linewidth=1pt,linestyle=dashed,linecolor=BrickRed]{->}{pile}{tas}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+		\rput(4.4,0.9){\rnode{stat}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Données statiques  \end{cadre}}}
+		\rput(9.5,0.9){\parbox{6cm}{\center \scriptsize Taille connue à la compilation \\ initialisées ou non.}}
+		\rput(4.4,2.2){\rnode{tas}{\begin{cadre}{white}{BrickRed}{4.8}{2}   Tas (\textit{heap}) \end{cadre}}}
+		\rput(9.5,2.2){\parbox{6cm}{\center \scriptsize Taille variable \\ Allouée dynamiquement par le programmeur avec \kw{malloc} et libéré avec \kw{free}}}
+		\rput(4.4,5.6){\rnode{pile}{\begin{cadre}{white}{BrickRed}{4.8}{0.6}   Pile (\textit{stack}) \end{cadre}}}
+		\rput(9.5,5.6){\parbox{6cm}{\center \scriptsize Empile les contextes d'appel des fonctions \\ (variables locales, adresse de retour, \dots) }}
+		\psline[linecolor=BrickRed,linestyle=dashed]{}(2,5.3)(2,3.2)
+		\psline[linecolor=BrickRed,linestyle=dashed]{}(6.78,5.3)(6.78,3.2)
+		\rput(4.5,4.4){Mémoire libre}
+		\ncline[nodesepB=1.2,linewidth=1pt,linestyle=dashed,linecolor=BrickRed]{->}{tas}{pile}
+		\ncline[nodesepB=1.5,linewidth=1pt,linestyle=dashed,linecolor=BrickRed]{->}{pile}{tas}
+		\ncbar[angle=180,offsetA=0.26,offsetB=0.28,linecolor=OliveGreen,linestyle=dashed]{code}{stat} \naput[nrot=:U,labelsep=0]{\textcolor{OliveGreen}{\scriptsize statique}}
+		\ncbar[angle=180,offsetA=0.98,offsetB=0.28,linecolor=BrickRed,linestyle=dashed]{tas}{pile} \naput[nrot=:U,labelsep=0]{\textcolor{BrickRed}{\scriptsize  dynamique}}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{block}{Conséquences}
+        Cette organisation de la mémoire a des conséquences importantes
+        \begin{itemize}
+            \item<1-> La taille de la pile est limitée (bien plus que celle du tas), donc une variable locale de taille importante risque de provoquer un débordement de pile (\textit{stackoverflow}). Il est nettement préférable de l'allouer dans le tas.
+            \item<2-> Lors de l'appel à une fonction, les variables locales (et autres informations) sont stockés dans la pile. A la fin de l'exécution, ces informations sont supprimés de la pile. Conserver des pointeurs vers des adresses de variables locales est donc problématique. 
+            \item<3-> De la mémoire alloué par le programmeur dans le tas et non libérée est considérée comme non disponible, créant des fuites mémoires (\textit{memory leak}).
+        \end{itemize}
+        \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Un premier exemple}
+        \begin{langageC}
+int main()  {
+    double big_array[1500000];
+    return 0;}
+        \end{langageC}
+    {\small
+    \begin{enumerate}
+        \item<1-> Rappeler la taille d'un \kw{double}, en déduire la taille du tableau {\tt big\_array} \\
+        \onslide<5-> {\textcolor{OliveGreen}{Un double occupe 8 octects, donc ce tableau $8 \times 1,5 = 12$ Mo.}}
+        \item<2-> Comment expliquer que programme a provoqué une {\tt erreur de segmentation}, alors qu'il a été exécuté sur une machine possédant 8 Go de mémoire vive ?\\
+        \onslide<6-> {\textcolor{OliveGreen}{La taille du tableau dépasse celle de la pile sur laquelle il est alloué.}}
+        \item<3-> En déduire une information sur la taille de la pile d'appel sur cet ordinateur. \\
+        \onslide<7-> {\textcolor{OliveGreen}{La pile fait moins de 12Mo (sa taille est de l'ordre de 8Mo sur l'ordinateur utilisé)}}
+        \item<4-> Comment résoudre ce problème ? \\
+        \onslide<8-> {\textcolor{OliveGreen}{La mémoire occupée par le tableau doit être alloué sur le tas.}}
+    \end{enumerate}}
+    \end{exampleblock}
+\end{frame}
+
+
+\end{document}

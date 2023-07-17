@@ -10,17 +10,15 @@
 \setcounter{numchap}{0}
 \newcommand{\Ctitle}{\cnum Notions d'architecture et de système}
 
-
-\begin{frame}
-	\mframe{\Ctitle}
-	\subtitle{Test}
+\makess{Architecture des ordinateurs}
+\begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Modèle de Von Neumann}
 		\begin{itemize}
 			\item<1-> Les ordinateurs modernes sont construits autour d'un modèle défini par le mathématicien John Von Neumann dans les années 1940 appelé \textcolor{blue}{Architecture de Von Neumann}
 			\item<2-> Dans ce modèle, l'ordinateur se décompose :
 				\begin{itemize}
-					\item<3-> La \textcolor{blue}{mémoire} qui stocke les données et les programmes
-					\item<4-> L'\textcolor{blue}{unité arithmétique et logique {\sc ual}} qui effectue les opérations (addition, soustraction, comparaison, \dots) sur les données.
+					\item<3-> La \textcolor{blue}{mémoire} qui stocke les données et les programmes (sous forme de 0 et de 1).
+					\item<4-> L'\textcolor{blue}{unité arithmétique et logique {\sc ual}} qui effectue les opérations arithmétiques (addition, soustraction, \dots) et logiques (conjonctions, négations, \dots) sur les données.
 					\item<5-> L'\textcolor{blue}{unité de contrôle} chargé de l'ordre des opérations et de la récupération des données en mémoire.
 					\item<6-> Les dispositifs d'\textcolor{blue}{entrée} (ex : clavier, souris, réseau, \dots), et de \textcolor{blue}{sortie} (ex : écran, imprimante, \dots) des données
 				\end{itemize}
@@ -29,8 +27,8 @@
 \end{frame}
 
 
-\begin{frame}
-	\mframe{\Ctitle}
+\begin{frame}{\Ctitle}{\stitle}
+	
 	\begin{block}{Schéma représentant l'architecture de Von Neumann :}
 		\rnode{cmp}{\psframe[linewidth=0.8pt,linecolor=Sepia](3.2,0)(8.8,-5)}
 		\rput(6,-1.4){\rnode{cpu}{\psshadowbox[shadowsize=1pt,framesep=0.5cm]{\makebox[4cm]{\raisebox{1cm}{\textcolor{BrickRed}{\textbf{\faMicrochip \ CPU}} } } }}}
@@ -47,8 +45,8 @@
 	\end{block}
 \end{frame}
 
-\begin{frame}
-	\mframe{\Ctitle}
+\makess{Système d'exploitation}
+\begin{frame}{\Ctitle}{\stitle}	
 	\begin{alertblock}{Définition}
 		Un \textcolor{red}{système d'exploitation}  (en abrégé \textcolor{red}{OS}, de l'anglais \textit{Operating System}) est un programme (ou ensemble de programme) permettant de
 		\onslide<2->{gérer les ressources de l'ordinateur (mémoire, fichier, périphériques, \dots) sur lequel il s'execute}. \\
@@ -65,8 +63,7 @@
 \end{frame}
 
 %Schéma représentatif
-\begin{frame}
-	\mframe{\Ctitle}
+\begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{La place du système d'exploitation}
 		\setlength{\shadowsize}{1pt}
 		\begin{tabularx}{0.9\textwidth}{Y}
@@ -90,8 +87,20 @@
 	\end{block}
 \end{frame}
 
-\begin{frame}
-	\mframe{\Ctitle}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Fonctionnalités d'un système d'exploitation}
+		\begin{itemize}
+			\item<1-> Gestion des périphériques.
+			\item<2-> Donner l'illusion que l'ordinateur est multitâches.
+			\item<3-> Gérer les différentes applications utilisées.
+			\item<4-> Identifier les utilisateurs.
+			\item<5-> Contrôler et distribuer les accès aux ressources de l'ordinateur.
+			\item<6-> Gérer le système de fichier.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}	
 	\begin{block}{Le système de gestion de fichiers}
 		\begin{itemize}
 			\item<1-> L'ensemble des fichiers forme une arborescence démarrant au répertoire \textcolor{Sepia}{\tt /} appelé \textcolor{blue}{racine} (\textit{root}) \hspace{-2cm}.
@@ -115,10 +124,9 @@
 	\end{block}
 \end{frame}
 
-
-\begin{frame}
-	\mframe{\Ctitle}
-	\begin{block}{Interface système : \textit{Shell}}
+\makess{Le \textit{shell}}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Interface système : \textit{shell}}
 		\begin{itemize}
 			\item<1-> Avant l'avènement des interfaces graphiques (et de la souris), l'utilisateur communiquait avec le système d’exploitation via un programme appelé \textcolor{blue}{\textit{shell}} par l'intermédiaire d'un simple clavier et d'une interface en ligne de commande ({\sc cli} en anglais pour \textit{Command Line Interface}).
 			\item<2-> Aujourd'hui encore et pour diverses raisons (rapidité, contrôle plus fin de l'ordinateur, récupération d'erreurs, \dots) la ligne de commande reste très utilisée.
@@ -130,13 +138,11 @@
 					\item<5-> Le nom de l'ordinateur ici \textcolor{green}{\tt matrix} suivi de {\tt :}
 					\item<6-> Le chemin du dossier de travail ici \textcolor{blue}{\tt \~{}/Morpheus}  suivi de {\tt :} et du curseur
 				\end{itemize}
-
 		\end{itemize}
 	\end{block}
 \end{frame}
 
-\begin{frame}
-	\mframe{\Ctitle}
+\begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Généralités sur le {\tt shell}}
 		\begin{itemize}
 			\item<1-> Les commandes ont généralement le format suivant : \\
@@ -154,16 +160,15 @@
 				\end{tabularx}
 			\item<3-> Le résultat d'une commande peut-être dirigé :
 				\begin{itemize}
-					\item<7-> Vers un fichier avec \textcolor{Sepia}{\tt >} (avec écrasement si le fichier existe)
-					\item<8-> Vers un fichier avec \textcolor{Sepia}{\tt >{}>} (avec ajout en fin si le fichier existe)
-					\item<9-> Vers une autre commande avec \textcolor{Sepia}{\tt |} (\textit{pipe})
+					\item<4-> Vers un fichier avec \textcolor{Sepia}{\tt >} (avec écrasement si le fichier existe)
+					\item<5-> Vers un fichier avec \textcolor{Sepia}{\tt >{}>} (avec ajout en fin si le fichier existe)
+					\item<6-> Vers une autre commande avec \textcolor{Sepia}{\tt |} (\textit{pipe})
 				\end{itemize}
 		\end{itemize}
 	\end{block}
 \end{frame}
 
-\begin{frame}
-	\mframe{\Ctitle}
+\begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Quelques commandes}
 		\begin{description}
 			\item<1->[\textcolor{blue}{\tt man}] : affiche l'aide sur une commande
@@ -185,8 +190,7 @@
 	\end{block}
 \end{frame}
 
-\begin{frame}
-	\mframe{\Ctitle}
+\begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemples}
 		\tei{ExArbo.eps}{0.4}{1}{
 		A partir du répertoire {\tt Cours}, écrire les commandes pour :
@@ -208,8 +212,7 @@
 	\end{exampleblock}
 \end{frame}
 
-\begin{frame}
-	\mframe{\Ctitle}
+\begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Droits sur un fichier, {\tt chmod}}
 		\begin{itemize}
 			\item<2-> Les droits sur un fichier (\textcolor{blue}{\tt r} : lecture, \textcolor{blue}{\tt w} : écriture, \textcolor{blue}{\tt x} exécution) sont définis pour le propriétaire : {\textcolor{blue}{\tt u}} (\textit{user}), le groupe : {\textcolor{blue}{\tt g}} (\textit{groupe}) et les autres :{\textcolor{blue}{\tt o}} (\textit{others}).
@@ -228,9 +231,8 @@
 	\end{exampleblock}
 \end{frame}
 
-
-\begin{frame}
-	\mframe{\Ctitle}
+\makess{Liens et inodes}
+\begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Liens physiques ou symboliques}
 		\begin{itemize}
 			\item<1-> Les fichiers sont stockés sur le support physique par blocs et retrouvés grâce à leur \textcolor{blue}{inode} (\textit{index node} ou noeud d'index).

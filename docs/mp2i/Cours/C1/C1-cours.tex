@@ -42,7 +42,7 @@
 		\begin{tabular}{ccccc}
 			\rnode{CS}{\begin{rcadre}{lightgray}{Sepia}{2.4}{1.4}
 					           \textcolor{Sepia}{\small \faFile\; Code source \\
-					           {\footnotesize (fichier texte .c)}}
+					           {\footnotesize (fichier(s) texte .c)}}
 				           \end{rcadre}} & \hspace{0.8cm} & \onslide<3->{\rnode{{CO}}{\begin{cadre}{white}{black}{2.8}{1.4}  {\small \textbf{\faCog\;} Compilateur} \\ {\footnotesize (gcc, clang, ..)} \end{cadre}}} & \hspace{0.8cm} &
 			\onslide<5->{\rnode{EX}{\begin{rcadre}{lightgray}{blue}{2.4}{1.4}
 						                        \textcolor{blue}{\small \faFileArchive\; Exécutable \\ {\footnotesize (fichier binaire)}}
@@ -52,7 +52,8 @@
 		\onslide<6->{\ncline[doubleline=true,doublesep=2pt,doublecolor=OliveGreen,linecolor=OliveGreen,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{CO}{EX}}
 		\begin{enumerate}
 			\item<2-> Les IDE comme VS Code signalent certaines erreurs dans le code.
-			\item<4-> La compilation peut produire des erreurs ou des avertissement (\textit{warning})
+			\item<4-> La compilation peut produire des erreurs ou des avertissement (\textit{warning}) \\
+			\textcolor{gray}{\small La compilation se déroule en 4 étapes : préprocesseur, compilation, assemblage, editions de lien}
 			\item<6-> Une compilation sans erreur (mais éventuellement des \textit{warning}) produit un exécutable.
 			\item<7-> Les erreurs dans l'exécution ne feront pas référence aux instructions du code source.
 		\end{enumerate}
@@ -178,7 +179,7 @@ int main()
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple de boucle}
-		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/cours_ex2.c}{7}{\small}
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/cours_ex2.c}{8}{\small}
 	\medskip
 	On veut afficher un \kw{int} dans la réponse, on utilise \kw{\%{}d} dans \kw{printf} à l'emplacement souhaité.
 	\end{exampleblock}
@@ -218,7 +219,7 @@ int main()
 			Type & Opérations & Commentaires \\
 			\hline
 			\kw{int} et \kw{unsigned int}& \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{\%} & Entiers signés ou non signés codés sur un minimum de 16 bits.\\ 
-			\kw{int}$N$\kw{\_t} et \kw{uint}$N$\kw{\_t}&  & Entiers codés sur $N$ bits accessibles dans \kw{stdint.h}\\
+			\kw{int}$N$\kw{\_t} et \kw{uint}$N$\kw{\_t}&  & Entiers codés sur $N$ bits accessibles dans \kw{stdint.h} ($N=8$, 32 ou 64)\\
 			\hline
 			& & \  \newline \ \newline	\\
 			\hline
@@ -227,6 +228,7 @@ int main()
 			 &  & \  \newline \  \\
 			\hline
 		\end{tabularx}
+		\vspace{1cm}
 	\end{alertblock}
 \end{frame}
 
@@ -237,15 +239,16 @@ int main()
 			Type & Opérations & Commentaires \\
 			\hline
 			\kw{int} et \kw{unsigned int}& \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{\%} & Entiers signés ou non signés codés sur un minimum de 16 bits.\\ 
-			\kw{int}$N$\kw{\_t} et \kw{uint}$N$\kw{\_t}&  & Entiers codés sur $N$ bits accessibles dans \kw{stdint.h}\\
+			\kw{int}$N$\kw{\_t} et \kw{uint}$N$\kw{\_t}&  & Entiers codés sur $N$ bits accessibles dans \kw{stdint.h} ($N=8$, 32 ou 64) \\
 			\hline
-			\kw{float} et \kw{double} & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{\%} & 	Représentation des nombres en virgules flottantes en simple ou double précision de la norme {\sc ieee754}.\\
+			\kw{float} et \kw{double} & \kw{+}, \kw{-}, \kw{*}, \kw{/} & 	Représentation des nombres en virgules flottantes en simple ou double précision de la norme {\sc ieee754}. Fonctions élémentaires dans \kw{math.h}\\
 			\hline
 			&&  \  \newline \  \\
 			\hline
 			 &  & \  \newline \  \\
 			\hline
 		\end{tabularx}
+		\vspace{0.7cm}
 	\end{alertblock}
 \end{frame}
 
@@ -256,15 +259,16 @@ int main()
 			Type & Opérations & Commentaires \\
 			\hline
 			\kw{int} et \kw{unsigned int}& \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{\%} & Entiers signés ou non signés codés sur un minimum de 16 bits.\\ 
-			\kw{int}$N$\kw{\_t} et \kw{uint}$N$\kw{\_t}&  & Entiers codés sur $N$ bits accessibles dans \kw{stdint.h}\\
+			\kw{int}$N$\kw{\_t} et \kw{uint}$N$\kw{\_t}&  & Entiers codés sur $N$ bits accessibles dans \kw{stdint.h} ($N=8$, 32 ou 64)\\
 			\hline
-			\kw{float} et \kw{double} & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{\%} & 	Représentation des nombres en virgules flottantes en simple ou double précision de la norme {\sc ieee754}.\\
+			\kw{float} et \kw{double} & \kw{+}, \kw{-}, \kw{*}, \kw{/} & 	Représentation des nombres en virgules flottantes en simple ou double précision de la norme {\sc ieee754}. Fonctions élémentaires dans \kw{math.h}\\
 			\hline
 			\kw{bool} & \kw{||}  \kw{\&\&}, \kw{!}  & Booléens accessibles dans \kw{stdbool.h}. Evaluations paresseuses des expressions. \\
 			\hline
 			 &  & \  \newline \  \\
 			\hline
 		\end{tabularx}
+		\vspace{0.7cm}
 	\end{alertblock}
 \end{frame}
 
@@ -275,9 +279,9 @@ int main()
 			Type & Opérations & Commentaires \\
 			\hline
 			\kw{int} et \kw{unsigned int}& \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{\%} & Entiers signés ou non signés codés sur un minimum de 16 bits.\\ 
-			\kw{int}$N$\kw{\_t} et \kw{uint}$N$\kw{\_t}&  & Entiers codés sur $N$ bits accessibles dans \kw{stdint.h}\\
+			\kw{int}$N$\kw{\_t} et \kw{uint}$N$\kw{\_t}&  & Entiers codés sur $N$ bits accessibles dans \kw{stdint.h} ($N=8$, 32 ou 64)\\
 			\hline
-			\kw{float} et \kw{double} & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{\%} & 	Représentation des nombres en virgules flottantes en simple ou double précision de la norme {\sc ieee754}.\\
+			\kw{float} et \kw{double} & \kw{+}, \kw{-}, \kw{*}, \kw{/} & 	Représentation des nombres en virgules flottantes en simple ou double précision de la norme {\sc ieee754}. Fonctions élémentaires dans \kw{math.h}\\
 			\hline
 			\kw{bool} & \kw{||}  \kw{\&\&}, \kw{!}  & Booléens accessibles dans \kw{stdbool.h}. Evaluations paresseuses des expressions. \\
 			\hline
@@ -390,12 +394,11 @@ int compare(int a, int b)
 				H & e & l & l & o & \;  & ! & \textbackslash{}0 \\
 				\hline
 			\end{tabular}
-			\item<3-> Avec \kw{printf}, on affiche une chaine de caractères à l'aide du spécificateur de format \kw{\%s}.
-			\item<4-> Le module \kw{string.h} fournit des fonctions usuelles de manipulation de caractères, notamment :
+			\item<3-> Le module \kw{string.h} fournit des fonctions usuelles de manipulation de caractères, notamment :
 			\begin{itemize}
-				\item<5-> \kw{strlen} : renvoie la longueur de la chaine de caractères
-				\item<6-> \kw{strcpy} : copie une chaine de caractères
-				\item<7-> \kw{strcat} : concaténation de chaines de caractères
+				\item<4-> \kw{strlen} : renvoie la longueur de la chaine de caractères
+				\item<5-> \kw{strcpy} : copie une chaine de caractères
+				\item<6-> \kw{strcat} : concaténation de chaines de caractères
 			\end{itemize}
 		\end{itemize}
 	\end{block}
@@ -407,4 +410,31 @@ int compare(int a, int b)
 		\onslide<2->{\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/cours_ex10.c}{}{}}	
 	\end{exampleblock}
 \end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Affichage et spécificateur de format}
+		En C, l'affichage des variables se fait à l'aide de spécificateurs de format \\
+		\textcolor{gray}{
+		\begin{tabular}{|l|l|}
+			\hline
+				Type & Spécificateur \\
+			\hline
+				\kw{char} & \kw{\%{}c} \\
+			\hline
+			   \kw{char[]} & \kw{\%{}s} \\
+			\hline
+				\kw{unsigned int}, \kw{uint8\_t} et \kw{uint32\_t}& \kw{\%{}u} \\
+			\hline
+				\kw{int}, \kw{int8\_t} et \kw{int32\_t} & \kw{\%{}d} \\
+			\hline
+				\kw{float} & \kw{\%{}f} \\
+			\hline
+			\kw{uint64\_t} & \kw{\%{}lu} \\
+			\hline
+			\kw{int64\_t} & \kw{\%{}ld} \\
+			\hline
+		\end{tabular}}
+	\end{block}
+\end{frame}
+
 \end{document}
