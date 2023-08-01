@@ -30,11 +30,12 @@ def define_env(env):
     env.variables['progression_mp2i']={
         0 : [5,"Systèmes",1,"systemes.md"],
         1 : [8,"Premiers pas en langage C",2,"introC.md"],
-        2 : [1,"Terminaison, correction et complexité",1,"terminaison.md"],
+        2 : [1,"Spécifications et tests",1,"validation.md"],
         3 : [8,"Pointeurs et types structurés",1,"pointeurs.md"],
         4 : [3,"Arithmétique des ordinateurs",1,"arithmetique.md"],
-        5 : [8,"Récursivité",1,"recursivite.md"],
-        6 : [3,"Liste chainées, piles et files",1,"listechainees.md"]
+        5 : [1,"Terminaison, correction, complexité",1,"terminaison.md"],
+        6 : [2,"Récursivité",1,"recursivite.md"],
+        7 : [3,"Liste chainées, piles et files",1,"listechainees.md"]
     }
 
     # affichage d'un chapitre dans la progression

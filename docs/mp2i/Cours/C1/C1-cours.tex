@@ -28,10 +28,11 @@
 		\begin{itemize}
 			\item<1-> Langage \textcolor{blue}{impératif} : séquence d'instructions exécutées par l'ordinateur pour modifier l'état du programme,. C n'est ni orienté objet, ni fonctionnel.
 			\item<2-> Les variables sont \textcolor{blue}{mutables} c'est à dire qu'elles peuvent changer de valeur pendant l'exécution.
-			\item<3-> Le langage C est \textcolor{blue}{typé} c'est à dire qu'une variable appartient à un type.
+			\item<3-> Le langage C est \textcolor{blue}{statiquement typé} c'est à dire qu'une variable appartient à un type défini durant toute sa durée de vie.
 			\item<4-> Equipé d'une librairie standard : la \textcolor{blue}{libc}.
-			\item<5-> Plus \textcolor{blue}{proche de la machine} que bien d'autres langages de haut niveau, ce qui induit une certaine efficacité.
-			\item<6-> Souvent utilisé pour le développement de systèmes d'exploitation, de pilotes de périphériques, de logiciels embarqués,
+			\item<5-> Le standard précise un certain nombres de \textcolor{blue}{comportements indéfinis}, c'est à dire de programmes dont le résultat est imprévisible. 
+			\item<6-> Plus \textcolor{blue}{proche de la machine} que bien d'autres langages de haut niveau, ce qui induit une certaine efficacité.
+			\item<7-> Souvent utilisé pour le développement de systèmes d'exploitation, de pilotes de périphériques, de logiciels embarqués,
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -165,7 +166,8 @@ int main()
 	\begin{exampleblock}{Exemple de boucle}
 		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/cours_ex2.c}{5}{\small}
 	\medskip
-	Une variable dont la valeur ne sera pas modifiée peut être déclaré avec \kw{const}
+	Une variable dont la valeur ne sera pas modifiée peut être déclaré avec \kw{const}.\\
+	\onslide<2-> \textcolor{gray}{On peut aussi utiliser une directive de précompilation \\ {\tt \#define NMAX 100}}
 	\end{exampleblock}
 \end{frame}
 
@@ -197,7 +199,7 @@ int main()
 	\begin{exampleblock}{Exemple d'instruction conditionnelle}
 		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/cours_ex3.c}{3}{\small}
 	\medskip
-	Définition d'une fonction \kw{syracuse} qui prend comme paramètre un entier et renvoie un entier. 
+	Définition d'une fonction \kw{syracuse} qui prend comme paramètre un entier et renvoie un entier. C'est la \textcolor{blue}{signature} de la fonction. \\
 	\textcolor{BrickRed}{\important} En C, les paramètres sont passés par \textcolor{blue}{valeur}.
 	\end{exampleblock}
 \end{frame}
@@ -274,22 +276,49 @@ int main()
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{alertblock}{Types de base}
-		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
+		\begin{tabularx}{\linewidth}{|l|p{1.8cm}|>{\footnotesize}X|}
 			\hline
 			Type & Opérations & Commentaires \\
 			\hline
-			\kw{int} et \kw{unsigned int}& \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{\%} & Entiers signés ou non signés codés sur un minimum de 16 bits.\\ 
+			\kw{int} et \kw{unsigned int}& \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{\%}  \newline \textcolor{gray}{{\tt ++},{\tt -{}-},{\tt +=},{\tt -=}}& Entiers signés ou non signés codés sur un minimum de 16 bits.\\ 
 			\kw{int}$N$\kw{\_t} et \kw{uint}$N$\kw{\_t}&  & Entiers codés sur $N$ bits accessibles dans \kw{stdint.h} ($N=8$, 32 ou 64)\\
 			\hline
 			\kw{float} et \kw{double} & \kw{+}, \kw{-}, \kw{*}, \kw{/} & 	Représentation des nombres en virgules flottantes en simple ou double précision de la norme {\sc ieee754}. Fonctions élémentaires dans \kw{math.h}\\
 			\hline
 			\kw{bool} & \kw{||}  \kw{\&\&}, \kw{!}  & Booléens accessibles dans \kw{stdbool.h}. Evaluations paresseuses des expressions. \\
 			\hline
-			\kw{char} &  & Caractères noté entre quotes (\kw{'}), uniquement ceux de la table {\sc ascii}. Caractère nul : \kw{'\textbackslash{}0'}\\
+			\kw{char} &  \textcolor{gray}{\tt +, -} & Caractères noté entre quotes (\kw{'}), uniquement ceux de la table {\sc ascii}. Caractère nul : \kw{'\textbackslash{}0'}\\
 			\hline
 		\end{tabularx}
 		\onslide<2-> Pour indiquer l'absence de type, notamment pour les fonctions ne renvoyant rien (par exemple une fonction d'affichage) on utilise \kw{void}.
 	\end{alertblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Affichage et spécificateur de format}
+		En C, l'affichage des variables se fait à l'aide de spécificateurs de format suivant le type de la variable \\
+		\textcolor{gray}{
+		\begin{tabular}{|l|l|}
+			\hline
+				Type & Spécificateur \\
+			\hline
+				\kw{char} & \kw{\%{}c} \\
+			\hline
+			   \kw{char[]} & \kw{\%{}s} \\
+			\hline
+				\kw{unsigned int}, \kw{uint8\_t} et \kw{uint32\_t}& \kw{\%{}u} \\
+			\hline
+				\kw{int}, \kw{int8\_t} et \kw{int32\_t} & \kw{\%{}d} \\
+			\hline
+				\kw{float} & \kw{\%{}f} \\
+			\hline
+			\kw{uint64\_t} & \kw{\%{}lu} \\
+			\hline
+			\kw{int64\_t} & \kw{\%{}ld} \\
+			\hline
+		\end{tabular}}
+	\end{block}
 \end{frame}
 
 \makess{Structures de contrôle}
@@ -361,10 +390,14 @@ int compare(int a, int b)
 			\item<5-> Les éléments sont numérotés à partir de 0
 			\item<6-> On accède à un élément en donnant son numéro (son indice) entre crochet.\\
 			\onslide<7->{\mintinline[fontsize=\small]{c}{est_premier[0]; //Le premier élément du tableau est_premier}}
-			\item<8->\textcolor{BrickRed}{\important} Un accès en dehors des bornes du tableau est un \textcolor{blue}{comportement indéfini}\\
+		\end{itemize}
+	\end{block}
+	\begin{alertblock}{\textcolor{yellow}{\important}\; Attention}
+		\begin{itemize}
+			\item<8-> Un accès en dehors des bornes du tableau est un \textcolor{blue}{comportement indéfini}\\
 			\item<9-> La gestion de la taille du tableau est de la \textit{responsabilité du programmeur}. Il n'y a pas de fonctions permettant d'y accéder. En conséquence lorsqu'un tableau est passé en paramètre à une fonction on passe aussi sa taille.
 		\end{itemize} 
-	\end{block}
+	\end{alertblock}
 \end{frame}
 
 
@@ -411,30 +444,5 @@ int compare(int a, int b)
 	\end{exampleblock}
 \end{frame}
 
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{block}{Affichage et spécificateur de format}
-		En C, l'affichage des variables se fait à l'aide de spécificateurs de format \\
-		\textcolor{gray}{
-		\begin{tabular}{|l|l|}
-			\hline
-				Type & Spécificateur \\
-			\hline
-				\kw{char} & \kw{\%{}c} \\
-			\hline
-			   \kw{char[]} & \kw{\%{}s} \\
-			\hline
-				\kw{unsigned int}, \kw{uint8\_t} et \kw{uint32\_t}& \kw{\%{}u} \\
-			\hline
-				\kw{int}, \kw{int8\_t} et \kw{int32\_t} & \kw{\%{}d} \\
-			\hline
-				\kw{float} & \kw{\%{}f} \\
-			\hline
-			\kw{uint64\_t} & \kw{\%{}lu} \\
-			\hline
-			\kw{int64\_t} & \kw{\%{}ld} \\
-			\hline
-		\end{tabular}}
-	\end{block}
-\end{frame}
 
 \end{document}

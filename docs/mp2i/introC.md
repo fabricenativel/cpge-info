@@ -151,4 +151,4 @@ On rappelle qu'un nombre premier est un entier naturel ayant exactement deux div
 
 ## Humour d'informaticien
 
-![SpeedC](./Images/C1/PythoVsC++.jpeg){.imgcentre width=500px}
+![punition](./Images/C1/punition.jpg){.imgcentre width=500px}

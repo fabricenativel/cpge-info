@@ -1,0 +1,128 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{2}
+\newcommand{\Ctitle}{\cnum {Validation et tests}}
+
+\makess{Algorithme, programme, paradigme}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Définitions}
+		\begin{itemize}
+			\item<1-> Un \textcolor{blue}{algorithme} est une suite d'instructions et d'opérations permettant de résoudre un problème. \\
+			\onslide<2->{\textcolor{gray}{Par exemple pour résoudre le problème du tri d'une liste de valeurs, on peut utiliser l'algorithme du tri par insertion. Cela consiste à prendre une à une chaque valeur et à l'insérer au bon emplacement dans une liste initialement vide.}}
+			\item<3-> Un \textcolor{blue}{programme} est la traduction d'un algorithme dans un langage informatique. On dit qu'un programme est la mise en oeuvre d'un algorithme.\\
+			\onslide<4->{\textcolor{gray}{L'algorithme du tri par insertion peut être écrit en Python, en C, \dots}}
+			\item<5-> Un \textcolor{blue}{paradigme} de programmation est une façon de d'approcher un problème et d'en concevoir et  modéliser une solution.\\
+			\onslide<6->{\textcolor{gray}{Le langage C est une illustration du paradigme de programmation impérative. Le langage OCaml nous permettra d'illustrer le paradigme fonctionnel}}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Spécification}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple introductif}
+		On considère le programme C suivant :
+		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/get_max.c}{}{\small}{3}{10}
+	\begin{enumerate}
+		\item<1-> Quel est le résultat renvoyé si le tableau fourni en argument contient dans cet ordre les valeurs : {\tt 12, 18, 11, 9, 10} ?
+		\item<2-> Même question avec le tableau  {\tt 12, 18, 11, 18, 10}
+		\item<3-> Même question avec le tableau {\tt -12, -15, -7}
+		\item<4-> Même question si le tableau est vide (c'est à dire que {\tt size =0})
+	\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\begin{enumerate}
+			\item<1-> \textcolor{OliveGreen} {La fonction renvoie 1 (indice de l'élément maximal du tableau)}
+			\item<2-> \textcolor{OliveGreen}{la fonction renvoie 3, c'est l'indice de la dernière occurence du maximum des éléments du tablea }
+			\item<3-> \textcolor{OliveGreen}{C'est un comportement indéfini, la variable {\tt imax} n'est pas initialisée.}
+			\item<4-> \textcolor{OliveGreen}{Une nouvelle fois, le comportement est indéfini car on renvoie la variable {\tt imax} qui n'a jamais été initialisée.}
+		\end{enumerate}
+	\end{exampleblock}
+	\begin{alertblock}{Définition}
+		\onslide<5->{Ecrire la \textcolor{blue}{spécification} d'une fonction c'est donné une description formelle et détaillée de ses caractéristiques. En particulier :}
+		\begin{itemize}
+			\item<6-> les entrées admissibles : types et valeurs possibles des arguments (\textcolor{blue}{préconditions}), 
+			\item<7-> ce que renvoie la fonction  et les  Les effets de bords (\textit{side effects}) éventuels : modification des arguments, affichage, \dots . Ce sont les (\textcolor{blue}{postconditions}).
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+\begin{block}{Remarques}
+\begin{itemize}
+\item<1-> La spécification est souvent donnée en commentaire dans le code source. \\
+\onslide<2-> \textcolor{gray}{Les commentaires en C s'écrivent entre \kw{/*} et \kw{*/} et en OCaml entre \kw{(*} et \kw{*)}}
+\item<3-> La vérification des préconditions peut s'effectuer à l'aide d'instructions \kw{assert}. Elles sont de la forme \kw{assert (condition)} en C, et nécessitent d'importer \kw{assert.h}. Si la condition échoue le programme s'arrête et affiche une erreur, c'est ce qu'on appelle de la programmation défensive (anticipation des erreurs).
+\end{itemize}
+\end{block}
+\begin{exampleblock}{Exemples}
+\onslide<4->{Ecrire en C, une fonction qui :}
+\begin{itemize}
+	\item<5-> Accepte en argument un tablau \textit{non vide} d'entiers.
+	\item<6-> Renvoie l'indice de la première occurence du maximum des éléments de ce tableau.
+\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/get_max_ok.c}{}{\small}{2}{14}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Validation, test}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Jeu de tests}
+		\onslide<1->Le comportement correct d'une fonction peut être "validé" (mais pas prouvé), par l'utilisation d'un \textcolor{blue}{jeu de test}. C'est à dire un ensemble de couple d'entrées du programme et de sorties attendues. \\
+		\onslide<2->\textcolor{gray}{Dans la fonction précédente, on pourrait tester (entre autres) des cas limites (\textit{edge cases}), comme par exemple un tableau à un seul élément, ou vide ou des situations ou le maximum se trouve en première ou dernière position du tableau.}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\begin{enumerate}
+		\item<3-> Ecrire une fonction {\tt contient\_double} qui prend en argument un tableau d'entiers et renvoie {\tt true} si ce tableau contient deux éléments consécutifs égaux.
+		\item<4-> Proposer un jeu de tests pour cette fonction.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\begin{enumerate}
+		\item<1-> \ \\ \inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/contient_double.c}{}{\small}{4}{8}
+		\item<2-> On pourrait tester les cas suivants :
+		\begin{itemize}
+			\item<3-> Tableau vide ou à un seul élément
+			\item<4-> Même élément mais non consécutifs
+			\item<5-> Elément présent en plus de deux exemplaires consécutifs
+			\item<6-> Présence du double en tout début ou toute fin de tableau
+		\end{itemize}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Graphe de flot de contôle}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Définition}
+		\begin{itemize}
+		\item<1-> Le graphe de flot de contrôle d'un programme représente les exécutions possibles de ce programme.
+		\item<2-> Les noeuds de ce graphe sont les blocs d'instructions ou les tests.
+		\item<3-> Un arc entre deux noeuds {\tt n1} et {\tt n2} indique que l'exécution de {\tt n2} peut suivre celle de {\tt n1}
+		\item<4-> On marque les noeuds spéciaux représentant la sortie et l'entrée.
+		\end{itemize} 
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		Tracer le graphe de flot de contrôle de la fonction suivante :
+		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/puissance.c}{}{\small}{5}{11}
+	\end{exampleblock}
+\end{frame}
+\end{document}
