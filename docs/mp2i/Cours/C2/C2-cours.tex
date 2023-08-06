@@ -112,17 +112,81 @@
 
 \makess{Graphe de flot de contôle}
 \begin{frame}{\Ctitle}{\stitle}
-	\begin{block}{Définition}
-		\begin{itemize}
-		\item<1-> Le graphe de flot de contrôle d'un programme représente les exécutions possibles de ce programme.
-		\item<2-> Les noeuds de ce graphe sont les blocs d'instructions ou les tests.
-		\item<3-> Un arc entre deux noeuds {\tt n1} et {\tt n2} indique que l'exécution de {\tt n2} peut suivre celle de {\tt n1}
-		\item<4-> On marque les noeuds spéciaux représentant la sortie et l'entrée.
-		\end{itemize} 
-	\end{block}
-	\begin{exampleblock}{Exemple}
-		Tracer le graphe de flot de contrôle de la fonction suivante :
-		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/puissance.c}{}{\small}{5}{11}
+	\begin{exampleblock}{Exemple introductif}
+		Ecrire la fonction {\tt duree\_vol} qui prend en argument un entier positif {\tt n} et renvoie le nombre d'itérations nécessaires avant d'atteindre 1 en prenant cet entier comme valeur initiale dans la suite de syracuse. On rappelle que : \\
+		$s_{n+1} = \left\{ \begin{array}{ll} \dfrac{s_n}{2} & \mathrm{\ si\ } n \mathrm{\ est \ paire} \\ 3s_n+1 & \mathrm{\ sinon} \end{array}\right.$
+		\onslide<2->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/syracuse.c}{}{\small}{3}{11}
 	\end{exampleblock}
 \end{frame}
+
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Représentation des exécutions possibles}
+		\vspace{6.2cm}
+		\rput(5,6){\circlenode[linecolor=red]{E}{\textcolor{red}{E}}}
+		\rput(5,5){\rnode{I}{\psframebox{\tt dvol=0}}}
+		\rput(5,4){\ovalnode[linecolor=blue]{W}{\kw{n==1}}}
+		\rput(7,4){\circlenode[linecolor=red]{S}{\textcolor{red}{S}}}
+		\ncline{->}{W}{S} \naput[labelsep=1pt]{\small \textcolor{OliveGreen}{V}}
+		\ncline{->}{E}{I}
+		\ncline{->}{I}{W}
+		\rput(5,3){\ovalnode[linecolor=blue]{T}{\kw {n\%2==0}}}
+		\rput(5,1){\rnode{D}{\psframebox{\tt dvol++}}}
+		\ncline{->}{W}{T} \naput[labelsep=1pt]{\small \textcolor{OrangeRed}{F}}
+		\rput(3,2){\rnode{PA}{\psframebox{\tt n=n/2}}}
+		\rput(7,2){\rnode{IM}{\psframebox{\tt n=3n+1}}}
+		\ncline{->}{T}{PA} \naput[labelsep=1pt]{\small \textcolor{OliveGreen}{V}}
+		\ncline{->}{T}{IM} \nbput[labelsep=1pt]{\small \textcolor{OrangeRed}{F}}
+		\ncline{->}{PA}{D}
+		\ncline{<-}{D}{IM}
+		\ncbar[angle=180,arm=2.5cm]{->}{D}{W}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Définitions}
+		Le \textcolor{blue}{graphe de flot de contrôle} représente les exécutions possibles d'un programme.
+		\begin{itemize}
+			\item<1-> Les sommets \kw{E} et \kw{S} représentent l'entrée et la sorties
+			\item<2-> Les autres noeuds sont les blocs d'instructions
+			\item<3-> On dessine un arc entre deux noeuds {\tt A} et {\tt B} lorsque l'exécution de {\tt B} peut suivre celle de {\tt A}
+			\item<4-> Les noeuds quittant les instructions conditionnelle sont étiquetés par {\tt V} ou {\tt F}.
+			\item<5-> On dira qu'un chemin dans le graphe est \textcolor{blue}{faisable} lorsqu'il existe des valeurs d'entrées pour lesquels l'exécution passe par tous les noeuds de ce chemin.
+		\end{itemize}
+	\end{block}
+	\begin{alertblock}{Définition}
+		\onslide<6->{On dit qu'un jeu de test couvre tous les sommets (resp. tous les arcs) lorsque son exécution permet de passer par tous les noeuds (resp. tous les arcs)}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{enumerate}
+			\item<1-> Montrer que Le jeu de test \kw{\{n=1, n=8\}} ne couvre ni tous les arcs, ni tous les sommets. \\
+			\onslide<2->\textcolor{OliveGreen}{On ne passe jamais par le noeud représentant l'instruction {\tt n=3*n+1}, en effet pour {\tt n=1} on atteint directement la sortie {\tt S} et pour {\tt n=8}, tous les valeurs de la suite sont paires.}
+			\item<3-> Proposer un jeu de test permettant de couvrir tous les arcs. \\
+			\onslide<4->\textcolor{OliveGreen}{On peut ajouter par exemple le test \kw{n=5}}
+		\end{enumerate}
+	\end{exampleblock}
+	\begin{exampleblock}{Exercice}
+		\begin{enumerate}
+			\item<5-> Ecrire une fonction prenant en argument un flottant {\tt x} et un entier positif {\tt n} et qui renvoie {\tt x} puissance {\tt n}.
+			\item<6-> Tracer son graphe de flot de contrôle.
+			\item<7-> Proposer un jeu de test.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+\begin{exampleblock}{Correction}
+	\begin{tabularx}{\textwidth}{XX}
+	\begin{minipage}{0.5\textwidth}
+		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/ex_puissance.c}{}{\small}{5}{10}
+	\end{minipage} &
+	sds
+\end{tabularx}
+\end{exampleblock}
+\end{frame}
+
 \end{document}

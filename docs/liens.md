@@ -11,6 +11,7 @@ hide: - navigation  in liens.md
 * [Cours d'informatique, TD et TP de Julien Reichert](http://jdreichert.fr/Enseignement/CPGE/){target=_blank}
 * [Le framagit de Justine Benouwt](https://framagit.org/JB_info/mp2i){target=_blank}
 * [Les cours d'Anthony Lick](https://anthonylick.com/mp2i/){target=_blank}
+* [Ivan Noyer](https://www.nussbaumcpge.be/public_html/Sup/MP2I/generalite.php){target=_blank}
 
 ## Polycopié de cours à télécharger
 * [Cours de J.B Bianquis (Lycée du Parc 2021-2022)](https://ens-fr.gitlab.io/algo2/poly-mp2i.pdf)
