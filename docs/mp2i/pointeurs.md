@@ -104,7 +104,7 @@ int* get_tab(int size, int val)
 
 2. Ecrire un programme permettant de tester cette fonction
 
-3. La mémoire allouée n'a pas dans la fonction, n'a pas été libéré, est-ce une erreur ?
+3. La mémoire allouée  dans la fonction, n'a pas été libéré, est-ce une erreur ?
 
 3. En vous inspirant de cette fonction écrire :
 

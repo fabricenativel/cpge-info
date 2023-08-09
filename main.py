@@ -79,7 +79,7 @@ def define_env(env):
     # Affichage téléchargement fiche de TD
     @env.macro
     def td(num):
-        fichier=f'TD{num}-cours.pdf'
+        fichier=f'TD{num}.pdf'
         aff_td = f'''
 <span class='centre'>[Fiche de TD{num} :fontawesome-regular-file-pdf:](./TD/'''+fichier+'''){.md-button target=_blank}</span>'''
         return aff_td

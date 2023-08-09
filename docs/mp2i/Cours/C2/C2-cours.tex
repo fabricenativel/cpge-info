@@ -171,21 +171,106 @@
 	\end{exampleblock}
 	\begin{exampleblock}{Exercice}
 		\begin{enumerate}
-			\item<5-> Ecrire une fonction prenant en argument un flottant {\tt x} et un entier positif {\tt n} et qui renvoie {\tt x} puissance {\tt n}.
+			\item<5-> Ecrire une fonction prenant en argument un flottant {\tt x} et un entier positif ou nul{\tt n} et qui renvoie {\tt x} puissance {\tt n}.
 			\item<6-> Tracer son graphe de flot de contrôle.
 			\item<7-> Proposer un jeu de test.
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
 
+
+
 \begin{frame}{\Ctitle}{\stitle}
-\begin{exampleblock}{Correction}
+	\begin{exampleblock}{Correction} 
+		\begin{tabularx}{\textwidth}{XX}
+		\begin{minipage}{0.6\textwidth}
+			\vspace{0.5cm}
+			\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/puissance.c}{}{\small}{5}{10}
+			\vspace{0.8cm}
+		\end{minipage} &
+	\end{tabularx}
+	\end{exampleblock}
+	\end{frame}
+
+
+	\begin{frame}{\Ctitle}{\stitle}
+		\begin{exampleblock}{Correction} 
+			\begin{tabularx}{\textwidth}{XX}
+			\begin{minipage}{0.6\textwidth}
+				\vspace{0.5cm}
+				\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/puissance.c}{}{\small}{5}{10}
+				\vspace{0.8cm}
+			\end{minipage} &
+			\rput(3,1.8){\circlenode[linecolor=red]{E}{\textcolor{red}{E}}}
+			\rput(3,0.8){\rnode{I}{\psframebox{\begin{tabular}{>{\tt}l}  xn=1.0 \\ i=1 \end{tabular}}}}
+			\rput(3,-0.2){\ovalnode[linecolor=blue]{W}{\kw{i<=n}}}
+			\rput(5,-0.2){\circlenode[linecolor=red]{S}{\textcolor{red}{S}}}
+			\rput(3,-1.4){\rnode{D}{\psframebox{\begin{tabular}{>{\tt}l}  xn=xn*x \\ i=i+1 \end{tabular}}}}
+			\ncline{->}{E}{I}
+			\ncline{->}{I}{W}
+			\ncline{->}{W}{S} \naput[labelsep=1pt]{\small \textcolor{OrangeRed}{F}}
+			\ncline{->}{W}{D} \naput[labelsep=1pt]{\small \textcolor{OliveGreen}{V}}
+			\ncbar[angle=180]{->}{D}{W}
+		\end{tabularx}
+		\end{exampleblock}
+		\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+\begin{exampleblock}{Correction} 
 	\begin{tabularx}{\textwidth}{XX}
-	\begin{minipage}{0.5\textwidth}
-		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/ex_puissance.c}{}{\small}{5}{10}
+	\begin{minipage}{0.6\textwidth}
+		\vspace{0.5cm}
+		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/puissance.c}{}{\small}{5}{10}
+		\vspace{0.8cm}
 	\end{minipage} &
-	sds
+	\rput(3,1.8){\circlenode[linecolor=red]{E}{\textcolor{red}{E}}}
+	\rput(3,0.8){\rnode{I}{\psframebox{\begin{tabular}{>{\tt}l}  xn=1.0 \\ i=1 \end{tabular}}}}
+	\rput(3,-0.2){\ovalnode[linecolor=blue]{W}{\kw{i<=n}}}
+	\rput(5,-0.2){\circlenode[linecolor=red]{S}{\textcolor{red}{S}}}
+	\rput(3,-1.4){\rnode{D}{\psframebox{\begin{tabular}{>{\tt}l}  xn=xn*x \\ i=i+1 \end{tabular}}}}
+	\ncline{->}{E}{I}
+	\ncline{->}{I}{W}
+	\ncline{->}{W}{S} \naput[labelsep=1pt]{\small \textcolor{OrangeRed}{F}}
+	\ncline{->}{W}{D} \naput[labelsep=1pt]{\small \textcolor{OliveGreen}{V}}
+	\ncbar[angle=180]{->}{D}{W}
 \end{tabularx}
+On peut proposer le jeu de test suivant :
+\begin{itemize}
+  \item<1-> \kw{x=2.0, n=0}
+  \item<2-> \kw{x=2.0, n=3}
+\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\makess{Test exhaustif d'une conditionnelle}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Remarque}
+		Lorsqu'une instruction conditionnelle comporte des conjonctions ou des disjonctions, on peut formuler des tests qui prévoient toutes les possibilités de la satisfaire.
+	\end{block} 
+	\begin{exampleblock}{Exemple}
+		Une année est bissextile si elle est divisible par 4 mais pas par 100 ou s'il est divisible par 400.
+		\begin{enumerate}
+			\item<1-> Ecrire une fonction bissextile qui prend en argument un entier positif {\tt annee} et renvoie \kw{true} si l'année est bissextile et \kw{false} sinon.
+			\item<2-> Proposer un jeu de test pour cette fonction qui prévoit toutes les possibilités de satisfaire la condition d'être bissextile.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{exampleblock}{Correction}
+	\begin{enumerate}
+	\item<1-> \ \\
+	\begin{langageC}
+bool bissextile(int annee) {
+	return ((annee%4==0 && annee%100!=0) || (annee%400=0))
+}
+	\end{langageC}
+	\item<2-> On peut proposer les tests suivants :
+	\begin{itemize}
+		\item<3-> \kw{n=2004} qui permet de valider la première condition
+		\item<4-> \kw{n=2000} qui permet de valider la deuxième
+	\end{itemize}
+\end{enumerate}
 \end{exampleblock}
 \end{frame}
 

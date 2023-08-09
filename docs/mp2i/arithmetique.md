@@ -8,6 +8,8 @@
 
 ## Cours
 
+{{ cours(num) }}
+
 ## TD
 
 ## TP

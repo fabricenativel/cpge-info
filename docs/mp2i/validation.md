@@ -13,6 +13,9 @@
 
 ## Travaux dirigés
 
+{{ td(num) }}
+
+
 ## Travaux pratiques
 
 ## Humour d'informaticien

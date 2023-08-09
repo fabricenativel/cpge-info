@@ -1,0 +1,73 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{2}{Validation et tests}
+
+\begin{Exercise}[title={Spécifications}]\\
+Proposer un nom, une spécification, des préconditions et un jeu de tests pour les fonctions suivantes :
+\Question{\
+\begin{langageC}
+bool fonction1(int a, int b, int c)
+	{return (a==b) || (b==c) || (a==c);}
+\end{langageC}
+}
+\Question{\ 
+\begin{langageC}
+float fonction2(float x, float y)
+	{return 1/(x*x+y*y);}
+\end{langageC}
+}
+\Question{\
+\begin{langageC}
+int fonction3(float a, float b) {
+	if (a<b)
+	{return a;}
+	else 
+	{return b;}
+	}
+\end{langageC}
+}
+\end{Exercise}
+
+\begin{Exercise}[title={Fonction mystère}]\\
+On considère la fonction {\tt mystere} suivante :
+	\begin{langageC}
+bool mystere(int n) {
+	int d=2;
+	while (d*d<=n)
+	{	if (n%d==0)
+			{return false;}
+		d=d+1;}
+	return true;
+}
+\end{langageC}
+\Question{Nommer cette fonction et en donner une spécification.}
+\Question{Tracer son graphe de flot de contrôle.}
+\Question{Proposer un jeu de tests permettant de couvrir tous les arcs.}
+\end{Exercise}
+
+\begin{Exercise}[title={nombre de jours dans un mois}]
+	\Question{Ecrire une fonction {\tt nb\_jours} qui prend en argument un entier {\tt mois} et un entier {\tt annee} et qui renvoie le nombre de jours de ce mois. Par exemple, {\tt nb\_jours(5,1970)} doit renvoyer le nombres de jours du mois de mai 1970. On pourra utiliser sans la réécrire la fonction {\tt bissextile} vue en cours.}
+	\Question{Proposer des préconditions pour cette fonction.}
+	\Question{Proposer un jeu de tests pour cette fonction.}
+\end{Exercise}
+
+\begin{Exercise}[title={Triangles}]
+\Question{Ecrire une fonction {\tt triangle} qui prend en argument trois entiers et renvoie :
+\begin{itemize}
+	\item 0 si les trois entiers ne sont pas les côtés d'un triangle
+	\item 1 si les trois entiers sont les côtés d'un triangle scalène
+	\item 2 si les trois entiers sont les côtés d'un triangle isocèle non rectangle
+	\item 3 si les trois entiers sont les côtés d'un triangle équilatéral
+	\item 4 si les trois entiers sont les côtés d'un triangle rectangle
+\end{itemize}
+\Question{Tracer le graphe de flot de contrôle de cette fonction.}
+\Question{Proposer un jeu de tests pour cette fonction.}
+}
+\end{Exercise}
+
+\end{document}
