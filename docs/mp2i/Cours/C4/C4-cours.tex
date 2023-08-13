@@ -7,193 +7,383 @@
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
 
 % Numéro et titre de chapitre
-\setcounter{numchap}{1}
+\setcounter{numchap}{4}
 \newcommand{\Ctitle}{\cnum {Représentation des données}}
 
 
 \makess{Introduction}
 \begin{frame}{\Ctitle}{\stitle}
-    \begin{block}{Le problème de la représentation des données}
-        \begin{itemize}
-        \item<1-> La mémoire d'un ordinateur est composé de $bits$ pouvant prendre uniquement les valeurs 0 et de 1
-        \item<2-> Le regroupement de 8 bits s'appelle un octet (\textit{byte} en anglais) c'est l'unité minimal de mémoire :
-         $$1 \mathrm{\ octet\ }  = \underbrace{\begin{array}{|c|c|c|c|c|c|c|c|} \hline 0& 1 & 0 & 1 & 1 & 0 & 1 & 0\\ \hline \end{array}}_{8 \mathrm{\ bits\ }}$$
-        \item<3-> Toutes les données doivent donc être \textcolor{blue}{représenté} en utilisant des octets.
-        \item<4-> On s'intéresse ici à la représentation des entiers positifs et négatifs, des caractères et des flottants.
-        \end{itemize}
-    \end{block}
+	\begin{block}{Le problème de la représentation des données}
+		\begin{itemize}
+			\item<1-> La mémoire d'un ordinateur est composé de $bits$ pouvant prendre uniquement les valeurs 0 et de 1
+			\item<2-> Le regroupement de 8 bits s'appelle un octet (\textit{byte} en anglais) c'est l'unité minimal de mémoire :
+				$$1 \mathrm{\ octet\ }  = \underbrace{\begin{array}{|c|c|c|c|c|c|c|c|} \hline 0& 1 & 0 & 1 & 1 & 0 & 1 & 0\\ \hline \end{array}}_{8 \mathrm{\ bits\ }}$$
+			\item<3-> Toutes les données doivent donc être \textcolor{blue}{représenté} en utilisant des octets.
+			\item<4-> On s'intéresse ici à la représentation des entiers positifs et négatifs, des caractères et des flottants.
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 \makess{Entiers positifs}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{De la base 10 à la base 2}
-        \begin{itemize}
-		\item<1->Nous sommes habitués à écrire en utilisant 10 chiffres (0,1,2,3,4,5,6,7,8 et 9), chaque chiffre étant  multiplié par une puissance de 10 suivant son emplacement dans le nombre.\\
-		\onslide<2->{Par exemple, pour \textcolor{blue}{$\base{1815}{10}$} :\\}
-		\onslide<3->{\begin{tabular}{p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}c}
-				                   &                    &                    &                    & \\
-				\textcolor{blue}{1} & \textcolor{blue}{8} & \textcolor{blue}{1} & \textcolor{blue}{5} & \\
-			\end{tabular}
-		}
-        \end{itemize}
-        \vspace{3.5cm}
+		\begin{itemize}
+			\item<1->Nous sommes habitués à écrire en utilisant 10 chiffres (0,1,2,3,4,5,6,7,8 et 9), chaque chiffre étant  multiplié par une puissance de 10 suivant son emplacement dans le nombre.\\
+			\onslide<2->{Par exemple, pour \textcolor{blue}{$\base{1815}{10}$} :\\}
+			\onslide<3->{\begin{tabular}{p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}c}
+					                    &                     &                     &                     & \\
+					\textcolor{blue}{1} & \textcolor{blue}{8} & \textcolor{blue}{1} & \textcolor{blue}{5} & \\
+				\end{tabular}
+			}
+		\end{itemize}
+		\vspace{3.5cm}
 	\end{block}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{De la base 10 à la base 2}
-        \begin{itemize}
-		\item<1-> Nous sommes habitués à écrire les entiers postifs en utilisant \textcolor{red}{10} chiffres, chaque chiffre étant  multiplié par une puissance de \textcolor{red}{10} suivant son emplacement dans le nombre.\\
-		Par exemple, pour \textcolor{blue}{$\base{1815}{10}$} :\\
-		\begin{tabular}{p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}c}
-			\textcolor{BrickRed}{$\scriptstyle{10^3}$} & \textcolor{BrickRed}{$\scriptstyle{10^2}$} & \textcolor{BrickRed}{$\scriptstyle{10^1}$}& \textcolor{BrickRed}{$\scriptstyle{10^0}$} &                                                                             \\
-			\cline{1-4}
-			\textcolor{blue}{1}   & \textcolor{blue}{8}   & \textcolor{blue}{1}   & \textcolor{blue}{5}   & \onslide<2->{${=\textcolor{blue}{1} \times \textcolor{BrickRed}{1000} + \textcolor{blue}{8} \times \textcolor{BrickRed}{100} + \textcolor{blue}{1}\times \textcolor{BrickRed}{10}+ \textcolor{blue}{5} \times \textcolor{BrickRed}{1}=1815}$} \\
-		\end{tabular}
-        \item<3-> De la même façon, on pourrait utiliser simplement \textcolor{red}{2} chiffres et multiplier chaque chiffre par une puissance de \textcolor{red}{2} suivant son emplacement dans le nombre.\\
-        \onslide<4-> Par exemple, pour \textcolor{blue}{$\base{11100010111}{2}$} :
-        \onslide<4->{
-			\begin{tabular}{p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}c}
-				                   &                    &                    &                    &                    &                    &                    &                    &  & & & \\
-				\textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{0} & \textcolor{blue}{0} & \textcolor{blue}{0} & \textcolor{blue}{1} & \textcolor{blue}{0}  & \textcolor{blue}{1}& \textcolor{blue}{1}& \textcolor{blue}{1} \\
-			\end{tabular}}
-    \end{itemize}
+		\begin{itemize}
+			\item<1-> Nous sommes habitués à écrire les entiers postifs en utilisant \textcolor{red}{10} chiffres, chaque chiffre étant  multiplié par une puissance de \textcolor{red}{10} suivant son emplacement dans le nombre.\\
+				Par exemple, pour \textcolor{blue}{$\base{1815}{10}$} :\\
+				\begin{tabular}{p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}c}
+					\textcolor{BrickRed}{$\scriptstyle{10^3}$} & \textcolor{BrickRed}{$\scriptstyle{10^2}$} & \textcolor{BrickRed}{$\scriptstyle{10^1}$} & \textcolor{BrickRed}{$\scriptstyle{10^0}$} &                                                                                                                                                                                                                                               \\
+					\cline{1-4}
+					\textcolor{blue}{1}                        & \textcolor{blue}{8}                        & \textcolor{blue}{1}                        & \textcolor{blue}{5}                        & \onslide<2->{${=\textcolor{blue}{1} \times \textcolor{BrickRed}{1000} + \textcolor{blue}{8} \times \textcolor{BrickRed}{100} + \textcolor{blue}{1}\times \textcolor{BrickRed}{10}+ \textcolor{blue}{5} \times \textcolor{BrickRed}{1}=1815}$} \\
+				\end{tabular}
+			\item<3-> De la même façon, on pourrait utiliser simplement \textcolor{red}{2} chiffres et multiplier chaque chiffre par une puissance de \textcolor{red}{2} suivant son emplacement dans le nombre.\\
+				\onslide<4-> Par exemple, pour \textcolor{blue}{$\base{11100010111}{2}$} :
+				\onslide<4->{
+					\begin{tabular}{p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}p{0.4cm}c}
+						                    &                     &                     &                     &                     &                     &                     &                     &                     &                     &                     & \\
+						\textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{0} & \textcolor{blue}{0} & \textcolor{blue}{0} & \textcolor{blue}{1} & \textcolor{blue}{0} & \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{1}   \\
+					\end{tabular}}
+		\end{itemize}
 	\end{block}
 \end{frame}
 
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{De la base 10 à la base 2}
-        \begin{itemize}
-		\item Nous sommes habitués à écrire les entiers postifs en utilisant \textcolor{red}{10} chiffres, chaque chiffre étant  multiplié par une puissance de \textcolor{red}{10} suivant son emplacement dans le nombre.\\
-		Par exemple, pour \textcolor{blue}{1815} :\\
-		\begin{tabular}{p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}c}
-			\textcolor{BrickRed}{$\scriptstyle{10^3}$} & \textcolor{BrickRed}{$\scriptstyle{10^2}$} & \textcolor{BrickRed}{$\scriptstyle{10^1}$}& \textcolor{BrickRed}{$\scriptstyle{10^0}$} &                                                                             \\
-			\cline{1-4}
-			\textcolor{blue}{1}   & \textcolor{blue}{8}   & \textcolor{blue}{1}   & \textcolor{blue}{5}   & ${=\textcolor{blue}{1} \times \textcolor{BrickRed}{1000} + \textcolor{blue}{8} \times \textcolor{BrickRed}{100} + \textcolor{blue}{1}\times \textcolor{BrickRed}{10}+ \textcolor{blue}{5} \times \textcolor{BrickRed}{1}=1815}$ \\
-		\end{tabular}
-        \item De la même façon, on pourrait utiliser simplement \textcolor{red}{2} chiffres et multiplier chaque chiffre par une puissance de \textcolor{red}{2} suivant son emplacement dans le nombre.\\
-        Par exemple, pour \textcolor{blue}{$\base{11100010111}{2}$} :
-			\begin{tabular}{p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}c}
-                \textcolor{BrickRed}{$\scriptstyle{2^{10}}$}                  &   \textcolor{BrickRed}{$\scriptstyle{2^{9}}$}                 &     \textcolor{BrickRed}{$\scriptstyle{2^{8}}$}               &        \textcolor{BrickRed}{$\scriptstyle{2^{7}}$}            &        \textcolor{BrickRed}{$\scriptstyle{2^{6}}$}            &      \textcolor{BrickRed}{$\scriptstyle{2^{5}}$}              &    \textcolor{BrickRed}{$\scriptstyle{2^{4}}$}                &   \textcolor{BrickRed}{$\scriptstyle{2^{3}}$}                 & \textcolor{BrickRed}{$\scriptstyle{2^{2}}$} &\textcolor{BrickRed}{$\scriptstyle{2^{1}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{0}}$} & \\
-				\hline
-                \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{0} & \textcolor{blue}{0} & \textcolor{blue}{0} & \textcolor{blue}{1} & \textcolor{blue}{0}  & \textcolor{blue}{1}& \textcolor{blue}{1}& \textcolor{blue}{1} \\
-			\end{tabular}
-            \onslide<2-> \\ \textcolor{BrickRed}{$\scriptstyle{= 2^{10} + 2^9 + 2^8 + 2^4 + 2^2 + 2^1 + 2^0}$}
-            \onslide<3-> \\ \textcolor{BrickRed}{$\scriptstyle{= 1815}$}
-    \end{itemize}
+		\begin{itemize}
+			\item Nous sommes habitués à écrire les entiers postifs en utilisant \textcolor{red}{10} chiffres, chaque chiffre étant  multiplié par une puissance de \textcolor{red}{10} suivant son emplacement dans le nombre.\\
+			      Par exemple, pour \textcolor{blue}{1815} :\\
+			      \begin{tabular}{p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}c}
+				      \textcolor{BrickRed}{$\scriptstyle{10^3}$} & \textcolor{BrickRed}{$\scriptstyle{10^2}$} & \textcolor{BrickRed}{$\scriptstyle{10^1}$} & \textcolor{BrickRed}{$\scriptstyle{10^0}$} &                                                                                                                                                                                                                                 \\
+				      \cline{1-4}
+				      \textcolor{blue}{1}                        & \textcolor{blue}{8}                        & \textcolor{blue}{1}                        & \textcolor{blue}{5}                        & ${=\textcolor{blue}{1} \times \textcolor{BrickRed}{1000} + \textcolor{blue}{8} \times \textcolor{BrickRed}{100} + \textcolor{blue}{1}\times \textcolor{BrickRed}{10}+ \textcolor{blue}{5} \times \textcolor{BrickRed}{1}=1815}$ \\
+			      \end{tabular}
+			\item De la même façon, on pourrait utiliser simplement \textcolor{red}{2} chiffres et multiplier chaque chiffre par une puissance de \textcolor{red}{2} suivant son emplacement dans le nombre.\\
+			      Par exemple, pour \textcolor{blue}{$\base{11100010111}{2}$} :
+			      \begin{tabular}{p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}c}
+				      \textcolor{BrickRed}{$\scriptstyle{2^{10}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{9}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{8}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{7}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{6}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{5}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{4}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{3}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{2}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{1}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{0}}$} & \\
+				      \hline
+				      \textcolor{blue}{1}                          & \textcolor{blue}{1}                         & \textcolor{blue}{1}                         & \textcolor{blue}{0}                         & \textcolor{blue}{0}                         & \textcolor{blue}{0}                         & \textcolor{blue}{1}                         & \textcolor{blue}{0}                         & \textcolor{blue}{1}                         & \textcolor{blue}{1}                         & \textcolor{blue}{1}                           \\
+			      \end{tabular}
+			      \onslide<2-> \\ \textcolor{BrickRed}{$\scriptstyle{= 2^{10} + 2^9 + 2^8 + 2^4 + 2^2 + 2^1 + 2^0}$}
+			      \onslide<3-> \\ \textcolor{BrickRed}{$\scriptstyle{= 1815}$}
+		\end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
-    Ce sont des cas particuliers (avec $b=10$ et $b=2$), du théorème suivant  :
+	Ce sont des cas particuliers (avec $b=10$ et $b=2$), du théorème suivant  :
 	\begin{alertblock}{Décomposition en base $b$}
 		Tout entier $n \in \N$ peut s'écrire sous la forme :
-        $$ n = \sum_{k=0}^{p} a_k b^k$$
-        avec $p \geq 0$ et $a_k \in \intN{0}{b-1}$. De plus, cette écriture est unique si $a_p \neq 0$ et s'appelle \textcolor{blue}{\textit{décomposition en base $b$ de $n$}} et on la note $n = \overline{a_p\dots a_1 a_0}^b$
+		$$ n = \sum_{k=0}^{p} a_k b^k$$
+		avec $p \geq 0$ et $a_k \in \intN{0}{b-1}$. De plus, cette écriture est unique si $a_p \neq 0$ et s'appelle \textcolor{blue}{\textit{décomposition en base $b$ de $n$}} et on la note $n = \overline{a_p\dots a_1 a_0}^b$
 	\end{alertblock}
 \end{frame}
 
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemples}
-        Ecrire en base 10 les nombres ci-dessous
-        \begin{itemize}
-            \item<1-> $\base{10001011}{2}$ 
-            \onslide<6->{\textcolor{OliveGreen}{$=\base{139}{10}$}}
-            \item <2-> $\base{1101001011}{2}$ 
-            \onslide<7->{\textcolor{OliveGreen}{$=\base{843}{10}$} }
-            \item<3-> $\base{421}{5}$
-            \onslide<8->{\textcolor{OliveGreen}{$=\base{111}{10}$}}
-            \item<4-> $\base{3EA}{16}$ 
-            \onslide<9-> {\textcolor{OliveGreen}{$=\base{1002}{10}$}}\\
-            \onslide<5->\textcolor{gray}{\small On travaille ici en base 16, donc avec 16 chiffres, les lettres majuscules de $A$ à $F$ représentent les "chiffres" 10 à 15.}  \\
-        \end{itemize}
-    \end{exampleblock}
+		Ecrire en base 10 les nombres ci-dessous
+		\begin{itemize}
+			\item<1-> $\base{10001011}{2}$
+				\onslide<6->{\textcolor{OliveGreen}{$=\base{139}{10}$}}
+			\item <2-> $\base{1101001011}{2}$
+			      \onslide<7->{\textcolor{OliveGreen}{$=\base{843}{10}$} }
+			\item<3-> $\base{421}{5}$
+				\onslide<8->{\textcolor{OliveGreen}{$=\base{111}{10}$}}
+			\item<4-> $\base{3EA}{16}$
+				\onslide<9-> {\textcolor{OliveGreen}{$=\base{1002}{10}$}}\\
+				\onslide<5->\textcolor{gray}{\small On travaille ici en base 16, donc avec 16 chiffres, les lettres majuscules de $A$ à $F$ représentent les "chiffres" 10 à 15.}  \\
+		\end{itemize}
+	\end{exampleblock}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
-    \begin{block}{Limitations mémoire et dépassement de capacité}
-        \begin{itemize}
-        \item<1-> Le nombre de bits représentant un entier est limité, le plus grand nombre représentable sur $n$ bits est : \\
-        $\base{1\dots1}{2} = 2^{n-1} + \dots + 1 = 2^{n}-1$
-        \item<2-> En C, les valeurs maximales représentables suivant le type d'entier positif utilisé sont donc :
-        \begin{itemize}
-            \item<2-> \kw{uint} : \textit{au min 16 bits, usuellement 32 bits, dépendant du compilateur}
-            \item<3-> \kw{uint8\_t} : $2^8-1 = 255$
-            \item<4->  \kw{uint32\_t} : $2^{32}-1 = \numprint{4294967295}$ ($\geq$ 4 milliards)
-            \item<5->  \kw{uint64\_t} : $2^{64}-1 = \numprint{18446744073709551615}$ ($\geq$ 18 milliards de milliards)
-        \end{itemize}
-        \onslide<3-> En cas de dépassement de capacité (\textit{overflow} ou \textit{underflow}),  le résultat obtenu est calculé modulo la plus grande valeur maximale plus 1.\\
-        \onslide<4->{Par exemple, Les dépassement de capacité sur un \kw{uint8\_t} sont calculés modulo 256.}
-        \item<5-> En OCaml, il n'y a pas nativement de type entier non signé.
-    \end{itemize}
-    \end{block}
+	\begin{block}{Limitations mémoire et dépassement de capacité}
+		\begin{itemize}
+			\item<1-> Le nombre de bits représentant un entier est limité, le plus grand nombre représentable sur $n$ bits est : \\
+				$\base{1\dots1}{2} = 2^{n-1} + \dots + 1 = 2^{n}-1$
+			\item<2-> En C, les valeurs maximales représentables suivant le type d'entier positif utilisé sont donc :
+				\begin{itemize}
+					\item<2-> \kw{uint} : \textit{au min 16 bits, usuellement 32 bits, dépendant du compilateur}
+					\item<3-> \kw{uint8\_t} : $2^8-1 = 255$
+					\item<4->  \kw{uint32\_t} : $2^{32}-1 = \numprint{4294967295}$ ($\geq$ 4 milliards)
+					\item<5->  \kw{uint64\_t} : $2^{64}-1 = \numprint{18446744073709551615}$ ($\geq$ 18 milliards de milliards)
+				\end{itemize}
+				\onslide<6-> En cas de dépassement de capacité (\textit{overflow} ou \textit{underflow}),  le résultat obtenu est calculé modulo la plus grande valeur maximale plus 1.\\
+				\onslide<7->{Par exemple, Les dépassement de capacité sur un \kw{uint8\_t} sont calculés modulo 256.}
+			\item<8-> En OCaml, il n'y a pas nativement de type entier non signé.
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exemple}
-        \inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C4/overflow.c}{}{\small}
-        Quel est l'affichage produit par le programme ci-dessus ? Expliquer.
-    \end{exampleblock}
+	\begin{exampleblock}{Exemple}
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C4/overflow.c}{}{\small}
+		Quel est l'affichage produit par le programme ci-dessus ? Expliquer.
+	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Correction}
-        \inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C4/overflow2.c}{6,7,8,9,10,11}{\small}  
-    \end{exampleblock}
+	\begin{exampleblock}{Correction}
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C4/overflow2.c}{6,7,8,9,10,11}{\small}
+	\end{exampleblock}
 \end{frame}
 
 \makess{Représentation des entiers négatifs}
 \begin{frame}{\Ctitle}{\stitle}
-    \begin{block}{Complément à deux}
-        \begin{itemize}
-            \item<1-> La stratégie qui consiste à prendre \textit{un bit de signe}  et à représenter la valeur absolue de l'entier sur les autres présente deux difficultés : 0 est représenté deux fois et surtout l'addition binaire bit à bit ne fonctionne pas.
-            \item<2-> La méthode utilisée est celle du complément à 2, sur $n$ bits, on compte négativement le bit de poids $2^{n-1}$ et positivement les autres. \\
-            \onslide<3->{Par exemple, sur 8 bits : $\begin{array}{|c|c|c|c|c|c|c|c|} \hline \textcolor{BrickRed}{1}& 0 & 0 & 1 & 1 & 0 & 1 & 0\\ \hline \end{array} = \textcolor{BrickRed}{-2^7} + 2^4 + 2^3 + 2^1 = -101$}
-            \item<3-> De façon générale, sur $n$ bits, la valeur en \textcolor{blue}{complément à deux} de la suite bits $(b_{p-1}\dots b_0)$ est : 
-            $$-b^{p-1} + \sum_{k=0}^{n-2} b_k\,2^k $$
-        \end{itemize}
-    \end{block}
+	\begin{block}{Complément à deux}
+		\begin{itemize}
+			\item<1-> La stratégie qui consiste à prendre \textit{un bit de signe}  et à représenter la valeur absolue de l'entier sur les autres présente deux difficultés : 0 est représenté deux fois et surtout l'addition binaire bit à bit ne fonctionne pas.
+			\item<2-> La méthode utilisée est celle du complément à 2, sur $n$ bits, on compte négativement le bit de poids $2^{n-1}$ et positivement les autres. \\
+				\onslide<3->{Par exemple, sur 8 bits : $\begin{array}{|c|c|c|c|c|c|c|c|} \hline \textcolor{BrickRed}{1}& 0 & 0 & 1 & 1 & 0 & 1 & 0\\ \hline \end{array} = \textcolor{BrickRed}{-2^7} + 2^4 + 2^3 + 2^1 = -101$}
+			\item<3-> De façon générale, sur $n$ bits, la valeur en \textcolor{blue}{complément à deux} de la suite bits $(b_{n-1}\dots b_0)$ est :
+				$$-b_{n-1}\,2^{n-1} + \sum_{k=0}^{n-2} b_k\,2^k $$
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
-    \begin{block}{Conséquences de la représentation en complément à 2}
-        \begin{itemize}
-            \item<1-> Les difficultés de la stratégie du \textit{un bit de signe} sont levées.
-            \item<2-> Le plus petit petit représentable sur $n$ bits est alors $-2^{n-1}$ et le plus grand $2^{n-1}-1$
-            \item<3-> En C, les valeurs extrêmes représentables sont :
-            \begin{itemize}
-            \item<4-> \kw{uint} : \textit{au min 16 bits, usuellement 32 bits, dépendant du compilateur}
-            \item<5-> \kw{uint8\_t} : $\intN{-2^7}{2^7-1} = \intN{-128}{127}$
-            \item<6->  \kw{uint32\_t} : $\intN{-2^{31}}{2^{31}-1}$ 
-            \item<7->  \kw{uint64\_t} : $\intN{-2^{63}}{2^{63}-1}$ 
-            \end{itemize}
-            \onslide<8-> \textcolor{red}{\danger} Un dépassement de capacité est un \textcolor{blue}{comportement indéfini}.
-            \item<9-> En OCaml, les entiers sont codés sur 64 bits mais un bit est réservé par le langage, l'intervalle représentable est donc $\intN{-2^{62}}{2^{62}-1}$.\\ 
-            \onslide<10-> Les dépassements de capacité sont calculés modulo  $2^{63}$ puis ramené dans l'intervalle précédent.
-        \end{itemize}
-    \end{block}
+	\begin{block}{Conséquences de la représentation en complément à 2}
+		\begin{itemize}
+			\item<1-> Les difficultés de la stratégie du \textit{un bit de signe} sont levées.
+			\item<2-> Le plus petit petit représentable sur $n$ bits est alors $-2^{n-1}$ et le plus grand $2^{n-1}-1$
+			\item<3-> En C, les valeurs extrêmes représentables sont :
+				\begin{itemize}
+					\item<4-> \kw{uint} : \textit{au min 16 bits, usuellement 32 bits, dépendant du compilateur}
+					\item<5-> \kw{uint8\_t} : $\intN{-2^7}{2^7-1} = \intN{-128}{127}$
+					\item<6->  \kw{uint32\_t} : $\intN{-2^{31}}{2^{31}-1}$
+					\item<7->  \kw{uint64\_t} : $\intN{-2^{63}}{2^{63}-1}$
+				\end{itemize}
+				\onslide<8-> \textcolor{red}{\danger} Un dépassement de capacité est un \textcolor{blue}{comportement indéfini}.
+			\item<9-> En OCaml, les entiers sont codés sur 64 bits mais un bit est réservé par le langage, l'intervalle représentable est donc $\intN{-2^{62}}{2^{62}-1}$.\\
+				\onslide<10-> Les dépassements de capacité sont calculés modulo  $2^{63}$ puis ramené dans l'intervalle précédent.
+		\end{itemize}
+	\end{block}
 \end{frame}
 
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Méthode pratique}
+		Pour obtenir la représentation en complément à deux sur $n$ bits d'un entier négatif on pourra utiliser la méthode suivante :
+		\begin{enumerate}
+			\item<2-> on commence par écrire la représentation binaire de la valeur absolue de ce nombre
+			\item<3-> on inverse tous les bits de cette représentation
+			\item<4-> on ajoute 1, sans tenir compte de la dernière retenue éventuelle
+		\end{enumerate}
+	\onslide<5->\textcolor{gray}{La justification de cette méthode sera vue en TD.}
+	\end{block}
+	\begin{exampleblock}{Exemples}
+		\begin{enumerate}
+			\item<5-> Quel est le nombre codé en complément à 2 sur 8 bits par $\base{10110001}{2}$ ?
+			\item<6-> Donner l'écriture en complément à 2 sur 8 bits de $-12$.
+			\item<7-> Donner l'écriture en complément à 2 sur 8 bits de $-75$.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\begin{enumerate}
+			\item<1->\textcolor{OliveGreen}{En complément à 2 sur 8 bits, $\base{10110001}{2} = -2^{7}+2^5+2^4+2^0 = -78$}
+			\item<2->\textcolor{OliveGreen}{Ecriture en complément à 2 sur 8 bits de $-12$.} \\
+			      \begin{tabular}{ll}
+				      \onslide<2->\textcolor{OliveGreen}{\textbf{1.} On écrit $12=(8+4)$ en binaire sur 8 bits :} & \onslide<3->\textcolor{OliveGreen}{$00001100$} \\
+				      \onslide<4->\textcolor{OliveGreen}{\textbf{2.} On inverser tous les bits :}                 & \onslide<5->\textcolor{OliveGreen}{$11110011$} \\
+				      \onslide<6->\textcolor{OliveGreen}{\textbf{3.} On ajoute 1 :}                               & \onslide<7->\textcolor{OliveGreen}{$11110100$} \\
+			      \end{tabular}
+			\item<8->\textcolor{OliveGreen}{Ecriture en complément à 2 sur 8 bits de $-75$.} \\
+			      \begin{tabular}{ll}
+				      \onslide<9->\textcolor{OliveGreen}{\textbf{1.} On écrit $75=64+8+2+1$ en binaire sur 8 bits :} & \onslide<10->\textcolor{OliveGreen}{$01001011$}  \\
+				      \onslide<11->\textcolor{OliveGreen}{\textbf{2.} On inverser tous les bits :}                    & \onslide<12->\textcolor{OliveGreen}{$10110100$} \\
+				      \onslide<13->\textcolor{OliveGreen}{\textbf{3.} On ajoute 1 :}                                 & \onslide<14->\textcolor{OliveGreen}{$10110101$} \\
+			      \end{tabular}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
 \makess{Nombre en virgule flottante}
 \begin{frame}{\Ctitle}{\stitle}
-    \begin{block}{\textcolor{gray}{\rappel} Ecriture scientifique}
-Ecrire un nombre en \textcolor{blue}{notation scientifique} c'est l'écrire sous la forme 
-\onslide<2->\textcolor{red}{$$\boxed{\pm \; a \times 10^n}$$}
-où
-\begin{itemize}
-    \item<3-> où $a$, appelée \textcolor{blue}{mantisse} est un nombre décimal n'ayant qu'un seul chiffre non nul à gauche de la virgule,
-    \item<4-> $n$ appelée \textcolor{blue}{exposant} un nombre  relatif.
-\end{itemize}
-    \end{block}
-    \begin{exampleblock}{Exemples}
-        \begin{itemize}
-       \item<5-> $7200000000000 = 7,2 \times 10^{12}$
-       \item<6-> $0,0000054 = 5,4 \times 10^{-6}$
-        \end{itemize}
+	\begin{block}{Ecriture dyadique}
+		De la même façon que les chiffres après la virgule d'un nombre en écriture décimal utilisent les puissances de 10 négatives, par exemple \smallskip:
+		\onslide<2->{
+			\renewcommand{\arraystretch}{1.1}
+			\begin{tabular}{l|c|c|c|c|c|}
+                \cline{2-6}
+				\multicolumn{1}{c|}{} & \textcolor{BrickRed}{$\scriptstyle{10^{1}}$} & \textcolor{BrickRed}{$\scriptstyle{10^{0}}$} & , & \textcolor{BrickRed}{$\scriptstyle{10^{-1}}$} & \textcolor{BrickRed}{$\scriptstyle{10^{-2}}$} \\
+				\cline{2-6}
+				$\base{14,05}{10}$ =  & \textcolor{blue}{1}                          & \textcolor{blue}{4}                          & , & \textcolor{blue}{0}                           & \textcolor{blue}{5}                           \\
+				\cline{2-6}
+			\end{tabular} \smallskip\\ 
+		}
+		\onslide<3->{En écriture binaire (ou dyadique) les chiffres après la virgule correspondent aux puissances négatives de 2 : \smallskip \\}
+		\onslide<4->{
+		\renewcommand{\arraystretch}{1.4}
+		\begin{tabular}{l|c|c|c|c|c|}
+            \cline{2-6}
+            \multicolumn{1}{c|}{} & \textcolor{BrickRed}{$\scriptstyle{2^{1}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{0}}$} & , & \textcolor{BrickRed}{$\scriptstyle{2^{-1}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{-2}}$} \\
+            \cline{2-6}
+            $\base{10,01}{2}$ =  & \textcolor{blue}{1}                          & \textcolor{blue}{0}                          & , & \textcolor{blue}{0}                           & \textcolor{blue}{1}                           \\
+            \cline{2-6}
+        \end{tabular} \smallskip \\
+		\onslide<5->{et donc $\base{10,01}{2} = \base{2,25}{10}$}
+		}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Méthode : du décimal au dyadique}
+		Pour traduire une partie décimale en écriture dyadique :
+		\begin{itemize}
+			\item<2-> Multiplier la partie décimale par 2. Si ce produit est supérieur ou égal à 1, ajouter 1 à l'écriture dyadique sinon ajouter 0.
+			\item<3-> Recommencer avec la partie décimale de ce produit tant qu'elle est non nul.
+		\end{itemize}
+	\end{block} \vspace{-0.1cm}
+	\begin{exampleblock}{Exemple}
+		\onslide<4->{\small Par exemple si on veut écrire $\base{0,59375}{10}$ en binaire :}
+		\begin{itemize}
+			\item<5-> {\small $0,59375 \times 2 = 1,1875 \geq 1$ donc on ajoute 1 à l'écriture dyadique}
+			\item<6-> {\small $0,1875 \times 2 = 0,375 < 1$ donc on ajoute 0 à l'écriture dyadique}
+			\item<7-> {\small $0,375 \times 2 = 0,75 < 1$ donc on ajoute 0 à l'écriture dyadique}
+			\item<8-> {\small $0,75 \times 2 = 1,5 \geq 1$ donc on ajoute 1 à l'écriture dyadique}
+			\item<9-> {\small $0,5 \times 2 = 1,0 \geq 1$  donc on ajoute 1 à l'écriture dyadique}
+			\item<10->{\small On s'arrête car la partie décimale du produit est 0 et $\base{0,59375}{10}=\base{0,10011}{2}$}
+		\end{itemize}
+	\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{enumerate}
+			\item<1-> Donner l'écriture décimale de $\base{1101,0111}{2}$ \\
+				\onslide<2-> \textcolor{OliveGreen}{$\base{1101,0111}{2} = 2^3+2^2+2^0+2^{-2}+2^{-3}+2^{-4} = \base{13,4375}{10}$}
+			\item<3-> Donner l'écriture dyadique $3,5$\\
+				\onslide<4-> \textcolor{OliveGreen}{$\base{3,5}{10}=\base{11,1}{2}$}
+            \item<5-> Donner l'écriture dyadique $0,1$
+				\onslide<6->
+                    \begin{enumerate}
+                    \item<7-> \textcolor{OliveGreen}{$0,1 \times 2 = 0,2 < 1$ donc on ajoute 0 à l'écriture dyadique }
+                    \item<8-> \textcolor{OliveGreen}{$0,2 \times 2 = 0,4 < 1$ donc on ajoute 0 à l'écriture dyadique}
+                    \item<9-> \textcolor{OliveGreen}{$0,4 \times 2 = 0,8 < 1$ donc on ajoute 0 à l'écriture dyadique}
+                    \item<10->\textcolor{OliveGreen}{$0,8 \times 2 = 1,6 \geq 1$ donc on ajoute 1 à l'écriture dyadique}
+                    \item<11->\textcolor{OliveGreen}{$0,6 \times 2 = 1,2 \geq 1$  donc on ajoute 1 à l'écriture dyadique}
+                    \item<12->\textcolor{OliveGreen}{Le processus se poursuit indéfiniment car on est revenu à l'étape 2.}
+                    \end{enumerate}
+                \onslide<13->\textcolor{OliveGreen}{$\base{0,1}{10} = \base{0,0001100110011\dots}{2}$}   
+		\end{enumerate}
+
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{\textcolor{yellow}{\small \rappel} Ecriture scientifique}
+		Ecrire un nombre en \textcolor{blue}{notation scientifique} c'est l'écrire sous la forme
+		\onslide<2->\textcolor{red}{$$\boxed{\pm \; a \times 10^n}$$} \vspace{-0.5cm}
+		\begin{itemize}
+			\item<3-> avec $a \in [1;10[$, appelée \textcolor{blue}{mantisse} (l'écriture  décimal de $a$ n'a qu'un seul chiffre non nul à gauche de la virgule)
+			\item<4-> et $n \in \Z$ appelée \textcolor{blue}{exposant}.
+		\end{itemize}
+	\end{block}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<5-> $7200000000000 = 7,2 \times 10^{12}$.
+			\item<6-> $0,0000054 = 5,4 \times 10^{-6}$.
+			\item<7-> 0 ne peut pas s'écrire en notation scientifique.
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Virgule flottante}
+		Les nombres non entiers en informatique, sont représentés en  \textcolor{blue}{virgule flottante}. Cette représentation :
+		\begin{itemize}
+			\item<1-> se fonde sur l'écriture scientifique et utilise la base 2, c'est à dire l'écriture dyadique en utilisant une mantisse et un exposant de taille limitée.
+			\item<2-> La norme {\sc ieee-754} définit deux formats codés respectivement sur 32 et 64 bits et stockés dans l'ordre signe/exposant/mantisse : \\
+			\onslide<3->{
+            \begin{tabular}{|l|c|c|c|c|c|}
+                \cline{2-6}
+                \multicolumn{1}{l|}{} & Signe & Exposant & Mantisse & C & OCaml \\
+                \hline
+                32 bits & 1 bit & 8 bits & 23 bits & \kw{float} & {\small \faTimes} \\
+                \hline
+                64 bits & 1 bit & 11 bits & 52 bits & \kw{double} & \kw{float} \\
+                \hline
+            \end{tabular}
+            }
+            \item<4->L'exposant est décalé de façon à toujours être stocké sous la forme d'un entier positif. \textcolor{gray}{Ce décalage est de 127(=$2^8-1$) pour le format 32 bits et de 1023(=$2^{11}-1$) pour le format 64 bits.}
+            \item<5-> Certaines valeurs spéciales de l'exposant et de la mantisse servent à représenter des valeurs particulières (infinis, zéros, NaN).
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple 1}
+        Donner le représentation sur 32 bits du nombre $-168,75$
+        \begin{enumerate}
+            \item<2-> Le nombre est négatif, donc le bit de signe est \textcolor{BrickRed}{$\boxed{1}$}.
+            \item<3-> $\base{168,75}{10} = \base{10101000,11}{2}$
+            \item<4-> La mantisse est décalée de façon à n'avoir qu'un chiffre non nul avant la virgule : \\
+            $\base{168,75}{10} = \base{1,010100011}{2} \times 2^{7}$
+            \item<5-> L'exposant est donc 7, et avec le décalage il est stocké sous la forme 7+127 = 134. C'est à dire \textcolor{blue}{$\boxed{\numprint{10000110}}$} en base 2. 
+            \item<6-> On complète la mantisse par des zéros de façon à avoir 23 bits et le 1 initial  n'est pas stocké afin d'économiser un bit. La mantisse est donc \textcolor{OliveGreen}{$\boxed{\numprint{01010001100000000000000}}$}
+        \end{enumerate}
+        \onslide<7->{Le nombre $-168,75$ est donc stocké sous la forme : \\
+        \textcolor{BrickRed}{$\boxed{1}$}\textcolor{blue}{$\boxed{\numprint{10000110}}$}\textcolor{OliveGreen}{$\boxed{\numprint{01010001100000000000000}}$}}
     \end{exampleblock}
 \end{frame}
 
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple 2}
+        Donner le représentation sur 32 bits du nombre $0,1$
+        \begin{enumerate}
+            \item<2-> Le nombre est positif, donc le bit de signe est \textcolor{BrickRed}{$\boxed{0}$}.
+            \item<3-> $\base{0,1}{10} = \base{0,000110011001100\dots}{2}$
+            \item<4-> La mantisse est décalée de façon à n'avoir qu'un chiffre non nul avant la virgule : \\
+            $\base{0,1}{10} = \base{1,10011001100\dots}{2} \times 2^{-4}$
+            \item<5-> L'exposant est donc $-4$, et avec le décalage il est stocké sous la forme $-4+127$ = 123. C'est à dire \textcolor{blue}{$\boxed{\numprint{01111011}}$} en base 2. 
+            \item<6-> La mantisse est infinie, on la limite au 23 premiers bits (c'est un arrondi et non une troncature) le 1 initial  n'est pas stocké afin d'économiser un bit. La mantisse est donc \textcolor{OliveGreen}{$\boxed{\numprint{10011001100110011001101}}$}
+        \end{enumerate}
+        \onslide<7->{Le nombre $0,1$ est donc stocké sous la forme : \\
+        \textcolor{BrickRed}{$\boxed{0}$}\textcolor{blue}{$\boxed{\numprint{01111011}}$}\textcolor{OliveGreen}{$\boxed{\numprint{10011001100110011001101}}$}}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple 3}
+        Quel nombre est stocké sous la forme : 
+        \textcolor{BrickRed}{$\boxed{0}$}\textcolor{blue}{$\boxed{\numprint{10000100}}$}\textcolor{OliveGreen}{$\boxed{\numprint{01010101000000000000000}}$}
+        \begin{enumerate}
+            \item<1-> Le bit de signe est 0, le nombre est positif
+            \item<2-> L'exposant est $\base{10000100}{2} = \base{132}{10}$, c'est à dire 5 en soustrayant le décalage de 127.
+            \item<3-> Le 1 initial de la mantisse n'est pas stocké et donc elle est en réalité de $\base{1,01010101000000000000000}{2}=\base{1,33203125}{10}$
+            \item<4-> Ce nombre est donc $1,33203125 \times 2^5 = 42,625$.
+        \end{enumerate}
+    \end{exampleblock}
+\end{frame}
+
+\makess{Conséquences de l'arithmétique à virgule flottante}
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{alertblock}{\textcolor{yellow}{\important} Attention !}
+        Cette représentation approximative des nombres réels induit des conséquences importantes :
+        \begin{itemize}
+            \item<2-> Les tests d'égalité entre flottants ne sont pas pertinents. On doit les éviter ou les effectuer à un $\varepsilon$ près. \\
+            \onslide<3-> A titre d'exemple le test {\tt 0.1 + 0.2 == 0.3} renvoie faux
+            \item<3-> Les valeurs calculées par un programme peuvent être très éloignés des valeurs théoriques d'un algorithme
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
 
 \end{document}

@@ -72,6 +72,12 @@
     !!! aide
         Une année est bissextile si elle est divisible par 4 mais pas par 100 ou s'il est divisible par 400.
 
+{{ exo("Ecrire quelques boucles",[]) }}
+
+1. Ecrire une fonction prenant en entrée un entier $n$ et renvoyant le plus petit entier $k$ tel que $2^k \geq n$.
+2. Ecrire un programme permettant de calculer la somme suivante :  
+ $\displaystyle{\sum_{k=1}^{100} k^2}$.
+
 {{ exo("Un peu de dessin",[]) }}
 
 1. Ecrire une fonction `carre_plein` prenant comme paramètre un entier `cote` et un caractère `car` et permettant d'afficher un carré de côté `cote` rempli de caractères `car`. Par exemple, `carre(5,'C')` produit l'affichage suivant :
@@ -128,6 +134,29 @@ Ecrire une fonction `my_strlen` qui prend en argument une chaine de caractères 
 1. Ecrire une fonction `retourne` qui prend en argument une chaine de caractères et affiche cette chaine écrite à l'envers. Par exemple `retourne("Bonjour")` affiche `"ruojnoB"`.
 
 2. Ecrire une fonction `palindrome` qui prend en argument une chaine de caractères et renvoie `true` si cette chaine est un palindrome (c'est à dire qu'elle se lit indifféremment de gauche à droite ou de droite à gauche) et `false` sinon. Par exemple `palindrome("radar")` renvoie `true`.
+
+{{ exo("Nombre parfait",[] )}}
+Un nombre parfait est un entier positif égal à la  la somme de ses diviseurs stricts (c'est à dire autres que lui-même). Par exemple, 6 est un nombre parfait car $6 = 3 + 2 + 1$. 
+
+1. Écrire une fonction `parfait` qui renvoie `true` si l'entier positif donné en argument est parfait et `false` sinon.
+2. Utiliser cette fonction pour vérifier que $8128$ est un nombre parfait mais pas $2023$.
+
+
+{{ exo("Triangle de Pascal",[]) }}
+
+Ecrire un programme qui prend en argument un entier $1 \leq n \leq 10$ et affiche les $n$ premières lignes du [triangle de Pascal](https://fr.wikipedia.org/wiki/Triangle_de_Pascal){target=_blank}. Par exemple `pascal(4)` affiche :
+```
+1
+1 1
+1 2 1
+1 3 3 1
+1 4 6 4 1
+```
+
+!!! aide
+    * On rappelle que le coefficient situé ligne $n$ et colonne $k$ noté $\displaystyle{\binom{n}{k}}$ se déduit de ceux de la ligne précédente grâce à la formule de pascal : $\displaystyle{\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}}$
+    * On pourra utiliser deux tableaux, l'un représentant la ligne précédente et un second la ligne en cours de construction.
+
 
 {{ exo("Crible d'Erastothène",["dur"]) }}
 

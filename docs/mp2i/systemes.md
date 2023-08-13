@@ -52,7 +52,7 @@
 
 4. Alice est certaine d'avoir un fichier nommé `bob.txt` dans son répertoire personnel mais elle n'arrive plus à le retrouver. Quelle commande devrait-elle taper ?
 
-5. Expliquer le but de la commande `find ~ mtime 5 - name *.txt`
+5. Expliquer le but de la commande `find ~ -mtime 5 -name *.txt`
 
 {{ exo("Gameshell",[]) }}
 

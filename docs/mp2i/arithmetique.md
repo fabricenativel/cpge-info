@@ -12,6 +12,121 @@
 
 ## TD
 
+{{ td(num) }}
+
 ## TP
 
+{{ exo("Puissance",[],0)}}
+
+1. Ecrire une fonction `puissance` qui prend en argument un entier $n$ et un entier positif $p$ et renvoie $n^p$.
+2. Modifier la fonction précédente de façon à prendre en compte le cas des exposants négatifs.
+    
+    !!! aide
+        On rappelle que pour $n \in \mathbb{Z}^*,\; p \in \mathbb{N} \quad n^{-p} = \dfrac{1}{n^p}$
+
+3. Proposer un jeu de test pour cette fonction.
+
+{{ exo("Du binaire au décimal",[])}}
+
+1. Ecrire une fonction `bin_to_decimal` qui convertit une écriture binaire en sa valeur décimale. L'écriture binaire sera lue comme un tableau d'entiers contenant des 0 ou des 1 et on prendra aussi en argument sa taille. Par exemple si le tableau `bin` contient les valeurs `1,0,1,1` alors `bin_to_decimal(bin,4)` doit renvoyer `11` (car $2^3 + 2^1+2^0 = 11$) 
+2. Modifier la fonction `bin_to_decimal` qui prend maintenant en argument un troisième paramètre booléen `signe`, si `signe` vaut `true` l'écriture binaire est traité comme un complément à deux sur la longueur du tableau, sinon la fonction se comporte comme à la question précédente. Par exemple  `bin_to_decimal(bin,4,false)` doit renvoyer `11` (même comportement que ci-dessus) mais `bin_to_decimal(bin,4,true)` doit renvoyer  `-5`, en effet $-2^3+2^1+2^0=-5$.
+
+3. Vous avez (peut-être) utilisé la fonction `puissance` de l'exercice précédent, dans ce cas, reprendre cet exercice en remarquant que :
+    $$
+    \sum_{k=0}^{n} a_ib^i = a_0 + b\left( a_1 + b\left(a_2+ \dots (a_n-1+ba_n) \right) \right)
+    $$
+    et que par conséquent la somme de gauche peut se calculer (plus efficacement) sans utiliser le calcul explicite des puissances de $b$.
+
+{{ exo("Conversion en décimal",[])}}
+
+Ecrire une fonction `to_decimal` qui prend en argument un entier `base` (compris entre 2 et 16), un tableau de **caractères** `chiffres` et sa taille `size` et renvoie l'entier dont l'écriture en base `base` corresponds aux élements du tableau `chiffres`. Par exemple si `chiffres` contient `"C","7"`  alors `to_decimal(16,chiffres,2)` doit renvoyer $12\times 16+7 = 199$.
+
+!!! aide
+    * On utilisera (bien évidemment) les caractères "A", "B", "C", "D", "E", "F" pour les chiffres situés au delà de 9.
+    * On écrira une version ne calculant pas explicitement les puissances de la base (voir la troisième question de l'exercice précédent)
+
+{{ exo("Conversion depuis la base 10",[])}}
+
+1. la base 2
+    1. Ecrire en C, une fonction `binaire` qui prend en argument un entier `n` positif compris entre 0 et 255 et renvoie un tableau de 0 et de 1 contenant son écriture binaire sur 8 bits (avec les bits de poids forts en premier). Par exemple l'appel `binaire(28)` doit renvoyer le tableau  `00011100`.
+
+        !!! aide
+            On rappelle que la méthode consiste à effectuer des divisions successives par 2 puis à lire les restes obtenus dans l'ordre inverse.
+
+    2. Ecrire un programme `bin.exe` qui utilise cette fonction, le `main` de ce programme accepte en ligne de commande un argument `n` et affiche ensuite l'écriture binaire de `n` dans le terminal. Par exemple `./bin.exe 135` affiche `11100001`.
+    
+    3. Expliquer rapidement pourquoi `./bin.exe 260` affiche  `00000100`.
+
+    
+
+2. la base 16
+    1. Ecrire en C, une fonction `hexadecimal` qui prend en argument un entier `n` positif compris entre 0 et $2^{32}-1$ et renvoie un tableau de caractères correspondant aux chiffres en base 16 de l'écriture hexadécimal de `n`.
+    2. De même que pour le binaire, écrire un programme `hex.exe` qui utilise cette fonction en prenant son argument sur la ligne de commande. Par exemple `./hex.exe 212` affiche `D4`.
+
+
+{{ exo("Attention aux flottants !",[]) }}
+
+1. On considère le programme suivant :
+
+    ```C linenums="1"
+        --8<-- "C4/flottant1.c"
+    ```
+
+    1. Expliquer pourquoi ce programme ne termine pas
+    2. Expliquer pourquoi en modifiant la ligne 9 en `#!c x = x + 0.25` le programme termine et indiquer l'affichage obtenu.
+    3. Donner une autre modification de la ligne 9 qui permettrait aussi d'avoir un programme qui termine.
+
+2. On considère le programme suivant :
+
+    ```C linenums="1"
+        --8<-- "C4/flottant2.c"
+    ```
+
+    1. Prédire l'affichage produit par ce programme, le tester.
+    2. Même question si la ligne 6 est modifiée en `#!c double big = pow(2.0,52.0);`
+    3. Expliquer les résultats obtenus.
+
+3.  1. Justifier rapidement que pour tout entier $n \geq 1$,
+    $$
+    \sum_{k=1}^{n} \frac{1}{k(k+1)} = 1 - \frac{1}{n+1}
+    $$
+
+        !!! aide
+            On pourra remarquer que $\frac{1}{k(k+1)} = \frac{1}{k} - \frac{1}{k+1}$
+
+    1. Ecrire un programme calculant cette somme et comparer avec le résultat exact pour $n=999999$. On utilisera le spécificateur de format `%.16f` afin d'afficher 16 chiffres significatifs lors de `printf` sur les flottants.
+
+        !!! Warning
+            Si `i` est de type entier, l'opération `1/i` est la division entière, pour une division décimal l'un des arguments au moins doit être un nombre en virgule flotttante, on peut donc (par exemple) faire `1.0/i`.
+
+4.  1. Ecrire un programme calculant la somme des inverses des nombres entiers allant de $1$ à $10^9$.
+    2. Faire de même en inversant l'ordre des calculs c'est à dire en commençant par ajouter les nombres de plus grands dénominateurs.
+    3. Expliquer la différence entre les deux résultats obtenus (visible en utilisant le spécificateur de format `%.16f` lors de l'affichage des flottants)
+    4. Lequel des deux est selon vous le plus précis ? (justifier)
+
+{{ exo("Comportement d'une suite",[])}}
+
+On considère la suite $(u_n)_{n \in \mathbb{N}}$ définie par :  
+$\left\{ \begin{array}{ll} u_0=e-1 \\ u_{n+1} = (n+1)\,u_n - 1 \end{array}\right.$
+
+1. Etablir que la suite $(u_n)_{n \in \mathbb{N}}$ converge vers 0
+
+    !!! aide
+        On pourra utiliser que $\displaystyle{e = \sum_{k=0}^{+\infty} \frac{1}{k!}}$ et procéder par récurrence afin d'établir que pour tout $\displaystyle{n \in N, \ u_n = \sum_{k=n+1}^{+\infty} \frac{n!}{k!}}$.
+
+2. Ecrire un programme qui  affiche les $30$ premiers termes de la suite $u$. On utilisera la constante `M_E` de `math.h` comme valeur de $e$. Expliquer le résultat obtenu.
+
+{{ exo("Convergence numérique et mathématique",[])}}
+
+On considère la suite $(u_n)_{n \in \mathbb{N}}$ définie par :  
+$\left\{ \begin{array}{ll} u_1= \dfrac{5}{4} \\ u_2 = \dfrac{7}{5} \\ u_{n+2} = 10 - \dfrac{23}{u_{n+1}} + \dfrac{14}{u_nu_{n+1}} \end{array}\right.$
+
+1. Montrer que le terme général de $(u_n)_{n \in \mathbb{N}}$ est $u_n = \dfrac{2^n+3}{2^{n-1}+3}$ et en déduire sa limite.
+
+2. Ecrire un programme qui affiche les 40 premiers termes de la suite $u$.
+
+!!! note
+
+
 ## Humour d'informaticien
+![punition](./Images/C4/binaire.png){.imgcentre width=500px}
