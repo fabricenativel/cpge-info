@@ -154,7 +154,7 @@ Ecrire un programme qui prend en argument un entier $1 \leq n \leq 10$ et affich
 ```
 
 !!! aide
-    * On rappelle que le coefficient situé ligne $n$ et colonne $k$ noté $\displaystyle{\binom{n}{k}}$ se déduit de ceux de la ligne précédente grâce à la formule de pascal : $\displaystyle{\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}}$
+    * On rappelle que le coefficient situé ligne $n$ et colonne $k$ noté $\displaystyle{\binom{n}{k}}$ se déduit de ceux de la ligne précédente grâce à la formule de Pascal : $\displaystyle{\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}}$
     * On pourra utiliser deux tableaux, l'un représentant la ligne précédente et un second la ligne en cours de construction.
 
 
