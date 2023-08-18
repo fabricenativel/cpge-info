@@ -1,6 +1,6 @@
 
 {% set num = 4 %}
-{% set niveau = "mp2i"%}
+{% set niveau = "mp2i_s1"%}
 
 {{ titre_chapitre(num,niveau)}}
 
@@ -103,6 +103,35 @@ Ecrire une fonction `to_decimal` qui prend en argument un entier `base` (compris
     2. Faire de même en inversant l'ordre des calculs c'est à dire en commençant par ajouter les nombres de plus grands dénominateurs.
     3. Expliquer la différence entre les deux résultats obtenus (visible en utilisant le spécificateur de format `%.16f` lors de l'affichage des flottants)
     4. Lequel des deux est selon vous le plus précis ? (justifier)
+
+
+{{ exo("Erreur d'arrondi",[]) }}
+
+Le calcul en arithmétique à virgule de $0.1+0.2$ ne donne pas exactement $0.3$. Cet exercice a pour but d'expliquer cette [erreur bien connue](https://0.30000000000000004.com/){target=_blank}.
+
+1. Donner la représentation en simple précision au format de la norme IEEE-754 des nombres suivants :
+    1. $0,1$
+    2. $0,2$
+    3. $0,3$
+
+2. Faire l'addition "à la main" des représentations des $0,1$ et de $0,2$
+
+3. Comparer le résultat obtenu avec la représentation de $0,3$ et en déduire l'erreur commise
+
+4. Ecrire un programme qui affiche le résultat de $(0.2+0.1)-0.3$
+
+{{ exo("Discriminant",[])}}
+
+1. Ecrire une fonction `discriminant` qui prend en paramètres trois flottants  $a,b$ et $c$ et renvoie $b^2-4ac$.
+2. Ecrire une fonction `nombre_solutions` qui prend en paramètre un flottant $d$ et affiche `2 solutions` si $d>0$, `1 solution` si $d=0$ et `pas de solutions` si $d<0$.
+3. Déterminer le nombre de solutions réelles des équations suivantes et comparer avec les résultats obtenus en utilisant les deux fonctions ci-dessous :
+    * $x^2 + 1,4x - 0,49 = 0$
+    * $x^2 + 0,6x - 0,09 = 0$
+    * $x^2 + 0,4x - 0,04 = 0$
+4. Interpréter ces résultats
+
+
+
 
 {{ exo("Comportement d'une suite",[])}}
 

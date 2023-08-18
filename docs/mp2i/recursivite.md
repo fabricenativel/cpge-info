@@ -1,6 +1,6 @@
 
 {% set num = 6 %}
-{% set niveau = "mp2i"%}
+{% set niveau = "mp2i_s1"%}
 
 {{ titre_chapitre(num,niveau)}}
 

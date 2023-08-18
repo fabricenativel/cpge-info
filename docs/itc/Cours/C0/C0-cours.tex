@@ -1,0 +1,253 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{0}
+\newcommand{\Ctitle}{\cnum Un peu de Python}
+
+% Types de bases
+\makess{Types de base}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
+			\hline
+			Type & Opérations & Commentaires \\
+			\hline
+			\kw{int} & \kw{+}, \kw{-}, \kw{*}, \kw{//}, \kw{\%} & Entiers signés ou non signés. Taille dynamique limitée par la mémoire\\
+			\hline
+			& & \  \newline \ \newline	\\
+			\hline
+			&&  \  \newline \  \\
+			\hline
+			 &  & \  \newline \  \\
+			\hline
+		\end{tabularx}
+		\vspace{1cm}
+	\end{alertblock}
+\end{frame}
+
+% Types de bases
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
+			\hline
+			Type & Opérations & Commentaires \\
+			\hline
+			\kw{int} & \kw{+}, \kw{-}, \kw{*}, \kw{//}, \kw{\%} & Entiers signés ou non signés. Taille dynamique  limitée par la mémoire\\ 
+			\hline
+			\kw{float} & \kw{+}, \kw{-}, \kw{*}, \kw{/} & 	Représentation des nombres en virgule flottante (norme ieee754 : mantisse sur 53 bits, exposant sur 11 bits). Fonctions élémentaires dans \kw{math.h}\\
+			\hline
+			&&  \  \newline \  \\
+			\hline
+			 &  & \  \newline \  \\
+			\hline
+		\end{tabularx}
+		\vspace{1cm}
+	\end{alertblock}
+\end{frame}
+
+% Types de bases
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
+			\hline
+			Type & Opérations & Commentaires \\
+			\hline
+			\kw{int} & \kw{+}, \kw{-}, \kw{*}, \kw{//}, \kw{\%} & Entiers signés ou non signés. Taille dynamique limitée par la mémoire\\ 
+			\hline
+			\kw{float} & \kw{+}, \kw{-}, \kw{*}, \kw{/} & 	Représentation des nombres en virgule flottante (norme ieee754 : mantisse sur 53 bits, exposant sur 11 bits). Fonctions élémentaires dans \kw{math}\\
+			\hline
+			\kw{bool} & \kw{or}  \kw{and}, \kw{not}, \textcolor{gray}{\tt all}, \textcolor{gray}{\tt any}  &  Evaluations paresseuses des expressions. \\
+			\hline
+			 &  & \  \newline \  \\
+			\hline
+		\end{tabularx}
+		\vspace{1cm}
+	\end{alertblock}
+\end{frame}
+
+% Types de bases
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
+			\hline
+			Type & Opérations & Commentaires \\
+			\hline
+			\kw{int} & \kw{+}, \kw{-}, \kw{*}, \kw{//}, \kw{\%} & Entiers signés ou non signés. Taille dynamique limitée par la mémoire\\ 
+			\hline
+			\kw{float} & \kw{+}, \kw{-}, \kw{*}, \kw{/} & 	Représentation des nombres en virgule flottante (norme ieee754 : mantisse sur 53 bits, exposant sur 11 bits). Fonctions élémentaires dans \kw{math}\\
+			\hline
+			\kw{bool} & \kw{or}  \kw{and}, \kw{not}, \textcolor{gray}{\tt all}, \textcolor{gray}{\tt any}  &  Evaluations paresseuses des expressions. \\
+			\hline
+			\kw{str} &  \kw{ +, *} & Noté entre quotes (\kw{'}) ou guillemets (\kw{"}). Longueur avec \kw{len}\\
+			\hline
+		\end{tabularx}
+		\vspace{1cm}
+	\end{alertblock}
+\end{frame}
+
+
+% Fonction
+\makess{Fonctions}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définir une fonction en Python}
+		Pour définir une fonction en Python :
+		\begin{itemize}
+		\item<2-> qui ne renvoie pas de valeur :\begin{codepython}
+def <nom_fonction>(<arguments>):
+	<instruction>
+		\end{codepython}
+		\item<2-> qui renvoie une valeur : \begin{codepython}
+def <nom_fonction>(<arguments>):
+	<instruction>
+	return <resultat>
+	\end{codepython}
+\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% Instructions conditionnelles
+\makess{Instructions conditionnelles}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Instructions conditionnelles}
+		\begin{itemize}
+			\item<1-> Sans clause \kw{else}
+			\begin{codepython}
+if <condition>:
+	<instructions>
+			\end{codepython}
+			Exécute les {\tt <instructions>} si la {\tt condition} est vérifiée.
+			\item<2-> Avec clause \kw{else}
+			\begin{codepython}
+if <condition>:
+	<instructions1>
+else:
+	<instructions2>
+			\end{codepython}
+		Cela permet d'exécuter les {\tt <instructions1>} si la {\tt condition} est vérifiée, sinon on exécute les {\tt <instructions2>}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% boucle while
+\makess{Boucles}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Boucles {\tt while}}
+		\begin{itemize}
+			\item<2-> La syntaxe d'une boucle \textcolor{red}{\tt while}  en Python est :
+				\begin{codepython}
+while <condition>:
+	<instruction>
+			\end{codepython}
+			      Cela permet d'exécuter les {\tt <instructions>} tant que la {\tt <condition>} est  vérifiée.
+			\item<3->  On ne sait pas a priori combien de fois cette boucle sera exécutée (et elle peut même être infinie), on dit que c'est une boucle \textcolor{blue}{non bornée}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% boucle for
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Boucles {\tt for}}
+		\begin{itemize}
+			\item<2-> Les instructions :
+			      \begin{codepython}
+	for <variable> in range(<entier>):
+		 <instructions>
+	\end{codepython}
+			      créent une variable parcourant les entiers de 0 à {\tt <entier>} (exclu).
+			\item<3-> Les {\tt <instructions>} indentées qui suivent seront exécutées pour chaque valeur prise par la variable.
+			\item<4-> La boucle {\tt for} permet donc de répéter un nombre prédéfini de fois des instructions, on dit que c'est une boucle bornée.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% Exemples
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<1-> Ecrire un programme Python permettant de calculer le {\sc pgcd} $d$ de deux entiers naturels $a$ et $b$ en utilisant l'algorithme d'Euclide.
+			\item<2-> Ecrire un programme Python permettant de vérifier la conjecture de Collatz pour les entiers inférieurs à un entier $N$ donné. Le programme affichera aussi la valeur maximale atteinte durant les itérations. Par exemple pour $N=1000$, le programme affiche : \\
+			{\tt Conjecture vérifiée, maximum atteint \numprint{250504}}. 
+			\item<3-> Ecrire un programme Python permettant de simuler une marche aléatoire dans le dans le plan (déplacement aléatoire équibrobable dans les 4 directions cardinales). On pourra visualiser les déplacements grâce à la librairie \kw{turtle} et se déplacer jusqu'à sortir d'un cercle de rayon donné.
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+% Exemples
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction exemple 1}
+		\begin{itemize}
+			\item<1-> Version itérative
+		\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C0/pgcd.py}{}{\small}
+			\item<2-> Version récursive
+			\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C0/pgcd_rec.py}{}{\small}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+% Définition des listes
+\makess{Les listes}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{center}
+		\begin{alertblock}{Les listes de Python}
+			\begin{itemize}
+				\item<1-> Les listes de Python sont des structures contenant  zéro, une ou plusieurs valeurs (pas forcément du mêmte type).
+				\item<2-> Une liste se note entre crochets : \kw{[} et \kw{]}
+				\item<3-> Les éléments sont séparés par des virgules
+				\item<4-> Les éléments d'une liste sont repérés par leur position dans la liste, on dit leur \textcolor{blue}{indice}. Attention, la numérotation commence à zéro.
+				\item<6-> On peut accéder à un élément en indiquant le nom de la liste puis  l'indice de cet élément entre crochet
+				\item<7-> L'erreur {\tt IndexError} indique qu'on tente d'accéder à un indice qui n'existe pas.
+				\item<8-> La longueur d'une liste (ie. son nombre d'éléments) s'obtient à l'aide de la fonction \kw{len}.
+			\end{itemize}
+		\end{alertblock}
+	\end{center}
+\end{frame}
+
+% Manipulation des listes
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Opérations sur les listes}
+		Les opérations suivantes permettent de manipuler les listes (ajout, suppression, insertion d'éléments). On fera bien attention à la syntaxe on met le nom de la liste suivi d'un point suivi de l'opération à effectuer (voir exemples)
+		\begin{itemize}
+			\item<1-> \textcolor{blue}{\tt append} : permet d'ajouter un élément à la fin d'une liste. Par exemple : {\tt ma\_liste.append(elt)} va ajouter {\tt elt} à la fin de {\tt ma\_liste}.
+			\item<2-> \textcolor{blue}{\tt pop} permet de récupérer un élement de la liste tout en le supprimant de la liste. Par exemple {\tt elt=ma\_liste.pop(2)} va mettre dans {\tt elt} {\tt ma\_liste[2]} et dans le même temps supprimer cet élément de la liste.
+			\item<3-> \textcolor{blue}{\tt remove} permet de supprimer un élément d'une liste. Par exemple : {\tt ma\_liste.remove(elt)} va enlever {\tt elt} de {\tt ma\_liste}.
+			\item<4-> \textcolor{blue}{\tt insert} permet d'insérer un élément à un indice donnée. Par exemple : {\tt ma\_liste.insert(indice,elt)} va insérer {\tt elt} dans {\tt ma\_liste} à l'index {\tt indice}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+% Génération de listes
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Création de listes}
+		On peut créer des listes de diverses façons en Python :
+		\begin{itemize}
+			\item<2-> \textcolor{red}{Par ajout succesif d'élement} on part alors d'une liste (éventuellement vide) et on ajoute chaque élément à l'aide d'instruction \textcolor{blue}{\tt append}.
+			\item<3-> \textcolor{red}{Par répétition du même élément} on utilise alors le caractère \textcolor{blue}{\tt *} pour indiquer le nombre de répétitions. \\
+			      \onslide<4-> {Par exemple : \textcolor{blue}{\tt hesitation = ["euh"]*4}}
+			\item<6->	 \textcolor{red}{Par compréhension}, c'est à dire en indiquant la définition des éléments qui composent la liste. \\
+			      \onslide<7-> {Par exemple la liste {\tt puissances2 = [1, 2, 4, 8, 16, 32, 64, 128]} est constitué des huits premières puissances de 2} \\
+			      \onslide<8-> {Elle contient donc $2^0, 2^1, 2^2, \dots 2^7$, ce qui se traduit en Python par :}\\
+			      \onslide<9-> \textcolor{blue}{\tt puissances2 = [2**k for k in range(8)]}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{itemize}
+			\item<1-> Crible d'Eratosthène
+			\item<5-> Trie par insertion
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+\end{document}

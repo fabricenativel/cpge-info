@@ -2,7 +2,7 @@ def define_env(env):
     "Hook function"
 
     # Les thèmes en mp2i : id : (nom,icone)
-    env.variables['themes']={
+    env.variables['themes_mp2i']={
         1 : ("Méthodes de programmation",":fontawesome-solid-laptop-code:{title='Méthodes de programmation'}"),
         2 : ("Récursivité et induction",":fontawesome-solid-stairs:{title='Récursivité et induction'}"),
         3 : ("Structures de données",":fontawesome-solid-diagram-project:{title='Structures de données'}"),
@@ -12,6 +12,13 @@ def define_env(env):
         7 : ("Base de données",":fontawesome-solid-database:{title='Base de données'}"),
         8 : ("Langage C",":material-language-c:{title='Langage C'}"),
         9 : ("Langage OCaml",":simple-ocaml:{title='Langage OCaml'}")
+    }
+
+    env.variables['themes_itc']={
+        1 : ("Python",":fontawesome-brands-python:{title='Python'}"),
+        2 : ("Base de données",":fontawesome-solid-database:{title='Base de données'}"),
+        3 : ("Programmation dynamique",":fontawesome-solid-book-bookmark:{title='Dictionnaire et programmation dynamique'}"),
+        4 : ("Algorithme pour l'IA et l'étude des jeux","::material-dice-multiple:{title='IA et jeux'}")
     }
     
     # Les icones illustrant les exercices
@@ -27,33 +34,44 @@ def define_env(env):
     env.variables['num_exo']=1
 
     # Progression : Thème, Titre, durée, fichiers
-    env.variables['progression_mp2i']={
-        0 : [5,"Systèmes",1,"systemes.md"],
-        1 : [8,"Premiers pas en langage C",2,"introC.md"],
-        2 : [1,"Spécifications et tests",1,"validation.md"],
-        3 : [8,"Pointeurs et types structurés",1,"pointeurs.md"],
-        4 : [3,"Arithmétique des ordinateurs",1,"arithmetique.md"],
-        5 : [1,"Terminaison, correction, complexité",1,"terminaison.md"],
-        6 : [2,"Récursivité",1,"recursivite.md"],
-        7 : [3,"Liste chainées, piles et files",1,"listechainees.md"]
+    env.variables['progression_mp2i_s1']={
+        0 : [5,"Systèmes","systemes.md"],
+        1 : [8,"Premiers pas en langage C","introC.md"],
+        2 : [1,"Spécifications et tests","validation.md"],
+        3 : [8,"Pointeurs et types structurés","pointeurs.md"],
+        4 : [3,"Arithmétique des ordinateurs","arithmetique.md"],
+        5 : [1,"Terminaison, correction, complexité","terminaison.md"],
+        6 : [2,"Récursivité","recursivite.md"],
+        7 : [3,"Liste chainées, piles et files","listechainees.md"],
+        8 : [9,"Premiers pas en OCaml","introOCaml.md"]
+    }
+
+    # Progression : Thème, Titre, durée, fichiers
+    env.variables['progression_itc_s3']={
+        0 : [1,"Un peu de Python","revisions.md"],
+        1 : [2,"Introduction aux bases de données","introbd.md"],
+        2 : [1,"Dictionnaires","introdico.md"],
+        3 : [3,"Programmation dynamique","progdyn.md"],
+        4 : [2,"Requêtes sur plusieurs tables","bd.md"],
+        5 : [4,"k plus proches voisins","knn.md"],
     }
 
     # affichage d'un chapitre dans la progression
     @env.macro
-    def chapitre(num,theme,titre,duree,lien):
-        icone = env.variables['themes'][theme][1]
-        return f"|{icone}|[C{num}- {titre}]({lien}) | {duree}\n"
+    def chapitre(num,theme,titre,lien,niveau):
+        icone = env.variables['themes_'+niveau][theme][1]
+        return f"|{icone}|[C{num}- {titre}]({lien})\n"
 
     # Affichage des chapitres de la progression
     @env.macro
     def affiche_progression(niveau):
         ret='''
-|Thème |Titre        | Durée |
-|-|-------------|-------|
+|Thème |Titre        |
+|-|-------------|
         '''
         progression_niveau = env.variables['progression_'+niveau]
         for k in progression_niveau:
-           ret+=chapitre(k,progression_niveau[k][0],progression_niveau[k][1],progression_niveau[k][2],progression_niveau[k][3])
+           ret+=chapitre(k,progression_niveau[k][0],progression_niveau[k][1],progression_niveau[k][2],niveau[:-3])
         return ret
     
     # Affichage du titre sur la page d'un chapitre
@@ -62,8 +80,9 @@ def define_env(env):
         # Position de l'ancre pour repérage dans la page
         titre = env.variables['progression_'+niveau][numero][1]
         theme = env.variables['progression_'+niveau][numero][0]
+        niv = "themes_"+niveau[:-3]
         ligne=f"# <span class='numchapitre'>C{numero}</span> {titre} "
-        ligne+=f"<span style='float:right;'>{env.variables['themes'][theme][1]}</span>"
+        ligne+=f"<span style='float:right;'>{env.variables[niv][1][1]}</span>"
         return ligne
 
     # Affichage téléchargement diaporama de cours
