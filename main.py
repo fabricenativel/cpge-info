@@ -18,7 +18,7 @@ def define_env(env):
         1 : ("Python",":fontawesome-brands-python:{title='Python'}"),
         2 : ("Base de données",":fontawesome-solid-database:{title='Base de données'}"),
         3 : ("Programmation dynamique",":fontawesome-solid-book-bookmark:{title='Dictionnaire et programmation dynamique'}"),
-        4 : ("Algorithme pour l'IA et l'étude des jeux","::material-dice-multiple:{title='IA et jeux'}")
+        4 : ("Algorithme pour l'IA et l'étude des jeux",":material-dice-multiple:{title='IA et jeux'}")
     }
     
     # Les icones illustrant les exercices
@@ -50,10 +50,10 @@ def define_env(env):
     env.variables['progression_itc_s3']={
         0 : [1,"Un peu de Python","revisions.md"],
         1 : [2,"Introduction aux bases de données","introbd.md"],
-        2 : [1,"Dictionnaires","introdico.md"],
-        3 : [3,"Programmation dynamique","progdyn.md"],
-        4 : [2,"Requêtes sur plusieurs tables","bd.md"],
-        5 : [4,"k plus proches voisins","knn.md"],
+        2 : [3,"Programmation dynamique","progdyn.md"],
+        3 : [2,"Requêtes sur plusieurs tables","jointures.md"],
+        4 : [4,"k plus proches voisins, k-moyennes","knn.md"],
+        5 : [4,"Algorithme pour l'étude des jeux","algojeux.md"]
     }
 
     # affichage d'un chapitre dans la progression

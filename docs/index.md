@@ -3,6 +3,8 @@ hide: - navigation  in index.md
 # Cours d'informatique en CPGE
 
 [Cours d'informatique en MP2I](mp2i/progression.md){.md-button} 
+[Cours d'Informatique Tronc Commun](itc/progression.md){.md-button} 
+
 
 ![illustration accueil](./images/accueil.svg){: .imgcentre width=400px}
 <span class="source">[Crédit : undraw.co](https://undraw.co/){target=_blank}</span>
