@@ -8,7 +8,7 @@ def define_env(env):
         3 : ("Structures de données",":fontawesome-solid-diagram-project:{title='Structures de données'}"),
         4 : ("Algorithmique",":fontawesome-solid-gears:{title='Algorithmique'}"),
         5 : ("Gestions des ressources de la machine",":fontawesome-solid-microchip:{title='Gestions des ressources de la machine'}"),
-        6 : ("Logique",":fontawesome-solid-v:{title='Logique'}"),
+        6 : ("Logique",":fontawesome-solid-circle-chevron-up:{title='Logique'}"),
         7 : ("Base de données",":fontawesome-solid-database:{title='Base de données'}"),
         8 : ("Langage C",":material-language-c:{title='Langage C'}"),
         9 : ("Langage OCaml",":simple-ocaml:{title='Langage OCaml'}")
@@ -40,10 +40,25 @@ def define_env(env):
         2 : [1,"Spécifications et tests","validation.md"],
         3 : [8,"Pointeurs et types structurés","pointeurs.md"],
         4 : [3,"Arithmétique des ordinateurs","arithmetique.md"],
-        5 : [1,"Terminaison, correction, complexité","terminaison.md"],
-        6 : [2,"Récursivité","recursivite.md"],
-        7 : [3,"Liste chainées, piles et files","listechainees.md"],
-        8 : [9,"Premiers pas en OCaml","introOCaml.md"]
+        5 : [2,"Récursivité","recursivite.md"],
+        6 : [9,"OCaml : aspects fonctionnels","introOCaml.md"],
+        7 : [3,"Structures de données linéaires","listechainees.md"],
+        8 : [1,"Terminaison, correction, complexité","terminaison.md"],
+        9 : [9,"Ocaml : aspects impératifs","OCamlimp.d"]
+    }
+    env.variables['progression_mp2i_s2']={
+        10 : [3,"Tableau associatif, hachage","hash.md"],
+        11 : [7,"Introduction aux bases de données","introbd.md"],
+        12 : [3,"Arbres binaires","arbres.md"],
+        13 : [4,"Force brute, retour sur trace","forcebrute.md"],
+        14 : [6,"Syntaxe des formules logiques","logique.md"],
+        15 : [3,"Graphes","graphes.md"],
+        16 : [4,"Décomposition en sous problèmes","decomposition.md"],
+        17 : [2,"Induction","induction.md"],
+        18 : [7,"Modèle entité-association, jointures","jointures.md"],
+        19 : [4,"Algorithmes des textes","textes.md"],
+        20 : [6,"Calcul propositionnel","propositionel.md"],
+        21 : [4,"Algorithmes des graphes","algographes.md"]
     }
 
     # Progression : Thème, Titre, durée, fichiers
@@ -76,13 +91,13 @@ def define_env(env):
     
     # Affichage du titre sur la page d'un chapitre
     @env.macro
-    def titre_chapitre(numero,niveau):
+    def titre_chapitre(numero,niveau_semestre):
         # Position de l'ancre pour repérage dans la page
-        titre = env.variables['progression_'+niveau][numero][1]
-        theme = env.variables['progression_'+niveau][numero][0]
-        niv = "themes_"+niveau[:-3]
+        titre = env.variables['progression_'+niveau_semestre][numero][1]
+        theme = env.variables['progression_'+niveau_semestre][numero][0]
+        icone = env.variables["themes_"+niveau_semestre[:-3]][theme][1]
         ligne=f"# <span class='numchapitre'>C{numero}</span> {titre} "
-        ligne+=f"<span style='float:right;'>{env.variables[niv][1][1]}</span>"
+        ligne+=f"<span style='float:right;'>{icone}</span>"
         return ligne
 
     # Affichage téléchargement diaporama de cours
@@ -140,3 +155,15 @@ def define_env(env):
         liens+="{.md-button}"
         if center: liens="<span class='centre'>"+liens+"</span>"
         return liens
+    
+    # Tableau de données en ligne :
+    @env.macro
+    def table_data(headers,content):
+        table = '<table class="data">'
+        for i in range(len(headers)):
+            table += f'<tr><th>{headers[i]}</th>'
+            for c in content[i]:
+                table += f'<td>{c}</td>'
+            table+='</tr>'
+        table += '</table>'
+        return table

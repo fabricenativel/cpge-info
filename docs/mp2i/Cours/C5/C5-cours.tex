@@ -1,0 +1,90 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{5}
+\newcommand{\Ctitle}{\cnum {Récursivité}}
+
+
+\makess{Définition et exemples}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		\onslide<2->{En informatique, on dit qu'une fonction est \textcolor{red}{récursive},}
+		\onslide<3->{lorsque cette fonction fait appel à elle-même.}
+	\end{alertblock}
+	\onslide<4->{
+		\begin{block}{Remarques}
+			\begin{itemize}
+				\item<5-> Une fonction récursive permet donc, \textit{comme une boucle}, de répéter des instructions. Une même fonction peut donc souvent se programmer de façon \textcolor{blue}{itérative} (avec des boucles) ou de façon \textcolor{blue}{récursive} (en s'appelant elle-même).
+				\item<6-> Une fonction récursive doit toujours \textcolor{blue}{contenir une condition d'arrêt}, dans le cas contraire elle s'appelle elle-même à l'infini et le programme ne se termine jamais.
+				\item<7-> Les valeurs passées en paramètres lors des appels successifs doivent être différents, sinon la fonction s'exécute à l'identique à chaque appel et donc boucle à l'infini.
+			\end{itemize}
+		\end{block}}
+\end{frame}
+
+% Récursivité : Exemples des puissances
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : les puissances positives}
+		En mathématiques, pour un nombre quelconque $a$ et un entier positif $n$, on définit $a$ puissance $n$ par :\\
+		$ a^n = a \times a \times \dots \times a $, et on convient que $a^0=1$
+		\begin{itemize}
+			\item<2->{Définir une fonction {\tt puissance} qui prend en argument un flottant $a$ et un entier $n$ et renvoie $a^n$ en effectuant ce calcul de façon itératif}
+			\item<3->{Recopier et compléter : $a^n = \dots \times a^{\dots}$}
+			\item<4->{En déduire une version récursive de la fonction calculant les puissances}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+% Récursivité : Exemples des puissances
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : les puissances positives}
+		\begin{itemize}
+			\item<1-> \textcolor{OliveGreen}{Puissance : version itérative}
+\begin{langageC}
+float puissance_iteratif(float a, int n):
+    p=1
+    for (int k=1;k<n;k=k+1){
+        p=p*a;}
+    return p;
+\end{langageC}
+			\item<2-> $a^n = \textcolor{OliveGreen}{a} \times a^{\textcolor{OliveGreen}{n-1}}$
+			\item<3-> \textcolor{OliveGreen}{Puissance : version récursive}
+			      \begin{langageC}
+float puissance_recursif(float a, int n):
+    if n==0:
+        return 1;
+    else:
+        return a*puissance_recursif(a,n-1);
+\end{langageC}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+% Récursivité : exemple de factorielle
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple : factorielle}
+        \begin{enumerate}
+            \item<1-> Ecrire une fonction itérative en C permettant de calculer $n!$.
+            \item<2-> Ecrire la relation liant $n!$ et $(n-1)$.
+            \item<3-> Donner une fonction récursive permettant de calculer $n!$
+        \end{enumerate}
+    \end{exampleblock}
+    \begin{exampleblock}{Exemple : dessin d'un triangle}
+        \begin{enumerate}
+            \item<4-> Ecrire une fonction itérative en C qui prend en argument un entier $n$ et dessine un triangle de caractères {\tt *}comme ci-dessous ($n=4$) :\begin{verbatim}
+                *
+                ** 
+                *** 
+                ****
+            \end{verbatim}
+            \item<5-> Donner une version récursive de cette fonction.
+        \end{enumerate}
+    \end{exampleblock}
+\end{frame}
+\end{document}

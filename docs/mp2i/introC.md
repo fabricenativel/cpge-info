@@ -1,12 +1,13 @@
 {% set num = 1 %}
 {% set niveau = "mp2i_s1"%}
 
-{{ titre_chapitre(num,niveau)}}
+{{ titre_chapitre(num,niveau)}} 
 
 {{ citation("The only way to learn a new programming language is by writing programs in it","B. Kernighan & D. Ritchie","[in the C programming language 1978](https://en.wikipedia.org/wiki/The_C_Programming_Language)")}}
 
 
 ## Cours
+
 
 {{ cours(num) }}
 
@@ -51,6 +52,9 @@
 
 
 {{ exo("Quelques fonctions pour démarrer",[]) }}
+
+!!! note
+    Pour chaque question, écrire  le code de la fonction puis la tester dans le `main` en saisissant éventuellement les arguments au clavier à l'aide de `scanf`.
 
 1. Ecrire une fonction `aire_disque` qui prend en argument un flottant `r` et renvoie l'aire du disque de rayon `r`, on définira une constante flottante `pi` de valeur `3.14159` qui sera utilisé dans le calcul.
 

@@ -61,6 +61,8 @@
 	\end{block}
 \end{frame}
 
+
+
 \makess{Exemples de programmes}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Programme minimal}
@@ -213,6 +215,9 @@ int main()
 	\end{exampleblock}
 \end{frame}
 
+
+
+
 \makess{Définitions et types de base}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{alertblock}{Types de base}
@@ -320,6 +325,103 @@ int main()
 		\end{tabular}}
 	\end{block}
 \end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		\begin{itemize}
+			\item<1-> La \textcolor{blue}{portée} d'une variable est la partie du programme  dans laquelle cette variable est visible (on peut y faire référence).
+			\item<2-> La portée peut-être :
+			\begin{itemize}
+				\item<3-> \textcolor{blue}{globale}, c'est à dire que la variable est accessible depuis tout le programme. En C, c'est le cas des variables déclarées en début de programme en dehors de tout bloc d'instructions.
+				\item<4-> \textcolor{blue}{locale} lorsque la variable est déclarée dans un bloc d'instruction alors sa portée est limitée à ce bloc. C'est le cas des paramètres d'une fonction ou d'une variable de boucle.
+			\end{itemize}
+		\end{itemize}
+	\end{alertblock}
+	\onslide<5->{
+		\begin{block}{Remarques}
+			Lorsque deux variables ont le même identifiant, c'est la variable ayant la plus petite portée qui est accessible.
+		\end{block}}
+	
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle} 
+	\begin{exampleblock}{Exemples}
+		Dans le programme suivant, donner les portées des variables \kw{maxn}, \kw{n}, \kw{somme}, \kw{i}
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/cours_portee.c}{}{\small}	
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle} 
+	\begin{exampleblock}{Exemples}
+		\kw{maxn} est une variable globale
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/cours_portee.c}{3-14}{\small}	
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle} 
+	\begin{exampleblock}{Exemples}
+		\kw{n} est un paramètre de la fonction \kw{harmo}
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/cours_portee.c}{5-9}{\small}	
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle} 
+	\begin{exampleblock}{Exemples}
+		\kw{somme} est déclarée dans la fonction \kw{harmo}
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/cours_portee.c}{6-9}{\small}	
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle} 
+	\begin{exampleblock}{Exemples}
+		\kw{i} est locale à la boucle
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/cours_portee.c}{7-8}{\small}	
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle} 
+	\begin{exampleblock}{Exemples}
+		\kw{s} est locale au \kw{main}
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/cours_portee.c}{12-14}{\small}	
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Conversion implicite de type}
+		La ligne \mintinline{c}{double somme = 0;} est une \textcolor{blue}{conversion implicite de type}. En effet, 0 est de type entier mais est converti en flottant pour être affecté à la variable \kw{somme} qui est de type double.
+	\end{block}
+	\begin{block}{Conversion explicite : \textit{cast}}
+		On aurait pu réaliser une \textcolor{blue}{conversion explicite} ou \textit{cast} en spécifiant le type de destination entre parenthèses : \mintinline{c}{double somme = (double) 0;}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/cast.c}{}{\small}	
+	\begin{itemize}
+	\item<2-> Quel est le résultat de ce programme ? Pourquoi ?
+	\item<3-> Comment afficher le résultat de la division décimale ?
+	\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		Afin de repérer \textit{dès la compilation} le maximum de problèmes potentiels, il est \textcolor{BrickRed}{très fortement recommandé} de toujours utiliser \kw{gcc} avec les options :
+		\begin{itemize}
+			\item<2->\kw{-Wall} affichage de tous les \textit{warning}
+			\item<3->\kw{-Wextra} affichage de \textit{warning} supplémentaires
+			\item<4->\kw{-Wconversion} pour signaler les problèmes éventuels de conversion implicite
+		\end{itemize}
+		\onslide<5-> D'autre part, il est préférable de spécifier un fichier un nom pour l'exécutable produit grâce à l'option \kw{-o}
+	\end{block}
+	\onslide<6->{
+	\begin{exampleblock}{Exemple}
+		Pour compiler le programme {\tt exemple.c}, la ligne de compilation devrait donc être : \\
+		{\tt gcc exemple.c -o exemple.exe -Wall -Wextra -Wconversion}
+	\end{exampleblock}}
+\end{frame}
+
 
 \makess{Structures de contrôle}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -444,5 +546,35 @@ int compare(int a, int b)
 	\end{exampleblock}
 \end{frame}
 
+\makess{Saisie de valeurs au clavier}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{block}{Fonction {\tt scanf}}
+	\begin{itemize}
+		\item<1-> La fonction \kw{scanf} permet la saisie de valeurs des variables depuis le clavier.
+		\item<2-> Elle prend en argument un \textcolor{blue}{spécificateur de format} (comme \kw{printf}) qui permet de préciser le type de la variable attendue.
+		\item<3-> On fera précéder la variable qui reçoit la valeur saisie au clavier du caractère \kw{\&} \\
+		\onslide<4-> Ce point sera expliqué plus loin dans le cours.
+		\item<5-> Cette fonction renvoie le nombre de valeurs correctement lues.
+	\end{itemize}
+\end{block}
+\begin{exampleblock}{Exemple}
+	\begin{itemize}
+\item<5-> Ecrire un programme qui demande à l'utilisateur de saisir au clavier deux entiers {\tt a} et {\tt b} puis affiche leur somme.
+\item<6-> Modifer ce programme pour que les valeurs saisies soient des flottants.
+	\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/somme.c}{}{\small}	
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/sommef.c}{}{\small}	
+	\end{exampleblock}
+\end{frame}
 
 \end{document}

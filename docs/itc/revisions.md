@@ -304,7 +304,8 @@ Programmer et tester cet algorithme.
 {{ exo("Recherche dichotomique",[] )}}
 
 !!! abstract "Algorithme"
-Pour rechercher un élement dans une liste **triée**, on peut :
+    Pour rechercher un élement dans une liste **triée**, on peut :
+
     * partager la liste en deux parties de longueur égale (à une unité près).
     * comparer l'élément cherché avec celui situé au milieu et en déduire dans quel moitié poursuivre la recherche.
     * l'algorithme s'arrête lorsque la zone de recherche est vide.

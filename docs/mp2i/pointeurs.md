@@ -13,6 +13,8 @@
 
 ## Travaux dirigés
 
+{{ td(num) }}
+
 ## Travaux pratiques
 
 
@@ -52,6 +54,17 @@ int main() {
 2. Ecrire en C un programme qui alloue dans le tas une variable de type `int` et affiche son adresse mémoire.
 
 3. Les résultats sont-ils conformes au modèle mémoire du C vu en cours ? Justifier.
+
+{{ exo("Manipulation de pointeurs",[])}}
+
+Ecrire un programme effectuant les opérations suivantes :
+
+1. Déclarer un entier `n` initialisé à $42$.
+2. Déclarer un pointeur sur un entier `p` initialisé à `NULL`
+3. Faire pointer `p` sur `n`.
+4. Modifier la valeur de `n` de deux façon différentes : en utilisant `n` et en utilisant `p`.
+5. Après chacune des modification, afficher la valeur de `n` pour vérifier qu'elle a changé.
+6. Afficher l'adresse de `n`.
 
 {{ exo("Warning",[])}}
 
@@ -180,6 +193,89 @@ On souhaite écrire une fonction `inverse_casse` en C qui ne renvoie rien et cha
 
 4. Compléter le programme en ajoutant une fonction `inverse_casse_chaine` qui ne renvoie rien et inverse la casse de toutes les lettres présentes dans la chaine donnée en paramètre    .
 
+
+{{ exo("Tri par sélection",[] )}}
+
+!!! abstract "Algorithme"
+    Pour trier les éléments d'un tableau par ordre croissant, l'algorithme du *tri par sélection* consiste à :  
+
+    * rechercher le plus petit élement du tableau à partir de l'indice **0**
+    * échanger cet élément avec celui situé à l'indice **0**
+    * rechercher le plus petit élement du tableau à partir de l'indice **1**
+    * échanger cet élément avec celui situé à l'indice **1**
+    * et ainsi de suite jusqu'à atteindre la fin du tableau
+
+2. Ecrire une fonction `echange` qui prend en argument un tableau et deux indices $i$ et $j$ et échange les éléments d'indice $i$ et $j$ de ce tableau.
+3. Ecrire une fonction `indice_min_depuis` qui prend en argument une liste et un indice $i$ et renvoie l'indice du minimum des éléments de ce tableau depuis l'indice $i$.
+4. Programmer et tester l'algorithme du tri par sélection.
+
+{{ exo("Moyenne des entiers dans un fichier",[])}}
+
+Le fichier `entiers.txt` téléchargeable ci-dessous contient sur chaque ligne un entier. Ecrire un programme  qui lit ce fichier et calcule la moyenne de ces entiers.
+{{telecharger("entiers.txt","../mp2i/files/C3/entiers.txt")}}
+
+
+{{ exo("Type structuré point",[]) }}
+
+On donne le code suivant permettant de définir le type structuré `Point` :
+```c
+struct Point_struct 
+{
+    char nom;
+	float abs;
+	float abs;
+};
+typedef struct Point_struct Point;
+```
+
+1. Créer les points $A(3;-2)$ et $B(-1;6)$.
+2. Ecrire une fonction `affiche` qui prend en argument un objet `Point` et l'écrit dans le terminal.
+3. Ecrire une fonction `milieu` qui prend en argument deux objets de type `Point` et un caractère et renvoie un objet de type `Point` ayant pour nom ce caractère et pour coordonnées celles du milieu du segment formé par les deux points.
+
+
+    !!! Aide
+        On rappelle que pour deux points $A(x_A,y_A)$ et $B(x_B,y_B)$  les coordonnes $x_I$ et $y_I$ du milieu $I$ du segment $[AB]$ sont :  
+        $x_I = \dfrac{x_A+y_B}{2}$ et $y_I = \dfrac{y_A+y_B}{2}$
+
+4. Créer le point $I$, milieu de $A$ et de $B$ et l'afficher.
+5. Créer la fonction `renomme` qui prend en argument un objet de type `Point` et un caractère `C` et change le nom du point en `C`.
+
+
+{{ exo("Modélisation d'un compte en banque",[] )}}
+
+En C, On modélise un compte bancaire par un objet de type `struct` possédant les champs suivants :
+
+* un numéro de compte de type `uint32_t`
+* un nom de titulaire de type `char[50]`
+* un solde de type `float`
+
+On répondra aux questions suivantes en écrivant au fur et à mesure le programme correspondant
+
+1. Créer le type `CompteBancaire`
+2. Dans le `main`, créer la variable `untel` représentant le compte de M. Untel de numéro 421 ayant un solde de $-318,53$ € 
+3. Ecrire et tester la fonction  `affiche` qui ne renvoie rien, prend en argument un objet de type `CompteBancaire` et affiche les informations de ce compte. Par exemple sur la variable `untel`, la fonction `affiche` doit écrire dans le terminale  : `N°421 - M. Untel : -318,53 euros`
+4. Ecrire et tester les  méthodes `depot` et `retrait` permettant respectivement d'ajouter ou de retirer une somme d'argent d'une variable de type CompteBancaire en modifiant le champ `solde`.
+
+{{ exo("Date",[] )}}
+
+1. Créer un type structuré permettant de représenter une date au format `JJ/MM/AAAA`
+2. Ecrire une fonction prenant en argument une date et permettant de l'afficher au format `JJ/MM/AAAA`
+3. Ecrire une fonction `lendemain` qui prend en argument une date et renvoie un objet de type `date` correspondant au lendemain de cette date.
+
+{{ exo("Fractions",[] )}}
+
+1. Créer un type structuré permettant de représenter une fraction, ce type aura deux champs de type `int`, qu'on appelera `numerateur` et `denominateur`
+2. Ecrire une fonction permettant d'afficher "proprement" une fraction dans le terminal (on pourra par exemple envisager les cas où le dénominateur vaut 1 ou celui ou le numérateur vaut 0).
+3. Créer une fonction `simplifie` qui modifie la fraction passée en paramètre pour la rendre irreductible.
+
+    !!! aide
+        On rappelle que le {{sc("pgcd")}} de deux entiers peut se calculer avec l'algorithme d'Euclide :
+
+        * Si $b=0$ alors l'algorithme se termine et le {{sc("pgcd")}} est $a$
+        * Sinon faire la division euclidienne de $a$ par $b$, et en notant $r$ le reste, revenir à l'étape précédente en remplçant $a$ par $b$ et $b$ par $a$.
+
+4. Ecrire la fonction `addition` qui prend en argument deux fractions et renvoie leur somme.
+5. Faire de même pour les autres opérations de base.
 
 ## Humour d'informaticien
 
