@@ -19,18 +19,18 @@
 				\onslide<4->{
 					\renewcommand{\arraystretch}{1.3}
 					\begin{tabular}{ccccccccc}
-						\textcolor{blue}{variable}     &       &                                    & \kw{x}                        &                                    &       &       & \kw{p}                          &        \\
+						\textcolor{blue}{variable} &       &                                      & \kw{x}                                                                                &                                      &       &       & \kw{p}                                                                        &       \\
 						\cline{3-5} \cline{8-8}
 						\cdashline{2-2} \cdashline{6-7} \cdashline{9-9}
-						valeur  &       & \multicolumn{1}{|c|}{\phantom{4242}} & \multicolumn{1}{|c|}{\rnode{x}{42}} & \multicolumn{1}{|c|}{\phantom{4242}} &       &       & \multicolumn{1}{|c|}{\ovalnode[linecolor=BrickRed,linewidth=0.7pt]{pp}{2741}} &         \\
+						valeur                     &       & \multicolumn{1}{|c|}{\phantom{4242}} & \multicolumn{1}{|c|}{\rnode{x}{42}}                                                   & \multicolumn{1}{|c|}{\phantom{4242}} &       &       & \multicolumn{1}{|c|}{\ovalnode[linecolor=BrickRed,linewidth=0.7pt]{pp}{2741}} &       \\
 						\cline{3-5} \cline{8-8}
 						\cdashline{2-2} \cdashline{6-7} \cdashline{9-9}
-						\textcolor{Sepia}{adresse} & \dots &      \textcolor{Sepia}{\scriptsize 2740}                               & \ovalnode[linecolor=BrickRed,linewidth=0.7pt]{p}{\textcolor{Sepia}{\scriptsize 2741}}                     &   \textcolor{Sepia}{\scriptsize 2742}                                  & \dots & \dots & \textcolor{Sepia}{\scriptsize 3154}                       & \dots   \\
+						\textcolor{Sepia}{adresse} & \dots & \textcolor{Sepia}{\scriptsize 2740}  & \ovalnode[linecolor=BrickRed,linewidth=0.7pt]{p}{\textcolor{Sepia}{\scriptsize 2741}} & \textcolor{Sepia}{\scriptsize 2742}  & \dots & \dots & \textcolor{Sepia}{\scriptsize 3154}                                           & \dots \\
 					\end{tabular}
-                    \ncline[linecolor=BrickRed,linewidth=1pt]{->}{p}{x}
+					\ncline[linecolor=BrickRed,linewidth=1pt]{->}{p}{x}
 				}
 			\item<5-> La valeur particulière \kw{NULL}  indique qu'un pointeur ne pointe sur rien.
-            \item<6-> En C, la gestion de la mémoire n'est pas totalement automatique (comme en Python ou en OCaml). Certains aspects reviennent au programmeur, ce qui impose de comprendre le modèle mémoire du C.
+			\item<6-> En C, la gestion de la mémoire n'est pas totalement automatique (comme en Python ou en OCaml). Certains aspects reviennent au programmeur, ce qui impose de comprendre le modèle mémoire du C.
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -185,93 +185,93 @@
 
 
 \begin{frame}{\Ctitle}{\stitle}
-    \begin{block}{Conséquences}
-        Cette organisation de la mémoire a des conséquences importantes
-        \begin{itemize}
-            \item<1-> La taille de la pile est limitée (bien plus que celle du tas), donc une variable locale de taille importante risque de provoquer un débordement de pile (\textit{stackoverflow}). Il est nettement préférable de l'allouer dans le tas.
-            \item<2-> Lors de l'appel à une fonction, les variables locales (et autres informations) sont stockés dans la pile. A la fin de l'exécution, ces informations sont supprimés de la pile. Conserver des pointeurs vers des adresses de variables locales est donc problématique. 
-            \item<3-> De la mémoire alloué par le programmeur dans le tas et non libérée est considérée comme non disponible, créant des fuites mémoires (\textit{memory leak}).
-        \end{itemize}
-        \end{block}
+	\begin{block}{Conséquences}
+		Cette organisation de la mémoire a des conséquences importantes
+		\begin{itemize}
+			\item<1-> La taille de la pile est limitée (bien plus que celle du tas), donc une variable locale de taille importante risque de provoquer un débordement de pile (\textit{stackoverflow}). Il est nettement préférable de l'allouer dans le tas.
+			\item<2-> Lors de l'appel à une fonction, les variables locales (et autres informations) sont stockés dans la pile. A la fin de l'exécution, ces informations sont supprimés de la pile. Conserver des pointeurs vers des adresses de variables locales est donc problématique.
+			\item<3-> De la mémoire alloué par le programmeur dans le tas et non libérée est considérée comme non disponible, créant des fuites mémoires (\textit{memory leak}).
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Un premier exemple}
-        \begin{langageC}
-int main()  {
-    double big_array[1500000];
-    return 0;}
-        \end{langageC}
-    {\small
-    \begin{enumerate}
-        \item<1-> Rappeler la taille d'un \kw{double}, en déduire la taille du tableau {\tt big\_array} \\
-        \onslide<5-> {\textcolor{OliveGreen}{Un double occupe 8 octects, donc ce tableau $8 \times 1,5 = 12$ Mo.}}
-        \item<2-> Comment expliquer que programme a provoqué une {\tt erreur de segmentation}, alors qu'il a été exécuté sur une machine possédant 8 Go de mémoire vive ?\\
-        \onslide<6-> {\textcolor{OliveGreen}{La taille du tableau dépasse celle de la pile sur laquelle il est alloué.}}
-        \item<3-> En déduire une information sur la taille de la pile d'appel sur cet ordinateur. \\
-        \onslide<7-> {\textcolor{OliveGreen}{La pile fait moins de 12Mo (sa taille est de l'ordre de 8Mo sur l'ordinateur utilisé)}}
-        \item<4-> Comment résoudre ce problème ? \\
-        \onslide<8-> {\textcolor{OliveGreen}{La mémoire occupée par le tableau doit être alloué sur le tas.}}
-    \end{enumerate}}
-    \end{exampleblock}
+	\begin{exampleblock}{Un premier exemple}
+		\begin{langageC}
+			int main()  {
+			double big_array[1500000];
+			return 0;}
+		\end{langageC}
+		{\small
+		\begin{enumerate}
+			\item<1-> Rappeler la taille d'un \kw{double}, en déduire la taille du tableau {\tt big\_array} \\
+				\onslide<5-> {\textcolor{OliveGreen}{Un double occupe 8 octects, donc ce tableau $8 \times 1,5 = 12$ Mo.}}
+			\item<2-> Comment expliquer que programme a provoqué une {\tt erreur de segmentation}, alors qu'il a été exécuté sur une machine possédant 8 Go de mémoire vive ?\\
+				\onslide<6-> {\textcolor{OliveGreen}{La taille du tableau dépasse celle de la pile sur laquelle il est alloué.}}
+			\item<3-> En déduire une information sur la taille de la pile d'appel sur cet ordinateur. \\
+				\onslide<7-> {\textcolor{OliveGreen}{La pile fait moins de 12Mo (sa taille est de l'ordre de 8Mo sur l'ordinateur utilisé)}}
+			\item<4-> Comment résoudre ce problème ? \\
+				\onslide<8-> {\textcolor{OliveGreen}{La mémoire occupée par le tableau doit être alloué sur le tas.}}
+		\end{enumerate}}
+	\end{exampleblock}
 \end{frame}
 
 \makess{Pointeurs}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{alertblock}{Opérateurs {\tt \&} et {\tt *}}
-	\begin{itemize}
-		\item<2-> L'opérateur unaire \kw{\&}, appelé opérateur d'adresse, permet en C de récupérer l'adresse mémoire d'une variable.
-		\item<3-> L'opérateur unaire \kw{*}, appelé opérateur de déréférencement, permet en C de récupérer la valeur stockée dans une adresse mémoire. \\
-		\textcolor{BrickRed}{\important} Déréférencer un pointeur \kw{NULL} est un comportement indéfini.
-	\item<4-> Pour résumer : \\
-	\begin{tabularx}{\linewidth}{|c|c|X|}
-		\cline{2-3}
-		\multicolumn{1}{c|}{} & S'applique à & Permet de \\
-		\hline
-		\kw{\&} & à une variable & récupérer son adresse \\
-		\hline
-		\kw{*}  & à un pointeur & récupérer la valeur à l'emplacement mémoire désigné \\
-		\hline 
-	\end{tabularx}
-	\item<5-> Si \kw{t} est un type du C, par exemple (\kw{int}, \kw{char}, \dots), alors \kw{t *} est du type pointeur vers \kw{t}. Par exemple : \\
-	\onslide<6->{\mintinline{c}{int ma_fonction(int *n)}} \\
-	\onslide<7->{est une fonction qui prend en paramètre l'adresse d'un \kw{int}}
-\end{itemize}
-\end{alertblock}
+	\begin{alertblock}{Opérateurs {\tt \&} et {\tt *}}
+		\begin{itemize}
+			\item<2-> L'opérateur unaire \kw{\&}, appelé opérateur d'adresse, permet en C de récupérer l'adresse mémoire d'une variable.
+			\item<3-> L'opérateur unaire \kw{*}, appelé opérateur de déréférencement, permet en C de récupérer la valeur stockée dans une adresse mémoire. \\
+				\textcolor{BrickRed}{\important} Déréférencer un pointeur \kw{NULL} est un comportement indéfini.
+			\item<4-> Pour résumer : \\
+				\begin{tabularx}{\linewidth}{|c|c|X|}
+					\cline{2-3}
+					\multicolumn{1}{c|}{} & S'applique à   & Permet de                                           \\
+					\hline
+					\kw{\&}               & à une variable & récupérer son adresse                               \\
+					\hline
+					\kw{*}                & à un pointeur  & récupérer la valeur à l'emplacement mémoire désigné \\
+					\hline
+				\end{tabularx}
+			\item<5-> Si \kw{t} est un type du C, par exemple (\kw{int}, \kw{char}, \dots), alors \kw{t *} est du type pointeur vers \kw{t}. Par exemple : \\
+				\onslide<6->{\mintinline{c}{int ma_fonction(int *n)}} \\
+				\onslide<7->{est une fonction qui prend en paramètre l'adresse d'un \kw{int}}
+		\end{itemize}
+	\end{alertblock}
 \end{frame}
 
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{exampleblock}{Exemple 1}
+	\begin{exampleblock}{Exemple 1}
 		\onslide<1->\begin{langageC*}{fontsize=\small}
-int n = 42;
-int p = &n;
-printf("Valeur stockée à l'adresse de p = %d",*p);
-			\end{langageC*}
-			\onslide<2->{\small Dans l'exemple ci-dessus, \kw{p} est un pointeur qui contient l'adresse de \kw{n}.}
-			\onslide<3->{\small Le \kw{printf} affiche le contenu de l'adresse pointée par \kw{p} donc 42.}
-	\end{exampleblock}
-\begin{exampleblock}{Exemple 2}
-	\begin{enumerate}
-		\item<4-> \small Ecrire une fonction {\tt echange} qui prend en argument deux adresses vers des entiers et échange les valeurs de ces deux entiers.
-		\item<5-> \small Ajouter un appel à {\tt echange} dans le programme ci-dessous de façon à échanger les valeurs des variables \kw{a} et \kw{b}. 
-		\onslide<3->\begin{langageC*}{fontsize=\small}
-int a = 42;
-int b = 14;
+			int n = 42;
+			int p = &n;
+			printf("Valeur stockée à l'adresse de p = %d",*p);
 		\end{langageC*}
-	\end{enumerate}
-\end{exampleblock}
+		\onslide<2->{\small Dans l'exemple ci-dessus, \kw{p} est un pointeur qui contient l'adresse de \kw{n}.}
+		\onslide<3->{\small Le \kw{printf} affiche le contenu de l'adresse pointée par \kw{p} donc 42.}
+	\end{exampleblock}
+	\begin{exampleblock}{Exemple 2}
+		\begin{enumerate}
+			\item<4-> \small Ecrire une fonction {\tt echange} qui prend en argument deux adresses vers des entiers et échange les valeurs de ces deux entiers.
+			\item<5-> \small Ajouter un appel à {\tt echange} dans le programme ci-dessous de façon à échanger les valeurs des variables \kw{a} et \kw{b}.
+				\onslide<3->\begin{langageC*}{fontsize=\small}
+					int a = 42;
+					int b = 14;
+				\end{langageC*}
+		\end{enumerate}
+	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Correction de l'exemple}
-	\textcolor{OliveGreen}{\aide} \onslide<2->{Récupérer les valeurs stockées aux adresses \kw{p1} et \kw{p2}.\\}
-	\onslide<3->{\phantom{\aide} Utiliser une variable temporaire et les échanger\\}
-	\onslide<4->{\phantom{\aide} Pour l'appel, récupérer les adresses de {\tt a} et {\tt b}	afin de les passer en paramètres.}
-	\onslide<5->\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/echange.c}{}{\small}
-	\onslide<6->{
-	Pour l'appel : \kw{echange}{\tt (\&a,\&b);}
-	}
+		\textcolor{OliveGreen}{\aide} \onslide<2->{Récupérer les valeurs stockées aux adresses \kw{p1} et \kw{p2}.\\}
+		\onslide<3->{\phantom{\aide} Utiliser une variable temporaire et les échanger\\}
+		\onslide<4->{\phantom{\aide} Pour l'appel, récupérer les adresses de {\tt a} et {\tt b}	afin de les passer en paramètres.}
+		\onslide<5->\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/echange.c}{}{\small}
+		\onslide<6->{
+			Pour l'appel : \kw{echange}{\tt (\&a,\&b);}
+		}
 	\end{exampleblock}
 \end{frame}
 
@@ -285,12 +285,12 @@ int b = 14;
 		\end{itemize}
 	\end{alertblock}
 	\begin{exampleblock}{Exemple}
-			\onslide<4->
-				\begin{langageC}
-double *t =  malloc(sizeof(int)*100); //alloue le bloc mémoire
-t[5] = 12; // affecte la valeur 12 au 6eme élément du bloc
-t[113] = 27; // Comportement indéfini
-				\end{langageC}
+		\onslide<4->
+		\begin{langageC}
+			double *t =  malloc(sizeof(int)*100); //alloue le bloc mémoire
+			t[5] = 12; // affecte la valeur 12 au 6eme élément du bloc
+			t[113] = 27; // Comportement indéfini
+		\end{langageC}
 	\end{exampleblock}
 \end{frame}
 
@@ -319,10 +319,10 @@ t[113] = 27; // Comportement indéfini
 			\item<1-> La fonction \kw{main} d'un programme C peut prendre en arguments un entier habituellement noté \kw{argc} (\textit{argument count}) et un tableau habituellement noté \kw{argv[]} (\textit{argument vector}) de chaines de caractères.
 			\item<2-> Ces arguments doivent alors être fournis à l'exécutable produit lors de la compilation.
 			\item<3-> Ces arguments sont traités comme des chaines de caractères et doivent donc être convertis dans le type adéquat si besoin grâce aux fonctions suivantes disponibles dans \kw{stdlib}.
-			\begin{itemize}
-			\item<4-> La fonction \kw{atoi} (\textit{{\sc ascii} to integer}) permet de convertir une chaine de caractères en un \kw{int}
-			\item<5-> La fonction \kw{atof} (\textit{{\sc ascii} to float}) permet de convertir une chaine de caractères en un \kw{double}
-		\end{itemize}
+				\begin{itemize}
+					\item<4-> La fonction \kw{atoi} (\textit{{\sc ascii} to integer}) permet de convertir une chaine de caractères en un \kw{int}
+					\item<5-> La fonction \kw{atof} (\textit{{\sc ascii} to float}) permet de convertir une chaine de caractères en un \kw{double}
+				\end{itemize}
 
 		\end{itemize}
 	\end{block}
@@ -331,59 +331,59 @@ t[113] = 27; // Comportement indéfini
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple}
-	Ecrire un exécutable {\tt moyenne.exe} en C qui prend en argument sur la ligne de commande des flottants et écrit dans le terminal la moyenne de ces nombres.
-	Par exemple {\tt ./moyenne.exe 12 10.5 16.5} doit écrire  {\tt 13.0}.
-	\onslide<2->{
-		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/moyenne.c}{}{\small}
-	}
+		Ecrire un exécutable {\tt moyenne.exe} en C qui prend en argument sur la ligne de commande des flottants et écrit dans le terminal la moyenne de ces nombres.
+		Par exemple {\tt ./moyenne.exe 12 10.5 16.5} doit écrire  {\tt 13.0}.
+		\onslide<2->{
+			\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/moyenne.c}{}{\small}
+		}
 	\end{exampleblock}
 \end{frame}
 
 \makess{Types structurés}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{block}{Définitions}
-	\begin{itemize}
-	\item<1-> On peut définir en C, des types structurés, appelé \kw{struct} composés de plusieurs champs.
-	\item<2-> La syntaxe générale de définition d'un type structuré est :
-	\begin{langageC}
-struct nom_type_struct {
-	type1 elt1;
-	type2 elt2;
-	...}
-	\end{langageC}
-	\item<3-> Un nom de type (qui peut être celui du {\tt struct}) peut être associé à un type structuré de façon à y faire référence plus rapidement.\\
-	\mintinline{c}{typedef struct nom_type_struct nom_type}
-\end{itemize}
-\end{block}
+	\begin{block}{Définitions}
+		\begin{itemize}
+			\item<1-> On peut définir en C, des types structurés, appelé \kw{struct} composés de plusieurs champs.
+			\item<2-> La syntaxe générale de définition d'un type structuré est :
+				\begin{langageC}
+					struct nom_type_struct {
+					type1 elt1;
+					type2 elt2;
+					...}
+				\end{langageC}
+			\item<3-> Un nom de type (qui peut être celui du {\tt struct}) peut être associé à un type structuré de façon à y faire référence plus rapidement.\\
+				\mintinline{c}{typedef struct nom_type_struct nom_type}
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{exampleblock}{Exemple}
-	Pour créer le type structuré \kw{personne\_struct} contenant les trois champs nom (chaine de caractères), poids et taille (float) :
+	\begin{exampleblock}{Exemple}
+		Pour créer le type structuré \kw{personne\_struct} contenant les trois champs nom (chaine de caractères), poids et taille (float) :
 		\begin{langageC}
-struct personne_struct {
-	char nom[50];
-	poids float;
-	taille float;
-}
+			struct personne_struct {
+			char nom[50];
+			poids float;
+			taille float;
+			}
 		\end{langageC}
-	On peut donner un nom à ce type : \\
-	\mintinline{c}{typedef struct personne_struct personne;}
-\end{exampleblock}
+		On peut donner un nom à ce type : \\
+		\mintinline{c}{typedef struct personne_struct personne;}
+	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Déclaration, lecture et écriture d'un champ}
-	\begin{itemize}
-		\item<1-> La déclaration d'un variable de type personne peut se faire maintenant avec : \\
-		\mintinline{c}{personne bruce_banner;}
-		\item<2-> Eventuellement avec initialisation immédiate avec la notation \kw{\{} et \kw{\{} déjà rencontré sur les tableaux : \\
-		\mintinline{c}{personne hulk = {.nom="Hulk",.poids = 635,.taille=2.43};}
-		\item<3-> On accède aux champs avec la notion \kw{.}, pour les lire comme par exemple :\\
-		\mintinline{c}{imc_hulk = hulk.poids / (hulk.taille*hulk.taille);}
-		\item<4-> Ou pour les modifier, comme par exemple : \\
-		\mintinline{c}{bruce_banner.taille = 1.75;}
-	\end{itemize}
+		\begin{itemize}
+			\item<1-> La déclaration d'un variable de type personne peut se faire maintenant avec : \\
+				\mintinline{c}{personne bruce_banner;}
+			\item<2-> Eventuellement avec initialisation immédiate avec la notation \kw{\{} et \kw{\{} déjà rencontré sur les tableaux : \\
+				\mintinline{c}{personne hulk = {.nom="Hulk",.poids = 635,.taille=2.43};}
+			\item<3-> On accède aux champs avec la notion \kw{.}, pour les lire comme par exemple :\\
+				\mintinline{c}{imc_hulk = hulk.poids / (hulk.taille*hulk.taille);}
+			\item<4-> Ou pour les modifier, comme par exemple : \\
+				\mintinline{c}{bruce_banner.taille = 1.75;}
+		\end{itemize}
 	\end{exampleblock}
 \end{frame}
 
@@ -408,27 +408,27 @@ struct personne_struct {
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-		\begin{exampleblock}{Correction}
-			\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/personne2.c}{}{\footnotesize}
-		\end{exampleblock}
+	\begin{exampleblock}{Correction}
+		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/personne2.c}{}{\footnotesize}
+	\end{exampleblock}
 \end{frame}
 
 \makess{Fichiers}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-		\begin{block}{Manipulation des fichiers en C}
-			\begin{itemize}
-				\item<1-> L'ouverture d'un fichier se fait à l'aide de \kw{fopen} qui prend comme arguments le nom du fichier et le mode d'ouverture :
+	\begin{block}{Manipulation des fichiers en C}
+		\begin{itemize}
+			\item<1-> L'ouverture d'un fichier se fait à l'aide de \kw{fopen} qui prend comme arguments le nom du fichier et le mode d'ouverture :
 				\begin{itemize}
-					\item<2-> \kw{"r"} pour un accès en lecture 
+					\item<2-> \kw{"r"} pour un accès en lecture
 					\item<3-> \kw{"w"} pour un accès en écriture (le fichier est détruit s'il existait)
 				\end{itemize}
-				\item<4-> Cette fonction renvoie un pointeur vers un objet de type \kw{FILE} qui correspond à un flux de données sur lequel on peut lire ou écrire.
-				\item<5-> Les fonctions \kw{fscanf}  et \kw{fprint} permet respectivement de lire et d'écrire sur le flux de données.
-				\item<6-> Dans les deux cas, il faut fournir en argument le flux de données ainsi que les spécificateurs de format des données à lire et un pointeur vers les variables lues/écrites.
-				\item<7-> La valeur spéciale \kw{EOF} est renvoyée par \kw{scanf} lorsque la fin du fichier est atteinte.
-				\item<8-> Pour fermer un fichier, on utilise \kw{fclose}.
-			\end{itemize}
-		\end{block}
+			\item<4-> Cette fonction renvoie un pointeur vers un objet de type \kw{FILE} qui correspond à un flux de données sur lequel on peut lire ou écrire.
+			\item<5-> Les fonctions \kw{fscanf}  et \kw{fprint} permet respectivement de lire et d'écrire sur le flux de données.
+			\item<6-> Dans les deux cas, il faut fournir en argument le flux de données ainsi que les spécificateurs de format des données à lire et un pointeur vers les variables lues/écrites.
+			\item<7-> La valeur spéciale \kw{EOF} est renvoyée par \kw{scanf} lorsque la fin du fichier est atteinte.
+			\item<8-> Pour fermer un fichier, on utilise \kw{fclose}.
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -436,22 +436,22 @@ struct personne_struct {
 		\small On suppose qu'un fichier {\tt entiers.txt} contient des entiers séparés par des espaces.
 		\begin{itemize}
 			\item<1-> \small Ecrire l'instruction permettant d'ouvrir ce fichier en mode lecture
-			\onslide<2->\begin{langageC*}{fontsize=\small}
-FILE *fichier = fopen("entiers.txt","r"); 
-		\end{langageC*}
+				\onslide<2->\begin{langageC*}{fontsize=\small}
+					FILE *fichier = fopen("entiers.txt","r");
+				\end{langageC*}
 			\item<2-> \small Déclarer deux entiers {\tt n} (qui va contenir les entiers lus) et {\tt somme} initialisé à 0.
-			\onslide<4->\begin{langageC*}{fontsize=\small}
-int n, somme = 0;
-			\end{langageC*}
+				\onslide<4->\begin{langageC*}{fontsize=\small}
+					int n, somme = 0;
+				\end{langageC*}
 			\item<3-> \small Ecrire une boucle while permettant de lire chacun des entiers jusqu'à la fin du fichier et d'en faire la somme dans la variable {\tt somme}
-			\onslide<4->\begin{langageC*}{fontsize=\small}
-while (fscanf(fichier,"%d",&n)!=EOF) {
-	somme = somme + n;}
-			\end{langageC*}
-			\item<5->\small Ecrire l'instruction permettant de fermer le fichier
-			\onslide<6->\begin{langageC*}{fontsize=\small}
-fclose(fichier);
-			\end{langageC*}
+				\onslide<4->\begin{langageC*}{fontsize=\small}
+					while (fscanf(fichier,"%d",&n)!=EOF) {
+					somme = somme + n;}
+				\end{langageC*}
+				\item<5->\small Ecrire l'instruction permettant de fermer le fichier
+				\onslide<6->\begin{langageC*}{fontsize=\small}
+					fclose(fichier);
+				\end{langageC*}
 		\end{itemize}
 	\end{exampleblock}
 \end{frame}
@@ -461,5 +461,81 @@ fclose(fichier);
 		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/somme.c}{}{\small}
 	\end{exampleblock}
 \end{frame}
+
+\makess{Compilation séparée}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Principe}
+		\begin{itemize}
+			\item<1-> De la même façon que certaines fonctions du langage C sont écrites dans des modules séparés et inclus à l'aide de la directive {\tt \#include} en début de programme, on peut écrire ses propres modules et y écrire des fonctions destinées à être réutilisées dans différents programmes.
+			\item<2-> Ces modules peuvent être \textcolor{blue}{compilés séparément}, ce qui induit de nombreux avantages (réduction de la taille du programme principal, structuration de l'application, maintenance facilitée du programme, \dots)
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Méthode}
+		\begin{itemize}
+			\item<2-> On commence par simplement écrire les signatures des fonctions dans un fichier {\tt <module.h>}. C'est le fichier d'en-tête (le \kw{h} vient de l'anglais \textit{header}).
+			\item<3-> Les corps des fonctions sont  écrites dans {\tt <module.c>} et ce fichier est compilé de façon à obtenir un fichier objet \kw{module.o} grâce à l'option \kw{-c} de {\tt gcc}.
+			\item<4-> Dans le programme principal utilisant le module, on écrit au début \mintinline{c}{#include "module.h"} ce qui permet de faire référence à ces fonctions sans déclencher de \textit{warning} à la compilation. \\
+				\onslide<5->\textcolor{BrickRed}{\small \danger} Ce sont bien des guillemets et pas \kw{<} et \kw{>}. \\
+			\item<5-> Le programme principal est lui aussi compilé avec l'option \kw{-c} de {\tt gcc} afin de produire un fichier \kw{main.o}.
+			\item<6-> Enfin, on lie ensemble les deux fichiers objets pour produire l'exécutable grâce à la ligne de compilation :\\
+				\onslide<6-> {\tt gcc \textcolor{blue}{module.o  main.o} -o main.exe}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Schéma des étapes d'une compilation séparée}
+		\renewcommand{\arraystretch}{3}
+		\begin{tabular}{cccc|c|}
+			 \cline{5-5}
+			\rnode{MH}{\textcolor{blue}{\fbox{\makebox[2cm]{\tt \small \faFile* \; module.h}}}} & \hspace{1cm} & \rnode{PC}{\textcolor{blue}{\fbox{\makebox[2cm]{\tt \small \faFile* \; main.c}}}}   & \hspace{1cm} & \rnode{PO}{\textcolor{Sepia}{\fbox{\makebox[2cm]{\tt \small \faFileArchive \; main.o}}}} \\
+			                                       &              & \rnode{MC}{\textcolor{blue}{\fbox{\makebox[2cm]{\tt \small \faFile* module.c}}}} & \hspace{1cm} & \rnode{MO}{\textcolor{Sepia}{\fbox{\makebox[2cm]{\tt \small \faFileArchive\; module.o}}}}      \\
+			\cline{5-5}
+			& & & \multicolumn{1}{c}{}&\multicolumn{1}{c}{}  \\
+			& & & \multicolumn{1}{c}{}& \multicolumn{1}{c}{\rnode{EX}{\textcolor{BrickRed}{\fbox{\makebox[2cm]{\tt \small \faCogs \; main.exe}}}}} \\
+		\end{tabular}
+		\onslide<2->{\ncline[doubleline=true,doublesep=2pt,doublecolor=gray,linecolor=gray,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{MH}{PC} \naput[labelsep=0cm]{{\scriptsize \tt \#include}}}
+		\onslide<3->{\ncline[doubleline=true,doublesep=2pt,doublecolor=OliveGreen,linecolor=OliveGreen,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{PC}{PO} \naput[labelsep=0cm]{{\scriptsize \tt gcc -c}}}
+		\onslide<4->{\ncline[doubleline=true,doublesep=2pt,doublecolor=OliveGreen,linecolor=OliveGreen,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{MC}{MO} \naput[labelsep=0cm]{{\scriptsize \tt gcc -c}}}
+		\onslide<5->{\ncline[nodesepA=0.2cm,doubleline=true,doublesep=2pt,doublecolor=OliveGreen,linecolor=OliveGreen,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{MO}{EX} \naput[labelsep=0cm]{{\scriptsize \tt gcc}}}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		\begin{itemize}
+		\item<1-> Des types composés \kw{struct} peuvent être définis dans le fichier d'en-tête sans donner leur structure. Ce point sera détaillé plus loin dans le cours lorsqu'on abordera les structures de données.
+		\item<2-> Afin d'éviter des redondances, on peut spécifier dans le fichier d'en-tête
+		\begin{langageC}
+#ifndef NONMODULE
+#define NONMODULE
+// ici définition des signatures des fonctions
+// et ici des types structurés éventuels
+#endif
+		\end{langageC}
+		Cela évite d'avoir des problèmes en cas de double inclusion malheureuse du même fichier.
+		\item<3-> Afin d'éviter des conflits entre des fonctions portant le même nom et définie dans des modules ou dans le programme principale, on peut prefixer tous les noms de fonctions ou de type d'un module par le nom de ce module.
+	\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{exampleblock}{Un exemple}
+	On décide de créer un module \kw{entiers} afin d'y définir des fonctions usuelles sur les entiers non présentes en C. Par exemple le calcul de puissances ou encore le calcul du {\sc pgcd} :
+	\begin{enumerate}
+		\item<2-> On commence par créer \kw{entiers.h} et y écrire les signatures de nos fonctions \\
+		\onslide<3->{\tt On y trouvera par exemple \mintinline{c}{int entiers_puissance(int a, int n);}}
+		\item<3-> On crée le fichier \kw{entiers.c} qui contient ces fonctions et on le compile avec \kw{gcc -c entiers.c}, cela produit un fichier {\tt entiers.o}
+		\item<4-> Dans le programme principal on inclus le fichier \kw{entiers.h} avec : \\
+		\mintinline{c}{#include "entiers.h"}
+		\item<5-> On compile le programme principal avec \kw{gcc -c main.c}, cela produit un fichier {\tt main.o}
+		\item<6-> Enfin, on produit l'executable grâce à la compilation \kw{gcc main.o entiers.o -o main.exe}
+	\end{enumerate}
+\end{exampleblock}
+\end{frame}
+
 \end{document}
 

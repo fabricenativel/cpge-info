@@ -4,8 +4,7 @@
 
 {{ titre_chapitre(num,niveau)}}
 
-{{ citation("In order to understand recursion, one must first understand recursion.
-","Anonyme")}}
+{{ citation("An industrial-strength functional programming language with an emphasis on expressiveness and safety","ocaml.org","[Site officiel d'OCaml](https://ocaml.org/)")}}
 
 ## Cours
 

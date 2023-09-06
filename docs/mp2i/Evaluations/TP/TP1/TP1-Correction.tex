@@ -1,0 +1,74 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TPnote{1}{Systèmes -- Langage C}
+
+%Nom de la première activité
+\setcounter{Exercise}{0}
+\begin{Exercise}[title={Ligne de commande}]
+\Question{Compléter le tableau suivant qui donne quelques commandes et leur signification
+\begin{center}
+    \renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{\linewidth}{|c|X|}
+    \hline
+    {\tt cd \~{}} & \cor{Le répertoire courant devient le répertoire de l'utilisateur} \\
+    \hline
+    \cor{\tt mkdir exo1} & Créer le répertoire {\tt exo1} \\
+    \hline
+    \cor{\tt touch rep.txt} & Créer le fichier vide  {\tt rep.txt} \\
+    \hline
+    {\tt chmod 640 rep.txt} & \cor{Les droits sur {\tt rep.txt} deviennent {\tt rw-r-{}-{}-{}-{}-{}}} \\
+    \hline
+    \cor{chmod u+x rep.text} & Ajouter le droit d'exécution pour l'utilisateur sur le fichier {\tt rep.txt} \\
+    \hline
+    \cor{\tt echo Bonjour > rep.txt} & Ecrire "Bonjour" dans le fichier {\tt rep.txt} \\
+    \hline
+    {\tt cp rep.txt \~{}/Sauvegardes} & \cor{\tt Copier rep.txt dans le dossier \~{}/Sauvegardes} \\
+    \hline
+    \cor{\tt ls -a} & Lister les fichiers (y compris les fichiers cachés) \\
+    \hline
+\end{tabularx}
+\end{center}}
+\Question{Donner la commande permettant de créer un lien physique et expliquer rapidement la différence avec un lien symbolique.\\
+\renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{\linewidth}{|X|}
+    \hline
+    \cor{La commande permettant de créer un lien physique est {\tt ln} et celle permettant de créer un lien symbolique est {\tt ln -s}. Lors de la création d'un lien symbolique on obtient deux références vers le même fichier. Un lien symbolique par contre est un simple raccourci.} \\
+    \hline
+\end{tabularx}
+}
+\Question{On souhaite déplacer tous les fichiers du répertoire courant ayant l'extension {\tt .c} vers le dossier {\tt SourcesC} qui se trouve dans le répertoire parent. Quelle commande faut-il écrire ?\\
+\renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{\linewidth}{|X|}
+    \hline
+    \cor{\tt mv *.c ../SourcesC}\\
+    \hline
+\end{tabularx}
+}
+\end{Exercise}
+
+\begin{Exercise}[title={Programmation en C}]
+    \alertbox{\danger}{Attention}{Pour cet exercice, vous travaillerez à partir des fichiers {\tt ex2\_question1.c} et  {\tt ex2\_question2.c} qui se trouvent dans votre répertoire personnel du lycée. Ces fichier seront automatiquement récupérés en fin d'évaluation, n'oubliez pas de sauver régulièrement.}
+\Question{Calcul d'une somme  }
+\subQuestion{Compléter le fichier {\tt ex2\_question1.c} en y écrivant le code d'une fonction  {\tt divisible} prenant en argument deux entiers $n$ et $p$ et qui renvoie $true$ si $p$ divise $n$ et $false$ sinon.}
+\subQuestion{A l'aide de la fonction précédente, calculer la somme des entiers strictement inférieurs à \numprint{10 000} et divisible par 3 ou 7 et donner la réponse trouvée par votre programme: \fbox{\makebox[3cm]{\cor{\numprint{21426429}}}}
+}
+\Question{Manipulation de tableaux}
+\subQuestion{Ecrire le fichier {\tt ex2\_question2.c} une fonction {\tt etendue} qui prend en argument un tableau  et sa taille et renvoie l'écart maximal entre deux éléments de ce tableau. Par exemple, sur le tableau {\tt int ex[7] = \{1, 5, 3, 0, -1, 4, 8 \}}, la fonction {\tt etendue} doit renvoyer {\tt 9}.}
+\subQuestion{Créer un tableau  {\tt int un[100]} de taille 100 et à l'aide d'une boucle, l'initialiser avec les valeurs prises par la suite $(u_n)_{n \in \N}$ de terme général $u_n = n^2 - 133n + 3822$ pour $n=0 \dots 99$. C'est à dire que {\tt tab[i]} doit contenir la valeur de $u_i$ (pour $i \in \intN{0}{99}$), par exemple {\tt tab[0]=3822}.}
+\subQuestion{Déterminer l'écart maximal entre deux éléments du tableau {\tt tab} défini à la question précédente et donner la réponse trouvée par votre programme : \fbox{\makebox[3cm]{\cor{\numprint{4422}}}}
+}
+\end{Exercise}
+
+Programme pour la  question 1
+    \inputC{cor_ex2_question1.c}{\normalsize}
+Programme pour la question 2
+    \inputC{cor_ex2_question2.c}{\normalsize}
+
+
+\end{document}

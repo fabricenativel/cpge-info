@@ -18,3 +18,15 @@ hide: - navigation  in liens.md
 * [CPGE-SII](http://www.cpge-sii.com/informatique/itc2/){target=_blank}
 * [PC* Lycée Berthelot (Jean-Pierre Becirspahic)](https://pc-etoile.schola.fr/cours/){target=_blank}
 * [Cours d'ITC2 Julien Reichert](http://jdreichert.fr/Enseignement/CPGE/){target=_blank}
+
+## Concours et initiation ludiques à la programmation
+* [py-rates](https://py-rates.fr/){target=_blank} résoudre les huit niveaux d'un jeu de plateau à l'aide de programmes en python.
+* [France IOI](http://www.france-ioi.org/){target=_blank} : site d'entraînement et de découverte de la programmation et de l'algorithmique.
+* [Concours Algorea](http://algorea.org){target=_blank} : le site du concours de programmation organisé chaque année par France IOI.
+* [Checkio](https://checkio.org/){target=_blank} : un site de découverte ludique de la programmation (en anglais).
+* [Alkindi](http://www.concours-alkindi.fr/#/){target=_blank} : découverte de la cryptographie.
+* [Projet Euler](https://projecteuler.net/){target=_blank} : un site d'exercices de programmation autour des mathématiques (an anglais). 
+* [Prologin](https://prologin.org/){target=_blank} : concours de programmation.
+* [Python Challenge](http://www.pythonchallenge.com/){target=_blank} : un site d'énigmes à résoudre en utilisant Python (en anglais).
+* [Codingame](https://www.codingame.com/){target=_blank} : site de défi de programmation, attention le niveau est élevé.
+* [Advent of Code](https://adventofcode.com/){target=_blank} : Tous les ans depuis 2015, le site propose un calendrier de l'avent sous la forme d'un puzzle de programmation à résoudre par jour dans le langage de son choix. Le niveau devient élevé dès qu'on passe les premiers jours !

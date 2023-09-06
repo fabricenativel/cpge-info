@@ -4,6 +4,31 @@
 
 # define SIZE 4
 
+// Echange les éléments situés aux indices i et j dans le tableau tab
+void echange(int tab[],int i, int j, int taille)
+{   assert(i<taille && j<taille);
+    int temp;
+    temp = tab[i];
+    tab[i] = tab[j];
+    tab[j] = temp;
+}
+
+// Renvoie l'indice du minimum des éléments de tab depuis l'indice ind
+int min_depuis(int tab[],int taille,int ind)
+{   
+    int vmin = tab[ind];
+    int imin = ind;
+    for (int i=ind;i<taille;i++)
+    {
+        if (tab[i]<vmin )
+        {
+            imin = i;
+            vmin = tab[i];
+        }
+    }
+    return imin;
+}
+
 
 int tous_egaux(int n)
 {
@@ -17,30 +42,6 @@ int tous_egaux(int n)
     }
     return (n/div == chiffre);
 
-}
-
-// Min depuis, renvoie l'indice du minimum des éléments de tab depuis l'indice ind
-int min_depuis(int tab[],int size,int ind)
-{
-    int vmin = tab[ind];
-    int imin = ind;
-    for (int i=ind;i<size;i++)
-    {
-        if (tab[i]<vmin )
-        {
-            imin = i;
-            vmin = tab[i];
-        }
-    }
-    return imin;
-}
-
-void echange(int tab[],int i, int j)
-{
-    int temp;
-    temp = tab[i];
-    tab[i] = tab[j];
-    tab[j] = temp;
 }
 
 // Tri en place un tableau par sélection
@@ -89,7 +90,7 @@ int kaprekar(int n){
 }
 
 
-bool show(int n,bool view)
+int show(int n,bool view)
 {
     int iter = 0;
     int kn;
@@ -100,16 +101,20 @@ bool show(int n,bool view)
         {
         printf("K%d=",iter);
         printf("%d\n",kn);}}
-    return true;
+    return kn;
 }
 
 int main()
 {   
-    for (int i=0;i<10000;i++)
+    int n;
+    int kn;
+    printf("n=");
+    scanf("%d",&n);
+    kn = kaprekar(n);
+    while (kn!=n) 
     {
-        if (!tous_egaux(i) && show(i,false))
-        {
-            printf("%d : ok\n",i);
-        }
+        printf("%d\n",kn);
+        n = kn;
+        kn = kaprekar(n);
     }
 }

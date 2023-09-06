@@ -162,7 +162,35 @@ Ecrire un programme qui prend en argument un entier $1 \leq n \leq 10$ et affich
     * On pourra utiliser deux tableaux, l'un représentant la ligne précédente et un second la ligne en cours de construction.
 
 
-{{ exo("Crible d'Erastothène",["dur"]) }}
+{{ exo("Tri par insertion",[]) }}
+
+L'algorithme du *tri par insertion* permet de trier en place un tableau de taille $n$. Le principe est de considérer qu'à l'étape $i$,  la partie du tableau située avant l'indice $i$ est **déjà triée** et on insère l'élément situé à la position d'indice $i$ à la bonne position dans cette partie. Pour réaliser cette insertion, on échange l'élément d'indice $i$ avec son voisin de gauche tant qu'il lui est supérieur et que le début de liste n'est pas atteint.  
+Par exemple sur la tableau $\{12, 10, 18, 11, 14\}$ et en délimitant la partie triée par le symbole $\textcolor{red}{|}$:
+
+* Etape 0 : la partie situé avant l'indice 0 est vide (donc déjà triée), on y insère le 12 : $\{\textcolor{green}{12}, \textcolor{red}{|} 10, 18, 11, 14\}$ 
+* Etape 1 : on insère l'élément d'indice 1 dans la partie trié, pour cela on l'échange avec son voisin tant qu'il lui est inférieur (et que le début de la liste n'est pas atteint) :
+    * $\{12,  \textcolor{green}{10} \textcolor{red}{|} , 18, 11, 14\}$ échange car $10<12$
+    * $\{\textcolor{green}{10},  12 \textcolor{red}{|} , 18, 11, 14\}$ on s'arrête car le début de liste est atteint
+* Etape 2 : on répète le processus avec l'élément d'indice 2 :
+    * $\{10,  12  , \textcolor{green}{18} \textcolor{red}{|}, 11, 14\}$ aucun échange à réaliser car $12<18$
+* Etape 3 : on répète le processus avec l'élément d'indice 3 :
+    * $\{10,  12  , 18,  \textcolor{green}{11}\textcolor{red}{|}, 14\}$  échange  car $11<18$
+    * $\{10,  12  , \textcolor{green}{11}, 18  \textcolor{red}{|}, 14\}$  échange  car $11<12$
+    * $\{10,  \textcolor{green}{11}, 12  ,  18  \textcolor{red}{|}, 14\}$  arrêt   car $11>10$
+* Etape 4 : on répète le processus avec l'élément d'indice 4 :
+    * $\{10,  11, 12  ,  18  , \textcolor{green}{14}\textcolor{red}{|}\}$  echange   car $14<18$
+    * $\{10,  11, 12  ,  \textcolor{green}{14}, 18   \textcolor{red}{|}\}$  arrêt   car $14>12$
+
+Le but de l'exercice est de programmer cet algorithme de tri en C.
+
+1. Ecrire une fonction `echange` qui prend en argument un tableau `tab`, deux entiers `i` et `j` et qui échange les éléments d'indice `i` et `j` de ce tableau. On pourra dans un second temps passer aussi en argument la taille du tableau et vérifier que `i` et `j` sont bien inférieurs à cette taille avant de procéder à l'échange.
+
+2. Ecrire une fonction `insere` qui prend en argument un tableau `tab` et un indice `i` et qui insère l'élément d'indice `i` à la bonne place dans la partie du tableau situé avant l'indice `i` *en suposant que cette partie est triée*. On rappelle que cette insertion s'effectue en echangeant l'élément avec son voisin de gauche tant qu'il lui est inférieur et que le début du tableau n'est pas atteint.  
+Par exemple si `tab={5,7,11,6,19,7}` alors après `insere(tab,3)` `tab{5,6,7,11,19,7}`.
+
+3. Ecrire une fonction `tri_insertion` qui prend en argument un tableau et sa taille et le trie à l'aide de l'algorithme du tri par insertion.
+
+{{ exo("Crible d'Erastothène",[]) }}
 
 On rappelle qu'un nombre premier est un entier naturel ayant exactement deux diviseurs 1 et lui-même, ainsi 13 est premier mais pas 15. Le [crible d'Erastothène](https://fr.wikipedia.org/wiki/Crible_d%27%C3%89ratosth%C3%A8ne) est un algorithme permettant de trouver tous les nombres premiers inférieurs ou égaux à un entier `n` donné. 
 

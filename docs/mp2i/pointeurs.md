@@ -277,6 +277,36 @@ On répondra aux questions suivantes en écrivant au fur et à mesure le program
 4. Ecrire la fonction `addition` qui prend en argument deux fractions et renvoie leur somme.
 5. Faire de même pour les autres opérations de base.
 
+{{ exo("Compilation séparée",[] )}}
+
+On trouvera sur [cette page](https://w3.cs.jmu.edu/lam2mo/cs240_2015_08/turtle.html){target=_blank}, les fichiers `turtle.c` et `turtle.h` qui définissent une implémentation simple du dessin à l'aide d'une tortue graphique comme dans le [langage logo](https://fr.wikipedia.org/wiki/Logo_(langage)){target=_blank}. C'est à dire qu'on peut dessiner en bougeant à l'étude d'une "tortue" qui se déplace, avance, tourne, ... 
+
+!!! warning "Attention"
+    Le module `turtle` utilise le module `<math.h>`, avec gcc il faudra donc utiliser l'option `-lm` pour lier le module math lors de la compilation finale.
+
+1. En utilisant la méthode de compilation séparée vue en cours, compiler le programme suivant qui utilise la librairie `turtle.h`. Puis visualiser l'image produite (`carre.bmp`) pour vérifier que tout s'est bien passé.
+    
+    !!! langageC "Dessin avec turtle"
+        ```C
+        --8<-- "C3/test_turtle.c"
+        ```
+
+2. En vous inspirant de l'exemple précédent, réaliser le dessin ci-dessous, sachant que  l'image est de dimension 500x500 et que les carrés sont tous de côté 150 et qu'il sont tracés depuis l'origine en inclinant de multiples de 10° par rapport à l'horizontale.
+
+![carres](./files/C3/carre2.bmp){.imgcentre width=500px}
+
+{{ exo("Module complexe",[])}}
+
+1. Ecrire le fichier d'entête d'un module `complexe` dans lequel on définit ;
+    * le type `struct complexe` qui représente un complexe sous forme algébrique composé de deux champs de type double (`reel` et `imaginaire`)
+    * les opérations usuelles addition, soustraction, multiplication et division sur ce type
+    * la fonction `module` qui renvoie le module d'un complexe sous la forme d'un `double`
+
+2. Ecrire l'implémentation de ces fonctions dans le module `complexe.c` et compiler sous la forme d'un fichier objet.
+
+3. Dans un fichier `test_complexe.c`, inclure le fichier d'en-tête et tester votre module.
+    
+
 ## Humour d'informaticien
 
 {{ citation("1972 - Dennis Ritchie invents a powerful gun that shoots both forward and backward simultaneously. Not satisfied with the number of deaths and permanent maimings from that invention he invents C and Unix.","James Iry","[blog](http://james-iry.blogspot.com/2009/05/brief-incomplete-and-mostly-wrong.html?m=1)")}}

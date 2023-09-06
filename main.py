@@ -1,3 +1,5 @@
+import datetime
+
 def define_env(env):
     "Hook function"
 
@@ -100,6 +102,23 @@ def define_env(env):
         ligne+=f"<span style='float:right;'>{icone}</span>"
         return ligne
 
+    # Affichage du titre TP noté
+    @env.macro
+    def tpnote(numero,titre):
+        # Position de l'ancre pour repérage dans la page
+        ligne=f"# <span class='numeval'>TP{numero}</span> {titre}"
+        ligne+="<span style='float:right;'>:fontawesome-solid-circle-check:{title='TP noté'}</span>"
+        return ligne
+    
+    # Affichage titre DM
+    @env.macro
+    def dm(numero,titre):
+        ligne=f"# <span class='numeval'>dm{numero}</span> {titre} "
+        ligne+="<span style='float:right;'>:material-home-search:{title='Devoir maison'}</span>"
+        return ligne
+
+
+
     # Affichage téléchargement diaporama de cours
     @env.macro
     def cours(num):
@@ -167,3 +186,51 @@ def define_env(env):
             table+='</tr>'
         table += '</table>'
         return table
+
+    # Affichage de la liste des TP construite depuis le csv
+    @env.macro
+    def liste_tp(niveau):
+        aff="\n"
+        aff+= "|N° | Thèmes| Titre | Enoncé| Corrigé |\n"
+        aff+= "|:-:|:-----:|-------|:-----:|:-----:|\n"
+        FNAME = f"./tp{niveau}.csv"
+        today = datetime.date.today()
+        with open(FNAME,"r",encoding="utf-8") as f:
+            nums=1
+            for s in f:
+                ico = ""
+                lf=s.split(";") 
+                y,m,d = tuple(map(int,lf[3].split("/")))
+                publish_date = datetime.date(y,m,d)
+                for theme in lf[2]:
+                    ico = ico + env.variables["themes_"+niveau][int(theme)][1]
+                if publish_date <= today:
+                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../Evaluations/TP/TP{lf[0]}/TP{lf[0]}.pdf) | [:fontawesome-solid-file-circle-check:](../Evaluations/TP/TP{lf[0]}/TP{lf[0]}-Correction.pdf)  |\n"
+                else:
+                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../Evaluations/TP/TP{lf[0]}/TP{lf[0]}.pdf) | {publish_date.day}/{publish_date.month}/{publish_date.year}  |\n"
+                nums+=1
+        return aff
+    
+    # Affichage de la liste des DM construite depuis le csv
+    @env.macro
+    def liste_dm(niveau):
+        aff="\n"
+        aff+= "|N° | Thèmes| Titre | Enoncé| Corrigé |\n"
+        aff+= "|:-:|:-----:|-------|:-----:|:-------:|\n"
+        FNAME = f"./dm{niveau}.csv"
+        today = datetime.date.today()
+        with open(FNAME,"r",encoding="utf-8") as f:
+            nums=1
+            for s in f:
+                ico = ""
+                lf=s.split(";")
+                y,m,d = tuple(map(int,lf[3].split("/")))
+                publish_date = datetime.date(y,m,d)
+                for theme in lf[2]:
+                    ico = ico + env.variables["themes_"+niveau][int(theme)][1]
+                if publish_date <= today:
+                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../Evaluations/DM/DM{lf[0]}/) | [:fontawesome-solid-file-circle-check:](../Evaluations/DM/DM{lf[0]}-Correction/)|\n"
+                else:
+                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../Evaluations/DM/DM{lf[0]}/) | {publish_date.day}/{publish_date.month}/{publish_date.year}|\n"
+                nums+=1
+        return aff
