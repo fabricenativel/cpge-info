@@ -65,7 +65,7 @@ Le but de cette partie est de programmer cet algorithme en C.
 
 ## Partie III : Faire une itération
 
-1. Ecrire une fonction `retourne` qui prend en argument un tableau `tab`, sa taille `t` et retourne en place ce tableau. Par exemple si `tab = { 2, 7, 8, 9}` alors après l'appel `retourne(tab,4)`, le contenu de `tab` sera `tab = { 9, 8, 7, 2}`.
+1. Ecrire une fonction `retourne` qui prend en argument deux tableau `tab`, et `rtab` de même taille `t` et rempli `rtab` avec le contenu de `tab` dans l'ordre inverse . Par exemple si `tab = { 2, 7, 8, 9}` alors après l'appel `retourne(tab,rtab, 4)`, le contenu de `rtab` sera `{ 9, 8, 7, 2}`.
 
 2. Ecrire une fonction `valeur` qui prend en argument un tableau `tab`, sa taille `t` et l'entier dont les chiffres en base 10 sont les éléments de `tab`, par exemple si `tab = {2, 0, 2, 3}` alors `valeur(tab,4)` renvoie l'entier `2023`.
 
