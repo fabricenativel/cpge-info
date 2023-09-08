@@ -1,4 +1,5 @@
 import datetime
+from hashlib import sha256
 
 def define_env(env):
     "Hook function"
@@ -34,6 +35,7 @@ def define_env(env):
     
     env.variables['devant_exo']=':black_small_square:'
     env.variables['num_exo']=1
+    env.variables['num_rep']=1
 
     # Progression : Thème, Titre, durée, fichiers
     env.variables['progression_mp2i_s1']={
@@ -234,3 +236,20 @@ def define_env(env):
                     aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../Evaluations/DM/DM{lf[0]}/) | {publish_date.day}/{publish_date.month}/{publish_date.year}|\n"
                 nums+=1
         return aff
+    
+    @env.macro
+    def check_reponse(reponse,reset=1):
+        if reset==0:
+            env.variables['num_rep']=1    
+        idquestion =  'q'+str(env.variables['num_rep'])
+        hasrep = sha256(reponse.encode('utf-8')).hexdigest()
+        idimg = idquestion+'img'
+        to_disp=f'''
+<input type="text" id="{idquestion}" class="text-input-neutral"> <img id="{idimg}" src="https://fabricenativel.github.io/cpge-info/images/circle-question.svg" width="24px" style="vertical-align:middle"> 
+<input type="button" value="valider" class="repbutton" onclick="check('{idquestion}','{hasrep}')">
+<input type="button" value="reset" class="repbutton" onclick="imgreset('{idquestion}')">
+'''
+        env.variables['num_rep']=env.variables['num_rep']+1
+        return to_disp
+    
+

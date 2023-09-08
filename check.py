@@ -40,7 +40,6 @@ for niv in NIVEAU:
                                 print(f"\t  A publier : fichier non trouvé la sauvegarde")
                     else:
                         print(f"\t * La correction du {type}{devoir[0]} {devoir[1]} ne peut PAS être publié")
-                        print(corrige)
                         if os.path.isfile(corrige):
                             print(f"\t   Le fichier de correction existe et doit être déplacé avant le pull")
                             os.popen(f"mv {corrige} {save}")

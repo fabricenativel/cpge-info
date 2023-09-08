@@ -88,9 +88,13 @@ int kaprekar(int n){
 }
 ```
 
+
+
+
 4. Ajouter les instructions `assert` permettant de vérifier les préconditions  sur `n`, c'est à dire que $n \in \left[\!\left[0;9999\right]\!\right]$ et n'a pas tous ces chiffres égaux.
 
 ## Partie IV : Preuve numérique de la conjecture
 
 1. Vérifier, grâce à un programme en C, la conjecture établie dans la première partie.
 2. Donner le nombre maximal d'itérations nécessaire avant d'obtenir $6174$ et indiquer pour quelle(s) valeur(s) de départ il est atteint.
+

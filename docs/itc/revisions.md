@@ -203,6 +203,12 @@ Ecrire une fonction qui prend en paramètre un nom de fichier et retourne le nom
 Le fichier `entiers.txt` téléchargeable ci-dessous contient sur chaque ligne un entier. Ecrire un programme Python qui lit ce fichier et fait la somme de ces entiers.
 {{telecharger("entiers.txt","../itc/files/C0/entiers.txt")}}
 
+Vérifier la réponse fournie par votre programme ci-dessous :
+{{ check_reponse('-1113')}}
+
+
+
+
 {{ exo("Recherche dans un dictionnaire",[])}}
 
 Pour cette exercice on utilise le dictionnaire téléchargeable ci-dessous:
