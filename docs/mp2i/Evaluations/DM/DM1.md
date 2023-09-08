@@ -96,5 +96,6 @@ int kaprekar(int n){
 ## Partie IV : Preuve numérique de la conjecture
 
 1. Vérifier, grâce à un programme en C, la conjecture établie dans la première partie.
-2. Donner le nombre maximal d'itérations nécessaire avant d'obtenir $6174$ et indiquer pour quelle(s) valeur(s) de départ il est atteint.
+2. Donner le nombre maximal d'itérations nécessaire avant d'obtenir $6174$ 
+3. Donner une valeur de départ pour laquelle ce maximum d'itération est atteint.
 

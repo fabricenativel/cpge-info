@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <stdbool.h>
 
-# define SIZE 4
+
 
 // Echange les éléments situés aux indices i et j dans le tableau tab
 void echange(int tab[],int i, int j, int taille)
@@ -15,7 +15,7 @@ void echange(int tab[],int i, int j, int taille)
 
 // Renvoie l'indice du minimum des éléments de tab depuis l'indice ind
 int min_depuis(int tab[],int taille,int ind)
-{   
+{   assert (ind<taille && ind>=0);
     int vmin = tab[ind];
     int imin = ind;
     for (int i=ind;i<taille;i++)
@@ -29,29 +29,15 @@ int min_depuis(int tab[],int taille,int ind)
     return imin;
 }
 
-
-int tous_egaux(int n)
-{
-    int chiffre = n%10;
-    int div = 1;
-    int poids=10;
-    for (int i=1;i<SIZE;i++)
-    {
-        div = div+poids;
-        poids = poids*10;
-    }
-    return (n/div == chiffre);
-
-}
-
 // Tri en place un tableau par sélection
 void tri_selection(int tab[], int size){
     for (int i=0;i<size;i++)
     {
-        echange(tab,i,min_depuis(tab,size,i));
+        echange(tab,i,min_depuis(tab,size,i),size);
     }
 
 }
+
 
 void retourne(int tab[],int rtab[],int size) {
     for (int i=0;i<size;i++)
@@ -59,6 +45,7 @@ void retourne(int tab[],int rtab[],int size) {
         rtab[i] = tab[size-i-1];
     }
 }
+
 
 int valeur(int tab[],int size)
 {
@@ -73,7 +60,8 @@ int valeur(int tab[],int size)
 }
 
 int kaprekar(int n){
-    assert (!tous_egaux(n));
+    assert ((n%1111!=0) && n>0 && n<10000);
+    const int SIZE = 4;
     int tab[SIZE];
     int rtab[SIZE];
     int n1,n2;
@@ -89,32 +77,31 @@ int kaprekar(int n){
     return n2-n1;
 }
 
-
-int show(int n,bool view)
+// vérifie qu'on atteint bien 6174 et renvoie le nombre d'itérations nécessaires
+int verifie(int n)
 {
-    int iter = 0;
-    int kn;
-    while ((kn=kaprekar(n))!=n) {
-        iter++;
-        n=kn;
-        if (view)
-        {
-        printf("K%d=",iter);
-        printf("%d\n",kn);}}
-    return kn;
+    int nb_iter = 0;
+    // Attention si la conjecture est fausse, cette boucle est infinie
+    while (n!=6174)
+    {
+        n = kaprekar(n);
+        nb_iter = nb_iter + 1;
+    }
+    return nb_iter;
 }
 
 int main()
 {   
-    int n;
-    int kn;
-    printf("n=");
-    scanf("%d",&n);
-    kn = kaprekar(n);
-    while (kn!=n) 
+    int max_iter = 0;
+    int val;
+    for (int n=1;n<10000;n++)
     {
-        printf("%d\n",kn);
-        n = kn;
-        kn = kaprekar(n);
+        if (n%1111!=0 && verifie(n)>=max_iter)
+        {
+            max_iter = verifie(n);
+            val = n;
+        }
     }
+    printf("La conjecture est vérifiée ! \n");
+    printf("Le nombre d'itérations maximal est %d atteint par %d\n",max_iter,val);
 }
