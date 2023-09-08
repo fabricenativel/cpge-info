@@ -129,6 +129,22 @@ int* get_tab(int size, int val)
             Pour générer un entier aléatoire entre `vmin` et `vmax` on utilisera la fonction `rand()` qui renvoie un entier entre 0 et une constante `RAND_MAX` puis on utilisera un modulo. 
 
 
+{{ exo("Suite de Fibonnaci",[])}}
+
+La suite de Fibonnaci est définie par :  
+$\left\{ \begin{array}{lll}
+						f_0   & = & 0,                                                  \\
+						f_1   & = & 1,                                                  \\
+						f_{n} & = & f_{n-1}+f_{n-2} \mathrm{\ \ pour\ tout\ \ } n\geq2.\end{array} \right.$
+
+1. Ecrire une fonction `termes_fibo(n)` qui renvoie un tableau contenant les termes de la suite de Fibonnaci jusqu'au rang `n`(exclus). Par exemple `fibo(5)` doit renvoyer le tableau `{0,1,1,2,3}`.
+
+2. Ecrire une fonction `somme_pair` qui prend en argument un tableau (et donc sa taille) et renvoie la somme des termes pairs de ce tableau. Par exemple si `tab = {0,1,1,2,3}` alors `somme_pair(tab,5)` doit renvoyer `2`.
+
+3. A l'aide des deux fonctions précédentes, calculer la somme des termes pairs de la suite de Fibonnaci pour $n<42$. Vous pouvez tester le résultat de votre programme dans le formulaire ci-dessous :  
+{{ check_reponse("82790070")}}
+
+
 {{ exo("Minimum et maximum",[])}}
 
 On souhaite écrire une fonction `min_max` qui prend en argument un tableau contenant au moins un entier et permet d'obtenir le minimum et le maximum de ce tableau. 
@@ -146,7 +162,7 @@ Ecrire et tester cette fonction.
 Ecrire et tester cette fonction
 
     !!! aide
-        La définition du type structuré couple s'écrit (en nommant les champs `first` et `second``):
+        La définition du type structuré couple s'écrit (en nommant les champs `first` et `second`):
         ```C
         struct couple {
             int first;
@@ -209,10 +225,12 @@ On souhaite écrire une fonction `inverse_casse` en C qui ne renvoie rien et cha
 3. Ecrire une fonction `indice_min_depuis` qui prend en argument une liste et un indice $i$ et renvoie l'indice du minimum des éléments de ce tableau depuis l'indice $i$.
 4. Programmer et tester l'algorithme du tri par sélection.
 
-{{ exo("Moyenne des entiers dans un fichier",[])}}
+{{ exo("Somme des entiers dans un fichier",[])}}
 
-Le fichier `entiers.txt` téléchargeable ci-dessous contient sur chaque ligne un entier. Ecrire un programme  qui lit ce fichier et calcule la moyenne de ces entiers.
+Le fichier `entiers.txt` téléchargeable ci-dessous contient sur chaque ligne un entier. Ecrire un programme  qui lit ce fichier et calcule la somme de ces entiers.
 {{telecharger("entiers.txt","../mp2i/files/C3/entiers.txt")}}
+Vous pouvez vérifier le résultat de votre programme dans le formulaire ci-dessous
+{{ check_reponse("-1113") }}
 
 
 {{ exo("Type structuré point",[]) }}
@@ -261,6 +279,28 @@ On répondra aux questions suivantes en écrivant au fur et à mesure le program
 1. Créer un type structuré permettant de représenter une date au format `JJ/MM/AAAA`
 2. Ecrire une fonction prenant en argument une date et permettant de l'afficher au format `JJ/MM/AAAA`
 3. Ecrire une fonction `lendemain` qui prend en argument une date et renvoie un objet de type `date` correspondant au lendemain de cette date.
+
+{{ exo("Boîte de plus grand volume",[])}}
+
+Le fichier `boites.txt` téléchargeable ci-dessous fait 1000 lignes, chaque ligne contient la référence d'un modèle de boîte sous la forme d'un code à 4 lettres suivi de trois entiers représentant les dimensions de la boîte. A titre d'exemple, les trois premières lignes du fichier sont :
+```
+NWLR 283 75 46 
+QBHC 117 70 79 
+ZOWK 262 66 31
+```
+Donc, la boite de référence `NWLR` a comme dimension `283x75x46`.
+{{telecharger("boites.txt","../mp2i/files/C3/boites.txt")}}
+
+Le but de l'exercice est d'écrire un programme en C permettant de trouver la référence de la boîte de plus grand volume.
+
+1. Définir le type structuré `boite` ayant un champ `reference` de type chaine de caractères de longueur 4, et 3 champs entiers `longueur`, `largeur`, `hauteur`.
+
+1. Ecrire une fonction `volume` qui prend en argument trois entiers `longueur`, `largeur`, `hauteur` et qui renvoie le volume de la boîte ayant ces dimensions.
+
+3. Dans votre programme principal, déclarer  un tableau de 1000 élements de type `boite`, lire le fichier `boites.txt` en stockant chaque ligne lue dans le tableau `boite`
+
+4. Trouver la référence de la plus de plus grand volume, et vérifier votre résultat dans le formulaire suivant :   {{ check_reponse("ZSDW") }}
+
 
 {{ exo("Fractions",[] )}}
 
