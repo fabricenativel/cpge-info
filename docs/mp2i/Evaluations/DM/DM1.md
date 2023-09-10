@@ -73,7 +73,7 @@ Le but de cette partie est de programmer cet algorithme en C.
 ``` c
 int kaprekar(int n){
     int chiffres[4];
-    int m1,m2;
+    int n1,n2;
     // Extraction des chiffres et rangement dans le tableau chiffres
     for (int i=0;i<4;i++)
     {
