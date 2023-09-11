@@ -45,44 +45,82 @@
 	\begin{exampleblock}{Exemple : les puissances positives}
 		\begin{itemize}
 			\item<1-> \textcolor{OliveGreen}{Puissance : version itérative}
-			\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{3}{7}
+				\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{3}{7}
 			\item<2-> $a^n = \textcolor{OliveGreen}{a} \times a^{\textcolor{OliveGreen}{n-1}}$
 			\item<3-> \textcolor{OliveGreen}{Puissance : version récursive}
-			\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{9}{13}
+				\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{9}{13}
 		\end{itemize}
 	\end{exampleblock}
+\end{frame}
+
+% Récursivité détour par OCaml
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Un petit détour par OCaml}
+		La récursivité est très présente dans le paradigme de programmation fonctionnel que nous verrons en OCaml.
+		On présente donc ici la version récursive des puissances en OCaml (même si nous n'avons pas encore commencé son apprentissage)
+		\onslide<2->\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.ml}{}{\small}{1}{2}
+	\end{block}
+\end{frame}
+
+% Récursivité détour par OCaml
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Un petit détour par OCaml}
+		La récursivité est très présente dans le paradigme de programmation fonctionnel que nous verrons en OCaml.
+		On présente donc ici la version récursive des puissances en OCaml (même si nous n'avons pas encore commencé son apprentissage)
+		\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.ml}{1}{\small}{1}{2}
+		\begin{itemize}
+			\item <2-> La définition d'une fonction commence par \kw{let}, suivi de \kw{rec} si la fonction est récursive.
+			\item <3-> Remarquer l'absence des parenthèses autour des arguments, et surtout l'absence du type des variables. En effet, OCaml détecte automatiquement le type des variables utilisés (ici des entiers) par un procédé appelé \textcolor{blue}{inférence de types}.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% Récursivité détour par OCaml
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Un petit détour par OCaml}
+		La récursivité est très présente dans le paradigme de programmation fonctionnel que nous verrons en OCaml.
+		On présente donc ici la version récursive des puissances en OCaml (même si nous n'avons pas encore commencé son apprentissage)
+		\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.ml}{2}{\small}{1}{2}
+		\begin{itemize}
+			\item<2-> Le test d'égalité est le \textcolor{blue}{simple} {\tt =}
+			\item<3-> Le mot clé \kw{then} suit le test d'égalité.
+			\item<3-> Remarquer l'absence de \kw{return}.
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 
 % Récursivité : petits exemples
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exemple : factorielle}
-        \begin{enumerate}
-            \item<1-> Ecrire une fonction itérative en C permettant de calculer $n!$.
-            \item<2-> Ecrire la relation liant $n!$ et $(n-1)!$.
-            \item<3-> Donner une fonction récursive permettant de calculer $n!$
-        \end{enumerate}
-    \end{exampleblock}
-    \begin{exampleblock}{Exemple : dessin d'un triangle}
-		\onslide<4->On suppose qu'on dispose déjà d'une fonction {\tt ligne} qui ne renvoie rien prend en argument un entier {\tt n} et affiche {\tt n} caractères {\tt *} suivi d'un saut de ligne.
-        \begin{enumerate}
-            \item<5-> Ecrire une fonction itérative en C qui prend en argument un entier $n$ et dessine un triangle de caractères 
-			{\tt *}comme ci-dessous ($n=4$) : \\
-                {\tt ****} \\
-                {\tt ***} \\
-                {\tt **} \\
-                {\tt *} \\
-            \item<6-> Donner une version récursive de cette fonction.
-        \end{enumerate}
-    \end{exampleblock}
+	\begin{exampleblock}{Exemple : factorielle}
+		\begin{enumerate}
+			\item<1-> Ecrire une fonction itérative en C permettant de calculer $n!$.
+			\item<2-> Ecrire la relation liant $n!$ et $(n-1)!$.
+			\item<3-> Donner une fonction récursive en C permettant de calculer $n!$.
+			\item<4-> Même question en Ocaml.
+		\end{enumerate}
+	\end{exampleblock}
+	\begin{exampleblock}{Exemple : dessin d'un triangle}
+		\onslide<5->On suppose qu'on dispose déjà d'une fonction {\tt ligne} qui ne renvoie rien prend en argument un entier {\tt n} et affiche {\tt n} caractères {\tt *} suivi d'un saut de ligne.
+		\begin{enumerate}
+			\item<6-> Ecrire une fonction itérative en C qui prend en argument un entier $n$ et dessine un triangle de caractères
+				{\tt *}comme ci-dessous ($n=4$) : \\
+				{\tt ****} \\
+				{\tt ***} \\
+				{\tt **} \\
+				{\tt *} \\
+			\item<7-> Donner une version récursive de cette fonction.
+		\end{enumerate}
+	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Factorielle : correction}
 		\begin{enumerate}
-			\item<1-> Version itérative  \inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.c}{}{\small}{3}{7}
+			\item<1-> Version itérative  \inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.c}{}{\footnotesize}{3}{7}
 			\item<2-> $n! = n \times (n-1)!$
-			\item<3-> Version récursive \inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.c}{}{\small}{9}{12}
+			\item<3-> Version récursive en C \inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.c}{}{\footnotesize}{9}{12}
+			\item<4-> Version récursive en Ocaml \inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.ml}{}{\small}{1}{2}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -103,7 +141,7 @@
 	\end{alertblock}
 	\begin{exampleblock}{Exemples}
 		\onslide<2->{La fonction \kw{puissance}  vue en début de chapitre :
-		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{9}{13}}
+			\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{9}{13}}
 		\onslide<3->{n'est \textcolor{BrickRed}{pas} récursive terminale, }
 		\onslide<4->{en effet bien que l'appel récursif soit placé à la fin, le dernier calcul effectué par la fonction est la multiplication.}
 	\end{exampleblock}
@@ -113,11 +151,11 @@
 	\begin{exampleblock}{Exemples}
 		\begin{enumerate}
 			\item<1-> La fonction {\tt factorielle} ci-dessous est-elle récursive terminale ?
-			\onslide<1->{\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.c}{}{\small}{9}{12}}
-			\onslide<2->\textcolor{OliveGreen}{Non, car le dernier calcul effectué par la fonction est la multiplication.}
+				\onslide<1->{\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.c}{}{\small}{9}{12}}
+				\onslide<2->\textcolor{OliveGreen}{Non, car le dernier calcul effectué par la fonction est la multiplication.}
 			\item<3-> Même question pour la fonction {\tt triangle}
-			\onslide<3->{\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/triangle.c}{}{\small}{18}{22}}
-			 \onslide<4->\textcolor{OliveGreen}{Oui, l'appel récursif est la dernière instruction à être exécutée.}
+				\onslide<3->{\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/triangle.c}{}{\small}{18}{22}}
+				\onslide<4->\textcolor{OliveGreen}{Oui, l'appel récursif est la dernière instruction à être exécutée.}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -127,25 +165,25 @@
 		Dans le cas d'une récursivité non terminale, les appels successifs sont empilés dans la \textcolor{blue}{pile d'exécution}, en effet le résultat de chaque appel doit être renvoyé vers l'appel précédent. Puis être dépilés une fois le cas de base atteint.\\
 		\onslide<2->{ Par exemple pour la fonction {\tt factorielle} récursive :}
 		\onslide<3->{\begin{center}
-		\renewcommand{\arraystretch}{1.4}
-		\begin{tabularx}{5cm}{|Y|}
-			\hline
-			\alt<12->{\makebox[4cm]{\tt fact(0)=1}}{\phantom{\makebox[4cm]{\tt fact(0)=1}}}\rnode{A0}{}\\
-			\hline
-			\alt<10->{\makebox[4cm]{\tt fact(1)=1*fact(0)}}{\phantom{\makebox[4cm]{\tt fact(1)=1*fact(0)}}}\rnode{A1}{}\\
-			\hline
-			\alt<8->{\makebox[4cm]{\tt fact(2)=2*fact(1)}}{\phantom{\makebox[4cm]{\tt fact(2)=2*fact(1)}}}\rnode{A2}{}\\
-			\hline
-			\alt<6->{\makebox[4cm]{\tt fact(3)=3*fact(2)}}{\phantom{\makebox[4cm]{\tt fact(3)=3*fact(2)}}}\rnode{A3}{}\\
-			\hline
-			\makebox[4cm]{\tt fact(4)=4*fact(3)} \rnode{A4}{}\\ 
-			\hline
-		\end{tabularx}
-	\end{center}}
-	\onslide<5->{\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A4}{A3} \nbput{\textcolor{blue}{\footnotesize appel n=3}}}
-	\onslide<7->{\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A3}{A2} \nbput{\textcolor{blue}{\footnotesize appel n=2}}}
-	\onslide<9->{\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A2}{A1} \nbput{\textcolor{blue}{\footnotesize appel n=1}}}
-	\onslide<11->{\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A1}{A0} \nbput{\textcolor{blue}{\footnotesize appel n=0}}}
+				\renewcommand{\arraystretch}{1.4}
+				\begin{tabularx}{5cm}{|Y|}
+					\hline
+					\alt<12->{\makebox[4cm]{\tt fact(0)=1}}{\phantom{\makebox[4cm]{\tt fact(0)=1}}}\rnode{A0}{}                 \\
+					\hline
+					\alt<10->{\makebox[4cm]{\tt fact(1)=1*fact(0)}}{\phantom{\makebox[4cm]{\tt fact(1)=1*fact(0)}}}\rnode{A1}{} \\
+					\hline
+					\alt<8->{\makebox[4cm]{\tt fact(2)=2*fact(1)}}{\phantom{\makebox[4cm]{\tt fact(2)=2*fact(1)}}}\rnode{A2}{}  \\
+					\hline
+					\alt<6->{\makebox[4cm]{\tt fact(3)=3*fact(2)}}{\phantom{\makebox[4cm]{\tt fact(3)=3*fact(2)}}}\rnode{A3}{}  \\
+					\hline
+					\makebox[4cm]{\tt fact(4)=4*fact(3)} \rnode{A4}{}                                                           \\
+					\hline
+				\end{tabularx}
+			\end{center}}
+		\onslide<5->{\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A4}{A3} \nbput{\textcolor{blue}{\footnotesize appel n=3}}}
+		\onslide<7->{\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A3}{A2} \nbput{\textcolor{blue}{\footnotesize appel n=2}}}
+		\onslide<9->{\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A2}{A1} \nbput{\textcolor{blue}{\footnotesize appel n=1}}}
+		\onslide<11->{\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A1}{A0} \nbput{\textcolor{blue}{\footnotesize appel n=0}}}
 	\end{block}
 \end{frame}
 
@@ -153,51 +191,70 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Remarque}
 		Dans le cas d'une récursivité non terminale, les appels successifs sont empilés dans la \textcolor{blue}{pile d'exécution}, en effet le résultat de chaque appel doit être renvoyé vers l'appel précédent. Puis être dépilés une fois le cas de base atteint.\\
-		 Par exemple pour la fonction {\tt factorielle} récursive :
+		Par exemple pour la fonction {\tt factorielle} récursive :
 		\begin{center}
-		\renewcommand{\arraystretch}{1.4}
-		\begin{tabularx}{5cm}{|Y|}
-			\hline
-			\alt<2->{\phantom{\makebox[4cm]{\tt fact(0)=1}}}{\makebox[4cm]{\tt fact(0)=1}}\rnode{A0}{}\\
-			\hline
-			\alt<3->{\phantom{\makebox[4cm]{\tt fact(1)=1*fact(0)}}}{\makebox[4cm]{\tt fact(1)=1*fact(0)}}\rnode{A1}{}\\
-			\hline
-			\alt<4->{\phantom{\makebox[4cm]{\tt fact(2)=2*fact(1)}}}{\makebox[4cm]{\tt fact(2)=2*fact(1)}}\rnode{A2}{}\\
-			\hline
-			\alt<5->{\phantom{\makebox[4cm]{\tt fact(3)=3*fact(2)}}}{\makebox[4cm]{\tt fact(3)=3*fact(2)}}\rnode{A3}{}\\
-			\hline
-			\makebox[4cm]{\tt fact(4)=4*fact(3)} \rnode{A4}{}\\ 
-			\hline
-		\end{tabularx}
-	\end{center}
-	\onslide<6->{Le dépassement de capacité de la pile d'appel est le fameux \textit{stackoverflow} (débordement de pile).} 
-	\onslide<7->{Pour l'éviter, on peut transformer une fonction récursive non terminale en récursive terminale ce qui évite l'empilement des appels successifs.}
-	\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A4}{A3} \nbput{\textcolor{blue}{\footnotesize appel n=3}}
-	\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A3}{A2} \nbput{\textcolor{blue}{\footnotesize appel n=2}}
-	\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A2}{A1} \nbput{\textcolor{blue}{\footnotesize appel n=1}}
-	\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A1}{A0} \nbput{\textcolor{blue}{\footnotesize appel n=0}}
-	\onslide<2>\ncangle[arm=0.7cm,angle=180,nodesep=4.5cm,linewidth=0.7pt,linecolor=OliveGreen,offsetB=0.1cm,offsetA=0cm]{->}{A0}{A1} \nbput{\textcolor{blue}{\footnotesize renvoie 1}}
-	\onslide<3>\ncangle[arm=0.7cm,angle=180,nodesep=4.5cm,linewidth=0.7pt,linecolor=OliveGreen,offsetB=0.1cm,offsetA=0cm]{->}{A1}{A2} \nbput{\textcolor{blue}{\footnotesize renvoie 1}}
-	\onslide<4>\ncangle[arm=0.7cm,angle=180,nodesep=4.5cm,linewidth=0.7pt,linecolor=OliveGreen,offsetB=0.1cm,offsetA=0cm]{->}{A2}{A3} \nbput{\textcolor{blue}{\footnotesize renvoie 2}}
-	\onslide<5>\ncangle[arm=0.7cm,angle=180,nodesep=4.5cm,linewidth=0.7pt,linecolor=OliveGreen,offsetB=0.1cm,offsetA=0cm]{->}{A3}{A4} \nbput{\textcolor{blue}{\footnotesize renvoie 6}}
-		
-\end{block}
-	
+			\renewcommand{\arraystretch}{1.4}
+			\begin{tabularx}{5cm}{|Y|}
+				\hline
+				\alt<2->{\phantom{\makebox[4cm]{\tt fact(0)=1}}}{\makebox[4cm]{\tt fact(0)=1}}\rnode{A0}{}                 \\
+				\hline
+				\alt<3->{\phantom{\makebox[4cm]{\tt fact(1)=1*fact(0)}}}{\makebox[4cm]{\tt fact(1)=1*fact(0)}}\rnode{A1}{} \\
+				\hline
+				\alt<4->{\phantom{\makebox[4cm]{\tt fact(2)=2*fact(1)}}}{\makebox[4cm]{\tt fact(2)=2*fact(1)}}\rnode{A2}{} \\
+				\hline
+				\alt<5->{\phantom{\makebox[4cm]{\tt fact(3)=3*fact(2)}}}{\makebox[4cm]{\tt fact(3)=3*fact(2)}}\rnode{A3}{} \\
+				\hline
+				\makebox[4cm]{\tt fact(4)=4*fact(3)} \rnode{A4}{}                                                          \\
+				\hline
+			\end{tabularx}
+		\end{center}
+		\onslide<6->{Le dépassement de capacité de la pile d'appel est le fameux \textit{stackoverflow} (débordement de pile).}
+		\onslide<7->{Pour l'éviter, on peut transformer une fonction récursive non terminale en récursive terminale ce qui évite l'empilement des appels successifs.}
+		\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A4}{A3} \nbput{\textcolor{blue}{\footnotesize appel n=3}}
+		\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A3}{A2} \nbput{\textcolor{blue}{\footnotesize appel n=2}}
+		\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A2}{A1} \nbput{\textcolor{blue}{\footnotesize appel n=1}}
+		\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A1}{A0} \nbput{\textcolor{blue}{\footnotesize appel n=0}}
+		\onslide<2>\ncangle[arm=0.7cm,angle=180,nodesep=4.5cm,linewidth=0.7pt,linecolor=OliveGreen,offsetB=0.1cm,offsetA=0cm]{->}{A0}{A1} \nbput{\textcolor{blue}{\footnotesize renvoie 1}}
+		\onslide<3>\ncangle[arm=0.7cm,angle=180,nodesep=4.5cm,linewidth=0.7pt,linecolor=OliveGreen,offsetB=0.1cm,offsetA=0cm]{->}{A1}{A2} \nbput{\textcolor{blue}{\footnotesize renvoie 1}}
+		\onslide<4>\ncangle[arm=0.7cm,angle=180,nodesep=4.5cm,linewidth=0.7pt,linecolor=OliveGreen,offsetB=0.1cm,offsetA=0cm]{->}{A2}{A3} \nbput{\textcolor{blue}{\footnotesize renvoie 2}}
+		\onslide<5>\ncangle[arm=0.7cm,angle=180,nodesep=4.5cm,linewidth=0.7pt,linecolor=OliveGreen,offsetB=0.1cm,offsetA=0cm]{->}{A3}{A4} \nbput{\textcolor{blue}{\footnotesize renvoie 6}}
+
+	\end{block}
+
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple :  factorielle récursive terminale}
 		L'idée est d'utiliser une variable auxiliaire (un \textit{accumulateur}) qui est passé en argument à l'appel récursif et dans lequel les calculs sont effectués au fur et à mesure des appels.
-		\onslide<2->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.c}{}{\small}{14}{17}
+		\begin{itemize}
+			\item<2->En C :
+			\onslide<2->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.c}{}{\small}{14}{17}
+			\item<2->En OCaml :
+			\onslide<2->\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.ml}{}{\small}{4}{5}
+		\end{itemize}
 	\end{exampleblock}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple :  puissance}
 		Donner une version récursive terminale de la fonction puissance :
-		\onslide<2->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{9}{13}
-		\onslide<3->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{15}{19}
+		\begin{itemize}
+			\item<2-> En C
+				\onslide<3->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{15}{19}
+			\item<4-> En OCaml
+				\onslide<4->\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.ml}{}{\small}{4}{5}
+		\end{itemize}
 	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Remarque}
+		\begin{itemize}
+			\item<1-> La version récursive terminale ne provoquera pas de débordement de pile en OCaml car elle sera automatiquement optimisé par le compilateur.
+			\item<2-> En C, on utilisera l'option d'optimisation \kw{-O2} pour que cela soit le cas.
+			\item<3-> Le langage Ocaml est plus "adapté" à une programmation fonctionnel (et donc à la récursivité) que le C qui permet la récursivité mais est avant tout suit le paradigme impératif.
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 \makess{Récursivité croisée}
@@ -206,20 +263,29 @@
 		Lorsqu'on définit simultanément plusieurs fonctions qui s'appellent mutuellement on parle de \textcolor{blue}{récursivité croisée} (ou de récursivité mutuelle).
 	\end{alertblock}
 	\onslide<2->{
-	\begin{exampleblock}{Exemple : moyenne arithmético-géométrique}
-		Etant donné $a \in R^+, b \in \R^+$, on définit les suites : \\
-		\begin{tabularx}{\linewidth}{XX}
-		$\left\{ \begin{array}{lcl} u_0 &=& a \\ u_{n+1} &=& \sqrt{u_nv_n}\\ \end{array}\right.$ &
-		$\left\{ \begin{array}{lcl} v_0 &=& b \\ v_{n+1} &=& \dfrac{u_n+v_n}{2}\\ \end{array}\right.$ \\
-		\end{tabularx}
-		Ecrire en C deux fonctions mutuellement récursives {\tt un} et {\tt vn} permettant de calculer les termes de ces deux suites.\\
-		\onslide<3->{\textcolor{BrickRed}{\small \danger} En C, une fonction doit être définie avant d'y faire appel. On doit donc dans le cas d'une récursivité croisée donner la signature d'une des deux fonctions avant la définition complète de l'autre.}
-	\end{exampleblock}}
+		\begin{exampleblock}{Exemple : moyenne arithmético-géométrique}
+			Etant donné $a \in R^+, b \in \R^+$, on définit les suites : \\
+			\begin{tabularx}{\linewidth}{XX}
+				$\left\{ \begin{array}{lcl} u_0 &=& a \\ u_{n+1} &=& \sqrt{u_nv_n}\\ \end{array}\right.$ &
+				$\left\{ \begin{array}{lcl} v_0 &=& b \\ v_{n+1} &=& \dfrac{u_n+v_n}{2}\\ \end{array}\right.$ \\
+			\end{tabularx}
+			Ecrire deux fonctions mutuellement récursives {\tt un} et {\tt vn} permettant de calculer les termes de ces deux suites.\\
+			\onslide<3->{\textcolor{BrickRed}{\small \danger} En C, une fonction doit être définie avant d'y faire appel. On doit donc dans le cas d'une récursivité croisée donner la signature d'une des deux fonctions avant la définition complète de l'autre.}
+			s deux suites.\\
+			\onslide<4->{ En OCaml, on définira les deux fonctions dans le même "{\tt let}" en les séparant par \kw{and}.}
+		\end{exampleblock}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Correction}
+	\begin{exampleblock}{Correction : En C}
 		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/arithgeo.c}{}{\small}{5}{15}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction : En OCaml}
+		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/arithgeo.ml}{}{\small}{1}{5}
+		\onslide<2->On remarquera \kw{+.}, \kw{*.}, et \kw{/.} qui correspondent aux opérations sur les flottants (inférence de type)
 	\end{exampleblock}
 \end{frame}
 
@@ -243,7 +309,13 @@
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Correction question 1}
-		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fibo_rec.c}{}{\small}{3}{6}
+		\begin{itemize}
+			\item <1-> En C
+			\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fibo_rec.c}{}{\small}{3}{6}
+			\item<2-> En OCaml
+			\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fibo_rec.ml}{}{\small}{1}{2}
+		\end{itemize}
+		
 	\end{exampleblock}
 \end{frame}
 
@@ -289,69 +361,70 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Remarque}
-	\begin{itemize}
-		\item<1-> La solution récursive est ici simple à mettre en oeuvre (on traduit directement la définition mathématique de la suite)
-		\item<2-> L'exécution est problématique car on effectue plusieurs fois les mêmes appels récursifs.
-		\item<3-> Pour pallier ce problème :
 		\begin{itemize}
-			\item<4-> On peut stocker les résultats des appels antérieurs dans une structure de données adaptées (c'est le principe de \textcolor{blue}{mémoïsation})
-			\item<5-> On peut utiliser une formulation itérative.
+			\item<1-> La solution récursive est ici simple à mettre en oeuvre (on traduit directement la définition mathématique de la suite)
+			\item<2-> L'exécution est problématique car on effectue plusieurs fois les mêmes appels récursifs.
+			\item<3-> Pour pallier ce problème :
+				\begin{itemize}
+					\item<4-> On peut stocker les résultats des appels antérieurs dans une structure de données adaptées (c'est le principe de \textcolor{blue}{mémoïsation})
+					\item<5-> On peut utiliser une formulation itérative.
+				\end{itemize}
 		\end{itemize}
-	\end{itemize}
-\end{block}
+	\end{block}
 \end{frame}
 
 \makess{Une technique de programmation élégante}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{block}{Remarques}
-	\begin{itemize}
-	\item<1->Bien que la programmation récursive soit parfois gourmande en ressource (débordement de pile, chevauchement d'appels récursifs). Certains problèmes ont une solution récursive très lisible et rapide à programmer. 
-	\item<2-> La formulation récursive est donc parfois \og plus adaptée \fg{} à un problème et constitue une façon élégante et concise de programmer une résolution. 
-	\item<3-> On présente ici un exemple simple mais d'autres seront vus en TP (tours de Hanoï, dessins récursifs)
-	\end{itemize}
-\end{block}
+	\begin{block}{Remarques}
+		\begin{itemize}
+			\item<1->Bien que la programmation récursive soit parfois gourmande en ressource (débordement de pile, chevauchement d'appels récursifs). Certains problèmes ont une solution récursive très lisible et rapide à programmer.
+			\item<2-> La formulation récursive est donc parfois \og plus adaptée \fg{} à un problème et constitue une façon élégante et concise de programmer une résolution.
+			\item<3-> On présente ici un exemple simple mais d'autres seront vus en TP (tours de Hanoï, dessins récursifs)
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple : exponentiation rapide}
 		\begin{enumerate}
-		\item<1-> Combien faut-il faire de multiplications pour calculer $a^{13}$ avec la fonction 
-		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\footnotesize}{3}{7}
-		\item<2-> Combien en faut-il si on procède de la façon suivante :
-		\begin{itemize}
-			\item<3-> Calculer $a^6$, l'élever au carré et le multiplier par $a$.
-			\item<4-> Pour calculer $a^6$,calculer $a^3$ et l'élever au carré.
-			\item<5-> Pour calculer $a^3$, élever $a$ au carré et multiplier par $a$.
-		\end{itemize}
-		\item<6-> Généraliser la méthode précédente au cas d'un exposant quelconque et en déduire une relation de récurrence entre $a^n$ et $a^\frac{n}{2}$ si $n$ et pair et $a^\frac{n-1}{2}$ sinon.
-		\item<7-> Proposer une implémentation récursive en C.
-		\item<8-> Que pensez-vous d'une implémentation itérative ?
+			\item<1-> Combien faut-il faire de multiplications pour calculer $a^{13}$ avec la fonction
+				\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\footnotesize}{3}{7}
+			\item<2-> Combien en faut-il si on procède de la façon suivante :
+				\begin{itemize}
+					\item<3-> Calculer $a^6$, l'élever au carré et le multiplier par $a$.
+					\item<4-> Pour calculer $a^6$,calculer $a^3$ et l'élever au carré.
+					\item<5-> Pour calculer $a^3$, élever $a$ au carré et multiplier par $a$.
+				\end{itemize}
+			\item<6-> Généraliser la méthode précédente au cas d'un exposant quelconque et en déduire une relation de récurrence entre $a^n$ et $a^\frac{n}{2}$ si $n$ et pair et $a^\frac{n-1}{2}$ sinon.
+			\item<7-> Proposer une implémentation récursive en C puis en Ocaml.
+			\item<8-> Que pensez-vous d'une implémentation itérative ?
 		\end{enumerate}
 	\end{exampleblock}
-	\end{frame}
+\end{frame}
 
 
-	\begin{frame}[fragile]{\Ctitle}{\stitle}
-		\begin{exampleblock}{Exemple : exponentiation rapide}
-			\begin{enumerate}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : exponentiation rapide}
+		\begin{enumerate}
 			\item<1-> \textcolor{OliveGreen}{Il faut faire 13 multiplications, puisque $a^{13}$ est calculé avec :\\
-			$a^{13} = 1 \textcolor{BrickRed}{\times} a \textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a$}
+					$a^{13} = 1 \textcolor{BrickRed}{\times} a \textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a$}
 			\item<2-> \textcolor{OliveGreen}{Dans ce cas, il ne faut que 5 multiplications en effet, on calcul $a^{13}$ avec : \\
-			$a^{13} = \left( \left(a^{\textcolor{BrickRed}{2}} \textcolor{BrickRed}{\times} a \right)^{\textcolor{BrickRed}{2}} \right)^{\textcolor{BrickRed}{2}} \textcolor{BrickRed}{\times} a$}
+					$a^{13} = \left( \left(a^{\textcolor{BrickRed}{2}} \textcolor{BrickRed}{\times} a \right)^{\textcolor{BrickRed}{2}} \right)^{\textcolor{BrickRed}{2}} \textcolor{BrickRed}{\times} a$}
 			\item<3-> \textcolor{OliveGreen}{$\left\{ \begin{array}{lll}
-				a^n   & = & \left(a^\frac{n}{2}\right)^2, \ \mathrm{si\ } n  \mathrm{\ est\ paire}                                   \\
-				a^n   & = & \left(a^\frac{n-1}{2}\right)^2\times a, \ \mathrm{sinon\ } \end{array} \right. $}   
-			\end{enumerate}
-		\end{exampleblock}
-		\end{frame}
-	
+							a^n & = & \left(a^\frac{n}{2}\right)^2, \ \mathrm{si\ } n  \mathrm{\ est\ paire} \\
+							a^n & = & \left(a^\frac{n-1}{2}\right)^2\times a, \ \mathrm{sinon\ }\end{array} \right. $}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exponentiation rapide}
 		\begin{enumerate}
 			\addtocounter{enumi}{3}
-		\item<1-> \textcolor{OliveGreen}{Implémentation en C :}
-		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{21}{29}
-		\item<2-> \textcolor{OliveGreen}{L'implémentation itérative est plus délicate, elle sera vue en TP.}
+			\item<1-> \textcolor{OliveGreen}{Implémentation en C :}
+				\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\footnotesize}{21}{29}
+			\item<2-> \textcolor{OliveGreen}{Implémentation en OCaml :}
+			\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.ml}{}{\footnotesize}{7}{11}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}

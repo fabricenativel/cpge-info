@@ -198,9 +198,9 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Un premier exemple}
 		\begin{langageC}
-			int main()  {
-			double big_array[1500000];
-			return 0;}
+int main()  {
+double big_array[1500000];
+return 0;}
 		\end{langageC}
 		{\small
 		\begin{enumerate}
@@ -244,9 +244,9 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple 1}
 		\onslide<1->\begin{langageC*}{fontsize=\small}
-			int n = 42;
-			int p = &n;
-			printf("Valeur stockée à l'adresse de p = %d",*p);
+int n = 42;
+int p = &n;
+printf("Valeur stockée à l'adresse de p = %d",*p);
 		\end{langageC*}
 		\onslide<2->{\small Dans l'exemple ci-dessus, \kw{p} est un pointeur qui contient l'adresse de \kw{n}.}
 		\onslide<3->{\small Le \kw{printf} affiche le contenu de l'adresse pointée par \kw{p} donc 42.}
@@ -256,8 +256,8 @@
 			\item<4-> \small Ecrire une fonction {\tt echange} qui prend en argument deux adresses vers des entiers et échange les valeurs de ces deux entiers.
 			\item<5-> \small Ajouter un appel à {\tt echange} dans le programme ci-dessous de façon à échanger les valeurs des variables \kw{a} et \kw{b}.
 				\onslide<3->\begin{langageC*}{fontsize=\small}
-					int a = 42;
-					int b = 14;
+int a = 42;
+int b = 14;
 				\end{langageC*}
 		\end{enumerate}
 	\end{exampleblock}
@@ -287,9 +287,9 @@
 	\begin{exampleblock}{Exemple}
 		\onslide<4->
 		\begin{langageC}
-			double *t =  malloc(sizeof(int)*100); //alloue le bloc mémoire
-			t[5] = 12; // affecte la valeur 12 au 6eme élément du bloc
-			t[113] = 27; // Comportement indéfini
+double *t =  malloc(sizeof(int)*100); //alloue le bloc mémoire
+t[5] = 12; // affecte la valeur 12 au 6eme élément du bloc
+t[113] = 27; // Comportement indéfini
 		\end{langageC}
 	\end{exampleblock}
 \end{frame}
@@ -305,12 +305,16 @@
 	\end{alertblock}
 \end{frame}
 
+
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple}
-		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/leak.c}{}{\footnotesize}
+	\begin{exampleblock}{Exemple : fonction renvoyant un tableau}
+		\begin{itemize} \item<1-> Ecrire une fonction {\tt make\_tab} qui prend en argument deux entiers {\tt size} et {\tt init} et renvoie un pointeur vers un tableau de {\tt size} cases initialisés à la valeur {\tt init}.
+		\onslide<2->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/renvoie_tab.c}{}{\small}{4}{10}
+		\item<3-> \textcolor{BrickRed}{\small \danger} L'allocation \textcolor{BrickRed}{doit} se faire avec \kw{malloc}, sinon elle est faite sur la pile et donc disparait lorsqu'on quitte la fonction.
+		\item<4-> La fonction appelante doit libérer la mémoire allouée avec \kw{free} (sous peine de fuites mémoires.) 
+		\end{itemize}
 	\end{exampleblock}
 \end{frame}
-
 
 \makess{Argument en ligne de commande}
 \begin{frame}{\Ctitle}{\stitle}
@@ -346,10 +350,10 @@
 			\item<1-> On peut définir en C, des types structurés, appelé \kw{struct} composés de plusieurs champs.
 			\item<2-> La syntaxe générale de définition d'un type structuré est :
 				\begin{langageC}
-					struct nom_type_struct {
-					type1 elt1;
-					type2 elt2;
-					...}
+struct nom_type_struct {
+	type1 elt1;
+	type2 elt2;
+	...}
 				\end{langageC}
 			\item<3-> Un nom de type (qui peut être celui du {\tt struct}) peut être associé à un type structuré de façon à y faire référence plus rapidement.\\
 				\mintinline{c}{typedef struct nom_type_struct nom_type}
@@ -361,11 +365,11 @@
 	\begin{exampleblock}{Exemple}
 		Pour créer le type structuré \kw{personne\_struct} contenant les trois champs nom (chaine de caractères), poids et taille (float) :
 		\begin{langageC}
-			struct personne_struct {
-			char nom[50];
-			poids float;
-			taille float;
-			}
+struct personne_struct {
+	char nom[50];
+	poids float;
+	taille float;
+}
 		\end{langageC}
 		On peut donner un nom à ce type : \\
 		\mintinline{c}{typedef struct personne_struct personne;}
@@ -377,7 +381,7 @@
 		\begin{itemize}
 			\item<1-> La déclaration d'un variable de type personne peut se faire maintenant avec : \\
 				\mintinline{c}{personne bruce_banner;}
-			\item<2-> Eventuellement avec initialisation immédiate avec la notation \kw{\{} et \kw{\{} déjà rencontré sur les tableaux : \\
+			\item<2-> Eventuellement avec initialisation immédiate avec la notation \kw{\{} et \kw{\}} déjà rencontré sur les tableaux : \\
 				\mintinline{c}{personne hulk = {.nom="Hulk",.poids = 635,.taille=2.43};}
 			\item<3-> On accède aux champs avec la notion \kw{.}, pour les lire comme par exemple :\\
 				\mintinline{c}{imc_hulk = hulk.poids / (hulk.taille*hulk.taille);}
@@ -403,7 +407,7 @@
 		\end{itemize}
 	\end{block}
 	\begin{exampleblock}{Exemple}
-		\onslide<4->{Proposer une version correcte de la fonction modifiant le champ poids d'une variable de type struct personne.}
+		\onslide<4->{Proposer une version correcte de la fonction modifiant le champ poids d'une variable de type {\tt struct personne}.}
 	\end{exampleblock}
 \end{frame}
 
@@ -436,21 +440,21 @@
 		\small On suppose qu'un fichier {\tt entiers.txt} contient des entiers séparés par des espaces.
 		\begin{itemize}
 			\item<1-> \small Ecrire l'instruction permettant d'ouvrir ce fichier en mode lecture
-				\onslide<2->\begin{langageC*}{fontsize=\small}
-					FILE *fichier = fopen("entiers.txt","r");
+				\onslide<5->\begin{langageC*}{fontsize=\small}
+FILE *fichier = fopen("entiers.txt","r");
 				\end{langageC*}
 			\item<2-> \small Déclarer deux entiers {\tt n} (qui va contenir les entiers lus) et {\tt somme} initialisé à 0.
-				\onslide<4->\begin{langageC*}{fontsize=\small}
-					int n, somme = 0;
+				\onslide<6->\begin{langageC*}{fontsize=\small}
+int n, somme = 0;
 				\end{langageC*}
 			\item<3-> \small Ecrire une boucle while permettant de lire chacun des entiers jusqu'à la fin du fichier et d'en faire la somme dans la variable {\tt somme}
-				\onslide<4->\begin{langageC*}{fontsize=\small}
-					while (fscanf(fichier,"%d",&n)!=EOF) {
-					somme = somme + n;}
+				\onslide<7->\begin{langageC*}{fontsize=\small}
+while (fscanf(fichier,"%d",&n)!=EOF) {
+	somme = somme + n;}
 				\end{langageC*}
-				\item<5->\small Ecrire l'instruction permettant de fermer le fichier
-				\onslide<6->\begin{langageC*}{fontsize=\small}
-					fclose(fichier);
+				\item<4->\small Ecrire l'instruction permettant de fermer le fichier
+				\onslide<8->\begin{langageC*}{fontsize=\small}
+fclose(fichier);
 				\end{langageC*}
 		\end{itemize}
 	\end{exampleblock}

@@ -1,0 +1,277 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{6}
+\newcommand{\Ctitle}{\cnum {OCaml : aspects fonctionnels}}
+
+
+% Définition d'une structure de données
+\makess{Généralités}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Bref historique}
+		\begin{itemize}
+			\item<1-> Années 70 : développement du langage de preuve de programme  {\sc ml} (Meta Language) (R. Milner).
+			\item<2-> 1985 : première implémentation de Caml (Categorical Abstract Machine Language) à l'{\sc inria} (organisme de recherche français).
+			\item<3-> 1996 : première version de OCaml (Objective Caml) par X. Leroy.
+			\item<4-> 2005 : Première version de F\#, variante de OCaml développé par Microsoft.
+			\item<5-> 2016 : Première version de Reason, variant de Ocaml développé par Facebook.
+			\item<6-> 2022 : OCaml version 5.0.0
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Quelques caractéristiques}
+		\begin{itemize}
+			\item<1-> OCaml est un langage de \textcolor{blue}{programmation fonctionnel}, les fonctions sont au coeur de ce paradigme de programmation. 
+			\item<2-> Les variables sont \textit{non modifiables} en conséquence la \textcolor{blue}{récursivité} est fondamentale car l'écriture de boucle devient impossible. La motivation est de produire un code plus lisible, plus facile à maintenir et moins sujet aux bugs.
+			\item<3-> OCaml est \textcolor{blue}{typé statiquement}, une variable ne peut pas changer de type au cours de l'exécution. De plus les erreurs de type seront systématiquement détectées à la compilation.
+			\item<4-> Le type des variables n'a pas besoin d'être précisé, il sera automatiquement détecté par le compilateur grâce à un procédé appelé \textcolor{blue}{inférence de type}.
+			\item<5-> Ocaml est un langage \textcolor{blue}{compilé}, cependant un environnement interactif \kw{utop} est disponible.
+			\item<6-> La gestion de la mémoire est automatique  (via un \textcolor{blue}{ramasse-miettes} \textit{garbage collector}).
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Quelques exemples de programme}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Fonctions sur les entiers et les flottants}
+		\begin{enumerate}
+			\item<1-> Fonction qui pour un entier $n$, renvoie $n(n-1)$.
+				\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C6/ex_cours.ml}{}{\small}{1}{1}
+				\begin{itemize}
+					\item<2->{\textcolor{BrickRed}{\danger} Dans le paradigme fonctionnelle, on écrit des \textcolor{blue}{expressions} et pas des instructions (paradigme impératif). Une expression est évaluée et renvoie une valeur.}
+					\item<3->{ On remarquera la proximité avec  $n \mapsto n(n-1)$ (et l'absence de {\tt return}).}
+					\item<4->{ Les opérateurs \kw{*}, \kw{-} portent sur les entiers et permettent d'inférer le type de l'argument et du résultat.}
+				\end{itemize}
+			\item<4-> Fonction qui pour un flottant $x$, renvoie $x^2-3x+7$.
+				\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C6/ex_cours.ml}{}{\small}{3}{3}
+				\begin{itemize}
+					\item<5-> Les opérateurs \kw{+.}, \kw{*.} et \kw{-.} concernent les flottants.
+					\item<6-> L'exponentiation est \kw{**} (sur les flottants).
+				\end{itemize}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Polymorphisme, booléens, conditionnelle}
+		\begin{enumerate}
+			\item<1-> Fonction qui renvoie \kw{true} lorsque deux  des trois arguments sont égaux.
+				\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C6/ex_cours.ml}{}{\small}{5}{5}
+				\begin{itemize}
+					\item<2-> Les opérateurs logiques sont \kw{\&\&}, \kw{||} et \kw{not}.
+					\item<3-> Ici l'inférence de type ne permet pas de déterminer le type des arguments, on dit que la fonction est \textcolor{BrickRed}{polymorphe}.
+				\end{itemize}
+            \item<4-> Terme suivant de la suite de syracuse :
+            \inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C6/ex_cours.ml}{}{\small}{7}{8}
+            \begin{itemize}
+                \item<5-> On notera la construction \kw{if} \dots \kw{then} \dots \kw{else}.
+                \item<6-> Attention, le test d'égalité est le \kw{=} simple.
+                \item<7-> Le modulo s'obtient avec \kw{mod}.
+            \end{itemize}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Récursivité}
+		\begin{enumerate}
+			\item<1-> Fonction qui calcule la somme des $n$ premiers carrés.
+				\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C6/ex_cours.ml}{}{\small}{10}{11}
+				\begin{itemize}
+					\item<2-> On notera la mot clé \kw{rec} pour préciser que la fonction est récursive.
+					\item<3-> Les parenthèses autour de \kw{n-1} permettent d'éviter la confusion avec \kw{(somme carre n)-1} (et donc d'avoir une récursion infinie)
+				\end{itemize}
+            \item<4-> Fonction qui compte à rebours depuis $n$ et affiche "Partez" !
+            \inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C6/ex_cours.ml}{}{\small}{19}{23}
+            \begin{itemize}
+                \item<5-> Regroupement de la clause du \kw{else} dans un bloc.
+                \item<6-> Les résultats des affichages sont de type \kw{unit} (et on tous la même valeur : \kw{()}).
+                \item<7-> Les \kw{;} séparent les différents affichages, et ignorent la valeur renvoyée.
+            \end{itemize}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+
+\makess{Définitions et types de base}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
+			\hline
+			Type & Opérations & Commentaires \\
+			\hline
+			\kw{int} & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs} & Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$ \\
+			\hline
+			& & \ \newline 	\\
+			\hline
+			& &    \\
+			\hline
+			 &  &\  \newline \\
+			\hline
+			& & \ \newline \\
+			\hline
+		\end{tabularx}
+		\vspace{1cm}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
+			\hline
+			Type & Opérations & Commentaires \\
+			\hline
+			\kw{int} & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs} & Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$ \\
+			\hline
+			\kw{float} & \kw{+.}, \kw{-.}, \kw{*.}, \kw{/.}, \kw{**} & Correspond au type double de la norme {\sc ieee-754}. \newline Fonctions mathématiques usuelles ($\sin, \cos, \exp, \dots$)   \\
+			\hline
+			& &      \\
+			\hline
+			 &  & \  \newline \\
+			\hline
+			& & \ \newline \\
+			\hline
+		\end{tabularx}
+		\vspace{1cm}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
+			\hline
+			Type & Opérations & Commentaires \\
+			\hline
+			\kw{int} & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs} & Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$ \\
+			\hline
+			\kw{float} & \kw{+.}, \kw{-.}, \kw{*.}, \kw{/.}, \kw{**} & Correspond au type double de la norme {\sc ieee-754}. \newline Fonctions mathématiques usuelles ($\sin, \cos, \exp, \dots$)  \\
+			\hline
+			\kw{bool} & \kw{\&\&}, \kw{||}, \kw{not} & Evaluations paresseuses.\\
+			\hline
+			 &  & \  \newline \\
+			\hline
+			& & \ \newline \\
+			\hline
+		\end{tabularx}
+		\vspace{1cm}
+	\end{alertblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
+			\hline
+			Type & Opérations & Commentaires \\
+			\hline
+			\kw{int} & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs} & Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$ \\
+			\hline
+			\kw{float} & \kw{+.}, \kw{-.}, \kw{*.}, \kw{/.}, \kw{**} & Correspond au type double de la norme {\sc ieee-754}. \newline Fonctions mathématiques usuelles ($\sin, \cos, \exp, \dots$)  \\
+			\hline
+			\kw{bool} & \kw{\&\&}, \kw{||}, \kw{not} & Evaluations paresseuses.\\
+			\hline
+			 \kw{char}&  & Se note entre apostrophe (\kw{''}). Les \kw{char} sont comparables (ordre du code {\sc ascii}).  \\
+			\hline
+			 & & \ \newline \\
+			 \hline
+		\end{tabularx}
+		\vspace{1cm}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
+			\hline
+			Type & Opérations & Commentaires \\
+			\hline
+			\kw{int} & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs} & Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$ \\
+			\hline
+			\kw{float} & \kw{+.}, \kw{-.}, \kw{*.}, \kw{/.}, \kw{**} & Correspond au type double de la norme {\sc ieee-754}. \newline Fonctions mathématiques usuelles ($\sin, \cos, \exp, \dots$)  \\
+			\hline
+			\kw{bool} & \kw{\&\&}, \kw{||}, \kw{not} & Evaluations paresseuses.\\
+			\hline
+			 \kw{char}&  & Se note entre apostrophe (\kw{''}). Les \kw{char} sont comparables (ordre du code {\sc ascii}).   \\
+			\hline
+            \kw{string}& \kw{\^{}}, \kw{.[]}, \kw{String.length}& Immutabilité. Concaténation de deux chaines : \kw{"Bon"\^{}"jour"}. Accès au ième avec \kw{.[i]} \\
+			\hline
+		\end{tabularx}
+		\vspace{1cm}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
+			\hline
+			Type & Opérations & Commentaires \\
+			\hline
+			\kw{int} & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs} & Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$ \\
+			\hline
+			\kw{float} & \kw{+.}, \kw{-.}, \kw{*.}, \kw{/.}, \kw{**} & Correspond au type double de la norme {\sc ieee-754}. \newline Fonctions mathématiques usuelles ($\sin, \cos, \exp, \dots$)  \\
+			\hline
+			\kw{bool} & \kw{\&\&}, \kw{||}, \kw{not} & Evaluations paresseuses.\\
+			\hline
+			 \kw{char}&  & Se note entre apostrophe (\kw{''}). Les \kw{char} sont comparables (ordre du code {\sc ascii}).  \\
+			\hline
+            \kw{string}& \kw{\^{}}, \kw{.[]}, \kw{String.length}& Immutabilité. Concaténation de deux chaines : \kw{"Bon"\^{}"jour"}. Accès au ième avec \kw{.[i]} \\
+			\hline
+		\end{tabularx}
+		\begin{itemize}
+		\item<1-> Le type \kw{unit} possède une seule valeur notée \kw{()} à rapprocher du type \kw{void} du C. Un affichage renvoie \kw{()}.
+		\item<2-> Les opérateurs de comparaison (\kw{=}, \kw{<>}, \kw{>}, \kw{>=}, \kw{<}, \kw{<=}) sont polymorphes mais s'appliquent à deux objets \textit{de même type}.
+		\end{itemize} 
+	\end{alertblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{enumerate}
+			\item<1-> Ecrire une fonction \kw{abs\_entier} qui renvoie la valeur absolue de l'entier donné en argument .
+			\onslide<2->\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C6/ex_cours.ml}{}{\small}{25}{26}
+			\item<3-> Ecrire une fonction \kw{abs\_flottant} qui renvoie la valeur absolue du flottant donné en argument .
+			\onslide<4->\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C6/ex_cours.ml}{}{\small}{28}{29}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Conversion de types}
+		\begin{center}
+		\renewcommand{\arraystretch}{4}
+		\begin{tabular}{p{3.cm}p{3.5cm}p{3.5cm}}
+			& \Rnode{int}{\begin{rcadre}{lightgray}{Sepia}{2}{0.8} \textcolor{Sepia}{\tt int} \end{rcadre}}  & \Rnode{char}{\begin{rcadre}{lightgray}{Sepia}{2}{0.8} \textcolor{Sepia}{\tt char} \end{rcadre}}\\
+			\Rnode{float}{\begin{rcadre}{lightgray}{Sepia}{2}{0.8} \textcolor{Sepia}{\tt float} \end{rcadre}}	& &  \Rnode{string}{\begin{rcadre}{lightgray}{Sepia}{2}{0.8} \textcolor{Sepia}{\tt string} \end{rcadre}} \\
+			& &\Rnode{bool}{\begin{rcadre}{lightgray}{Sepia}{2}{0.8} \textcolor{Sepia}{\tt bool} \end{rcadre}}  \\
+		\end{tabular}
+		\onslide<2->{\ncarc[linecolor=blue,linewidth=0.7pt]{->}{string}{float} 
+		\ncarc[linecolor=blue,linewidth=0.7pt]{->}{float}{string}}
+		\onslide<3->{\ncarc[linecolor=blue,linewidth=0.7pt]{->}{int}{float} 
+		\ncarc[linecolor=blue,linewidth=0.7pt]{->}{float}{int} }
+		\onslide<4->{\ncarc[linecolor=blue,linewidth=0.7pt]{->}{int}{string} 
+		\ncarc[linecolor=blue,linewidth=0.7pt]{->}{string}{int} }
+		\onslide<5->{\ncarc[linecolor=blue,linewidth=0.7pt]{->}{bool}{string} 
+		\ncarc[linecolor=blue,linewidth=0.7pt]{->}{string}{bool} }
+		\onslide<6->{\ncarc[linecolor=blue,linewidth=0.7pt,offset=-10pt,nodesep=0.5pt]{->}{char}{int} 
+		\ncarc[linecolor=blue,linewidth=0.7pt,offset=10pt]{->}{int}{char}}
+	\end{center}
+	\begin{itemize}
+		\item<7-> Les fonctions de conversion sont de la forme {\tt <type1>\_of\_<type2>} par exemple, {\tt string\_of\_float}.
+		\item<8-> L'affichage s'obtient avec {\tt print\_<type>} par exemple {\tt print\_string} (excepté booléen).
+	\end{itemize}
+	\end{block}
+\end{frame}
+
+\end{document}

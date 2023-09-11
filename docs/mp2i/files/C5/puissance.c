@@ -28,6 +28,22 @@ float puissance_rapide(float a, int n){
         else{
             return pr * pr * a;}}}
 
+// exponentiation rapide iteratif
+float pri(float a, int n)
+{
+    float cp = a;
+    float res = 1;
+    while (n!=0){
+        if (n%2==1)
+        {
+            res = res*cp;
+        }
+        cp = cp*cp;
+        n=n/2;
+    }
+    return res;
+}
+
 int main()
 {
     int n;
@@ -36,5 +52,6 @@ int main()
     scanf("%f", &a);
     printf("n=");
     scanf("%d", &n);
-    printf("a^n=%f\n", puissance_rapide(a, n));
+    printf("exp (rapide récursif) a^n=%f\n", puissance_rapide(a, n));
+    printf("exp (rapide itératif)a^n=%f\n", pri(a, n));
 }

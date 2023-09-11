@@ -16,4 +16,6 @@
 ## Travaux pratiques
 
 ## Humour d'informaticien
-![punition](./Images/C6/recursion.png){.imgcentre width=500px}
+![Webcomic](./Images/C6/OCamlHumour.png){.imgcentre width=500px}
+<span class="source">
+Credit : [Hmm-la-bd](https://hmm-la-bd.eu/40/){target=_blank} {{sc ("cc by-nc")}}</span>
