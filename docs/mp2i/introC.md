@@ -118,6 +118,19 @@ CCCCC
 
 3. Calculer la somme des carres des entiers de 1 à 100.
 
+{{ exo("Simulation d'un lancer de dé",[])}}
+
+Au jeu des ["petits chevaux"](https://fr.wikipedia.org/wiki/Jeu\_des\_petits\_chevaux){target=_blank}, le joueur doit lancer un dé à six faces  et obtenir 6 pour "sortir un de ses chevaux de l'écurie". On se demande, en moyenne combien de coups  il faut pour obtenir un 6 sur un lancer de dé.
+
+1. Ecrire une fonction `lancer_de` qui ne prend aucun argument et renvoie un nombre choisir au hasard entre 1 et 6.
+
+    !!! aide
+        La fonction `rand()` du langage C renvoie un entier aléatoire, entre 0 et le plus grand entier représentable. On peut ensuite utiliser un modulo pour se ramener dans un intervalle de longueur 6.
+
+2. Ecrire une fonction, `obtenir6` qui ne prend aucun argument et qui renvoie le nombre lancer effectué pour obtenir une première fois 6.
+
+3. Calculer la moyenne du nombre de coups nécessaire pour obtenir un six pour un grand nombre de parties (par exemple 10000). Pouvez-vous retrouver ce résultat en utilisant vos connaissances en probabilités ?
+
 
 {{ exo("Appartient à un tableau",[]) }}
 
@@ -160,6 +173,21 @@ Ecrire un programme qui prend en argument un entier $1 \leq n \leq 10$ et affich
 !!! aide
     * On rappelle que le coefficient situé ligne $n$ et colonne $k$ noté $\displaystyle{\binom{n}{k}}$ se déduit de ceux de la ligne précédente grâce à la formule de Pascal : $\displaystyle{\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}}$
     * On pourra utiliser deux tableaux, l'un représentant la ligne précédente et un second la ligne en cours de construction.
+
+{{ exo("Tableau trié",[])}}
+
+Ecrire une fonction `est_trie` qui prend en argument un tableau d'entiers (et sa taille) et renvoie `true` si ce tableau est trié (dans l'ordre croissant ou décroissant) et `false` sinon. 
+
+!!! aide
+    On pourra dans un premier temps s'aider de deux fonctions `est_trie_croissant` et `est_trie_decroissant`.
+
+{{ exo("Nombre d'occurences",[])}}
+
+1. Ecrire une fonction `nb_occurrences` qui prend en argument un tableau d'entiers `tab` (et sa taille) ainsi qu'un entier `n` et renvoie le nombre d'apparitions de `n` dans le tableau `tab`. Par exemple si `tab` est le tableau `{2, 18, 7, 2, 11, 7, 4, 7, -1, 3}` (de taille `10`) alors `nb_occurrences(tab,10,7)` renvoie 3 et  `nb_occurrences(tab,10,13)` renvoie 0.
+
+2. Ecrire une fonction similaire `compte_caractere` qui prend en argument une chaine de caractères `chaine` et un caractère `car`
+et compte le nombre d'apparitions de `car` dans `chaine`. A-t-on besoin cette fois de passer en argument la taille de la chaine ? Pourquoi ?
+
 
 
 {{ exo("Tri par insertion",[]) }}
