@@ -31,11 +31,16 @@
 1. Ecrire une fonction `bin_to_decimal` qui convertit une écriture binaire en sa valeur décimale. L'écriture binaire sera lue comme un tableau d'entiers contenant des 0 ou des 1 et on prendra aussi en argument sa taille. Par exemple si le tableau `bin` contient les valeurs `1,0,1,1` alors `bin_to_decimal(bin,4)` doit renvoyer `11` (car $2^3 + 2^1+2^0 = 11$) 
 2. Modifier la fonction `bin_to_decimal` qui prend maintenant en argument un troisième paramètre booléen `signe`, si `signe` vaut `true` l'écriture binaire est traité comme un complément à deux sur la longueur du tableau, sinon la fonction se comporte comme à la question précédente. Par exemple  `bin_to_decimal(bin,4,false)` doit renvoyer `11` (même comportement que ci-dessus) mais `bin_to_decimal(bin,4,true)` doit renvoyer  `-5`, en effet $-2^3+2^1+2^0=-5$.
 
-3. Vous avez (peut-être) utilisé la fonction `puissance` de l'exercice précédent, dans ce cas, reprendre cet exercice en remarquant que :
+3.  Vous avez (peut-être) utilisé la fonction `puissance` de l'exercice précédent, dans ce cas, reprendre cet exercice en remarquant que :
+
     $$
     \sum_{k=0}^{n} a_ib^i = a_0 + b\left( a_1 + b\left(a_2+ \dots (a_n-1+ba_n) \right) \right)
     $$
+
     et que par conséquent la somme de gauche peut se calculer (plus efficacement) sans utiliser le calcul explicite des puissances de $b$.
+
+
+
 
 {{ exo("Conversion en décimal",[])}}
 
@@ -86,10 +91,11 @@ Ecrire une fonction `to_decimal` qui prend en argument un entier `base` (compris
     2. Même question si la ligne 6 est modifiée en `#!c double big = pow(2.0,52.0);`
     3. Expliquer les résultats obtenus.
 
-3.  1. Justifier rapidement que pour tout entier $n \geq 1$,
-    $$
-    \sum_{k=1}^{n} \frac{1}{k(k+1)} = 1 - \frac{1}{n+1}
-    $$
+3.    1. Justifier rapidement que pour tout entier $n \geq 1$,
+
+        $$
+        \sum_{k=1}^{n} \frac{1}{k(k+1)} = 1 - \frac{1}{n+1}
+        $$
 
         !!! aide
             On pourra remarquer que $\frac{1}{k(k+1)} = \frac{1}{k} - \frac{1}{k+1}$
@@ -110,13 +116,13 @@ Ecrire une fonction `to_decimal` qui prend en argument un entier `base` (compris
 Le calcul en arithmétique à virgule de $0.1+0.2$ ne donne pas exactement $0.3$. Cet exercice a pour but d'expliquer cette [erreur bien connue](https://0.30000000000000004.com/){target=_blank}.
 
 1. Donner la représentation en simple précision au format de la norme IEEE-754 des nombres suivants :
-    1. $0,1$
-    2. $0,2$
-    3. $0,3$
+    1. $0.1$
+    2. $0.2$
+    3. $0.3$
 
-2. Faire l'addition "à la main" des représentations des $0,1$ et de $0,2$
+2. Faire l'addition "à la main" des représentations des $0.1$ et de $0.2$
 
-3. Comparer le résultat obtenu avec la représentation de $0,3$ et en déduire l'erreur commise
+3. Comparer le résultat obtenu avec la représentation de $0.3$ et en déduire l'erreur commise
 
 4. Ecrire un programme qui affiche le résultat de $(0.2+0.1)-0.3$
 

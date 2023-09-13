@@ -318,3 +318,17 @@ Programmer et tester cet algorithme.
 
 Programmer et tester cet algorithme
 
+{{ exo("Boîte de plus grand volume",[])}}
+
+Le fichier `boites.txt` est téléchargeable ci-dessous, chaque ligne de ce fichier contient la référence d'un modèle de boîte sous la forme d'un code à 4 lettres suivi de trois entiers représentant les dimensions de la boîte. A titre d'exemple, les trois premières lignes du fichier sont :
+```
+NWLR 283 75 46 
+QBHC 117 70 79 
+ZOWK 262 66 31
+```
+Donc, la boite de référence `NWLR` a comme dimension `283x75x46`.
+{{telecharger("boites.txt","../itc/files/C0/boites.txt")}}
+
+Trouver la référence de la plus de plus grand volume, et vérifier votre résultat dans le formulaire suivant :   {{ check_reponse("ZSDW") }}
+
+

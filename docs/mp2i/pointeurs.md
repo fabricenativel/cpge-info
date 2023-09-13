@@ -253,7 +253,7 @@ typedef struct Point_struct Point;
 
     !!! Aide
         On rappelle que pour deux points $A(x_A,y_A)$ et $B(x_B,y_B)$  les coordonnes $x_I$ et $y_I$ du milieu $I$ du segment $[AB]$ sont :  
-        $x_I = \dfrac{x_A+y_B}{2}$ et $y_I = \dfrac{y_A+y_B}{2}$
+        $x_I = \dfrac{x_A+x_B}{2}$ et $y_I = \dfrac{y_A+y_B}{2}$
 
 4. Créer le point $I$, milieu de $A$ et de $B$ et l'afficher.
 5. Créer la fonction `renomme` qui prend en argument un objet de type `Point` et un caractère `C` et change le nom du point en `C`.
@@ -295,9 +295,9 @@ Le but de l'exercice est d'écrire un programme en C permettant de trouver la r�
 
 1. Définir le type structuré `boite` ayant un champ `reference` de type chaine de caractères de longueur 4, et 3 champs entiers `longueur`, `largeur`, `hauteur`.
 
-1. Ecrire une fonction `volume` qui prend en argument trois entiers `longueur`, `largeur`, `hauteur` et qui renvoie le volume de la boîte ayant ces dimensions.
+1. Ecrire une fonction `volume` qui prend en argument un objet de type `boite` et renvoie le volume de cette boîte.
 
-3. Dans votre programme principal, déclarer  un tableau de 1000 élements de type `boite`, lire le fichier `boites.txt` en stockant chaque ligne lue dans le tableau `boite`
+3. Dans votre programme principal, déclarer  un tableau de 1000 élements de type `boite`, lire le fichier `boites.txt` en stockant chaque ligne lue dans le tableau `boite`.
 
 4. Trouver la référence de la plus de plus grand volume, et vérifier votre résultat dans le formulaire suivant :   {{ check_reponse("ZSDW") }}
 
@@ -312,7 +312,7 @@ Le but de l'exercice est d'écrire un programme en C permettant de trouver la r�
         On rappelle que le {{sc("pgcd")}} de deux entiers peut se calculer avec l'algorithme d'Euclide :
 
         * Si $b=0$ alors l'algorithme se termine et le {{sc("pgcd")}} est $a$
-        * Sinon faire la division euclidienne de $a$ par $b$, et en notant $r$ le reste, revenir à l'étape précédente en remplçant $a$ par $b$ et $b$ par $a$.
+        * Sinon faire la division euclidienne de $a$ par $b$, et en notant $r$ le reste, revenir à l'étape précédente en remplaçant $a$ par $b$ et $b$ par $a$.
 
 4. Ecrire la fonction `addition` qui prend en argument deux fractions et renvoie leur somme.
 5. Faire de même pour les autres opérations de base.

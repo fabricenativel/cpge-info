@@ -31,8 +31,8 @@
 	\end{alertblock}
 	\begin{exampleblock}{Exemple}
 			\onslide<4->\begin{codepython}
-import random
-de = random.randint(1,6)
+import randint
+de = randint(1,6)
 			\end{codepython}
 			\onslide<5->\begin{codepython}
 from random import randint
@@ -398,6 +398,7 @@ for lettre in mot:
 
 
 % Descripteur de fichiers
+\makess{Opérations sur les fichiers}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{Gestions des fichiers en Python}
 		En python, on peut ouvrir un fichier présent sur l'ordinateur à l'aide de l'instruction \textcolor{blue}{\tt open}. Cette instruction renvoie une variable appelée \textcolor{blue}{descripteur de fichier} et prend un paramètre indiquant le mode d'ouverture du fichier :
@@ -408,6 +409,9 @@ for lettre in mot:
 		\end{itemize}
 	\end{alertblock}
 \end{frame}
+
+
+
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{Opérations sur les descripteurs de fichiers}
@@ -426,5 +430,110 @@ for lettre in mot:
 		\onslide<10->{\textcolor{OliveGreen}{\tt fic.close()}\\}
 	\end{exampleblock}
 \end{frame}
+
+\makess{Rappels d'algorithmique}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+		\begin{block}{Algorithmique}
+			Dans l'étude d'un algorithme, on s'intéresse aux notions suivantes :
+			\begin{enumerate}
+				\item<2-> \textcolor{blue}{terminaison} : peut-on garantir que l'algorithme se termine en un temps fini ? (ne concerne que les algorithmes avec des boucles non bornées)
+				\item<3-> \textcolor{blue}{correction} : peut-on garantir que l'algorithme fournit la réponse attendue ?
+				\item<4-> \textcolor{blue}{complexité} : evolution du temps d'exécution de l'algorithme en fonction de la taille des données.
+			\end{enumerate}
+		\end{block}	
+	\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Preuve de la terminaison d'un algorithme}
+		\begin{itemize}
+			\item<1-> Seules les boucles \textcolor{blue}{non bornées} (de type boucle \kw{while}) peuvent se répéter indéfiniment. Par conséquent, prouver la terminaison d'un algorithme revient à prouver la terminaison de ses boucles non bornées.
+			\item<2-> Pour prouver la terminaison d'une boucle non bornée on utilise la notion \textcolor{red}{de variant de boucle}. Il s'agit de mettre en évidence une variable qui décroît strictement à chaque passage dans la boucle. \onslide<3-> Comme, il n'existe pas de \textcolor{red}{suite d'entiers naturels strictement décroissante} cela prouve que la boucle termine.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		On considère la fonction ci-dessous :
+		\begin{codepython}
+def quotient(a,b):
+	'''Renvoie le quotient dans la division euclidienne de a par b avec a et b deux entiers naturels'''
+	q=0
+	while a-b>=0:
+		a=a-b
+		q=q+1
+	return q
+\end{codepython}
+		\onslide<2-> En trouvant un variant de boucle, prouver la terminaison de ce programme.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction de l'exemple}
+		\textcolor{OliveGreen}{Montrons que la variable {\tt a} est un variant de boucle, c'est à dire qu'elle prend ses valeurs dans $\N$ et  décroît strictement à chaque passage dans la boucle.}
+		\begin{itemize}
+			\item<2->{\textcolor{OliveGreen}{La valeur initiale de \texttt{a} est un entier naturel (précondition)}}
+			\item<3->{\textcolor{OliveGreen}{A chaque tour de boucle la valeur de \texttt{a} diminue (de \texttt{b}$>0$).}}
+			\item<4->{\textcolor{OliveGreen}{La nouvelle valeur de \texttt{a} est \texttt{a-b} qui est garantie positive par condition d'entrée dans la boucle}}
+		\end{itemize}
+		\onslide<5->\textcolor{OliveGreen}{Les trois éléments ci-dessus prouvent que la variable {\tt a} est un variant de la boucle {\tt while} de ce programme, par conséquent cette boucle se termine.}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Correction d'un algorithme}
+		On dira qu'un algorithme est \textcolor{red}{correct}
+		\onslide<2-> lorsqu'il renvoie la réponse attendue pour n'importe quel donnée en entrée.\\
+		\onslide<3-> On parle de \textcolor{blue}{correction partielle} quand le résultat est correct lorsque l'algorithme s'arrête. Et de \textcolor{blue}{correction totale} lorsque la correction est partielle et que l'algorithme se termine.
+	\end{alertblock}
+	\onslide<3->{\begin{block}{Tests et correction}
+			\onslide<4->{Des tests ne permettent \textcolor{red}{pas} de prouver qu'un algorithme est correct.}
+			\onslide<5->{En effet, ils ne permettent de valider le comportement de l'algorithme que dans quelques cas particuliers et jamais dans le cas général}
+		\end{block}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Preuve de la correction d'un algorithme}
+		Pour prouver la correction d'un algorithme on utilise la notion \textcolor{red}{d'invariant de boucle}. C'est une propriété du programme qui
+		\begin{itemize}
+			\item<2-> est vraie à l'entrée dans la boucle.
+			\item<3-> reste vraie à chaque itération si elle l'était à l'itération précédente.
+		\end{itemize}
+		\onslide<4->{Trouver un invariant de boucle c'est \textcolor{red}{prouver} qu'un algorithme fournit la réponse attendue quelque soient les données.}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		On considère la fonction ci-dessous :
+		\begin{codepython}
+def compte(elt,liste):
+	'''compte le nombre de fois où elt apparaît dans liste'''
+	compteur=0
+	for x in liste:
+		if x==elt:
+			compteur=compteur+1
+	return compteur
+\end{codepython}
+		\onslide<2-> En trouvant un invariant de boucle, montrer qu'à la sortie de la boucle, la variable compteur contient le nombre de fois où \texttt{elt} apparaît dans \texttt{liste}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction de l'exemple}
+		\textcolor{OliveGreen}{On note  $[e_1, e_2, \dots, e_n$] la liste et  $k$ le nombre de tours de boucle\\}
+		\onslide<2->{\textcolor{OliveGreen}{Montrons que la propriété : \\}   \og \kw{compteur} contient le nombre de de fois où \kw{elt} apparaît dans les $k$ premiers éléments de la liste \fg est un invariant de boucle.} 
+		\begin{itemize}
+			\item<4-> \textcolor{OliveGreen}{En entrant dans la boucle ($k=0$) la propriété est vraie car \kw{compteur} vaut 0.}
+			\item<5-> \textcolor{OliveGreen}{Supposons la propriété vraie au $k$-ième tour de boucle alors, au tour suivant elle reste vraie puisqu'on ajoute 1 au compteur lorsque \kw{elt}$=e_{k+1}$}
+		\end{itemize}
+		\onslide<6->\textcolor{OliveGreen}{Cette propriété est donc bien un invariant de boucle.}
+		\onslide<7->\textcolor{OliveGreen}{L'invariant de boucle reste vraie en sortie de boucle ce qui prouve que l'algorithme est correct.}
+	\end{exampleblock}
+\end{frame}
+
 
 \end{document}

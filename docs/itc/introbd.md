@@ -117,3 +117,11 @@ Les exemples vu en cours s'appuient sur la base de données suivante :
 
     1. [Métro parisien](https://sql-exercices.github.io/){target=_blank}
     2. [Pays](https://sql-exercices.github.io/){target=_blank}
+
+3. Enfin, un [site](https://sqlbolt.com/){target=_blank} (en anglais) qui vous permettra de réviser l'ensemble de ce chapitre en faisant les tutoriels de 1 à 5:
+
+    1. [Tutoriel 1 : introduction](https://sqlbolt.com/lesson/select_queries_introduction){target=_blank}
+    2. [Tutoriel 2 : requêtes avec conditions partie 1](https://sqlbolt.com/lesson/select_queries_with_constraints){target=_blank}
+    3. [Tutoriel 3 : requêtes avec conditions partie 2](https://sqlbolt.com/lesson/select_queries_with_constraints_pt_2){target=_blank}
+    4. [Tutoriel 4 : filtrage et tri des résultats](https://sqlbolt.com/lesson/filtering_sorting_query_results){target=_blank}
+    5. [Tutoriel 5 : exercice de synthèse](https://sqlbolt.com/lesson/select_queries_review){target=_blank}
