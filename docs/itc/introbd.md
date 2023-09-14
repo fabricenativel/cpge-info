@@ -70,7 +70,7 @@ Les exemples vu en cours s'appuient sur la base de données suivante :
 {{ exo("Prix Nobel",[])}}
 
 1. Télécharger ci-dessous une base de données des Prix Nobel :
-{{telecharger("Prix Nobel","./files/C2/Nobel.db")}}
+{{telecharger("Prix Nobel","./files/C1/Nobel.db")}}
 2. Ouvrir cette base avec `sqlitebrowser`
 3. Dans <span class='encadre'>Parcourir les données</span> prendre note du noms des colonnes et de leur signification. 
 4. Ecrire les requêtes {{ sc("sql") }} permettant :
@@ -83,7 +83,7 @@ Les exemples vu en cours s'appuient sur la base de données suivante :
 
 {{ exo("Tremblements de terre",[]) }} 
 1. Télécharger ci-dessous une base de données des tremblements de terre :
-{{telecharger("Tremblements de terre","./files/C2/earthquakes.db")}}
+{{telecharger("Tremblements de terre","./files/C1/earthquakes.db")}}
 2. Ouvrir cette base avec `sqlitebrowser`
 3. Dans <span class='encadre'>Parcourir les données</span> prendre note du noms des colonnes et de leur signification. 
 4. Ecrire les requêtes {{ sc("sql") }} permettant :
