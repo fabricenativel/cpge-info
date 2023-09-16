@@ -100,31 +100,34 @@ Vérifier que pour $u_0 = 2023$, la suite $(u_n)_{n \in \mathbb{N}}$ prend les v
 
 ## Partie III : Faire une itération
 
-1. Ecrire une fonction `retourne` qui prend en argument deux tableau `tab`, et `rtab` de même taille `t` et rempli `rtab` avec le contenu de `tab` dans l'ordre inverse . Par exemple si `tab = { 2, 7, 8, 9}` alors après l'appel `retourne(tab,rtab, 4)`, le contenu de `rtab` sera `{ 9, 8, 7, 2}`.
+1. Ecrire une fonction `retourne` qui prend en argument un tableau `tab`, de taille `t` et retourne ce tableau . Par exemple si `tab = { 2, 7, 8, 9}` alors après l'appel `retourne(tab, 4)`, le contenu de `tab` sera `{ 9, 8, 7, 2}`.
 
     ??? langageC "Correction"
         ```c
-            --8<-- "kaprekar.c:42:47"
+            --8<-- "kaprekar.c:42:49"
         ```
 
 2. Ecrire une fonction `valeur` qui prend en argument un tableau `tab`, sa taille `t` et l'entier dont les chiffres en base 10 sont les éléments de `tab`, par exemple si `tab = {2, 0, 2, 3}` alors `valeur(tab,4)` renvoie l'entier `2023`.
 
     ??? langageC "Correction"
         ```c
-            --8<-- "kaprekar.c:50:60"
+            --8<-- "kaprekar.c:52:63"
         ```
 
 3. Compléter la fonction `kaprekar` ci-dessous qui prend en argument un entier `n` et renvoie la valeur obtenu après une itération 
 
     ??? langageC "Correction"
         ```c
-            --8<-- "kaprekar.c:62:78"
+            --8<-- "kaprekar.c:65:79"
         ```
 
 4. Ajouter les instructions `assert` permettant de vérifier les préconditions suivantes sur `n`, c'est à dire que $n \in \left[\!\left[0;9999\right]\!\right]$ et n'a pas tous ces chiffres égaux.
 
     ??? Question "Corrigé"
-        Pour tester que $n$ n'a pas tous ces chiffres égaux, on vérifie simplement qu'il n'est pas divisible par $1111$ (puisque c'est un nombre à 4 chiffres)
+        Pour tester que $n$ n'a pas tous ces chiffres égaux, on vérifie simplement qu'il n'est pas divisible par $1111$ (puisque c'est un nombre à 4 chiffres). L'instruction est : 
+        ```c
+            assert (n>0 && n<10000 && n%1111!=0);
+        ```
 
 
 
@@ -132,10 +135,21 @@ Vérifier que pour $u_0 = 2023$, la suite $(u_n)_{n \in \mathbb{N}}$ prend les v
 ## Partie IV : Preuve numérique de la conjecture
 
 1. Vérifier, grâce à un programme en C, la conjecture établie dans la première partie
-2. Donner le nombre maximal d'itérations nécessaire avant d'obtenir $6174$ et indiquer pour quelle(s) valeur(s) de départ il est atteint.
-
+    
     ??? langageC "Correction"
         ```c
-            --8<-- "kaprekar.c:80:107"
+            --8<-- "kaprekar.c:95:109"
         ```
+
+2. Donner le nombre maximal d'itérations nécessaire avant d'obtenir $6174$ 
+
+    ??? Question "Corrigé"
+        Le programme indique que le nombre d'itérations maximal est 7.
+
+3. Donner une valeur de départ pour laquelle ce maximum d'itération est atteint.
+
+    ??? Question "Corrigé"
+        Une des valeurs pour laquelle ce maximum d'itérations est atteint est 9985.
+
+    
 

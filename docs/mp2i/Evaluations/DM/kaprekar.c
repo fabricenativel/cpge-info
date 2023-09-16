@@ -39,10 +39,12 @@ void tri_selection(int tab[], int size){
 }
 
 
-void retourne(int tab[],int rtab[],int size) {
-    for (int i=0;i<size;i++)
-    {
-        rtab[i] = tab[size-i-1];
+void retourne(int tab[],int size) {
+    int temp;
+    for (int i=0;i<size/2;i++)
+    {   temp = tab[i];
+        tab[i] = tab[size-i-1];
+        tab[size-i-1] = temp;
     }
 }
 
@@ -50,8 +52,9 @@ void retourne(int tab[],int rtab[],int size) {
 int valeur(int tab[],int size)
 {
     int v = 0;
-    int poids = 1;
-    for (int i=0;i<size;i++)
+    int poids = 1; 
+    // le chiffre d'indice 0 est le chiffre de poids maximal
+    for (int i=size-1;i>=0;i = i - 1)
     {
         v =v + tab[i]*poids;
         poids = poids * 10;
@@ -60,22 +63,21 @@ int valeur(int tab[],int size)
 }
 
 int kaprekar(int n){
-    assert ((n%1111!=0) && n>0 && n<10000);
-    const int SIZE = 4;
-    int tab[SIZE];
-    int rtab[SIZE];
+    int chiffres[4];
     int n1,n2;
-    for (int i=0;i<SIZE;i++)
+    // Extraction des chiffres et rangement dans le tableau chiffres
+    for (int i=0;i<4;i++)
     {
-        tab[i] = n%10;
-        n=n/10;
+        chiffres[i] = n % 10;
+        n = n / 10;
     }
-    tri_selection(tab,SIZE);
-    retourne(tab,rtab,SIZE);
-    n1 = valeur(rtab,SIZE);
-    n2 = valeur (tab,SIZE);
+    tri_selection(chiffres,4);
+    n1 = valeur(chiffres,4);
+    retourne(chiffres,4);
+    n2 = valeur(chiffres,4);
     return n2-n1;
 }
+
 
 // vérifie qu'on atteint bien 6174 et renvoie le nombre d'itérations nécessaires
 int verifie(int n)
