@@ -6,9 +6,9 @@ SAVEPATH = "/home/fenarius/Travail/Cours/CorrectionCPGE/"
 PATH = "/home/fenarius/Travail/Cours/cpge-info/docs"
 NIVEAU = ["mp2i","itc"]
 SRC = "Corrections"
-TYPE = ["TP","DM"]
+TYPE = ["TP","DM","DS"]
 TODAY = datetime.date.today()
-EXT = {"TP":".pdf","DM":".md"}
+EXT = {"TP":".pdf","DM":".md", "DS":".pdf"}
 
 print("Vérification des corrections à publier")
 for niv in NIVEAU:
@@ -25,22 +25,26 @@ for niv in NIVEAU:
                     publish_date = datetime.date(y,m,d)
                     if type=="TP":
                         corrige = publish_path+type+devoir[0]+"/"+type+devoir[0]+"-Correction"+EXT[type]
-                    else:
+                        save = SAVEPATH+niv.upper()+"/"+type+"/"+type+devoir[0]+"-Correction"+EXT[type]
+                    elif type=="DM":
                         corrige = publish_path+type+devoir[0]+"-Correction"+EXT[type]
-                    save = SAVEPATH+niv.upper()+"/"+type+"/"+type+devoir[0]+"-Correction"+EXT[type]
+                        save = SAVEPATH+niv.upper()+"/"+type+"/"+type+devoir[0]+"-Correction"+EXT[type]
+                    else:
+                        corrige = publish_path+type+devoir[0]
+                        save = SAVEPATH+niv.upper()+"/"+type+"/"+type+devoir[0]                   
                     if publish_date<=TODAY:
                         print(f"\t * La correction du {type}{devoir[0]} {devoir[1]} peut être publié")
-                        if os.path.isfile(corrige):
+                        if os.path.isfile(corrige) or os.path.isdir(corrige):
                             print(f"\t   Déjà en ligne : pas de modification")
                         else:
-                            if os.path.isfile(save):
+                            if os.path.isfile(save) or os.path.isdir(save):
                                 print(f"\t  A publier : fichier copié depuis la sauvegarde")
-                                os.popen(f"cp {save} {corrige}")
+                                os.popen(f"cp -r {save} {corrige}")
                             else:
                                 print(f"\t  A publier : fichier non trouvé la sauvegarde")
                     else:
                         print(f"\t * La correction du {type}{devoir[0]} {devoir[1]} ne peut PAS être publié")
-                        if os.path.isfile(corrige):
+                        if os.path.isfile(corrige) or os.path.isdir(corrige):
                             print(f"\t   Le fichier de correction existe et doit être déplacé avant le pull")
                             os.popen(f"mv {corrige} {save}")
                         else:
