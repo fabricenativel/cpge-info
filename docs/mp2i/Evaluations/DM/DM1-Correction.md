@@ -138,7 +138,7 @@ Vérifier que pour $u_0 = 2023$, la suite $(u_n)_{n \in \mathbb{N}}$ prend les v
     
     ??? langageC "Correction"
         ```c
-            --8<-- "kaprekar.c:95:109"
+            --8<-- "kaprekar.c:82:109"
         ```
 
 2. Donner le nombre maximal d'itérations nécessaire avant d'obtenir $6174$ 
