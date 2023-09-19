@@ -31,7 +31,7 @@ for niv in NIVEAU:
                         save = SAVEPATH+niv.upper()+"/"+type+"/"+type+devoir[0]+"-Correction"+EXT[type]
                     else:
                         corrige = publish_path+type+devoir[0]
-                        save = SAVEPATH+niv.upper()+"/"+type+"/"+type+devoir[0]                   
+                        save = SAVEPATH+niv.upper()+"/"+type+"/"+type+devoir[0]+"/"                   
                     if publish_date<=TODAY:
                         print(f"\t * La correction du {type}{devoir[0]} {devoir[1]} peut être publié")
                         if os.path.isfile(corrige) or os.path.isdir(corrige):

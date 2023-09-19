@@ -46,8 +46,8 @@ def define_env(env):
         4 : [3,"Arithmétique des ordinateurs","arithmetique.md"],
         5 : [2,"Récursivité","recursivite.md"],
         6 : [9,"OCaml : aspects fonctionnels","introOCaml.md"],
-        7 : [3,"Structures de données linéaires","listechainees.md"],
-        8 : [1,"Terminaison, correction, complexité","terminaison.md"],
+        7 : [1,"Terminaison, correction, complexité","terminaison.md"],
+        8 : [3,"Structures de données linéaires","listechainees.md"],
         9 : [9,"Ocaml : aspects impératifs","OCamlimp.d"]
     }
     env.variables['progression_mp2i_s2']={
