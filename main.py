@@ -208,8 +208,6 @@ def define_env(env):
                     ico = ico + env.variables["themes_"+niveau][int(theme)][1]
                 if publish_date <= today:
                     aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../Evaluations/TP/TP{lf[0]}/TP{lf[0]}.pdf) | [:fontawesome-solid-file-circle-check:](../Evaluations/TP/TP{lf[0]}/TP{lf[0]}-Correction.pdf)  |\n"
-                else:
-                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../Evaluations/TP/TP{lf[0]}/TP{lf[0]}.pdf) | {publish_date.day}/{publish_date.month}/{publish_date.year}  |\n"
                 nums+=1
         return aff
     

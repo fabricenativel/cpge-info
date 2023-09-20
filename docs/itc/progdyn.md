@@ -79,11 +79,14 @@ Vous pouvez télécharger ci-dessous un fichier `mot_cache.txt` :
 {{telecharger("mot_cache.txt","./files/C2/mot_cache.txt")}}    
 
 ce fichier contient de nombreux caractères : tous ceux de code {{sc('ascii')}} compris entre 33 (`!`) et 126 (`~`). Tous ces caractères apparaissent au moins à 50 reprises (et jusqu'à 100 fois) *à l'exception de quelques uns* qui apparaissent rarement (moins d'une dizaine de fois).  
-Retrouver les caractères qui apparaissent rarement, ranger les dans l'ordre de leur nombre d'apparition pour obtenir le mot caché.
+Retrouver les caractères qui apparaissent rarement, ranger les dans l'ordre de leur nombre d'apparition pour obtenir le mot caché. Vous pouvez vérifier votre résultat ci-dessous :
+{{ check_reponse("Bravo") }}
 
 !!! aide
     * Revoir si nécessaire comment ouvrir un fichier en Python et en lire le contenu.
     * On pourra construire un dictionnaire dont les clés sont les caractères et les valeurs leur nombre d'apparition.
+
+
 
 ### Hachage
 

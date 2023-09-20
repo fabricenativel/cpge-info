@@ -16,13 +16,13 @@
 	\begin{alertblock}{Les dictionnaires de Python}
 		\begin{itemize}
 			\item<1-> Les \textcolor{blue}{dictionnaires} de Python permettent de stocker des données sous forme de tableau associant une clé à une valeur : \vspace{0.2cm} \\
-				\begin{tabularx}{0.8\textwidth}{l|Y|Y|Y|Y|Y|}
+				\begin{tabularx}{0.8\textwidth}{l|Y|Y|Y|Y|Y|Y}
 					\cline{2-6}
-					\textcolor{blue}{Valeurs}                   & {\tt v1}                       & {\tt v2}                       & {\tt v3}                       & {\tt v4}                       & {\tt \dots}                    \\
+					\textcolor{blue}{Valeurs}                   & {\tt v1}                       & {\tt v2}                       & {\tt v3}                       & {\tt v4}                       & {\tt \dots}                    &\\
 					\cline{2-6}
-					\multicolumn{1}{c}{$\uparrow$}              & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} \\
+					\multicolumn{1}{c}{$\uparrow$}              & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} &\\
 					\cline{2-6}
-					\multicolumn{1}{c|}{\textcolor{blue}{Clés}} & {\tt c1 }                      & {\tt c2}                       & {\tt c3}                       & {\tt c4}                       & {\tt \dots}                    \\
+					\multicolumn{1}{c|}{\textcolor{blue}{Clés}} & {\tt c1 }                      & {\tt c2}                       & {\tt c3}                       & {\tt c4}                       & {\tt \dots}                    & \textcolor{BrickRed}{uniques}\\
 					\cline{2-6}
 				\end{tabularx}
 			\item<2-> Un dictionnaire se note entre accolades : \kw{\{} et \kw{\}}
@@ -68,8 +68,8 @@
 				\onslide<4->\textcolor{gray}{\footnotesize la fourchette n'est pas dans le dictionnaire prix \\
 					Le test \textcolor{blue}{\tt fourchette in prix} renvoie \textcolor{blue}{\tt False}\\}
 				\onslide<5->\textcolor{BrickRed}{\footnotesize \important} \textcolor{BrickRed}{Ce test d'appartenance s'effectue en temps constant (indépendant de la taille du dictionnaire)}
-			\item<5-> On peut supprimer une clé existante dans un dictionnaire avec \textcolor{blue}{\tt del nom\_dictionnaire[cle]}\\
-				\onslide<6->\textcolor{gray}{\footnotesize On supprimer le couteau : \\
+			\item<6-> On peut supprimer une clé existante dans un dictionnaire avec \textcolor{blue}{\tt del nom\_dictionnaire[cle]}\\
+				\onslide<7->\textcolor{gray}{\footnotesize On supprimer le couteau : \\
 					\textcolor{blue}{\tt del prix["couteau"]}
 				}
 		\end{itemize}
@@ -83,7 +83,7 @@
 		\begin{itemize}
 			\item<1-> Le parcours par clé s'effectue directement avec \textcolor{blue}{\tt for cle in nom\_dictionnaire}\\
 				\onslide<2->\textcolor{gray}{{\footnotesize \tt prix = \{ "verre":12 , "tasse" : 8, "assiette" : 16, "plat" : 30 \} } \\
-				Par exemple, {\tt for objet in prix} permettra à la variable {\tt objet} de prendre successivement les valeurs des clés : {\tt "verre", "tasse", "assiette"} et {\tt "plat"}.}
+				{\footnotesize Par exemple, {\tt for objet in prix} permettra à la variable {\tt objet} de prendre successivement les valeurs des clés : {\tt "verre", "tasse", "assiette"} et {\tt "plat"}.}}
 			\item<3-> Le parcours par valeur s'effectue en ajoutant \textcolor{blue}{\tt .values()} au nom du dictionnaire : \textcolor{blue}{\tt for valeur in nom\_dictionnaire.values() \\}
 				\onslide<4->\textcolor{gray}{\footnotesize
 				Par exemple, {\tt for p in prix.values()} permettra à la variable {\tt p} de prendre successivement les valeurs du dictionnaire : {\tt 12, 8 , 16} et {\tt 30}.
@@ -340,17 +340,18 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Remarque}
-		En python, la mémoïsation peut-être effectuée de façon automatique à l'aide du décorateur \kw{lru\_cache} du module \kw{ funtools}. Après importation, on écrira simplement \kw{@lru\_cache} avant la définition de la fonction dont on veut mémoïser les appels.
+		En python, la mémoïsation peut-être effectuée de façon automatique à l'aide du décorateur \kw{lru\_cache} du module \kw{ functools}. Après importation, on écrira simplement \kw{@lru\_cache} avant la définition de la fonction dont on veut mémoïser les appels.
 	\end{block}
+	\onslide<2->{
 	\begin{exampleblock}{Fibonacci mémoïsation automatique}
 		\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/fibo_rec_memo2.py}{}{\footnotesize}
-	\end{exampleblock}
+	\end{exampleblock}}
 \end{frame}
 
 \makess{Programmation dynamique : exemple introductif}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Position du problème}
-		\onslide<1->{\small On considère une barre de métal de longueur entière 12 et pouvant être découpée en morceaux de longueurs entières ayant chacun prix comme indiqué ci-dessous :
+		\onslide<1->{\small On considère une barre de métal de longueur entière 12 et pouvant être découpée en morceaux de longueurs entières ayant chacun un prix comme indiqué ci-dessous :
 			\begin{center}
 				\begin{tabular}{|l|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|}
 					\hline
@@ -429,19 +430,71 @@
 	\end{alertblock}
 \end{frame}
 
-\makess{Rendu de monnaie}
+
+\makess{Exemple résolu : plus longue sous séquence commune}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Position du problème}
+		On considère deux chaines de caractères $u$ et $v$ de longueurs respectives $n$ et $m$. On cherche à déterminer la longueur de leur \textcolor{blue}{p}lus \textcolor{blue}{l}ongue \textcolor{blue}{s}ous \textcolor{blue}{s}équence \textcolor{blue}{c}ommune (\textcolor{blue}{plssc}), c'est à dire la chaine $w$ telle que :
+		\begin{itemize}
+			\item<2-> $w$ est une sous séquence (c'est à dire une suite extraite) de $u$,
+			\item<3-> $w$ est une sous séquence de $w$,
+			\item<4-> $w$ est de longueur maximale.
+		\end{itemize}
+		\onslide<5->{Par exemple,  $u$="{\sc programmation}" et $v$="{\sc dynamique}" ont comme sous séquence commune "{\sc ami}" (et c'est la plus longue)}
+		\begin{itemize}
+			\item<6-> {\sc progr\textcolor{BrickRed}{a}m\textcolor{BrickRed}{m}at\textcolor{BrickRed}{i}on}
+			\item<7-> {\sc dyn\textcolor{BrickRed}{ami}que}
+		\end{itemize}
+		\onslide<8->{Donc ici, la longueur de la plssc est 3.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+	On cherche les relations de récurrence entre des instances du sous-problème. Pour cela on note $u_i$ ($0\leq i \leq n$) la chaine composée des $i$ premiers caractères de $u$, et $v_j$ ($0\leq j \leq m$) celle composée des $j$ premiers caractères de $v$. Et on note $\mathrm{lplssc}(u_i,v_j)$ la longueur de la plssc de $u_i$ et de $v_j$.
+	\begin{itemize}
+		\item<2->{Si $u[i] = v[j]$ alors, quelle est la relation entre $\mathrm{lplssc}(u_i,v_j)$ et $\mathrm{lplssc}(u_{i-1},v_{j-1})$ ? \\}
+		\onslide<5->{\textcolor{OliveGreen}{$\mathrm{lplssc}(u_i,v_j) = 1 + \mathrm{lplssc}(u_{i-1},v_{j-1})$}}
+		\item<3->{Sinon, exprimer $\mathrm{plssc}(u_i,v_j)$ en fonction de  $\mathrm{plssc}(u_{i},v_{j-1})$  et $\mathrm{plssc}(u_{i-1},v_j)$} 
+		\onslide<6->{\textcolor{OliveGreen}{$\mathrm{lplssc}(u_i,v_j) = \max\left(\mathrm{lplssc}(u_{i},v_{j-1}) ,\mathrm{lplssc}(u_{i-1},v_{j})\right)$}}
+		\item<4->{Déterminer les cas de base (ceux où $u$ et $v$ sont des chaines vides notés ""):\\}
+		\onslide<7->{\textcolor{OliveGreen}{$\mathrm{lplssc}(u_{i},"") = 0$} \\
+		\textcolor{OliveGreen}{$\mathrm{lplssc}("",v_j) = 0$} }
+	\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Programme Python pour plssc}
+			{\inputpartPython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/plssc.py}{}{\footnotesize}{1}{9}}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Construction effective d'une solution}
+		On peut modifier notre programme donnant la longueur de la plssc afin d'obtenir la plssc :
+		\begin{itemize}
+			\item<1-> {\small Si le dernier caractère est commun, il fait partie de la plssc et on relance la récursion sur les parties restantes de chaque chaîne}
+			\item<2-> {\small Sinon on regarde quel appel produit la plssc et on renvoie le résultat de cet appel}
+		\end{itemize}
+		\onslide<3->{\inputpartPython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/plssc.py}{}{\footnotesize}{13}{22}}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Exemple résolu : rendu de monnaie}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Position du problème}
 		On dispose d'un \textit{système monétaire} c'est à dire d'un ensemble de valeurs possibles pour les pièces et les billets. Le problème du rendu de monnaie consiste à déterminer le nombre minimal de pièces à utiliser pour former une somme donnée. \\
 		\onslide<2->{Par exemple si le système monétaire est $\{ 1, 3, 4, 5, 10 \}$ et la somme 17,}
 		\onslide<3->{alors on peut utiliser au minimum 3 pièces ($10+4+3$).}\\
-		\onslide<4->{\textcolor{blue}{\small \rappel \; Rappel : }{\textcolor{gray}{ l'algorithme glouton qui consiste à rendre à tout moment la pièce de plus forte valeur possible ne fournit pas toujours la solution optimale. Ici, on obtiendrait $10, 5, 1, 1$ et donc 4 pièces.}}}
+		\onslide<5->{\textcolor{blue}{\small \rappel \; Rappel : }{\textcolor{gray}{ l'algorithme glouton qui consiste à rendre à tout moment la pièce de plus forte valeur possible ne fournit pas toujours la solution optimale. Ici, on obtiendrait $10, 5, 1, 1$ et donc 4 pièces.}}}
 		\begin{enumerate}
-			\item<5-> Ecrire une relation de récurrence entre les différentes instances du problème en donnant les solutions des cas de base.
-			\item<6-> Ecrire un programme python permettant de répondre au problème.
+			\item<6-> Ecrire une relation de récurrence entre les différentes instances du problème en donnant les solutions des cas de base.
+			\item<7-> Ecrire un programme python permettant de répondre au problème.
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
+
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Résolution}
@@ -450,7 +503,8 @@
 			\onslide<2->\textcolor{OliveGreen}{$\left\{ \begin{array}{lll}
 				m(0) & = & 0,                                                  \\
 				m(S) & = & min\left\{ 1 + m(S-pi),\ 0 < pi \leq S \right\} \mathrm{\ \ pour\ tout\ \ } S > 0.\end{array} \right.$}\medskip \\
-			\onslide<3->\textcolor{BrickRed}{\small \danger \;}\textcolor{OliveGreen}{Si le problème n'a pas de solution, on se retrouve à chercher le minimum d'un ensemble vide, on traduira ce cas de figure dans Python en renvoyant la valeur \kw{inf} du module \kw{math}}
+			\onslide<3->\textcolor{BrickRed}{\small \danger \;}\textcolor{OliveGreen}{Si le problème n'a pas de solution, on se retrouve à chercher le minimum d'un ensemble vide, on traduira ce cas de figure dans Python en renvoyant la valeur \kw{inf} du module \kw{math}. Ce cas se produit lorsque la somme à rendre est inférieure à la valeur de la plus petite pièce.\\}
+			\onslide<4->\textcolor{OliveGreen}{Dans la résolution, on écrira donc une fonction Python \kw{ind\_utilisable} qui renvoie l'indice jusqu'auquel la pièce est utilisable (car inférieur à la somme à rendre)}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -460,7 +514,7 @@
 		\begin{enumerate}
 			\addtocounter{enumi}{1}
 			\item Programme Python (avec mémoïsation automatique)
-			{\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/rendu_monnaie.py}{}{\footnotesize}}
+			{\inputpartPython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/rendu_monnaie.py}{}{\footnotesize}{1}{17}}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}

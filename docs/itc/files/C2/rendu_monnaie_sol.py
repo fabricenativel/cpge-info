@@ -21,4 +21,4 @@ def rendu(somme,systeme):
     pmin = get_pmin(possibilites,utilisable)
     return rendu(somme-pmin,systeme)+[get_pmin(possibilites,utilisable)]
 
-print(rendu(21,(2,5,8,20)))
+print(rendu(18,(2,4,7)))

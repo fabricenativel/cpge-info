@@ -12,7 +12,6 @@
 
 {{ liste_tp("mp2i") }}
 
-
 ## Devoirs maison
 
 {{ liste_dm("mp2i") }}
