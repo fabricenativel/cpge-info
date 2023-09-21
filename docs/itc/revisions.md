@@ -212,7 +212,7 @@ Vérifier la réponse fournie par votre programme ci-dessous :
 {{ exo("Recherche dans un dictionnaire",[])}}
 
 Pour cette exercice on utilise le dictionnaire téléchargeable ci-dessous:
-{{ telecharger("Dictionnaire",".itc//files/C0/dictionnaire.txt")}}
+{{ telecharger("Dictionnaire","../itc/files/C0/dictionnaire.txt")}}
 
 1. Combien il y a-t-il de mots dans ce dictionnaire ?
 2. Lister tous les mots de 17 lettres de ce dictionnaire.
