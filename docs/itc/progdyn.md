@@ -129,17 +129,18 @@ Pour gravir un escalier on peut faire des enjambées d'une ou deux marches. Par 
 
 4. Proposer une version itérative permettant d'obtenir $f_n$ par une approche de bas en haut.
 
-5. On s'intéresse maintenant à la construction effective de toutes les possibilités et on notera $p_n$ la liste des façons possibles de gravir un escalier de $n$ marches. Par exemple, en utilisant la notation des listes de Python, $p_5$ contient la liste `[1,1,2,1]`. 
+5. On s'intéresse maintenant à la construction effective de toutes les possibilités et on notera $p_n$ la liste des façons possibles de gravir un escalier de $n$ marches. Les possibilités sont données sous forme de chaine de caractères composées de 1 et de 2. Par exemple, $p_3$=`["111","12","21"]` et  $p_5$ contient la chaine `"1121"`. 
 
     1. Donner $p_0$ et $p_1$.
     2. Etablir une relation de récurrence liant les éléments de $p_{n}$ à ceux de $p_{n-1}$ et $p_{n-2}$
     3. Ecrire une fonction python permettant de répondre au problème.
 
-6. Dans le fichier `montees.txt` à télécharger ci-dessous, se trouvent 143 façons de monter un escalier de 12 marches. Sur chaque ligne du fichier, une des possibilités est donnée sous la forme d'une chaine de caractères composée de 1 et de 2.  
+6. Dans le fichier `montees.txt` à télécharger ci-dessous, se trouvent des façons de monter un escalier de 14 marches. Sur chaque ligne du fichier, une des possibilités est donnée sous la forme d'une chaine de caractères composée de 1 et de 2.  
 {{telecharger("montees.txt","./files/C2/montees.txt")}}    
 
-    1. Combien de possibilités sont manquantes dans ce fichier ?
-    2. Lesquelles ?
+    1. Vérifier (en comptant le nombre de lignes de ce fichier et en comparant avec la valeur de $f_{14}$) qu'une possibilité est manquante.
+    2. Quelle est la possibilité manquante ?  {{check_reponse("11111112211")}}
+
 
 
 {{ exo("Découpe de valeur maximale",[]) }}

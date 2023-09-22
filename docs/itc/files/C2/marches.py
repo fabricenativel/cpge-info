@@ -8,9 +8,9 @@ def marches(n):
 
 @lru_cache
 def possibilites(n):
-    if n==0: return []
-    if n==1: return [[1]]
-    return [p+[1] for p in possibilites(n-1)] + [p+[2] for p in possibilites(n-2)]
+    if n==0: return [""]
+    if n==1: return ["1"]
+    return [p+"1" for p in possibilites(n-1)] + [p+"2" for p in possibilites(n-2)]
 
 
 def write(n):
@@ -19,9 +19,19 @@ def write(n):
     to_write.pop(randint(0,len(to_write)))
     writer = open("montees.txt","w")
     for p in to_write:
-        writer.write("".join([str(m) for m in p]))
+        writer.write(p)
         writer.write("\n")
     writer.close()
 
-write(12)
+def solve():
+    allposs = {p:False for p in possibilites(13)}
+    reader = open("montees.txt")
+    ficposs = reader.read().strip().split("\n")
+    print(len(allposs))
+    print(len(ficposs))
+    for p in ficposs:
+        allposs[p] = True
+    manquantes = [p for p in allposs if not allposs[p]]
+    print(manquantes)
 
+solve()
