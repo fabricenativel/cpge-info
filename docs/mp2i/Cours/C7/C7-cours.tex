@@ -1,0 +1,237 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{7}
+\newcommand{\Ctitle}{\cnum {Terminaison, correction, compléxité.}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap}
+
+% Définition d'une structure de données
+\makess{Objectifs}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Algorithmique}
+        Dans l'étude des algorithmes (\textcolor{blue}{algorithmique}), on s'intéresse aux trois problèmes suivantes :
+        \begin{enumerate}
+            \item<2-> \textcolor{blue}{terminaison} : peut-on garantir que l'algorithme se termine en un temps fini ? (ne concerne que les algorithmes avec des boucles non bornées)
+            \item<3-> \textcolor{blue}{correction} : peut-on garantir que l'algorithme fournit la réponse attendue ?
+            \item<4-> \textcolor{blue}{complexité} : evolution du temps d'exécution de l'algorithme en fonction de la taille des données. En particulier, le temps d'exécution d'un algorithme sur une entrée donnée sera-t-il \og raisonnable \fg ?
+        \end{enumerate}
+        \onslide<5->{L'algorithme étudié doit avoir une \textcolor{blue}{spécification} précise (entrées, sorties, préconditions, postconditions, effets de bord). On parle d'algorithmes (et non de programmes) car ces questions sont indépendantes de l'implémentation dans un langage de programmation quelconque.}
+    \end{block}	
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple}
+        Nous avons déjà rencontrés plusieurs algorithmes de tri (tri par insertion, tri par sélection, tri fusion). On cherche maintenant :
+        \begin{itemize}
+            \item <2-> A obtenir une \textcolor{blue}{preuve mathématique} que ces algorithmes se terminent et donc n'entrent jamais dans une boucle infinie quelques soient les données.
+            \item <3-> A obtenir une \textcolor{blue}{preuve mathématique} que ces algorithmes trient effectivement les listes de nombres données en argument et ce quelques soient leur taille et les valeurs qu'elles contiennent.
+            \item <4-> A comparer ces algorithmes en quantifiant leur efficacité (qui peut être mesuré de diverses façons).  
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\makess{Terminaison}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{block}{Définitions}
+    \begin{itemize}
+        \item On dit qu'un algorithme \textcolor{blue}{termine} si il renvoie un résultat en un nombre fini d'étapes quels que soient les valeurs des entrées.
+        \item Un \textcolor{blue}{variant de boucle} est une quantité :
+            \begin{itemize}
+            \item à valeurs dans $\N$.
+            \item qui décroît strictement à chaque passage dans la boucle.
+            \end{itemize}
+        \item Pour un algorithme récursif, un \textcolor{blue}{variant} est une quantité :
+        \begin{itemize}
+            \item à valeurs dans $\N$.
+            \item qui décroît strictement à chaque appel récursif.
+        \end{itemize}
+    \end{itemize}
+\end{block}
+\begin{alertblock}{Preuve de la terminaison d'un algorithme}
+    Pour prouver la terminaison d'un algorithme, il suffit de trouver un \textcolor{blue}{variant de boucle} pour chaque boucle non bornée qu'il contient. Et un \textcolor{blue}{variant} pour chaque fonction récursive.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{exampleblock}{Exemple 1}
+    On considère la fonction ci-dessous :
+    \inputpartC{\SPATH/terminaison.c}{}{\small}{4}{14}
+    \onslide<2-> En trouvant un variant de boucle, prouver la terminaison de cette fonction.
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{exampleblock}{Correction de l'exemple 1}
+    \textcolor{OliveGreen}{Montrons que la variable {\tt a} est un variant de boucle, c'est à dire qu'elle prend ses valeurs dans $\N$ et  décroît strictement à chaque passage dans la boucle.}
+    \begin{itemize}
+        \item<2->{\textcolor{OliveGreen}{La valeur initiale de \texttt{a} est un entier naturel (précondition)}}
+        \item<3->{\textcolor{OliveGreen}{A chaque tour de boucle la valeur de \texttt{a} diminue (de \texttt{b}$>0$).}}
+        \item<4->{\textcolor{OliveGreen}{La nouvelle valeur de \texttt{a} est \texttt{a-b} qui est garantie positive par condition d'entrée dans la boucle}}
+    \end{itemize}
+    \onslide<5->\textcolor{OliveGreen}{Les trois éléments ci-dessus prouvent que la variable {\tt a} est un variant de la boucle {\tt while} de ce programme, par conséquent cette boucle se termine.}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple 2}
+        On considère la fonction ci-dessous :
+        \inputpartOCaml{\SPATH/terminaison.ml}{}{\small}{1}{4}
+        \onslide<2-> Prouver que cette fonction récursive termine
+    \end{exampleblock}
+    \end{frame}
+    
+    \begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Correction de l'exemple 2}
+        \textcolor{OliveGreen}{Montrons que la longueur de la liste \kw{liste} est un variant, c'est à dire qu'elle prend ses valeurs dans $\N$ et  décroît strictement à chaque appel récursif.}
+        \begin{itemize}
+            \item<2->{\textcolor{OliveGreen}{La longueur d'une liste est à valeur dans $\N$}}
+            \item<3->{\textcolor{OliveGreen}{A chaque appel récursif, on enlève un élément de \kw{liste} (sa tête) et donc la taille de la liste diminue de 1.}}
+        \end{itemize}
+        \onslide<4->\textcolor{OliveGreen}{Les deux éléments ci-dessus prouvent que la longueur de la liste est un variant et que donc cette fonction récursive termine.}
+    \end{exampleblock}
+    \end{frame}
+
+    \begin{frame}[fragile]{\Ctitle}{\stitle}
+        \begin{block}{Remarque}
+            Dans les exemples ci-dessus la mise en évidence du variant est facile (et ce sera le cas en général dans nos algorithmes). Mais, les preuves de terminaison sont loin d'être toujours aussi évidentes.\\
+            \onslide<2->{Par exemple, si on considère la fonction suivante :
+            \inputpartOCaml{\SPATH/terminaison.ml}{}{\small}{6}{8}}
+            \onslide<3-> Prouver sa terminaison reviendrait à prouver la conjecture de syracuse qui résiste aux mathématiciens depuis un siècle !
+        \end{block}
+    \end{frame}
+
+\makess{Correction}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{alertblock}{Correction d'un algorithme}
+    On dira qu'un algorithme est \textcolor{red}{correct}
+    \onslide<2-> lorsqu'il renvoie la réponse attendue pour n'importe quel donnée en entrée.\\
+    \onslide<3-> On parle de \textcolor{blue}{correction partielle} quand le résultat est correct lorsque l'algorithme s'arrête. Et de \textcolor{blue}{correction totale} lorsque la correction est partielle et que l'algorithme se termine.
+\end{alertblock}
+\onslide<3->{\begin{block}{Tests et correction}
+        \onslide<4->{Des tests ne permettent \textcolor{red}{pas} de prouver qu'un algorithme est correct.}
+        \onslide<5->{En effet, ils ne permettent de valider le comportement de l'algorithme que dans quelques cas particuliers et jamais dans le cas général}
+    \end{block}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{alertblock}{Preuve de la correction d'un algorithme}
+    Pour prouver la correction d'un algorithme itératif, on utilise la notion \textcolor{red}{d'invariant de boucle}. C'est une propriété du programme qui
+    \begin{itemize}
+        \item<2-> est vraie à l'entrée dans la boucle.
+        \item<3-> reste vraie à chaque itération si elle l'était à l'itération précédente.
+    \end{itemize}
+    \onslide<4->{La méthode est similaire à une récurrence mathématique (les deux étapes précédentes correspondent à l’initialisation et à l'hérédité).}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{exampleblock}{Exemple 1}
+    On considère la fonction ci-dessous :
+    \inputpartC{\SPATH/correction.c}{}{\small}{3}{15}
+    \onslide<2-> En trouvant un invariant de boucle, montrer qu'à la sortie de la boucle, la variable \kw{cpt} contient le nombre de fois où \kw{elt} apparaît dans \kw{tab}
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{exampleblock}{Correction de l'exemple 1}
+    \textcolor{OliveGreen}{On note  $\{ e_1, e_2, \dots, e_n \}$ les élements de \kw{tab} et  $k$ le nombre de tours de boucle\\}
+    \onslide<2->{\textcolor{OliveGreen}{Montrons que la propriété : \\}   \og{} \textit{\kw{nb} contient le nombre de de fois où \kw{elt} apparaît dans les $k$ premiers éléments de \kw{tab}} \fg{}  \textcolor{OliveGreen}{est un invariant de boucle.}} 
+    \begin{itemize}
+        \item<4-> \textcolor{OliveGreen}{En entrant dans la boucle ($k=0$) la propriété est vraie car \kw{cpt} vaut 0.}
+        \item<5-> \textcolor{OliveGreen}{Supposons la propriété vraie au $k$-ième tour de boucle alors, au tour suivant elle reste vraie puisqu'on ajoute 1 au compteur lorsque \kw{elt}$=e_{k+1}$}
+    \end{itemize}
+    \onslide<6->\textcolor{OliveGreen}{Cette propriété est donc bien un invariant de boucle.}
+    \onslide<7->\textcolor{OliveGreen}{L'invariant de boucle reste vraie en sortie de boucle ce qui prouve que l'algorithme est correct.}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Correction d'un algorithme récursif}
+        Dans le cas d'un algorithme récursif, la preuve de la correction peut s'obtenir :
+        \begin{itemize}
+            \item<1-> Directement à partir des identités mathématiques issus du code de la fonction.
+            \item<2-> Par un raisonnement inductif, c'est à dire similaire à une récurrence.
+        \end{itemize}
+    \end{block}
+    \begin{exampleblock}{Exemple 2 : factoriel récursif}
+        \onslide<3->\inputpartOCaml{\SPATH/correction.ml}{}{\small}{1}{2}
+        \onslide<4-> Les identités {\tt fact 0 = 1} et {\tt fact n =  n * fact (n-1)} si $n>0$, correspondent bien à la définition mathématique de la factorielle c'est à dire $0!=1$ et pour tout $n \in \N^*$, $n! = n \times (n-1)!$, donc cette fonction est correcte
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple 2 : liste des termes pairs}
+        {\small On considère la fonction récursive suivante qui renvoie la liste des termes pairs.}
+        \onslide<2->\inputpartOCaml{\SPATH/correction.ml}{}{\small}{4}{8}
+        \onslide<3->{\small Pour prouver  que cette fonction est correcte on peut faire le raisonnement inductif suivant :}
+        \onslide<4->{\small On note $P(n)$, la propriété : \og{} \textit{pour une liste de taille $n$, \kw{pairs} renvoie la liste des termes pairs de cette liste} \fg{}. Alors :}
+        \begin{itemize}
+            \item<5-> {\small $P(0)$ est vérifiée d'après le cas de base}
+            \item<6-> {\small On suppose que $P(n)$ vérifié au rang $n$, et on considère une liste de taille $n+1$ notée {\tt h::t}. Comme  {\tt t} est de taille $n$, on lui applique l'hypothèse de récurrence et {\tt pair t} renvoie bien la liste des termes pairs.}
+            \onslide<7->{\small  La formule de récursivité permet alors de conclure que $P(n+1)$ est vérifiée puisque {\tt pair h::t} renvoie h::(pair t) si {\tt h} est pair et {\tt pair t} sinon. }
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\makess{Complexité}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{alertblock}{Définition}
+        La \textcolor{red}{complexité} d'un algorithme est une mesure de son efficacité.
+        \onslide<2-> On parle notamment de :
+        \begin{itemize}
+            \item<3-> Complexité en temps : le nombre d'opérations nécessaire à l'exécution d'un algorithme.
+            \item<4-> Complexité en mémoire : l'occupation mémoire en fonction de la taille des données.
+        \end{itemize}
+        \onslide<5->{Ces deux éléments varient en fonction de la taille et de la nature des données.}
+    \end{alertblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple : recherche simple dans un tableau}
+        {\small On considère la fonction ci dessous qui recherche si l'\kw{elt} est ou non dans {\kw{tab}}}
+        \inputpartC{\SPATH/complexite.c}{}{\small}{4}{8}
+    \begin{enumerate}
+        \item<3-> {\small En donnant un exemple, montrer que cette fonction peut renvoyer le résultat en effectuant une seule comparaison.}
+        \item<4-> {\small En donnant un exemple, montrer que cette fonction peut renvoyer le résultat en effectuant $n$ comparaison.}
+        \item<5-> {\small On suppose à présent qu'on cherche un élément $a$ qui se trouve à un seul exemplaire dans le tableau et que les positions sont équiprobables. C'est à dire que pour tout $i \in \intN{0}{n-1}$ $a$ se trouve à l'indice $i$ avec la probabilité $\dfrac{1}{n}$. Quel sera le nombre \textit{moyen} de comparaison à effectuer avec de renvoyer le résultat ?}
+    \end{enumerate}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple : recherche simple dans un tableau}
+    \begin{enumerate}
+        \item<2-> \textcolor{OliveGreen}{\small Si l'élément cherché est en première position dans le tableau on effectue une seule comparaison.}
+        \item<3-> \textcolor{OliveGreen}{\small Si l'élément cherché n'est pas dans le tableau (ou qu'il y figure en dernière position) on effectue $n$ comparaison.}
+        \item<4-> \textcolor{OliveGreen}{\small on note $X$ le nombre de comparaisons avant de trouver $a$, alors $p(X=k) = \dfrac{1}{n}$. Donc,\\
+        $\begin{array}{lll}
+         \onslide<5->{E(X) &=& \displaystyle{\sum_{k=1}^{n} k\,\dfrac{1}{n}} \\}
+         \onslide<6->{E(X) &=&  \dfrac{n+1}{2}}
+        \end{array}$
+        }
+    \end{enumerate}
+    \onslide<7->\textcolor{OliveGreen}{Le nombre de comparaisons varie donc avec les données du problème.}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{alertblock}{Types de complexité}
+        On appelle :
+        \begin{itemize}
+            \item<2-> \textcolor{blue}{complexité dans le meilleur cas}, le nombre minimal d'operations effectuées par un algorithme sur une entrée de taille $n$.
+            \item<3-> \textcolor{blue}{complexité dans le pire cas}, le nombre maximal d'operations effectuées par un algorithme sur une entrée de taille $n$.
+            \item<4-> \textcolor{blue}{complexité en moyenne}, le nombre moyen d'operations effectuées par un algorithme sur un ensemble d'entrées de taille $n$.
+        \end{itemize}
+    \end{alertblock}
+    
+\end{frame}
+
+\end{document}

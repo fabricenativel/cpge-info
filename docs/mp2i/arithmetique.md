@@ -136,9 +136,6 @@ Le calcul en arithmétique à virgule de $0.1+0.2$ ne donne pas exactement $0.3$
     * $x^2 + 0,4x - 0,04 = 0$
 4. Interpréter ces résultats
 
-
-
-
 {{ exo("Comportement d'une suite",[])}}
 
 On considère la suite $(u_n)_{n \in \mathbb{N}}$ définie par :  
@@ -163,6 +160,10 @@ $\left\{ \begin{array}{ll} u_1= \dfrac{5}{4} \\ u_2 = \dfrac{7}{5} \\ u_{n+2} = 
 !!! note
     Cet exercice se contente d'exhiber une suite qui converge vers 2 mais qui numériquement semble converger vers 7. On ne détaille pas le principe de constructions de telles suites, il faut bien comprendre que 2 et 7 sont choisis au hasard et qu'il est assez facile de construire une suite qui converge vers une valeur $\alpha$ alors que numériquement elle semble converger vers une valeur différente $\beta$.  
     On pourra consulter les travaux de [Jean-Michel Muller et Vicent Lefèvre](https://images.math.cnrs.fr/Erreurs-en-arithmetique-des.html){target=_blank} dont cet exemple s'inspire.
+
+
+
+
 
 ## Humour d'informaticien
 ![punition](./Images/C4/binaire.png){.imgcentre width=500px}

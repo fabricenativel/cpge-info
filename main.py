@@ -191,11 +191,12 @@ def define_env(env):
 
     # Affichage de la liste des TP construite depuis le csv
     @env.macro
-    def liste_tp(niveau):
+    def liste_eval(niveau,type):
         aff="\n"
         aff+= "|N° | Thèmes| Titre | Enoncé| Corrigé |\n"
         aff+= "|:-:|:-----:|-------|:-----:|:-----:|\n"
-        FNAME = f"./tp{niveau}.csv"
+        FNAME = f"./{type}{niveau}.csv"
+        utype = type.upper()
         today = datetime.date.today()
         with open(FNAME,"r",encoding="utf-8") as f:
             nums=1
@@ -207,7 +208,7 @@ def define_env(env):
                 for theme in lf[2]:
                     ico = ico + env.variables["themes_"+niveau][int(theme)][1]
                 if publish_date <= today:
-                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../Evaluations/TP/TP{lf[0]}/TP{lf[0]}.pdf) | [:fontawesome-solid-file-circle-check:](../Evaluations/TP/TP{lf[0]}/TP{lf[0]}-Correction.pdf)  |\n"
+                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../{niveau}/Evaluations/{utype}/{utype}{lf[0]}/{utype}{lf[0]}.pdf) | [:fontawesome-solid-file-circle-check:](../{niveau}/Evaluations/{utype}/{utype}{lf[0]}/{utype}{lf[0]}-Correction.pdf)  |\n"
                 nums+=1
         return aff
     
@@ -229,9 +230,9 @@ def define_env(env):
                 for theme in lf[2]:
                     ico = ico + env.variables["themes_"+niveau][int(theme)][1]
                 if publish_date <= today:
-                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../Evaluations/DM/DM{lf[0]}/) | [:fontawesome-solid-file-circle-check:](../Evaluations/DM/DM{lf[0]}-Correction/)|\n"
+                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../mp2i/Evaluations/DM/Enonces/DM{lf[0]}/) | [:fontawesome-solid-file-circle-check:](../mp2i/Evaluations/DM/DM{lf[0]}/DM{lf[0]}-Correction/)|\n"
                 else:
-                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../Evaluations/DM/DM{lf[0]}/) | {publish_date.day}/{publish_date.month}/{publish_date.year}|\n"
+                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../mp2i/Evaluations/DM/Enonces/DM{lf[0]}/) | {publish_date.day}/{publish_date.month}/{publish_date.year}|\n"
                 nums+=1
         return aff
     
@@ -250,4 +251,16 @@ def define_env(env):
         env.variables['num_rep']=env.variables['num_rep']+1
         return to_disp
     
+    @env.macro
+    def capytale(id):
+        lien = "[![logo capytale](https://fabricenativel.github.io/cpge-info/images/capytale.png){.imgcentre width=150px border=2px}]"
+        lien +=f"(https://capytale2.ac-paris.fr/web/c/{id}/metice)"
+        lien += "{target=_blank}"
+        return lien
+    
+    @env.macro
+    def notebook(id,name,file):
+        cap = capytale(id)
+        dl = telecharger(name,file)
+        return cap+'\n'+dl
 
