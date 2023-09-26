@@ -32,7 +32,7 @@ int* copie_tab(int tab[],int size)
     return ctab;
 }
 
-int* trie_bulles(int tab[],int size)
+int* tri_bulles(int tab[],int size)
 {
     int *copie = copie_tab(tab,size);
     for (int i=size-1;i>0;i=i-1)

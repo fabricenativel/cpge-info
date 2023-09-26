@@ -21,7 +21,7 @@
 \Question{Les fonctions ci-dessous contiennent une ou plusieurs erreurs et/ou ne respectent pas leur spécification (donnée en commentaire). Dans chaque cas, expliquer les erreurs commises et les corriger de façon à ce que la fonction obéisse à sa spécification.}
 
 \subQuestion{Fonction {\tt harmonique}
-\inputpartC{\FPATH Evaluations/DS/DS1/DS1_ex1.c}{}{\small}{5}{15}
+\inputpartC{\FPATH Evaluations/DS/DS1/DS1_ex1.c}{}{\small}{5}{13}
 }
 
 \tcor{
@@ -30,7 +30,7 @@
 }
 
 \subQuestion{Fonction {\tt tous\_egaux}
-\inputpartC{\FPATH/Evaluations/DS/DS1/DS1_ex1.c}{}{\small}{17}{32}
+\inputpartC{\FPATH/Evaluations/DS/DS1/DS1_ex1.c}{}{\small}{15}{29}
 }
 
 \tcor{
@@ -40,7 +40,7 @@
 
 
 \subQuestion{Fonction {\tt cree\_tab\_entiers}
-\inputpartC{\FPATH/Evaluations/DS/DS1/DS1_ex1.c}{}{\small}{34}{43}
+\inputpartC{\FPATH/Evaluations/DS/DS1/DS1_ex1.c}{}{\small}{31}{38}
 }
 
 \tcor{
@@ -49,7 +49,7 @@
 }
 
 \subQuestion{Fonction {\tt syracuse}
-\inputpartC{\FPATH/Evaluations/DS/DS1/DS1_ex1.c}{}{\small}{45}{56}}
+\inputpartC{\FPATH/Evaluations/DS/DS1/DS1_ex1.c}{}{\small}{40}{49}}
 \tcor{
     \textbullet\  Les variables en C sont passés par valeur, donc cette fonction ne modifie pas {\tt n}. On doit si on veut respecter la spécification passer un pointeur vers {\tt n}. La ligne 2 est donc \mintinline{c}{void syracuse(int *n)} et on doit remplacer {\tt n} par {\tt *n} dans le reste de la fonction. L'appel à cette fonction si {\tt n} est déclaré comme un entier se fera avec \mintinline{c}{syracuse(&n)} de façon à passer l'adresse de {\tt n}. \\
     \textbullet\  En C, le test d'égalité est {\tt ==}, la ligne 4 est donc \mintinline{c}{if (n}{\tt \%}\mintinline{c}{2 == 0)}.
@@ -57,13 +57,13 @@
 
 \Question{Les programmes suivants, produisent une erreur à l'exécution. Expliquer l'origine du problème et apporter les corrections nécessaires}
 \subQuestion{Affichage d'une adresse
-\inputpartC{\FPATH/Evaluations/DS/DS1/DS1_ex1.c}{}{\small}{58}{64}
+\inputpartC{\FPATH/Evaluations/DS/DS1/DS1_ex1.c}{}{\small}{51}{55}
 }
 \tcor{
     La variable {\tt p} est un pointeur \textit{non initialisé} vers un entier, aucune zone mémoire n'a été réservé pour sa valeur. On doit donc lorsqu'on déclare cette variable lui alloué un emplacement mémoire avec {\tt malloc}. La ligne 4 est donc \mintinline{c}{int *p = malloc(sizeof(int));}
 }
 \subQuestion{Calcul de la somme de deux entiers 
-\inputpartC{\FPATH/Evaluations/DS/DS1/DS1_ex1.c}{}{\small}{55}{64}
+\inputpartC{\FPATH/Evaluations/DS/DS1/DS1_ex1.c}{}{\small}{57}{64}
 }
 \tcor{
     La fonction {\tt scanf} va modifier la valeur de la variable donnée en argument (ici {\tt a} puis {\tt b}), donc elle prend en argument des pointeurs vers ces valeurs (sinon elle ne pourrait pas les modifier), la ligne 6 est donc \tt{scanf("\%d", \&a);}}
@@ -99,7 +99,7 @@
 \begin{Exercise}[title = {puissance}]
 \Question{Ecrire une fonction {\tt valeur\_absolue} qui prend en argument un entier $n$ et renvoie sa valeur absolue $|n|$. On rappelle que :
 $|n| = \left\{ \begin{array}{rl} -n & \mathrm{\ si\ } n<0 \\ n & \mathrm{\ sinon} \end{array}\right.$}
-\inputpartC{\FPATH/Evaluations/DS/DS1/puissance.c}{}{\small}{7}{11}
+\inputpartC{\FPATH/Evaluations/DS/DS1/puissance.c}{}{\small}{6}{11}
 \Question{Ecrire une fonction {\tt puissance} qui prend en argument un flottant (type {\tt double}) $a$ et un entier $n$ et renvoie 
 $a^n$. On rappelle que pour $a \in \R^*$, $n \in \Z$ : \\
 $\left\{ \begin{array}{ll}
