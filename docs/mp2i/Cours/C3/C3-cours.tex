@@ -198,9 +198,9 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Un premier exemple}
 		\begin{langageC}
-int main()  {
-double big_array[1500000];
-return 0;}
+			int main()  {
+			double big_array[1500000];
+			return 0;}
 		\end{langageC}
 		{\small
 		\begin{enumerate}
@@ -244,9 +244,9 @@ return 0;}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple 1}
 		\onslide<1->\begin{langageC*}{fontsize=\small}
-int n = 42;
-int p = &n;
-printf("Valeur stockée à l'adresse de p = %d",*p);
+			int n = 42;
+			int p = &n;
+			printf("Valeur stockée à l'adresse de p = %d",*p);
 		\end{langageC*}
 		\onslide<2->{\small Dans l'exemple ci-dessus, \kw{p} est un pointeur qui contient l'adresse de \kw{n}.}
 		\onslide<3->{\small Le \kw{printf} affiche le contenu de l'adresse pointée par \kw{p} donc 42.}
@@ -256,8 +256,8 @@ printf("Valeur stockée à l'adresse de p = %d",*p);
 			\item<4-> \small Ecrire une fonction {\tt echange} qui prend en argument deux adresses vers des entiers et échange les valeurs de ces deux entiers.
 			\item<5-> \small Ajouter un appel à {\tt echange} dans le programme ci-dessous de façon à échanger les valeurs des variables \kw{a} et \kw{b}.
 				\onslide<3->\begin{langageC*}{fontsize=\small}
-int a = 42;
-int b = 14;
+					int a = 42;
+					int b = 14;
 				\end{langageC*}
 		\end{enumerate}
 	\end{exampleblock}
@@ -287,9 +287,9 @@ int b = 14;
 	\begin{exampleblock}{Exemple}
 		\onslide<4->
 		\begin{langageC}
-double *t =  malloc(sizeof(int)*100); //alloue le bloc mémoire
-t[5] = 12; // affecte la valeur 12 au 6eme élément du bloc
-t[113] = 27; // Comportement indéfini
+			double *t =  malloc(sizeof(int)*100); //alloue le bloc mémoire
+			t[5] = 12; // affecte la valeur 12 au 6eme élément du bloc
+			t[113] = 27; // Comportement indéfini
 		\end{langageC}
 	\end{exampleblock}
 \end{frame}
@@ -309,9 +309,9 @@ t[113] = 27; // Comportement indéfini
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple : fonction renvoyant un tableau}
 		\begin{itemize} \item<1-> Ecrire une fonction {\tt make\_tab} qui prend en argument deux entiers {\tt size} et {\tt init} et renvoie un pointeur vers un tableau de {\tt size} cases initialisés à la valeur {\tt init}.
-		\onslide<2->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/renvoie_tab.c}{}{\small}{4}{10}
-		\item<3-> \textcolor{BrickRed}{\small \danger} L'allocation \textcolor{BrickRed}{doit} se faire avec \kw{malloc}, sinon elle est faite sur la pile et donc disparait lorsqu'on quitte la fonction.
-		\item<4-> La fonction appelante doit libérer la mémoire allouée avec \kw{free} (sous peine de fuites mémoires.) 
+				\onslide<2->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/renvoie_tab.c}{}{\small}{4}{10}
+			\item<3-> \textcolor{BrickRed}{\small \danger} L'allocation \textcolor{BrickRed}{doit} se faire avec \kw{malloc}, sinon elle est faite sur la pile et donc disparait lorsqu'on quitte la fonction.
+			\item<4-> La fonction appelante doit libérer la mémoire allouée avec \kw{free} (sous peine de fuites mémoires.)
 		\end{itemize}
 	\end{exampleblock}
 \end{frame}
@@ -350,10 +350,10 @@ t[113] = 27; // Comportement indéfini
 			\item<1-> On peut définir en C, des types structurés, appelé \kw{struct} composés de plusieurs champs.
 			\item<2-> La syntaxe générale de définition d'un type structuré est :
 				\begin{langageC}
-struct nom_type_struct {
-	type1 elt1;
-	type2 elt2;
-	...}
+					struct nom_type_struct {
+					type1 elt1;
+					type2 elt2;
+					...}
 				\end{langageC}
 			\item<3-> Un nom de type (qui peut être celui du {\tt struct}) peut être associé à un type structuré de façon à y faire référence plus rapidement.\\
 				\mintinline{c}{typedef struct nom_type_struct nom_type}
@@ -365,11 +365,11 @@ struct nom_type_struct {
 	\begin{exampleblock}{Exemple}
 		Pour créer le type structuré \kw{personne\_struct} contenant les trois champs nom (chaine de caractères), poids et taille (float) :
 		\begin{langageC}
-struct personne_struct {
-	char nom[50];
-	poids float;
-	taille float;
-}
+			struct personne_struct {
+			char nom[50];
+			poids float;
+			taille float;
+			}
 		\end{langageC}
 		On peut donner un nom à ce type : \\
 		\mintinline{c}{typedef struct personne_struct personne;}
@@ -441,20 +441,20 @@ struct personne_struct {
 		\begin{itemize}
 			\item<1-> \small Ecrire l'instruction permettant d'ouvrir ce fichier en mode lecture
 				\onslide<5->\begin{langageC*}{fontsize=\small}
-FILE *fichier = fopen("entiers.txt","r");
+					FILE *fichier = fopen("entiers.txt","r");
 				\end{langageC*}
 			\item<2-> \small Déclarer deux entiers {\tt n} (qui va contenir les entiers lus) et {\tt somme} initialisé à 0.
 				\onslide<6->\begin{langageC*}{fontsize=\small}
-int n, somme = 0;
+					int n, somme = 0;
 				\end{langageC*}
 			\item<3-> \small Ecrire une boucle while permettant de lire chacun des entiers jusqu'à la fin du fichier et d'en faire la somme dans la variable {\tt somme}
 				\onslide<7->\begin{langageC*}{fontsize=\small}
-while (fscanf(fichier,"%d",&n)!=EOF) {
-	somme = somme + n;}
+					while (fscanf(fichier,"%d",&n)!=EOF) {
+					somme = somme + n;}
 				\end{langageC*}
 				\item<4->\small Ecrire l'instruction permettant de fermer le fichier
 				\onslide<8->\begin{langageC*}{fontsize=\small}
-fclose(fichier);
+					fclose(fichier);
 				\end{langageC*}
 		\end{itemize}
 	\end{exampleblock}
@@ -494,12 +494,12 @@ fclose(fichier);
 	\begin{block}{Schéma des étapes d'une compilation séparée}
 		\renewcommand{\arraystretch}{3}
 		\begin{tabular}{cccc|c|}
-			 \cline{5-5}
-			\rnode{MH}{\textcolor{blue}{\fbox{\makebox[2cm]{\tt \small \faFile* \; module.h}}}} & \hspace{1cm} & \rnode{PC}{\textcolor{blue}{\fbox{\makebox[2cm]{\tt \small \faFile* \; main.c}}}}   & \hspace{1cm} & \rnode{PO}{\textcolor{Sepia}{\fbox{\makebox[2cm]{\tt \small \faFileArchive \; main.o}}}} \\
-			                                       &              & \rnode{MC}{\textcolor{blue}{\fbox{\makebox[2cm]{\tt \small \faFile* module.c}}}} & \hspace{1cm} & \rnode{MO}{\textcolor{Sepia}{\fbox{\makebox[2cm]{\tt \small \faFileArchive\; module.o}}}}      \\
 			\cline{5-5}
-			& & & \multicolumn{1}{c}{}&\multicolumn{1}{c}{}  \\
-			& & & \multicolumn{1}{c}{}& \multicolumn{1}{c}{\rnode{EX}{\textcolor{BrickRed}{\fbox{\makebox[2cm]{\tt \small \faCogs \; main.exe}}}}} \\
+			\rnode{MH}{\textcolor{blue}{\fbox{\makebox[2cm]{\tt \small \faFile* \; module.h}}}} & \hspace{1cm} & \rnode{PC}{\textcolor{blue}{\fbox{\makebox[2cm]{\tt \small \faFile* \; main.c}}}} & \hspace{1cm}         & \rnode{PO}{\textcolor{Sepia}{\fbox{\makebox[2cm]{\tt \small \faFileArchive \; main.o}}}}                   \\
+			                                                                                    &              & \rnode{MC}{\textcolor{blue}{\fbox{\makebox[2cm]{\tt \small \faFile* module.c}}}}  & \hspace{1cm}         & \rnode{MO}{\textcolor{Sepia}{\fbox{\makebox[2cm]{\tt \small \faFileArchive\; module.o}}}}                  \\
+			\cline{5-5}
+			                                                                                    &              &                                                                                   & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}                                                                                       \\
+			                                                                                    &              &                                                                                   & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\rnode{EX}{\textcolor{BrickRed}{\fbox{\makebox[2cm]{\tt \small \faCogs \; main.exe}}}}} \\
 		\end{tabular}
 		\onslide<2->{\ncline[doubleline=true,doublesep=2pt,doublecolor=gray,linecolor=gray,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{MH}{PC} \naput[labelsep=0cm]{{\scriptsize \tt \#include}}}
 		\onslide<3->{\ncline[doubleline=true,doublesep=2pt,doublecolor=OliveGreen,linecolor=OliveGreen,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{PC}{PO} \naput[labelsep=0cm]{{\scriptsize \tt gcc -c}}}
@@ -511,34 +511,131 @@ fclose(fichier);
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Remarques}
 		\begin{itemize}
-		\item<1-> Des types composés \kw{struct} peuvent être définis dans le fichier d'en-tête sans donner leur structure. Ce point sera détaillé plus loin dans le cours lorsqu'on abordera les structures de données.
-		\item<2-> Afin d'éviter des redondances, on peut spécifier dans le fichier d'en-tête
-		\begin{langageC}
-#ifndef NONMODULE
-#define NONMODULE
-// ici définition des signatures des fonctions
-// et ici des types structurés éventuels
-#endif
-		\end{langageC}
-		Cela évite d'avoir des problèmes en cas de double inclusion malheureuse du même fichier.
-		\item<3-> Afin d'éviter des conflits entre des fonctions portant le même nom et définie dans des modules ou dans le programme principale, on peut prefixer tous les noms de fonctions ou de type d'un module par le nom de ce module.
-	\end{itemize}
+			\item<1-> Des types composés \kw{struct} peuvent être définis dans le fichier d'en-tête sans donner leur structure. Ce point sera détaillé plus loin dans le cours lorsqu'on abordera les structures de données.
+			\item<2-> Afin d'éviter des redondances, on peut spécifier dans le fichier d'en-tête
+				\begin{langageC}
+					#ifndef NONMODULE
+					#define NONMODULE
+					// ici définition des signatures des fonctions
+					// et ici des types structurés éventuels
+					#endif
+				\end{langageC}
+				Cela évite d'avoir des problèmes en cas de double inclusion malheureuse du même fichier.
+			\item<3-> Afin d'éviter des conflits entre des fonctions portant le même nom et définie dans des modules ou dans le programme principale, on peut prefixer tous les noms de fonctions ou de type d'un module par le nom de ce module.
+		\end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{exampleblock}{Un exemple}
-	On décide de créer un module \kw{entiers} afin d'y définir des fonctions usuelles sur les entiers non présentes en C. Par exemple le calcul de puissances ou encore le calcul du {\sc pgcd} :
-	\begin{enumerate}
-		\item<2-> On commence par créer \kw{entiers.h} et y écrire les signatures de nos fonctions \\
-		\onslide<3->{\tt On y trouvera par exemple \mintinline{c}{int entiers_puissance(int a, int n);}}
-		\item<3-> On crée le fichier \kw{entiers.c} qui contient ces fonctions et on le compile avec \kw{gcc -c entiers.c}, cela produit un fichier {\tt entiers.o}
-		\item<4-> Dans le programme principal on inclus le fichier \kw{entiers.h} avec : \\
-		\mintinline{c}{#include "entiers.h"}
-		\item<5-> On compile le programme principal avec \kw{gcc -c main.c}, cela produit un fichier {\tt main.o}
-		\item<6-> Enfin, on produit l'executable grâce à la compilation \kw{gcc main.o entiers.o -o main.exe}
-	\end{enumerate}
-\end{exampleblock}
+	\begin{exampleblock}{Un exemple}
+		On décide de créer un module \kw{entiers} afin d'y définir des fonctions usuelles sur les entiers non présentes en C. Par exemple le calcul de puissances ou encore le calcul du {\sc pgcd} :
+		\begin{enumerate}
+			\item<2-> On commence par créer \kw{entiers.h} et y écrire les signatures de nos fonctions \\
+				\onslide<3->{\tt On y trouvera par exemple \mintinline{c}{int entiers_puissance(int a, int n);}}
+			\item<3-> On crée le fichier \kw{entiers.c} qui contient ces fonctions et on le compile avec \kw{gcc -c entiers.c}, cela produit un fichier {\tt entiers.o}
+			\item<4-> Dans le programme principal on inclus le fichier \kw{entiers.h} avec : \\
+				\mintinline{c}{#include "entiers.h"}
+			\item<5-> On compile le programme principal avec \kw{gcc -c main.c}, cela produit un fichier {\tt main.o}
+			\item<6-> Enfin, on produit l'executable grâce à la compilation \kw{gcc main.o entiers.o -o main.exe}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Tableaux multidimensionnels}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Allocation sur la pile}
+		\begin{itemize}
+			\item<1-> En C, on peut allouer des tableaux multidimensionnels sur la pile en précisant les tailles attendues pour chaque dimension. Par exemple :\\
+				\onslide<2->{\mintinline{c}{float matrice[4][4];} \\déclare un tableau de flottants de 4 lignes sur 4 colonnes. L'accès aux élément se fait alors avec la notation {\tt matrice[i][j]}.\\}
+				\onslide<3->{La taille de la pile étant limitée, cela est réservé aux tableaux de petites tailles.}
+			\item<4-> Pour une allocation sur le tas (qui sera nécessaire pour les tableaux de taille importante), deux options sont envisageables :
+				\begin{itemize}
+					\item<5-> Allouer un tableau de tableau à une dimension.
+					\item<6-> Allouer un tableau de pointeurs, chacun des pointeurs pointe alors vers une ligne du tableau.
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Allocation d'un tableau de tableaux}
+		\begin{itemize}
+			\item<1-> Un tableau d'entier de type {\tt int} et de taille $n$ à la structure suivante en mémoire (où chaque case à la taille prévue pour accueillir un {\tt int})
+				\begin{center}
+					\begin{tabularx}{0.7\linewidth}{|p{0.6cm}|p{0.6cm}|X|p{0.6cm}|p{0.6cm}|}
+						\hline
+						                                    &                                     & \dotfill             &                      &                                         \\
+						\hline
+						\multicolumn{1}{c}{\footnotesize 0} & \multicolumn{1}{c}{\footnotesize 1} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\footnotesize $n-1$} \\
+					\end{tabularx}
+				\end{center}
+				\item<2->{Pour allouer une matrice de dimension $n \times m$, on peut "linéariser" le tableau et prévoir que chaque case à maintenant la capacité d'accueillir $m$ entiers. \\
+				            \textcolor{BrickRed}{\small \danger\;} on doit donc connaître $m$ au moment de l'allocation.}.\\
+				\item<3->{La structure de données correspondante et "à visualiser" est alors la suivante :}
+				\newcolumntype{"}{@{\vrule width 1pt}}
+				\newcommand{\minitab}{\begin{tabular}{|c|p{0.74cm}|c|}  & \  \dots  &  \\ \end{tabular}}
+				\begin{tabularx}{\linewidth}{@{\vrule width 1pt}p{2cm}"p{2cm}"X"p{2cm}@{\vrule width 1pt}}
+					\Xhline{2\arrayrulewidth}
+					 \minitab &               \minitab                      & \dotfill             &    \minitab                                     \\
+					\Xhline{2\arrayrulewidth}
+					\multicolumn{1}{c}{\small $m$ {\tt int}} & \multicolumn{1}{c}{\small $m$ {\tt int}}& \multicolumn{1}{c}{}  & \multicolumn{1}{c}{\small $m$ {\tt int}} \\
+					\multicolumn{1}{c}{\footnotesize 0}                 & \multicolumn{1}{c}{\footnotesize 1} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\footnotesize $n-1$} \\
+				\end{tabularx}
+				Chaque case contient du "grand" tableau contient un tableau de $m$ entiers.
+				\item<4->{Cette allocation s'effectue avec : \\ \mintinline{c}{int (*mat)[n] =  malloc(sizeof(*mat)*m);}}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Allocation d'un tableau de pointeurs}
+		\begin{itemize}
+			\item<1-> On peut aussi, allouer un tableau de pointeurs, chaque pointeur pointe sur une ligne de la matrice. La structure de données correspondante est alors :
+			\onslide<2->{\begin{center}
+				\renewcommand{\arraystretch}{1.4}
+			\begin{tabularx}{0.4\textwidth}{c|c|X|c|c|c|}
+				\multicolumn{1}{c}{}& \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{0} & \multicolumn{1}{c}{\dots} & \multicolumn{1}{c}{$m-1$}\\
+				\cline{2-2} \cline{4-6}
+				{\footnotesize 0} & \rnode{P1}{} & & \rnode{C1}{} & \dots& \\
+
+				\cline{2-2} \cline{4-6}
+				{\footnotesize 1} & \rnode{P2}{} & & \rnode{C2}{} & \dots& \\
+				\cline{2-2} \cline{4-6} 
+				\multicolumn{6}{c}{\dots} \\
+				\cline{2-2} \cline{4-6} 
+				{\footnotesize $n-1$} & \rnode{PN}{} & & \rnode{CN}{} & \dots & \\
+				\cline{2-2} \cline{4-6} 
+			\end{tabularx}
+			\ncline{*->}{P1}{C1}
+			\ncline{*->}{P2}{C2}
+			\ncline{*->}{PN}{CN}
+		\end{center}}
+		\item<3-> Dans ce cas il faut allouer le tableau de pointeurs : \\
+		\mintinline{c}{int **mat = malloc(sizeof(int*)*n);}
+		\item<4-> Puis chacune des lignes de la matrice individuellement : \\
+		\mintinline{c}{mat[i] = malloc(sizeof(int) * m);} (à faire pour $ 0 \leq i \leq n$)
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Comparatif}
+		\begin{itemize}
+			\item<1-> Dans le premier cas :
+			\begin{itemize}
+				\item<2-> lne seule allocation (donc une seule libération est nécessaire)
+				\item<3-> les éléments sont contigus en mémoire
+				\item<4-> chaque ligne doit avoir la même taille
+				\item<5-> cette taille doit être connue à l'allocation
+			\end{itemize}
+			\item<6-> Dans le second cas :
+			\begin{itemize}
+				\item<6-> Chaque ligne est alloué séparément et peut avoir une taille différente				
+				\item<7-> On stocke en plus des éléments du tableau le tableau de pointeurs (donc $n$ pointeurs)
+			\end{itemize}
+		\end{itemize}
+		\textcolor{BrickRed}{\small \danger \;} On se limitera cette année à la première méthode, l'autre est à la limite du programme et est utilisée surtout dans le cas où chaque ligne n'a pas la même taille (par exemple un tableau de chaines de caractères).
+	\end{block}
 \end{frame}
 
 \end{document}
