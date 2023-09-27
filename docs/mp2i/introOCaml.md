@@ -21,7 +21,7 @@
     Dans cette activité, on utilise pour la première fois les **jupyter notebook**, c'est à dire des documents contenant à la fois :
 
     * des zones de texte explicatives, 
-    * des zones de code Python, executables directement à la façon de ce qui se passe lorsque Python est en mode console.
+    * des zones de code Ocaml, executables directement à la façon de ce qui se passe lorsqu'on utilise l'environnement `utop` de OCaml.
 
     A chaque fois, que nous utilisons cet outil, deux choix s'offrent à vous :
 
@@ -31,10 +31,9 @@
     ```
     L'application se lance dans votre navigateur, télécharger le notebook et utiliser le bouton <span class="encadre">Téléverser</span> en haut à droit pour le télécharger dans votre dossier et l'ouvrir.
 
-    2. Utiliser l'application **Capytale** de votre environnement numérique de travail metice. Dans ce cas, utiliser le lien de partage fourni dans l'activité. Cette option vous permet notamment de travailler depuis la maison car aucune installation (ni de Python, ni de Jupyter) n'est nécessaire.
+    2. Utiliser l'application **Capytale** de votre environnement numérique de travail metice. Dans ce cas, utiliser le lien de partage fourni dans l'activité. Cette option vous permet notamment de travailler depuis la maison car aucune installation (ni de OCaml, ni de Jupyter) n'est nécessaire.
 
     Les activités utilisant un notebook proposerons donc toujours les deux options décrites ci-dessus.
-
 
 {{notebook("c985-1905797","Notebook : Premiers pas en OCaml","./Notebook/TP - Premiers pas en OCaml.ipynb")}}
 
@@ -65,6 +64,23 @@ utop # triangle2 '*' 5;;
 *****
 ```
 {{ exo("Logarithme discret",[])}}
+
+{{ exo("Type nombre",[]) }}
+
+1. Créer le type union `nombre` pouvant être un entier ou un flottant
+2. A l'aide d'un filtrage par motif, écrire une fonction `addition` qui prend en argument deux variables de type `nombre` et renvoie leur somme.
+
+{{ exo("Type couleur",[]) }}
+
+1. Créer le type produit `couleur` sous la forme d'un triplet de trois entiers.
+2. Le négatif d'une couleur $(x,y,z)$ est la couleur $(255-x, 255-y, 255-z)$. Ecrire une fonction prenant une couleur comme paramètre et renvoyant son négatif.
+3. A l'aide d'un filtrage par motif écrire une fonction qui affiche :
+
+    * `Rouge pur` si la composante rouge est strictement positive et les  deux autres composantes sont nulles, `Vert pur` si les deux autres,
+    * `Vert pur` si la composante verte est strictement positive et les  deux autres composantes sont nulles,
+    * `Bleu pur` si la composante bleue est strictement positive et les  deux autres composantes sont nulles,
+    * `Mélange` dans les autres cas.
+    
 
 {{ exo("Exercices en ligne",[]) }}
 

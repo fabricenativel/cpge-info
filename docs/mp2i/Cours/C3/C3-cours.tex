@@ -543,22 +543,37 @@
 
 \makess{Tableaux multidimensionnels}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{Allocation sur la pile}
+	\begin{block}{Allocation de l'espace mémoire}
 		\begin{itemize}
 			\item<1-> En C, on peut allouer des tableaux multidimensionnels sur la pile en précisant les tailles attendues pour chaque dimension. Par exemple :\\
 				\onslide<2->{\mintinline{c}{float matrice[4][4];} \\déclare un tableau de flottants de 4 lignes sur 4 colonnes. L'accès aux élément se fait alors avec la notation {\tt matrice[i][j]}.\\}
-				\onslide<3->{La taille de la pile étant limitée, cela est réservé aux tableaux de petites tailles.}
-			\item<4-> Pour une allocation sur le tas (qui sera nécessaire pour les tableaux de taille importante), deux options sont envisageables :
+				\onslide<3->\textcolor{blue}{La taille de la pile étant limitée, cela est réservé aux tableaux de petites tailles.}
+			\item<4-> Pour une allocation sur le tas d'un tableau $t$, de $n$ lignes et $m$ colonnes, (qui sera nécessaire pour les tableaux de taille importante), trois options sont envisageables :
 				\begin{itemize}
-					\item<5-> Allouer un tableau de tableau à une dimension.
-					\item<6-> Allouer un tableau de pointeurs, chacun des pointeurs pointe alors vers une ligne du tableau.
+					\item[$V_0$]<5-> Allouer un tableau à une dimension de taille $n\times m$.
+					\item[$V_1$]<6-> \textcolor{gray}{Allouer un tableau de tableau à une dimension.}
+					\item[$V_2$]<7-> \textcolor{gray}{Allouer un tableau de pointeurs, chacun des pointeurs pointe alors vers une ligne du tableau.}
 				\end{itemize}
 		\end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{Allocation d'un tableau de tableaux}
+	\begin{block}{$V_0$ : Allocation d'un tableau à une dimension}
+		\begin{itemize}
+			\item<1-> On alloue un tableau d'entiers de tailles $n \times m$ et on considère que les $m$ premiers forment la premières ligne, que les $m$ suivant sont la deuxième, \dots.
+			\item<2-> La structure de données correspondante et "à visualiser" est alors la suivante : \\
+				$\underbrace{\begin{array}{|c|c|c|} \hline t(0,0)& \dots & t(0,m-1)\\ \hline \end{array}}_{\mathrm{ligne\ }0 \ (m \mathrm{\ cases})}$
+				\dotfill
+				$\underbrace{\begin{array}{|c|c|c|} \hline t(n-1,0)& \dots & t(n-1,m-1)\\ \hline \end{array}}_{\mathrm{ligne\ }n-1 \ (m \mathrm{\ cases})}$
+			\item<3-> Pour accéder à l'élément situé en colonne {\tt j} et ligne {\tt i} on doit donc faire \kw{tab[m*i+j]}, c'est à dire qu'on perd la notation (pourtant pratique) {\tt tab[i][j]} des tableaux à deux dimensions, c'est le seul inconvénient de cette méthode. 
+			\item<4-> \textcolor{BrickRed}{Cette solution est la plus simple et sera celle à privilégier cette année}. En effet, on ne fait qu'un \kw{malloc} et un \kw{free} et on manipule en fait un tableau à une dimension (ce qu'on doit normalement savoir faire !)
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{$V_1$ :Allocation d'un tableau de tableaux}
 		\begin{itemize}
 			\item<1-> Un tableau d'entier de type {\tt int} et de taille $n$ à la structure suivante en mémoire (où chaque case à la taille prévue pour accueillir un {\tt int})
 				\begin{center}
@@ -569,72 +584,61 @@
 						\multicolumn{1}{c}{\footnotesize 0} & \multicolumn{1}{c}{\footnotesize 1} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\footnotesize $n-1$} \\
 					\end{tabularx}
 				\end{center}
-				\item<2->{Pour allouer une matrice de dimension $n \times m$, on peut "linéariser" le tableau et prévoir que chaque case à maintenant la capacité d'accueillir $m$ entiers. \\
-				            \textcolor{BrickRed}{\small \danger\;} on doit donc connaître $m$ au moment de l'allocation.}.\\
+				\item<2->{Pour allouer une matrice de dimension $n \times m$, on peut "linéariser" le tableau et prévoir que chaque case à maintenant la capacité d'accueillir $m$ entiers. \textit{C'est à dire que c'est la solution précédente mais avec une gestion automatique des indices par le langage C.}}
 				\item<3->{La structure de données correspondante et "à visualiser" est alors la suivante :}
 				\newcolumntype{"}{@{\vrule width 1pt}}
 				\newcommand{\minitab}{\begin{tabular}{|c|p{0.74cm}|c|}  & \  \dots  &  \\ \end{tabular}}
 				\begin{tabularx}{\linewidth}{@{\vrule width 1pt}p{2cm}"p{2cm}"X"p{2cm}@{\vrule width 1pt}}
 					\Xhline{2\arrayrulewidth}
-					 \minitab &               \minitab                      & \dotfill             &    \minitab                                     \\
+					\minitab                                 & \minitab                                 & \dotfill             & \minitab                                 \\
 					\Xhline{2\arrayrulewidth}
-					\multicolumn{1}{c}{\small $m$ {\tt int}} & \multicolumn{1}{c}{\small $m$ {\tt int}}& \multicolumn{1}{c}{}  & \multicolumn{1}{c}{\small $m$ {\tt int}} \\
-					\multicolumn{1}{c}{\footnotesize 0}                 & \multicolumn{1}{c}{\footnotesize 1} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\footnotesize $n-1$} \\
+					\multicolumn{1}{c}{\small $m$ {\tt int}} & \multicolumn{1}{c}{\small $m$ {\tt int}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\small $m$ {\tt int}} \\
+					\multicolumn{1}{c}{\footnotesize 0}      & \multicolumn{1}{c}{\footnotesize 1}      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\footnotesize $n-1$}  \\
 				\end{tabularx}
-				Chaque case contient du "grand" tableau contient un tableau de $m$ entiers.
+				Chaque case  du "grand" tableau contient un tableau de $m$ entiers.
 				\item<4->{Cette allocation s'effectue avec : \\ \mintinline{c}{int (*mat)[n] =  malloc(sizeof(*mat)*m);}}
 		\end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{Allocation d'un tableau de pointeurs}
+	\begin{block}{$V_2$ : Allocation d'un tableau de pointeurs}
 		\begin{itemize}
 			\item<1-> On peut aussi, allouer un tableau de pointeurs, chaque pointeur pointe sur une ligne de la matrice. La structure de données correspondante est alors :
-			\onslide<2->{\begin{center}
-				\renewcommand{\arraystretch}{1.4}
-			\begin{tabularx}{0.4\textwidth}{c|c|X|c|c|c|}
-				\multicolumn{1}{c}{}& \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{0} & \multicolumn{1}{c}{\dots} & \multicolumn{1}{c}{$m-1$}\\
-				\cline{2-2} \cline{4-6}
-				{\footnotesize 0} & \rnode{P1}{} & & \rnode{C1}{} & \dots& \\
+				\onslide<2->{\begin{center}
+						\renewcommand{\arraystretch}{1.4}
+						\begin{tabularx}{0.4\textwidth}{c|c|X|c|c|c|}
+							\multicolumn{1}{c}{}  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{0} & \multicolumn{1}{c}{\dots} & \multicolumn{1}{c}{$m-1$} \\
+							\cline{2-2} \cline{4-6}
+							{\footnotesize 0}     & \rnode{P1}{}         &                      & \rnode{C1}{}          & \dots                     &                           \\
 
-				\cline{2-2} \cline{4-6}
-				{\footnotesize 1} & \rnode{P2}{} & & \rnode{C2}{} & \dots& \\
-				\cline{2-2} \cline{4-6} 
-				\multicolumn{6}{c}{\dots} \\
-				\cline{2-2} \cline{4-6} 
-				{\footnotesize $n-1$} & \rnode{PN}{} & & \rnode{CN}{} & \dots & \\
-				\cline{2-2} \cline{4-6} 
-			\end{tabularx}
-			\ncline{*->}{P1}{C1}
-			\ncline{*->}{P2}{C2}
-			\ncline{*->}{PN}{CN}
-		\end{center}}
-		\item<3-> Dans ce cas il faut allouer le tableau de pointeurs : \\
-		\mintinline{c}{int **mat = malloc(sizeof(int*)*n);}
-		\item<4-> Puis chacune des lignes de la matrice individuellement : \\
-		\mintinline{c}{mat[i] = malloc(sizeof(int) * m);} (à faire pour $ 0 \leq i \leq n$)
+							\cline{2-2} \cline{4-6}
+							{\footnotesize 1}     & \rnode{P2}{}         &                      & \rnode{C2}{}          & \dots                     &                           \\
+							\cline{2-2} \cline{4-6}
+							\multicolumn{6}{c}{\dots}                                                                                                                           \\
+							\cline{2-2} \cline{4-6}
+							{\footnotesize $n-1$} & \rnode{PN}{}         &                      & \rnode{CN}{}          & \dots                     &                           \\
+							\cline{2-2} \cline{4-6}
+						\end{tabularx}
+						\ncline{*->}{P1}{C1}
+						\ncline{*->}{P2}{C2}
+						\ncline{*->}{PN}{CN}
+					\end{center}}
+			\item<3-> Dans ce cas il faut allouer le tableau de pointeurs : \\
+				\mintinline{c}{int **mat = malloc(sizeof(int*)*n);}
+			\item<4-> Puis chacune des lignes de la matrice individuellement : \\
+				\mintinline{c}{mat[i] = malloc(sizeof(int) * m);} (à faire pour $ 0 \leq i \leq n$)
 		\end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
-	\begin{block}{Comparatif}
+	\begin{block}{Le bilan ...}
 		\begin{itemize}
-			\item<1-> Dans le premier cas :
-			\begin{itemize}
-				\item<2-> lne seule allocation (donc une seule libération est nécessaire)
-				\item<3-> les éléments sont contigus en mémoire
-				\item<4-> chaque ligne doit avoir la même taille
-				\item<5-> cette taille doit être connue à l'allocation
-			\end{itemize}
-			\item<6-> Dans le second cas :
-			\begin{itemize}
-				\item<6-> Chaque ligne est alloué séparément et peut avoir une taille différente				
-				\item<7-> On stocke en plus des éléments du tableau le tableau de pointeurs (donc $n$ pointeurs)
-			\end{itemize}
+			\item<1-> Chacune des méthodes a ses avantages et ses inconvénients
+			\item<2-> La seule qui doit être maitrisée est la méthode $V_0$ (puisqu'on reste en fait dans le cas de la dimension 1 en manipulant soi-même les indices)
+			\item<3-> Pour aller un peu plus loin dans l'apprentissage du C, les élèves intéressés peuvent essayer de coder une version utilisant la $V_1$ ou la $V_2$.
 		\end{itemize}
-		\textcolor{BrickRed}{\small \danger \;} On se limitera cette année à la première méthode, l'autre est à la limite du programme et est utilisée surtout dans le cas où chaque ligne n'a pas la même taille (par exemple un tableau de chaines de caractères).
 	\end{block}
 \end{frame}
 

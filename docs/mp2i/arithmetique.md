@@ -141,21 +141,22 @@ Le calcul en arithmétique à virgule de $0.1+0.2$ ne donne pas exactement $0.3$
 On considère la suite $(u_n)_{n \in \mathbb{N}}$ définie par :  
 $\left\{ \begin{array}{ll} u_0=e-1 \\ u_{n+1} = (n+1)\,u_n - 1 \end{array}\right.$
 
-1. Etablir que la suite $(u_n)_{n \in \mathbb{N}}$ converge vers 0
+On rappelle qu'en [TD](./TD/TD4.pdf) (exercice 10), on a établi que cette suite converge et a pour limite 0.
 
-    !!! aide
-        On pourra utiliser que $\displaystyle{e = \sum_{k=0}^{+\infty} \frac{1}{k!}}$ et procéder par récurrence afin d'établir que pour tout $\displaystyle{n \in N, \ u_n = \sum_{k=n+1}^{+\infty} \frac{n!}{k!}}$.
+1. Ecrire un programme en C, qui  affiche les $30$ premiers termes de la suite $u$. On utilisera la constante `M_E` de `math.h` comme valeur de $e$. 
 
-2. Ecrire un programme qui  affiche les $30$ premiers termes de la suite $u$. On utilisera la constante `M_E` de `math.h` comme valeur de $e$. Expliquer le résultat obtenu.
+2. Expliquer le résultat obtenu.
 
 {{ exo("Convergence numérique et mathématique",[])}}
 
 On considère la suite $(u_n)_{n \in \mathbb{N}}$ définie par :  
 $\left\{ \begin{array}{ll} u_1= \dfrac{5}{4} \\ u_2 = \dfrac{7}{5} \\ u_{n+2} = 10 - \dfrac{23}{u_{n+1}} + \dfrac{14}{u_nu_{n+1}} \end{array}\right.$
 
-1. Montrer que le terme général de $(u_n)_{n \in \mathbb{N}}$ est $u_n = \dfrac{2^n+3}{2^{n-1}+3}$ et en déduire sa limite.
+On rappelle qu'en [TD](./TD/TD4.pdf) (exercice 10), on a établi que cette suite converge et on a déterminé sa limite.
 
-2. Ecrire un programme qui affiche les 40 premiers termes de la suite $u$.
+
+1. Ecrire un programme qui affiche les 40 premiers termes de la suite $u$.
+2. Expliquer le résultat obtenu.
 
 !!! note
     Cet exercice se contente d'exhiber une suite qui converge vers 2 mais qui numériquement semble converger vers 7. On ne détaille pas le principe de constructions de telles suites, il faut bien comprendre que 2 et 7 sont choisis au hasard et qu'il est assez facile de construire une suite qui converge vers une valeur $\alpha$ alors que numériquement elle semble converger vers une valeur différente $\beta$.  

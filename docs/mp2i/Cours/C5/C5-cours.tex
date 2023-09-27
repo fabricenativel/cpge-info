@@ -168,16 +168,17 @@
 				\renewcommand{\arraystretch}{1.4}
 				\begin{tabularx}{5cm}{|Y|}
 					\hline
-					\alt<12->{\makebox[4cm]{\tt fact(0)=1}}{\phantom{\makebox[4cm]{\tt fact(0)=1}}}\rnode{A0}{}                 \\
+					\alt<12->{\makebox[4cm]{\tt fact(\textcolor{blue}{0})=1}}{\phantom{\makebox[4cm]{\tt fact(0)=1}}}\rnode{A0}{}                 \\
 					\hline
-					\alt<10->{\makebox[4cm]{\tt fact(1)=1*fact(0)}}{\phantom{\makebox[4cm]{\tt fact(1)=1*fact(0)}}}\rnode{A1}{} \\
+					\alt<10->{\makebox[4cm]{\tt fact(1)=1*fact(\textcolor{blue}{0})}}{\phantom{\makebox[4cm]{\tt fact(1)=1*fact(0)}}}\rnode{A1}{} \\
 					\hline
-					\alt<8->{\makebox[4cm]{\tt fact(2)=2*fact(1)}}{\phantom{\makebox[4cm]{\tt fact(2)=2*fact(1)}}}\rnode{A2}{}  \\
+					\alt<8->{\makebox[4cm]{\tt fact(2)=2*fact(\textcolor{blue}{1})}}{\phantom{\makebox[4cm]{\tt fact(2)=2*fact(1)}}}\rnode{A2}{}  \\
 					\hline
-					\alt<6->{\makebox[4cm]{\tt fact(3)=3*fact(2)}}{\phantom{\makebox[4cm]{\tt fact(3)=3*fact(2)}}}\rnode{A3}{}  \\
+					\alt<6->{\makebox[4cm]{\tt fact(3)=3*fact(\textcolor{blue}{2})}}{\phantom{\makebox[4cm]{\tt fact(3)=3*fact(2)}}}\rnode{A3}{}  \\
 					\hline
-					\makebox[4cm]{\tt fact(4)=4*fact(3)} \rnode{A4}{}                                                           \\
+					\makebox[4cm]{\tt fact(4)=4*fact(\textcolor{blue}{3})} \rnode{A4}{}                                                           \\
 					\hline
+					\multicolumn{1}{c}{\textcolor{BrickRed}{Pile d'appels}}
 				\end{tabularx}
 			\end{center}}
 		\onslide<5->{\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A4}{A3} \nbput{\textcolor{blue}{\footnotesize appel n=3}}}
@@ -206,6 +207,7 @@
 				\hline
 				\makebox[4cm]{\tt fact(4)=4*fact(3)} \rnode{A4}{}                                                          \\
 				\hline
+				\multicolumn{1}{c}{\textcolor{BrickRed}{Pile d'appels}}
 			\end{tabularx}
 		\end{center}
 		\onslide<6->{Le dépassement de capacité de la pile d'appel est le fameux \textit{stackoverflow} (débordement de pile).}
@@ -250,9 +252,9 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Remarque}
 		\begin{itemize}
-			\item<1-> La version récursive terminale ne provoquera pas de débordement de pile en OCaml car elle sera automatiquement optimisé par le compilateur.
+			\item<1-> La version récursive terminale ne provoquera pas de débordement de pile en OCaml car elle sera automatiquement optimisée par le compilateur.
 			\item<2-> En C, on utilisera l'option d'optimisation \kw{-O2} pour que cela soit le cas.
-			\item<3-> Le langage Ocaml est plus "adapté" à une programmation fonctionnel (et donc à la récursivité) que le C qui permet la récursivité mais est avant tout suit le paradigme impératif.
+			\item<3-> Le langage Ocaml est plus "adapté" à une programmation fonctionnel (et donc à la récursivité) que le C qui permet la récursivité mais représente avant tout le paradigme impératif.
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -270,8 +272,7 @@
 				$\left\{ \begin{array}{lcl} v_0 &=& b \\ v_{n+1} &=& \dfrac{u_n+v_n}{2}\\ \end{array}\right.$ \\
 			\end{tabularx}
 			Ecrire deux fonctions mutuellement récursives {\tt un} et {\tt vn} permettant de calculer les termes de ces deux suites.\\
-			\onslide<3->{\textcolor{BrickRed}{\small \danger} En C, une fonction doit être définie avant d'y faire appel. On doit donc dans le cas d'une récursivité croisée donner la signature d'une des deux fonctions avant la définition complète de l'autre.}
-			s deux suites.\\
+			\onslide<3->{\textcolor{BrickRed}{\small \danger} En C, une fonction doit être définie avant d'y faire appel. On doit donc dans le cas d'une récursivité croisée donner la signature d'une des deux fonctions avant la définition complète de l'autre.}\\
 			\onslide<4->{ En OCaml, on définira les deux fonctions dans le même "{\tt let}" en les séparant par \kw{and}.}
 		\end{exampleblock}}
 \end{frame}

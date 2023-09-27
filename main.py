@@ -260,7 +260,9 @@ def define_env(env):
     
     @env.macro
     def notebook(id,name,file):
-        cap = capytale(id)
-        dl = telecharger(name,file)
-        return cap+'\n'+dl
+        res = "* Télécharger le notebook pour utiliser en local (installation de jupyter et du noyau OCaml nécessaires) \n"
+        res += telecharger(name,file)
+        res += "\n* Utiliser l'application Capytale (aucune installation nécessaire) \n"
+        res += capytale(id)
+        return res
 
