@@ -73,6 +73,18 @@ notes = {
 
 2. Trier ce dictionnaire par ordre croissant de moyenne.
 
+{{ exo("Trouver la chaine qui se répète",[])}}
+
+Vous pouvez télécharger ci-dessous un fichier `chaines.txt` :  
+{{telecharger("chaines.txt","./files/C2/chaines.txt")}}    
+Ce fichier contient 5000 chaines de caractères (une par ligne), une seule de ces chaines apparait deux fois dans le fichier. Le but de l'exercice est de trouver laquelle
+
+1. Proposer une solution utilisant une liste `deja_vu` dans laquelle on rangera les chaines de caractères au fur et à mesure de leur apparition. Vous pouvez tester votre réponse dans le formulaire ci dessous   {{check_reponse("PYKKEXW")}}
+
+2. Proposer une solution utilisant les dictionnaire de Python
+
+3. Discuter l'efficacité de ces deux solution
+
 {{ exo("A la recherche du mot caché",[])}}
 
 Vous pouvez télécharger ci-dessous un fichier `mot_cache.txt` :  
