@@ -10,8 +10,8 @@ let addition n1 n2 =
 type couleur = int * int * int;;
 
 let negatif c = 
-  match c with 
-  |x,y,z ->  255-x,255-y, 255-z;;
+  let x,y,z = c in 
+    255-x,255-y, 255-z;;
 
 let pur c =
   match c with
