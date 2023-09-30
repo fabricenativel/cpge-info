@@ -1,0 +1,59 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{3}
+\newcommand{\Ctitle}{\cnum Modèle entité-association}
+
+\makess{Rappel}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Limitation du modèle à une seule table}
+        \begin{itemize}
+        \item<1-> Pour le moment, nous avons manipulé des bases de données contenant une seule et unique table. Ce modèle n'est pas pertinent et conduit à dupliquer l'information. Par exemple pour une base de données de livres, on stockerait sur chaque enregistrement les informations du livre, de l'auteur et de l'éditeur.
+        \item<2-> Pour de multiples raisons (espace occupé, efficacité pour les recherches ou les modifications, \dots) on doit éviter cette duplication et trouver une nouvelle façon de représenter les informations.
+        \end{itemize}
+        \end{block}
+\end{frame}
+
+
+\makess{Modèle entité-association}
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{alertblock}{Définitions}
+        \begin{itemize}
+        \item<1-> Une \textcolor{blue}{entité} est une modélisation d'un objet concret ou abstrait à propos duquel on souhaite conserver des informations.
+        \onslide<2->\textcolor{gray}{Par exemple un livre, une facture, un client, un anniversaire, une transaction commerciale \dots} \\
+        \item<3-> Une entité possède un ou plusieurs \textcolor{blue}{attributs}.
+        \onslide<4->\textcolor{gray}{Par exemple, l'entité \textit{film} peut avoir les attributs date, titre, année, \dots}
+        \item<5-> Une \textcolor{blue}{instance} d'une entité est un objet en particulier. 
+        \onslide<6-> \textcolor{gray}{Par exemple, \textit{Forrest Gump} est une instance de l'entité \textit{Film}.}
+        \item<7->  Une \textcolor{blue}{association} est un lien entre plusieurs entités. Le degré d'une association est le nombre d'entités intervenant dans l'association.
+        \onslide<8->\textcolor{gray}{Par exemple, l'association \textit{écrit} de degré 2, relie l'entité \textit{auteur}  à l'entité \textit{livre}}
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\makess{Modèle entité-association}
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{alertblock}{Définitions}
+        \begin{itemize}
+        \item<2-> Pour les associations de degré 2 (binaire), on précise de chaque côté d'une association le nombre d'entités concernées. C'est la \textcolor{blue}{cardinalité} de l'association qui se résume à trois types principaux :
+        \begin{itemize}
+            \item<3-> \textcolor{blue}{1--1} association directe et exclusive entre deux entités (\textit{one to one}). 
+            \onslide<4->\textcolor{gray}{Par exemple, un \textit{lycée} a un \textit{proviseur}.}
+            \item<5-> \textcolor{blue}{1--*} (aussi noté \textcolor{blue}{1--n})  association d'une instance de la première entité à un ensemble d'instances de la seconde \textit{one to many}.
+            \onslide<6->\textcolor{gray}{Par exemple, une \textit{voiture} a un seul \textit{propriétaire} mais un \textit{propriétaire} peut avoir plusieurs voitures.}
+            \item<7-> \textcolor{blue}{*--*} (aussi noté \textcolor{blue}{*--*}) association d'un ensemble d'instances à un autre ensemble d'instance. 
+            \onslide<8->\textcolor{gray}{Par exemple, un \textit{livre} peut avoir plusieurs \textit{auteurs} et un \textit{auteur} peut écrire plusieurs \textit{livres}.}
+        \end{itemize}
+        \item<9-> Les associations de types \textcolor{blue}{*--*} peuvent être séparées entre deux associations de type \textcolor{blue}{1--*}. 
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\end{document}
