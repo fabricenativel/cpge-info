@@ -18,11 +18,11 @@
 			\item<1-> Les \textcolor{blue}{dictionnaires} de Python permettent de stocker des données sous forme de tableau associant une clé à une valeur : \vspace{0.2cm} \\
 				\begin{tabularx}{0.8\textwidth}{l|Y|Y|Y|Y|Y|Y}
 					\cline{2-6}
-					\textcolor{blue}{Valeurs}                   & {\tt v1}                       & {\tt v2}                       & {\tt v3}                       & {\tt v4}                       & {\tt \dots}                    &\\
+					\textcolor{blue}{Valeurs}                   & {\tt v1}                       & {\tt v2}                       & {\tt v3}                       & {\tt v4}                       & {\tt \dots}                    &                               \\
 					\cline{2-6}
-					\multicolumn{1}{c}{$\uparrow$}              & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} &\\
+					\multicolumn{1}{c}{$\uparrow$}              & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} &                               \\
 					\cline{2-6}
-					\multicolumn{1}{c|}{\textcolor{blue}{Clés}} & {\tt c1 }                      & {\tt c2}                       & {\tt c3}                       & {\tt c4}                       & {\tt \dots}                    & \textcolor{BrickRed}{uniques}\\
+					\multicolumn{1}{c|}{\textcolor{blue}{Clés}} & {\tt c1 }                      & {\tt c2}                       & {\tt c3}                       & {\tt c4}                       & {\tt \dots}                    & \textcolor{BrickRed}{uniques} \\
 					\cline{2-6}
 				\end{tabularx}
 			\item<2-> Un dictionnaire se note entre accolades : \kw{\{} et \kw{\}}
@@ -363,9 +363,9 @@ rss
 		En python, la mémoïsation peut-être effectuée de façon automatique à l'aide du décorateur \kw{lru\_cache} du module \kw{ functools}. Après importation, on écrira simplement \kw{@lru\_cache} avant la définition de la fonction dont on veut mémoïser les appels.
 	\end{block}
 	\onslide<2->{
-	\begin{exampleblock}{Fibonacci mémoïsation automatique}
-		\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/fibo_rec_memo2.py}{}{\footnotesize}
-	\end{exampleblock}}
+		\begin{exampleblock}{Fibonacci mémoïsation automatique}
+			\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/fibo_rec_memo2.py}{}{\footnotesize}
+		\end{exampleblock}}
 \end{frame}
 
 \makess{Programmation dynamique : exemple introductif}
@@ -471,22 +471,22 @@ rss
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Résolution}
-	On cherche les relations de récurrence entre des instances du sous-problème. Pour cela on note $u_i$ ($0\leq i \leq n$) la chaine composée des $i$ premiers caractères de $u$, et $v_j$ ($0\leq j \leq m$) celle composée des $j$ premiers caractères de $v$. Et on note $\mathrm{lplssc}(u_i,v_j)$ la longueur de la plssc de $u_i$ et de $v_j$.
-	\begin{itemize}
-		\item<2->{Si $u[i] = v[j]$ alors, quelle est la relation entre $\mathrm{lplssc}(u_i,v_j)$ et $\mathrm{lplssc}(u_{i-1},v_{j-1})$ ? \\}
-		\onslide<5->{\textcolor{OliveGreen}{$\mathrm{lplssc}(u_i,v_j) = 1 + \mathrm{lplssc}(u_{i-1},v_{j-1})$}}
-		\item<3->{Sinon, exprimer $\mathrm{plssc}(u_i,v_j)$ en fonction de  $\mathrm{plssc}(u_{i},v_{j-1})$  et $\mathrm{plssc}(u_{i-1},v_j)$} 
-		\onslide<6->{\textcolor{OliveGreen}{$\mathrm{lplssc}(u_i,v_j) = \max\left(\mathrm{lplssc}(u_{i},v_{j-1}) ,\mathrm{lplssc}(u_{i-1},v_{j})\right)$}}
-		\item<4->{Déterminer les cas de base (ceux où $u$ et $v$ sont des chaines vides notés ""):\\}
-		\onslide<7->{\textcolor{OliveGreen}{$\mathrm{lplssc}(u_{i},"") = 0$} \\
-		\textcolor{OliveGreen}{$\mathrm{lplssc}("",v_j) = 0$} }
-	\end{itemize}
+		On cherche les relations de récurrence entre des instances du sous-problème. Pour cela on note $u_i$ ($0\leq i \leq n$) la chaine composée des $i$ premiers caractères de $u$, et $v_j$ ($0\leq j \leq m$) celle composée des $j$ premiers caractères de $v$. Et on note $\mathrm{lplssc}(u_i,v_j)$ la longueur de la plssc de $u_i$ et de $v_j$.
+		\begin{itemize}
+			\item<2->{Si $u[i] = v[j]$ alors, quelle est la relation entre $\mathrm{lplssc}(u_i,v_j)$ et $\mathrm{lplssc}(u_{i-1},v_{j-1})$ ? \\}
+			\onslide<5->{\textcolor{OliveGreen}{$\mathrm{lplssc}(u_i,v_j) = 1 + \mathrm{lplssc}(u_{i-1},v_{j-1})$}}
+			\item<3->{Sinon, exprimer $\mathrm{plssc}(u_i,v_j)$ en fonction de  $\mathrm{plssc}(u_{i},v_{j-1})$  et $\mathrm{plssc}(u_{i-1},v_j)$}
+			\onslide<6->{\textcolor{OliveGreen}{$\mathrm{lplssc}(u_i,v_j) = \max\left(\mathrm{lplssc}(u_{i},v_{j-1}) ,\mathrm{lplssc}(u_{i-1},v_{j})\right)$}}
+			\item<4->{Déterminer les cas de base (ceux où $u$ et $v$ sont des chaines vides notés ""):\\}
+			\onslide<7->{\textcolor{OliveGreen}{$\mathrm{lplssc}(u_{i},"") = 0$} \\
+				\textcolor{OliveGreen}{$\mathrm{lplssc}("",v_j) = 0$} }
+		\end{itemize}
 	\end{exampleblock}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Programme Python pour plssc}
-			{\inputpartPython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/plssc.py}{}{\footnotesize}{1}{9}}
+		{\inputpartPython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/plssc.py}{}{\footnotesize}{1}{9}}
 	\end{exampleblock}
 \end{frame}
 
@@ -505,12 +505,13 @@ rss
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Position du problème}
 		On dispose d'un \textit{système monétaire} c'est à dire d'un ensemble de valeurs possibles pour les pièces et les billets. Le problème du rendu de monnaie consiste à déterminer le nombre minimal de pièces à utiliser pour former une somme donnée. \\
-		\onslide<2->{Par exemple si le système monétaire est $\{ 1, 3, 4, 5, 10 \}$ et la somme 17,}
-		\onslide<3->{alors on peut utiliser au minimum 3 pièces ($10+4+3$).}\\
-		\onslide<5->{\textcolor{blue}{\small \rappel \; Rappel : }{\textcolor{gray}{ l'algorithme glouton qui consiste à rendre à tout moment la pièce de plus forte valeur possible ne fournit pas toujours la solution optimale. Ici, on obtiendrait $10, 5, 1, 1$ et donc 4 pièces.}}}
+		\onslide<2->{Par exemple si le système monétaire est $\{ 5, 4, 3, 1 \}$ et la somme 7,}
+		\onslide<3->{alors on peut utiliser au minimum 2 pièces ($4+3$).}\\
+		\onslide<5->{\textcolor{blue}{\small \rappel \; Rappel : }{\textcolor{gray}{ l'algorithme glouton qui consiste à rendre à tout moment la pièce de plus forte valeur possible ne fournit pas toujours la solution optimale. Ici, on obtiendrait $5, 1, 1$ et donc 3 pièces.}}}
 		\begin{enumerate}
 			\item<6-> Ecrire une relation de récurrence entre les différentes instances du problème en donnant les solutions des cas de base.
 			\item<7-> Ecrire un programme python permettant de répondre au problème.
+			\item<8-> Construire la liste effective des pièces à rendre.
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -519,12 +520,18 @@ rss
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Résolution}
 		\begin{enumerate}
-			\item<1-> \textcolor{OliveGreen}{On note $(p_i)_{0 \leq i \leq n}$ les valeurs des pièces rangées dans l'ordre croissant, $S$ la somme à rendre et $m(S)$ le nombre minimal de pièce pour rendre la somme~$S$. \\}
-			\onslide<2->\textcolor{OliveGreen}{$\left\{ \begin{array}{lll}
-				m(0) & = & 0,                                                  \\
-				m(S) & = & min\left\{ 1 + m(S-pi),\ 0 < pi \leq S \right\} \mathrm{\ \ pour\ tout\ \ } S > 0.\end{array} \right.$}\medskip \\
-			\onslide<3->\textcolor{BrickRed}{\small \danger \;}\textcolor{OliveGreen}{Si le problème n'a pas de solution, on se retrouve à chercher le minimum d'un ensemble vide, on traduira ce cas de figure dans Python en renvoyant la valeur \kw{inf} du module \kw{math}. Ce cas se produit lorsque la somme à rendre est inférieure à la valeur de la plus petite pièce.\\}
-			\onslide<4->\textcolor{OliveGreen}{Dans la résolution, on écrira donc une fonction Python \kw{ind\_utilisable} qui renvoie l'indice jusqu'auquel la pièce est utilisable (car inférieur à la somme à rendre)}
+			\item<2->\textcolor{OliveGreen}{On note} :
+			\begin{itemize}
+				\item<3->\textcolor{OliveGreen}{$S$ la somme à rendre,}
+				\item<4->\textcolor{OliveGreen}{$(p_i)_{0 \leq i \leq n}$ les valeurs des pièces rangées dans l'ordre décroissant}
+				\item<5->\textcolor{OliveGreen}{$m(S,k)$ le nombre minimal de pièce pour rendre la somme~$S$ en utilisant les pièces à partir de la $k$-ième.}
+			\end{itemize}
+			\onslide<6->\textcolor{OliveGreen}{Avec ces notations, on doit donc trouver $m(S,0)$ et on dispose des relations suivantes :}
+			\onslide<7->{\textcolor{OliveGreen}{$\left\{ \begin{array}{lll}
+							m(0,k)   & = & 0 \text{ pour tout } 0\leq k \leq n,                         \\
+							m(S,n+1) & = & +\infty                                                      \\
+							m(S,k)   & = & m(S,k+1)    \text{ si }  S<p_k,                              \\
+							m(S,k)   & = & min\left\{ 1 + m(S-p_k,k), m(S,k+1) \text{  }\right\} sinon.\end{array} \right.$}\medskip \\}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -533,10 +540,92 @@ rss
 	\begin{exampleblock}{Résolution}
 		\begin{enumerate}
 			\addtocounter{enumi}{1}
-			\item Programme Python (avec mémoïsation automatique)
-			{\inputpartPython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/rendu_monnaie.py}{}{\footnotesize}{1}{17}}
+			\item Programme Python (avec mémoïsation dans le dictionnaire \kw{memo})
+			      {\inputpartPython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/rm.py}{}{\footnotesize}{3}{13}}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		\begin{enumerate}
+			\addtocounter{enumi}{2}
+			\item \textcolor{OliveGreen}{Pour construire la liste des pièces à rendre, on peut partir des valeurs de $m(S,k)$ : \\}
+			      \renewcommand{\arraystretch}{1.3}
+			      \begin{tabular}{|c|c|c|c|c|c|c|}
+				      \hline
+				      \backslashbox{$S$}{$k$} & $0$                          & $1$                          & $2$                          & $3$                          & $4$                        \\
+				      \hline
+				      $0$                     & \textcolor{gray}{0}          & \textcolor{gray}{0}          & \textcolor{gray}{0}          & \textcolor{gray}{0}          & \textcolor{gray}{$\infty$} \\
+				      $1$                     & \leavevmode\onslide<2->{$1$} & \leavevmode\onslide<2->{$1$} & \leavevmode\onslide<2->{$1$} & \leavevmode\onslide<2->{$1$} & \textcolor{gray}{$\infty$} \\
+				      $2$                     & \leavevmode\onslide<3->{$2$} & \leavevmode\onslide<3->{$2$} & \leavevmode\onslide<3->{$2$} & \leavevmode\onslide<3->{$2$} & \textcolor{gray}{$\infty$} \\
+				      $3$                     & \leavevmode\onslide<4->{$1$} & \leavevmode\onslide<4->{$1$} & \leavevmode\onslide<4->{$1$} & \leavevmode\onslide<4->{$3$} & \textcolor{gray}{$\infty$} \\
+				      $4$                     & \leavevmode\onslide<5->{$1$} & \leavevmode\onslide<5->{$1$} & \leavevmode\onslide<5->{$2$} & \leavevmode\onslide<5->{$4$} & \textcolor{gray}{$\infty$} \\
+				      $5$                     & \leavevmode\onslide<6->{$1$} & \leavevmode\onslide<6->{$2$} & \leavevmode\onslide<6->{$3$} & \leavevmode\onslide<6->{$5$} & \textcolor{gray}{$\infty$} \\
+				      $6$                     & \leavevmode\onslide<7->{$2$} & \leavevmode\onslide<7->{$2$} & \leavevmode\onslide<7->{$2$} & \leavevmode\onslide<7->{$6$} & \textcolor{gray}{$\infty$} \\
+				      $7$                     & \leavevmode\onslide<8->{$2$} & \leavevmode\onslide<8->{$2$} & \leavevmode\onslide<8->{$3$} & \leavevmode\onslide<8->{$7$} & \textcolor{gray}{$\infty$} \\
+				      \hline
+			      \end{tabular} \quad \textcolor{blue}{$\boxed{p_0=5, p_1=4, p_2=3, p_3 =1}$}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		\begin{enumerate}
+			\addtocounter{enumi}{2}
+			\item \textcolor{OliveGreen}{Pour construire la liste des pièces à rendre, on peut partir des valeurs de $m(S,k)$ : \\}
+			      \renewcommand{\arraystretch}{1.3}
+			      \begin{tabular}{|c|c|c|c|c|c|c|}
+				      \hline
+				      \backslashbox{$S$}{$k$} & $0$                 & \alt<2->{\textcolor{blue}{$\boxed{1}$}}{$1$} & \alt<5->{\textcolor{blue}{$\boxed{2}$}}{$2$}     & $3$                 & $4$                        \\
+				      \hline
+				      $0$                     & \textcolor{gray}{0} & \textcolor{gray}{0}                          & \textcolor{gray}{0}                              & \textcolor{gray}{0} & \textcolor{gray}{$\infty$} \\
+				      $1$                     & $1$                 & $1$                                          & $1$                                              & $1$                 & \textcolor{gray}{$\infty$} \\
+				      $2$                     & $2$                 & $2$                                          & $2$                                              & $2$                 & \textcolor{gray}{$\infty$} \\
+				      \rnode{A}{$3$}          & $1$                 & $1$                                          & \alt<4->{\textcolor{BrickRed}{$\boxed{1}$}}{$1$} & $3$                 & \textcolor{gray}{$\infty$} \\
+				      $4$                     & $1$                 & $1$                                          & $2$                                              & $4$                 & \textcolor{gray}{$\infty$} \\
+				      $5$                     & $1$                 & $2$                                          & $3$                                              & $5$                 & \textcolor{gray}{$\infty$} \\
+				      $6$                     & $2$                 & $2$                                          & $2$                                              & $6$                 & \textcolor{gray}{$\infty$} \\
+				      \rnode{D}{$7$}          & $2$                 & \textcolor{BrickRed}{$\boxed{2}$}            & $3$                                              & $7$                 & \textcolor{gray}{$\infty$} \\
+				      \hline
+			      \end{tabular} \quad \textcolor{blue}{$\boxed{p_0=5, p_1=4, p_2=3, p_3 =1}$}
+			      \onslide<3->\ncbar[angleA=180]{->}{D}{A}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		\begin{enumerate}
+			\addtocounter{enumi}{2}
+			\item Cette méthode correspond au programme suivant :
+			      {\inputpartPython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/rm.py}{}{\footnotesize}{15}{26}}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		Remarque : sur cet exemple, les appels récursifs depuis $m(7,0)$ ne construisent pas la totalité de la matrice des valeurs de $m(S,k)$. En effet, le calcul de $m(7,0)$ se fait à partir de celui de $m(7,1)$ et de $m(7-p_0,0)$ et ainsi de suite en remontant dans la matrice : \\
+		\begin{tabular}{|c|c|c|c|c|c|c|}
+			\hline
+			\backslashbox{$S$}{$k$} & $0$                                             & $1$                                             & $2$                 & $3$                 & $4$                        \\
+			\hline
+			$0$                     & \textcolor{gray}{0}                             & \textcolor{gray}{0}                             & \textcolor{gray}{0} & \textcolor{gray}{0} & \textcolor{gray}{$\infty$} \\
+			$1$                     &                                                 &                                                 &                    &   \leavevmode\onslide<7->{\textcolor{BrickRed}{\faCheck}}                   & \textcolor{gray}{$\infty$} \\
+			$2$                     & \leavevmode\onslide<2->{\textcolor{BrickRed}{\faCheck}} &  \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}}      & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}}                    &  \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}}                   & \textcolor{gray}{$\infty$} \\
+			$3$                     &                                                 &    \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}}                                             &   \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}}                  &  \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}}                   & \textcolor{gray}{$\infty$} \\
+			$4$                     &                                                 &                                                 &   \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}}                  &  \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}}                   & \textcolor{gray}{$\infty$} \\
+			$5$                     &                                                 &                                                 &                     &     \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}}                 & \textcolor{gray}{$\infty$} \\
+			$6$                     &                                                 &                                                 &                     & \leavevmode\onslide<6->{\textcolor{BrickRed}{\faCheck}}                    & \textcolor{gray}{$\infty$} \\
+			$7$                     & \textcolor{BrickRed}{\faCheck}                          & \leavevmode\onslide<2->{\textcolor{BrickRed}{\faCheck}} &     \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}}                &   \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}}                  & \textcolor{gray}{$\infty$} \\
+			\hline
+		\end{tabular} \quad \textcolor{blue}{$\boxed{p_0=5, p_1=4, p_2=3, p_3 =1}$}
+	\end{exampleblock}
+\end{frame}
+
+
 
 \end{document}

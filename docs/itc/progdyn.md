@@ -154,6 +154,25 @@ Pour gravir un escalier on peut faire des enjambées d'une ou deux marches. Par 
     2. Quelle est la possibilité manquante ?  {{check_reponse("11111112211")}}
 
 
+{{ exo("Tranche de somme maximale dans un tableau",[] )}}
+
+Etant donné un tableau d'entiers (positif ou négatif) $[e_0,\dots,e_{n-1}]$ on cherche dans ce tableau la tranche de plus grande somme. Par exemple pour le tableau $[-2, 7, 1, -3, 5, -8, -2, 9]$ c'est la tranche $[7, 1, -3, 5]$ qui a la plus grande somme et cette somme est 10. On n'autorise pas de tranche de longueur nulle et donc par exemple pour le tableau $[-5, -2, -7]$ c'est la tranche $[-2]$ qui a la plus grande somme.
+
+1. Implémenter  l'algorithme naïf qui calcule la somme de toutes les tranches possibles c'est à dire les $\displaystyle{S_{ij} = \sum_{k=i}^{j} e_k}$ et donne ensuite le maximum. Quel est la complexité de cet algorithme ?
+
+    !!! aide
+        On pourra d'abord écrire la fonction `somme_tranche` qui prend en argument deux entiers $i$ et $j$ et renvoie $S_{ij}$
+
+2. Proposer une version permettant de se ramener à un algorithme ayant une complexité quadratique.
+
+    !!! aide
+        On pourra par exemple calculer les $S_{0i}$ pour $0 \leq i \leq n-1$ et exprimer les $S_{ij}$ à l'aide de ces sommes partielles.
+
+3. Un algorithme très élégant et ayant une complexité en $\mathcal{O}(n)$ pour ce problème a été proposé par [Jay Kadane](https://en.wikipedia.org/wiki/Joseph_Born_Kadane){target=_blank}. L'algorithme consiste à parcourir le tableau en tenant à jour la valeur de $T_j$ qui est la tranche de somme maximale qui se termine à l'index $j$. La somme de la tranche maximale est alors obtenu en maintenant à jour une variable contenant le maximum des $T_j$ au fur et à mesure de leurs calculs.
+
+    1. Etablir la relation de récurrence liant $T_{j+1}$ et $T_{j}$
+    2. Implémenter et tester ce nouvel algorithme
+    3. Proposer une version qui donne aussi les index de début et de fin de la tranche de somme maximale.
 
 {{ exo("Découpe de valeur maximale",[]) }}
 
@@ -202,3 +221,21 @@ On dispose d’un sac à dos pouvant contenir un poids maximal $P$ et de $n$ obj
     2. En déduire une fonction Python permettant de déterminer la valeur maximale du sac.
     3. Déterminer un remplissage du sac réalisant la valeur maximale.
 
+{{ exo("Distance d'édition",[]) }}
+
+La distance d'édition (ou [distance de Levenshtein](https://fr.m.wikipedia.org/wiki/Distance_de_Levenshtein){target=_blank}) entre deux chaines de caractères $M$ et $N$ est le nombre de caractères qu'il faut supprimer, insérer ou remplacer pour passer d'une chaine à l'autre, on la note $D(M,N)$.
+
+Par exemple, la distance d'édition entre "TEST" et "VESTE" est de deux (une insertion et une substitution). On note $l_m$ la longueur de $M$ et $l_n$ celle de $M$, $M_i$ les $i$ ($0 \leq i < l_M$) premiers caractères  de la chaine $M$ et $N_j$ les $j$ ($0 \leq j < l_N$) premiers caractères de la chaine $N$ et $d(i,j) = D(M_i,N_j)$
+
+1. Donner les cas de base suivantes :  $d(i,0)$ et $d(0,j)$
+2. Exprimer $d(i,j)$ en fonction de $d(i,j-1)$, $d(i-1,j)$ et $d(i-1,j-1)$, en distinguant le cas où le $i$ème caractère de $M$ conïncide avec le $j$ième de $N$ ou non.
+3. Coder une fonction Python permettant de répondre au problème
+4. A l'aide de la matrice $d(i,j)$ ($0 \leq i < l_M$, ($0 \leq j < l_N$)) reconstruire les opérations permettant de passer de $M$ à $N$.
+
+{{ exo("Exercices en ligne",[])}}
+
+Quelques exercices de programmation dynamique qui peuvent être faits directement dans le navigateur
+
+* [La communication des acacias](https://e-nsi.forge.aeif.fr/pratique/N3/900-acacias/sujet/){target=_blank}
+* [Somme fixée de deux valeurs d'un tableau trié](https://e-nsi.forge.aeif.fr/pratique/N3/900-somme_fixee/sujet/){target=_blank}
+* [Somme minimal pour traverser un carré en diagonale](https://e-nsi.forge.aeif.fr/pratique/N3/940-somme_1/sujet/){target=_blank}
