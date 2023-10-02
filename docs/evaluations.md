@@ -17,3 +17,7 @@
 {{ liste_dm("mp2i") }}
 
 ## ITC 2e année
+
+### Devoirs surveillés
+
+{{ liste_eval("itc","ds") }}

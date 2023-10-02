@@ -154,6 +154,19 @@ Pour gravir un escalier on peut faire des enjambées d'une ou deux marches. Par 
     2. Quelle est la possibilité manquante ?  {{check_reponse("11111112211")}}
 
 
+{{ exo("Jamais deux consécutifs !",[] )}}
+
+Vous disposez d'un tableau de valeurs de $n$ valeurs $[h_0,\dots,h_{n-1}]$, on doit sommer les valeurs présentes dans ce tableau mais *sans jamais utiliser deux éléments consécutifs*. Le but de l'exercice est d'écrire un programme permettant de trouver la somme maximale ainsi atteignable.
+
+Par exemple si le tableau contient les valeurs $[7, 5, 3, 6]$ alors la somme maximale est atteinte en prenant $7$ et $6$ et vaut $13$.
+
+1. Résoudre ce problème en utilisant la programmation dynamique
+
+    !!! aide
+        On pourra noter $S_i$ la somme maximale sans utiliser d'éléments consécutifs à partir de l'indice $i$ et déterminer la relation de recurrence liant les $S_i$ ($0 \leq i  < n$)
+
+2. Proposer une solution pour reconstruire la liste des valeurs  utilisées dans la solution
+
 {{ exo("Tranche de somme maximale dans un tableau",[] )}}
 
 Etant donné un tableau d'entiers (positif ou négatif) $[e_0,\dots,e_{n-1}]$ on cherche dans ce tableau la tranche de plus grande somme. Par exemple pour le tableau $[-2, 7, 1, -3, 5, -8, -2, 9]$ c'est la tranche $[7, 1, -3, 5]$ qui a la plus grande somme et cette somme est 10. On n'autorise pas de tranche de longueur nulle et donc par exemple pour le tableau $[-5, -2, -7]$ c'est la tranche $[-2]$ qui a la plus grande somme.
@@ -231,11 +244,3 @@ Par exemple, la distance d'édition entre "TEST" et "VESTE" est de deux (une ins
 2. Exprimer $d(i,j)$ en fonction de $d(i,j-1)$, $d(i-1,j)$ et $d(i-1,j-1)$, en distinguant le cas où le $i$ème caractère de $M$ conïncide avec le $j$ième de $N$ ou non.
 3. Coder une fonction Python permettant de répondre au problème
 4. A l'aide de la matrice $d(i,j)$ ($0 \leq i < l_M$, ($0 \leq j < l_N$)) reconstruire les opérations permettant de passer de $M$ à $N$.
-
-{{ exo("Exercices en ligne",[])}}
-
-Quelques exercices de programmation dynamique qui peuvent être faits directement dans le navigateur
-
-* [La communication des acacias](https://e-nsi.forge.aeif.fr/pratique/N3/900-acacias/sujet/){target=_blank}
-* [Somme fixée de deux valeurs d'un tableau trié](https://e-nsi.forge.aeif.fr/pratique/N3/900-somme_fixee/sujet/){target=_blank}
-* [Somme minimal pour traverser un carré en diagonale](https://e-nsi.forge.aeif.fr/pratique/N3/940-somme_1/sujet/){target=_blank}
