@@ -221,9 +221,9 @@
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Cas des associations \textit{one to one} : fusion}
-		\onslide<3->{Deux entités associées en \textit{one to one} peuvent fusionner dans la même relation. \\}
-		\onslide<4->\textcolor{gray}{Par exemple, les entités \textit{pays} et \textit{capitale} peuvent fusionner dans une seule table \textit{pays} en ajoutant dans cette table les attributs des capitales.}
-		\onslide<5->
+		\onslide<1->{Deux entités associées en \textit{one to one} peuvent fusionner dans la même relation. \\}
+		\onslide<2->\textcolor{gray}{Par exemple, les entités \textit{pays} et \textit{capitale} peuvent fusionner dans une seule table \textit{pays} en ajoutant dans cette table les attributs des capitales.}
+		\onslide<3->
 		\begin{center}
 			\renewcommand{\arraystretch}{1.1}
 			\begin{tabular}{|p{2cm}|}
@@ -272,6 +272,11 @@
 				\hline
 			\end{tabular}
 		\end{center}
+		\onslide<4->{
+			On obtient alors le schéma relationnel suivant : \smallskip
+			\begin{mdframed}
+				\textbf{Pays} (\underline{nom}, region, population, surface, capitale, longitude, latitude)
+			\end{mdframed}}
 	\end{block}
 \end{frame}
 
@@ -335,8 +340,13 @@
 				\end{tabular}
 				\ncangle[nodesepA=0.1cm,angleA=0,angleB=180]{*->}{DCE}{ACE}
 			\end{center}}
-		\onslide<3->{L'attribut \textcolor{Sepia}{capitale} d'un pays est donc une clé étrangère car c'est une clé primaire dans une autre table.\\}
-		\onslide<4->{\textcolor{BrickRed}{\small \danger\;} Ici la table capitale doit être crée avant la table Pays. Car un pays \textit{doit} avoir une capitale. De même on ne pourra pas supprimer une capitale qui apparait dans la table Pays. C'est \textcolor{BrickRed}{l'intégrité référentielle}}
+		\onslide<3->{
+			On obtient alors le schéma relationnel suivant : \smallskip
+			\begin{mdframed}
+				\textbf{Pays} (\underline{nom}, region, population, surface, \#capitale) \\
+				\textbf{Capitale} (\underline{nom}, longitude, latitude)
+			\end{mdframed}}
+		\onslide<4->{\textcolor{BrickRed}{\small \danger\;} \textcolor{BrickRed}{Intégrité référentielle} : un pays doit avoir une capitale !}
 	\end{block}
 \end{frame}
 
@@ -404,6 +414,12 @@
 				\end{tabular}
 				\ncangle[nodesepA=0.1cm,angleA=180,angleB=0,nodesepB=1.5cm]{*->}{DCE}{ACE}
 			\end{center}}
+		\onslide<4->{
+			On obtient alors le schéma relationnel suivant : \smallskip
+			\begin{mdframed}
+				\textbf{Client} (\underline{num}, nom, prenom, email) \\
+				\textbf{Commande} (\underline{id}, \# id\_client, prix, articles, date)
+			\end{mdframed}}
 	\end{block}
 \end{frame}
 
@@ -493,6 +509,58 @@
 	\end{block}
 \end{frame}
 
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma relationnel}
+		\begin{center}
+			\begin{tabular}{|l>{\footnotesize \sc}r|}
+				\hline
+				\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Etudiant}}}                          \\
+				\hline
+				\cellcolor{white}\underline{\textbf {\footnotesize \rnode{AE}{ine}}} & \cellcolor{white}{int}  \\
+				\hline
+				\cellcolor{white}{\footnotesize nom}                                 & \cellcolor{white}{text} \\
+				\hline
+				\cellcolor{white}{\footnotesize prenom}                              & \cellcolor{white}{text} \\
+				\hline
+				\cellcolor{white}{\footnotesize adresse}                             & \cellcolor{white}{text} \\
+				\hline
+			\end{tabular} \quad \quad \quad
+			\begin{tabular}{|l>{\footnotesize \sc}r|}
+				\hline
+				\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Inscription}}}                                                 \\
+				\hline
+				\cellcolor{white}\underline{\textbf {\footnotesize \textcolor{Sepia}{\rnode{DE}{\# Etudiant}}}} & \cellcolor{white}{int} \\
+				\hline
+				\cellcolor{white}\underline{\textbf {\footnotesize \textcolor{Sepia}{\rnode{DC}{\# Cours}}}}    & \cellcolor{white}{int} \\
+				\hline
+			\end{tabular} \quad \quad \quad
+			\begin{tabular}{|l>{\footnotesize \sc}r|}
+				\hline
+				\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Cours}}}                            \\
+				\hline
+				\cellcolor{white}\underline{\textbf {\footnotesize \rnode{AC}{id}}} & \cellcolor{white}{int}  \\
+				\hline
+				\cellcolor{white}{\footnotesize matière}                            & \cellcolor{white}{text} \\
+				\hline
+				\cellcolor{white}{\footnotesize durée}                              & \cellcolor{white}{int}  \\
+				\hline
+				\cellcolor{white}{\footnotesize description}                        & \cellcolor{white}{text} \\
+				\hline
+			\end{tabular}
+			\ncangle[nodesepA=0.1cm,angleA=180,angleB=0,nodesepB=1.8cm]{*->}{DE}{AE}
+			\ncangle[angleA=0,angleB=180,nodesepA=1.3cm,nodesepB=0.1cm]{*->}{DC}{AC}
+		\end{center}
+		\onslide<2->{
+			On obtient alors le schéma relationnel suivant : \smallskip
+			\begin{mdframed}
+				\textbf{Etudiant} (\underline{ine}, nom, prenom, adresse) \\
+				\textbf{Cours} (\underline{id}, matière, durée, description) \\
+				\textbf{Inscription} (\underline{\# Etudiant}, \underline{\# cours})
+			\end{mdframed}}
+	\end{block}
+\end{frame}
+
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple}
 		\onslide<2->{On souhaite créer une base de données permettant de gérer les notes obtenus par des élèves dans des matières.
@@ -511,204 +579,297 @@
 
 
 \makess{Requêtes sur plusieurs tables : opérations ensemblistes}
-\begin{frame}
+\begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Union de deux tables}
-		Lorsque deux tables $T_1$ et $T_2$ ont \textcolor{BrickRed}{le même schéma relationnel} (c'est à dire les même colonnes), $T_1 \cup T_2$ contient les enregistrement de $T_1$ ou $T_2$ (sans duplication):
-		\begin{center}
-			\begin{tabular}{|c|c|c|}
-				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
-				\hline
-				\rowcolor{lightgray} A & B     & C                 \\
-				\hline
-				$a_1$                  & $b_1$ & $c_1$             \\
-				\hline
-				$a_2$                  & $b_2$ & $c_2$             \\
-				\hline
-				$a_3$                  & $b_3$ & $c_3$             \\
-				\hline
-				$a_4$                  & $b_4$ & $c_4$             \\
-				\hline
-			\end{tabular} \quad \quad
-			\begin{tabular}{|c|c|c|}
-				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_2$}} \\
-				\hline
-				\rowcolor{lightgray} A & B     & C                 \\
-				\hline
-				$a_5$                  & $b_5$ & $c_5$             \\
-				\hline
-				$a_3$                  & $b_3$ & $c_3$             \\
-				\hline
-				$a_6$                  & $b_6$ & $c_6$             \\
-				\hline
-			\end{tabular}
-			\quad \quad
-			\begin{tabular}{|c|c|c|}
-				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 \cup T_2$}} \\
-				\hline
-				\rowcolor{lightgray} A & B     & C                          \\
-				\hline
-				$a_1$                  & $b_1$ & $c_1$                      \\
-				\hline
-				$a_2$                  & $b_2$ & $c_2$                      \\
-				\hline
-				$a_3$                  & $b_3$ & $c_3$                      \\
-				\hline
-				$a_4$                  & $b_4$ & $c_4$                      \\
-				\hline
-				$a_5$                  & $b_5$ & $c_5$                      \\
-				\hline
-				$a_6$                  & $b_6$ & $c_6$                      \\
-				\hline
-			\end{tabular}
-		\end{center} \medskip
-		\mintinline{sql}{SELECT * FROM T1 UNION SELECT * FROM T2;}
+		Lorsque deux tables $T_1$ et $T_2$ ont \textcolor{BrickRed}{le même schéma relationnel} (c'est à dire les même colonnes), $T_1 \cup T_2$ contient les enregistrement de $T_1$ ou $T_2$ (sans duplication).
+		La syntaxe {\sc sql} correspondante est :
+		\onslide<2->{\mintinline{sql}{SELECT * FROM T1 UNION SELECT * FROM T2;}}
 	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{\begin{center}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$7$                     & Payet   & Jean           \\
+					\hline
+					$28$                    & Hoarau  & Paul           \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$57$                    & Casimir & Tom            \\
+					\hline
+				\end{tabular}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$12$                    & Martin  & Pierre         \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$45$                    & Grondin & Eric           \\
+					\hline
+				\end{tabular} \quad
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 \cup T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom                  \\
+					\hline
+					$7$                     & Payet   & Jean                    \\
+					\hline
+					$28$                    & Hoarau  & Paul                    \\
+					\hline
+					$42$                    & Untel   & Sam                     \\
+					\hline
+					$57$                    & Casimir & Tom                     \\
+					\hline
+					$12$                    & Martin  & Pierre                  \\
+					\hline
+					$45$                    & Grondin & Eric                    \\
+					\hline
+				\end{tabular}
+			\end{center}}
+	\end{exampleblock}
 \end{frame}
 
 
-\begin{frame}
+\begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Intersection de deux tables}
-		Lorsque deux tables $T_1$ et $T_2$ ont \textcolor{BrickRed}{le même schéma relationnel} (c'est à dire les même colonnes), $T_1 \cap T_2$ contient les enregistrement apparaissant dans $T_1$ et dans $T_2$:
-		\begin{center}
-			\begin{tabular}{|c|c|c|}
-				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
-				\hline
-				\rowcolor{lightgray} A & B     & C                 \\
-				\hline
-				$a_1$                  & $b_1$ & $c_1$             \\
-				\hline
-				$a_2$                  & $b_2$ & $c_2$             \\
-				\hline
-				$a_3$                  & $b_3$ & $c_3$             \\
-				\hline
-				$a_4$                  & $b_4$ & $c_4$             \\
-				\hline
-			\end{tabular} \quad \quad
-			\begin{tabular}{|c|c|c|}
-				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_2$}} \\
-				\hline
-				\rowcolor{lightgray} A & B     & C                 \\
-				\hline
-				$a_5$                  & $b_5$ & $c_5$             \\
-				\hline
-				$a_3$                  & $b_3$ & $c_3$             \\
-				\hline
-				$a_6$                  & $b_6$ & $c_6$             \\
-				\hline
-			\end{tabular}
-			\quad \quad
-			\begin{tabular}{|c|c|c|}
-				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 \cap T_2$}} \\
-				\hline
-				\rowcolor{lightgray} A & B     & C                          \\
-				$a_3$                  & $b_3$ & $c_3$                      \\
-				\hline
-			\end{tabular}
-		\end{center} \medskip
-		\mintinline{sql}{SELECT * FROM T1 INTERSECT SELECT * FROM T2 ;}
+		Lorsque deux tables $T_1$ et $T_2$ ont \textcolor{BrickRed}{le même schéma relationnel} (c'est à dire les même colonnes), $T_1 \cap T_2$ contient les enregistrement apparaissant dans $T_1$ et dans $T_2$.
+		\onslide<2->{La syntaxe {\sc sql} correspondante est : \\
+			\mintinline{sql}{SELECT * FROM T1 INTERSECT SELECT * FROM T2 ;}}
 	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{\begin{center}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$7$                     & Payet   & Jean           \\
+					\hline
+					$28$                    & Hoarau  & Paul           \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$57$                    & Casimir & Tom            \\
+					\hline
+				\end{tabular} \quad
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$12$                    & Martin  & Pierre         \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$45$                    & Grondin & Eric           \\
+					\hline
+				\end{tabular}
+				\quad
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 \cap T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom   & Prénom                    \\
+					\hline
+					$42$                    & Untel & Sam                       \\
+					\hline
+				\end{tabular}
+			\end{center}}
+	\end{exampleblock}
 \end{frame}
 
 
-\begin{frame}
+\begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Différence de deux tables}
-		Lorsque deux tables $T_1$ et $T_2$ ont \textcolor{BrickRed}{le même schéma relationnel} (c'est à dire les même colonnes), $T_1 - T_2$ contient les enregistrement apparaissant dans $T_1$ et pas dans $T_2$:
-		\begin{center}
-			\begin{tabular}{|c|c|c|}
-				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
-				\hline
-				\rowcolor{lightgray} A & B     & C                 \\
-				\hline
-				$a_1$                  & $b_1$ & $c_1$             \\
-				\hline
-				$a_2$                  & $b_2$ & $c_2$             \\
-				\hline
-				$a_3$                  & $b_3$ & $c_3$             \\
-				\hline
-				$a_4$                  & $b_4$ & $c_4$             \\
-				\hline
-			\end{tabular} \quad \quad
-			\begin{tabular}{|c|c|c|}
-				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_2$}} \\
-				\hline
-				\rowcolor{lightgray} A & B     & C                 \\
-				\hline
-				$a_5$                  & $b_5$ & $c_5$             \\
-				\hline
-				$a_3$                  & $b_3$ & $c_3$             \\
-				\hline
-				$a_6$                  & $b_6$ & $c_6$             \\
-				\hline
-			\end{tabular}
-			\quad \quad
-			\begin{tabular}{|c|c|c|}
-				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 - T_2$}} \\
-				\hline
-				\rowcolor{lightgray} A & B     & C                       \\
-				\hline
-				$a_1$                  & $b_1$ & $c_1$                   \\
-				\hline
-				$a_2$                  & $b_2$ & $c_2$                   \\
-				\hline
-				$a_4$                  & $b_4$ & $c_4$                   \\
-				\hline
-			\end{tabular}
-		\end{center} \medskip
-		\mintinline{sql}{SELECT * FROM T1 EXCEPT SELECT * FROM T2 ;}
+		Lorsque deux tables $T_1$ et $T_2$ ont \textcolor{BrickRed}{le même schéma relationnel} (c'est à dire les même colonnes), $T_1 - T_2$ contient les enregistrement apparaissant dans $T_1$ et pas dans $T_2$.
+		\onslide<2->{La syntaxe {\sc sql} correspondante est : \\
+			\mintinline{sql}{SELECT * FROM T1 EXCEPT SELECT * FROM T2 ;}}
 	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{\begin{center}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$7$                     & Payet   & Jean           \\
+					\hline
+					$28$                    & Hoarau  & Paul           \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$57$                    & Casimir & Tom            \\
+					\hline
+				\end{tabular}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$12$                    & Martin  & Pierre         \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$45$                    & Grondin & Eric           \\
+					\hline
+				\end{tabular}
+				\quad
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 - T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom               \\
+					\hline
+					$7$                     & Payet   & Jean                 \\
+					\hline
+					$28$                    & Hoarau  & Paul                 \\
+					\hline
+					$57$                    & Casimir & Tom                  \\
+					\hline
+				\end{tabular}
+			\end{center}}
+	\end{exampleblock}
 \end{frame}
 
-
-
-\begin{frame}
+\begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Produit cartésien de deux tables}
-		On peut réaliser le \textcolor{Sepia}{produit cartésien} de deux tables, c'est à dire l'ensemble des enregistrements formé d'un enregistrement de la première table et d'un enregistrement de la seconde.
-		\begin{center}
-			\begin{tabular}{|c|c|c|}
+		On peut réaliser le \textcolor{Sepia}{produit cartésien} de deux tables, c'est à dire l'ensemble des enregistrements formé d'un enregistrement de la première table et d'un enregistrement de la seconde. \\
+		\onslide<2->{La syntaxe {\sc sql} correspondante est : \\ \mintinline{sql}{SELECT * FROM T1, T2 ;}}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{
+			\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|}
 				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
 				\hline
-				\rowcolor{lightgray} A & B     & C                 \\
+				\rowcolor{lightgray} Id & Nom   & Prénom           \\
 				\hline
-				$a_1$                  & $b_1$ & $c_1$             \\
+				$7$                     & Payet & Jean             \\
 				\hline
-				$a_2$                  & $b_2$ & $c_2$             \\
+				$42$                    & Untel & Sam              \\
 				\hline
-			\end{tabular} \quad \quad
-			\begin{tabular}{|c|c|}
+			\end{tabular}
+			\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|}
 				\multicolumn{2}{c}{\textcolor{Sepia}{Table $T_2$}} \\
 				\hline
-				\rowcolor{lightgray} D & E                         \\
+				\rowcolor{lightgray} Matière & Note                \\
 				\hline
-				$d_1$                  & $e_1$                     \\
+				Info                         & $15 $               \\
 				\hline
-				$d_2$                  & $e_2$                     \\
+				Maths                        & $9  $               \\
 				\hline
-				$d_3$                  & $e_3$                     \\
+				Physique                     & $10 $               \\
 				\hline
 			\end{tabular}
-			\quad \quad
-			\begin{tabular}{|c|c|c|c|c|}
+			\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|}
 				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 \times T_2$}} \\
 				\hline
-				\rowcolor{lightgray} A & B     & C     & D     & E            \\
+				\rowcolor{lightgray} Id & Nom   & Prenom & Matière  & Note    \\
 				\hline
-				$a_1$                  & $b_1$ & $c_1$ & $d_1$ & $e_1$        \\
+				$7$                     & Payet & Jean   & Info     & $15 $   \\
 				\hline
-				$a_1$                  & $b_1$ & $c_1$ & $d_2$ & $e_2$        \\
+				$42$                    & Untel & Sam    & Info     & $15 $   \\
 				\hline
-				$a_1$                  & $b_1$ & $c_1$ & $d_3$ & $e_3$        \\
+				$7$                     & Payet & Jean   & Maths    & $9  $   \\
 				\hline
-				$a_2$                  & $b_2$ & $c_2$ & $d_1$ & $e_1$        \\
+				$42$                    & Untel & Sam    & Maths    & $9  $   \\
 				\hline
-				$a_2$                  & $b_2$ & $c_2$ & $d_2$ & $e_2$        \\
+				$7$                     & Payet & Jean   & Physique & $10 $   \\
 				\hline
-				$a_2$                  & $b_2$ & $c_2$ & $d_3$ & $e_3$        \\
+				$42$                    & Untel & Sam    & Physique & $10 $   \\
 				\hline
-			\end{tabular}
-		\end{center} \medskip
-		\mintinline{sql}{SELECT * FROM T1, T2 ;}
+			\end{tabular}}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Requêtes sur plusieurs tables : jointures}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Définition}
+		\begin{itemize}
+			\item<1-> La jointure de deux tables $T_1$ et $T_2$ sur les colonnes $A$ et $B$ revient à combiner les enregistrements de $T_1$ et $T_2$ lorsque les colonnes $A$ et $B$ coïncident.
+			\item<2-> Cette jointure se note $T_1 \Join_{A=B} T_2$
+			\item<3-> Cette notion est à celle de clé étrangère, on effectuera souvent les jointures avec $A$ une clé primaire et $B$ une clé étrangère correspondante.
+			\item<4-> La syntaxe {\sc sql} correspondante est : \\ \mintinline{sql}{SELECT * FROM T1 JOIN T2 on T1.A = T2.B}
+			\item<5-> On peut joindre plus de deux tables.
+		\end{itemize}
 	\end{block}
 \end{frame}
 
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\onslide<2->{\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|}
+					\multicolumn{2}{c}{\textcolor{Sepia}{Table Auteurs}} \\
+					\hline
+					\rowcolor{lightgray} Id   & Prénom & Nom             \\
+					\hline
+					\textcolor{blue}{1}       & Isaac  & Asimov          \\
+					\hline
+					\textcolor{BrickRed}{4}   & Franck & Herbert         \\
+					\hline
+					\textcolor{OliveGreen}{7} & Jules  & Verne           \\
+					\hline
+				\end{tabular}} \quad \quad
+			\onslide<3->{\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|}
+					\multicolumn{2}{c}{\textcolor{Sepia}{Table Livres}}                      \\
+					\hline
+					\rowcolor{lightgray} Num & Auteur                    & Titre             \\
+					\hline
+					1                        & \textcolor{BrickRed}{4}   & Dune              \\
+					\hline
+					2                        & \textcolor{blue}{1}       & Les robots        \\
+					\hline
+					3                        & \textcolor{OliveGreen}{7} & L'île mystérieuse \\
+					\hline
+					4                        & \textcolor{blue}{1}       & Fondation         \\
+					\hline
+				\end{tabular}} \end{center}
+		\onslide<4->{La jointure de \textcolor{Sepia}{Auteurs} et \textcolor{Sepia}{Livres} sur les colonnes Id et Auteur donne :}
+		\onslide<5->{\begin{center}
+			\begin{tabular}{|>{\columncolor{fluo} \footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|>{\columncolor{fluo}\footnotesize}c|>{\footnotesize}c|}
+				\hline
+				\rowcolor{lightgray} Id   & Prénom & Nom     & Num & Auteur                    & Titre             \\
+				\hline
+				\textcolor{blue}{1}       & Isaac  & Asimov  & 2   & \textcolor{blue}{1}       & Les robots        \\
+				\hline
+				\textcolor{blue}{1}       & Isaac  & Asimov  & 4   & \textcolor{blue}{1}       & Fondation         \\
+				\hline
+				\textcolor{BrickRed}{4}   & Franck & Herbert & 1   & \textcolor{BrickRed}{4}   & Dune              \\
+				\hline
+				\textcolor{OliveGreen}{7} & Jules  & Verne   & 3   & \textcolor{OliveGreen}{7} & L'île mystérieuse \\
+				\hline
+			\end{tabular}}\medskip \\
+			\onslide<6->\mintinline{sql}{SELECT * FROM Auteurs JOIN Livres on Auteurs.ID = Livres.Auteur}
+			\onslide<7->(On préfixe le nom des attributs par celui de la table afin d'éviter toute ambiguïté.)
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+
+\makess{Requêtes imbriqués}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Requête dans le résultat d'une requête}
+		\begin{itemize}
+			\item<1-> Le résultat d'une requête peut-être utilisé afin d'effectuer une autre requête.
+			\item<2-> C'est le principe des \textcolor{blue}{requêtes imbriquées}.
+			\item<3-> C'est souvent dans un \mintinline{sql}{WHERE} ou un \mintinline{sql}{HAVING}
+		\end{itemize}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<4->{Dans la relation \textit{Objet} (\underline{Référence} : {\sc int}, description : {\sc text}, prix : {\sc float}), comment retrouver le (ou les) objets ayant le prix le plus élevé ?}
+		\begin{itemize}
+			\item<5-> \mintinline{sql}{SELECT Référence, MAX(prix) FROM objet;} \\
+				\onslide<5-> Cette solution n'est pas satisfaisante car elle renverra une seule référence même si plusieurs objets ont le prix maximal.
+			\item<6-> \mintinline{sql}{SELECT Référence, prix FROM objet ORDER BY prix DESC LIMIT 1;}
+				\onslide<6-> De même pour cette solution !
+			\item<7-> \mintinline{sql}{SELECT Référence, prix FROM Objet } \\
+				\mintinline{sql}{WHERE note = (SELECT MAX(prix) FROM objet);}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
 
 \end{document}
