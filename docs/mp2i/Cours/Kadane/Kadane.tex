@@ -1,0 +1,59 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\newcommand{\Ctitle}{Sous-tableau de somme maximale}
+
+\begin{frame}{\Ctitle}
+	\begin{block}{Présentation du problème}
+		On considère un tableau $T$ de $n$ entiers, le but du problème est de déterminer la somme maximale d'une tranche (c'est à dire d'éléments contigus de $T$).
+		Par exemple si $T = [2, -7, -5, 4, -1, 10, -4, 9, -2]$ alors la somme maximale d'une tranche est : \onslide<2->{\textcolor{OliveGreen}{18, et elle est obtenue en prenant la tranche $[ 4, -1, 10, -4, 9]$}}. \\
+		\onslide<3->{En notant $T_i$, ($0 \leq i \leq n-1$) les éléments de $T$, et $\displaystyle{S_{ij} = \sum_{k=i}^{j} T_k}$ la somme de la tranche des éléments d'indice $i$ (inclus) à $j$ (inclus), le but du problème est de déterminer le maximum des $S_{ij}$ pour $0 \leq i \leq j \leq n-1$}
+		\begin{enumerate}
+			\item<4-> Quelques cas particuliers.
+			\begin{enumerate}
+				\item[a.]<5-> Répondre au problème pour le tableau $[-2, 7, 1, -9, 4, 4, -5]$
+				\item[b.]<6-> Quelle est la réponse au problème si le tableau ne contient que des valeurs positives ?
+				\item[c.]<7-> Et si le tableau ne contient que des valeurs négatives ?
+			\end{enumerate}
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}
+	\begin{block}{A la recherche de solution}
+		\begin{enumerate} \setcounter{enumi}{1}
+			\item<1-> Un premiere algorithme naïf
+			\begin{enumerate}
+				\item[a.]<2-> Proposer un premier algorithme qui utilise une fonction annexe calculant la somme d'une tranche.
+				\item[b.]<3-> En donner une implémentation en langage C.
+				\item[c.]<4-> Combien d'additions cet algorithme doit-il effectuer pour parvenir à la solution ? \\
+				 \textcolor{OliveGreen}{\aide} \; Rappel :
+				 \begin{itemize}
+					\item[] $\displaystyle \sum_{k=1}^{n} k = \dfrac{n(n+1)}{2}$
+					\item[] $\displaystyle \sum_{k=1}^{n} k^2 = \dfrac{n(n+1)(2n+1)}{6}$
+				 \end{itemize}
+			\end{enumerate}
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}
+	\begin{block}{Une amélioration}
+		\begin{enumerate} \setcounter{enumi}{2}
+			\item<1-> Un second algorithme plus efficace
+			\begin{enumerate}
+				\item[a.]<2-> Proposer un second algorithme plus efficace.
+				\item[b.]<3-> En donner une implémentation en langage C.
+				\item[c.]<4-> Combien d'additions cet algorithme doit-il effectuer pour parvenir à la solution ? \\
+			\end{enumerate}
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\end{document}

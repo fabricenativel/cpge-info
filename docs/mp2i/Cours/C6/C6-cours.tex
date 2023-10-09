@@ -56,7 +56,7 @@
 				\inputpartOCaml{\SPATH ex_cours.ml}{}{\small}{3}{3}
 				\begin{itemize}
 					\item<7-> Les opérateurs \kw{+.}, \kw{*.} et \kw{-.} concernent les flottants.
-					\item<8-> L'exponentiation est \kw{**} (sur les flottants).
+					\item<8-> L'exponentiation est \kw{**} (sur les flottants uniquement).
 				\end{itemize}
 		\end{enumerate}
 	\end{exampleblock}
@@ -74,12 +74,12 @@
 					\item<3-> Ici l'inférence de type ne permet pas de déterminer le type des arguments, on dit que la fonction est \textcolor{BrickRed}{polymorphe}.
 					\item<4-> L'appel s'effectue en donnant les paramètres séparés par des espaces : \kw{deux\_egaux 4 6 4;;}
 				\end{itemize}
-			\item<4-> Terme suivant de la suite de syracuse :
+			\item<5-> Terme suivant de la suite de syracuse :
 				\inputpartOCaml{\SPATH ex_cours.ml}{}{\small}{7}{8}
 				\begin{itemize}
-					\item<5-> On notera la construction \kw{if} \dots \kw{then} \dots \kw{else}.
-					\item<6-> Attention, le test d'égalité est le \kw{=} simple.
-					\item<7-> Le modulo s'obtient avec \kw{mod}.
+					\item<6-> On notera la construction \kw{if} \dots \kw{then} \dots \kw{else}.
+					\item<7-> Attention, le test d'égalité est le \kw{=} simple.
+					\item<8-> Le modulo s'obtient avec \kw{mod}.
 				\end{itemize}
 		\end{enumerate}
 	\end{exampleblock}
@@ -102,7 +102,7 @@
 		\inputpartOCaml{\SPATH ex_cours.ml}{}{\small}{19}{23}
 		\begin{itemize}
 			\item<2-> Regroupement de la clause du \kw{else} dans un bloc délimité par \kw{(} \kw{)}. \\
-				\textcolor{gray}{On peut de façon équivalent délimiter par \kw{begin} et \kw{end}}
+				\textcolor{gray}{On peut de façon équivalente délimiter par \kw{begin} et \kw{end}}
 			\item<3-> Les résultats des affichages, sont aussi des expressions et donc renvoient une valeur. Ce sont des valeurs  de type \kw{unit} (et on tous la même valeur : \kw{()}).
 			\item<4-> Les \kw{;} séparent les différents affichages, ils permettent d'ignorer la valeur renvoyée par les différents affichages. L'évaluation de l'expression se poursuit donc jusqu'à l'appel récursif.
 		\end{itemize}
@@ -114,8 +114,8 @@
 		\begin{itemize}
 			\item<1-> Un programme OCaml consiste en l'évaluation d'une ou plusieurs expressions, \textbf{il n'y a pas d'instructions}.\\
 				\onslide<2->\textcolor{gray}{Une structure \kw{if} \dots \kw{then} \dots \kw{else} est évaluée et renvoie une expression. En impératif, ce sont des instructions conditionnelles.}
-			\item<2-> Les types n'ont pas a être spécifiés, ils sont déterminés automatiquement par le mécanisme d'inférence.
-			\item<3-> Toute expression a une valeur, la détermination de cette valeur s'appelle l'évaluation.
+			\item<3-> Les types n'ont pas a être spécifiés, ils sont déterminés automatiquement par le mécanisme d'inférence.
+			\item<4-> Toute expression a une valeur, la détermination de cette valeur s'appelle l'évaluation.
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -125,128 +125,22 @@
 	\begin{alertblock}{Types de base}
 		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
 			\hline
-			Type     & Opérations                                         & Commentaires                                                       \\
-			\hline
-			\kw{int} & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs} & Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$ \\
-			\hline
-			         &                                                    & \ \newline                                                         \\
-			\hline
-			         &                                                    &                                                                    \\
-			\hline
-			         &                                                    & \  \newline                                                        \\
-			\hline
-			         &                                                    & \ \newline                                                         \\
-			\hline
-		\end{tabularx}
-		\vspace{1cm}
-	\end{alertblock}
-\end{frame}
-
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Types de base}
-		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
-			\hline
-			Type       & Opérations                                         & Commentaires                                                                                                                \\
-			\hline
-			\kw{int}   & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs} & Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$                                                          \\
-			\hline
-			\kw{float} & \kw{+.}, \kw{-.}, \kw{*.}, \kw{/.}, \kw{**}        & Correspond au type double de la norme {\sc ieee-754}. \newline Fonctions mathématiques usuelles ($\sin, \cos, \exp, \dots$) \\
-			\hline
-			           &                                                    &                                                                                                                             \\
-			\hline
-			           &                                                    & \  \newline                                                                                                                 \\
-			\hline
-			           &                                                    & \ \newline                                                                                                                  \\
-			\hline
-		\end{tabularx}
-		\vspace{1cm}
-	\end{alertblock}
-\end{frame}
-
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Types de base}
-		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
-			\hline
-			Type       & Opérations                                         & Commentaires                                                                                                                \\
-			\hline
-			\kw{int}   & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs} & Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$                                                          \\
-			\hline
-			\kw{float} & \kw{+.}, \kw{-.}, \kw{*.}, \kw{/.}, \kw{**}        & Correspond au type double de la norme {\sc ieee-754}. \newline Fonctions mathématiques usuelles ($\sin, \cos, \exp, \dots$) \\
-			\hline
-			\kw{bool}  & \kw{\&\&}, \kw{||}, \kw{not}                       & Evaluations paresseuses.                                                                                                    \\
-			\hline
-			           &                                                    & \  \newline                                                                                                                 \\
-			\hline
-			           &                                                    & \ \newline                                                                                                                  \\
-			\hline
-		\end{tabularx}
-		\vspace{1cm}
-	\end{alertblock}
-\end{frame}
-
-
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Types de base}
-		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
-			\hline
-			Type       & Opérations                                         & Commentaires                                                                                                                \\
-			\hline
-			\kw{int}   & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs} & Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$                                                          \\
-			\hline
-			\kw{float} & \kw{+.}, \kw{-.}, \kw{*.}, \kw{/.}, \kw{**}        & Correspond au type double de la norme {\sc ieee-754}. \newline Fonctions mathématiques usuelles ($\sin, \cos, \exp, \dots$) \\
-			\hline
-			\kw{bool}  & \kw{\&\&}, \kw{||}, \kw{not}                       & Evaluations paresseuses.                                                                                                    \\
-			\hline
-			\kw{char}  &                                                    & Se note entre apostrophe (\kw{'}). Les \kw{char} sont comparables (ordre du code {\sc ascii}).                              \\
-			\hline
-			           &                                                    & \ \newline                                                                                                                  \\
-			\hline
-		\end{tabularx}
-		\vspace{1cm}
-	\end{alertblock}
-\end{frame}
-
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Types de base}
-		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
-			\hline
 			Type        & Opérations                                         & Commentaires                                                                                                                \\
 			\hline
-			\kw{int}    & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs} & Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$                                                          \\
+			\leavevmode \onslide<2->{\kw{int}}    & \leavevmode \onslide<2->{\kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs}} & \leavevmode \onslide<2->{Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$}                                                          \\
 			\hline
-			\kw{float}  & \kw{+.}, \kw{-.}, \kw{*.}, \kw{/.}, \kw{**}        & Correspond au type double de la norme {\sc ieee-754}. \newline Fonctions mathématiques usuelles ($\sin, \cos, \exp, \dots$) \\
+			\leavevmode \onslide<3->{\kw{float}}  & \leavevmode \onslide<3->{\kw{+.}, \kw{-.}, \kw{*.}, \kw{/.}, \kw{**} }       & \leavevmode \onslide<3->{Correspond au type double de la norme {\sc ieee-754}. Fonctions mathématiques usuelles ($\sin, \exp, \dots$)} \\
 			\hline
-			\kw{bool}   & \kw{\&\&}, \kw{||}, \kw{not}                       & Evaluations paresseuses.                                                                                                    \\
+			\leavevmode \onslide<4->{\kw{bool}}   & \leavevmode \onslide<4->{\kw{\&\&}, \kw{||}, \kw{not}}                       & \leavevmode \onslide<4->{Evaluations paresseuses. Les valeurs sont notées \kw{true} et \kw{false}.}                                                                                                    \\
 			\hline
-			\kw{char}   &                                                    & Se note entre apostrophe (\kw{''}). Les \kw{char} sont comparables (ordre du code {\sc ascii}).                             \\
+			\leavevmode \onslide<5->{\kw{char}}   &                                                     & \leavevmode \onslide<5->{Se note entre apostrophe (\kw{'} et \kw{'}). Les \kw{char} sont comparables (ordre du code {\sc ascii}).}                             \\
 			\hline
-			\kw{string} & \kw{\^{}}, \kw{.[]}, \kw{String.length}            & Immutabilité. Concaténation de deux chaines : \kw{"Bon"\^{}"jour"}. Accès au ième avec \kw{.[i]}                            \\
-			\hline
-		\end{tabularx}
-		\vspace{1cm}
-	\end{alertblock}
-\end{frame}
-
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Types de base}
-		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
-			\hline
-			Type        & Opérations                                         & Commentaires                                                                                                                \\
-			\hline
-			\kw{int}    & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{mod}, \kw{abs} & Entiers signés sur 64 bits valeurs dans $\intN{-2^{62}}{2^{62}-1}$                                                          \\
-			\hline
-			\kw{float}  & \kw{+.}, \kw{-.}, \kw{*.}, \kw{/.}, \kw{**}        & Correspond au type double de la norme {\sc ieee-754}. \newline Fonctions mathématiques usuelles ($\sin, \cos, \exp, \dots$) \\
-			\hline
-			\kw{bool}   & \kw{\&\&}, \kw{||}, \kw{not}                       & Evaluations paresseuses.                                                                                                    \\
-			\hline
-			\kw{char}   &                                                    & Se note entre apostrophe (\kw{''}). Les \kw{char} sont comparables (ordre du code {\sc ascii}).                             \\
-			\hline
-			\kw{string} & \kw{\^{}}, \kw{.[]}, \kw{String.length}            & Immutabilité. Concaténation de deux chaines : \kw{"Bon"\^{}"jour"}. Accès au ième avec \kw{.[i]}                            \\
+			\leavevmode \onslide<6->{\kw{string}} & \leavevmode \onslide<6->{\kw{\^{}}, \kw{.[]}, \kw{String.length}}            & \leavevmode \onslide<6->{Immutabilité. Concaténation de deux chaines : \kw{"Bon"\^{}"jour"}. Accès au ième avec \kw{.[i]}}                            \\
 			\hline
 		\end{tabularx}
 		\begin{itemize}
-			\item<1-> Le type \kw{unit} possède une seule valeur notée \kw{()} à rapprocher du type \kw{void} du C. Un affichage renvoie \kw{()}.
-			\item<2-> Les opérateurs de comparaison (\kw{=}, \kw{<>}, \kw{>}, \kw{>=}, \kw{<}, \kw{<=}) sont polymorphes mais s'appliquent à deux objets \textit{de même type}.
+			\item<7-> Le type \kw{unit} possède une seule valeur notée \kw{()} à rapprocher du type \kw{void} du C. Un affichage renvoie \kw{()}.
+			\item<8-> Les opérateurs de comparaison (\kw{=}, \kw{<>}, \kw{>}, \kw{>=}, \kw{<}, \kw{<=}) sont polymorphes mais s'appliquent à deux objets \textit{de même type}.
 		\end{itemize}
 	\end{alertblock}
 \end{frame}
@@ -274,7 +168,8 @@
 		\end{center}
 		\begin{itemize}
 			\item<7-> Les fonctions de conversion sont de la forme \kw{<type1>\_of\_<type2>} par exemple, \kw{string\_of\_float}.
-			\item<8-> L'affichage s'obtient avec \kw{print\_<type>} par exemple \kw{print\_string} (excepté pour les booléens).
+			\item<8-> Il n'y a \textit{pas} de conversion implicite.
+			\item<9-> L'affichage s'obtient avec \kw{print\_<type>} par exemple \kw{print\_string} (excepté pour les booléens).
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -323,7 +218,7 @@ if expr_bool then expr1 else expr2;;
 			\item <2-> Les expressions sont évaluées dans un \textcolor{blue}{environnement} (qui lie des identificateurs à des valeurs) \\
 			      \textcolor{gray}{ {\tt a + b} est une expression qui sera évaluée à 10 si {\tt a} est lié à la valeur 4 et {\tt b} à la valeur 6.}
 			\item  <3-> On manipule l'environnement \textcolor{BrickRed}{global} grâce au mot clef \kw{let} : \mintinline{ocaml}{let id = expr;;}
-			\item <4-> Le mot clef {\tt in} permet de créer un environnement \textcolor{BrickRed}{local} : \mintinline{ocaml}{let id = expr1 in expr2;;} \\
+			\item <4-> Le mot clef \kw{in} permet de créer un environnement \textcolor{BrickRed}{local} : \mintinline{ocaml}{let id = expr1 in expr2;;} \\
 			      \textcolor{gray}{Si {\tt id} existe existe déjà dans l'environnement courant il est provisoirement masqué.}
 		\end{itemize}
 	\end{block}
@@ -336,7 +231,7 @@ if expr_bool then expr1 else expr2;;
 			      \textcolor{BrickRed}{\danger \;} Attention au parenthésage ! \\
 			      {\tt f 2 * 3} est équivalent à {\tt (f 2) * 3} et vaut $f(2) \times 3$ \\
 			      {\tt f (2*3)} vaut $f(2\times3)$.
-			\item<2-> OCaml traite les fonctions à plusieurs variables comme une fonction à un argument qui renvoie une fonction sur le reste des variables. C'est ce qu'on appelle la \textcolor{BrickRed}{curryfication} (du nom du mathématicien américain Haskemll Curry). C'est à dire que par exemple : \\
+			\item<2-> OCaml traite les fonctions à plusieurs variables comme une fonction à un argument qui renvoie une fonction sur le reste des variables. C'est ce qu'on appelle la \textcolor{BrickRed}{curryfication} (du nom du mathématicien américain Haskell Curry). C'est à dire que par exemple : \\
 				$\begin{array}{llll}
 						f : & E \times F & \leftarrow & G \\
 						    & (x,y)      & \mapsto    & z \\
@@ -373,10 +268,10 @@ if expr_bool then expr1 else expr2;;
 			\item<5-> Les types enregistrements (ou type produits).\\
 				\onslide<6->\textcolor{gray}{Ex : \mintinline{ocaml}{type date = {jour : int; mois : string; annee : int}}}\\
 				\onslide<7-> Accès aux champs avec la notation \kw{.} (comme en C).
-			\item<6-> Les types unions (ou encore types sommes) où on liste les valeurs possibles séparés par des \kw{|}. \\
-				\onslide<7->\textcolor{gray}{Ex : \mintinline{ocaml}{type signe = Positif | Negatif | Nul;;}}\\
-				\onslide<8->\textcolor{gray}{Ex : \mintinline{ocaml}{type carte = Roi | Dame | Valet | Nombre of int;;}}\\
-				\onslide<9->\textcolor{BrickRed}{\small \danger \;} Les constructeurs commencent par une majuscule.
+			\item<8-> Les types unions (ou encore types sommes) où on liste les valeurs possibles séparés par des \kw{|}. \\
+				\onslide<9->\textcolor{gray}{Ex : \mintinline{ocaml}{type signe = Positif | Negatif | Nul;;}}\\
+				\onslide<10->\textcolor{gray}{Ex : \mintinline{ocaml}{type carte = Roi | Dame | Valet | Nombre of int;;}}\\
+				\onslide<11->\textcolor{BrickRed}{\small \danger \;} Les constructeurs commencent par une majuscule.
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -411,8 +306,8 @@ if expr_bool then expr1 else expr2;;
 			\item<2->{Le filtrage par motif (\textit{pattern matching}) est un mécanisme permettant de travailler efficacement sur les types construits en les décomposant et les analysant suivant leur structure. On peut ainsi indiquer l'expression  à évaluer suivant la forme spécifique de l'entrée.}
 			\item<3->{La syntaxe générale est :\\
 			 \kw{match} {\tt expr} \kw{with} \\
-			{\tt | motif1 -> expr1}
-			\dots \\
+			{\tt | motif1 -> expr1} \\
+			{\tt | \vdots} \\
 			{\tt | motifn -> exprn}}\\
 			\onslide<4->{\textcolor{BrickRed}{\small \danger\;} Le filtrage doit être exhaustif, le caractère spécial \kw{\_} indique un motif qui correspond à toutes les entrées.}
 			\item<5-> L'ordre du filtrage est important car si deux motifs correspondent à une entrée c'est l'expression du premier rencontré qui sera évalué.
@@ -449,6 +344,57 @@ if expr_bool then expr1 else expr2;;
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
+
+\makess{Les listes}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{le type \textcolor{yellow}{\tt list}}
+		\begin{itemize}
+			\item<1-> Le type \kw{list} est prédifini en OCaml et permet de représenter des listes de valeurs \textcolor{BrickRed}{de même type} et \textcolor{BrickRed}{non mutables}.
+			\item<2-> On peut définir une liste en mettant les éléments entre crochets et en les séparant par des points virgules.\\
+			\onslide<3-> \mintinline{ocaml}{let p = [2; 3; 5; 7]} : une liste d'entiers \\
+			\onslide<4-> \mintinline{ocaml}{let lang = ["Python"; "Ada"; "C"]} : une liste de chaines de caractères \\
+			\onslide<5-> \mintinline{ocaml}{let bug = [3.14; 2.71; 42; 0.57]} : erreur car liste non homogène
+			\item<6-> Une liste est un type récursif, en effet :
+			\begin{itemize}
+				\item<7-> Elle est vide (noté \kw{[]}) ou
+				\item<8-> Elle est constituée d'un élément (appelée tête) et d'un liste (appelée queue)
+			\end{itemize}
+			\item<9-> Le filtrage par motif est la technique standard pour opérer sur les listes. On utilise alors le constructeur \kw{::} pour "séparer" la tête et la queue.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple de filtrage par motif sur les listes}
+		\begin{itemize}
+			\item<1-> fonction qui renvoie la longueur d'une liste
+			\onslide<2->\inputpartOCaml{\SPATH ex_liste.ml}{}{}{1}{4}
+			\item<3-> fonction qui renvoie \kw{true} si un élément est dans une liste et \kw{false} sinon.
+			\onslide<4->\inputpartOCaml{\SPATH ex_liste.ml}{}{}{6}{9}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Fonctions usuelles sur les listes}
+		\begin{itemize}
+			\item<1-> \kw{@} est l'opérateur de concaténation.\\
+			\onslide<2->\textcolor{gray}{\small Par exemple, \mintinline{ocaml}{let exl = [1; -2] @ [-3; 4]} va créer la liste \mbox{\tt exl = [1; -2; -3; 4].}}
+			\item<3-> \kw{List.hd} et \kw{List.tl} permettent de récupérer respectivement la tête et la queue de la liste.\\
+			\onslide<4->\textcolor{gray}{\small Par exemple, \mintinline{ocaml}{List.hd exl} renvoie l'entier 1 et \mintinline{ocaml}{List.tl exl} renvoie la liste \mbox{\tt [-2; -3; 4]}}
+			\item<5-> \kw{List.length} renvoie la longueur de la liste.\\
+			\onslide<6->\textcolor{gray}{\small Par exemple, \mintinline{ocaml}{List.length exl} renvoie 4}
+			\item<7-> \kw{List.map} renvoie la liste obtenu en appliquant la fonction donnée en paramètre à chaque élément de la liste.\\
+			\onslide<8->\textcolor{gray}{\small Par exemple, \mintinline{ocaml}{List.map abs exl} renvoie \mbox{\tt [1; 2; 3; 4]}}
+			\item<9-> \kw{List.fold\_left} et \kw{List.fold\_right} permettent d'effectuer des opérations entre les éléments d'une liste. On doit fournir l'opération et l'opérande de départ.\\
+			\onslide<10->\textcolor{gray}{\small Par exemple, \mintinline{ocaml}{List.fold_left ( * ) 1 exl} renvoie 24.} 
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+
+
 
 
 \end{document}
