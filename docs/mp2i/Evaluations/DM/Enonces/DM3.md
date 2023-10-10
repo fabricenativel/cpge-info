@@ -19,14 +19,14 @@ Le fichier de dates contient de nombreuses dates *non valides* (avec jour et moi
 3. Ecrire une fonction `est_bissextile` qui prend en argument un entier `annee` et renvoie `true` si `annee` est bissextile et `false` sinon.
 
     !!! aide
-        Une année est bissextile si elle est divisible par 4 mais pas par 100 ou s'il est divisible par 400.
+        Une année est bissextile si elle est divisible par 4 mais pas par 100 ou si elle est divisible par 400.
 
 3. Ecrire une fonction `est_valide` qui prend en argument une variable de type `date` et renvoie `true` si cette date est valide et `False` sinon.
 
     !!! aide
         On pourra utiliser un tableau d'entiers `max_jour` tel que `max_jour[i]` donne le nombre maximal de jours du mois de numéro `i` (sans oublier de traiter le cas des années bissextiles).
 
-4. Ecrire une fonction `compte_valide` qui ne prend par d'argument et renvoie le nombre de dates valides du fichiers `dates.txt`.
+4. Ecrire une fonction `compte_valide` qui ne prend pas d'argument et renvoie le nombre de dates valides du fichiers `dates.txt`.
     Vous pouvez tester votre réponse  : {{ check_reponse("4268")}}
 
     !!! note
@@ -65,13 +65,4 @@ Vous pouvez tester votre réponse : {{check_reponse("29546")}}
     3. Calculer le nombre de jour noté `n3` séparant le `01\01\a1` de la date `d2`
     4. En déduire la réponse au problème.
 
-## Partie IV : Création d'un nouveau fichier de dates
-
-Le but de cette partie est de créer un nouveau fichier de dates, on ne conserve que les dates valides rangées dans l'ordre chronologique et en plus on  fait figurer devant chaque date le jour de la semaine correspondant. 
-
-1. Ecrire une fonction `jour_semaine` qui prend en argument un struct `date` et renvoie le jour de la semaine correspondant.
-
-    !!! aide
-        * L'année la plus ancienne du fichier de dates est 1942
-        * Le 01/01/1942 était un jeudi
 
