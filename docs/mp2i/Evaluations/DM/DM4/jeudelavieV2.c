@@ -15,8 +15,8 @@ avantages :
 #include <stdbool.h>
 #include <time.h>
 
-#define LARGEUR 5
-#define HAUTEUR 5
+const int LARGEUR=4;
+const int HAUTEUR=4;
 
 const char ENTETE[] = "P1\n";
 
@@ -114,8 +114,13 @@ int main()
      for (int i = 0; i < LARGEUR; i++)
     {
         for (int j = 0; j < HAUTEUR; j++)
-        {etat[i][j] = rand()%2;}}
-    for (int i=0; i<10; i++)
+        {etat[i][j] = false;}}
+    etat[0][3] = true;
+    etat[1][1] = true;
+    etat[1][2] = true;
+    etat[2][2] = true;
+    etat[3][0] = true;
+    for (int i=0; i<20; i++)
     {affiche(etat);
     nouvel_etat = evolution(etat);
     set(etat,nouvel_etat);

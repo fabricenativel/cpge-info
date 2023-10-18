@@ -14,10 +14,12 @@ avantages :
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
+#include <string.h>
 
-#define LARGEUR 4
-#define HAUTEUR 4
+#define LARGEUR 57
+#define HAUTEUR 37
 #define TAILLE HAUTEUR*LARGEUR
+
 
 
 bool dans_carte(int l, int c)
@@ -89,7 +91,7 @@ void affiche(bool etat[])
     {
         for (int j = 0; j < LARGEUR; j++)
         {if (etat[i*LARGEUR+j])
-        printf("#");
+        printf("O");
         else
         printf(".");
         }
@@ -98,10 +100,47 @@ void affiche(bool etat[])
     printf("\n");
 }
 
-bool * evolution(bool * etat, int nb_etapes, bool voir)
+
+void cree_image(bool etat[], char* nom_image)
+{
+    FILE* writer = fopen(nom_image,"w");
+    fprintf(writer,"%s","P1\n");
+    fprintf(writer,"%d %d\n",LARGEUR,HAUTEUR);
+    for (int i=0;i<HAUTEUR;i++)
+    {
+        for (int j=0;j<LARGEUR;j++)
+        {
+            if (etat[i*LARGEUR+j])
+            {fprintf(writer,"%c",'1');}
+            else
+            {fprintf(writer,"%c",'0');}
+        }
+        fprintf(writer,"%s","\n");
+    }
+    fclose(writer);
+}
+
+char * make_str(int n, int size)
+{
+    char * res = malloc(sizeof(char)*(size+5));
+    for (int i=0; i<size; i++)
+    {
+        res[size-i-1] = '0' + n%10;
+        n =n / 10;
+    }
+    res[size] = '.';
+    res[size+1] = 'b';
+    res[size+2] = 'p';
+    res[size+3] = 'm';
+    res[size+4] = '\0';
+    return res;
+}
+
+bool * evolution(bool * etat, int nb_etapes, bool voir, bool make_img)
 {
     bool *ancien = malloc(sizeof(bool)*TAILLE);
     bool *nouveau;
+    char * fname;
     copie_etat(ancien,etat);
     for (int i=0; i<nb_etapes; i++)
     {
@@ -111,6 +150,12 @@ bool * evolution(bool * etat, int nb_etapes, bool voir)
         {
             affiche(nouveau);
         }
+        if (make_img)
+        {   
+            fname = make_str(i,4);
+            cree_image(nouveau,fname);
+            free(fname);
+        }
         if (i!=nb_etapes-1)
         { free(nouveau);}
     }
@@ -118,10 +163,57 @@ bool * evolution(bool * etat, int nb_etapes, bool voir)
     return nouveau;
 }
 
+int compte_vivant(bool *etat)
+{
+    int vivant = 0;
+    for (int i=0;i<HAUTEUR;i++)
+    {
+        for (int j=0;j<LARGEUR;j++)
+        {
+            if (etat[i*LARGEUR+j])
+            {
+                vivant +=1;
+            }
+        }
+    }
+    return vivant;
+}
+
+bool* read(char * filename)
+{
+    bool *etat = malloc(sizeof(bool)*TAILLE);
+    FILE * reader = fopen(filename,"r");
+    char cell;
+    for (int i=0;i<HAUTEUR;i++)
+    {
+        for (int j=0;j<LARGEUR;j++)
+        {
+            cell = fgetc(reader);
+            if (cell=='.')
+            {
+                etat[i*LARGEUR+j] = false;
+            }
+            else
+            {
+                etat[i*LARGEUR+j] = true;
+            }
+        }
+        fgetc(reader);
+    }
+    return etat;
+}
+
+
 int main()
 {
     bool *resultat;
-    bool etat[TAILLE] = {false,false,false,true,false,true,true,false,false,false,true,false,true,false,false,false};
-    resultat = evolution(etat, 4, true);
+    int nb = 33;
+    bool *etat = read("glidergun.cells");
+    printf("Fichier lu, il contient %d cellules vivantes \n",compte_vivant(etat));
+    affiche(etat);
+    cree_image(etat,"img0.pbm");
+    resultat = evolution(etat, nb, false, true);
+    printf("Il y a %d cellules vivantes après %d etapes \n",compte_vivant(resultat),nb);
     free(resultat);
+    free(etat);
 }

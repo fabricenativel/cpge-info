@@ -259,10 +259,34 @@ def define_env(env):
         return lien
     
     @env.macro
-    def notebook(id,name,file):
-        res = "* Télécharger le notebook pour utiliser en local (installation de jupyter et du noyau OCaml nécessaires) \n"
+    def notebook(id,name,file,inadmo=False):
+        res = "* Télécharger le notebook pour l'utiliser en local (installation de jupyter nécessaire)"
         res += telecharger(name,file)
-        res += "\n* Utiliser l'application Capytale (aucune installation nécessaire) \n"
+        if not inadmo:
+            res+='\n'
+        else:
+            res+='\n\t'
+        res += "* Utiliser l'application Capytale (aucune installation nécessaire)"
         res += capytale(id)
+        return res
+    
+    @env.macro
+    def make_jeuvie(etat,num):
+        car = ['&#9312;','&#9313;','&#9314;','&#9315;','&#9316;','&#9317;','&#9318;','&#9319;','&#9320;']
+        res = "<table class='jeuvie'>"
+        cpt = 0
+        for lig in etat:
+            res += '<tr>'
+            for c in lig:
+                if c=='.':
+                    res = res + "<td><span class='cellule'>&nbsp;</span></td>"
+                else:
+                    if len(num)!=0:
+                        res = res + f"<td><span class='cellule'>{car[num[cpt]-1]}</span></td>"
+                        cpt += 1
+                    else:
+                        res = res + f"<td><span class='cellule'>&#128976;</span></td>"
+            res += '</tr>'
+        res += '</table>'
         return res
 

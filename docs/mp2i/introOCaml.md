@@ -178,20 +178,17 @@ Ecrire une fonction `monotone` qui prend en argument une liste et renvoie un boo
 !!! aide
     On pourra dans un premier temps écrire deux fonctions `croissante` et `décroissante` avant de trouver une solution plus concise.
 
-{{ exo("Partition suivant un prédicat")}}
+{{ exo("Partition suivant un prédicat",[])}}
 
 1. Ecrire une fonction `separe` qui prend en argument une liste et renvoie deux listes : celles des éléments positifs ou nuls et celle des éléments négatifs.
 Par exemple `separe [2; -3; -2; -1; 7; -4]` renvoie les liste `[2; 7]` et `[-3; -2; -4]`.
 
 2. En s'inspirant de l'exemple précédent écrire une fonction `separe_bis` qui prend de plus en argument une fonction qui renvoie un booléen (et s'applique aux éléments de la liste) et renvoie deux listes : celles pour laquelle l'application de la fonction renvoie `true` et celle pour laquelle l'application de la fonction renvoie `false`. 
 
-{{ exo("Zip et unzip")}}
-
 
 {{ exo("Exercices en ligne",[]) }}
 
 Le site officiel de [la fondation Ocaml](https://ocaml.org/){target=_blank}, propose des [exercices progressifs](https://ocaml-sf.org/learn-ocaml-public/#){target=_blank} à faire en ligne directement dans le navigateur.
-
 
 
 ## Humour d'informaticien
