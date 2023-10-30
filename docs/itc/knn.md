@@ -9,6 +9,11 @@
 
 ## TP
 
+!!! lien "Jeu de données"
+    Quelques sites proposant des jeu de données pour les algorithmes de classification :  
+
+    * [Site de l'université Irvine de Californie](http://archive.ics.uci.edu/datasets){target=_blank}
+    * [Kaggle](https://www.kaggle.com/datasets){target=_blank}
 
 {{ exo("Un exemple corrigé pour knn",[],0)}}
 
