@@ -33,7 +33,7 @@ et d'autre part on convient que pour tout $a \in \R, a^0=1$.
 \end{Exercise}
 
 \begin{Exercise}[title = {palindrome}]\\
-Un \textbf{palindrome} est un mot qui se lit indifféremment de droite à gauche ou de gauche à droite, par exemple \textit{kayak} est un palindrome, de même que \textit{ressasser}. Par contre, \textit{bébé} ou \textit{eleve} ne sont pas des palindromes.
+Un \textbf{palindrome} est un mot qui se lit indifféremment de droite à gauche ou de gauche à droite, par exemple \textit{kayak} est un palindrome, de même que \textit{ressasser}. Par contre, \textit{bobo} ou \textit{élevé} ne sont pas des palindromes.
 
 \Question{Ecrire, \textit{sans utiliser} {\tt strlen}, une fonction {\tt longueur} qui prend en argument une chaine de caractère et renvoie sa longueur. \\
 \aide \; On rappelle qu'une chaine de caractères est un tableau se terminant par le caractère spécial \mbox{\tt '\textbackslash{}0'} 
@@ -51,7 +51,7 @@ Un \textbf{palindrome} est un mot qui se lit indifféremment de droite à gauche
 \begin{Exercise}[title = {convergence d'une suite}]
 
 On considère la suite: \\
-	$\left\{ \begin{array}{ll} u_1= 2 \\ u_2 = 3 \\ u_{n+2} = 15 - \dfrac{54}{u_{n+1}} + \dfrac{40}{u_nu_{n+1}} \end{array}\right.$
+	$\left\{ \begin{array}{ll} u_1= 2 \\ u_2 = 3 \\ u_{n+2} = 15 - \dfrac{54}{u_{n+1}} + \dfrac{40}{u_nu_{n+1}} \text{ pour tout } n \geq 0 \end{array}\right.$
 
 \Question{Ecrire une fonction {\tt calcule} qui prend en argument un entier {\tt n}, ne renvoie rien et affiche dans le terminal les valeurs de $u_k$ pour $k=0, \dots, n$ calculées à l'aide de la formule de récurrence ci-dessus. A titre d'exemple on donne ci dessous le résultat souhaité pour l'appel {\tt calcule(10)}} :
 \begin{minted}{c}
@@ -85,7 +85,7 @@ u60 = 9.999999
 \end{Exercise}
 
 \begin{Exercise}[title = {Structures et pointeurs}]\\
-Dans un lycée les salles de cours sont nommées par une lettre suivie d'un numéro (par exemple {\tt R4} ou {\tt S6}). De plus ces salles ont une capacité maximale d'élèves donnée sous la forme d'un nombre entier et sont ou non  équipées d'ordinateur.
+Dans un lycée les salles de cours sont nommées par une lettre suivie d'un numéro (par exemple {\tt R4} ou {\tt S6}). De plus ces salles ont une capacité maximale d'élèves donnée sous la forme d'un nombre entier et sont ou non  équipées d'ordinateurs.
 
 \Question{Donner en C, la définition d'un type structuré {\tt salle} contenant les champs suivants : 
 \begin{itemize}
@@ -98,12 +98,13 @@ Dans toute la suite de l'exercice on suppose ce type défini et nommé {\tt sall
 }
 \Question{Ecrire en C, une fonction {\tt cree\_salle} qui prend en argument un caractère {\tt b}, deux entiers {\tt n} et {\tt c} et un booléen {\tt o} et renvoie une variable de type {\tt salle} telle que {\tt salle.batiment = b, salle.numero = n, salle.capacite = c} et {\tt salle.ordinateur = o}}.
 \Question{Ecrire en C, une fonction {\tt modifie\_capacite} qui prend en argument une {\tt salle s} et un entier {\tt nc} qui affecte à cette salle la nouvelle capacité {\tt nc}.}
-\Question{On suppose à présent qu'on dispose d'un fichier {\tt salles.txt} contenant 100 lignes, sur chaque ligne on trouve le nom d'une salle suivie de sa capacité puis d'un {\tt 1} si la salle est équipée d'ordinateur et d'un {\tt 0} sinon. Par exemples voici les deux premières lignes du fichier {\tt salles.txt} : 
+\Question{On suppose à présent qu'on dispose d'un fichier {\tt salles.txt} contenant 100 lignes, sur chaque ligne on trouve le nom d'une salle suivie de sa capacité puis d'un {\tt 1} si la salle est équipée d'ordinateur et d'un {\tt 0} sinon. Par exemple, voici les deux premières lignes du fichier {\tt salles.txt} : 
 \begin{minted}{c}
 S6 30 0
 R2 16 1
 \end{minted}
-Ecrire une fonction {\tt lire\_salle} qui ne prend pas d'arguments, lit le fichier {\tt salles.txt} et renvoie un tableau {\tt salles}  contenant les 100 salles du fichier. Par exemple le premier élément du tableau renvoyé {\tt salles[0]} doit être tel que {\tt salles[0].batiment = 'S', salles[0].numero = 6, salles[0].capacite = 30} et {\tt salles[0].ordinateur = false}.}
+Ecrire une fonction {\tt lire\_salle} qui ne prend pas d'arguments, lit le fichier {\tt salles.txt} et renvoie un tableau {\tt salles}  contenant les 100 salles du fichier. Par exemple le premier élément du tableau renvoyé {\tt salles[0]} doit être tel que {\tt salles[0].batiment = 'S', salles[0].numero = 6, salles[0].capacite = 30} et {\tt salles[0].ordinateur = false}.\\
+\aide \; On rappelle que {\tt fopen} permet d'ouvrir un fichier en donnant son nom et que {\tt fscanf} permet de lire dans un fichier en donnant une chaine de formatage et des pointeurs vers les valeurs lues.}
 \Question{Ecrire une fonction {\tt capacite\_batiment} qui prend en argument un tableau de {\tt salles} (ainsi que sa taille) et un caractère {\tt bat} et renvoie la capacité totale des salles dont le batiment est {\tt bat}.}
 \end{Exercise}
 
@@ -113,8 +114,8 @@ On rappelle qu'en C, le type {\tt uint64\_t} (disponible dans {\tt stdint.h} qu'
 
 \Question{A propos du format {\tt uint64\_t}.}
 \subQuestion{Donner l'intervalle d'entiers représentable avec ce format.}
-\subQuestion{En compilant puis en exécutant le programme suivant sur un ordinateur:
-\inputpartC{\FPATH/Evaluations/DS/DS2/ex2.c}{}{}{1}{9}
+\subQuestion{En compilant puis en exécutant le programme suivant sur un ordinateur (les librairies {\tt <stdio.h>} et {\tt <stdint.h>}  sont supposées importées):
+\inputpartC{\FPATH/Evaluations/DS/DS2/ex2.c}{}{}{4}{7}
 
 on a obtenu l'affichage suivant dans le terminal : {\tt a= 18446744073709551615}. Expliquer cet affichage, s'agit-il d'un comportement indéfini ?}
 \subQuestion{Convertir  $\base{11101011}{2}$ en base 10.}

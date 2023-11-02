@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void affiche(int tab[], int size)
 {
@@ -23,7 +24,7 @@ int* fusion(int tab1[], int size1, int tab2[], int size2)
     int i = 0;
     while (i1<size1 || i2<size2)
     {
-        if ((i2>=size2) || (i2<size2 && i1<size1 && tab1[i1]<tab2[i2]))
+        if ((i2>=size2) || (i1<size1 && tab1[i1]<tab2[i2]))
         {   
             tab[i] = tab1[i1];
             i1 = i1 +1;
@@ -78,13 +79,14 @@ int* tri_fusion(int tab[], int size)
 }
 
 int main()
-{   int size = 1000000;
+{   int size = 500000 ;
+    srand(time(NULL));
     //printf("taille du tableau =");
     //scanf("%d",&size);
     int *test = malloc(sizeof(int)*size);
     for (int i=0;i<size;i++)
     {
-        test[i] = rand()%(size*5);
+        test[i] = rand()%(size*100);
     }
     int *tri;
     tri = tri_fusion(test,size);
