@@ -40,3 +40,65 @@
 ??? aide "Correction"
     {{notebook("6b54-2110802","Notebook : Correction Algorithme knn","./Notebook/PlusProchesVoisins-Correction.ipynb",True)}}
 
+{{ exo("Un exemple pour k-moyenne",[])}}
+
+{{notebook("3015-2167155","Notebook : Algorithme knn","./Notebook/k-moyennes.ipynb")}}
+
+{{ exo("Les passagers du titanic",[])}}
+
+Le but de l'exercice est d'utiliser un algorithme de classification pour prédire la survie des passagers du Titanic. Les données sont à récupérer sur le site [Kaggle](https://www.kaggle.com/c/titanic/data){target=_blank} et sont déjà séparées en deux parties :
+
+* des données d’entraînements 
+* des données de test
+
+Les données sont au format `csv` et le détail des champs est donné sur [Kaggle](https://www.kaggle.com/c/titanic/data){target=_blank}.
+
+!!! aide
+    On pourra bien sûr commencer par écrire :
+
+    * une fonction permettant de lire les données et de les récupérer dans un format exploitable
+    * une fonction permettant de calculer une distance entre deux passager
+
+{{ exo("Reconnaissance de chiffres manuscrits",[])}}
+
+Une des plus [célèbres bases de données de chiffres manuscrits](https://en.wikipedia.org/wiki/MNIST_database){target=_blank} utilisée pour tester les algorithmes de classification est celle du {{sc("mnist")}}. Cette base de donnée est disponible sur le site de [Yann LeCun](http://yann.lecun.com/exdb/mnist/){target=_blank} et se compose d'un ensemble de 60000 images déjà classés et d'un ensemble de 10000 images pour les tests. 
+
+Etant donnée sa taille importante, les images et leur classification sont dans un format binaire appelé `idx` non directement exploitable. Cependant vous trouverez ci-dessous un **extrait** de cette base constitué de 5000 images :
+{{telecharger("Chiffres","./files/C4/minst/chiffres.zip")}}
+Les images du fichier précédent sont au format [`PGM`](https://fr.wikipedia.org/wiki/Portable_pixmap){target=_blank} bien plus facilement lisible et exploitable à notre niveau. En effet, chaque image est un fichier texte contenant :
+
+* sur la première ligne `P2` (le "magic number" du format PGM)
+* sur la seconde ligne `28 28` : les dimensions de l'image (qui seront donc toujours **28x28**)
+* sur la troisième ligne `255` (le niveau de blanc du pixel, 0 est un pixel noir et 255 un pixel blanc)
+* sur la quatrième `#` suivi d'un chiffre : c'est la valeur du chiffre manuscrit représenté dans l'image
+* les 28 lignes suivantes sont les pixels de l'image et sont donc composées chacune de 28 nombres indiquant le niveau de gris de l'image.
+
+Le but de l'exercice est de tester les deux algorithmes de classification vus en cours sur cet exemple.
+
+1. Télécharger le fichier, le décompresser et visualiser quelques images. Vérifier en comparant avec les exemples suivants :
+
+    | Numéro | Image | Chiffre |
+    |--------|-------|---------|
+    | 42     | ![ex8](./files/C4/minst/img42.png)|  8 |
+    | 1515   | ![ex7](./files/C4/minst/img1515.png)| 7  |
+    | 2023   | ![ex8](./files/C4/minst/img2023.png)| 1 |
+
+2. Ecrire une fonction `lire_image` qui prend en argument le numéro d'une image et renvoie un tuple composé du chiffre de l'image et d'une liste représentant les niveaux de gris des pixels de l'image (cette liste sera donc constitué de `28x28` nombres entiers compris entre 0 et 255). 
+
+    !!! aide
+        On rappelle que :
+
+        * l'image est au fichier texte,
+        * le chiffre se trouve sur la quatrième ligne et qu'il est précédé du caractère `#`
+        * les niveaux de gris de chaque pixel sont sur les lignes suivantes.
+
+3. Ecrire une fonction `distance` qui permet de calculer le carré de la distance euclidienne entre deux images de dimension `28x28`.
+
+4. Mettre en oeuvre la méthode des k plus proches voisins sur cet exemple en utilisant les 4500 premières images comme image déjà classés et en utilisant les 500 suivantes pour les tests.
+
+    !!! aide
+        On pourra tester différentes valeurs de k et choisir une distance différente
+
+5. Mettre en oeuvre la méthode des k-moyennes pour classer les 5000 données.
+
+6. Comparer les résultats des deux méthodes.
