@@ -12,6 +12,8 @@
 
 ## Travaux dirigés
 
+{{ td(num) }}
+
 ## Travaux pratiques
 
 {{ exo("Un notebook pour démarrer",[],0)}}

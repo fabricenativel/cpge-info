@@ -11,7 +11,7 @@ int longueur(char s[])
     return l;
 }
 
-bool palindrome_iter(char s[])
+bool est_palindrome(char s[])
 {
     int l = longueur(s);
     for (int i=0;i<l/2;i++)
