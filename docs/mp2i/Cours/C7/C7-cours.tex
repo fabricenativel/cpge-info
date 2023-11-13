@@ -8,7 +8,7 @@
 
 % Numéro et titre de chapitre
 \setcounter{numchap}{7}
-\newcommand{\Ctitle}{\cnum {Terminaison, correction, compléxité.}}
+\newcommand{\Ctitle}{\cnum {Terminaison, correction, complexité.}}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap}
 
 % Définition d'une structure de données
@@ -38,24 +38,39 @@
 
 \makess{Terminaison}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{exampleblock}{Exemple introductif}
+    Que dire de la terminaison de la fonction suivante ?
+    \inputpartC{\SPATH/intro_terminaison.c}{}{\small}{4}{12}
+    \begin{itemize}
+        \item<2-> \textcolor{OliveGreen}{Si {\tt n} est strictement négatif, c'est une boucle infinie.\\}
+        \onslide<3->{\textcolor{gray}{\small On ne tient pas compte des dépassements de capacités sur les entiers.}}
+        \item<4-> \textcolor{OliveGreen}{Sinon  elle termine.\\}
+        \onslide<5->\textcolor{gray}{\small Dans le cas contraire, les valeurs prises par {\tt n} formeraient une suite strictement décroissante d'entiers naturels.}
+    \end{itemize}
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
 \begin{block}{Définitions}
     \begin{itemize}
-        \item On dit qu'un algorithme \textcolor{blue}{termine} si il renvoie un résultat en un nombre fini d'étapes quels que soient les valeurs des entrées.
-        \item Un \textcolor{blue}{variant de boucle} est une quantité :
+        \item<2-> On dit qu'un algorithme \textcolor{blue}{termine} si il renvoie un résultat en un nombre fini d'étapes quels que soient les valeurs des entrées.
+        \item<3-> Un \textcolor{blue}{variant de boucle} est une quantité :
             \begin{itemize}
-            \item à valeurs dans $\N$.
-            \item qui décroît strictement à chaque passage dans la boucle.
+            \item<4-> à valeurs dans $\N$.
+            \item<5-> qui décroît \textit{strictement} à chaque passage dans la boucle.
             \end{itemize}
-        \item Pour un algorithme récursif, un \textcolor{blue}{variant} est une quantité :
+        \item<6-> Pour un algorithme récursif, un \textcolor{blue}{variant} est une quantité :
         \begin{itemize}
-            \item à valeurs dans $\N$.
-            \item qui décroît strictement à chaque appel récursif.
+            \item<7-> à valeurs dans $\N$.
+            \item<8-> qui décroît \textit{strictement} à chaque appel récursif.
         \end{itemize}
     \end{itemize}
 \end{block}
+\onslide<9->{
 \begin{alertblock}{Preuve de la terminaison d'un algorithme}
     Pour prouver la terminaison d'un algorithme, il suffit de trouver un \textcolor{blue}{variant de boucle} pour chaque boucle non bornée qu'il contient. Et un \textcolor{blue}{variant} pour chaque fonction récursive.
-\end{alertblock}
+\end{alertblock}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -108,6 +123,14 @@
 
 \makess{Correction}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple introductif}
+        Comment garantir que cette fonction renvoie bien la somme des éléments du tableau donné en argument ?
+        \inputpartC{\SPATH/intro_correction.c}{}{\small}{5}{13}
+        \textcolor{OliveGreen}{Par un raisonnement par récurrence sur $k$, on  prouve que \og{} après $k$ tours de boucle, {\tt s} contient la somme des $k$ premiers éléments de {\tt tab}\fg{}.}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
 \begin{alertblock}{Correction d'un algorithme}
     On dira qu'un algorithme est \textcolor{red}{correct}
     \onslide<2-> lorsqu'il renvoie la réponse attendue pour n'importe quel donnée en entrée.\\
@@ -156,14 +179,15 @@
     \begin{block}{Correction d'un algorithme récursif}
         Dans le cas d'un algorithme récursif, la preuve de la correction peut s'obtenir :
         \begin{itemize}
-            \item<1-> Directement à partir des identités mathématiques issus du code de la fonction.
+            \item<1-> Directement à partir des identités mathématiques issues du code de la fonction.
             \item<2-> Par un raisonnement inductif, c'est à dire similaire à une récurrence.
         \end{itemize}
     \end{block}
+    \onslide<3->{
     \begin{exampleblock}{Exemple 2 : factoriel récursif}
-        \onslide<3->\inputpartOCaml{\SPATH/correction.ml}{}{\small}{1}{2}
-        \onslide<4-> Les identités {\tt fact 0 = 1} et {\tt fact n =  n * fact (n-1)} si $n>0$, correspondent bien à la définition mathématique de la factorielle c'est à dire $0!=1$ et pour tout $n \in \N^*$, $n! = n \times (n-1)!$, donc cette fonction est correcte
-    \end{exampleblock}
+        \onslide<4->\inputpartOCaml{\SPATH/correction.ml}{}{\small}{1}{2}
+        \onslide<5-> Les identités {\tt fact 0 = 1} et {\tt fact n =  n * fact (n-1)} si $n>0$, correspondent bien à la définition mathématique de la factorielle c'est à dire $0!=1$ et pour tout $n \in \N^*$, $n! = n \times (n-1)!$, donc cette fonction est correcte
+    \end{exampleblock}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -182,22 +206,87 @@
 
 \makess{Complexité}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple introductif}
+        Ecrire en C,
+        \begin{enumerate}
+            \item<2-> Une fonction {\tt recherche\_simple} qui prend en argument un tableau {\tt tab} et un entier {\tt n} et renvoie {\tt true} si {\tt n} est dans {\tt tab} et {\tt false} sinon. \\
+            \onslide<3->\inputpartC{\SPATH/complexite.c}{}{\small}{6}{10}
+            \item<4-> On suppose maintenant que le tableau est \textit{triée}, et pour effectuer la recherche, on procède par dichotomie. \onslide<5->{c'est à dire qu'on compare la valeur cherchée à l'élément situé au milieu du tableau, on relance alors la recherche sur la \textit{"bonne"} moitié.} \onslide<6->{Ecrire en C, une fonction itérative {\tt recherche\_dicho} qui correspond à ce nouvel algorithme.}
+        \end{enumerate}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple introductif}
+        \inputpartC{\SPATH/complexite.c}{}{\small}{12}{26}    
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple introductif}
+        Graphe des temps d'exécution (l'élément cherché est absent du tableau).
+        \begin{center}
+            \includegraphics[height=130px]{recherche.eps}
+        \end{center}
+        \begin{itemize}
+            \item<2-> La recherche dichotomique est plus rapide.
+            \item<3-> Temps proportionnel à la taille du tableau pour la recherche simple.
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
     \begin{alertblock}{Définition}
         La \textcolor{red}{complexité} d'un algorithme est une mesure de son efficacité.
         \onslide<2-> On parle notamment de :
         \begin{itemize}
-            \item<3-> Complexité en temps : le nombre d'opérations nécessaire à l'exécution d'un algorithme.
+            \item<3-> \textcolor{blue}{Complexité en temps} : le nombre d'opérations nécessaire à l'exécution d'un algorithme.
             \item<4-> Complexité en mémoire : l'occupation mémoire en fonction de la taille des données.
         \end{itemize}
-        \onslide<5->{Ces deux éléments varient en fonction de la taille et de la nature des données.}
+        \onslide<5->{Ces deux éléments varient en fonction de la taille et de la nature des données. On s'intéressera principalement à la complexité temporelle.}
+    \end{alertblock}
+    \onslide<6->{
+    \begin{exampleblock}{Exemple}
+        La recherche dichotomique est plus rapide que la recherche simple, elle demande moins d'opérations, sa complexité doit donc être meilleure
+    \end{exampleblock}}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{alertblock}{Calcul de la complexité temporelle}
+        \begin{itemize}
+            \item<1-> On considère certaines opérations comme élémentaires, leur coût est alors majoré par une constante.\\
+            \onslide<2->{\textcolor{OliveGreen}{\small Par exemple les opérations arithmétiques, les tests, les affectations \dots }}
+            \item<3-> On exprime le coût de l'algorithme pour un entrée de taille {\tt n} en nombre d'opérations élémentaires nécessaires à sa réalisation.
+            \onslide<4->{\textcolor{OliveGreen}{
+                \begin{itemize}
+                    \item<5->\textcolor{OliveGreen}{La fonction \mintinline{ocaml}{let f x = x*x + 2*x + 3;;} demande 5 opérations quelque soit la taille de l'entrée {\tt x}. }
+                    \item<6->\textcolor{OliveGreen}{La fonction suivante en C :}
+                    \inputpartC{\SPATH/intro_correction.c}{}{\small}{16}{20}    
+                    \onslide<7->\textcolor{OliveGreen}{demande $4\,n+3$ opérations où $n$ est la taille du tableau.}
+                \end{itemize}}}
+        \end{itemize}
     \end{alertblock}
 \end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{alertblock}{Types de complexité}
+    Le nombre d'opérations d'un algorithme peut varier en fonction de la nature des données, on est donc à amener à définir :
+        \begin{itemize}
+            \item<4-> la \textcolor{blue}{complexité dans le meilleur cas}, le nombre minimal d'operations effectuées par un algorithme sur une entrée de taille $n$.
+            \item<5-> la \textcolor{blue}{complexité dans le pire cas}, le nombre maximal d'operations effectuées par un algorithme sur une entrée de taille $n$.
+            \item<6-> la \textcolor{blue}{complexité en moyenne}, le nombre moyen d'operations effectuées par un algorithme sur un ensemble d'entrées de taille $n$.
+        \end{itemize}
+    \onslide<7->{En général, on s'intéresse à la \textcolor{blue}{complexité dans le pire cas}, car on cherche à \textcolor{blue}{majorer} le nombre d'opérations effectuées par l'algorithme.}
+    \end{alertblock}
+\end{frame} 
+
 
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
     \begin{exampleblock}{Exemple : recherche simple dans un tableau}
         {\small On considère la fonction ci dessous qui recherche si l'\kw{elt} est ou non dans {\kw{tab}}}
-        \inputpartC{\SPATH/complexite.c}{}{\small}{4}{8}
+        \inputpartC{\SPATH/complexite.c}{}{\small}{6}{10}
     \begin{enumerate}
         \item<3-> {\small En donnant un exemple, montrer que cette fonction peut renvoyer le résultat en effectuant une seule comparaison.}
         \item<4-> {\small En donnant un exemple, montrer que cette fonction peut renvoyer le résultat en effectuant $n$ comparaison.}
@@ -223,15 +312,186 @@
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{alertblock}{Types de complexité}
-        On appelle :
+    \begin{block}{Majoration asymptotique}
         \begin{itemize}
-            \item<2-> \textcolor{blue}{complexité dans le meilleur cas}, le nombre minimal d'operations effectuées par un algorithme sur une entrée de taille $n$.
-            \item<3-> \textcolor{blue}{complexité dans le pire cas}, le nombre maximal d'operations effectuées par un algorithme sur une entrée de taille $n$.
-            \item<4-> \textcolor{blue}{complexité en moyenne}, le nombre moyen d'operations effectuées par un algorithme sur un ensemble d'entrées de taille $n$.
+            \item En pratique, seul une \textcolor{blue}{majoration asymptotique} du coût $C(n)$ d'un algorithme nous intéresse et pas sa détermination exacte.\\
+            \onslide<2->\textcolor{OliveGreen}{Par exemple, si le coût de l'algorithme est $C(n) = 3n + 15$ opérations élémentaires, on dira  que $C(n)$ est majoré asymptotiquement par $n$.} 
+            \item<3-> L'outil mathématique associé est la notion de \textcolor{blue}{domination} d'une suite : \\
+				Etant donné deux suites $(u_n)_{n \in \N}$ et $(v_n)_{n \in \N}$ à valeurs strictement positives. On dit que $(u_n)_{n \in \N}$ est dominée par $(v_n)_{n \in \N}$ lorsqu'il existe un entier $K>0$ et un rang $N \in \N$ tel que : \\ \onslide<3->{$\forall n \in \N, n>N$, on a  $u_n \leq k v_n$.\\}
+				\onslide<4->{On note alors \textcolor{BrickRed}{$u = O(v)$} (ou encore $u \in O(v)$) et on dit que $u$ est un grand $O$ de $v$.\\}
+                \onslide<5->{\og{} $u_n$ est inférieur à $v_n$ à une constante multiplicative près et pour $n$ assez grand \fg.}
         \end{itemize}
-    \end{alertblock}
-    
+    \end{block}
 \end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemples}
+        \begin{itemize}
+            \item<1-> Montrer que $(a_n)$ de terme général $10n + 3$ est un $O(n)$\\
+            \onslide<4->{\textcolor{OliveGreen}{$10 n + 3 < 11 n$ pour $n>3$}}
+            \item<2-> Montrer que $(b_n)$ de terme général $n^2 + n + 1$ est un $O(n^2)$\\
+            \onslide<5->{\textcolor{OliveGreen}{$n^2 + n + 1 < 2 n^2$ pour $n>2$}}
+            \item<3-> Déterminer un grand $O$ de $(c_n)$ de terme général $ 7 n + \ln(n)$\\
+            \onslide<6->{\textcolor{OliveGreen}{Comme $\ln(n) < n$, $c_n<8n$ et donc $(c_n)$ est un $O(n)$.}}
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Autres expressions de la complexité}
+        \begin{itemize}
+            \item<1-> On note $u_n = \Omega(v_n)$ si $v_n = O(v_n)$ 
+            \item<2-> On note $v_n = \Theta(v_n)$ si $u_n = O(v_n)$ et $v_n = O(u_n)$ \\
+            \onslide<3-> Cette notation peut être utilisé pour donner un équivalent (plutôt qu'une majoration de la complexité)
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Complexités usuelles}
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabularx}{\textwidth}{|c|l|X|}
+			\hline
+			\textcolor{blue}{Complexité}   & \textcolor{blue}{Nom}                  & \textcolor{blue}{Exemple}                                             \\
+			\hline
+			\leavevmode\onslide<2->{$O(1)$}           & \leavevmode\onslide<2->{Constant}      & \leavevmode\onslide<2->{Accéder à un élément d'une liste}             \\
+			\hline
+			\leavevmode\onslide<3->{$O(\log(n))$}     & \leavevmode\onslide<3->{Logarithmique}   & \leavevmode\onslide<3->{Recherche dichotomique dans une liste}        \\
+			\hline
+			\leavevmode\onslide<4->{$O(n)$          } & \leavevmode\onslide<4->{Linéaire     } & \leavevmode\onslide<4->{Recherche simple dans une liste}              \\
+			\hline
+			\leavevmode\onslide<5->{$O(n\log(n))$   } & \leavevmode\onslide<5->{Linéaritmique} & \leavevmode\onslide<5->{Tri fusion}                                   \\
+			\hline
+			\leavevmode\onslide<6->{$O(n^2)$        } & \leavevmode\onslide<6->{Quadratique  } & \leavevmode\onslide<6->{Tri par insertion d'une liste }               \\
+			\hline
+			\leavevmode\onslide<7->{$O(2^n)$        } & \leavevmode\onslide<7->{Exponentielle} & \leavevmode\onslide<7->{Algorithme par force brute pour le sac à dos} \\
+			\hline
+		\end{tabularx}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Représentation graphique}
+		\begin{center}
+			\includegraphics[height=6cm]{complexite.eps}
+		\end{center}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Temps de calcul effectif}
+		Sur un ordinateur réalisant 100 million d'opérations par seconde :
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{|c|c|c|c|c|c|}
+			\hline
+			\textcolor{blue}{Complexité} & $n=10$                      & $n=100$                     & $n=1000$                    & $n=10^6$                    & $n=10^9$                      \\
+			\hline
+			$O(\log(n))$   & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} \\
+			\hline
+			$O(n)$   & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & $\simeq 10$s \\
+			\hline
+			$O(n)\log(n)$   & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & $\simeq 1,5$ mn \\
+			\hline
+			$O(n^2)$   & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & $\simeq 3$ h & $\simeq 300$ ans \\
+			\hline
+			$O(2^n)$   & \textcolor{green}{\faCheck} &  \textcolor{red}{\faTimes} &  \textcolor{red}{\faTimes} &  \textcolor{red}{\faTimes} &  \textcolor{red}{\faTimes} \\
+			\hline
+		\end{tabular}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<1-> On suppose qu'on dispose d'un algorithme de complexité linéaire travaillant sur une liste, il traite une liste de \numprint{1000} éléments en \numprint{0.015} secondes. Donner une estimation du temps de calcul pour une liste de \numprint{250000} éléments.\\
+				\onslide<2-> {\textcolor{OliveGreen}{La taille des données a été multiplié par 250, la complexité étant lineaire le temps de calcul sera aussi approximativement multiplié par 250. \\}}
+				\onslide<3->{\textcolor{OliveGreen}{$0.015 \times 250 = 3.75$, on peut donc prévoir un temps de calcul d'environ 3,75 secondes}}
+			\item<4-> Même question pour un algorithme de complexité quadratique qui traite une liste de \numprint{1000} éléments en \numprint{0.07} secondes.\\
+				\onslide<5-> {\textcolor{OliveGreen}{La taille des données a été multiplié par 250, la complexité étant quadratique le temps de calcul sera  approximativement multiplié par $250^2=62500$ \\}}
+				\onslide<6->{\textcolor{OliveGreen}{$0.07 \times 62\,500 = 4375$, on peut donc prévoir un temps de calcul d'environ $4\,375$ secondes, c'est à dire près d'une heure et 15 minutes !}}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Exemple résolu: recherche dichotomique}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Enoncé : recherche dichotomique}
+    On reprend l'exemple de la recherche dichotomique dans un tableau trié:
+    \inputpartC{\SPATH/complexite.c}{}{\tiny}{12}{26}
+    \begin{itemize}
+        \item<2-> Prouver que cet algorithme termine
+        \item<3-> Prouver qu'il est correct
+        \item<4-> Donner sa complexité.
+    \end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Correction : recherche dichotomique}
+        \begin{itemize}
+            \item<2->\textcolor{OliveGreen}{Montrons que les valeurs prises par {\tt fin - deb} est un variant de boucle.
+            \begin{itemize}
+                \item\textcolor{OliveGreen}{{\tt fin-deb} est positif à l'entrée dans la boucle (le tableau est supposé non vide)}
+                \item\textcolor{OliveGreen}{{\tt fin-deb} décroît strictement à chaque itération car soit {\tt fin} diminue, soit {\tt }deb augmente}
+            \end{itemize}
+            }
+            \item<3->\textcolor{OliveGreen}{Si la fonction renvoie {\tt true} alors l'élément cherché est bien présent dans le tableau car le test {\tt tab[milieu]==elt} est vraie. Montrons maintenant que si la fonction renvoie {\tt false} alors l'élément n'est pas dans le tableau. Pour cela on montre la propriété suivante : $P$ : \og{} Si {\tt elt} est dans {\tt tab} alors il se trouve entre les indices {\tt deb} et {\tt fin} \fg{}. En effet, :
+            \begin{itemize}
+                \item<4->\textcolor{OliveGreen}{Cette propriété est vraie à l'entrée dans la boucle puisque {\tt deb=0} et {\tt fin=size-1} la totalité du tableau est couverte.}
+                \item<5->\textcolor{OliveGreen}{Cette propriété reste vraie à chaque tour de boucle car puisque le tableau est trié, si {\tt elt} est strictement plus grand que {\tt tab[milieu]} alors il se situe forcément après l'indice {\tt milieu} (et strictement avant dans le cas contraire)}
+            \end{itemize}}
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Correction : recherche dichotomique}
+        \begin{itemize}
+        \item<1->\textcolor{OliveGreen}{La boucle ne contient que des opérations élémentaires, le coût d'un tour de boucle est donc $O(1)$.}
+        \item<2->\textcolor{OliveGreen}{La taille de l'intervalle de recherche est initialement la taille {\tt n} du tableau et est divisé par deux à chaque itération. Donc le nombre de tours de boucle est un $O(\log(n))$.}
+        \item<3->\textcolor{OliveGreen}{En conclusion, la recherche dichotomique a une complexité logarithmique.}
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+
+\makess{Exemple résolu : tri sélection}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Tri sélection}
+        \begin{itemize}
+            \item<1-> Rappeler l'algorithme du tri par sélection \\
+            \onslide<2->{\textcolor{OliveGreen}{On note $n$ la taille du tableau, pour chaque entier $i=0 \dots n-1$, on échange l'élément situé à l'indice $i$ avec le minimum du tableau depuis l'indice $i$.}}
+            \item<3-> Montrer que l'algorithme termine\\
+            \onslide<4->{\textcolor{OliveGreen}{L'algorithme ne contient pas de boucle non bornées donc sa terminaison est garantie.}}
+            \item<5-> Montrer qu'il est correct
+            \item<6-> Déterminer sa complexité
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Correction du tri sélection}
+        \textcolor{OliveGreen}{Pour montrer que l'algorithme est correct, on prouve  la propriété : $P(k)$ : \og{} après $k$ itérations, les $k$ premiers éléments du tableau sont ceux du tableau trié pour $k=0 \dots n$.}
+        \begin{itemize}
+            \item<2->\textcolor{OliveGreen}{Pour $k=0$, la propriété est vraie (aucun élément n'est encore trié)}
+            \item<3->\textcolor{OliveGreen}{En supposant $P(k)$ vraie (c'est à dire les $k$ premiers éléments du tableau sont ceux du tableau trié), on montre $P(k+1)$. L'algorithme consiste à placer le minimum des éléments restants à l'indice $k+1$, cet élément est bien celui d'indice $k+1$ dans le tableau trié (il est supérieur aux éléments situés avant et inférieur à ceux qui restent à trier). Et donc $P(k+1)$ est vraie.}
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Complexité du tri sélection}
+        En notant $n$, la taille du tableau
+        \begin{itemize}
+            \item<1-> Chaque recherche de minimum parcourt au plus la totalité du tableau et est donc un $O(n)$.
+            \item<2-> Cette recherche est effectuée $n-1$ fois et est donc aussi un $O(n)$.
+            \item<3-> En conclusion la tri par sélection a un complexité en $O(n^2)$.
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
 
 \end{document}

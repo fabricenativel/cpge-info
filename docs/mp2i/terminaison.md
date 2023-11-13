@@ -9,9 +9,10 @@
 ## Cours
 {{ cours(num) }}
 
-
 ## TD
+{{ td(num) }}
 
 ## TP
 
 ## Humour d'informaticien
+![BinarySearch](./Images/C7/search.png){.imgcentre width=500px}

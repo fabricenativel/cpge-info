@@ -10,10 +10,10 @@
 
 {{ cours(num) }}
 
-
 ## Travaux dirigés
 
 ## Travaux pratiques
 
+
 ## Humour d'informaticien
-![linked](./Images/C7/humor.jpg){.imgcentre width=500px}
+![linked](./Images/C8/humor.jpg){.imgcentre width=500px}
