@@ -1,6 +1,6 @@
 type complexe = float * float;;
 
-let modu z = 
+let modu (z:complexe) = 
   let x = (fst z) in
     let y = (snd z) in 
       sqrt(x**2.+.y**2.);;

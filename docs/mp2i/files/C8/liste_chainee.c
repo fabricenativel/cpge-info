@@ -7,53 +7,49 @@ struct maillon
     struct maillon * suivant;
 };
 typedef struct maillon maillon;
+typedef maillon* liste;
 
-maillon * cree_liste()
+liste cree_liste()
 {
-    maillon *m= NULL;
-    return m;
+    liste l= NULL;
+    return l;
 }
 
-maillon* ajout(maillon* m, int v)
+void ajout(liste *l, int v)
 {
-    maillon *n=malloc(sizeof(maillon));
-    n->suivant = m;
-    n->valeur =v;
-    return n;
+    liste nl=malloc(sizeof(maillon));
+    nl->suivant = *l;
+    nl->valeur =v;
+    *l = nl;
 }
 
-maillon* supprime(maillon* m)
+void supprime(liste *l)
 {
-    if (m!=NULL)
+    if (l!=NULL)
     {
-        maillon *sav = m->suivant;
-        free(m);
-        return sav;
+        liste ls = (*l)->suivant;
+        free(*l);
+        *l = ls;
     }
 }
 
-
-
-void view_list(maillon *m)
+void view_list(liste l)
 {
     printf("-> ");
-    while (m!=NULL)
+    while (l!=NULL)
     {
-        printf("%i -> ",m->valeur);
-        m = m->suivant;
+        printf("%i -> ",l->valeur);
+        l = l->suivant;
     }
     printf("\n");
 }
 
 int main()
 {
-    maillon *liste = cree_liste();
-    liste = ajout(liste,4);
-    liste = ajout(liste,5);
-    view_list(liste);
-    liste = supprime(liste);
-    view_list(liste);
-    liste = supprime(liste);
-    view_list(liste);
-    liste = ajout(liste,7);
+    liste *l = cree_liste();
+    ajout(l,4);
+    ajout(l,5);
+    view_list(*l);
+    supprime(l);
+    view_list(l);
 }

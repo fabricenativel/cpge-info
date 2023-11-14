@@ -173,6 +173,21 @@ Ecrire une fonction `retourne` qui prend en argument une liste et renvoie la lis
 
 4. Ecrire une fonction `indice_max` qui renvoie la liste des indices des occurrences du maximum des éléments de la liste (non vide) donnée en argument.
 
+
+{{ exo("Doublons dans une liste",[])}}
+
+1. Ecrire une fonction `sans_doublons_triee` qui prend en argument une liste d'entiers **triée** et renvoie `true` si cette liste ne contient pas de doublons. Par exemple `sans_doublons_triee [2; 5; 5; 8; 10]` doit renvoyer  `false`.
+
+2. Ecrire une fonction `elimine_doublons_triee` qui prend en argument une liste d'entiers **triée** et renvoie cette liste en supprimant tous les doublons éventuels qui s'y trouvent. Par exemple `elimine_doublons_triee [2; 5; 5; 8; 10]` doit renvoyer `[2; 5; 8; 10]`
+
+3. Ecrire une fonction `compare` qui prend en argument deux entiers `a` et `b` et renvoie `-1` si `a<b`, `0` si `a=b` et `1` si `a>b`
+
+4. Une fonction de tri de liste existe déjà en OCaml, c'est `List.sort` qui prend en argument une fonction de comparaison (telle que celle définie à la question précédente) et une liste et renvoie la liste triée en utilisant la fonction de comparaison. Tester cette fonction.
+
+5. Ecrire les fonctions des questions **1** et **2** pour des listes quelconques (non forcément triées) en utilisant `List.sort`
+
+6. Même question sans utiliser `List.sort`
+
 {{ exo("Liste monotone",[])}}
 
 Ecrire une fonction `monotone` qui prend en argument une liste et renvoie un booléen indiquant si la liste donnée en argument est monotone ou non.
