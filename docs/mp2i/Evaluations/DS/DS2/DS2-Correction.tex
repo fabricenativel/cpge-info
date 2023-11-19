@@ -167,9 +167,11 @@ On rappelle qu'en C, le type {\tt uint64\_t} (disponible dans {\tt stdint.h} qu'
 \inputpartC{\FPATH/Evaluations/DS/DS2/ex2.c}{}{}{4}{7}
 
 on a obtenu l'affichage suivant dans le terminal : {\tt a= 18446744073709551615}. Expliquer cet affichage, s'agit-il d'un comportement indéfini ?}
+\tcor{Comme {\tt a} est un entier non signé initialisé à 0, l'instruction {\tt a = a -1} est un dépassement de capacité. Ce n'est pas un comportement indéfini, sur les entiersnon signés les calculs sont faits modulo le plus grand entier représentable plus un et donc ici on obtient donc $2^{64}-1$.}
 \subQuestion{Convertir  $\base{11101011}{2}$ en base 10.}
+\tcor {$\base{11101011}{2} = \base{235}{10}$.}
 \subQuestion{Convertir $\base{307}{10}$ en base 2.}
-
+\tcor {$\base{307}{10} = \base{100110011}{2}$.}
 \Question{Représentation des ensembles. \\On utilise à présent les entiers au format {\tt uint64\_t} afin de représenter des ensembles. A chaque entier écrit en base 2 on associe l'ensemble dont les éléments sont les positions des bits égaux à 1. Par exemple :
 \begin{itemize}
 	\item L'entier $\base{11001}{2}$(=$\base{25}{10}$) a des bits égaux à 1 aux positions 0,3 et 4 et donc représente l'ensemble $\{0,3,4\}$.
@@ -178,12 +180,22 @@ on a obtenu l'affichage suivant dans le terminal : {\tt a= 18446744073709551615}
 \end{itemize}
 }
 \subQuestion{Quels sont les ensembles représentables avec ce codage avec des entiers au format {\tt uint64\_t} ?}
+\tcor{Les ensembles répresentables sont les parties de $\intN{0}{63}$}
 \subQuestion{Donner l'écriture en base 10 de l'entier représentant l'ensemble $\{ 2,7\}$}
+\tcor{L'entier représentant $\{ 2,7\}$ est $\base{10000100}{2} = \base{132}{10}$.}
 \subQuestion{Quel est l'ensemble codé par l'entier $\base{76}{10}$ ?}
+\tcor{ $\base{76}{10} = \base{1001100}{2}$ et donc code l'ensemble $\{ 2, 3, 6 \}$. }
 \subQuestion{Donner la caractérisation des ensembles représentés par une puissance exacte de 2.}
+\tcor{ Les ensembles représentés par une puissance exacte de 2 sont les singletons.}
 \subQuestion{Ecrire une fonction {\tt appartient} qui prend en argument un entier  {\tt s} codant un ensemble et un entier {\tt e} et renvoie {\tt true} si {\tt e} appartient à l'ensemble codé par {\tt s} et {\tt false sinon}. Par exemple puisque l'ensemble $\{1,5\}$ est codé par $34$, {\tt appartient(34,1)} doit renvoyer {\tt true} tandis que {\tt appartient(34,2)} doit renvoyer {\tt false}.}
+\tcor{On utilise l'algorithme des divisions successives de façon à trouver le bit de rang {\tt e}, on renvoie {\tt true} si ce bit est à 1 et {\tt false sinon}}
+\inputpartC{\SPATH code_entiers.c}{}{\small}{10}{14}
+\tcor { Les opérations bit à bit ne sont pas au programme, mais ils permettent ici d'écrire une solution bien plus concise. L'opérateur \mintinline{c}{>>e} décale les bits de s de e rang vers la droite et \mintinline{c}{& 1} permet de récupérer le dernier bit.}
+\inputpartC{\SPATH code_entiers.c}{}{\small}{5}{8}
 \subQuestion{Ecrire une fonction {\tt encode} en C, qui prend en argument un tableau d'entiers (et  sa taille) et renvoie l'entier qui représente l'ensemble dont les éléments sont ceux du tableau. On supposera que les éléments du tableau sont distincts et tous inférieurs à 63. Par exemple, si {\tt tab} est un tableau de taille 2 tel que {\tt tab[0]=1} et {\tt tab[1]=5} alors, {\tt encode(tab,2)} doit renvoyer $\base{100010}{2}$ c'est à dire $\base{34}{10}$.}
+\inputpartC{\SPATH code_entiers.c}{}{\small}{17}{25}
 \subQuestion{Ecrire une fonction {\tt decode} en C, qui prend en argument un entier au format {\tt uint64\_t} et renvoie l'ensemble qu'il représente sous la forme d'un tableau. Par exemple {\tt decode(34)} doit renvoyer un tableau {\tt tab} tel que {\tt tab[0]=1} et {\tt tab[1]=5}.}
+\inputpartC{\SPATH code_entiers.c}{}{\small}{28}{41}
 
 \end{Exercise}
 \end{document}
