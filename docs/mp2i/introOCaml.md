@@ -150,18 +150,13 @@ utop # triangle2 '*' 5;;
 1. Ecrire une fonction  `est_dans` qui prend en argument une chaine de caractères `chaine` et un caractère `car` et renvoie `true` si `car` se trouve dans `chaine` et `false` sinon
 2. Ecrire une fonction `compte_occurence` qui prend en argument une chaine de caractères `chaine` et un caractère `car` et renvoie le nombre d'apparition de `car` dans `chaine`
 
-{{ exo("Retourner une liste",[])}}
-
-Ecrire une fonction `retourne` qui prend en argument une liste et renvoie la liste retournée (c'est à dire avec les éléments dans l'ordre inverse). Par exemple `retourne [2; 4; 5; 1]` renvoie la liste `[1; 5; 4; 2]` 
-
-!!! note "Remarque"
-    Cette fonction existe déjà, c'est `List.rev`
 
 {{ exo("Création de liste",[])}}
 
 1. Ecrire une fonction `cree_liste` qui prend en argument un élément `elt` et un entier `rep` et qui crée la liste constituée de `rep` fois l'élément `elt`. Par exemple `cree_liste  42 3` renvoie la liste `[42; 42; 42]`
 2. Ecrire la fonction `entiers` qui prend en argument un entier `n` et renvoie la liste des entiers `[1,2,..,n]`. Par exemple `entiers 5` renvoie `[1; 2; 3; 4; 5]`.
-3. Ecrire la fonction `mult_liste` qui prend en argument une liste et un entier `rep` et qui crée la liste constituée de `rep` répétitions de la liste. Par exemple `mult_liste [1; 4; 2] 3` renvoie la liste `[1; 4; 2; 1; 4; 2; 1; 4; 2]`
+3. Ecrire une fonction `double` qui prend en argument une liste et renvoie la liste dans laquelle chaque élément de `l` a été dupliqué. Par exemple `double [3; 6; 7]` renvoie la liste `[3; 3; 6; 6; 7; 7;]`.
+4. Ecrire la fonction `mult_liste` qui prend en argument une liste et un entier `rep` et qui crée la liste constituée de `rep` répétitions de la liste. Par exemple `mult_liste [1; 4; 2] 3` renvoie la liste `[1; 4; 2; 1; 4; 2; 1; 4; 2]`
 
 {{ exo("Somme, moyenne, maximum, minimum",[])}}
 
@@ -173,6 +168,28 @@ Ecrire une fonction `retourne` qui prend en argument une liste et renvoie la lis
 
 4. Ecrire une fonction `indice_max` qui renvoie la liste des indices des occurrences du maximum des éléments de la liste (non vide) donnée en argument.
 
+
+{{ exo("Indice d'un element",[])}}
+
+Ecrire une fonction `indice` qui prend en argument un entier `n` et une liste d'entiers `l` et qui renvoie l'indice de la première occurrence de `n` dans `l`. On renvoie `-1` si `n` n'appartient pas à `l`. Par exemples :
+
+* `indice 3 [1; 6; 7; 2; 3; 0]` renvoie `4`
+* `indice 1 [1; 6; 7; 2; 3; 0]` renvoie `0`
+* `indice 5 [1; 6; 7; 2; 3; 0]` renvoie `-1`
+
+
+{{ exo("Suppression d'un élément",[])}}
+
+1. Ecrire une fonction `supprime` qui prend en argument une liste `l` et une valeur `v` et supprime toutes les occurrences de `v` dans `l`.
+2. Même question en supprimant seulement la première occurrence
+3. Même question en supprimant seulement la dernière occurrence
+
+{{ exo("Retourner une liste",[])}}
+
+Ecrire une fonction `retourne` qui prend en argument une liste et renvoie la liste retournée (c'est à dire avec les éléments dans l'ordre inverse). Par exemple `retourne [2; 4; 5; 1]` renvoie la liste `[1; 5; 4; 2]` 
+
+!!! note "Remarque"
+    Cette fonction existe déjà, c'est `List.rev`
 
 {{ exo("Doublons dans une liste",[])}}
 

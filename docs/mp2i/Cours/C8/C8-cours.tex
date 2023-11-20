@@ -57,7 +57,8 @@
 			\item<2-> La récupération d'une valeur dans la structure se fait à l'aide d'\textcolor{blue}{accesseur} (en anglais \textit{getter}).\\
 				\onslide<3->\textcolor{gray}{Par exemple en C, \mintinline{c}{double e =  tab[3];}}
 			\item<2-> La modification d'une valeur dans la structure se fait à l'aide de \textcolor{blue}{transformateur} (en anglais \textit{setter}).\\
-				\onslide<3->\textcolor{gray}{Par exemple en C, \mintinline{c}{tab[3] = 7.5;}}
+				\onslide<3->\textcolor{gray}{Par exemple en C, \mintinline{c}{tab[3] = 7.5;}\\}
+				\onslide<4->{\textcolor{BrickRed}{\small \danger} On distingue les structures de données mutables (comme les tableaux du C) des structures de données immuables (comme les listes de OCaml). En cas de non mutabilité, pour modifier une structure de données on doit en construire une nouvelle.}
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -78,6 +79,7 @@
 			\item<2-> L'accès à un élément se fait \textcolor{blue}{temps constant}, en effet il suffit  de connaitre la taille \textcolor{OliveGreen}{\tt t} d'une case et de disposer de l'adresse du premier élément du tableau {\tt adr0}. L'adresse de l'élément d'indice {\tt i} s'obtient alors en ajoutant à l'adresse du premier élément $i$ fois la taille d'une case.
 				\onslide<3->{\ncline[linecolor=blue,nodesep=0.1]{->}{a0}{ai} \naput{\tt + i * \textcolor{OliveGreen}{t}}}
 			\item<4-> La suppression ou l'insertion d'un élément demande par contre la recopie des éléments et ce sont donc des opérations en $O(n)$.
+			\item<5-> Les tableaux de OCaml seront vus au chapitre suivant, on se limite donc pour le moment à l'utilisation de ceux du C.
 		\end{itemize}
 	\end{alertblock}
 \end{frame}
@@ -98,7 +100,7 @@
 			\item<2-> Contrairement aux tableaux, les différentes valeurs ne sont pas stockés de façon contiguës en mémoire.
 			\item<3-> Avec chaque élément, on stocke aussi dans un \og{} maillon \fg{} l'emplacement de son successeur. Le successeur du dernier élément se note $\bot$.
 			\item<4-> Pour accéder à un élément, on doit parcourir tout ceux qui le précèdent. L'accès à un élément est donc une opération en $O(n)$.
-			\item<5-> L'ajout  ou la suppression en tête de liste est en temps constant, la taille de la structure de données n'est pas fixé à la construction Contrairement aux tableaux.
+			\item<5-> L'ajout  ou la suppression en tête de liste est en $O(1)$, la taille de la structure de données n'est pas fixé à la construction contrairement aux tableaux.
 			\item<6-> Les listes chainées peuvent être définies de façon \textcolor{blue}{récursive} :
 				\begin{itemize}
 					\item<7-> Une liste est soit vide (référence vers $\bot$)
@@ -112,7 +114,7 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Implémentation en C}
-		On peut définir un maillon comme un {\tt struct} avec les champs valeur et pointeur vers un maillon :
+		On peut définir un maillon comme un \mintinline{c}{struct} avec les champs {\tt valeur} et pointeur vers un {\tt maillon} :
 		\inputpartC{\SPATH/liste_chainee.c}{\small}{}{4}{9}
 	\end{block}
 	\begin{block}{Implémentation en OCaml}
