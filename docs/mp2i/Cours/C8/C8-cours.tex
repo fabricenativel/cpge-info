@@ -67,29 +67,51 @@
 \makess{Tableaux}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{alertblock}{Définition}
+		un tableau est une séquence de $n$ valeurs de même type \textcolor{blue}{consécutives en mémoire}. \\
+		\begin{tabularx}{0.9\textwidth}{|Y|Y|Y|Y|Y|Y|}
+			\hline
+			{\tt tab[0]}                              & {\tt tab[1]}         & \dots                                     & {\tt tab[i]}         & \dots & {\tt tab[n-1]} \\
+			\hline
+			\multicolumn{1}{c}{$\uparrow$}            & \multicolumn{2}{c}{} & \multicolumn{1}{c}{$\uparrow$}            & \multicolumn{2}{c}{}                          \\
+			\multicolumn{1}{c}{\rnode{a0}{\tt adr 0}} & \multicolumn{2}{c}{} & \multicolumn{1}{c}{\rnode{ai}{\tt adr i}} & \multicolumn{2}{c}{}                          \\
+		\end{tabularx} \\
+	\end{alertblock}
+	\begin{block}{Complexité des opérations}
 		\begin{itemize}
-			\item un tableau est une séquence de $n$ valeurs de même type \textcolor{blue}{consécutives en mémoire}. \\
-			      \begin{tabularx}{0.9\textwidth}{|Y|Y|Y|Y|Y|Y|}
-				      \hline
-				      {\tt tab[0]}                              & {\tt tab[1]}         & \dots                                     & {\tt tab[i]}         & \dots & {\tt tab[n-1]} \\
-				      \hline
-				      \multicolumn{1}{c}{$\uparrow$}            & \multicolumn{2}{c}{} & \multicolumn{1}{c}{$\uparrow$}            & \multicolumn{2}{c}{}                          \\
-				      \multicolumn{1}{c}{\rnode{a0}{\tt adr 0}} & \multicolumn{2}{c}{} & \multicolumn{1}{c}{\rnode{ai}{\tt adr i}} & \multicolumn{2}{c}{}                          \\
-			      \end{tabularx} \\
 			\item<2-> L'accès à un élément se fait \textcolor{blue}{temps constant}, en effet il suffit  de connaitre la taille \textcolor{OliveGreen}{\tt t} d'une case et de disposer de l'adresse du premier élément du tableau {\tt adr0}. L'adresse de l'élément d'indice {\tt i} s'obtient alors en ajoutant à l'adresse du premier élément $i$ fois la taille d'une case.
 				\onslide<3->{\ncline[linecolor=blue,nodesep=0.1]{->}{a0}{ai} \naput{\tt + i * \textcolor{OliveGreen}{t}}}
 			\item<4-> La suppression ou l'insertion d'un élément demande par contre la recopie des éléments et ce sont donc des opérations en $O(n)$.
-			\item<5-> Les tableaux de OCaml seront vus au chapitre suivant, on se limite donc pour le moment à l'utilisation de ceux du C.
 		\end{itemize}
-	\end{alertblock}
+	\end{block}
 \end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		\begin{itemize}
+			\item<1-> Les tableaux sont des structures de données mutables par nature, ceux de OCaml seront donc vus dans les aspects impératifs de ce langage. On notera cependant la syntaxe pour l'accès à un élément : \textcolor{blue}{\tt tab.(i)} pour l'élément d'indice {\tt i} du tableau {\tt tab}.
+			\item<2-> En C, l'accès au ième par addition à l'adresse du premier de $i \times t$ où $t$ est la taille d'une case est masqué par le \og sucre syntaxique \fg{}  \mintinline{c}{tab[i]}. On notera cependant, que les deux syntaxes suivantes sont tout à fait équivalentes ! :
+				\inputpartC{\SPATH/syntaxe.c}{\small}{}{3}{8}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Tableaux dynamiques}
+		\begin{itemize}
+			\item<1-> Les tableaux ont une taille fixée au moment de leur création de façon à réserver l'espace mémoire nécessaire.
+			\item<2-> On peut créer des tableaux dynamiques (ou redimensionnables) à la façon des listes de Python, une implémentation en C sera vue en TP.
+			\item<3-> On retiendra dès maintenant que dans le cas d'un redimensionnement, la stratégie efficace est alors de \textcolor{blue}{doubler} la taille courante du tableau car cela conduit à une complexité amortie en $O(1)$ lors de l'ajout (voir TD).
+		\end{itemize}
+	\end{block}
+\end{frame}
+
 
 \makess{Liste chainées}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{alertblock}{Définition}
 		\begin{center}
 			\rnode{head}{\phantom{Y}}  \quad \maillon{$e_0$}{v0}{p0} \  \maillon{$e_1$}{v1}{p1}  \maillon{$e_2$}{v2}{p2}  \maillon{$e_3$}{v3}{p3}  \maillon{$e_4$}{v4}{p4} \maillon{$e_5$}{v5}{p5} \  \rnode{null}{\raisebox{-2pt}{$\bot$}}
-			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{->}{p0}{v1}
+			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p0}{v1}
 			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
 			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p2}{v3}
 			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p3}{v4}
@@ -98,16 +120,41 @@
 		\end{center}
 		\begin{itemize}
 			\item<2-> Contrairement aux tableaux, les différentes valeurs ne sont pas stockés de façon contiguës en mémoire.
-			\item<3-> Avec chaque élément, on stocke aussi dans un \og{} maillon \fg{} l'emplacement de son successeur. Le successeur du dernier élément se note $\bot$.
-			\item<4-> Pour accéder à un élément, on doit parcourir tout ceux qui le précèdent. L'accès à un élément est donc une opération en $O(n)$.
-			\item<5-> L'ajout  ou la suppression en tête de liste est en $O(1)$, la taille de la structure de données n'est pas fixé à la construction contrairement aux tableaux.
+			\item<3-> Avec chaque élément, on stocke aussi dans un \og{} maillon \fg{} l'emplacement de son successeur. Le successeur du dernier élément se note $\bot$ (\mintinline{c}{NULL} en C).
 			\item<6-> Les listes chainées peuvent être définies de façon \textcolor{blue}{récursive} :
 				\begin{itemize}
 					\item<7-> Une liste est soit vide (référence vers $\bot$)
-					\item<8-> Soit c'est la donnée d'un maillon consitué d'une valeur et d'une référence vers une liste.
+					\item<8-> Soit c'est la donnée d'un maillon constitué d'une valeur et d'une référence vers une liste.
 				\end{itemize}
 		\end{itemize}
 	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Complexités des opérations}
+		\begin{center}
+			\rnode{head}{\raisebox{-2pt}{\phantom{Y}}}  \quad \maillon{$e_0$}{v0}{p0} \  \maillon{$e_1$}{v1}{p1}  \maillon{$e_2$}{v2}{p2}  \maillon{$e_3$}{v3}{p3}   \rnode{null}{\raisebox{-2pt}{$\bot$}}
+			\ncline[nodesepB=0.85cm]{->}{head}{p0}
+			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p0}{v1}
+			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
+			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p2}{v3}
+			\ncline[nodesepB=0.05cm,nodesepA=-0.25cm]{*->}{p3}{null}
+		\end{center}
+		\onslide<4->{\quad \rnode{head2}{\raisebox{-2pt}{\phantom{Z}}} \quad \maillon{$e_4$}{v4}{p4}}
+		\begin{itemize}
+			\item<2-> Pour accéder à un élément, on doit parcourir tout ceux qui le précèdent. L'accès à un élément est donc une opération en $O(n)$.
+			\item<3-> L'ajout  ou la suppression en tête de liste est en $O(1)$ car aucune recopie n'est nécessaire :
+				\begin{enumerate}
+					\item<4-> On crée un maillon avec la nouvelle valeur.
+					\item<5-> Le suivant de ce maillon est l'ancienne tête.
+						\onslide<5->{\ncline[nodesepB=0.25cm,nodesepA=-0.25cm,linecolor=red]{*->}{p4}{v0}}
+					\item<6-> La nouvelle tête pointe sur le nouveau maillon.
+						\onslide<6->{\ncline[nodesepB=0.25cm,linecolor=red]{->}{head2}{v4}
+							\ncline[nodesepB=0.85cm,linecolor=hideblue,linewidth=1pt]{->}{head}{p0}}
+				\end{enumerate}
+			\item<7-> La taille de la structure de données n'est pas fixée à la construction contrairement aux tableaux.
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 % Liste chainée : implémentation
@@ -115,13 +162,14 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Implémentation en C}
 		On peut définir un maillon comme un \mintinline{c}{struct} avec les champs {\tt valeur} et pointeur vers un {\tt maillon} :
-		\inputpartC{\SPATH/liste_chainee.c}{\small}{}{4}{9}
+		\onslide<2->{
+			\inputpartC{\SPATH/liste_chainee.c}{\small}{}{4}{9}}
 	\end{block}
 	\begin{block}{Implémentation en OCaml}
 		\begin{itemize}
-			\item Le type {\tt 'a list} est prédéfini dans le langage
-			\item Attention, les listes de OCaml ne sont pas mutables
-			\item Tous les éléments doivent être du même type
+			\item<3-> Le type {\tt 'a list} est prédéfini dans le langage
+			\item<4-> Attention, les listes de OCaml ne sont pas mutables
+			\item<5-> Tous les éléments doivent être du même type
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -212,13 +260,36 @@
 	\begin{block}{Implémentation des piles}
 		Plusieurs implémentations sont possibles :
 		\begin{itemize}
-			\item<1-> A l'aide d'une liste chainée, le début de la liste représente alors le sommet. 
-			\item<2-> Si la capacité de la pile est bornée et connue en amont, on peut aussi utiliser un tableau et mémoriser la taille {\tt t} de la pile. Puis,
-			\begin{itemize}
-				\item<3-> pour tester si la pile est vide on teste si {\tt t} est égal à 0,
-				\item<4-> pour empiler une valeur {\tt v}, on affecte {\tt tab[t]=v} et on incrémente {\tt t},
-				\item<5-> pour dépiler renvoie {\tt tab[t]} et décrémente {\tt t}.
-			\end{itemize}
+			\item<1-> A l'aide d'une liste chaînée, la tête de la liste représente alors le sommet de la pile.
+				\onslide<2->{\begin{center}
+						\begin{tabular}{cclllll}
+							\rnode{head}{\raisebox{-2pt}{\phantom{Y}}} & \maillon{$e_0$}{v0}{p0}                                   & \maillon{$e_1$}{v1}{p1} & \maillon{$e_2$}{v2}{p2} & \maillon{$e_3$}{v3}{p3} & \maillon{$e_4$}{v4}{p4} & \rnode{null}{\raisebox{-2pt}{$\bot$}} \\
+							                                           & \leavevmode \onslide<3->{\textcolor{blue}{\small sommet}} &                         &                         &                         &                         &                                       \\
+						\end{tabular}
+						\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p0}{v1}
+						\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
+						\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p2}{v3}
+						\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p3}{v4}
+						\ncline[nodesepB=0.05cm,nodesepA=-0.25cm]{*->}{p4}{null}
+						\onslide<4->{\ncline[offset=2pt,nodesepA=-0.25cm,nodesepB=0.25cm,linecolor=OliveGreen]{->}{head}{v0} \naput[labelsep=1pt]{\textcolor{OliveGreen}{\tiny empiler}}}
+						\onslide<5->{\ncline[offset=-2pt,nodesepA=-0.25cm,nodesepB=0.25cm,linecolor=BrickRed]{<-}{head}{v0} \nbput[labelsep=1pt]{\textcolor{BrickRed}{\tiny dépiler}}}
+					\end{center}}
+			\item<6-> Si la capacité de la pile $n$ est bornée et connue en amont, on peut aussi utiliser un tableau de taille $n$ et mémoriser la taille courante \textcolor{blue}{\tt t} de la pile.
+				\onslide<7->{\begin{tabularx}{0.9\textwidth}{|Y|Y|Y|Y|Y|Y|}
+						\hline
+						{\tt tab[0]}         & {\tt tab[1]}         & \dots                                          & {\tt tab[t-1]}                                                 & \textcolor{gray}{\dots}                                                  & \textcolor{gray}{\tt tab[n-1]} \\
+						\hline
+						\multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\rnode{h}{\phantom{\tt t}}} & \multicolumn{1}{c}{\rnode{s}{\textcolor{blue}{\small sommet}}} & \multicolumn{2}{c}{\rnode{t}{\textcolor{gray}{\small valeurs ignorées}}}                                  \\
+					\end{tabularx}
+				}
+				\begin{itemize}
+					\item<8-> pour tester si la pile est vide on teste si \textcolor{blue}{\tt t} est égal à 0,
+					\item<9-> pour empiler une valeur {\tt v}, on affecte {\tt tab[t]=v} et on incrémente \textcolor{blue}{\tt t},
+						\onslide<10->{\ncline[linecolor=OliveGreen,nodesepA=0.1cm,nodesepB=0.4cm,offset=-2pt]{->}{s}{t} \naput[labelsep=0.1pt]{\textcolor{OliveGreen}{\tiny empiler}}}
+					\item<11-> pour dépiler on renvoie {\tt tab[t-1]} et décrémente \textcolor{blue}{\tt t}.
+						\onslide<12->{\ncline[linecolor=BrickRed,nodesepA=0.1cm,nodesepB=0.4cm,offset=2pt]{->}{s}{h} \nbput[labelsep=0.1pt]{\textcolor{BrickRed}{\tiny dépiler}}}
+				\end{itemize}
+				\onslide<13->{Ainsi, le sommet de la pile est toujours l'élément d'indice {\tt t-1} du tableau.}
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -280,14 +351,51 @@
 
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{Implémentation des files}
-		Plusieurs implémentations sont possibles :
-		\begin{itemize}
-			\item<1-> A l'aide d'une liste chainée, dans ce cas si on veut pouvoir enfiler et défiler en temps constant, il faut disposer d'un accès au premier maillon et au dernier maillon. 
-			\item<2-> Si la capacité de la file est bornée et connue en amont, on peut aussi utiliser un tableau de façon circulaire en mémorisant l'indice du début de la file et l'indice de fin.
-			\item<3-> On peut aussi implémenter une file avec deux piles. 
-		\end{itemize}
+	\begin{block}{Implémentation avec une liste chainée}
+		Si on veut pouvoir enfiler et défiler en temps constant, il faut disposer d'un accès au premier maillon (pour enfiler en $O(1)$) et au dernier maillon (pour défiler en $O(1)$).
+		\onslide<2->{\begin{center}
+				\begin{tabular}{cclllcc}
+					\rnode{head}{\raisebox{-2pt}{\phantom{Y}}} & \maillon{$e_0$}{v0}{p0}                                                   & \maillon{$e_1$}{v1}{p1} & \maillon{$e_2$}{v2}{p2} & \maillon{$e_3$}{v3}{p3} & \maillon{$e_4$}{v4}{p4}                                    & \rnode{null}{\raisebox{-2pt}{$\bot$}} \\
+					                                           & \leavevmode \onslide<3->{\rnode{h}{\textcolor{OliveGreen}{\small début}}} &                         &                         &                         & \leavevmode \onslide<4->{\textcolor{BrickRed}{\small fin}} &                                       \\
+				\end{tabular}\\
+				\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p0}{v1}
+				\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
+				\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p2}{v3}
+				\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p3}{v4}
+				\ncline[nodesepB=0.05cm,nodesepA=-0.25cm]{*->}{p4}{null}
+				\onslide<5->{\begin{tabular}{|c|c|}
+						\hline
+						\rnode{debut}{\phantom{M}} & \rnode{fin}{\phantom{M}} \\
+						\hline
+						\multicolumn{2}{c}{\textcolor{blue}{file}}
+					\end{tabular}}
+				\onslide<6->\ncbar[angleA=180,linecolor=OliveGreen,nodesepB=0.2cm,nodesepA=-0.2cm]{*->}{debut}{v0}
+				\onslide<7->\ncangle[angleA=0, angleB=-90,linecolor=BrickRed,nodesepB=0.2cm,nodesepA=-0.2cm]{*->}{fin}{v4}
+			\end{center}}
+		\onslide<8->{Une file est donc un couple de pointeurs vers des maillons, ce qui donne en C :
+			\inputpartC{\SPATH/joseph.c}{\small}{}{11}{16}
+		}
 	\end{block}
 \end{frame}
 
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation avec un tableau}
+		Si la capacité de la file  $n$ est bornée, on peut utiliser  un tableau {\tt f} qu'on traite circulairement (\textit{ring buffer}). Pour cela, on maintient à jour une variable \textcolor{blue}{\tt t} contenant le nombre d'éléments de la file et une variable \textcolor{OliveGreen}{\tt d} contenant l'indice du prochain élément à défiler.
+		\begin{itemize}
+			\item<2-> pour défiler, on renvoie l'élément d'indice \textcolor{OliveGreen}{\tt d}, on décremente \textcolor{blue}{\tt t} et on incrémente \textcolor{OliveGreen}{\tt d} (modulo n).
+			\item<3-> pour enfiler une valeur {\tt v} \textit{lorsque la file n'est pas pleine}, on affecte {\tt tab[(d+t)\%n]=v} et on incrémente \textcolor{blue}{\tt t} (modulo n).
+		\end{itemize}
+		\onslide<4->{
+			Illustration :\\
+			{\begin{tabularx}{\textwidth}{|Y|c|Y|Y|Y|c|Y|}
+						\hline
+						{\small \tt f[0]}         & \dots                & {\small \tt f[(d+t)\%n]}  & \textcolor{gray}{\dots}                                          & {\small \tt f[d]}                                                  & \textcolor{gray}{\dots}                                                  & {\small \tt f[n-1]} \\
+						\hline
+						\multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\textcolor{blue}{fin}} & \multicolumn{1}{c}{\textcolor{gray}{\footnotesize valeurs ignorées}} & \multicolumn{1}{c}{\rnode{s}{\textcolor{blue}{\small debut}}} & \multicolumn{2}{c}{}                \\
+					\end{tabularx}
+				}
+		}
+
+	\end{block}
+\end{frame}
 \end{document}

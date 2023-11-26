@@ -289,4 +289,22 @@ def define_env(env):
             res += '</tr>'
         res += '</table>'
         return res
+    
+    @env.macro
+    def file(elts):
+        aff = '<table class="file"><tr>'
+        for e in elts:
+            aff += f'<td>{e}</td>'
+        aff += '</tr></table>'
+        return aff
+    
+    @env.macro
+    def pile(elts):
+        aff = '<table class="pile">'
+        if elts==[]:
+            aff += f'<tr><td>&nbsp;</td></tr>'
+        for i in range(len(elts)-1,-1,-1):
+            aff += f'<tr><td>{elts[i]}</td></tr>'
+        aff += '</table>'
+        return aff
 

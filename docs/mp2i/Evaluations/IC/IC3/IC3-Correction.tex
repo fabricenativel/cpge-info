@@ -1,0 +1,43 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\IC{3}{Terminaison}
+\newcommand{\SPATH}{\FPATH Evaluations/IC/IC3/}
+
+\setcounter{Exercise}{0}
+\begin{Exercise}[title={}]\\
+	On considère la fonction \mintinline{c}{mystere} suivante en C :
+    \inputpartC{premier_diviseur.c}{}{}{6}{11}
+
+\Question{Donner la valeur renvoyée par \mintinline{c}{mystere(42)}}
+\tcor{L'appel \mintinline{c}{mystere(42)} renvoie 2.}
+\Question{Proposer une spécification aussi précise que possible pour cette fonction }
+\tcor{Cette fonction renvoie le premier diviseur de l'entier $n>1$ donné en argument.}
+\Question{Prouver la terminaison de cette fonction.}
+\tcor{La suite des valeurs prises par {\tt n-candidat} est :
+\begin{itemize}
+    \item positive car comme {\tt n>1} et {\tt candidat} est initialisé à 2, avant la boucle {\tt n-candidat}$\geq 0$ et de plus, la condition d'entrée dans la boucle impose que {\tt candidat<n} (puisque {\tt n\%n=0})
+    \item strictement décroissante car {\tt candidat} augmente à chaque itération donc {\tt n-candidat} diminue.
+\end{itemize}
+Donc {\tt n-candidat} est un variant de boucle se qui garantit la terminaison.
+}
+\Question{Ecrire une version récursive de cette fonction en OCaml.}
+\inputpartOCaml{premier_diviseur.ml}{}{}{1}{4}
+\end{Exercise}
+
+\begin{Exercise}[title = {Terminaison d'une fonction récursive}]\\
+    Montrer la terminaison de la fonction ci-dessous  pour $n \in \N^*$ :
+    \inputpartOCaml{mystere.ml}{}{}{1}{4}
+    \tcor{Si $n \leq 2$, alors la fonction termine en moins de 2 appels récursifs. Sinon, $n>2$  montrons alors que les valeurs prises par {\tt n} lors des appels récursifs de \textit{rang pair} est un variant. On note $n'$ (resp. $n''$) la valeur de {\tt n} après le premier (resp. le second) appel récursif. 
+    \begin{itemize}
+        \item Si {\tt n} est pair et $n>2$, alors en notant $n= 2k$ ($1<k$). On a $n'=k$ et $n'' = k+1$ et comme $k+1 < 2k$, $n''<n$.
+        \item Si {\tt n} est impair alors en notant $n = 2k+1$ ($k>0$). On a $n'=2k+2$ et $n''=2k$ donc $n''<n$. 
+    \end{itemize}
+    Donc dans les deux cas, après deux appels récursifs la valeur de $n$ diminue et donc la fonction termine.
+    }
+\end{Exercise}
+\end{document}
