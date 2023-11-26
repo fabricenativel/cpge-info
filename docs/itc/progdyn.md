@@ -233,6 +233,9 @@ On dispose d’un sac à dos pouvant contenir un poids maximal $P$ et de $n$ obj
 
     2. En déduire une fonction Python permettant de déterminer la valeur maximale du sac.
     3. Déterminer un remplissage du sac réalisant la valeur maximale.
+    4. Tester votre programme sur les objets ci-dessous avec un poids  maximal de 4 kg.
+
+        ![cb_sac](./Images/C2/pbsac_ex2.png){.imgcentre width=400px}
 
 {{ exo("Distance d'édition",[]) }}
 
