@@ -7,7 +7,7 @@
 
 {{ cours(num) }}
 
-## TP
+## Travaux pratiques
 
 ### Manipulations des dictionnaires
 

@@ -10,11 +10,11 @@
 
 {{ cours(num) }}
 
-## TD
+## Travaux Dirigés
 
 {{ td(num) }}
 
-## TP
+## Travaux Pratiques
 
 {{ exo("Puissance",[],0)}}
 

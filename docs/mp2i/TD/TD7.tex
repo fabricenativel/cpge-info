@@ -9,21 +9,27 @@
 
 \setcounter{Exercise}{0}
 \begin{Exercise}[title={Notation $O$}]
-\Question{Déterminer un $O$ des suites de terme général :}
-\subQuestion{$2023 n^2$}
-\subQuestion{$n^2 + 10^9 n$}
-\subQuestion{$3 n + 7 \log n$}
-\subQuestion{$2^{n+7} + n^{10}$}
-\subQuestion{$\sqrt{19n^2+3}$}
+\Question{Déterminer un $O$ des suites de terme général :}\\
+\begin{tabularx}{\linewidth}{XXX}
+a) $2023 n^2$ &
+b) $n^2 + 10^9 n$ &
+c) $3 n + 7 \log n$ \\
+d) $2^{n+7} + n^{10}$ &
+e) $\sqrt{19n^2+3}$ &
+f) $\log(3n)+\log(n)$ \\
+\end{tabularx}
 \Question{Montrer que si $u_n = O(v_n)$ et $v_n = O(w_n)$ alors $u_n = O(w_n)$.}
 \Question{Montrer que $O(u_n + v_n) = O(\max(u_n,v_n)$).}
 \Question{Montrer que si $u_n = O(a_n)$ et $v_n = O(b_n)$ alors $u_nv_n = O(a_nb_n)$.}
-\Question{Déterminer un $O$ (le \og{} meilleur \fg{} possible) des expressions suivantes :}
-\subQuestion{$O(n^4)+O(n^2)$}
-\subQuestion{$O(n^5)+O(n^5)$}
-\subQuestion{$O(n^3)+O(\log(n))$}
-\subQuestion{$O(n^4)\times O(n^3)$}
-\subQuestion{$O(n^4)\times O(\sqrt{n})$}
+\Question{Déterminer un $O$ (le \og{} meilleur \fg{} possible) des expressions suivantes :}\\
+\begin{tabularx}{\linewidth}{XXX}
+a) $O(n^4)+O(n^2)$ &
+b) $O(n^5)+O(n^5)$ &
+b) $O(n^3)+O(\log(n))$ \\
+d) $O(n^4)\times O(n^3)$ &
+e) $O(n^4)\times O(\sqrt{n})$& 
+f) $O(n^2)\times O(\log{n})$ \\
+\end{tabularx}
 \end{Exercise}
 
 \begin{Exercise}[title={Vérification du tri}]
@@ -34,7 +40,7 @@
 \end{Exercise}
 
 \begin{Exercise}[title={multiplier en additionnant}]
-    \inputpartC{add_mult.c}{}{}{3}{8}
+    \inputpartC{add_mult.c}{\small}{}{3}{8}
 \Question{En supposant $p>0$ montrer la terminaison.}
 \Question{Prouver que cette fonction renvoie $p \times n$.}
 \Question{Déterminer sa complexité.}
@@ -42,7 +48,7 @@
 
 \begin{Exercise}[title={exponentiation rapide}]\\
 On rappelle la fonction d'exponentiation rapide dans sa version récursive :
-\inputpartC{exp_rapide.c}{}{}{5}{13}
+\inputpartC{exp_rapide.c}{\small}{}{5}{13}
 \Question{Prouver que cet algorithme termine.}
 \Question{Prouver qu'il est correct.\\
 \aide \; En notant $n_0$ la valeur initiale de $n$, on pourra considérer l'invariant suivant : {\tt res * cp\textsuperscript{n}}=$a^{n_0}$} 
@@ -51,7 +57,7 @@ On rappelle la fonction d'exponentiation rapide dans sa version récursive :
 
 \begin{Exercise}[title={retour sur la multiplication}]\\
 On donne la fonction suivante :
-\inputpartC{add_mult2.c}{}{}{5}{12}
+\inputpartC{add_mult2.c}{\small}{}{5}{12}
 
 \Question{Vérifier à la main, sur deux entiers naturels de votre choix que cette fonction est conforme à sa spécification.}
 \Question{Montrer la terminaison de cette fonction}
@@ -69,12 +75,25 @@ On donne la fonction suivante :
     
 \end{Exercise}
     
+\begin{Exercise}[title={majorité absolue}]\\
+On considère les résultats d'un vote sous la forme d'un tableau d'entier positifs, lorsqu'on rencontre la valeur {\tt i} cela signifie que la candidat numéro {\tt i} a obtenu un vote. Par exemple si le tableau contient les valeurs {\tt [2, 3, 1, 2, 2, 2, 4, 1, 1, 2]}, alors le candidat 1 a obtenu 3 voix, le candidat 2 a obtenu 5 voix, $\dots$.
+On cherche à déterminer un algorithme efficace permettant de déterminer (s'il existe) le candidat ayant obtenu la majorité absolue. Dans le cas où aucun candidat n'a la majorité absolue alors l'algorithme doit renvoyer {\tt -1}.
+On note $C$ le nombre de candidats et $N$ le nombre de votes.
+
+\Question{Proposer un algorithme permettant de résoudre ce problème et donner sa complexité}\\
+On donne ci-dessous \textbf{le début} de l'implémentation en C d'un algorithme  proposé par R. Boyer et S. Moore:
+\inputpartC{vote.c}{\small}{}{7}{20}
+\Question{Prouver qu'à la fin de la boucle {\tt for}, la variable {\tt candidat} contient le numéro du seul candidat éventuellement majoritaire}
+\Question{Compléter l'implémentation en ajoutant les lignes permettant de vérifier après la boucle for que ce candidat est effectivment majoritaire}
+\Question{Donner la complexité de cet algorithme.}
+\end{Exercise}
+
+
 \begin{Exercise}[title={nombre de chiffres d'un entier}]
     \Question{Ecrire en C, une version itérative d'une fonction donnant le nombre de chiffres d'un entier naturel.}
     \Question{Ecrire une version récursive en OCaml.}
     \Question{Prouver la terminaison dans les deux cas.}
     \Question{Prouver la correction dans les deux cas.}
 \end{Exercise}
-
 
 \end{document}

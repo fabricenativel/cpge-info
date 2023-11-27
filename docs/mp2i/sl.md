@@ -12,6 +12,8 @@
 
 ## Travaux dirigés
 
+{{ td(num) }}
+
 ## Travaux pratiques
 
 {{exo("Une implémentation des listes de Python en C",[],0)}}
@@ -80,13 +82,13 @@ Le but est de l'exercice est d'implémenter un type *Vector* de tableaux redimen
 
     1. Une fonction `create` de signature `#!c vector create(int size, int value)` qui renvoie un objet de type `vector` dont les `size` éléments du tableau sont initialisés à `value`  et dont le champ `max_size` vaut aussi `size` et le champ `default_value` à `value`.
 
-    2. Ecrire une fonction `display` de signature `#c! void display(vector v)` qui affiche les éléments d'un objet de type `vector`. Cette affichage pourra aussi indiquer les tailles actuelles (`current_size`) et maximales (`max_size`).
+    2. Ecrire une fonction `display` de signature `#!c void display(vector v)` qui affiche les éléments d'un objet de type `vector`. Cette affichage pourra aussi indiquer les tailles actuelles (`current_size`) et maximales (`max_size`).
 
-    3. Ecrire une fonction `get_element` de signature `#c! int get_element(vector v, int index)` qui renvoie l'élément du tableau situé à l'indice `index` dans le tableau. On vérifiera à l'aide d'un `assert` que `index` $\leq$ `current_size`.
+    3. Ecrire une fonction `get_element` de signature `#!c int get_element(vector v, int index)` qui renvoie l'élément du tableau situé à l'indice `index` dans le tableau. On vérifiera à l'aide d'un `assert` que `index` $\leq$ `current_size`.
 
-    4. Ecrire une fonction `set_element` de signature `#c! void set_element(vector v, int index, int value)` qui affecte à l'élément situé à l'indice `index` dans le tableau la valeur `value`.
+    4. Ecrire une fonction `set_element` de signature `#!c void set_element(vector v, int index, int value)` qui affecte à l'élément situé à l'indice `index` dans le tableau la valeur `value`.
 
-    5. Ecrire une fonction `resize` de signature `#c! void resize(vector *v, int new_size)` qui redimensionne le `v`. Dans le cas où la nouvelle taille est supérieure à l'ancienne, les nouveaux éléments seront initialisés à `default_value`.
+    5. Ecrire une fonction `resize` de signature `#!c void resize(vector *v, int new_size)` qui redimensionne le `v`. Dans le cas où la nouvelle taille est supérieure à l'ancienne, les nouveaux éléments seront initialisés à `default_value`.
 
     6. Ecrire une fonction `destroy` permettant de libérer l'espace mémoire occupée par l'objet `vector` donné en argument.
 
@@ -116,7 +118,7 @@ On définit donc ici une liste comme un pointeur vers sa tête.
 
 2. Tester vos fonctions en créant puis en affichant la liste des 10 premiers entiers
 
-3. Implémenter d'autres fonctions sur votre structure de données (taille, accès au n-ième élément, somme des éléments, \dots).
+3. Implémenter d'autres fonctions sur votre structure de données (taille, accès au n-ième élément, somme des éléments, $\dots$).
 
 4. Vérifier l'absence de fuites mémoires.
 

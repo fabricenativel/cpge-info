@@ -8,7 +8,8 @@
 
 {{ liste_eval("mp2i","ds") }}
 
-### TP notés
+## Travaux pratiques
+
 
 {{ liste_eval("mp2i","tp") }}
 

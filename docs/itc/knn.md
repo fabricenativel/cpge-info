@@ -7,7 +7,8 @@
 
 {{ cours(num) }}
 
-## TP
+## Travaux pratiques
+
 
 !!! lien "Jeu de données"
     Quelques sites proposant des jeu de données pour les algorithmes de classification :  

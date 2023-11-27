@@ -34,7 +34,8 @@ Les exemples vu en cours
     --8<-- "C0/max_liste.py"
     ```
 
-## TP
+## Travaux pratiques
+
 
 ### Pour démarrer en douceur
 
