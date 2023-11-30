@@ -13,6 +13,17 @@
 % Un : sépare le numéro de l'exerice de son titre ... si le titre existe. On utilise Origine pour placer les pictogrammes en fin de ligne
 \renewcommand{\ExerciseHeader}{\ding{113} \textbf{\sffamily{\ExerciseName \ \ExerciseHeaderNB}} \ifthenelse{\equal{\ExerciseTitle}{\empty}}{}{:} \textit{\ExerciseHeaderTitle} \hfill \ExerciseHeaderOrigin}
 \renewcommand{\ExePartHeader}{\quad \ding{71} \textbf{Partie \textbf{\ExePartHeaderNB}} : \ExePartName \\}
+
+
+% Mode Concours
+\newcommand{\ModeConcours}{
+   \renewcommand{\ExerciseName}{Exercice}
+   \renewcommand{\ExerciseHeaderTitle}{\ExerciseTitle}
+\renewcommand{\ExerciseHeaderOrigin}{\ExerciseOrigin}
+\renewcommand{\ExerciseHeader}{\ding{113} \textbf{\sffamily{\ExerciseName \ \ExerciseHeaderNB}} \ifthenelse{\equal{\ExerciseTitle}{\empty}}{}{:} \textit{\ExerciseHeaderTitle} \hfill \ExerciseHeaderOrigin}
+\renewcommand{\QuestionNB}{\textbf{Q\arabic{Question}\ --}\ }
+}
+
 \newcommand{\noeud}[1]{\Tr{\fbox{\tt #1}}}
 \newcommand{\FPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/}
 \newcommand{\spath}[2]{\FPATH Evaluations/#1/#1#2}
@@ -24,6 +35,11 @@
 \newminted[langageC]{c}{linenos=true,escapeinside=``,highlightcolor=fluo,tabsize=2}
 \BeforeBeginEnvironment{minted}{\begin{mdframed}[backgroundcolor=codebg]}
    \AfterEndEnvironment{minted}{\end{mdframed}}
+
+% Font light medium et bold pour tt :
+\newcommand{\ttl}[1]{\ttfamily \fontseries{l}\selectfont #1}
+\newcommand{\ttm}[1]{\ttfamily \fontseries{m}\selectfont #1}
+\newcommand{\ttb}[1]{\ttfamily \fontseries{b}\selectfont #1}
 
 %QCM de NSI \QNSI{Question}{R1}{R2}{R3}{R4}
 \newcommand{\QNSI}[5]{
