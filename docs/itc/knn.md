@@ -68,12 +68,13 @@ Etant donnée sa taille importante, les images et leur classification sont dans 
 {{telecharger("Chiffres","./files/C4/minst/chiffres.zip")}}
 Les images du fichier précédent sont au format [`PGM`](https://fr.wikipedia.org/wiki/Portable_pixmap){target=_blank} bien plus facilement lisible et exploitable à notre niveau. En effet, chaque image est un fichier texte contenant :
 
-* sur la première ligne `P2` (le "magic number" du format PGM)
-* sur la seconde ligne `28 28` : les dimensions de l'image (qui seront donc toujours **28x28**)
-* sur la troisième ligne `255` (le niveau de blanc du pixel, 0 est un pixel noir et 255 un pixel blanc)
-* sur la quatrième `#` suivi d'un chiffre : c'est la valeur du chiffre manuscrit représenté dans l'image
+* sur la première ligne on trouve on code ("magic number") qui indique le format de l'image PGM ici c'est `P2`
+* sur la seconde ligne on trouve les dimensions de l'image :`28 28` (les images  sont toutes carrés de 28 pixels de côté)
+* sur la troisième ligne le `255` est le niveau de couleur maximal d'un pixel, ici 0 correspond donc au noir, 255 au blanc.
+* sur la quatrième on trouve la valeur du chiffre manuscrit précédé de `# ` (c'est en commentaire)
 * les 28 lignes suivantes sont les pixels de l'image et sont donc composées chacune de 28 nombres indiquant le niveau de gris de l'image.
 
+A titre d'exemple le première image ci-dessous (celle de numéro 42 commence par les lignes suivantes :)
 Le but de l'exercice est de tester les deux algorithmes de classification vus en cours sur cet exemple.
 
 1. Télécharger le fichier, le décompresser et visualiser quelques images. Vérifier en comparant avec les exemples suivants :
@@ -82,7 +83,7 @@ Le but de l'exercice est de tester les deux algorithmes de classification vus en
     |--------|-------|---------|
     | 42     | ![ex8](./files/C4/minst/img42.png)|  8 |
     | 1515   | ![ex7](./files/C4/minst/img1515.png)| 7  |
-    | 2023   | ![ex8](./files/C4/minst/img2023.png)| 1 |
+    | 2023   | ![ex1](./files/C4/minst/img2023.png)| 1 |
 
 2. Ecrire une fonction `lire_image` qui prend en argument le numéro d'une image et renvoie un tuple composé du chiffre de l'image et d'une liste représentant les niveaux de gris des pixels de l'image (cette liste sera donc constitué de `28x28` nombres entiers compris entre 0 et 255). 
 
@@ -95,7 +96,7 @@ Le but de l'exercice est de tester les deux algorithmes de classification vus en
 
 3. Ecrire une fonction `distance` qui permet de calculer le carré de la distance euclidienne entre deux images de dimension `28x28`.
 
-4. Mettre en oeuvre la méthode des k plus proches voisins sur cet exemple en utilisant les 4500 premières images comme image déjà classés et en utilisant les 500 suivantes pour les tests.
+4. Mettre en oeuvre la méthode des k plus proches voisins sur cet exemple en utilisant les 4500 premières images comme image déjà classées et en utilisant les 500 suivantes pour les tests.
 
     !!! aide
         On pourra tester différentes valeurs de k et choisir une distance différente

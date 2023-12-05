@@ -20,18 +20,43 @@
             \item<2-> Cependant, OCaml est un langage de programmation multi-paradigme et la programmation impérative (et donc les variables mutables) peuvent être manipulées en OCaml.
         \end{itemize}
     \end{block}
+    
     \begin{block}{Champ mutable d'un enregistrement}
-        On peut déclarer en OCaml un enregistrement ayant des champs mutables grâce au mot-clé \mintinline{ocaml}{mutable}. Par exemple,
-        \inputpartOCaml{\SPATH mutable.ml}{}{}{1}{1}
-        \textcolor{BrickRed}{\small \danger} Pour modifier la valeur du champ on utilise \textcolor{blue}{\tt <-}. Le symbole {\tt =} est réservé à la comparaison.
+        \onslide<3->{On peut déclarer en OCaml un enregistrement ayant des champs mutables grâce au mot-clé \mintinline{ocaml}{mutable}.}
+        \onslide<4->{ Par exemple,
+        \inputpartOCaml{\SPATH mutable.ml}{}{}{1}{1}}
+        \onslide<5->{\textcolor{BrickRed}{\small \danger} Pour modifier la valeur du champ on utilise \textcolor{blue}{\tt <-}. Le symbole {\tt =} est réservé à la comparaison.}
     \end{block}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
-    \begin{block}{Références}
-        
+    \begin{exampleblock}{Exemple}
+        \inputpartOCaml{mutable.ml}{\small}{}{1}{12}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{block}{Les références}
+        \begin{itemize}
+            \item<1-> Le type \mintinline{ocaml}{ref}  est prédéfini dans OCaml et correspond exactement à ce que nous venons de faire (sauf que le champ mutable s'appelle {\tt contents})\\
+            \onslide<2-> Par exemple \mintinline{ocaml}{let a = {contents = 5};} crée une variable ayant son champ mutable {\tt contents} qui vaut 5.
+            \item<3-> Afin d'alléger la syntaxe, on peut écrire directement \mintinline{ocaml}{let a = ref 5;;}. \\
+            \onslide<4->\textcolor{gray}{On retiendra que l'effet reste le même : on a crée une variable {\tt a} ayant un champ mutable entier qui contient 5.}
+            \item<5-> Si on veut accéder à la valeur du champ mutable, une syntaxe "adoucie" est aussi disponible avec \textcolor{BrickRed}{\tt !}. On écrira par exemple  \mintinline{ocaml}{print_int !a} pour afficher le contenu du champ mutable de {\tt a}. \\
+            \onslide<6->\textcolor{gray}{On retiendra que c'est identique à \mintinline{ocaml}{print_int a.contents}}
+            \item<7-> Pour modifier la valeur de {\tt a}, une syntaxe plus simple  est aussi disponible avec \textcolor{BrickRed}{\tt :=}. On écrira par exemple \mintinline{ocaml}{a := 5}\\
+            \onslide<8-> Par exemple, \mintinline{ocaml}{ a:= !a +1} permet d'incrémenter de 1 la valeur (du champ mutable) de {\tt a}.
+        \end{itemize}
     \end{block}
 \end{frame}
 
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple}
+        Créer une reférence {\tt a} vers 42 et une référence {\tt b} vers 2023. Echanger le contenu de ces deux variables en utilisant une troisième référence {\tt temp}
+        \onslide<2->
+        \inputpartOCaml{echange.ml}{}{}{1}{5}
+    \end{exampleblock}
+\end{frame}
 
 \end{document}
