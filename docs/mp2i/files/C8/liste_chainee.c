@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
+#define SIZE 10000000
 
 struct maillon
 {
@@ -8,6 +11,19 @@ struct maillon
 };
 typedef struct maillon maillon;
 typedef maillon* liste;
+
+
+
+void view_list(liste l)
+{
+    printf("-> ");
+    while (l!=NULL)
+    {
+        printf("%i -> ",l->valeur);
+        l = l->suivant;
+    }
+    printf("null \n");
+}
 
 liste cree_liste()
 {
@@ -33,23 +49,62 @@ void supprime(liste *l)
     }
 }
 
-void view_list(liste l)
+void detruit(liste *l)
 {
-    printf("-> ");
+    liste oh;
+    while (*l!=NULL)
+    {   
+        oh = *l;
+        *l = (*l)->suivant;
+        free(oh);
+    }
+}
+
+int somme_liste(liste l)
+{
+    int s = 0;
     while (l!=NULL)
     {
-        printf("%i -> ",l->valeur);
-        l = l->suivant;
+        s += l->valeur;
+        l=l->suivant;
     }
-    printf("\n");
+    return s;
+}
+
+
+int somme_tab(int tab[], int size)
+{
+    int s = 0;
+    for (int i=0; i<size;i++)
+    {
+        s += tab[i];
+    }
+    return s;
 }
 
 int main()
-{
-    liste *l = cree_liste();
-    ajout(l,4);
-    ajout(l,5);
-    view_list(*l);
-    supprime(l);
-    view_list(l);
+{   double t;
+    clock_t start, end;
+    liste l = NULL;
+    int *tab = malloc(sizeof(int)*SIZE);
+    for (int i=0;i<SIZE;i++)
+    {
+        tab[i]=i;
+    }
+    for (int i=0;i<SIZE;i++)
+    {
+        ajout(&l,i);
+    }
+    start = clock();
+    printf("Somme (liste) : %d \n",somme_liste(l));
+    end = clock();
+    t = (double)(end-start)/CLOCKS_PER_SEC;
+    printf("Temps : %lf\n",t);
+    start = clock();
+    printf("Somme (tableau) : %d \n",somme_tab(tab,SIZE));
+    end = clock();
+    t = (double)(end-start)/CLOCKS_PER_SEC;
+    printf("Temps : %lf\n",t);
+    detruit(&l);
+    free(tab);
 }

@@ -352,11 +352,11 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Implémentation avec une liste chainée}
-		Si on veut pouvoir enfiler et défiler en temps constant, il faut disposer d'un accès au premier maillon (pour enfiler en $O(1)$) et au dernier maillon (pour défiler en $O(1)$).
+		Si on veut pouvoir enfiler et défiler en temps constant, il faut disposer d'un accès au premier maillon (pour défiler en $O(1)$) et au dernier maillon (pour enfiler en $O(1)$).
 		\onslide<2->{\begin{center}
 				\begin{tabular}{cclllcc}
 					\rnode{head}{\raisebox{-2pt}{\phantom{Y}}} & \maillon{$e_0$}{v0}{p0}                                                   & \maillon{$e_1$}{v1}{p1} & \maillon{$e_2$}{v2}{p2} & \maillon{$e_3$}{v3}{p3} & \maillon{$e_4$}{v4}{p4}                                    & \rnode{null}{\raisebox{-2pt}{$\bot$}} \\
-					                                           & \leavevmode \onslide<3->{\rnode{h}{\textcolor{OliveGreen}{\small début}}} &                         &                         &                         & \leavevmode \onslide<4->{\textcolor{BrickRed}{\small fin}} &                                       \\
+					                                           & \leavevmode \onslide<3->{\rnode{h}{\textcolor{BrickRed}{\small sortie}}} &                         &                         &                         & \leavevmode \onslide<4->{\textcolor{OliveGreen}{\small entrée}} &                                       \\
 				\end{tabular}\\
 				\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p0}{v1}
 				\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
@@ -368,11 +368,12 @@
 						\rnode{debut}{\phantom{M}} & \rnode{fin}{\phantom{M}} \\
 						\hline
 						\multicolumn{2}{c}{\textcolor{blue}{file}}
-					\end{tabular}}
-				\onslide<6->\ncbar[angleA=180,linecolor=OliveGreen,nodesepB=0.2cm,nodesepA=-0.2cm]{*->}{debut}{v0}
-				\onslide<7->\ncangle[angleA=0, angleB=-90,linecolor=BrickRed,nodesepB=0.2cm,nodesepA=-0.2cm]{*->}{fin}{v4}
+					\end{tabular}}\\
+				\onslide<6->\ncbar[angleA=180,linecolor=BrickRed,nodesepB=0.2cm,nodesepA=-0.2cm]{*->}{debut}{v0}
+				\onslide<7->\ncangle[angleA=0, angleB=-90,linecolor=OliveGreen,nodesepB=0.1cm,nodesepA=-0.2cm,offsetB=0.2cm]{*->}{fin}{v4}
+				\onslide<8-> \textcolor{BrickRed}{\danger \; Le sens de parcours de la file est l'inverse de celui des maillons.}
 			\end{center}}
-		\onslide<8->{Une file est donc un couple de pointeurs vers des maillons, ce qui donne en C :
+		\onslide<9->{
 			\inputpartC{\SPATH/joseph.c}{\small}{}{11}{16}
 		}
 	\end{block}
