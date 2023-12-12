@@ -8,7 +8,7 @@
 
 % Numéro et titre de chapitre
 \setcounter{numchap}{9}
-\newcommand{\Ctitle}{\cnum {OCaml : aspects fonctiimpératifsonnels}}
+\newcommand{\Ctitle}{\cnum {OCaml : aspects fonctionnels}}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
 
 % Définition d'une structure de données
@@ -56,6 +56,106 @@
         Créer une reférence {\tt a} vers 42 et une référence {\tt b} vers 2023. Echanger le contenu de ces deux variables en utilisant une troisième référence {\tt temp}
         \onslide<2->
         \inputpartOCaml{echange.ml}{}{}{1}{5}
+    \end{exampleblock}
+\end{frame}
+
+\makess{Boucles}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Boucle  {\tt for}}
+    Il y a deux versions :
+    \begin{itemize}
+    \item<1-> Indice croissant :
+    \begin{OCaml*}{fontsize=\small}
+for indice = debut to fin do
+    expression
+done
+    \end{OCaml*}
+    \item<2-> Indice décroissant :
+    \begin{OCaml*}{fontsize=\small}
+for indice = debut downto fin do
+    expression
+done
+    \end{OCaml*}
+    \end{itemize}
+    \onslide<3->{\textcolor{BrickRed}{\small \danger\;} Attention :}
+    \begin{itemize}
+        \item<4-> {\tt expression} est de type \kw{unit} (ex : affectation, affichage, ...)
+        \item<5-> Les \textcolor{blue}{deux} bornes de la boucle sont incluses
+        \item<6-> Pas de \kw{break} ou de \kw{continue} et {\tt indice} ne peut pas être modifié dans la boucle
+    \end{itemize} 
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple de boucle {\tt for}}
+        \begin{itemize}
+        \item<1->Ecrire une fonction {\tt harmonique\_asc} qui prend en argument un entier {\tt n} et calcule la somme des inverses des entiers non nuls jusqu'à {\tt n} de façon ascendante.
+        \item<2-> Même question de façon descendante avec la fonction {\tt harmonique\_desc}
+        \item<3-> Que pensez de l'écart observé entre les deux valeurs pour {\tt n} assez grand ?
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Boucle  {\tt while}}
+    \begin{OCaml*}{fontsize=\small}
+while condition do
+    expression
+done
+    \end{OCaml*}
+    \onslide<3->{\textcolor{BrickRed}{\small \danger\;} Attention :}
+    \begin{itemize}
+        \item<4-> {\tt expression} est de type \kw{unit} (ex : affectation, affichage, ...)
+        \item<5-> {\tt condition} est de type {\tt bool}
+        \item<6-> Pas de \kw{break}
+    \end{itemize} 
+    \end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple}
+        \begin{itemize}
+            \item<1-> Ecrire une fonction permettant de calculer la somme des n premiers entiers à l'aide d'une boucle {\tt while}. 
+            \item<2-> Ecrire une fonction {\tt log2} qui prend en argument un entier $n$ et renvoie l'entier $k$ tel que $2^{k-1}< n \leq 2^k$
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+
+\makess{Tableaux}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Syntaxe}
+    Les tableaux en OCaml, sont identiques à ceux vus en C. C'est à dire qu'il s'agit d'une structure mutable dont les éléments sont rangés de façon contigue en mémoire (et donc avec un accès en $O(1)$).
+    \begin{itemize}
+        \item<1-> Les tableaux sont notés entre \kw{[|} et \kw{|]}\\
+        \onslide<2->{\mintinline{ocaml}{let ex = [|2; 7; 9; 14 |]}}
+        \item<3-> L'accès à un élément se fait avec la notation \kw{tab.(i)}\\
+        \onslide<4->{\mintinline{ocaml}{print_int ex.(1)} affiche 7}
+        \item<5-> La structure est mutable, attention l'affectation se fait avec \kw{<-} (sans {\tt let})\\
+        \onslide<6->{\mintinline{ocaml}{ex.(1)<-13} le continu du tableau est maintenant \mintinline{ocaml}{[|2; 13; 9; 14 |]}}
+    \end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Fonctions de {\tt Array}}
+    \begin{itemize}
+        \item<1-> \mintinline{ocaml}{Array.make} qui prend en argument un entier et une valeur et crée le tableau contenant n fois cette valeur
+        \item<2-> \mintinline{ocaml}{Array.length} donne le nombre d'élément du tableau (en $O(1)$)
+        \item<3-> \mintinline{ocaml}{Array.of_list} \mintinline{ocaml}{Array.to_list} permet de convertir depuis ou vers une liste.
+        \item<4-> \mintinline{ocaml}{Array.map}, \mintinline{ocaml}{Array.iter}, \mintinline{ocaml}{Array.fold_left} (ou \mintinline{ocaml}{Array.fold_right}) sont les équivalents sur les tableaux des fonctions de même non sur les listes.
+    \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemples}
+    \begin{itemize}
+        \item<1-> Crée le tableau contenant les doubles des 100 premiers entiers
+        \item<2-> Ecrire la fonction affiche permettant d'afficher les éléments d'un tableau d'entier
+        \item<3-> Rappeler l'algorithme du crible d'Erastothène et l'écrire en OCaml.
+    \end{itemize}
     \end{exampleblock}
 \end{frame}
 
