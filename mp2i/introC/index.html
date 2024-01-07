@@ -1,0 +1,2204 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cours d'informatique en MP2I et ITC  (lycée Leconte de Lisle)">
+      
+      
+        <meta name="author" content="Fabrice NATIVEL">
+      
+      
+      
+        <link rel="prev" href="../systemes/">
+      
+      
+        <link rel="next" href="../validation/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>C1-Premiers pas en langage C - Informatique en CPGE</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/fenarius.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#c1-premiers-pas-en-langage-c" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../.." title="Informatique en CPGE" class="md-header__button md-logo" aria-label="Informatique en CPGE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Informatique en CPGE
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              C1-Premiers pas en langage C
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../progression/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../itc/progression/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../evaluations/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../programmes/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../liens/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Informatique en CPGE" class="md-nav__button md-logo" aria-label="Informatique en CPGE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Informatique en CPGE
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chapitres
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Chapitres
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../progression/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Index
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systemes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C0-Notions d'architecture et de systèmes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    C1-Premiers pas en langage C
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    C1-Premiers pas en langage C
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cours
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cours">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemples-du-cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemples du cours
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#travaux-diriges" class="md-nav__link">
+    <span class="md-ellipsis">
+      Travaux dirigés
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#travaux-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Travaux pratiques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Travaux pratiques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-1-premieres-compilations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 1 : Premières compilations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-2-quelques-fonctions-pour-demarrer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 2 : Quelques fonctions pour démarrer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-3-ecrire-quelques-boucles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 3 : Ecrire quelques boucles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-4-un-peu-de-dessin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 4 : Un peu de dessin
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-5-somme-des-elements-dun-tableau" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 5 : Somme des éléments d'un tableau
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-6-simulation-dun-lancer-de-de" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 6 : Simulation d'un lancer de dé
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-7-appartient-a-un-tableau" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 7 : Appartient à un tableau
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-8-longueur-dune-chaine-de-caracteres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 8 : Longueur d'une chaine de caractères
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-9-manipulation-des-chaines-de-caracteres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 9 : Manipulation des chaines de caractères
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-10-nombre-parfait" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 10 : Nombre parfait
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-11-triangle-de-pascal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 11 : Triangle de Pascal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-12-tableau-trie" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 12 : Tableau trié
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-13-nombre-doccurences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 13 : Nombre d'occurences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-14-tri-par-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 14 : Tri par insertion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-15-crible-derastothene" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 15 : Crible d'Erastothène
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#humour-dinformaticien" class="md-nav__link">
+    <span class="md-ellipsis">
+      Humour d'informaticien
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C2-Spécifications et tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pointeurs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C3-Pointeurs et types structurés
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arithmetique/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C4-Arithmétique des ordinateurs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recursivite/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C5-Récursivité
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introOCaml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C6-OCaml : aspects fonctionnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terminaison/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C7-Terminaison, correction, complexité
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C8-Structures de données linéaires
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../OCamlimp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C9-Ocaml : aspects impératifs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hash/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C10-Tableau associatif, hachage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introbd.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C11-Introduction aux bases de données
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arbres.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C12-Arbres binaires
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../forcebrute.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C13-Force brute, retour sur trace
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logique.md"" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C14-Syntaxe des formules logiques
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graphes.md"" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C15-Graphes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decomposition.md," class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C16-Décomposition en sous problèmes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/mp2i/induction.md," class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C17-Induction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jointures.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C18-Modèle entité-association, jointures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../textes.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C19-Algorithmes des textes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../propositionel.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C20-Calcul propositionnel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algographes.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C21-Algorithmes des graphes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../progression/#tp-notes" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP notés
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../progression/#devoirs-maison" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Devoirs maison
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/progression/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Index
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/revisions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C0-Un peu de Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/introbd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C1-Introduction aux bases de données
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/progdyn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C2-Programmation dynamique
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/jointures/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C3-Jointures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/knn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C4-k plus proches voisins, k-moyennes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/algojeux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C5-Algorithme pour l'étude des jeux
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../evaluations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evaluations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programmes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Programme d'informatique en MP2I
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../liens/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Liens
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cours
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cours">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemples-du-cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemples du cours
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#travaux-diriges" class="md-nav__link">
+    <span class="md-ellipsis">
+      Travaux dirigés
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#travaux-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Travaux pratiques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Travaux pratiques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-1-premieres-compilations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 1 : Premières compilations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-2-quelques-fonctions-pour-demarrer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 2 : Quelques fonctions pour démarrer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-3-ecrire-quelques-boucles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 3 : Ecrire quelques boucles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-4-un-peu-de-dessin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 4 : Un peu de dessin
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-5-somme-des-elements-dun-tableau" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 5 : Somme des éléments d'un tableau
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-6-simulation-dun-lancer-de-de" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 6 : Simulation d'un lancer de dé
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-7-appartient-a-un-tableau" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 7 : Appartient à un tableau
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-8-longueur-dune-chaine-de-caracteres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 8 : Longueur d'une chaine de caractères
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-9-manipulation-des-chaines-de-caracteres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 9 : Manipulation des chaines de caractères
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-10-nombre-parfait" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 10 : Nombre parfait
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-11-triangle-de-pascal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 11 : Triangle de Pascal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-12-tableau-trie" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 12 : Tableau trié
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-13-nombre-doccurences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 13 : Nombre d'occurences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-14-tri-par-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 14 : Tri par insertion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-15-crible-derastothene" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 15 : Crible d'Erastothène
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#humour-dinformaticien" class="md-nav__link">
+    <span class="md-ellipsis">
+      Humour d'informaticien
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="c1-premiers-pas-en-langage-c"><span class='numchapitre'>C1</span> Premiers pas en langage C <span style='float:right;'><span class="twemoji" title="Langage C"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m15.45 15.97.42 2.44c-.26.14-.68.27-1.24.39-.57.13-1.24.2-2.01.2-2.21-.04-3.87-.7-4.98-1.96-1.14-1.27-1.68-2.88-1.68-4.83C6 9.9 6.68 8.13 8 6.89 9.28 5.64 10.92 5 12.9 5c.75 0 1.4.07 1.94.19s.94.25 1.2.4l-.6 2.49-1.04-.34c-.4-.1-.87-.15-1.4-.15-1.15-.01-2.11.36-2.86 1.1-.76.73-1.14 1.85-1.18 3.34.01 1.36.37 2.42 1.08 3.2.71.77 1.7 1.17 2.99 1.18l1.33-.12c.43-.08.79-.19 1.09-.32Z"/></svg></span></span></h1>
+<p><span class='quote'>"The only way to learn a new programming language is by writing programs in it"</span><br><span class='author'>B. Kernighan &amp; D. Ritchie</span><br><span class='source'>(<a href="https://en.wikipedia.org/wiki/The_C_Programming_Language">in the C programming language 1978</a>)</span></p>
+<h2 id="cours">Cours</h2>
+<p><span class='centre'><a class="md-button" href="../Cours/C1/C1-cours.pdf" target="_blank">Support de cours chapitre 1 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M64 464h48v48H64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0h165.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V304h-48V160h-80c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16v384c0 8.8 7.2 16 16 16zm112-112h32c30.9 0 56 25.1 56 56s-25.1 56-56 56h-16v32c0 8.8-7.2 16-16 16s-16-7.2-16-16V368c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24h-16v48h16zm96-80h32c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48h-32c-8.8 0-16-7.2-16-16V368c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16h-16v96h16zm80-112c0-8.8 7.2-16 16-16h48c8.8 0 16 7.2 16 16s-7.2 16-16 16h-32v32h32c8.8 0 16 7.2 16 16s-7.2 16-16 16h-32v48c0 8.8-7.2 16-16 16s-16-7.2-16-16V368z"/></svg></span></a></span></p>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>Ce diaporama ne vous donne que quelques points de repères lors de vos révisions. Il devrait être complété par la relecture attentive de vos <strong>propres</strong> notes de cours et par une révision approfondie des exercices.</p>
+</div>
+<h3 id="exemples-du-cours">Exemples du cours</h3>
+<ul>
+<li>
+<details class="langagec">
+<summary>Hello world</summary>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">{</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Hello world </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
+</span></code></pre></div></details>
+</li>
+<li>
+<details class="langagec">
+<summary>Somme des entiers de 1 à 100</summary>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w">  </span><span class="p">{</span><span class="w"> </span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">somme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">nmax</span><span class="p">;</span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="p">{</span><span class="n">somme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">somme</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">;}</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;1+2+...+100 = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">somme</span><span class="p">);</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;}</span>
+</span></code></pre></div>
+</details>
+</li>
+<li>
+<details class="langagec">
+<summary>Fonction Syracuse</summary>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">// S(n+1) = S(n)/2 si n est pair et 3S(n)+1 sinon</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">syracuse</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w">     </span><span class="p">{</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">%</span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="p">{</span><span class="k">return</span><span class="w"> </span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="k">else</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="p">{</span><span class="k">return</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">}}</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">{</span><span class="w"> </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Syracuse 25 = %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">syracuse</span><span class="p">(</span><span class="mi">25</span><span class="p">));</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;}</span>
+</span></code></pre></div>
+</details>
+</li>
+</ul>
+<h2 id="travaux-diriges">Travaux dirigés</h2>
+<p><span class='centre'><a class="md-button" href="../TD/TD1.pdf" target="_blank">Fiche de TD1 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M64 464h48v48H64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0h165.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V304h-48V160h-80c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16v384c0 8.8 7.2 16 16 16zm112-112h32c30.9 0 56 25.1 56 56s-25.1 56-56 56h-16v32c0 8.8-7.2 16-16 16s-16-7.2-16-16V368c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24h-16v48h16zm96-80h32c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48h-32c-8.8 0-16-7.2-16-16V368c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16h-16v96h16zm80-112c0-8.8 7.2-16 16-16h48c8.8 0 16 7.2 16 16s-7.2 16-16 16h-32v32h32c8.8 0 16 7.2 16 16s-7.2 16-16 16h-32v48c0 8.8-7.2 16-16 16s-16-7.2-16-16V368z"/></svg></span></a></span></p>
+<h2 id="travaux-pratiques">Travaux pratiques</h2>
+<h3 id="exercice-1-premieres-compilations"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 1 : <em>Premières compilations</em></h3>
+<ol>
+<li>Lancer VS Code et ouvrir un répertoire de travail (par exemple <code>~/TP/LangageC/TP1</code>)</li>
+<li>Dans l'onglet extension (accessible via le raccourci clavier <span class="keys"><kbd class="key-control">Ctrl</kbd><span>+</span><kbd class="key-shift">Shift</kbd><span>+</span><kbd class="key-x">X</kbd></span>), chercher "C" et installer "<em>C/C++ IntelliSense, debugging, and code browsing.</em>"</li>
+<li>
+<p>Pour chacun des trois programmes vus en cours et disponibles <a href="#exemples-du-cours">ci-dessus</a></p>
+<ol>
+<li>Le copier dans VS code et l'enregistrer (la coloration syntaxique devrait être visible)</li>
+<li>
+<p>Dans le terminal de VS Code le compiler avec <code>gcc</code></p>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>On rappelle qu'il est <strong>très fortement recommandé</strong> de toujours compiler avec les options <code>-Wall</code> et <code>-Wextra</code> et que l'option <code>-o</code> permet de spécifier un nom pour l'exécutable produit lors de la compilation</p>
+</div>
+</li>
+<li>
+<p>Lancer l'exécution</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>Il faut spécifier le chemin vers l'exécutable, ici <code>./</code></p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="exercice-2-quelques-fonctions-pour-demarrer"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 2 : <em>Quelques fonctions pour démarrer</em></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Pour chaque question, écrire  le code de la fonction puis la tester dans le <code>main</code> en saisissant éventuellement les arguments au clavier à l'aide de <code>scanf</code>.</p>
+</div>
+<ol>
+<li>
+<p>Ecrire une fonction <code>aire_disque</code> qui prend en argument un flottant <code>r</code> et renvoie l'aire du disque de rayon <code>r</code>, on définira une constante flottante <code>pi</code> de valeur <code>3.14159</code> qui sera utilisé dans le calcul.</p>
+</li>
+<li>
+<p>Ecrire une fonction <code>valeur_absolue</code> qui prend en argument un flottant <code>x</code> et renvoie sa valeur absolue.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On rappelle que :<br />
+<span class="arithmatex">\(|x| = \left\{ \begin{array}{rl} -x &amp; \mathrm{\ si\ } x&lt;0 \\ x &amp; \mathrm{\ sinon} \end{array}\right.\)</span></p>
+</div>
+</li>
+<li>
+<p>Ecrire une fonction <code>est_triangle</code> qui prend en argument trois entiers <code>a</code>,<code>b</code> et <code>c</code> et qui renvoie <code>true</code> si ces trois entiers peuvent être les longueurs des trois côtés d'un triangle. </p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>Cela revient à vérifier que les trois entiers vérifient l'inégalité triangulaire ou encore que le plus grand des trois est inférieur à la somme des deux autres.</p>
+</div>
+</li>
+<li>
+<p>On appelle <em>factorielle</em> d'un entier <span class="arithmatex">\(n\)</span> et on note <span class="arithmatex">\(n!\)</span> le produit de cet entier par tous ceux qui le précèdent à l'exception de zéro. Et on convient d'autre part que <span class="arithmatex">\(0!=1\)</span>. Par exemple <span class="arithmatex">\(5! = 5 \times 4 \times \times 3 \times 2 \times 1 = 120\)</span>. Ecrire une fonction <code>factorielle</code> qui prend en argument un entier <code>n</code> et renvoie sa factorielle.</p>
+</li>
+<li>
+<p>Ecrire une fonction <code>bissextile</code> qui prend en argument un entier <code>annee</code> et renvoie <code>true</code> si cette année est bissextile et <code>false</code> sinon.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>Une année est bissextile si elle est divisible par 4 mais pas par 100 ou s'il est divisible par 400.</p>
+</div>
+</li>
+</ol>
+<h3 id="exercice-3-ecrire-quelques-boucles"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 3 : <em>Ecrire quelques boucles</em></h3>
+<ol>
+<li>Ecrire une fonction prenant en entrée un entier <span class="arithmatex">\(n\)</span> et renvoyant le plus petit entier <span class="arithmatex">\(k\)</span> tel que <span class="arithmatex">\(2^k \geq n\)</span>.</li>
+<li>Ecrire un programme permettant de calculer la somme suivante :<br />
+<span class="arithmatex">\(\displaystyle{\sum_{k=1}^{100} k^2}\)</span>.</li>
+</ol>
+<h3 id="exercice-4-un-peu-de-dessin"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 4 : <em>Un peu de dessin</em></h3>
+<ol>
+<li>
+<p>Ecrire une fonction <code>carre_plein</code> prenant comme paramètre un entier <code>cote</code> et un caractère <code>car</code> et permettant d'afficher un carré de côté <code>cote</code> rempli de caractères <code>car</code>. Par exemple, <code>carre(5,'C')</code> produit l'affichage suivant :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>CCCCC
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>CCCCC
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>CCCCC
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>CCCCC
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>CCCCC
+</span></code></pre></div></p>
+</li>
+<li>
+<p>Ecrire une fonction <code>rectangle_creux</code>  prenant trois paramètres : deux entiers <code>largeur</code> et <code>longueur</code> et un caractère <code>car</code> permettant d'afficher un rectangle creux de dimensions <code>largeur</code> sur <code>longueur</code> dont la bordure est constitué de caractères <code>car</code>. Par exemple <code>rectangle_creux(3,7,'~')</code> devrait produire l'affichage suivant :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>~~~~~~~
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>~     ~
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>~~~~~~~
+</span></code></pre></div></p>
+</li>
+<li>
+<p>De la même façon écrire une fonction <code>triangle</code> prenant comme paramètre un entier <code>hauteur</code> et un caractère <code>car</code> telle que <code>triangle(6,'*')</code> produise l'affichage suivant :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>     *
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    ***
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>   *****
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  *******
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a> *********
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>***********
+</span></code></pre></div></p>
+</li>
+</ol>
+<h3 id="exercice-5-somme-des-elements-dun-tableau"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 5 : <em>Somme des éléments d'un tableau</em></h3>
+<ol>
+<li>
+<p>Ecrire une fonction <code>somme</code> qui prend en argument un tableau ainsi que sa taille et renvoie la somme des éléments de ce tableau.</p>
+</li>
+<li>
+<p>Créer un tableau de  <code>carres</code> de taille 100 et grâce à une boucle l'initialiser de façon à ce que <code>carres[i]=i*i</code>.</p>
+</li>
+<li>
+<p>Calculer la somme des carres des entiers de 1 à 100.</p>
+</li>
+</ol>
+<h3 id="exercice-6-simulation-dun-lancer-de-de"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 6 : <em>Simulation d'un lancer de dé</em></h3>
+<p>Au jeu des <a href="https://fr.wikipedia.org/wiki/Jeu_des_petits_chevaux" target="_blank">"petits chevaux"</a>, le joueur doit lancer un dé à six faces  et obtenir 6 pour "sortir un de ses chevaux de l'écurie". On se demande, en moyenne combien de coups  il faut pour obtenir un 6 sur un lancer de dé.</p>
+<ol>
+<li>
+<p>Ecrire une fonction <code>lancer_de</code> qui ne prend aucun argument et renvoie un nombre choisir au hasard entre 1 et 6.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>La fonction <code>rand()</code> du langage C renvoie un entier aléatoire, entre 0 et le plus grand entier représentable. On peut ensuite utiliser un modulo pour se ramener dans un intervalle de longueur 6.</p>
+</div>
+</li>
+<li>
+<p>Ecrire une fonction, <code>obtenir6</code> qui ne prend aucun argument et qui renvoie le nombre lancer effectué pour obtenir une première fois 6.</p>
+</li>
+<li>
+<p>Calculer la moyenne du nombre de coups nécessaire pour obtenir un six pour un grand nombre de parties (par exemple 10000). Pouvez-vous retrouver ce résultat en utilisant vos connaissances en probabilités ?</p>
+</li>
+</ol>
+<h3 id="exercice-7-appartient-a-un-tableau"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 7 : <em>Appartient à un tableau</em></h3>
+<ol>
+<li>
+<p>Ecrire une fonction <code>appartient</code> qui prend en argument un tableau <code>tab</code> (et sa taille <code>t</code>) ainsi qu'un entier <code>n</code> et qui renvoie <code>true</code> si <code>n</code> est dans le tableau <code>tab</code> et <code>false</code> sinon.</p>
+</li>
+<li>
+<p>En utilisant cette fonction et le tableau <code>carres</code> de la fonction précédente, vérifier que 5041 est un carré parfait mais pas  6726.</p>
+</li>
+</ol>
+<h3 id="exercice-8-longueur-dune-chaine-de-caracteres"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 8 : <em>Longueur d'une chaine de caractères</em></h3>
+<p>Ecrire une fonction <code>my_strlen</code> qui prend en argument une chaine de caractères et renvoie sa longueur</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On rapelle qu'une chaine de caractères en C se termine par le caractère nul <code>'\0'</code></p>
+</div>
+<h3 id="exercice-9-manipulation-des-chaines-de-caracteres"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 9 : <em>Manipulation des chaines de caractères</em></h3>
+<ol>
+<li>
+<p>Ecrire une fonction <code>retourne</code> qui prend en argument une chaine de caractères et affiche cette chaine écrite à l'envers. Par exemple <code>retourne("Bonjour")</code> affiche <code>"ruojnoB"</code>.</p>
+</li>
+<li>
+<p>Ecrire une fonction <code>palindrome</code> qui prend en argument une chaine de caractères et renvoie <code>true</code> si cette chaine est un palindrome (c'est à dire qu'elle se lit indifféremment de gauche à droite ou de droite à gauche) et <code>false</code> sinon. Par exemple <code>palindrome("radar")</code> renvoie <code>true</code>.</p>
+</li>
+</ol>
+<h3 id="exercice-10-nombre-parfait"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 10 : <em>Nombre parfait</em></h3>
+<p>Un nombre parfait est un entier positif égal à la  la somme de ses diviseurs stricts (c'est à dire autres que lui-même). Par exemple, 6 est un nombre parfait car <span class="arithmatex">\(6 = 3 + 2 + 1\)</span>. </p>
+<ol>
+<li>Écrire une fonction <code>parfait</code> qui renvoie <code>true</code> si l'entier positif donné en argument est parfait et <code>false</code> sinon.</li>
+<li>Utiliser cette fonction pour vérifier que <span class="arithmatex">\(8128\)</span> est un nombre parfait mais pas <span class="arithmatex">\(2023\)</span>.</li>
+</ol>
+<h3 id="exercice-11-triangle-de-pascal"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 11 : <em>Triangle de Pascal</em></h3>
+<p>Ecrire un programme qui prend en argument un entier <span class="arithmatex">\(1 \leq n \leq 10\)</span> et affiche les <span class="arithmatex">\(n\)</span> premières lignes du <a href="https://fr.wikipedia.org/wiki/Triangle_de_Pascal" target="_blank">triangle de Pascal</a>. Par exemple <code>pascal(4)</code> affiche :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>1
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>1 1
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>1 2 1
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>1 3 3 1
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>1 4 6 4 1
+</span></code></pre></div></p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<ul>
+<li>On rappelle que le coefficient situé ligne <span class="arithmatex">\(n\)</span> et colonne <span class="arithmatex">\(k\)</span> noté <span class="arithmatex">\(\displaystyle{\binom{n}{k}}\)</span> se déduit de ceux de la ligne précédente grâce à la formule de Pascal : <span class="arithmatex">\(\displaystyle{\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}}\)</span></li>
+<li>On pourra utiliser deux tableaux, l'un représentant la ligne précédente et un second la ligne en cours de construction.</li>
+</ul>
+</div>
+<h3 id="exercice-12-tableau-trie"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 12 : <em>Tableau trié</em></h3>
+<p>Ecrire une fonction <code>est_trie</code> qui prend en argument un tableau d'entiers (et sa taille) et renvoie <code>true</code> si ce tableau est trié (dans l'ordre croissant ou décroissant) et <code>false</code> sinon. </p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On pourra dans un premier temps s'aider de deux fonctions <code>est_trie_croissant</code> et <code>est_trie_decroissant</code>.</p>
+</div>
+<h3 id="exercice-13-nombre-doccurences"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 13 : <em>Nombre d'occurences</em></h3>
+<ol>
+<li>
+<p>Ecrire une fonction <code>nb_occurrences</code> qui prend en argument un tableau d'entiers <code>tab</code> (et sa taille) ainsi qu'un entier <code>n</code> et renvoie le nombre d'apparitions de <code>n</code> dans le tableau <code>tab</code>. Par exemple si <code>tab</code> est le tableau <code>{2, 18, 7, 2, 11, 7, 4, 7, -1, 3}</code> (de taille <code>10</code>) alors <code>nb_occurrences(tab,10,7)</code> renvoie 3 et  <code>nb_occurrences(tab,10,13)</code> renvoie 0.</p>
+</li>
+<li>
+<p>Ecrire une fonction similaire <code>compte_caractere</code> qui prend en argument une chaine de caractères <code>chaine</code> et un caractère <code>car</code>
+et compte le nombre d'apparitions de <code>car</code> dans <code>chaine</code>. A-t-on besoin cette fois de passer en argument la taille de la chaine ? Pourquoi ?</p>
+</li>
+</ol>
+<h3 id="exercice-14-tri-par-insertion"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 14 : <em>Tri par insertion</em></h3>
+<p>L'algorithme du <em>tri par insertion</em> permet de trier en place un tableau de taille <span class="arithmatex">\(n\)</span>. Le principe est de considérer qu'à l'étape <span class="arithmatex">\(i\)</span>,  la partie du tableau située avant l'indice <span class="arithmatex">\(i\)</span> est <strong>déjà triée</strong> et on insère l'élément situé à la position d'indice <span class="arithmatex">\(i\)</span> à la bonne position dans cette partie. Pour réaliser cette insertion, on échange l'élément d'indice <span class="arithmatex">\(i\)</span> avec son voisin de gauche tant qu'il lui est supérieur et que le début de liste n'est pas atteint.<br />
+Par exemple sur la tableau <span class="arithmatex">\(\{12, 10, 18, 11, 14\}\)</span> et en délimitant la partie triée par le symbole <span class="arithmatex">\(\color{red}{|}\)</span>:</p>
+<ul>
+<li>Etape 0 : la partie situé avant l'indice 0 est vide (donc déjà triée), on y insère le 12 : <span class="arithmatex">\(\{\textcolor{green}{12}, \textcolor{red}{|} 10, 18, 11, 14\}\)</span> </li>
+<li>Etape 1 : on insère l'élément d'indice 1 dans la partie trié, pour cela on l'échange avec son voisin tant qu'il lui est inférieur (et que le début de la liste n'est pas atteint) :<ul>
+<li><span class="arithmatex">\(\{12,  \textcolor{green}{10} \textcolor{red}{|} , 18, 11, 14\}\)</span> échange car <span class="arithmatex">\(10&lt;12\)</span></li>
+<li><span class="arithmatex">\(\{\textcolor{green}{10},  12 \textcolor{red}{|} , 18, 11, 14\}\)</span> on s'arrête car le début de liste est atteint</li>
+</ul>
+</li>
+<li>Etape 2 : on répète le processus avec l'élément d'indice 2 :<ul>
+<li><span class="arithmatex">\(\{10,  12  , \textcolor{green}{18} \textcolor{red}{|}, 11, 14\}\)</span> aucun échange à réaliser car <span class="arithmatex">\(12&lt;18\)</span></li>
+</ul>
+</li>
+<li>Etape 3 : on répète le processus avec l'élément d'indice 3 :<ul>
+<li><span class="arithmatex">\(\{10,  12  , 18,  \textcolor{green}{11}\textcolor{red}{|}, 14\}\)</span>  échange  car <span class="arithmatex">\(11&lt;18\)</span></li>
+<li><span class="arithmatex">\(\{10,  12  , \textcolor{green}{11}, 18  \textcolor{red}{|}, 14\}\)</span>  échange  car <span class="arithmatex">\(11&lt;12\)</span></li>
+<li><span class="arithmatex">\(\{10,  \textcolor{green}{11}, 12  ,  18  \textcolor{red}{|}, 14\}\)</span>  arrêt   car <span class="arithmatex">\(11&gt;10\)</span></li>
+</ul>
+</li>
+<li>Etape 4 : on répète le processus avec l'élément d'indice 4 :<ul>
+<li><span class="arithmatex">\(\{10,  11, 12  ,  18  , \textcolor{green}{14}\textcolor{red}{|}\}\)</span>  echange   car <span class="arithmatex">\(14&lt;18\)</span></li>
+<li><span class="arithmatex">\(\{10,  11, 12  ,  \textcolor{green}{14}, 18   \textcolor{red}{|}\}\)</span>  arrêt   car <span class="arithmatex">\(14&gt;12\)</span></li>
+</ul>
+</li>
+</ul>
+<p>Le but de l'exercice est de programmer cet algorithme de tri en C.</p>
+<ol>
+<li>
+<p>Ecrire une fonction <code>echange</code> qui prend en argument un tableau <code>tab</code>, deux entiers <code>i</code> et <code>j</code> et qui échange les éléments d'indice <code>i</code> et <code>j</code> de ce tableau. On pourra dans un second temps passer aussi en argument la taille du tableau et vérifier que <code>i</code> et <code>j</code> sont bien inférieurs à cette taille avant de procéder à l'échange.</p>
+</li>
+<li>
+<p>Ecrire une fonction <code>insere</code> qui prend en argument un tableau <code>tab</code> et un indice <code>i</code> et qui insère l'élément d'indice <code>i</code> à la bonne place dans la partie du tableau situé avant l'indice <code>i</code> <em>en suposant que cette partie est triée</em>. On rappelle que cette insertion s'effectue en echangeant l'élément avec son voisin de gauche tant qu'il lui est inférieur et que le début du tableau n'est pas atteint.<br />
+Par exemple si <code>tab={5,7,11,6,19,7}</code> alors après <code>insere(tab,3)</code> <code>tab{5,6,7,11,19,7}</code>.</p>
+</li>
+<li>
+<p>Ecrire une fonction <code>tri_insertion</code> qui prend en argument un tableau et sa taille et le trie à l'aide de l'algorithme du tri par insertion.</p>
+</li>
+</ol>
+<h3 id="exercice-15-crible-derastothene"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 15 : <em>Crible d'Erastothène</em></h3>
+<p>On rappelle qu'un nombre premier est un entier naturel ayant exactement deux diviseurs 1 et lui-même, ainsi 13 est premier mais pas 15. Le <a href="https://fr.wikipedia.org/wiki/Crible_d%27%C3%89ratosth%C3%A8ne">crible d'Erastothène</a> est un algorithme permettant de trouver tous les nombres premiers inférieurs ou égaux à un entier <code>n</code> donné. </p>
+<div class="admonition abstract">
+<p class="admonition-title">Algorithme</p>
+<ul>
+<li>on crée un tableau de booléens <code>premiers</code> de taille <code>n+1</code></li>
+<li>on initialise le tableau à <code>true</code> sauf <code>premiers[0]</code> et <code>premiers[1]</code> qui sont à <code>false</code> puisque  <span class="arithmatex">\(0\)</span> et 1 ne sont pas premiers.</li>
+<li>on parcourt ce tableau si <code>premiers[i]</code> est à <code>true</code> alors on met tous ses multiples (sauf lui-même) à <code>false</code></li>
+<li>le parcours s'arrête dès que l'entier <code>i</code> est supérieur à <span class="arithmatex">\(\sqrt{n}\)</span>.  </li>
+</ul>
+</div>
+<ol>
+<li>
+<p>Ecrire en C une fonction <code>crible</code> qui prend en paramètre un entier <code>n</code> et implémente cet algorithme. L'utiliser pour afficher les nombres premiers inférieurs à 100.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>Vous devriez obtenir : <code>2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97</code></p>
+</div>
+</li>
+<li>
+<p>Ecrire en C une fonction <code>somme_premiers</code> qui prend en argument un entier <code>seuil</code> et renvoie la somme de tous les nombres premiers inférieurs ou égaux à <code>seuil</code>. Par exemple <code>somme_premiers(100)</code> renvoie <code>1060</code></p>
+</li>
+</ol>
+<details class="lien">
+<summary>Pour aller plus loin</summary>
+<p>Les élèves ayant fait la spécialité <span style="font-variant:small-caps;">nsi</span> ou connaissant un minimum le langage Python peuvent coder ce même algorithme en Python et comparer les temps de calcul dans les deux langages sur par exemple <code>somme_premiers(5000000)</code>. </p>
+</details>
+<h2 id="humour-dinformaticien">Humour d'informaticien</h2>
+<p><img alt="punition" class="imgcentre" src="../Images/C1/punition.jpg" width="500px" /></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.tabs", "navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+        <script src="../../javascript/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascript/check.js"></script>
+      
+    
+  </body>
+</html>
