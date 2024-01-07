@@ -16,7 +16,6 @@ struct file
 typedef struct file file;
 
 
-
 file cree_file()
     {file f = {.tete=NULL,.queue=NULL};
     return f;}

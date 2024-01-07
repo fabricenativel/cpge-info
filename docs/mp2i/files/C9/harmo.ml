@@ -13,6 +13,7 @@ let harmonique_desc n =
 !s;;
 
 
+
 let() =
 let n = int_of_float(2.0**(30.)) in
 Printf.printf "Ascendant : %f\n" (harmonique_asc n);
