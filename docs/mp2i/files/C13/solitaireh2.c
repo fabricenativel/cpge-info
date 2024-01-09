@@ -7,7 +7,7 @@
 
 #define SIZE 37
 #define PBPATH "./solitaire/"
-#define HASHTABLE_SIZE 25000000
+#define HASHTABLE_SIZE 100000000
 
 const int COL_START[7] = {2, 1, 0, 0, 0, 1, 2};
 const int COL_END[7] = {4, 5, 6, 6, 6, 5, 4};
@@ -298,22 +298,6 @@ void writesol(FILE *w, move lm[], int n)
 // Undo move
 
 
-// Ended
-// bool is_solved(game g)
-// {
-//     for (int i = 0; i < 7; i++)
-//     {
-//         for (int j = COL_START[i]; j <= COL_END[i]; j++)
-//         {
-//             if (g.end[i][j] != g.state[i][j])
-//             {
-//                 return false;
-//             }
-//         }
-//     }
-//     return true;
-// }
-
 // Backtrack solving
 bool solve(game *g, llist *seen)
 {
@@ -373,8 +357,8 @@ int main()
     char fname[42];
     float st, et;
     node **seen = malloc(sizeof(llist)*HASHTABLE_SIZE);
-    FILE *writer = fopen("solutions-new22.txt", "w");
-    for (int i = 22; i <= 30; i++)
+    FILE *writer = fopen("solutions-swap.txt", "w");
+    for (int i = 1; i <= 30; i++)
     {
         if (i < 10)
         {
