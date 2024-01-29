@@ -1,0 +1,167 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\DS{MP2I}{3}{Décembre 2023}
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] Les programmes demandés doivent être écrits en C et on suppose que les librairies standards usuelles ({\tt <stdio.h>}, {\tt <stdlib.h>}, {\tt <stdbool.h>}) sont déjà importées.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+
+\begin{Exercise}[title={Algorithme du drapeau hollandais}]
+    \begin{quote}
+    \og{} \textit{Le problème du drapeau hollandais est un problème de programmation, présenté par Edsger Dijkstra, qui consiste à réorganiser une collection d'éléments identifiés par leur couleur, sachant que seules trois couleurs sont présentes (par exemple, rouge, blanc, bleu, dans le cas du drapeau des Pays-Bas).
+    Étant donné un nombre quelconque de balles rouges, blanches et bleues alignées dans n'importe quel ordre, le problème est à les réarranger dans le bon ordre : les bleues d'abord, puis les blanches, puis les rouges.}\fg{}
+    \begin{flushright}
+        (Wikipedia)
+    \end{flushright}
+    \end{quote}
+    On suppose déjà écrite la fonction {\tt echange} de prototype \mintinline{c}{void echange(int tab[], int i, int j)} qui échange les éléments d'indice {\tt i} et {\tt j} dans le tableau {\tt tab} et on considère dans la suite que cet échange s'effectue en temps constant. On donne ci-dessous une implémentation de  l'algorithme du drapeau hollandais en langage C permettant de réarranger les éléments d'un tableau ne contenant les trois valeurs entières 1, 2 et 3  :
+    \inputpartC{hollandais.c}{}{}{23}{46}
+    \Question{Etude de l'algorithme du drapeau hollandais.}
+    \subQuestion{Faire fonctionner cet algorithme sur le tableau {\tt tab = \{1, 3, 2, 2, 3, 1 \}}, et donner le contenu de {\tt tab} ainsi que celui des variables {\tt i1}, {\tt i2}, {\tt i3} lors du déroulement de l'algorithme en recopiant et complétant le tableau suivant : \smallskip \\
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|l|>{\tt }c|>{\tt}c|>{\tt}c|>{\tt}c|}
+        \cline{2-5}
+        \multicolumn{1}{c|}{}& tab & i1 & i2 & i3 \\
+        \hline
+       Initialisation &  \{\rnode{d0}{1}, 3, 2, 2, 3, \rnode{f0}{1}\} \ncbar[angle=-90,arm=0.1cm,nodesep=0.05cm,linewidth=1pt,linecolor=gray]{d0}{f0}& 0 & 5 & 5 \\
+       \hline
+       Etape 1 & \cor{\{1, \rnode{d1}{3}, 2, 2, 3, \rnode{f1}{1}\}} \ncbar[angle=-90,arm=0.1cm,nodesep=0.05cm,linewidth=1pt,linecolor=gray]{d1}{f1} & \cor{1} & \cor{5} & \cor{5}\\
+    \hline
+        Etape 2 & \cor{\{1, \rnode{d2}{1}, 2, 2, \rnode{f2}{3}, 3\}} \ncbar[angle=-90,arm=0.1cm,nodesep=0.05cm,linewidth=1pt,linecolor=gray]{d2}{f2}& \cor{1} & \cor{4}& \cor{4} \\
+        \hline
+        Etape 3 & \cor{\{1, 1, \rnode{d3}{2}, 2, \rnode{f3}{3}, 3\}} \ncbar[angle=-90,arm=0.1cm,nodesep=0.05cm,linewidth=1pt,linecolor=gray]{d3}{f3}& \cor{2} & \cor{4} & \cor{4} \\
+        \hline
+        Etape 4 & \cor{\{1, 1, \rnode{d4}{3}, \rnode{f4}{2}, 2, 3\}} \ncbar[angle=-90,arm=0.1cm,nodesep=0.05cm,linewidth=1pt,linecolor=gray]{d4}{f4} & \cor{2} & \cor{3} & \cor{4} \\
+        \hline
+        Etape 5 & \cor{\{1, 1, \underline{2}, 2, 3, 3\}} & \cor{2} & \cor{2} & \cor{3} \\
+        \hline
+        Etape 5 & \cor{\{1, 1, 2, 2, 3, 3\}} & \cor{2} & \cor{1} & \cor{3} \\
+        \hline
+    \end{tabular}\smallskip}
+    \subQuestion{Prouver la terminaison de cet algorithme.}
+    \tcor{Montrons que {\tt i2-i1} est un variant :
+    \begin{itemize}
+        \item[(H1)] {\tt i2-i1} est entier comme différence de deux entiers
+        \item[(H2)] {\tt i2-i1} est positif avant d'entrer dans la boucle et reste positif par condition d'entrée dans la boucle {\tt while}
+        \item[(H3)] {\tt i2-i1} décroit à chaque tour de boucle car soit {\tt i1} augmente (si {\tt tab[i1]==1}) soit {\tt i2} diminue (si {\tt tab[i1]==2} ou {\tt tab[i1==3]}).
+    \end{itemize}
+    Donc {\tt i2-i1} est bien un variant et donc la fonction termine.
+    }
+    \subQuestion{Prouver la correction de cet algorithme.
+    \aide \; \textit{Indication : on pourra noter $n$ la taille du tableau et  :
+    \begin{itemize}
+        \item $P_1$ la tranche du tableau {\tt tab} comprise entre les indices 0 et {\tt i1} (exclu)
+        \item $P_2$ la portion du tableau {\tt tab} comprise entre les indices {\tt i2} et {\tt i3} (exclu)
+        \item $P_3$ la portion du tableau {\tt tab} comprise entre les indices {\tt i3} et $n-1$ (exclu)
+    \end{itemize}
+    Et prouver l'invariant suivant : \og{} $P_1$ ne contient que des 1, $P_2$ que des 2 et $P_3$ que des 3 \fg{}.
+    }}
+    \tcor{On note $k$ le nombre de tours de boucle effectués. Montrons par récurrence sur $k$ la propriété $P(k)$= \og{}Après $k$ tours de boucle  $P_1$ ne contient que des 1, $P_2$ que des 2 et $P_3$ que des 3 \fg{}
+    \begin{itemize}
+        \item Initialisation: si $k=0$ alors les parties $P_1$, $P_2$ et $P_3$ sont vides et donc $P(0)$ est vraie.
+        \item Hérédité : soit $k \in \N$ tel que $P(k)$ soit vraie, on distingue alors 3 cas suivant la première valeur non encore triée c'est à dire {\tt tab[i1]} :
+        \begin{itemize}
+            \item Si {\tt tab[i1]} vaut 1, alors {\tt i1} augmente de 1 donc un 1 est ajouté à $P1$ qui par hypothèse de récurrence ne contenait que des 1. Ni $P2$ ni $P3$ ne sont modifiés et donc dans ce cas $P(k+1)$ est vérifiée.
+            \item Si {\tt tab[i1]} vaut 2, alors ce 2 est placé à l'indice {\tt i2} qui est décrémenté. Cela revient donc à ajouter un 2 à $P2$ qui par hypothèse de recurrence ne contenait que des 2. Ni $P1$, ni $P3$ ne sont modifiés et donc $P(k+1)$ est encore vérifiée.
+            \item Si {\tt tab[i1]} vaut 3, alors ce 3 est placé à l'indice {\tt i3}, La partie $P2$ est décalée d'un rang à gauche (elle garde la même longueur) donc $i2$ et $i3$ sont décrémentés. Un 3 étant ajouté à P3 qui par hypothèse de récurrence ne contenait que des 3, l'invariant est préservé.
+        \end{itemize} 
+        On en conclut la fonction est totalement correcte (elle termine et elle est correcte)
+    \end{itemize}
+        }
+    \subQuestion{Justifier brièvement que l'algorithme du drapeau hollandais a une complexité temporelle linéaire.}
+    \tcor{En notant $n$ la taille du tableau, la boucle {\tt while} s'exécute $n$ fois et comme elle ne contient que des opérations élémentaires, la complexité de l'algorithme est un $O(n)$.}
+    \Question{Comparaison avec le tri par insertion}
+    \subQuestion{Rappeler (sans justification), la complexité de l'algorithme du tri par insertion.}
+    \tcor{Le tri par insertion a une complexité quadratique.}
+    \subQuestion{On a mesuré qu'en utilisant l'algorithme du tri par insertion un ordinateur trie une liste de dix million d'éléments en 5 secondes. Quel est le temps prévisible approximatif pour trier une liste contenant un milliard d'éléments ?}
+    \tcor{Le nombre d'élements est multiplié par 100 et l'algorithme ayant une complexité quadratique, le temps prévisible sera multiplé par $100^2 = \numprint{10000}$. Donc l'exécution prendra environ \numprint{50000} secondes (environ 14 heures). }
+    \subQuestion{On a mesuré qu'en utilisant l'algorithme du drapeau hollandais un ordinateur trie une liste de dix million d'éléments en 0.2 secondes. Quel est le temps prévisible approximatif pour un trier une liste contenant un milliard d'éléments ?}
+    \tcor{Le nombre d'élements est multiplié par 100 et l'algorithme ayant une complexité linéaire, le temps prévisible sera multiplé lui aussi par 100. Donc l'exécution prendra environ \numprint{20} secondes.}
+    
+
+\end{Exercise}
+
+\begin{Exercise}[title={Représentation des ensembles d'entiers}]\\
+    En OCaml, on représente une partie de $\N$ par la liste \textbf{triée}  de ses éléments. Par exemple l'ensemble $\{ 2, 9, 1, 6, 8 \}$ sera représenté par la liste {\tt [1; 2; 6; 8; 9]}. Le but de l'exercice est d'étudier deux méthodes permettant de calculer l'union de deux ensembles ainsi représentés. Dans l'étude de la complexité, on notera $n_1$ la longueur de la première liste et $n_2$ celle de la seconde.
+    \Question{Union en ajoutant chaque élément successivement}
+    \subQuestion{Ecrire une fonction {\tt ajoute int -> int list -> int list} qui prend en argument un entier {\tt n}, une liste triée {\tt l} et insère {\tt elt} dans {\tt l} si {\tt elt} n'y figure pas déjà et sinon ne fait rien. Par exemples :
+    \begin{itemize}
+        \item {\tt insere 3 [2; 6; 7]} donne {\tt [2; 3; 6; 7]},
+        \item {\tt insere 4 [1; 4; 5]} donne {\tt [1; 4; 5]}.
+    \end{itemize}
+    \inputpartOCaml{cor_union.ml}{}{}{1}{5}
+    \subQuestion{Ecrire une fonction {\tt union} qui calcule l'union de deux listes en insérant successivement chacun des éléments de la première liste dans la seconde à l'aide de la fonction écrite à la question précédente.}
+    \inputpartOCaml{cor_union.ml}{}{}{7}{10}
+    \subQuestion{Déterminer la complexité temporelle en fonction de $n_1$ et $n_2$ dans le pire des cas de cette fonction.}
+     }
+     \tcor{La fonction {\tt union} fait $n_1$ insertion dans {\tt l2}, or une insertion dans {\tt l2} a une complexité maximale en $O(n_1+n_2)$ (puisque la taille de l2 augmente à chaque insertion), donc la complexité de la fonction {\tt union} est un $O(n_1(n_1+n_2)$.}
+    \Question{Deuxième méthode}
+    \subQuestion{Recopier et compléter la fonction ci-dessous (pointillés des lignes 3, 4 et 5) qui à l'aide d'une correspondance de motifs sur les deux listes calcule directement leur union :
+    \inputpartOCaml{cor_union.ml}{}{}{12}{18}
+    }
+    \subQuestion{Prouver que cette fonction termine.}
+    \tcor{On note $n_1$ la longueur de {\tt l1} et $n_2$ celle de {\tt l2}. Montrons que  $n_1 + n_2$ est un variant :
+    \begin{itemize}
+        \item[(H1)] $n_1 + n_2$ est un entier comme somme de deux entiers
+        \item[(H2)] $n_1 + n_2$ ne prend que des valeurs positives car c'est la somme de deux entiers positifs
+        \item[(H3)] A chaque appel récursif, $n_1+n_2$ décroit strictement, car  $n_1$ diminue de 1 ou $n_2$ diminue de 1 (ou non exclusif car dans le cas ou les deux listes commencent par le même élément, la taille des deux décroît lors de l'appel suivant).
+    \end{itemize}
+    $n_1+n_2$ est donc bien un variant et donc la fonction termine.
+    }
+    \subQuestion{Donner sa complexité temporelle  en fonction de $n_1$ et $n_2$.}
+    \tcor{Dans le pire des cas (celui ou les deux listes n'ont aucun élément commun) la taille de l'une ou de l'autre diminue de 1 à chaque appel récursif, la complexité est en $O(n_1+n_2)$.}
+\end{Exercise}
+
+
+\begin{Exercise}[title={Evaluation d'un polynôme par la méthode de Horner}]\\
+    En Ocaml, on représente un polynôme par la liste de ses coefficients (le coefficient de plus haut degré en premier). On suppose dans toute la suite de l'exercice qu'il s'agit de coefficients entiers. Par exemple le polynôme $x^2 - 11x + 30$ est représenté par la liste {\tt [1, -11, 30]}.
+    D'autre part on donne la fonction {\tt puissance : int -> int -> int} ci-dessous qui prend en argument deux entiers naturels {\tt a} et {\tt n} et calcule {\tt a} puissance {\tt n}
+    \inputpartOCaml{polynome.ml}{}{}{1}{3}
+    \Question{Evaluation naïve}
+    \subQuestion{Justifier rapidement qu'avec la fonction {\tt puissance}, le calcul de $a^n$ demande $n$ multiplications.\label{p}}
+    \tcor{Une récurrence rapide permet de prouver que le calcul de $a^n$ demande $n$ multiplications. En effet le calcul de $a^0$ ne demande pas de multiplications et celui de $a^n$ en demande 1 de plus que celui de $a^{n-1}$.}
+    \subQuestion{On donne ci-dessous la fonction {\tt naif} permettant de calculer un polynôme en {\tt x} en donnant la liste de ses coefficients {\tt lcoeff} : \label{naif}
+    \inputpartOCaml{polynome.ml}{}{}{6}{10}
+    La fonction {\tt naif} utilise la fonction {\tt puissance} donnée en début d'exercice.\\
+    Justifier rapidement la terminaison de cette fonction.}
+    \tcor{La taille de la liste {\tt lcoeff} est un variant car elle décroît de 1 à chaque itération et est bien entière et positive.}
+    \subQuestion{En utilisant l'identité mathématique $\displaystyle{\sum_{k=0}^{n} a_kx^k} = a^nx^n + \displaystyle{\sum_{k=0}^{n-1} a_kx^k}$, prouver la correction de la fonction {\tt naif}.}
+    \tcor{L'appel récursif est la traduction de l'égalité mathématique $\displaystyle{\sum_{k=0}^{n} a_kx^k} = a^nx^n + \displaystyle{\sum_{k=0}^{n-1} a_kx^k}$ et la condition d'arrêt traduit que la somme sur un ensemble vide est 0. Donc cette fonction est correcte.}
+    \subQuestion{Déterminer la complexité la fonction {\tt naif}.\\
+    \aide \; \textit{Indication : on pourra noter $C(n)$ le nombre de multiplications pour une liste de $n$ coefficients puis établir que $C(n) = C(n-1) + n$ (utiliser le résultat de la question \ref{p})} }
+    \tcor{Si la liste contient $n$ coefficients alors on doit faire $n-1$ multiplications (pour le calcul de $x^{n-1}$) plus une multiplication (pour multiplier par le coefficient $a_k$.) l'appel récursif va lui demander $C(n-1)$ multiplications. Donc on a $C(n) = C(n-1)+n$ comme de plus $C(0) = 0$, on montre par une récurrence immédiate que $C(n) = \dfrac{n(n+1)}{2}$. Donc la fonction {\tt naif} a une complexité quadratique.}
+    \Question{Méthode de Horner}
+    \subQuestion{Montrer que $\displaystyle{\sum_{k=0}^{n} a_kx^k} = a_0 + x\times(a_1 + x \times (\dots + a_n))$}
+    \tcor{$
+    \begin{array}{lll}
+    \displaystyle{\sum_{k=0}^{n} a_kx^k} &=& \displaystyle{a_0 + x \left( \sum_{k=1}^{n} a_k x^{k-1} \right)} \\
+            & = & \displaystyle{ a_0 + x \times \left( a_1 + x \left( \sum_{k=1}^{n} a_k x^{k-1} \right) \right)} \\
+            & = & \dots\\
+            & = & a_0 + x\times(a_1 + x \times (\dots + a_n))\\
+    \end{array}
+    $
+    }
+    \subQuestion{En déduire un algorithme récursif pour calculer la valeur d'un polynôme sans calculer expliciterment les puissances de la variable.}
+    \tcor{Pour calculer le polynome de coefficient $a_n, \dots, a_0$ en $x$ alors on calcule $a_0 + x $ fois le polynôme de coefficient $a_{n}, \dots a_1$.}
+    \subQuestion{Ecrire une implémentation en OCaml de cet algorithme.}\\
+    \danger \; Dans la fonction OCaml suivante on doit donner les coefficients dans l'ordre inverse ({\tt a0} est le premier élément de la liste.)
+    \inputpartOCaml{polynome.ml}{}{}{13}{16}
+    \subQuestion{Justifier rapidement que cet algorithme a une complexité linéaire.}
+    \tcor{A chaque appel récursif la taille de la liste de coefficient diminue de 1, comme on effectue lors de chaque appel que des opéarations élémentaires, la complexité est linéaire.}
+    \Question{\textbf{Bonus} : Rappeler (sans justification) la complexité de l'algorithme d'exponentiation rapide. Quelle sera la complexité de la fonction de la question \ref{naif} si on utilise l'exponentiation rapide pour le calcul des puissances ?}
+    \tcor{L'exponentiation rapide a une complexité logarithmique, donc dans ce cas la fonction de la question \ref{naif} vérifira : $C(0)=0$ et $C(n) = C(n-1) + \log(n)$. Il vient $C(n) \leq n\log(n)$ et donc l'algorithme aurait une complexité linéarithmique.}
+\end{Exercise} 
+
+\end{document}

@@ -1,0 +1,125 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\Colles{S17/S18/S19}{Analyse d'algorithmes}
+
+\setcounter{Exercise}{0}
+
+\begin{Exercise}[title = {Exponentiation rapide}]
+    \Question{Rappeler l'algorithme d'exponentiation rapide et donner les étapes du calcul de $a^{20}$ avec cet algorithme.}
+    \Question{Ecrire une implémentation \textit{récursive} de cet algorithme  en OCaml permettant de calculer $a^n$ avec $a$ et $n$ entiers.}
+    \Question{On donne l'implémentation \textit{itérative} suivante de cet algorithme en langage C :}
+    \inputpartC{er.c}{}{}{5}{20}
+    \subQuestion{Prouver la terminaison de cet algorithme.}
+    \subQuestion{Prouver la correction de cet algorithme.\\
+    {\small \aide} \ On pourra utiliser l'invariant de boucle suivant : {$r \times k^p = a^n$}.
+    }
+    \subQuestion{Donner la complexité de cette algorithme en fonction de l'exposant entier $n$.}
+    \subQuestion{Prevoir l'affichage produit par la ligne de code suivante :\\ \mintinline{c}{printf("2**32 = %u\n",exprap(2,32));}\\ Expliquer.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Second maximum}]
+    \Question{Proposer un algorithme permettant de calculer le deuxième plus grand élément d'un tableau d'entiers. On suppose que le tableau contient toujours plus de deux éléments. Par exemple pour le tableau {\tt [2, 10, 5, 17, 9]}, l'algorithme renvoie 10.}
+    \Question{Prouver la correction de cet algorithme}
+    \Question{Déterminer sa complexité. Est-il possible d'obtenir une complexité linéaire pour cet algorithme ?}
+    \Question{Proposer une implémentation en langage C.}
+    \Question{Proposer une implémentation impérative à l'aide du type {\tt array} en OCaml.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Liste chainées en C}]\\
+On défini le type maillon en C, comme un {\tt struct} contenant un champ valeur et un champ pointeur vers le maillon suivant. Le type liste chainée est alors représentée par un pointeur vers un maillon :
+\inputpartC{lc.c}{}{}{5}{11}
+On considère la fonction {\tt maxliste} qui renvoie la plus grande valeur présente dans cette liste.
+\inputpartC{lc.c}{}{}{21}{33}
+\Question{Que se passe-t-il si on appelle cette fonction avec une liste vide. Proposer une correction.}
+\Question{Prouver la terminaison de cette fonction.}
+\Question{Prouver la correction de cette fonction.}
+\Question{Ecrire une nouvelle fonction {\tt supprime\_max} qui supprime la première occurrence du maximum des éléments de la liste non vide donnée en paramètre.}
+\end{Exercise}  
+
+\begin{Exercise}[title = {Calcul des termes de la suite de Fibonnacci}]\\
+On rappelle que la suite de Fibonacci $(F_n)_{n \in \N}$ est définie par $F_0=1$, $F_1 = 1$ et $\forall n\geq 2, F_n = F_{n-1} + F_{n-2}$ (chaque terme est la somme des deux précédents)
+
+\Question{Donner un algorithme récursif naïf permettant de calculer le nième terme de cette suite.}
+\Question{En proposer une implémentation en OCaml.}
+\Question{On note $K_n$ le nombre d'appels récursifs nécessaires au calcul de $F_n$. Donner $K_0$, $K_1$ et la relation de récurrence vérifiée par $(K_n)_{(n \in \N)}$}
+\Question{Etablir que $K_n = 2F_n - 1$.}
+\Question{En déduire la complexité de l'algorithme récursif naïf.}
+\Question{Donner un algorithme de complexité linéaire permettant de calculer $F_n$.}
+\Question{En fournir une implémentation en langage C.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Suite \og \textit{lock and say} \fg}]\\
+    La suite de Conway ou suite \og \textit{lock and say} \fg{} (regarder et dire) a pour premier terme $u_1=1$, puis chaque terme se détermine en énonçant les chiffres du terme précédent. Ainsi, \\
+    $u_2 = 11$ (car le terme précédent contient une fois le chiffre 1) \\
+    $u_3 = 21$ (car le terme précédent contient 2 fois le chiffre 1) \\
+    $u_4 = 1211$ (car le terme précédent contient une fois le chiffre 2 puis 1 fois le chiffre 1)
+
+    \Question{Déterminer les termes $u_5$, $u_6$, $u_7$ et $u_8$.}
+    \Question{Proposer une conjecture sur les chiffres pouvant intervenir dans un terme de la suite.}
+    \Question{Prouver cette conjecture \\
+    {\small \aide}\; On pourra faire une preuve par récurrence et raisonner par l'absurde.}
+    \Question{En utilisant le résultat établi à la question précédente, proposer une fonction en OCaml {\tt int list -> int list} qui prend en argument un terme de la suite de Conway (sous la forme de la liste de ses chiffres) et renvoie le terme suivant (toujours sous la forme de la liste de ses chiffres)} \\
+    {\small \aide} \; Utiliser  une correspondance de motif sur les chiffres par groupe de 3.
+    \Question{Ecrire une fonction en OCaml utilisant la fonction précédente et calculant le nième terme de la suite de Conway.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Diviseurs et nombres parfaits}]
+\Question{Proposer un algorithme qui prend en entrée un entier nature $n$ et renvoie la liste des diviseurs positif sde $n$. Par exemple pour l'entrée 10, l'algorithme renvoie la liste {\tt [1, 2, 5, 10]}}
+\Question{Etudier la complexité de cet algorithme.}
+\Question{Prouver sa correction totale.}
+\Question{On dit qu'un nombre est \textit{parfait} lorsqu'il est égal à la somme de ses diviseurs stricts. Proposer un algorithme qui prend en entrée un entier $n$ et renvoie {\tt true} si $n$ est parfait et {\tt false} sinon.}
+\Question{Quelle est la complexité de cet algorithme ?}
+\Question{Proposer une implémentation en OCaml des deux algorithmes.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Suite de Golomb}]
+    \Question{Donner un algorithme permettant de compter le nombre d'occurence d'un élément dans une liste.}
+    \Question{Donner sa complexité.}
+    \Question{En donner une implémentation dans le langage de votre choix (en C, on considère que la liste est une liste chainée d'entiers).}
+    \Question{La suite de Golomb (du nom du mathématicien S. Golomb (1932--2016)), est la suite \textit{strictement croissante} d'entiers $g_n$ telle que $g_1=1$, $g_2=2$ et $g_n$ est le nombre d'apparitions de $n$ dans $(g_n)_{n \in N}$.}
+    \subQuestion{Donner les 20 premières termes de cette suite.}
+    \subQuestion{Proposer un algorithme permettant de calculer le nième terme de cette suite.}
+    \subQuestion{Etudier sa complexité.}
+    \subQuestion{En proposer une implémentation dans le langage de votre choix.}
+\end{Exercise}
+
+
+\begin{Exercise}[title = Calcul du {\sc pgcd}]
+    \Question{Rappeler l'algorithme d'Euclide pour la calcul du {\sc pgcd} de deux entiers naturels $a$ et $b$.}
+    \Question{Prouver la terminaison de cet algorithme.}
+    \Question{Prouver la correction totale de cet algorithme.}
+    \Question{Donner une implémentation récursive de cet algorithme en OCaml.}
+    \Question{Donner une implémentation itérative de cet algorithme en C.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Recherche dichotomique}]
+    \Question{Rappeler le principe de l'algorithme de recherche par dichotomie dans un tableau. Préciser les préconditions.}
+    \Question{Donner la complexité de cet algorithme.}
+    \Question{Prouver sa terminaison.}
+    \Question{Proposer une implémentation itérative en C.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Représentation des entiers}]
+    \Question{Ecrire $\base{218}{10}$ et $\base{173}{10}$ en base 2.}
+    \Question{Ecrire $\base{10101001}{2}$ en base 10.}
+    \Question{Donner l'écriture en complément à 2 sur 8 bits de $\base{-100}{10}$.}
+    \Question{Proposer un algorithme permettant d'écrire un nombre donné en base 10 dans une autre base $b>1$.}
+    \Question{Prouver la terminaison de cet algorithme.}
+    \Question{Etudier sa complexité.}
+    \Question{En proposer une implémentation itérative en C.}
+    \Question{En proposer une implémentation récursive en OCaml.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Algorithme de tri}]
+    \Question{Donner un algorithme de complexité quadratique.}
+    \Question{Prouver sa correction totale.}
+    \Question{En proposer une implémentation en langage C permettant de trier en place un tableau d'entiers.}
+    \Question{Existe-t-il des algorithmes de tri ayant une meilleure complexité ?}
+\end{Exercise}
+
+\end{document}

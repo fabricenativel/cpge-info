@@ -7,7 +7,7 @@
 
 #define SIZE 37
 #define PBPATH "./solitaire/"
-#define HASHTABLE_SIZE 100000000
+#define HASHTABLE_SIZE 50000000
 
 const int COL_START[7] = {2, 1, 0, 0, 0, 1, 2};
 const int COL_END[7] = {4, 5, 6, 6, 6, 5, 4};
@@ -34,7 +34,7 @@ struct node
     struct node *next;
 };
 typedef struct node node;
-typedef node* llist;
+typedef node *llist;
 
 struct game
 {
@@ -127,7 +127,7 @@ bool ingrid(int l, int c)
     return (l >= 0 && l < 7 && c >= COL_START[l] && c <= COL_END[l]);
 }
 
-uint64_t hasboard(bool board[7][7])
+uint64_t hashboard(bool board[7][7])
 {
     uint64_t h = 0;
     int p = 0;
@@ -143,6 +143,19 @@ uint64_t hasboard(bool board[7][7])
         }
     }
     return h;
+}
+
+void unhash(uint64_t h, bool board[7][7])
+{
+    int p = 0;
+    for (int i = 0; i < 7; i++)
+    {
+        for (int j = COL_START[i]; j <= COL_END[i]; j++)
+        {
+            board[i][j] = h & ((uint64_t)1 << p);
+            p++;
+        }
+    }
 }
 
 // Make game from file
@@ -193,7 +206,7 @@ game makepb(char filename[])
         fseek(reader1, 2, SEEK_CUR);
         fseek(reader2, 2, SEEK_CUR);
     }
-    thegame.end = hasboard(endboard);
+    thegame.end = hashboard(endboard);
     return thegame;
 }
 
@@ -260,30 +273,6 @@ void dispmoves(moves lm)
     }
 }
 
-// Display solution
-// void disp_sol(game g)
-// {
-//     bool board[7][7];
-//     move m;
-//     for (int i = 0; i < 7; i++)
-//     {
-//         for (int j = COL_START[i]; j <= COL_END[i]; j++)
-//         {
-//             board[i][j] = g.start[i][j];
-//         }
-//     }
-//     for (int i = 0; i < g.step; i++)
-//     {
-//         display(board);
-//         m = g.history[i];
-//         printf("Pierre en (%d,%d) en direction %d \n", m.sl, m.sc, m.dir);
-//         board[m.sl][m.sc] = false;
-//         board[m.sl + ML[m.dir]][m.sc + MC[m.dir]] = false;
-//         board[m.sl + 2 * ML[m.dir]][m.sc + 2 * MC[m.dir]] = true;
-//     }
-//     display(board);
-// }
-
 // Write sol in file
 void writesol(FILE *w, move lm[], int n)
 {
@@ -293,72 +282,89 @@ void writesol(FILE *w, move lm[], int n)
     }
 }
 
+// Make move
+void makemove(game *g, move m)
+{
+    g->history[g->step++] = m;
+    g->state[m.sl][m.sc] = false;
+    g->state[m.sl + ML[m.dir]][m.sc + MC[m.dir]] = false;
+    g->state[m.sl + 2 * ML[m.dir]][m.sc + 2 * MC[m.dir]] = true;
+    g->stone--;
+}
 
+void boardmove(bool board[7][7], move m)
+{
+    board[m.sl][m.sc] = false;
+    board[m.sl + ML[m.dir]][m.sc + MC[m.dir]] = false;
+    board[m.sl + 2 * ML[m.dir]][m.sc + 2 * MC[m.dir]] = true;
+}
+
+void boardundo(bool board[7][7], move m)
+{
+    board[m.sl][m.sc] = true;
+    board[m.sl + ML[m.dir]][m.sc + MC[m.dir]] = true;
+    board[m.sl + 2 * ML[m.dir]][m.sc + 2 * MC[m.dir]] = false;
+}
 
 // Undo move
-
+void undomove(game *g)
+{
+    move m;
+    m = g->history[--g->step];
+    g->state[m.sl][m.sc] = true;
+    g->state[m.sl + ML[m.dir]][m.sc + MC[m.dir]] = true;
+    g->state[m.sl + 2 * ML[m.dir]][m.sc + 2 * MC[m.dir]] = false;
+    g->stone++;
+}
 
 // Backtrack solving
-bool solve(game *g, llist *seen)
+int get_next(llist *previous, llist *next, uint64_t target)
 {
+    node *config;
+    uint64_t bhash;
+    bool board[7][7];
     moves lm;
-    move m;
-    uint64_t chash;
-    if (g->stone <= g->ends)
+    int total = 0;
+    for (int i = 0; i < HASHTABLE_SIZE; i++)
     {
-        return false;
-    }
-    lm = get_move(g->state);
-    for (int i = 0; i < lm.s; i++)
-    {
-        g->history[g->step++] = lm.m[i];
-        g->state[lm.m[i].sl][lm.m[i].sc] = false;
-        g->state[lm.m[i].sl + ML[lm.m[i].dir]][lm.m[i].sc + MC[lm.m[i].dir]] = false;
-        g->state[lm.m[i].sl + 2 * ML[lm.m[i].dir]][lm.m[i].sc + 2 * MC[lm.m[i].dir]] = true;
-        g->stone--;
-        chash = hasboard(g->state);
-        if (chash == g->end)
+        config = previous[i];
+        while (config != NULL)
         {
-            return true;
-        }
-        if (!is_in_hashtable(seen, chash))
-        {
-            insert_in_hashtable(seen, chash);
-            g->exp++;
-            if (solve(g,seen))
+            unhash(config->value, board);
+            lm = get_move(board);
+            for (int i = 0; i < lm.s; i++)
             {
-                return true;
+                boardmove(board, lm.m[i]);
+                bhash = hashboard(board);
+                if (!is_in_hashtable(next, bhash))
+                {
+                    total++;
+                    if (bhash == target)
+                    {
+                        printf("Solution trouvée !\n");
+                        return total;
+                    }
+                    insert_in_hashtable(next, bhash);
+                }
+                boardundo(board, lm.m[i]);
             }
-            else
-            {
-                m = g->history[--g->step];
-                g->state[m.sl][m.sc] = true;
-                g->state[m.sl + ML[m.dir]][m.sc + MC[m.dir]] = true;
-                g->state[m.sl + 2 * ML[m.dir]][m.sc + 2 * MC[m.dir]] = false;
-                g->stone++;
-            }
+            config=config->next;
         }
-        else
-        {
-                m = g->history[--g->step];
-                g->state[m.sl][m.sc] = true;
-                g->state[m.sl + ML[m.dir]][m.sc + MC[m.dir]] = true;
-                g->state[m.sl + 2 * ML[m.dir]][m.sc + 2 * MC[m.dir]] = false;
-                g->stone++;
-        }
+        destroy_linked_list(previous[i]);
     }
-    return false;
+    return total;
 }
 
 int main()
 {
-
     game test;
     char fname[42];
     float st, et;
-    node **seen = malloc(sizeof(llist)*HASHTABLE_SIZE);
-    FILE *writer = fopen("solutions-swap.txt", "w");
-    for (int i = 27; i <= 30; i++)
+    int cp;
+    node **previous = malloc(sizeof(llist) * HASHTABLE_SIZE);
+    node **next = malloc(sizeof(llist) * HASHTABLE_SIZE);
+    FILE *writer = fopen("solutionsl.txt", "w");
+    for (int i = 22; i <= 30; i++)
     {
         if (i < 10)
         {
@@ -369,34 +375,33 @@ int main()
             snprintf(fname, 42, "EL%d", i);
         }
         test = makepb(fname);
+        cp = test.stone - test.ends;
+        printf("Nombre de coups pour ce problème = %d\n",cp);
         for (int i = 0; i < HASHTABLE_SIZE; i++)
         {
-        seen[i] = NULL;
+            previous[i] = NULL;
+            next[i] = NULL;
         }
+        insert_in_hashtable(previous, hashboard(test.state));
         printf("Résolution du problème n° %d (%s)\n", i, fname);
-        // printf(" > Position de départ\n");
-        // display(test.start);
-        // printf(" > Position d'arrivée\n");
-        // display(test.end);
+        printf("Nombre de coups pour ce problème = %d\n",cp);
         st = (float)clock() / CLOCKS_PER_SEC;
-        bool res = solve(&test,seen);
+        for (int j=0;j<cp;j++)
+        {
+            printf("Position générées au niveau %d = %d\n",j+1, get_next(previous, next, test.end));
+            for (int i = 0; i < HASHTABLE_SIZE; i++)
+            {
+                previous[i] = next[i];
+                next[i] = NULL;
+            }
+        }
         et = (float)clock() / CLOCKS_PER_SEC;
-        destroy_hash_table(seen);
-        if (res)
-        {
-            fprintf(writer,"Solution trouvée en %f secondes (%d motifs explorés) \n", et - st, test.exp);
-            printf("Solution trouvée en %f secondes (%d motifs explorés) \n", et - st, test.exp);
-            fprintf(writer, "Solution pb %d\n", i);
-            writesol(writer, test.history, test.step);
-            fflush(writer);
-            fprintf(writer, "\n\n");
-            // disp_sol(test);
-        }
-        else
-        {
-            printf("Pas de solution (%f sec)\n", et - st);
-        }
+        printf("Solution trouvée en %f secondes\n", et - st);
+        printf("\n----------------\n");
+        destroy_hash_table(previous);
+        destroy_hash_table(next);
     }
     fclose(writer);
-    free(seen);
+    free(previous);
+    free(next);
 }

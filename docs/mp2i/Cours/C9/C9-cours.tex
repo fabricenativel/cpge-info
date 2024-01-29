@@ -8,7 +8,7 @@
 
 % Numéro et titre de chapitre
 \setcounter{numchap}{9}
-\newcommand{\Ctitle}{\cnum {OCaml : aspects fonctionnels}}
+\newcommand{\Ctitle}{\cnum {OCaml : aspects impératifs}}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
 
 % Définition d'une structure de données
@@ -147,10 +147,11 @@ done
         \item<4-> \mintinline{ocaml}{Array.map}, \mintinline{ocaml}{Array.iter}, \mintinline{ocaml}{Array.fold_left} (ou \mintinline{ocaml}{Array.fold_right}) sont les équivalents sur les tableaux des fonctions de même non sur les listes.
     \end{itemize}
 \end{block}
+\onslide<5->{
     \begin{block}{Aliasing}
         \textcolor{BrickRed}{\small \danger \;} Quand \kw{tab} est un tableau, alors \mintinline{ocaml}{let new_tab = tab} fait pointer \kw{new\_tab} vers la \textit{même} zone mémoire que \kw{tab} et donc toute modification de l'un se répercute sur l'autre ! 
         Faire particulièrement attention lors de la création de matrices (donc de tableaux de tableaux).
-    \end{block}
+    \end{block}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -161,6 +162,95 @@ done
         \item<3-> Ecrire une fonction permettant de trouver le minimum des éléments d'un tableau non vide. 
     \end{itemize}
     \end{exampleblock}
+\end{frame}
+
+\makess{Entrées-Sorties}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Fonction d'affichage}
+    \begin{itemize}
+        \item<1-> Les fonctions permettant d'afficher les valeurs de type de base \kw{print\_int}, \kw{print\_float}, \dots
+        \item<2-> La fonction \kw{printf} du module {\tt Printf} permettant d'afficher, à la façon du C, des données. Les spécificateurs de format sont :
+        \begin{itemize}
+            \item<3-> \kw{\%d} : un entier
+            \item<4-> \kw{\%s} : une chaine de caractères
+            \item<5-> \kw{\%s} : un flottant
+            \item<6-> \kw{\%b} : un booléen
+            \item<7-> \kw{\%c} : un caractère
+        \end{itemize}
+        Par exemple : \\ \mintinline{ocaml}{Printf.printf "Date de naissance : le %d %s %d" jour mois annee}
+    \end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Fonction de saisie}
+        Plusieurs fonctions permettent de récupérer des informations entrées au clavier :
+    \begin{itemize}
+        \item<1-> La fonction \kw{read\_line} de type {\tt unit->string} attend la saisie d'une chaine de caractère au clavier (suivie d'un retour chariot) puis renvoie cette chaine (sans le retour chariot final)
+        \item<2-> Des fonctions similaires existent qui tentent directement la conversion dans le type attendu comme \kw{read\_int} pour lire un entier. Une exception est levée si cette conversion échoue.
+    \end{itemize}
+\end{block}
+\onslide<3->{
+\begin{exampleblock}{Exemple}
+    \inputpartOCaml{hello.ml}{}{\small}{1}{5}
+\end{exampleblock}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Lecture et écriture dans un fichier}
+        Les accès vers les fichiers sont traités comme des canaux (\kw{in\_channel} pour un canal de lecture et \kw{out\_channel} pour un canal de sortie). Pour lire/écrire dans un fichier on retrouve les trois étapes habituels
+    \begin{itemize}
+        \item<1-> L'ouverture du fichier de type {\tt string -> in\_channel} pour une ouverture en lecture et {\tt string -> out\_channel} pour une ouverture en écriture.
+        \item<2-> La fonction {\tt input\_line} de type {\tt in\_channel -> string} permet de lire une ligne du fichier (sans le retour chariot final) et {\tt output\_string} de type {\tt out\_channel -> string -> unit} permet d'écrire dans un canal de sortie.
+        {\small \textcolor{BrickRed}{\danger}\;} Dans le cas d'une lecture, une exception est levée lorsque la fin de fichier est atteinte.
+        \item<3-> Les fonctions {\tt close\_in} et {\tt close\_out} permettent de fermer un fichier (respectivement d'entrée ou de sortie). 
+    \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Compte le nombre de lignes dans un fichier}
+    Le programme suivant demande le nom d'un fichier puis affiche son nombre de lignes dans le terminal.
+    \inputpartOCaml{compte.ml}{}{\small}{1}{13}
+    \end{exampleblock}
+\end{frame}
+
+
+\makess{Argument en ligne de commande}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Module \textcolor{yellow}{\tt Sys}}
+    \onslide<1->{A la façon de ce qui a été vu en C, on peut passer des arguments en ligne de commande à un programme. Les arguments présents sur la ligne de commande sont rangés dans le tableau \kw{Sys.argv}. \\
+    \textcolor{BrickRed}{\small \danger}\; Comme en C, le premier élément du tableau (donc celui d'indice 0) contient le nom de l'exécutable.}
+    \onslide<2->{Par exemple, si on compile le programme suivante sous le nom {\tt arg.exe}
+    \inputpartOCaml{arg.ml}{}{\small}{1}{2}}
+    \onslide<3->{Alors, {\tt ./arg.exe blabla} affichera :\\
+    {\tt Nombre d'arguments fournis : 2}\\
+    {\tt Le premier argument est : ./arg.exe}\\
+    }
+\end{block}
+\end{frame}
+
+\makess{Récupération d'erreurs}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Bloc {\tt try-with}}
+    \onslide<1->{Les \textcolor{blue}{exceptions} sont un mécanisme de récupération et de gestion des erreurs pouvant se produire lors de l'exécution d'un programme. Un exemple a déjà été vu dans le programme permettant de compter les lignes d'un fichier. Le mécanisme de gestion est toujours de la forme :\\}
+    \onslide<2->{
+    \kw{try} {\tt <expr>} \\
+    \kw{with} \\
+    {\tt | <motif1> -> <expr1>} \\
+    {\tt ..}\\
+    {\tt | <motifn> -> <exprn>} \\
+    }
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{exampleblock}{Exemple}
+    On peut éventuellement choisir de poursuivre l'exécution d'un programme lors d'une division par zéro :
+    \onslide<2->{\inputpartOCaml{divzero.ml}{}{\small}{1}{6}}
+    \onslide<3->{Ici on choisit de renvoyer le plus grand entier représentable (ce qui n'est pas forcément un choix judicieux !)}
+\end{exampleblock}
 \end{frame}
 
 \end{document}

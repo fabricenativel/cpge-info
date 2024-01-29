@@ -229,7 +229,7 @@ moves get_move(bool board[7][7])
 {
     moves lm;
     lm.s = 0;
-    for (int i = 0; i < 7; i++)
+    for (int i = 6; i >= 0; i--)
     {
         for (int j = COL_START[i]; j <= COL_END[i]; j++)
         {
@@ -358,7 +358,7 @@ int main()
     float st, et;
     node **seen = malloc(sizeof(llist)*HASHTABLE_SIZE);
     FILE *writer = fopen("solutions-swap.txt", "w");
-    for (int i = 27; i <= 30; i++)
+    for (int i = 1; i <= 30; i++)
     {
         if (i < 10)
         {

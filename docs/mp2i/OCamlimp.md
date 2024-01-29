@@ -95,3 +95,7 @@ On rappelle qu'un nombre premier est un entier naturel ayant exactement deux div
 3. Ecrire  fonction `somme_premiers` qui prend en argument un entier `seuil` et renvoie la somme de tous les nombres premiers inférieurs ou égaux à `seuil`. Par exemple `somme_premiers(100)` renvoie `1060`.
 
 4. Utiliser votre fonction pour calculer la somme des nombres premiers jusqu'à 100000. Tester votre réponse dans le formulaire suivant : {{check_reponse("454396537")}}
+
+## Humour d'informaticien
+
+![semicolon](./Images/C9/semicolon.png){.imgcentre width=500px}
