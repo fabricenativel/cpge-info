@@ -1,4 +1,3 @@
-
 open Hashtbl
 let my_ht = Hashtbl.create 10000
 let reader = open_in "mots.txt" 

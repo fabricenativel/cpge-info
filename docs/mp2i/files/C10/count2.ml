@@ -1,4 +1,3 @@
-
 type hashtable = (string * int) list array
 let size = 100000
 let ht = Array.make  size []
