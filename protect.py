@@ -14,9 +14,13 @@ password = getpass.getpass("Entrer le mot de passe : ")
 
 for i in range(START, END+1):
     pdfname = f"{PATH}C{i}/C{i}-cours.pdf"
-    pdf = pikepdf.Pdf.open(pdfname,allow_overwriting_input=True)    
-    pdf.save(pdfname, encryption=pikepdf.Encryption(owner=password, user=password, R=6)) 
-    pdf.close()
-    print(f"Protection ok sur C{i}")
+    try:
+        pdf = pikepdf.Pdf.open(pdfname,allow_overwriting_input=True)    
+        pdf.save(pdfname, encryption=pikepdf.Encryption(owner=password, user=password, R=6)) 
+        pdf.close()
+        print(Fore.RED+f"Protection ok sur C{i}")
+    except:
+        print(Fore.GREEN+f"Protection déjà active sur C{i}")
+    
 
 

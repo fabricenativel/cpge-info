@@ -15,13 +15,55 @@
 \makess{Définition}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
     \begin{alertblock}{Définition}
-        Un \textcolor{blue}{arbre binaire}, est une structure de données \textit{hiérarchique} (les éléments sont rangés par niveau) qui peut se définir récursivement.\\
+        Un \textcolor{blue}{arbre binaire}, est une structure de données \textit{hiérarchique} (les éléments, appelés \textcolor{blue}{noeuds} sont rangés par niveau) qui peut se définir récursivement.\\
         En effet, un arbre binaire est 
         \begin{itemize}
             \item<2-> soit vide, on le note alors $\varnothing$
-            \item<3-> soit un triplet $(sag,r,sad)$ où $r$ est la racine et $sag$ et $sad$ sont deux arbres binaires (le sous arbre gauche, et le sous arbre droit)
+            \item<3-> soit un noeud $(sag,r,sad)$  appelé \textcolor{blue}{racine} où $r$ est l'étiquette de la racine et $sag$ et $sad$ sont deux arbres binaires (le sous arbre gauche, et le sous arbre droit)
         \end{itemize}
     \end{alertblock}
+    \begin{exampleblock}{Exemples}
+        \onslide<4->{\small L'arbre $(\varnothing,a,(\varnothing,b,\varnothing))$\\}
+        \onslide<5->{
+        \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$a$}}{
+            \Tr{$\varnothing$}
+            \pstree{\TCircle[radius=0.25cm]{$b$}}{
+                \Tr{$\varnothing$}
+                \Tr{$\varnothing$}
+            }
+        } \quad \quad \quad }
+        \onslide<6->
+        {
+            \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$a$}}{
+                \Tn{}
+            \TCircle[radius=0.25cm]{$b$}
+            }
+        \\}
+        \onslide<7->{\small Représenté avec (à gauche) ou sans (à droite) les sous arbres vides.}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Remarques}
+        \begin{itemize}
+        \item<1->{\small \textcolor{BrickRed}{\danger}} Les deux arbres ci-dessous sont \textcolor{blue}{différents} !\\
+        \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$a$}}{
+            \Tr{$\varnothing$}
+            \pstree{\TCircle[radius=0.25cm]{$b$}}{
+                \Tr{$\varnothing$}
+                \Tr{$\varnothing$}
+            }
+        } \quad \quad \quad 
+        \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$a$}}{
+            \pstree{\TCircle[radius=0.25cm]{$b$}}{
+                \Tr{$\varnothing$}
+                \Tr{$\varnothing$}
+            }
+            \Tr{$\varnothing$}
+        } \quad \quad \quad
+        \item<2-> On omet parfois de représenter les sous arbres vides, mais on doit garder à l'esprit qu'un noeud non vide est \textit{toujours} un triplet. Et que donc les sous arbres gauche et droit même vide, sont toujours présents.
+        \end{itemize}
+    \end{block}
 \end{frame}
 
 \end{document}
