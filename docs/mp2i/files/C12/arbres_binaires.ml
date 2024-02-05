@@ -39,7 +39,7 @@ let rec write_edge a writer =
 
 let view a =
   let outc = open_out "temp.gv" in
-  output_string outc "digraph mygraph {\n graph [nodesep=3, ranksep=3]";
+  output_string outc "digraph mygraph {\n graph";
   write_edge a outc;
   output_string outc "}\n";
   close_out outc;
