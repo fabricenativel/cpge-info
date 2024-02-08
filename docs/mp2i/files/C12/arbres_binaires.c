@@ -95,6 +95,21 @@ void prefixe(ab a)
     }
 }
 
+void libere(ab *a)
+{
+    ab  sag;
+    ab  sad;
+    if (*a!=NULL)
+    {
+        sag = (*a)->sag;
+        sad = (*a)->sad;
+        libere(&sag);
+        libere(&sad);
+        free(*a);
+        *a = NULL;
+    }
+}
+
 int main()
 {
     ab n7 = cree_arbre(NULL, 7, NULL);
@@ -103,6 +118,9 @@ int main()
     ab n3 = cree_arbre(n4, 3, NULL);
     ab n9 = cree_arbre(n5, 9, n3);
     view(n9);
+    printf("Taille de l'arbre = %d\n",taille(n9));
+    prefixe(n9);
+    libere(&n9);
     printf("Taille de l'arbre = %d\n",taille(n9));
     prefixe(n9);
     printf("\n");

@@ -10,7 +10,8 @@
 \setcounter{numchap}{12}
 \newcommand{\Ctitle}{\cnum {Arbres binaires}}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
-
+\newcommand{\NR}[1]{\TCircle[fillstyle=solid,fillcolor=red!20!white,linecolor=red,radius=0.25cm]{#1}}
+\newcommand{\NN}[1]{\TCircle[fillstyle=solid,fillcolor=black!20!white,linecolor=black,radius=0.25cm]{#1}}
 % Exemple introductif
 \makess{Définition}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -530,7 +531,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Correction}
 		\begin{center}
-			\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$7$}}{
+			\pstree[arrows=->,treesep=0.7cm,levelsep=1cm]{\TCircle[radius=0.25cm]{$7$}}{
 				\pstree{\TCircle[linecolor=BrickRed,linewidth=1pt,radius=0.25cm]{\textcolor{BrickRed}{$3$}} \nput[labelsep=1 pt]{0}{\pssucc}{\textcolor{BrickRed}{$u$}}}{
 					\TCircle[name=D,radius=0.25cm]{$\ 2\ $}
 					\ncbox[linecolor=gray,nodesep=0.1,boxsize=0.3,linestyle=dashed]{D}{D}
@@ -548,7 +549,7 @@
 				\TCircle[radius=0.25cm]{$9$} 
 			} \hspace{1.5cm}
 			\onslide<3->{
-			\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$7$}}{
+			\pstree[arrows=->,treesep=0.7cm,levelsep=1cm]{\TCircle[radius=0.25cm]{$7$}}{
 				\pstree{\TCircle[linecolor=BrickRed,linewidth=1pt,radius=0.25cm]{\textcolor{BrickRed}{$5$}} \nput[labelsep=1 pt]{0}{\pssucc}{\textcolor{BrickRed}{$v$}}}{
 					\pstree{\Tcircle[linecolor=BrickRed,linewidth=1pt,radius=0.25cm]{\textcolor{BrickRed}{$3$}} \nput[labelsep=1 pt]{0}{\pssucc}{\textcolor{BrickRed}{$u$}}}
 					{
@@ -565,8 +566,18 @@
 				}
 				\TCircle[radius=0.25cm]{$9$} 
 			}} \vspace{0.2cm}\\
-			\onslide<4->{
-			\pstree[arrows=->,treesep=0.7cm,levelsep=1cm]{\TCircle[linecolor=BrickRed,linewidth=1pt,radius=0.25cm]{$7$} \nput[labelsep=1 pt]{0}{\pssucc}{\textcolor{BrickRed}{$u$}}}{
+			
+			\vspace{1cm}
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\begin{center}
+			\pstree[arrows=->,treesep=0.7cm,levelsep=1cm]{\TCircle[linecolor=BrickRed,linewidth=1pt,radius=0.25cm]{\textcolor{BrickRed}{$7$}} \nput[labelsep=1 pt]{0}{\pssucc}{\textcolor{BrickRed}{$u$}}}{
 				\pstree{\TCircle[linecolor=BrickRed,linewidth=1pt,radius=0.25cm]{\textcolor{BrickRed}{$5$}} \nput[labelsep=1 pt]{0}{\pssucc}{\textcolor{BrickRed}{$v$}}}{
 						\pstree{\Tcircle[radius=0.25cm]{$3$}}
 					{  
@@ -574,7 +585,7 @@
 						\TCircle[name=Q,radius=0.25cm]{$4$}
 						
 					}
-					\psframe[linecolor=gray,linestyle=dashed](0.8,0.25)(-1.25,-1.3)
+					\psframe[linecolor=gray,linestyle=dashed](0.9,0.25)(-1.1,-1.3)
 					\nbput[labelsep=1.6cm]{\textcolor{gray}{$\scriptstyle t_1$}}
 					\TCircle[name=S,radius=0.25cm]{$6$}
 					\ncbox[linecolor=gray,nodesep=0.1,boxsize=0.3,linestyle=dashed]{S}{S}
@@ -583,10 +594,130 @@
 				\TCircle[name=N,radius=0.25cm]{$9$}
 				\ncbox[linecolor=gray,nodesep=0.1,boxsize=0.3,linestyle=dashed]{N}{N}
 				\nbput[labelsep=0]{\textcolor{gray}{$\scriptstyle t_3$}}
-			}}
-			\vspace{1cm}
+			} \hspace{1.5cm}
+			\onslide<2->
+			{
+				\pstree[arrows=->,treesep=0.7cm,levelsep=1cm]{\TCircle[radius=0.25cm]{$5$}}
+						{
+							\pstree[treesep=0.7cm,levelsep=1cm]{\TCircle[radius=0.25cm]{$3$}}{
+								\TCircle[radius=0.25cm]{$2$}
+								\TCircle[radius=0.25cm]{$4$}
+							}
+							\pstree[treesep=0.7cm,levelsep=1cm]{\TCircle[radius=0.25cm]{$7$}}{
+								\TCircle[radius=0.25cm]{$6$}
+								\TCircle[radius=0.25cm]{$9$}
+							}
+						}
+			} \vspace{0.5cm}
 		\end{center}
 	\end{exampleblock}
+	\onslide<3->{
+		\begin{block}{Equilibrage d'un abre binaire}
+			Les rotations droite et gauche sont les opérations permettant de maintenir un certain équilibre dans un {\sc abr}. Et donc de \textcolor{blue}{garantir une complexité logarithmique} des opérations usuelles. Parmi les nombreuses possibilités d'{\sc abr} équilibrés, nous allons détailler les \textcolor{BrickRed}{arbres rouge-noir}.
+		\end{block}
+	}
 \end{frame}
+
+\makess{Arbres rouge-noir}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition des arbres rouge-noir}
+		Un \textcolor{blue}{arbre rouge-noir} $t$ est un {\sc abr} (\textcolor{OliveGreen}{\ding{182}}), dans lequel chaque noeud porte une information de couleur (rouge ou noir), et ayant les deux propriétés suivantes :
+		\begin{itemize}
+			\item<1-> le père d'un noeud rouge est noir (\textcolor{OliveGreen}{\ding{183}}),
+			\item<2-> le nombre de noeuds noirs le long d'un chemin de la racine à un sous arbre vide est toujours le même (\textcolor{OliveGreen}{\ding{184}}), on appellera \textcolor{blue}{hauteur noire} de $t$ et on notera $b(t)$ cette quantité .
+		\end{itemize}
+	\end{alertblock}
+	\onslide<2->{
+		\begin{exampleblock}{Exemples}
+			\renewcommand{\arraystretch}{1.1}
+			\begin{tabularx}{\textwidth}{Y|Y|Y}
+			\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\NN{$8$}}{
+				\pstree{\NR{$5$}}{
+					\NN{$1$}
+					\pstree{\NN{$6$}}
+					{
+						\NR{$3$}
+						\NR{$7$}
+					}
+				}
+				\NN{$9$}
+			} & 
+			\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\NN{$5$}}
+						{
+							\pstree[treesep=0.5cm,levelsep=0.7cm]{\NR{$2$}}{
+								\NN{$1$}
+								\pstree{\NR{$3$}}
+								{
+									\Tn{}
+									\NN{$4$}
+									
+								}
+							}
+							\pstree[treesep=0.5cm,levelsep=0.7cm]{\NR{$8$}}{
+								\NN{$7$}
+								\Tn{}
+							}
+						}
+			& 
+			\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\NN{$7$}}
+						{
+							\pstree[treesep=0.5cm,levelsep=0.7cm]{\NN{$2$}}{
+								\Tn{}
+								\Tn{}
+							}
+							\pstree[treesep=0.5cm,levelsep=0.7cm]{\NR{$8$}}{
+								\NN{$6$}
+								\NN{9}
+							}
+						}
+			\\
+			\leavevmode\onslide<3->{\textcolor{OliveGreen}{\small \ding{182} \faCheck \quad \ding{183} \faCheck  \quad \ding{184} \faCheck}} & \leavevmode\onslide<4->{\textcolor{OliveGreen}{\small \ding{182} \faCheck \quad  \ding{183}} \textcolor{BrickRed}{\small \faTimesCircle} \textcolor{OliveGreen}{\small \quad \ding{184} \faCheck}} & \leavevmode\onslide<5->{\textcolor{OliveGreen}{\small \ding{182}}  \textcolor{BrickRed}{\small \faTimesCircle} \textcolor{OliveGreen}{\small \quad\ding{183} \faTimesCircle \quad \ding{184} \faCheck}}\\
+		\end{tabularx}
+		
+		\end{exampleblock}
+	}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Proriété d'équilibre des arbres rouge-noirs}
+		Pour tout arbre rouge noir $t$ :
+		\begin{itemize}
+			\item<2-> $h(t) \leqslant 2b(t)$ 
+			\item<3-> $2^{b(t)} \leqslant n(t) +1$
+		\end{itemize}
+		\onslide<4->{Conséquences : les arbres rouge-noir forment un ensemble d'arbres équilibrés.}
+	\end{block}
+	\onslide<5->{\begin{block}{Implémentation}
+		Une implémentation en OCaml sera vue en TP, les opérations d'insertion et de suppression sont difficiles et reposent sur les rotations droite et gauche des {\sc abr}.
+	\end{block}}
+\end{frame}
+
+
+
+\makess{Tas et files de priorité}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Definition}
+		Une file de priorité est une structure de données, dans laquelle :
+		\begin{itemize}
+		\item<2-> chaque élément enfilé possède une priorité.
+		\item<3-> lorsqu'on défile un élément, on enlève l'élément le plus prioritaire (et donc pas forcément le premier enfilé comme dans une file classique).
+		\end{itemize}
+	\end{block}
+	\onslide<4->{
+	\begin{exampleblock}{Exercice}
+		Déterminer les complexités des opérations enfiler et défiler si on implémente une file de priorité à l'aide d'une liste chainée.
+	\end{exampleblock}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Structure de tas}
+		Un arbre binaire, dont les éléments sont comparables, possède la structure de \textcolor{blue}{tas} si et seulement si :
+		\begin{itemize}
+			\item<2-> il est vide ou
+			\item<3-> il est de la forme $N(g,v,d)$, avec $g$ et $d$ possédant la structure de tas et $v$ est inférieur à tous les éléments de $g$ et de $d$. 
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
 
 \end{document}
