@@ -42,26 +42,56 @@ close_out outc;
 ignore (Sys.command "dot -Tpng temp.gv -o temp.png");
 ignore (Sys.command "eog temp.png");;
 
-let make_label n minv maxv =
-  let label = Array.make n minv in
-  let inc = (maxv-minv)/n in
-  label.(0) <- minv + 1 + Random.int inc;
-  for i=1 to (n-1) do
-    label.(i) <- label.(i-1) + 1 + Random.int inc;
-  done;
-  label;;
+let affiche p =
+  Printf.printf "[ ";
+  let rec aux p =
+    match p with 
+    | [] -> Printf.printf "] \n"
+    | h::[] -> Printf.printf "%d ]\n" h
+    | h:: t -> Printf.printf "%d; " h; aux t
+  in
+  aux p;;
 
-let rec randomabr label =
-  let ls = Array.length label in
-  if ls=0 then Vide else
-    (
-      let k = Random.int ls in
-      if k=0 then 
-        Noeud(Vide,label.(0),randomabr  (Array.sub label 1 (ls-1))) else
-      if k=ls-1 then
-        Noeud(randomabr  (Array.sub label 0 (ls-1)),label.(ls-1),Vide) else
-      Noeud(randomabr  (Array.sub label 0 k), label.(k) ,randomabr  (Array.sub label (k+1) (ls-k-1)  ))
-    );;
+let infixe ab = 
+  let rec aux ab acc =
+    match ab with
+    | Vide -> acc
+    | Noeud(g,v,d) ->  aux g (v::(aux d acc))
+  in aux ab [];;
+
+let rec postfixe ab =
+  match ab with
+  | Vide -> []
+  | Noeud(g,v,d) -> postfixe g @ postfixe d @ [v];;
+
+let rec prefixe ab = 
+  let rec aux ab acc =
+    match ab with
+    | Vide -> acc
+    | Noeud(g,v,d) -> v :: (aux g (aux d acc))
+  in aux ab [];;
+
+(* renvoie 2 listes : elts situés évant sep et elts situés après*)
+let rec separe l sep acc =
+  match l with 
+  | [] -> acc, []
+  | h::t -> if h=sep then (List.rev acc,t) else separe t sep (h::acc);;
+
+(* renvoie les n premiers et le reste de la liste*)
+let rec separe2 l n acc =
+  if n=0 then (List.rev  acc, l) else separe2 (List.tl l) (n-1) ((List.hd l)::acc) ;;
+
+  
+let rec reconstruit pref infi =
+  match pref, infi with
+  | [],[] -> "Vide"
+  | [],_ | _, [] -> failwith "Bug"
+  | r::q, infi -> 
+    let infi1, infi2 = separe infi r [] in
+    let pre1, pre2 = separe2 q (List.length infi1) [] in
+    let p1 = reconstruit pre1 infi1 in
+    let p2 = reconstruit pre2 infi2 in
+      "Noeud(" ^p1^ ","^ (string_of_int r)^","^p2^ ")";;
 
 let rec randomtree n e =
   if n = 0 then Vide else 
@@ -70,24 +100,12 @@ let rec randomtree n e =
     )
   ;;
 
-
-let rec makepst ab =
-  match ab with
-  | Vide -> ""
-  | Noeud(Vide,v,Vide) -> Printf.sprintf "\\TCircle{%d} \n" v
-  | Noeud(Vide,v,d) -> let rep = Printf.sprintf "\\pstree{\\TCircle{%d}}\n{ \\Tn{} \n"  v in 
-  rep ^ makepst d ^ "}"
-  | Noeud(g,v,Vide) -> let rep = Printf.sprintf "\\pstree{\\TCircle{%d}}\n{ \\Tn{} \n"  v in 
-  rep ^ makepst g ^ " \n \\Tn{} }"
-  | Noeud(g,v,d) -> let rep = Printf.sprintf "\\pstree{\\TCircle{%d}}\n{" v in 
-   rep ^ makepst g  ^ makepst d  ^"}";;
-
-
-  
 let () = 
-    Random.self_init();
-    let lb = make_label 10 10 42 in
-    let t = randomabr lb in
-    view(t);
-    print_string (makepst t)
-  ;;
+let t = Noeud(Noeud(Vide,2,Vide),1,Vide) in
+let u = Noeud(Vide,1,Noeud(Vide,2,Vide)) in
+ affiche (postfixe t);
+ affiche (prefixe t);
+ affiche (postfixe u);
+ affiche (prefixe u);
+;;
+

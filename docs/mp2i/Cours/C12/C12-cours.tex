@@ -213,13 +213,25 @@
 			\onslide<3->{$$ { h+1 \leq n \leq 2^{h+1}-1} $$}
 		\end{alertblock}}
 	\onslide<4->{
-		\begin{exampleblock}{Exercice}
-			\begin{enumerate}
-				\item<5-> Dessiner tous les arbres binaires de taille 4.
-				\item<6-> Dessiner un arbre binaire de hauteur taille 4 et de hauteur 3.
-				\item<7-> Dessiner un arbre binaire de hauteur 2 et de taille $2^3-1$.
-			\end{enumerate}
-		\end{exampleblock}}
+		\begin{block}{Remarque}
+		On démontrera souvent une propriété $\mathcal{P}$, sur les arbres par récurrence (sur la hauteur ou la taille) ou par \textcolor{blue}{induction structurelle} :
+		\begin{itemize}
+			\item<5-> $\mathcal{P}$ est vraie sur l'arbre vide,
+			\item<6-> Si $\mathcal{P}$ est vraie pour $g$ et $d$ alors $\mathcal{P}$ est vraie pour un arbre dont les sous arbres sont $g$ et $d$.
+		\end{itemize}
+		\end{block}
+		}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercices}
+		\begin{enumerate}
+			\item<1-> Dessiner un arbres binaires de taille 4 dont l'un des noeuds au moins a un fils gauche vide.
+			\item<2-> Dessiner un arbre binaire de hauteur taille 4 et de hauteur 3.
+			\item<3-> Dessiner un arbre binaire de hauteur 2 et de taille $2^3-1$.
+			\item<4-> Montrer que le nombre d'arêtes (trait reliant  un noeud à un fils \textit{non vide}) d'un arbre binaire à $n$ noeuds est $n+1$
+		\end{enumerate}
+	\end{exampleblock}
 \end{frame}
 
 \makess{Représentation  en machine}
@@ -264,8 +276,11 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Type structuré en OCaml}
 		Un arbre binaire étant soit vide soit constituée d'une étiquette ({\tt int} pour simplifier), on le définit en OCaml en envisageant les 2 cas :
+		\onslide<2->{\inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{1}{3}}
+		On a choisit ici un arbre binaire ayant des étiquettes entières, on aurait pu utiliser un type paramétré {\tt 'a} :
 		\onslide<2->{\inputpartOCaml{\SPATH/arbres_binaires.ml}{}{}{1}{3}}
 	\end{block}
+
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -287,7 +302,7 @@
 						}
 					}
 				\end{center}
-			\item<2-> Ecrire la fonction permettant de calculer le nombre de noeuds d'un arbre binaire.
+			\item<2-> Ecrire la fonction permettant de calculer le nombre de noeuds d'un arbre binaire et donner sa complexité.
 				\onslide<3->{\inputpartOCaml{\SPATH/arbres_binaires.ml}{}{}{6}{9}}
 		\end{enumerate}
 	\end{exampleblock}
@@ -321,8 +336,8 @@
 				\multicolumn{1}{c}{\textcolor{blue}{\scriptsize 0}} & \multicolumn{1}{c}{\textcolor{blue}{\scriptsize 1}} & \multicolumn{1}{c}{\textcolor{blue}{\scriptsize 2}} & \multicolumn{1}{c}{\textcolor{blue}{\scriptsize 3}} & \multicolumn{1}{c}{\textcolor{blue}{\scriptsize 4}} & \multicolumn{1}{c}{\textcolor{blue}{\scriptsize 5}} \\
 			\end{tabular}}
 		\begin{itemize}
-			\item Le fils gauche (resp. droit) du noeud $i$ se trouve à l'indice $2i+1$ (resp.) $2i+2$.
-			\item Le père du noeud d'indice i se trouve à l'indice $\pe{\dfrac{i-1}{2}}$.
+			\item<8-> Le fils gauche (resp. droit) du noeud $i$ se trouve à l'indice $2i+1$ (resp.) $2i+2$.
+			\item<9-> Le père du noeud d'indice i se trouve à l'indice $\pe{\dfrac{i-1}{2}}$.
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -444,9 +459,10 @@
 			\item<3-> Sinon $A = (g,v,d)$ et on insère dans $g$ si $u<v$ et dans $d$ sinon.
 		\end{itemize}
 	\end{alertblock}
-	\begin{block}{Implémentation en OCaml}
+	\onslide<4->
+	{\begin{block}{Implémentation en OCaml}
 		\inputpartOCaml{\SPATH/abr.ml}{}{}{70}{73}
-	\end{block}
+	\end{block}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -466,7 +482,7 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Complexité}
-		La complexité des opérations d'insertion et de recherche dans un {\sc abr} est majorée par la hauteur $h$ de l'arbre.\onslide<2->\textcolor{gray}{ On descend d'un niveau dans l'arbre à chaque appel récursif et la profondeur d'un noeud est inférieure à $h$.}\\
+		La complexité des opérations d'insertion et de recherche dans un {\sc abr} est majorée par la hauteur $h$ de l'arbre. \onslide<2->\textcolor{gray}{ On descend d'un niveau dans l'arbre à chaque appel récursif et la profondeur d'un noeud est inférieure à $h$.}\\
 		\onslide<3->{Or on sait que $ h+1 \leq n \leq 2^{h+1}-1$, et les deux bornes sont atteintes}
 		\begin{itemize}
 			\item<4-> Dans le cas d'un peigne ($n=h+1$) les opérations seront en $O(n)$.
@@ -627,7 +643,7 @@
 			\item<2-> le nombre de noeuds noirs le long d'un chemin de la racine à un sous arbre vide est toujours le même (\textcolor{OliveGreen}{\ding{184}}), on appellera \textcolor{blue}{hauteur noire} de $t$ et on notera $b(t)$ cette quantité .
 		\end{itemize}
 	\end{alertblock}
-	\onslide<2->{
+	\onslide<3->{
 		\begin{exampleblock}{Exemples}
 			\renewcommand{\arraystretch}{1.1}
 			\begin{tabularx}{\textwidth}{Y|Y|Y}

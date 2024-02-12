@@ -1,6 +1,6 @@
-type ab = 
+type 'a ab = 
  |Vide 
- |Noeud of ab *  char * ab;;
+ |Noeud of 'a ab *  'a * 'a ab;;
 let ninv = ref 0;;
 
 let rec taille ab =
