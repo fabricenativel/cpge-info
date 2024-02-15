@@ -87,7 +87,7 @@
 					$$ \left\{
 						\begin{array}{llll}
 							h(A) & = & -1                  & \text{si $A$ est vide}  \\
-							n(A) & = & 1 + \max(h(g),h(d)) & \text{si $A = (g,a,d)$} \\
+							h(A) & = & 1 + \max(h(g),h(d)) & \text{si $A = (g,a,d)$} \\
 						\end{array}
 						\right.
 					$$}
@@ -210,7 +210,7 @@
 	\onslide<2->{
 		\begin{alertblock}{Relation entre hauteur et taille}
 			En notant $n$ la taille et $h$ la hauteur d'un arbre binaire, on a la relation suivante : \\
-			\onslide<3->{$$ { h+1 \leq n \leq 2^{h+1}-1} $$}
+			\onslide<3->{$$ { h+1 \leqslant n \leqslant 2^{h+1}-1} $$}
 		\end{alertblock}}
 	\onslide<4->{
 		\begin{block}{Remarque}
@@ -229,7 +229,7 @@
 			\item<1-> Dessiner un arbres binaires de taille 4 dont l'un des noeuds au moins a un fils gauche vide.
 			\item<2-> Dessiner un arbre binaire de hauteur taille 4 et de hauteur 3.
 			\item<3-> Dessiner un arbre binaire de hauteur 2 et de taille $2^3-1$.
-			\item<4-> Montrer que le nombre d'arêtes (trait reliant  un noeud à un fils \textit{non vide}) d'un arbre binaire à $n$ noeuds est $n+1$
+			\item<4-> Montrer que le nombre d'arêtes (trait reliant  un noeud à un fils \textit{non vide}) d'un arbre binaire à $n$ noeuds ($n \geqslant 1$) est $n-1$
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -483,7 +483,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Complexité}
 		La complexité des opérations d'insertion et de recherche dans un {\sc abr} est majorée par la hauteur $h$ de l'arbre. \onslide<2->\textcolor{gray}{ On descend d'un niveau dans l'arbre à chaque appel récursif et la profondeur d'un noeud est inférieure à $h$.}\\
-		\onslide<3->{Or on sait que $ h+1 \leq n \leq 2^{h+1}-1$, et les deux bornes sont atteintes}
+		\onslide<3->{Or on sait que $ h+1 \leqslant n \leqslant 2^{h+1}-1$, et les deux bornes sont atteintes}
 		\begin{itemize}
 			\item<4-> Dans le cas d'un peigne ($n=h+1$) les opérations seront en $O(n)$.
 			\item<5-> Dans le cas d'un arbre complet ($n=2^{h+1}-1$), les opérations seront en $O(\log(n))$.
@@ -492,7 +492,7 @@
 	\onslide<6->{
 		\begin{alertblock}{Définition}
 			Soit $S$, un ensemble d'abres binaires. On dit que les arbres de $S$ sont \textcolor{blue}{équilibrés} s'il existe une constante $C$ telle que, pour tout arbre $s \in S$ :
-			$$ h(s) \leq C \log(n(s))$$
+			$$ h(s) \leqslant C \log(n(s))$$
 		\end{alertblock}}
 \end{frame}
 
