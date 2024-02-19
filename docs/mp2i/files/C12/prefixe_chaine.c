@@ -11,6 +11,22 @@ struct noeud
 };
 typedef struct noeud noeud;
 typedef noeud *ab;
+        
+struct maillon
+{
+    int valeur;
+    struct maillon * suivant;
+};
+typedef struct maillon maillon;
+struct liste
+{
+    maillon* deb;
+    maillon* fin;
+};
+typedef struct  liste liste;
+
+
+
 
 int ninv = 0;
 
@@ -95,14 +111,64 @@ void view(ab g)
     system("eog temp.jpg &");
 }
 
-void prefixe(ab a)
+
+
+void ajoute(liste *l, int v)
 {
-    if (a != NULL)
-    {
-        printf("%d ", a->valeur);
-        prefixe(a->sag);
-        prefixe(a->sad);
+    maillon* nl=malloc(sizeof(maillon));
+    nl->suivant = l->deb;
+    nl->valeur =v;
+    l->deb = nl;
+    if (l->fin == NULL)
+    {l->fin = l->deb;
     }
+}
+
+void concatene(liste *l1, liste *l2)
+{
+    if (l2->deb != NULL)
+    {
+    if (l1->fin!=NULL)
+    {l1->fin->suivant = l2->deb;
+    l1->fin = l2->fin;}
+    else
+    {l1->deb = l2->deb;
+    l1->fin = l2->fin;
+    }
+    }  
+}
+
+liste liste_vide()
+{
+    liste l = {.deb=NULL, .fin=NULL};
+    return l;
+}
+
+liste prefixe(ab a)
+{
+    if (a!=NULL) 
+    {
+        liste lg = prefixe(a->sag);
+        liste ld = prefixe(a->sad);
+        concatene(&lg, &ld);
+        ajoute(&lg, a->valeur);
+        return lg;
+    }
+    else
+    {
+        liste l = liste_vide();
+        return l;
+    }
+}
+void view_list(liste l)
+{
+    printf("-> ");
+    while (l.deb!=NULL)
+    {
+        printf("%i -> ",l.deb->valeur);
+        l.deb = l.deb->suivant;
+    }
+    printf("null \n");
 }
 
 
@@ -164,14 +230,9 @@ ab aleatoire(int n)
 
 int main()
 {
-    ab t = aleatoire(10);
     srand(time(NULL));
-    insere_noeud(&t, 11);
+    ab t = aleatoire(10);
     view(t);
-    printf("Taille de l'arbre = %d\n", taille(t));
-    prefixe(t);
-    libere(&t);
-    printf("Taille de l'arbre = %d\n", taille(t));
-    prefixe(t);
+    view_list(prefixe(t));
     printf("\n");
 }

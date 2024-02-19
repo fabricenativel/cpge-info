@@ -98,7 +98,7 @@ Le but est de l'exercice est d'implémenter un type *Vector* de tableaux redimen
 
 On reprend l'implémentation vue en cours pour les listes simplement chaînées en C :
 ```c
-        --8<-- "C8/liste_chainee.c:4:10"
+        --8<-- "C8/liste_chainee.c:7:13"
 ```
 On définit donc ici une liste comme un pointeur vers sa tête.
 

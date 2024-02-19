@@ -1,4 +1,4 @@
-
+open Queue
 type ab = Vide | Noeud of ab * int * ab ;;
 
 let ninv = ref 0;;
@@ -53,6 +53,16 @@ let infixe ab =
     | Noeud(g,v,d) -> v :: (aux g (aux d acc))
   in aux ab [];;
 
+let largeur ab =
+  let file = Queue.create () in
+  Queue.add ab file;
+  while not(Queue.is_empty file) do
+    let node = Queue.pop file in
+    match node with
+    | Vide -> ()
+    | Noeud(g,v,d) -> Printf.printf "%d " v; Queue.push g file; Queue.push d file;
+  done;;
+
 let () = 
 let t = Noeud(
           Noeud(
@@ -64,5 +74,7 @@ let t = Noeud(
             15,
             Vide)) 
         in
- view t;;
+ view t;
+ largeur t
+;;
 

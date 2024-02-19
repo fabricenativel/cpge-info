@@ -404,8 +404,8 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Exemple d'implémentation}
 		\begin{itemize}
-			\item<1-> Parcours prefixe en C (affichage des étiquettes)
-				\onslide<2->{\inputpartC{\SPATH/arbres_binaires.c}{}{\footnotesize}{88}{96}}
+			\item<1-> Parcours préfixe en C (affichage des étiquettes)
+				\onslide<2->{\inputpartC{\SPATH/arbres_binaires.c}{}{\footnotesize}{98}{106}}
 			\item<3-> Parcours infixe en OCaml (affichage des étiquettes)
 				\onslide<2->{\inputpartOCaml{\SPATH/arbres_binaires.ml}{}{\footnotesize}{56}{59}}
 		\end{itemize}
@@ -496,6 +496,25 @@
 		\end{alertblock}}
 \end{frame}
 
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation des tableaux associatifs}
+		\begin{itemize}
+		\item<1-> Si l'ensemble des clé est ordonné, on peut implémenter les tableaux associatifs en utilisant une famille d'arbre binaire équilibré. Chaque noeud de l'arbre contient alors une information supplémentaire (sa valeur) en plus de la clé associée.
+		\item<2-> Les opérations usuelles (insertion, test d'appartenance, \dots) ont alors une complexité logarithmique.
+		\end{itemize}
+	\end{block}
+	\onslide<3->{
+	\begin{exampleblock}{Exemple}
+		\mintinline{c}{{ "dans":12 , "le" : 8, "un" : 16, "bol" : 10, "mer" : 8} } est représenté par :
+		\begin{center}\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TR[radius=0.25cm]{("le",8)}}{
+			\pstree{\TR{("dans",12)}}{
+				\Tr{("bol",10)}
+				\Tr{("mer",8)}}
+			\TR{("un",16)}}
+		\end{center}
+	\end{exampleblock}}
+\end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Rotation d'un {\sc abr}}
@@ -701,7 +720,7 @@
 			\item<2-> $h(t) \leqslant 2b(t)$ 
 			\item<3-> $2^{b(t)} \leqslant n(t) +1$
 		\end{itemize}
-		\onslide<4->{Conséquences : les arbres rouge-noir forment un ensemble d'arbres équilibrés.}
+		\onslide<4->{Conséquence : les arbres rouge-noir forment un ensemble d'arbres équilibrés.}
 	\end{block}
 	\onslide<5->{\begin{block}{Implémentation}
 		Une implémentation en OCaml sera vue en TP, les opérations d'insertion et de suppression sont difficiles et reposent sur les rotations droite et gauche des {\sc abr}.
@@ -727,13 +746,78 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{Structure de tas}
-		Un arbre binaire, dont les éléments sont comparables, possède la structure de \textcolor{blue}{tas} si et seulement si :
+		Soit $t$ un arbre binaire dont les noeuds sont étiquetés par des éléments d'un ensemble ordonné.
 		\begin{itemize}
-			\item<2-> il est vide ou
-			\item<3-> il est de la forme $N(g,v,d)$, avec $g$ et $d$ possédant la structure de tas et $v$ est inférieur à tous les éléments de $g$ et de $d$. 
+			\item<2-> si l'étiquette d'un noeud est toujours inférieure à celle de ses enfants (lorsqu'ils existent), on dit que $t$ possède la \textcolor{blue}{propriété de tas-min.}
+			\item<3-> si de plus $t$ est complet, on dit que $t$ est un \textcolor{blue}{tas-min binaire}.
 		\end{itemize}
 	\end{alertblock}
+	\onslide<4->{
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\pstree[arrows=->,treesep=0.7cm,levelsep=1cm]{\TCircle[radius=0.25cm]{$1$}}
+						{
+							\pstree[treesep=0.7cm,levelsep=1cm]{\TCircle[radius=0.25cm]{$3$}}{
+								\TCircle[radius=0.25cm]{$7$}
+								\TCircle[radius=0.25cm]{$5$}
+							}
+							\pstree[treesep=0.7cm,levelsep=1cm]{\TCircle[radius=0.25cm]{$6$}}{
+								\TCircle[radius=0.25cm]{$8$}
+								\Tn{}
+							}
+						}
+		\end{center}
+	\end{exampleblock}}
 \end{frame}
 
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		\begin{itemize}
+			\item <1-> On parle de \textcolor{blue}{tas-max} lorsque l'étiquette du noeud est toujours supérieure ou égale à celle de ses enfants.
+			\item <2-> Le terme anglais est \textit{(binary) heap} (mais n'a rien à voir avec la zone mémoire dans laquelle on alloue à l'aide de {\tt malloc})
+		\end{itemize}
+	\end{block}
+	\onslide<3->{
+	\begin{block}{Propriété}
+		\begin{itemize}
+			\item <3-> La racine contient un élément de clé minimale
+			\item <4-> Si $a$ est un ancêtre de $b$ alors l'étiquette de $a$ est inférieure à celle de $b$.
+		\end{itemize}
+	\end{block}}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation}
+		Un tas binaire étant un arbre binaire complet, on peut utiliser la représentation des arbres binaires sour forme de tableau.
+		On rappelle qu'alors :
+		\begin{itemize}
+			\item<2-> Le fils gauche (resp. droit) du noeud $i$ se trouve à l'indice $2i+1$ (resp. $2i+2$)
+			\item<3-> Le père du noeud d'indice $i$ se trouve à l'indice $\pe{\dfrac{i-1}{2}}$.
+		\end{itemize}
+	\end{block}
+	\onslide<4->{
+	\begin{exampleblock}{Exemple}
+		Donner la représentation sous forme de tableau du tas binaire donné en exemple
+	\end{exampleblock}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation en C}
+		Les opérations intéressantes faisant varier la taille du tas (insertion, extraction du minimum) on utilise un tableau de capacité fixée mais de taille variable :
+		\inputpartC{\SPATH/tas.c}{\small}{}{6}{12}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation en OCaml}
+		En OCaml, la capacité du tableau étant accessible (avec \mintinline{ocaml}{Array.length}) on se contente de garder la taille effective dans un champ mutable
+		\onslide<2->{\inputpartOCaml{\SPATH/tas.ml}{}{}{1}{1}}
+		\onslide<3->{On utilise ici un tableau contenant des entiers, mais en OCaml, on pourrait facilement utiliser un type option \mintinline{ocaml}{'a} :}
+		\onslide<4->{\inputpartOCaml{\SPATH/tas.ml}{}{}{3}{3}}
+		\onslide<5->{De façon à instancier ce type lors de la création du tas :}
+		\onslide<6->{\inputpartOCaml{\SPATH/tas.ml}{}{}{5}{6}}
+	\end{block}
+\end{frame}
 
 \end{document}
