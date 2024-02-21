@@ -112,6 +112,52 @@ void prefixe(abr a)
     }
 }
 
+int minv(abr *g)
+{
+    if ((*g)->sag == NULL)
+    {
+        int t = (*g)->valeur;
+        abr td = (*g)->sad;
+        free(*g);
+        *g=td;
+        return t;
+    }
+    else {return minv (&(*g)->sag);}
+}
+
+void supprime(abr *g, int v)
+{
+    if (*g != NULL)
+    {
+        if (v < (*g)->valeur)
+        {
+            supprime(&((*g)->sag), v);
+        }
+        else if (v > (*g)->valeur)
+        {
+            supprime(&((*g)->sad), v);
+        }
+        else
+        {
+            if ((*g)->sag==NULL && (*g)->sad==NULL)
+            {
+                free(*g);
+                *g = NULL;
+            }
+            else if ((*g)->sad==NULL) 
+            {
+                (*g) = (*g)->sag;
+                free((*g)->sag);
+            }
+            else
+            {
+                int nv =  minv(&(*g)->sad);
+                (*g)->valeur = nv;
+            }
+        }
+    }
+}
+
 int main()
 {
     abr g = NULL;
@@ -120,6 +166,12 @@ int main()
     insere(&g, 9);
     insere(&g, 2);
     insere(&g, 11);
+    insere(&g, 10);
+    insere(&g, 6);
+    insere(&g, 8);
+    supprime(&g,9);
+    supprime(&g,7);
+    supprime(&g,2);
     view(g);
     printf("\n");
 }

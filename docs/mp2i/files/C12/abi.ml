@@ -70,6 +70,51 @@ let rec randomtree n e =
     )
   ;;
 
+let rec prefixe_naif t =
+  match t with
+  | Vide -> []
+  | Noeud (g, v, d) -> v :: prefixe_naif g @ prefixe_naif d
+
+let  prefixe t =
+  let rec aux_pre t acc =
+    match t with
+    | Vide -> acc
+    | Noeud (g, v, d) -> v :: (aux_pre g (aux_pre d acc)) in
+  aux_pre t [];;
+
+
+let rec infixe_naif t =
+  match t with
+  | Vide -> []
+  | Noeud (g, v, d) -> (infixe_naif g) @ [v] @ (infixe_naif d)
+
+
+let infixe t =
+  let rec aux_infixe t acc =
+    match t with
+    | Vide -> acc
+    | Noeud (g, v, d) -> aux_infixe g (v::(aux_infixe d acc)) in
+  aux_infixe t [];;
+
+let rec postfixe_naif t =
+  match t with
+  | Vide -> []
+  | Noeud (g, v, d) -> (postfixe_naif g) @ (postfixe_naif d) @ [v]
+
+let rec postfixe t =
+  let rec aux_postfixe t acc =
+    match t with
+    | Vide -> acc
+    | Noeud (g, v, d) -> aux_postfixe g (aux_postfixe d (v::acc)) in
+  aux_postfixe t [];;
+
+let rec affiche ilist =
+  match ilist with
+  | [] -> print_newline()
+  | h::t -> Printf.printf "%d; " h; affiche t
+;;
+
+
 let () = 
     Random.self_init();
     let lb = (make_label 10 0 50) in
@@ -79,4 +124,14 @@ let () =
     done;
     Printf.printf "|]\n";
     let t = randomabr lb in
-    view(t);;
+    Printf.printf "> Parcours prefixe \n";
+    affiche (prefixe_naif t);
+    affiche (prefixe t);
+    Printf.printf "> Parcours infixe \n";
+    affiche (infixe_naif t);
+    affiche (infixe t);
+    Printf.printf "> Parcours postfixe \n";
+    affiche (postfixe_naif t);
+    affiche (postfixe t);
+    view(t)
+    ;;

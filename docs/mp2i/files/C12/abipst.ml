@@ -2,6 +2,8 @@ type ab =
  |Vide 
  |Noeud of ab *  int * ab;;
 
+type heap = {mutable size : int ; data : int array};
+
 let ninv = ref 0;;
 
 let rec write_edge a writer =
@@ -69,7 +71,7 @@ let rec randomtree n e =
     Noeud(randomtree k (e+1) , e, randomtree (n-k-1) (e+k+1))
     )
   ;;
-
+    
 
 let rec makepst ab =
   match ab with
