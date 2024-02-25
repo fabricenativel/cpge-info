@@ -101,11 +101,9 @@ let rec randomtree n e =
   ;;
 
 let () = 
-let t = Noeud(Noeud(Vide,2,Vide),1,Vide) in
-let u = Noeud(Vide,1,Noeud(Vide,2,Vide)) in
+let t = randomtree 5 0 in
  affiche (postfixe t);
  affiche (prefixe t);
- affiche (postfixe u);
- affiche (prefixe u);
+ view t
 ;;
 

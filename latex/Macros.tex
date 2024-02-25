@@ -2,6 +2,7 @@
 % Traduction des noms pour le package exercise
 \renewcommand{\ExerciseName}{Exercice}
 \renewcommand{\thesubQuestion}{\theQuestion.\alph{subQuestion}}
+\renewcommand{\AnswerName}{Réponses à l'exercise }
 }
 
 \newcommand{\ModeActivite}{
@@ -498,12 +499,15 @@
 \newcommand{\FinListeL}{\end{enumerate*}}
 
 %Mise en forme de la correction
+\newboolean{corrige}
+\setboolean{corrige}{false}
 \newcommand{\scor}[1]{\par \textcolor{blue!75!black}{\small #1}}
 \newcommand{\cor}[1]{\par \textcolor{blue!75!black}{#1}}
 \newcommand{\br}[1]{\cor{\textbf{#1}}}
-\newcommand{\tcor}[1]{\begin{tcolorbox}[width=\linewidth,colback={white},colbacktitle=white,coltitle=green!50!black,colframe=green!50!black,boxrule=0.2mm]   
+\newcommand{\tcor}[1]{
+   \ifthenelse{\boolean{corrige}}{\begin{tcolorbox}[width=\linewidth,colback={white},colbacktitle=white,coltitle=green!50!black,colframe=green!50!black,boxrule=0.2mm]   
 \cor{#1}
-\end{tcolorbox}
+\end{tcolorbox}}{}
 }
 \newcommand{\rc}[1]{\textcolor{OliveGreen}{#1}}
 

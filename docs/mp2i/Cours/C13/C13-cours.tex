@@ -1,0 +1,210 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{13}
+\newcommand{\Ctitle}{\cnum {Force brute, retour sur trace}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
+
+\makess{Force brute : généralités}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		La recherche par \textcolor{blue}{force brute} (\textit{brute force}) consiste à parcourir toutes les solutions possibles d'un problème en testant si elles conviennent.\\
+		\onslide<2->{De façon formelle, si on note $V$ l'ensemble des candidats, et $P$ une propriété des éléments de $V$, on teste (en les énumérant) les $x \in V$ jusqu'à en trouver un qui vérifie $P$.}
+	\end{alertblock}
+	\onslide<3->{
+		\begin{block}{Remarques}
+			\begin{itemize}
+				\item<3-> Dans certains problèmes on cherche à déterminer \textit{toutes} les solutions et donc on ne s'arrête pas à la première rencontrée
+				\item<4-> On doit pouvoir \textcolor{blue}{énumérer de façon exhaustive} les éléments de $V$ (ce qui peut être difficile dans certains cas).
+			\end{itemize}
+		\end{block}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{itemize}
+			\item La recherche d'un mot de passe par force brute : $V$ est l'ensemble des chaines de caractères et $P(x)$ est vérifié si $x$ est le mot de passe cherché. Dans ce cas on pourra réaliser l'énumération des candidats en commençant par les chaines de longueur 1, puis 2, \dots
+			\item<2-> $V$ est l'ensemble des grilles complétées d'un sudoku et $P$ vérifie si la grille est valide.
+			\item<3-> $V$ est l'ensemble des permutations possibles d'une liste d'entiers et $P$ vérifie si la permutation est triée en ordre croissant (\textcolor{blue}{bogosort}).
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Complexité}
+		En supposant l'ensemble $V$ fini, une recherche exhaustive effectue au plus $|V|$ itérations.\\
+		\textcolor{BrickRed}{\small \danger} Cela ne signifie pas que la complexité est toujours en $O(V)$ car tester si une solution vérifie $P$ ou non peut avoir un coût non constant.
+	\end{block}
+	\begin{block}{Problème d'optimisation}
+		Dans les problèmes du type \og{} \textit{déterminer $x \in V$ tel que $f(x)$ soit minimale (ou maximale)} \fg{}, l'exploration exhaustive va résoudre le problème en calculant toutes les images par $f$ des éléments de V.
+	\end{block}
+\end{frame}
+
+\makess{Mot de passe par force brute}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Tableau des temps pour la recherche de mot de passe par force brute :
+		\begin{center}
+			\includegraphics[width=130px]{mdp.eps}
+		\end{center}
+		On s'intéresse à la recherche d'un mot de passe de 8 lettres minusucles.
+		\begin{itemize}
+			\item<2-> Combien il y a-t-il de mots de passes possibles ? Quel est le temps indiqué dans le tableau ?
+			\item<3-> Proposer un algorithme permettant d'énumérer les possibilités.
+			\item<4-> Ecrire en C, une fonction de signature \mintinline{c}{char *bruteforce(char *mdp, char *charset, int size)
+				} qui implémente une recherche de mot de passe par force brute.
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Proposition de solution}
+		\inputpartC{\SPATH/mdp.c}{}{\tiny}{5}{35}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Résolution par retour sur trace}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		Le \textcolor{blue}{retour sur trace} (\textit{backtracking}) consiste à construire la solution d'un problème à partir d'une solution partielle. On s'arrête dès qu'une incohérence est rencontrée dans la solution partielle et on revient en arrière afin de modifier une décision prise précédemment.
+	\end{alertblock}
+	\onslide<2->{
+		\begin{exampleblock}{Exemple}
+			Pour résoudre un Sudoku :
+			\begin{itemize}
+				\item<3-> La force brute parcourt l'ensemble des valeurs possibles pour toutes les cases restantes
+				\item<4-> Le \textit{backtracking} place des valeurs au fur et à mesure et revient en arrière si une impossibilité est rencontrée.
+			\end{itemize}
+		\end{exampleblock}}
+\end{frame}
+
+\makess{Résolution du problème des n reines par \textit{backtracking}}
+\newcommand{\queen}{\textcolor{BrickRed}{\!\faChessQueen}}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		{\small Le problème des $n$ reines consiste à placer $n$ reines sur une échiquier de taille $n$ de façon à ce deux reines ne soit pas sur la même ligne, même colonne ou même colonne (c'est à dire qu'aucune reine n'en menace une autre) \\}
+		\smallskip
+		\onslide<2->{\small Une solution dans le cas $n=8$ est proposée ci-dessous :
+			\begin{center}
+				\input{\SPATH/sol42}
+			\end{center}}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Représentation du problème}
+        \begin{itemize}
+		\item <1-> On sait qu'il y a une seule reine par colonne, on peut donc représenter une position de jeu par un tableau de taille $n$ contenant les numéros de ligne des $k$ reines déjà placées.
+		\item <2-> L'algorithme va alors consister à tenter de placer la reine $k+1$ sur chacune des lignes $0, \dots, k-1$
+		\begin{itemize}
+            \item si cela génère une menace, on essayer la possibilité suivante, en revenant récursivement à la reine précédente si nécesssaire
+            \item sinon on place la reine suivante, si c'est la dernière reine, une solution est trouvée.
+        \end{itemize}
+    \end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Début de l'algorithme ($n=4$)}
+        \begin{tabularx}{\textwidth}{YYY}
+            \renewcommand{\arraystretch}{1.5}
+ \begin{tabular}{|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|} 
+ \hline\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}\\
+ \hline 
+\cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}\\
+ \hline 
+\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}\\
+ \hline 
+\cellcolor{black!30}{\queen}&\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}\\
+ \hline 
+\end{tabular}  & \leavevmode{\onslide<2->{\renewcommand{\arraystretch}{1.5}\begin{tabular}{|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|} 
+    \hline\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}\\
+    \hline 
+   \cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}\\
+    \hline 
+   \cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}\\
+    \hline 
+   \cellcolor{black!30}{\queen}&\cellcolor{white}{\queen}&\cellcolor{black!30}{}&\cellcolor{white}{}\\
+    \hline 
+   \end{tabular}}} &
+   \leavevmode{\onslide<3->{\renewcommand{\arraystretch}{1.5}\begin{tabular}{|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|} 
+    \hline\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}\\
+    \hline 
+   \cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}\\
+    \hline 
+   \cellcolor{white}{}&\cellcolor{black!30}{\queen}&\cellcolor{white}{}&\cellcolor{black!30}{}\\
+    \hline 
+   \cellcolor{black!30}{\queen}&\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}\\
+    \hline 
+   \end{tabular}}}\\
+   & & \\
+   \leavevmode{\onslide<4->{\renewcommand{\arraystretch}{1.5}\begin{tabular}{|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|} 
+    \hline\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}\\
+    \hline 
+   \cellcolor{black!30}{}&\cellcolor{white}{\queen}&\cellcolor{black!30}{}&\cellcolor{white}{}\\
+    \hline 
+   \cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}\\
+    \hline 
+   \cellcolor{black!30}{\queen}&\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}\\
+    \hline 
+   \end{tabular}}} & 
+   \leavevmode{\onslide<5->{\renewcommand{\arraystretch}{1.5}\begin{tabular}{|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|} 
+    \hline\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}\\
+    \hline 
+   \cellcolor{black!30}{}&\cellcolor{white}{\queen}&\cellcolor{black!30}{}&\cellcolor{white}{}\\
+    \hline 
+   \cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}\\
+    \hline 
+   \cellcolor{black!30}{\queen}&\cellcolor{white}{}&\cellcolor{black!30}{\queen}&\cellcolor{white}{}\\
+    \hline 
+   \end{tabular}}}
+   & 
+   \leavevmode{\onslide<6->{\renewcommand{\arraystretch}{1.5}\begin{tabular}{|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|} 
+    \hline\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}&\cellcolor{black!30}{}\\
+    \hline 
+   \cellcolor{black!30}{}&\cellcolor{white}{\queen}&\cellcolor{black!30}{}&\cellcolor{white}{}\\
+    \hline 
+   \cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{\queen}&\cellcolor{black!30}{}\\
+    \hline 
+   \cellcolor{black!30}{\queen}&\cellcolor{white}{}&\cellcolor{black!30}{}&\cellcolor{white}{}\\
+    \hline 
+   \end{tabular}}}
+   \\
+        \end{tabularx}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Implémentation en langage C}
+        \begin{enumerate}
+            \item Ecrire une fonction de signature \mintinline{c}{bool menace(int tab[], int idx)} qui renvoie \mintinline{c}{true} si la reine située en colonne {\tt idx} menace l'une des reines situés en colonne {\tt 0, \dots, idx-1}.\\
+            \onslide<2->{\inputpartC{\SPATH/reines.c}{}{\footnotesize}{63}{73}}
+            \item Ecrire une fonction qui renvoie la première solution rencontrée sous la forme du tableau des positions par colonne des $n$ reines.
+        \end{enumerate}
+    \end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Proposition de solution}
+            \inputpartC{\SPATH/reines.c}{}{\footnotesize}{100}{118}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exercice}
+            Modifier la fonction précédente afin qu'elle calcule le nombre total de solutions au problème.
+            \onslide<2->{\inputpartC{\SPATH/reines.c}{}{\footnotesize}{120}{137}}
+    \end{exampleblock}
+\end{frame}
+
+
+
+\end{document}

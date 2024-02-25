@@ -6,7 +6,7 @@ import getpass
 
 PATH = "/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/Cours/"
 START = 10
-END = 12
+END = 13
 
 
 print(Fore.YELLOW+f"Protection des fichiers de cours MP2I de C{START} à C{END}")
