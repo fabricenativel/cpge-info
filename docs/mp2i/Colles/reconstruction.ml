@@ -72,33 +72,27 @@ let rec prefixe ab =
   in aux ab [];;
 
 
-let separe_valeur tab deb fin valeur =
-  let index = ref deb in
-  while !index<=fin && tab.(!index) != valeur do
-  index := !index + 1
-  done;
-  if !index=fin+1 then -1 else !index;;
+let rec separe_valeur liste valeur =
+  match liste with
+  | [] -> failwith "L'entier n'est pas dans la liste"
+  | h::t -> if h=valeur then [],t else let l1,l2 = separe_valeur t valeur in h::l1,l2
 
-let separe_nb deb fin nb =
-  if deb+nb > fin then -1 else deb+nb;;
+let rec separe_nb  liste nb =
+  match liste, nb with
+  | l , 0 -> [], l
+  | [], _ -> failwith "Erreur d'index"
+  | h::t, n -> let l1,l2 = separe_nb t (n-1) in h::l1, l2
 
-let rebuild pref infixe =
-  let rec aux  pref infixe dp fp di fi =
-    if deb = fin+1 then Vide else 
-      let di = separe_valeur infixe deb fin pref.(deb) in
-      let dp = separe_nb prefixe deb+1 fin (p-deb) in
-      Noeud(aux pref infixe pref infixe dp fp di fi , pref.(deb), )
-  
-let rec reconstruit pref infi =
-  match pref, infi with
-  | [],[] -> "Vide"
-  | [],_ | _, [] -> failwith "Bug"
-  | r::q, infi -> 
-    let infi1, infi2 = separe infi r [] in
-    let pre1, pre2 = separe2 q (List.length infi1) [] in
-    let p1 = reconstruit pre1 infi1 in
-    let p2 = reconstruit pre2 infi2 in
-      "Noeud(" ^p1^ ","^ (string_of_int r)^","^p2^ ")";;
+let rec reconstruit prefixe infixe =
+  match prefixe, infixe with
+  | [],[] -> Vide
+  | [],_ | _, [] -> failwith "Ne sont pas des parcours prefixe et infixe"
+  | h::t, infi -> 
+    let infixe1, infixe2 = separe_valeur infixe h  in
+    let prefixe1, prefixe2 = separe_nb t (List.length infixe1)  in
+    let p1 = reconstruit prefixe1 infixe1 in
+    let p2 = reconstruit prefixe2 infixe2 in
+      Noeud(p1, h ,p2);;
 
 let rec randomtree n e =
   if n = 0 then Vide else 
@@ -108,10 +102,9 @@ let rec randomtree n e =
   ;;
 
 let () = 
-Random.self_init ();
-let t = randomtree 8 0 in
- affiche (prefixe t);
- affiche (infixe t);
+ let p = [0; 1; 2; 3; 4; 5; 6; 7] in
+ let i = [1; 2; 0; 5; 4; 6; 3; 7] in
+ let t = reconstruit p i in
  view t
 ;;
 
