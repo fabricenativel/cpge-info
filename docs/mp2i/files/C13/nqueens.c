@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define SIZE 15
+#define SIZE 14
 
 int nb_sol = 0;
 

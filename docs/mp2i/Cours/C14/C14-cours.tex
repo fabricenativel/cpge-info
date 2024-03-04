@@ -1,0 +1,88 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{14}
+\newcommand{\Ctitle}{\cnum {Induction structurelle}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
+\newcommand{\MR}{\mathcal{R}}
+\newcommand{\ER}[2]{#1 \, \mathcal{R}\, #2}
+\makess{Prérequis mathématiques}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition : ensemble ordonné}
+		\begin{itemize}
+            \item<1-> Une \textcolor{blue}{relation binaire} sur un ensemble $E$ est un sous ensemble de $E \times E$.
+            \item<2-> Une \textcolor{blue}{relation d'ordre} $\MR$ sur un ensemble $E$ est une relation binaire sur $E$ ayant les 3 propriétés suivantes :
+            \begin{enumerate}
+                \item<3-> \textit{réfléxive} : pour tout $x \in E, \ER{x}{x}$.
+                \item<4-> \textit{antisymétrique} : pour tout $(x,y) \in E^2$, si $ER{x}{y}$ et $\ER{y}{z}$ alors $\ER{y}{z}$
+                \item<5-> \textit{transitive} : pour tout $(x,y,z) \in E^3$, si $x \MR y$ et $y \MR z$ alors $\ER{x}{z}$.
+            \end{enumerate}
+            \onslide<6->{On dit alors que $(E,\MR)$ est un ensemble ordonné.}
+            \item<7-> Soit $(E,\MR)$, un ensemble ordonné, On dit que $\MR$ est un \textcolor{blue}{ordre total} si pour tout $x,y \in E^2$, $\ER{x}{y}$ ou $\ER{y}{x}$, sinon $\MR$ est un \textcolor{blue}{ordre partiel}.
+        \end{itemize}
+	\end{alertblock}
+    \onslide<8->{
+        \begin{exampleblock}{Exemples}
+            \begin{itemize}
+            \item<8-> $(\N, \leqslant)$ est un ensemble ordonné.
+            \item<9-> En notant $\mathcal{P}$ l'ensemble des parties d'un ensemble $E$, $(\mathcal{P}(E), \subset)$ est un ensemble ordonné.
+            \end{itemize}
+        \end{exampleblock}
+    }
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Remarques}
+        \begin{itemize}
+            \item<1-> On notera $\preccurlyeq$ une relation d'ordre dans un cadre général, afin de la différencier de l'ordre usuel  $\leqslant$ sur les ensembles de nombres.
+            \item<2-> A toute relation d'ordre $\preccurlyeq$ est associé l'\textit{ordre strict} correspondant défini par $x \prec y$ si et seulement si $x \preccurlyeq y$ et $x \neq y$.
+        \end{itemize}
+    \end{block}
+    \onslide<3->{
+        \begin{alertblock}{Définitions : prédécesseur, successeur}
+            Soit $(E,\preccurlyeq)$ un ensemble ordonné et $x,y$ deux éléments de $E$
+        \begin{itemize}
+            \item<4-> Si $x \preccurlyeq y$, $x$ est un \textcolor{blue}{prédécesseur} de $y$ et $y$ est un \textcolor{blue}{successeur} de $x$.
+            \item<5-> Si $x \prec y$ et s'il n'existe pas d'éléments $z \in E$ tel que $x \prec z \prec y$, on dit que $y$ est un \textcolor{blue}{successeur immédiat} de $x$ (ou que $x$ est un \textcolor{blue}{prédécesseur} immédiat de $y$).
+        \end{itemize}
+    \end{alertblock}
+    }
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple}
+        Déterminer, lorsqu'ils existent les successeurs et prédécesseur immédiat de $x$ dans les cas suivants
+        \begin{itemize}
+            \item<1-> $(\N, \leqslant)$ et $x \in \N$
+            \item<2-> $(\Q, \leqslant)$ et $x \in \Q$
+            \item<3-> $(E, \subset)$ avec $E = \{a, b, c, d\}$ et $x = \{a\}$.
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{alertblock}{Définition : élément minimal}
+        Soit $(E,\preccurlyeq)$ un ensemble ordonné et $F$ une partie de $E$, on dit que $m \in F$, est \textcolor{blue}{minimal} dans $F$ s'il n'existe pas d'éléments $x$ dans $F$ tel que $x \prec m$.
+    \end{alertblock}
+    \onslide<2->{
+    \begin{exampleblock}{Exercices}
+        Déterminer le (ou les éléments minimaux lorsqu'ils existent) dans les cas suivants :
+        \begin{itemize}
+            \item<2-> $E = (\N, \leqslant)$, et $F = \N$.
+            \item<3-> $F = (\Z, \leqslant)$ et $F = \Z$.
+            \item<4-> $(P(E), \subset$) et $F = \mathcal{P}(E) \backslash \{\varnothing\}$ où $E = \{a, b, c, d\}$.
+        \end{itemize}
+    \end{exampleblock}}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\end{frame}
+\end{document}
