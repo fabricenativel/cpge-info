@@ -56,13 +56,12 @@ def define_env(env):
         12 : [3,"Arbres binaires","arbres.md"],
         13 : [4,"Force brute, retour sur trace","forcebrute.md"],
         14 : [2,"Induction","induction.md"],
-        15 : [3,"Graphes","graphes.md"],
-        16 : [4,"Décomposition en sous problèmes","decomposition.md"],
-        17 : [6,"Logique","logique.md"],
-        18 : [7,"Modèle entité-association, jointures","jointures.md"],
+        15 : [4,"Décomposition en sous problèmes","decomposition.md"],
+        16 : [6,"Logique","logique.md"],
+        17 : [3,"Graphes","graphes.md"],
+        18 : [7,"Modèle entité-association","mea.md"],
         19 : [4,"Algorithmes des textes","textes.md"],
-        20 : [6,"Calcul propositionnel","propositionel.md"],
-        21 : [4,"Algorithmes des graphes","algographes.md"]
+        20 : [4,"Algorithmes des graphes","algographes.md"]
     }
 
     # Progression : Thème, Titre, durée, fichiers

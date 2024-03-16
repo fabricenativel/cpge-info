@@ -131,19 +131,15 @@ let t2 = Noeud(Noeud(Vide,(Noir,0),Vide),(Noir,1),Noeud(Noeud(Vide,(Noir,2),Vide
 
 
 
-(* let () =
+let () =
       Random.self_init();
-      let seen = ref [] in
       let t = ref Vide in
-      for i=0 to 30 do
-          let xx = (Random.int 100) in
-          if (not (List.mem xx !seen))  then 
-          (t:= insertion2 !t xx;
-          seen := !seen @ [xx]); 
+      for i=0 to 20 do 
+          t:= insertion2 !t i;
       done;
       Printf.printf "Est bien un arbre rouge noir : %s\n"  (string_of_bool (verifie !t));
-      view !t;; *)
-
+      view !t;; 
+(* 
 let () =
       Printf.printf "n \t h \t hn \n";
       let disp = [10; 100; 1000; 10000; 100000; 1000000;] in
@@ -154,4 +150,4 @@ let () =
       done;
       Printf.printf "Est bien un arbre rouge noir : %s\n"  (string_of_bool (verifie !t));;
 
-  
+   *)

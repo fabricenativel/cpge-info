@@ -20,4 +20,4 @@
 
 ## Humour d'informaticien
 
-![punition](./Images/C1/punition.jpg){.imgcentre width=500px}
+![selfref](./Images/C14/selfreference.png){.imgcentre width=500px}

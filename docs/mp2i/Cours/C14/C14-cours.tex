@@ -4,6 +4,7 @@
 
 \begin{document}
 
+
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/MacrosCours.tex}}
 
 % Numéro et titre de chapitre
@@ -12,6 +13,8 @@
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
 \newcommand{\MR}{\mathcal{R}}
 \newcommand{\ER}[2]{#1 \, \mathcal{R}\, #2}
+
+
 \makess{Prérequis mathématiques}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{Définition : ensemble ordonné}
@@ -84,5 +87,48 @@
 
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{alertblock}{Ordre sur un produit cartésien}
+        Etant deux ensembles ordonnés $(E, \preccurlyeq_E)$ et $(F, \preccurlyeq_F)$, on définit sur $E \times F$ :
+        \begin{itemize}
+            \item<2-> La relation $\preccurlyeq_p$ par $(e,f) \preccurlyeq_p (e',f')$ si et seulement si $e \preccurlyeq_E e'$ et $f \preccurlyeq_F f'$, $\preccurlyeq_p$ est une relation d'ordre sur  $E \times F$ appelé \textcolor{blue}{ordre produit}.
+            \item<3-> La relation $\preccurlyeq_l$ par $(e,f) \preccurlyeq_l (e',f')$ si et seulement si $e \preccurlyeq_E e'$ ou ($e = e'$ et $f \preccurlyeq_f f'$),  $\preccurlyeq_l$ est une relation d'ordre sur $E \times F$ appelé \textcolor{blue}{ordre lexicographique}.
+        \end{itemize}
+        Ces définitions se généralisent à un produit cartésien de $n$ ensembles.
+    \end{alertblock}
+    \onslide<4->{
+    \begin{exampleblock}{Exemple}
+        Comparer (lorsque cela est possible) les couples suivants pour l'ordre produit et l'ordre lexicographique sur $(\N, \leqslant) \times (\N, \leqslant)$ :
+        \begin{enumerate}
+            \item<5-> $(3, 5)$ et $(7, 6)$
+            \item<5-> $(3, 5)$ et $(7, 4)$
+            \item<5-> $(2, 1)$ et $(2, 4)$ 
+        \end{enumerate}
+    \end{exampleblock}}
 \end{frame}
+
+\makess{Ordres bien fondés}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{alertblock}{Définition}
+        Soit ($E, \preccurlyeq)$ un ensemble ordonné, on dit que $\preccurlyeq$ est un ordre \textcolor{blue}{bien fondé} lorsqu'il n'existe pas de suites d'éléments strictement décroissantes d'éléments de $E$.
+    \end{alertblock}
+    \onslide<2->{
+    \begin{exampleblock}{Exemple}
+        \begin{itemize}
+            \item<2-> L'ordre usuel sur $\N$ est bien fondé.
+            \item<3-> L'ordre usuel sur $\Z$ n'est pas bien fondé.
+        \end{itemize}
+    \end{exampleblock}}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{alertblock}{Caractérisation d'un ordre bien fondé}
+        Soit ($E, \preccurlyeq)$ un ensemble ordonné, l'ordre $\preccurlyeq$ est bien fondé si et seulement si tout partie non vide de $E$ admet un plus petit élément.
+    \end{alertblock}
+    \begin{block}{Variant}
+        La notion d'ordre bien fondé permet d'étendre la définition d'un variant. En effet, pour prouver la terminaison d'une boucle, on peut exhiber une quantité à valeur dans ensemble $E$ muni d'un ordre bien fondé $\preccurlyeq$ et strictement décroissante à chaque passage dans la boucle.
+    \end{block}
+\end{frame}
+
 \end{document}

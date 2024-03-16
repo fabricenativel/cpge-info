@@ -41,8 +41,8 @@ int main()
     {
         charset[i] = 97 + i;
     }
-    int size = 3;
-    char mdp[] = "zzz";
+    int size = 8;
+    char mdp[] = "terrible";
     char *bf = bruteforce(mdp, charset, size);
     printf("Mot de passe trouvé : %s\n", bf);
 }
