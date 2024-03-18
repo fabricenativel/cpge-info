@@ -9,126 +9,346 @@
 
 % Numéro et titre de chapitre
 \setcounter{numchap}{14}
-\newcommand{\Ctitle}{\cnum {Induction structurelle}}
+\newcommand{\Ctitle}{\cnum {Ordre -- Induction structurelle}}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
 \newcommand{\MR}{\mathcal{R}}
 \newcommand{\ER}[2]{#1 \, \mathcal{R}\, #2}
 
+\makess{Rappel}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Variant}
+		On rappelle que pour montrer la terminaison d'un programme, on utilise la notion de variant que nous avons défini comme une quantité qui dépend des variables du programme et :
+		\begin{itemize}
+			\item<1-> ne prend que des valeurs entières,
+			\item<2-> positives
+			\item<3-> et est \textit{strictement} décroissante à chaque itération.
+		\end{itemize}
+		\onslide<4->{Comme il \textcolor{blue}{n'existe pas de suites d'entiers positifs strictement décroissante}, l'existence d'un variant prouve la terminaison.}
+	\end{block}
+\end{frame}
 
-\makess{Prérequis mathématiques}
+
+
+\makess{Relation d'ordre}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{Définition : ensemble ordonné}
 		\begin{itemize}
-            \item<1-> Une \textcolor{blue}{relation binaire} sur un ensemble $E$ est un sous ensemble de $E \times E$.
-            \item<2-> Une \textcolor{blue}{relation d'ordre} $\MR$ sur un ensemble $E$ est une relation binaire sur $E$ ayant les 3 propriétés suivantes :
-            \begin{enumerate}
-                \item<3-> \textit{réfléxive} : pour tout $x \in E, \ER{x}{x}$.
-                \item<4-> \textit{antisymétrique} : pour tout $(x,y) \in E^2$, si $ER{x}{y}$ et $\ER{y}{z}$ alors $\ER{y}{z}$
-                \item<5-> \textit{transitive} : pour tout $(x,y,z) \in E^3$, si $x \MR y$ et $y \MR z$ alors $\ER{x}{z}$.
-            \end{enumerate}
-            \onslide<6->{On dit alors que $(E,\MR)$ est un ensemble ordonné.}
-            \item<7-> Soit $(E,\MR)$, un ensemble ordonné, On dit que $\MR$ est un \textcolor{blue}{ordre total} si pour tout $x,y \in E^2$, $\ER{x}{y}$ ou $\ER{y}{x}$, sinon $\MR$ est un \textcolor{blue}{ordre partiel}.
-        \end{itemize}
+			\item<1-> Une \textcolor{blue}{relation binaire} sur un ensemble $E$ est un sous ensemble de $E \times E$.
+			\item<2-> Une \textcolor{blue}{relation d'ordre} $\MR$ sur un ensemble $E$ est une relation binaire sur $E$ ayant les 3 propriétés suivantes :
+				\begin{enumerate}
+					\item<3-> \textit{réfléxive} : pour tout $x \in E, \ER{x}{x}$.
+					\item<4-> \textit{antisymétrique} : pour tout $(x,y) \in E^2$, si $ER{x}{y}$ et $\ER{y}{z}$ alors $\ER{y}{z}$
+					\item<5-> \textit{transitive} : pour tout $(x,y,z) \in E^3$, si $x \MR y$ et $y \MR z$ alors $\ER{x}{z}$.
+				\end{enumerate}
+				\onslide<6->{On dit alors que $(E,\MR)$ est un ensemble ordonné.}
+			\item<7-> Soit $(E,\MR)$ un ensemble ordonné,  $\MR$ est  \textcolor{blue}{total} si pour tout $x,y \in E^2$, $\ER{x}{y}$ ou $\ER{y}{x}$, sinon $\MR$ est \textcolor{blue}{partiel}.
+		\end{itemize}
 	\end{alertblock}
-    \onslide<8->{
-        \begin{exampleblock}{Exemples}
-            \begin{itemize}
-            \item<8-> $(\N, \leqslant)$ est un ensemble ordonné.
-            \item<9-> En notant $\mathcal{P}$ l'ensemble des parties d'un ensemble $E$, $(\mathcal{P}(E), \subset)$ est un ensemble ordonné.
-            \end{itemize}
-        \end{exampleblock}
-    }
+	\onslide<8->{\begin{block}{Remarques}
+			\begin{itemize}
+				\item<1-> On notera $\preccurlyeq$ une relation d'ordre dans un cadre général, afin de la différencier de l'ordre usuel  $\leqslant$ sur les ensembles de nombres.
+				\item<2-> A toute relation d'ordre $\preccurlyeq$ est associé l'\textit{ordre strict} correspondant défini par $x \prec y$ si et seulement si $x \preccurlyeq y$ et $x \neq y$.
+			\end{itemize}
+		\end{block}
+	}
 \end{frame}
 
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{block}{Remarques}
-        \begin{itemize}
-            \item<1-> On notera $\preccurlyeq$ une relation d'ordre dans un cadre général, afin de la différencier de l'ordre usuel  $\leqslant$ sur les ensembles de nombres.
-            \item<2-> A toute relation d'ordre $\preccurlyeq$ est associé l'\textit{ordre strict} correspondant défini par $x \prec y$ si et seulement si $x \preccurlyeq y$ et $x \neq y$.
-        \end{itemize}
-    \end{block}
-    \onslide<3->{
-        \begin{alertblock}{Définitions : prédécesseur, successeur}
-            Soit $(E,\preccurlyeq)$ un ensemble ordonné et $x,y$ deux éléments de $E$
-        \begin{itemize}
-            \item<4-> Si $x \preccurlyeq y$, $x$ est un \textcolor{blue}{prédécesseur} de $y$ et $y$ est un \textcolor{blue}{successeur} de $x$.
-            \item<5-> Si $x \prec y$ et s'il n'existe pas d'éléments $z \in E$ tel que $x \prec z \prec y$, on dit que $y$ est un \textcolor{blue}{successeur immédiat} de $x$ (ou que $x$ est un \textcolor{blue}{prédécesseur} immédiat de $y$).
-        \end{itemize}
-    \end{alertblock}
-    }
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<1-> $(\N, \leqslant)$ est un ensemble ordonné.
+			\item<2-> En notant $\mathcal{P(E)}$ l'ensemble des parties d'un ensemble $\mathcal{E}$, $(\mathcal{P(E)}, \subset)$ est un ensemble ordonné.
+			\item<3-> Soit $\mathcal{E} = \{a, b, c\}$, la relation $\MR = \left\{(a,a), (a,b), (b,c), (b,b)\right\}$ est-elle une relation d'ordre ? Sinon, quels couples faut-il ajouter à $\MR$ pour qu'elle le devienne ?
+		\end{itemize}
+	\end{exampleblock}
+	\onslide<4->{
+		\begin{block}{Clôture}
+			Soit $\MR$ une relation binaire sur un ensemble $E$,
+			\begin{itemize}
+				\item<5-> la \textcolor{blue}{clôture réflexixe} de $\MR$ est la plus petite relation réflexive contenant $\MR$.
+				\item<6-> la \textcolor{blue}{clôture transitive} de $\MR$ est la plus petite relation transitive contenant $\MR$.
+			\end{itemize}
+			\onslide<6->{\textcolor{BrickRed}{\small \danger} La clôture réflexive-transitive d'une relation $\MR$, notée $\MR^{*}$, n'est pas forcément une relation d'ordre (car l'antisymétrie n'est pas garantie).}
+		\end{block}
+	}
 \end{frame}
+
 
 \begin{frame}{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exemple}
-        Déterminer, lorsqu'ils existent les successeurs et prédécesseur immédiat de $x$ dans les cas suivants
-        \begin{itemize}
-            \item<1-> $(\N, \leqslant)$ et $x \in \N$
-            \item<2-> $(\Q, \leqslant)$ et $x \in \Q$
-            \item<3-> $(E, \subset)$ avec $E = \{a, b, c, d\}$ et $x = \{a\}$.
-        \end{itemize}
-    \end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{alertblock}{Définition : élément minimal}
-        Soit $(E,\preccurlyeq)$ un ensemble ordonné et $F$ une partie de $E$, on dit que $m \in F$, est \textcolor{blue}{minimal} dans $F$ s'il n'existe pas d'éléments $x$ dans $F$ tel que $x \prec m$.
-    \end{alertblock}
-    \onslide<2->{
-    \begin{exampleblock}{Exercices}
-        Déterminer le (ou les éléments minimaux lorsqu'ils existent) dans les cas suivants :
-        \begin{itemize}
-            \item<2-> $E = (\N, \leqslant)$, et $F = \N$.
-            \item<3-> $F = (\Z, \leqslant)$ et $F = \Z$.
-            \item<4-> $(P(E), \subset$) et $F = \mathcal{P}(E) \backslash \{\varnothing\}$ où $E = \{a, b, c, d\}$.
-        \end{itemize}
-    \end{exampleblock}}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<1-> La clôture réflexive d'un ordre strict est l'ordre associé.
+			\item<2-> Soit $\MR$ la relation sur $\N$ définie par  $\MR = \{(n,n+1), n \in \N\}$ alors $\MR^{*}$ est un ordre (c'est l'ordre usuel sur $\N$).
+			\item<3-> Soit $\MR$ la relation sur $\{0, 1, 2\}$ définie par $\MR = \{(0,1), (1,2), (2,0)\}$, $\MR^{*}$ est-elle antisymétrique ?
+		\end{itemize}
+	\end{exampleblock}
 \end{frame}
 
 
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Définitions : prédécesseur, successeur}
+		Soit $(E,\preccurlyeq)$ un ensemble ordonné et $x,y$ deux éléments de $E$
+		\begin{itemize}
+			\item<2-> Si $x \prec y$, $x$ est un \textcolor{blue}{prédécesseur} de $y$ (et $y$ est un \textcolor{blue}{successeur} de $x$).
+			\item<3-> Si $x \prec y$ et s'il n'existe pas d'éléments $z \in E$ tel que $x \prec z \prec y$, on dit que $y$ est un \textcolor{blue}{successeur immédiat} de $x$ (ou que $x$ est un \textcolor{blue}{prédécesseur} immédiat de~$y$).
+		\end{itemize}
+	\end{alertblock}
+	\onslide<4->{
+		\begin{exampleblock}{Exemple}
+			Déterminer, lorsqu'ils existent les successeurs et prédécesseur immédiat de $x$ dans les cas suivants
+			\begin{itemize}
+				\item<5-> $(\N, \leqslant)$ et $x \in \N$
+				\item<6-> $(\Q, \leqslant)$ et $x \in \Q$
+				\item<7-> $(\mathcal{P(E)}, \subset)$ avec $\mathcal{E} = \{a, b, c, d\}$ et $x = \{a\}$.
+			\end{itemize}
+		\end{exampleblock}}
+\end{frame}
+
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{alertblock}{Ordre sur un produit cartésien}
-        Etant deux ensembles ordonnés $(E, \preccurlyeq_E)$ et $(F, \preccurlyeq_F)$, on définit sur $E \times F$ :
-        \begin{itemize}
-            \item<2-> La relation $\preccurlyeq_p$ par $(e,f) \preccurlyeq_p (e',f')$ si et seulement si $e \preccurlyeq_E e'$ et $f \preccurlyeq_F f'$, $\preccurlyeq_p$ est une relation d'ordre sur  $E \times F$ appelé \textcolor{blue}{ordre produit}.
-            \item<3-> La relation $\preccurlyeq_l$ par $(e,f) \preccurlyeq_l (e',f')$ si et seulement si $e \preccurlyeq_E e'$ ou ($e = e'$ et $f \preccurlyeq_f f'$),  $\preccurlyeq_l$ est une relation d'ordre sur $E \times F$ appelé \textcolor{blue}{ordre lexicographique}.
-        \end{itemize}
-        Ces définitions se généralisent à un produit cartésien de $n$ ensembles.
-    \end{alertblock}
-    \onslide<4->{
-    \begin{exampleblock}{Exemple}
-        Comparer (lorsque cela est possible) les couples suivants pour l'ordre produit et l'ordre lexicographique sur $(\N, \leqslant) \times (\N, \leqslant)$ :
-        \begin{enumerate}
-            \item<5-> $(3, 5)$ et $(7, 6)$
-            \item<5-> $(3, 5)$ et $(7, 4)$
-            \item<5-> $(2, 1)$ et $(2, 4)$ 
-        \end{enumerate}
-    \end{exampleblock}}
+	\begin{alertblock}{Définition : élément minimal, plus petit élément}
+		Soit $(E,\preccurlyeq)$ un ensemble ordonné et $F$ une partie de $E$,
+		\begin{itemize}
+			\item<2-> on dit que $e \in F$, est \textcolor{blue}{minimal} dans $F$ s'il n'existe pas d'éléments $x$ dans $F$ tel que $x \prec e$ (\textcolor{gray}{aucun autre élément n'est plus petit que $e$}).
+			\item<3-> on dit que $m \in F$, est \textcolor{blue}{\textit{le} plus petit élément} de $F$ si pour tout $x$ dans $F$, $m \preccurlyeq x$ (\textcolor{gray}{ $m$ est plus petit que tous les autres éléments de $F$}).
+		\end{itemize}
+		\onslide<4->{On définit de même, les élément maximaux et \textit{le} plus grand élément.}
+	\end{alertblock}
+	\onslide<5->{
+		\begin{exampleblock}{Exercices}
+			Etudier l'existence d'éléments minimaux et du plus petit élément dans les cas suivants :
+			\begin{itemize}
+				\item<6-> $E = (\N, \leqslant)$, et $F = \N$.
+				\item<7-> $E = (\R, \leqslant)$ et $F = ]0; 1]$.
+				\item<8-> $E = (\mathcal{P(E)}, \subset$) et $F = \mathcal{P(E)}\backslash \{\varnothing\}$ où $\mathcal{E} = \{a, b, c, d\}$.
+			\end{itemize}
+		\end{exampleblock}}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Ordre sur un produit cartésien}
+		Etant deux ensembles ordonnés $(E, \preccurlyeq_E)$ et $(F, \preccurlyeq_F)$, on définit sur $E \times F$ :
+		\begin{itemize}
+			\item<2-> La relation $\preccurlyeq_p$ par $(e,f) \preccurlyeq_p (e',f')$ si et seulement si $e \preccurlyeq_E e'$ et $f \preccurlyeq_F f'$, $\preccurlyeq_p$ est une relation d'ordre sur  $E \times F$ appelé \textcolor{blue}{ordre produit}.
+			\item<3-> La relation $\preccurlyeq_l$ par $(e,f) \preccurlyeq_l (e',f')$ si et seulement si $e \preccurlyeq_E e'$ ou ($e = e'$ et $f \preccurlyeq_f f'$),  $\preccurlyeq_l$ est une relation d'ordre sur $E \times F$ appelé \textcolor{blue}{ordre lexicographique}.
+		\end{itemize}
+		\onslide<4->{Ces définitions se généralisent à un produit cartésien de $n$ ensembles.}
+	\end{alertblock}
+	\onslide<5->{
+		\begin{exampleblock}{Exemple}
+			Comparer (lorsque cela est possible) les couples suivants pour l'ordre produit et l'ordre lexicographique sur $(\N, \leqslant) \times (\N, \leqslant)$ :
+			\begin{enumerate}
+				\item<6-> $(3, 5)$ et $(7, 6)$
+				\item<6-> $(3, 5)$ et $(7, 4)$
+				\item<6-> $(2, 1)$ et $(2, 4)$
+			\end{enumerate}
+		\end{exampleblock}}
 \end{frame}
 
 \makess{Ordres bien fondés}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		Soit ($E, \preccurlyeq)$ un ensemble ordonné, on dit que $\preccurlyeq$ est un ordre \textcolor{blue}{bien fondé} lorsqu'il n'existe pas de suites d'éléments strictement décroissantes d'éléments de $E$.
+		C'est à dire qu'il n'existe pas de suite $(x_n)_{n \in \N}$ telle que $x_k \prec x_{k-1}$ pour tout $k \in \N$. \\
+		Un ensemble \textcolor{blue}{bien ordonné} est un ensemble muni d'un ordre bien fondé.
+	\end{alertblock}
+	\onslide<2->{
+		\begin{exampleblock}{Exemple}
+			\begin{itemize}
+				\item<2-> L'ordre usuel sur $\N$ est bien fondé.
+				\item<3-> L'ordre usuel sur $\Z$ n'est pas bien fondé.
+			\end{itemize}
+		\end{exampleblock}}
+	\onslide<4->{
+		\begin{alertblock}{Caractérisation d'un ordre bien fondé}
+			Soit ($E, \preccurlyeq)$ un ensemble ordonné, l'ordre $\preccurlyeq$ est bien fondé si et seulement si tout partie non vide de $E$ admet un élément minimal.
+		\end{alertblock}}
+\end{frame}
+
+
+\makess{Applications aux preuves de terminaison}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Preuve de terminaison}
+		La notion d'ordre bien fondé permet d'étendre la définition d'un variant. En effet, pour prouver la terminaison d'une boucle, on peut exhiber une quantité à valeur dans ensemble $E$ muni d'un ordre bien fondé $\preccurlyeq$ et strictement décroissante à chaque passage dans la boucle.\\
+		\onslide<2-> Comme dans le cas de $(N, \leqslant)$, déjà rencontré, cela permet de prouver la terminaison de la boucle car comme $(E, \preccurlyeq)$ est bien fondé, il n'existe pas de suite strictement décroissante d'éléments de $E$.
+	\end{block}
+	\onslide<3->{
+		\begin{alertblock}{Ordre bien fondé sur un produit cartésien}
+			Si $(E, \preccurlyeq_{E})$ et $(F, \preccurlyeq_{F})$ sont deux ensembles bien fondés alors,
+			\begin{itemize}
+				\item<4-> L'ordre produit sur $E \times F$ est bien fondé,
+				\item<5-> L'ordre lexicographique sur $E \times F$ est bien fondé.
+			\end{itemize}
+		\end{alertblock}
+	}
+\end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{alertblock}{Définition}
-        Soit ($E, \preccurlyeq)$ un ensemble ordonné, on dit que $\preccurlyeq$ est un ordre \textcolor{blue}{bien fondé} lorsqu'il n'existe pas de suites d'éléments strictement décroissantes d'éléments de $E$.
-    \end{alertblock}
-    \onslide<2->{
-    \begin{exampleblock}{Exemple}
-        \begin{itemize}
-            \item<2-> L'ordre usuel sur $\N$ est bien fondé.
-            \item<3-> L'ordre usuel sur $\Z$ n'est pas bien fondé.
-        \end{itemize}
-    \end{exampleblock}}
+	\begin{exampleblock}{Terminaison de la fusion de deux listes}
+		\begin{itemize}
+			\item<1-> Ecrire en OCaml une fonction {\tt fusion}, {\tt int list -> int list -> int list} qui prend en arguments deux listes triées d'entiers et renvoie leur fusion triée.
+				\onslide<3->{\inputpartOCaml{\SPATH/fusion.ml}{}{\small}{1}{5}}
+			\item<2-> En utilisant un variant à valeurs dans $\N \times \N$ muni de l'ordre produit justifier la terminaison de cette fonction.
+		\end{itemize}
+	\end{exampleblock}
 \end{frame}
 
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{alertblock}{Caractérisation d'un ordre bien fondé}
-        Soit ($E, \preccurlyeq)$ un ensemble ordonné, l'ordre $\preccurlyeq$ est bien fondé si et seulement si tout partie non vide de $E$ admet un plus petit élément.
-    \end{alertblock}
-    \begin{block}{Variant}
-        La notion d'ordre bien fondé permet d'étendre la définition d'un variant. En effet, pour prouver la terminaison d'une boucle, on peut exhiber une quantité à valeur dans ensemble $E$ muni d'un ordre bien fondé $\preccurlyeq$ et strictement décroissante à chaque passage dans la boucle.
+	\begin{exampleblock}{Terminaison de la fonction d'Ackerman}
+		On considère la fonction d'Ackerman $a : \N \times \N \mapsto \N$ définie par par : \\
+		$\left\{
+			\begin{array}{lll}
+				a(0, m) & = & m + 1                                             \\
+				a(n, 0) & = & a(n-1,1) \text{ si } n>0                          \\
+				a(n,m)  & = & a(n-1, a(n, m-1)) \text{ si } n>0 \text{ et } m>0 \\
+			\end{array}
+			\right.$
+		\begin{enumerate}
+			\item<2-> Compléter le tableau de valeurs suivant  de la fonction $a$ :
+				\begin{tabular}{|l|l|l|l|l|l|l|l|}
+					\hline
+					\backslashbox{$n$}{$m$} & 0     & 1     & 2     & 3        & 4        & 5        & 6        \\
+					\hline
+					0                       & \dots & \dots & \dots & \dots    & \dots    & \dots    & \dots    \\
+					\hline
+					1                       & \dots & \dots & \dots & \dots    & \dots    & \dots    & \multicolumn{1}{c}{} \\
+					\cline{1-7}
+					2                       & \dots & \dots & \dots & \multicolumn{4}{c}{} \\
+					\cline{1-4}
+				\end{tabular}
+			\item<3-> Ecrire la fonction {\tt ack int -> int -> int} qui permet de calculer $a(n,m)$
+			\item<4-> Prouver sa terminaison à l'aide d'un variant à valeurs dans $\N^2$ muni de l'ordre lexicographique.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Terminaison de la fonction d'Ackerman}
+		\begin{enumerate}
+			\item<2-> Tableau de valeurs :\\
+				\begin{tabular}{|l|l|l|l|l|l|l|l|}
+					\hline
+					\backslashbox{$n$}{$m$} & 0     & 1     & 2     & 3        & 4        & 5        & 6        \\
+					\hline
+					0                       & 1 & 2 & 3 & 4    & 5    & 6    & 7    \\
+					\hline
+					1                       & 2 & 3 & 4 & 5    & 6    & 7    & \multicolumn{1}{c}{} \\
+					\cline{1-7}
+					2                       & 2 & 3 & 5 & \multicolumn{4}{c}{} \\
+					\cline{1-4}
+				\end{tabular}
+			\item<3-> Fonction {\tt ack} :
+			\inputpartOCaml{\SPATH/fusion.ml}{}{\small}{7}{11}
+			\item<4-> On note $(n,m)$ (resp. $(n',m')$) les valeurs des paramètres avant (resp. après un appel récursif) alors, soit $n' <n$ et donc $(n',m') \prec (n,m)$ soit $n'=n$ et $m' \leq m$ et on a encore $(n',m') \prec (n,m)$.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Ensembles inductifs}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{block}{Rappel : arbre binaire}
+        On rappelle qu'on a défini un arbre binaire (sur un ensemble d'étiquettes $E$) comme étant :
+        \begin{itemize}
+            \item soit l'arbre vide noté $\varnothing$
+            \item soit la donnée d'un triplet $(g, e, d)$ où $e \in E$ et $g$ et $d$ sont des arbres binaires.
+        \end{itemize}
+    \onslide<2->{On a donc donné un objet de base (l'arbre vide) et une règle permettant de construire un arbre \og{} plus grand \fg{} en donnant deux sous arbres.\\ C'est ce mécanisme (la donnée d'un ou plusieurs objets de base et d'une ou plusieurs règles permettant d'en construire d'autres) qui permet de définir des ensembles dits \textcolor{blue}{inductifs}.}
     \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+        Soit $E$ un ensemble, on peut définir par \textcolor{blue}{induction} une partie $X$ de $E$ en se donnant :
+        \begin{itemize}
+            \item<2-> Un ensemble $X_0 \subset E$, appelé \textcolor{blue}{axiomes}
+            \item<3-> Un ensemble fini de \textcolor{blue}{règles d'inférences}.
+        \end{itemize}
+        \onslide<4->Une règle d'inférence $R$ est une fonction de $E^n$ dans $E$, $n$ est appelé \textcolor{blue}{arité} de $R$.\\
+        
+        \onslide<5->{\medskip $X$ est alors la \textit{plus petite partie} (au sens de l'inclusion) de $E$ qui :}
+        \begin{itemize}
+            \item<6-> contient $X_0$ 
+            \item<7-> est stable par l'application des règles d'inférence c'est à dire que $\forall f \in R \text{ d'arité } $n$, \forall (x_1, \dots x_n) \in X^n$ appartenant au domaine de définition de $f$, $f(x_1,\dots,x_n) \in X$.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemples}
+        \begin{itemize}
+            \item L'ensemble $\N$ peut-être défini de façon inductive par $X_0 = \{0\}$ et la règle d'inférence d'arité 1 : $n \mapsto n+1$.
+            \item<2-> Les listes  d'entiers de OCaml peuvent être définies de façon inductive par $X_0 = [\;]$ et la règle d'inférence d'arité 1 : $ l \mapsto n::l$ où $n \in \N$. \\
+                \onslide<3->{Le \textcolor{blue}{filtrage par motif} permet alors de raisonner sur les listes de façon globale en envisageant à chaque fois le cas de base (la liste vide) et le cas d'un liste produite par la règle d'inférence.}
+            \item<4-> Etant donné un ensemble $A$ appelé \textcolor{blue}{alphabet} dont les éléments sont appelés \textcolor{blue}{lettres}, on peut définir de façon inductive l'ensemble $A^*$ des mots sur $A$ par la donnée de $X_0 = \{\epsilon\}$ où $\epsilon$ est le mot vide et la règle d'inférence d'arité 1 : $ u \mapsto ua$ pour tout $a$ dans $A$
+        \end{itemize}
+     \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exercices}
+        \begin{enumerate}
+            \item<1-> Donner l'ensemble $X_0$, et la règle d'inférence pour la définition des arbres binaires rappelées en début de chapitre.
+            \item<2-> Donner une définition inductive des entiers pairs.
+            \item<3-> Sur $\N \cup \{+, -, \times, /\}$ on définit par induction l'ensemble $E$ par $X_0 = \N$ et les règles d'inférences d'arité 2 : 
+                $(u,v) \mapsto u + v, (u,v) \mapsto u - v, (u,v) \mapsto u \times v$ et $(u,v) \mapsto u / v$ \\
+                Montrer que $8 \times 4 + 10 \in E$ et donner deux suites différentes d'application des règles d'inférence permettant de l'obtenir.
+        \end{enumerate}
+    \end{exampleblock}
+    \onslide<4->{
+    \begin{block}{Ambigüité d'une définition inductive}
+        Une définition inductive d'un ensemble $X$ est dite \textcolor{blue}{non ambigüe}  si pour tout $x \in X$, il n'existe qu'une seule façon de construire $x$ à partir des axiomes et des règles d'inférence. Cela permet notamment de construire des fonctions sur les objets inductifs.
+    \end{block}}
+\end{frame}
+
+\makess{Preuve par induction structurelle}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{alertblock}{Principe d'induction structurelle}
+        Soit $X$ un ensemble défini inductivement, et $P$ une propriété sur $X$.
+        \begin{itemize}
+            \item<2-> (\textit{initialisation}) Si $P(x)$ est vraie pour tous les éléments de $X_0$.
+            \item<3-> (\textit{hérédité}) Et si pour toute règle $R$ d'arité $n$, et tout $(x_1,\dots,x_n) \in X$, $P(x1), \dots P(x_n)$ vraies $\implies P(x_1,\dots,x_n)$ vraie.
+        \end{itemize}
+        \onslide<4->{alors pour tout $x \in X$, $P(x)$ est vraie.}
+    \end{alertblock}
+    \onslide<5->
+    {\begin{block}{Remarque}
+        Dans le cas où $X$ est l'ensemble des entiers naturels défini de façon inductive, on retrouve le principe du raisonnement par récurrence.
+    \end{block}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple}
+        On définit inductivement (et de façon non ambigüe) l'ensemble $D$ des mots de Dyck (ou parenthésages bien formés) par : $X_0 = \{\epsilon\}$ et la règle d'inférence d'arité~2 $(x,y) \mapsto \boldsymbol{\langle}x\boldsymbol{\rangle}y$.\\
+        \smallskip
+        Pour $d \in D$, on note $n_o(d)$ (resp. $n_f(d)$) le nombre de symboles $\boldsymbol{\langle}$ (resp. $\boldsymbol{\rangle}$) apparaissant dans $d$. Montrer par induction structurelle que $n_o(d) = n_f(d)$ pour tout $d \in D$.
+        \begin{itemize}
+        \item<2-> \textcolor{OliveGreen}{On note $P(d)$ la propriété $n_o(d) = n_f(d)$}
+        \item<3-> \textcolor{OliveGreen}{Initialisation : on vérifie la propriété pour les éléments de $X_0$, comme $X_0 = {\epsilon}$ et $n_o(\epsilon)=0$ et $n_f(\epsilon)=0$. $P$ est vraie pour tous les éléments de $X_0$.}
+        \item<4-> \textcolor{OliveGreen}{Hérédité : on vérifie la conservation de la propriété par application de chacune des règles d'inférence. Si $x$ et $y$ sont deux mots de Dyck vérifiant $P$ alors $n_o(\boldsymbol{\langle}x\boldsymbol{\rangle}y) = 1 + n_o(x) + n_o(y)$ et $n_f(\boldsymbol{\langle}x\boldsymbol{\rangle}y) = 1 + n_f(x) + n_f(y)$ et puisque $x$ et $y$ vérifient $P$, $n_o(\boldsymbol{\langle}x\boldsymbol{\rangle}y) = n_f(\boldsymbol{\langle}x\boldsymbol{\rangle}y)$ }
+        \end{itemize}
+        \onslide<5->\textcolor{OliveGreen}{Par induction structurelle on conclut que $P$ est vraie pour tout $x \in D$.}
+    \end{exampleblock}
+\end{frame}
+
+\makess{Ordre induit}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{alertblock}{Définition - Théorème}
+        Soit $X$ un ensemble inductif défini de manière non ambigüe on définit la relation $\mathcal{R}$  par $x_i \mathcal{R} f(x_1, \dots, x_n)$ pour toute règle d'inférence $f$ d'arité $n$ et tout n-uplet $(x_1,\dots, x_n)$.\\
+        \medskip
+        \onslide<2->{La fermeture reflexive-transitive de $\mathcal{R}$, notée $\preccurlyeq$ est une relation d'ordre bien fondé sur $X$ appelé \textcolor{blue}{ordre induit}.}
+    \end{alertblock}
+    \onslide<3->{\begin{alertblock}{Principe d'induction bien fondé}
+        Soient $(X,\preccurlyeq)$ un ensemble bien ordonné et $P$ une propriété sur $X$, si
+        \begin{itemize}
+            \item<2-> $P$ est vraie pour tous les éléments minimaux de $X$.
+            \item<3-> Et si pour $z \preccurlyeq x$ $P(z) $ vraies $\implies P(x)$
+        \end{itemize}
+        Alors $P$ est vraie pour tout $x \in X$.
+    \end{alertblock}
+    }
 \end{frame}
 
 \end{document}
