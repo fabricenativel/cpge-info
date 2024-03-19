@@ -164,7 +164,25 @@ Résoudre ce problème par backtracking en langage C.
         typedef struct solution solution;
     ```
 
-    La solution est partielle tant que `pathlen` est plus petit que `SIZE*SIZE` et on atteint une impossibilité lorsque toutes les destinations possibles du cavalier sont déjà occupés.
+    La solution est partielle tant que `pathlen` est plus petit que `SIZE*SIZE` et on atteint une impossibilité lorsque toutes les destinations possibles du cavalier ont déjà été traversés ce qui peut-être vérifié en examinant le tableau `path` en effet, `path[i][j]` contient un entier $k >0$ si au $k$-ième mouvement le cavalier a atterit sur la case de coordonnées `(i,j)` sinon `path[i][j]=0` (la case n'a pas encore été visité).
+
+{{ exo("Cryptarithme",[])}}
+
+Un [cryptarithme](https://en.wikipedia.org/wiki/Verbal_arithmetic) est un casse-tête mathématique dans lequel on doit attribuer un chiffre à chaque lettre de façon à rendre correcte une opération arithmétique, l'un des plus connus  (Strand magazine 2024) est :
+
+$$\begin{matrix}
+     &   & \text{S} & \text{E} & \text{N} & \text{D} \\
+   + &   & \text{M} & \text{O} & \text{R} & \text{E} \\
+ \hline
+   = & \text{M} & \text{O} & \text{N} & \text{E} & \text{Y} \\
+\end{matrix}$$
+
+Dans cette exercice afin de simplifier, on considère que l'opération est une **addition** de deux termes et on donnera un cryptarithme sous la forme de trois chaines de caractères : le premier terme, le second terme et le résultat. Le cryptarithme ci-dessus est donc `"SEND","MORE","MONEY"`. D'autres exemples plus compliqués peuvent faire intervenir plusieurs additions ou d'autres opérations.
+
+Ecrire un programme permettant de résoudre un cryptarithme par retour sur trace.
+
+!!! aide
+    Comme toujours pour une résolution par *backtracking* on devra commencer par écrire une fonction permettant de valider une solution partielle. C'est à dire une solution dans laquelle certaines lettres ont déjà des valeurs. On prendra garde à traiter le cas d'une retenue éventuelle. Ainsi pour chaque "colonne" de l'addition **lorsque les lettres présentes sur la colonne ont déjà une valeur** en notant $c_1$ le chiffre de la première opérande, $c_2$ le chiffre de la seconde opérante, $c_r$ la retenue éventuelle (initialisée à 0) et $r$ le chiffre du résultat on doit vérifier que $(c_1 + c_2 + c_r) \mod 10 = r$
 
 ## Humour d'informaticien
 
