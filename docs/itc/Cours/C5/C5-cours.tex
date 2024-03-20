@@ -527,10 +527,113 @@
 				\item<2-> le jeu est à \textcolor{blue}{somme nulle}, c'est à dire que la somme des pertes et des gains des deux joueurs vaut 0,
 				\item<3-> le jeu est à \textcolor{blue}{information complète} c'est à dire que les joueurs disposent de toutes les informations pour effectuer leur choix.
 			\end{itemize}
-			Le jeu du morpion, des dames ou des échecs sont des exemples bien connus.
-			\item<2-> Un tel jeu se modélise par \textcolor{blue}{un graphe orienté biparti} $G = (S, A)$ c'est à dire un graphe dans lequel on peut partitionné l'ensemble des sommets en deux ensembles disjoints  $A_1$ et $A_2$ tels que chaque arc possède une extrémité dans $A_1$ (etats du jeu contrôlé par le joueur 1) et l'autre dans $A_2$ (états du jeu contrôlé par le joueur 2).
+			\onslide<4->{Le jeu du morpion, des dames ou des échecs sont des exemples bien connus.}
+			\item<5-> Un tel jeu se modélise par \textcolor{blue}{un graphe orienté biparti} $G = (S, A)$ c'est à dire un graphe dans lequel on peut partitionné l'ensemble des sommets en deux ensembles disjoints  $S_1$ et $S_2$ tels que chaque arc possède une extrémité dans $S_1$ (etats du jeu contrôlé par le joueur 1) et l'autre dans $S_2$ (états du jeu contrôlé par le joueur 2).
 		\end{itemize} 
 	\end{block}
 \end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : le jeu de Juniper Green}
+		{\small On choisit un entier $N$, puis le jeu ne comporte que trois règles.}
+		\begin{enumerate}
+			\item<2-> {\small Le joueur 1 choisit un \textit{nombre pair} entre 1 et $N$.}
+			\item<3-> {\small A tour de rôle, chaque joueur doit choisir un nombre dans $\intN{1}{N}$ qui est un multiple ou un diviseur du nombre choisi au tour précédent.}
+			\item<4-> {\small Un nombre ne peut-être joué qu'une seule fois. }
+		\end{enumerate}
+		\onslide<5->{\small Un joueur perd dès qu'il ne peut plus jouer, c'est donc un jeu sans match nul.}
+		\onslide<6->{\small Dans le cas simple ou $N=5$, on peut tracer le graphe complet du jeu}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Graphe de Juniper-Green pour $N=5$}
+		\begin{center}
+			\includegraphics[height=150px]{juniper5.eps}
+		\end{center}
+		\onslide<2->{\small En partant des états finaux, on peut remonter dans le graphe et déterminer les positions gagnantes pour un joueur donné. Ce sont les \textcolor{blue}{attracteurs} pour ce joueur.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définition des attracteurs}
+		On note $W_1$ l'ensemble des états terminaux gagnants pour le joueur 1, on note $A_i$ l'ensemble des positions gagnantes pour le joueur 1 qui permettent une victoire en au plus $i$ coups. Alors : \\
+		$\left\{ 
+			\begin{array}{lll}
+				A_0 &=& W_1 \\
+				A_{i+1} & = & A_{i}  \\
+						&  & \bigcup \left\{ v \in V_2 \text{ ayant tous les arcs sortants dans } A_i \right\}\\
+						& &  \bigcup \left\{ v \in V_1 \text{ ayant au moins un arc sortant dans } A_i \right\}
+			\end{array}
+		\right.$
+	\end{block}
+	\begin{alertblock}{Stratégie gagnante}
+		Un \textcolor{blue}{stratégie} pour le joueur $i$ est une application de $V$ dans $V$ et une stratégie est \textcolor{blue}{gagnante} si elle conduit à la victoire du joueur quelle que soit les coups de l'adversaire. Lorsqu'il existe une stratégie gagnante à partir d'un état du jeu, cet état est une \textcolor{blue}{position gagnante}.
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Dans le jeu de Juniper Green avec $N=5$, la position de départ est gagnante pour le joueur 2 (si le joueur 1 joue 2, il joue 4 et inversement, cela impose au joueur 1 de jouer 1 ce qui conduit à sa défaite). \\
+		\smallskip
+		On voit donc qu'une position gagnante pour le joueur 2, n'est pas forcément une position où c'est à lui de jouer.
+	\end{exampleblock}
+	\onslide<2->{
+	\begin{block}{Remarque}
+		Le calcul explicite des attracteurs et donc la détermination d'une stratégie gagnante n'est plus possible lorsque le nombres de sommet du graphe est trop important. Pour $N=24$, il y a déjà $\numprint{540568}$ sommets dans le graphe du jeu de Juniper Green ! 
+		Pour les échecs le nombre de sommet est estimé à environ $10^{50}$ ...
+	\end{block}}
+\end{frame}
+
+\makess{Algorithme du min-max}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Principe}
+		\begin{itemize}
+		\item<1-> Lorsqu'il n'est pas envisageable d'explorer la totalité des états du jeu, on se donne une \textcolor{blue}{heuristique} c'est à dire une fonction $h$ permettant d'\textit{évaluer} un état du jeu telle que $h(s_1) > h(s_2)$ si le joueur 1 considère que l'état $s_1$ est plus favorable pour lui que l'état $s_2$.
+		\item<2-> Le but du jouer 1 va être alors de rechercher la position qui \textcolor{blue}{maximimise} $h$.
+		\item<3-> Alors que le jouer 2 va  rechercher la position qui \textcolor{blue}{minimise} $h$.
+		\item<4-> L'algorithme fixe un niveau maximal de profondeur de recherche dans le graphe du jeu et remonte à la racine une valeur minmax calculée récursivement par :
+		\begin{itemize}
+		\item<5-> minmax$(s) = h(s)$ si $s$ est une feuille où que $s$ est à la profondeur maximale.
+		\item<6-> minmax$(s) = \max(\text{minmax}(t_1,\dots,t_n))$ si $s \in S_1$ (où $(s,t_i) \in A$)
+		\item<7-> minmax$(s) = \min(\text{minmax}(t_1,\dots,t_n))$ si $s \in S_2$ (où $(s,t_i) \in A$)
+		\end{itemize}
+	\end{itemize}
+	\end{block}
+\end{frame}
+
+\newcommand{\UN}[1]{\TCircle[radius=0.25cm,fillcolor=red!20!white,fillstyle=solid]{#1}}
+\newcommand{\DE}[1]{\TCircle[radius=0.25cm,fillcolor=blue!20!white,fillstyle=solid]{#1}}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple (profondeur 1)}
+		\begin{center}
+			\pstree[arrows=->,treesep=0.8cm,levelsep=1.2cm]{\UN{}}{
+						      \DE{3} \DE{2} \DE{7} \DE{5}}
+		\end{center}
+		\medskip
+		\onslide<2->{Le joueur 1 maximise l'heuristique, il va donc sélectionner le coup menant à la valeur maximale 7.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple (profondeur 2)}
+		\begin{center}
+			\pstree[arrows=->,treesep=0.8cm,levelsep=1.2cm]{\UN{}}{
+						    \pstree{\alt<3->{\DE{4}}{\DE{ }}}{ \UN{4} \UN{5}}
+							\pstree{\alt<4->{\DE{3}}{\DE{ }}}{ \UN{3} \UN{7}}
+							\pstree{\alt<5->{\DE{2}}{\DE{ }}}{ \UN{2} \UN{6}}
+							\pstree{\alt<6->{\DE{3}}{\DE{ }}}{ \UN{3} \UN{5}}
+							}
+		\end{center}
+		\medskip
+		\onslide<2->{La valeur \textit{minimale} des feuilles remonte car on suppose que le joueur 2  joue le coup qui minimise l'heuristique\\}
+		\onslide<7->{Le coup menant à la valeur maximale est sélectionné}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\inputpartPython{puissance4.py}{}{\footnotesize}{168}{189}
+\end{frame}
+
 
 \end{document}

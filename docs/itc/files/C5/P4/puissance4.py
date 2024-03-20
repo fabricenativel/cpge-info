@@ -170,27 +170,23 @@ def minmax(grille, joueur, profondeur, heuristique):
     if profondeur==0 or coups == []:
         return (heuristique(grille), None)
     if joueur == A:
-        max_eval = -float('inf')
-        best = None
+        max_eval, best = -float('inf'), None
         for c in coups:
             ng = grille.copy()
             jouer(ng, joueur, c)
-            (e, z) = minmax(ng, B, profondeur-1, heuristique)
+            e, z = minmax(ng, B, profondeur-1, heuristique)
             if e >= max_eval:
-                max_eval = e
-                best = c
-        return (max_eval, best)
+                max_eval, best = e, c
+        return max_eval, best
     if joueur == B:
-        min_eval = +float('inf')
-        best = None
+        min_eval, best = +float('inf'), None
         for c in coups:
             ng = grille.copy()
             jouer(ng, joueur, c)
-            (e, z) = minmax(ng, A, profondeur-1, heuristique)
+            e, z = minmax(ng, A, profondeur-1, heuristique)
             if e <= min_eval:
-                min_eval = e
-                best = c
-        return (min_eval, best)
+                min_eval, best = e, c
+        return min_eval, best
 
 ## Parametres globaux du jeu
 

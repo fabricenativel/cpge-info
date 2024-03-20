@@ -12,6 +12,88 @@
 \newcommand{\Ctitle}{\cnum {Décompostion en sous problèmes}}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
 
+\makess{Introduction}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Principe général}
+		Pour résoudre un problème donné, une stratégie peut-être de se ramener à un ou plusieurs sous problèmes de \textit{même type} mais \textit{plus petit}. En notant $P(n)$, un problème de taille $n$, la résolution de $P_n$ conduit à la résolution de $k$ problèmes de tailles $P(\frac{n}{p})$. Un fois ces problèmes résolus, leurs solutions sont combinées afin de former celle du problème initial. \\
+		\smallskip
+		\onslide<2->{On distingue :}
+		\begin{itemize}
+			\item<3-> la méthode \textcolor{blue}{diviser pour régner}, dans laquelle les sous-problèmes sont indépendants
+			\item<4-> la méthode de \textcolor{blue}{programmation dynamique} dans laquelle, certains sous problèmes se chevauchent.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Diviser pour regner}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple introductif}
+		Le tri fusion est l'exemple typique d'une résolution par la méthode diviser pour régner. En effet, pour trier une liste $l$ de taille $n$,
+		\begin{itemize}
+			\item<2-> \textcolor{blue}{Diviser} : on sépare $l$ en deux moitiés (à une unité près) $l_1$ et $l_2$. Dans cet exemple $P(n)$ se ramène à la résolution de $2$ instances de résolution de $P(n/2)$.
+			\item<3-> \textcolor{blue}{Régner } : on trie $l_1$ et $l_2$
+			\item<4-> \textcolor{blue}{Combiner } : on fusionne les listes triées afin de construire la solution au problème initial
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Tri fusion en OCaml}
+		\begin{enumerate}
+			\item<1->{\small Ecrire une fonction {\tt separe int list -> int list * int list} qui prend en argument une liste d'entiers et renvoie les deux moitiés de cette liste. }\\
+			\onslide<4->{\inputpartOCaml{\SPATH/tri_fusion.ml}{}{\small}{1}{5}}
+			\item<2->{\small Ecrire une fonction {\tt fusion int list -> int list -> int list} qui fusionne les deux listes données en arugments.}
+			\onslide<5->{\inputpartOCaml{\SPATH/tri_fusion.ml}{}{\small}{7}{11}}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Tri fusion en OCaml}
+	\begin{enumerate}
+		\addtocounter{enumi}{2}
+		\item{\small Ecrire une fonction {\tt tri\_fusion int list -> int list} qui renvoie la liste donnée en argument triée.}
+		\onslide<2->{\inputpartOCaml{\SPATH/tri_fusion.ml}{}{\small}{13}{19}}
+	\end{enumerate}
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Equation de complexité}
+		On note :
+		\begin{itemize}
+			 \item<1-> $C(n)$ la complexité de la résolution d'un problème de taille $n$.
+			 \item<2-> $k$ le nombre de sous problèmes à résoudre et $\frac{n}{p}$ leur taille.
+			 \item<3-> $T(n)$ le coût de construction de la solution de taille $n$.
+		\end{itemize}
+		\onslide<4->{On en déduit l' équation de complexité : \\}
+		\onslide<5-> \textcolor{blue}{$C(n) = k\,C(\frac{n}{p}) + T(n)$\\}
+		\onslide<6-> On suppose de plus que la résolution d'un problème de taille inférieure à un entier $m$ donnée s'effectue en temps constant
+	\end{block}
+	\onslide<7->{
+	\begin{exampleblock}{Exemple}
+		Dans le cas du tri fusion,
+		\begin{itemize}
+			\item<8-> Donner les valeurs de $k$, $p$ $m$ et écrire les équations de complexité.
+			\item<9-> Donner un $O$ de $T(n)$.
+		\end{itemize}
+	\end{exampleblock}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Résolution}
+		\textcolor{BrickRed}{\small \danger} Le théorème suivant (\textit{master theorem}) est hors-programme. \\
+		\onslide<2->\textcolor{gray}{Si la complexité d'un problème est définie par une équation de la forme :
+		$ C(n) = k C(\frac{n}{p}) + f(n)$, où $f$ est un polynôme de degré $d$, alors}
+		\begin{itemize}
+			\item<3->\textcolor{gray}{Si $d < \frac{\log(k)}{\log(p)}$, alors $C \in O(n^\frac{\log(k)}{\log(p)})$}
+			\item<4->\textcolor{gray}{Si $d = \frac{\log(k)}{\log(p)}$, alors $C \in O(n^d \log(n))$}
+			\item<5->\textcolor{gray}{Si $d > \frac{\log(k)}{\log(p)}$, alors $C \in O(n^d)$}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
 
 \makess{Rappel : mémoïsation}
 \begin{frame}{\Ctitle}{\stitle}
@@ -345,16 +427,16 @@
 		Remarque : sur cet exemple, les appels récursifs depuis $m(7,0)$ ne construisent pas la totalité de la matrice des valeurs de $m(S,k)$. En effet, le calcul de $m(7,0)$ se fait à partir de celui de $m(7,1)$ et de $m(7-p_0,0)$ et ainsi de suite en remontant dans la matrice : \\
 		\begin{tabular}{|c|c|c|c|c|c|c|}
 			\hline
-			\backslashbox{$S$}{$k$} & $0$                                             & $1$                                             & $2$                 & $3$                 & $4$                        \\
+			\backslashbox{$S$}{$k$} & $0$                                                     & $1$                                                     & $2$                                                     & $3$                                                     & $4$                        \\
 			\hline
-			$0$                     & \textcolor{gray}{0}                             & \textcolor{gray}{0}                             & \textcolor{gray}{0} & \textcolor{gray}{0} & \textcolor{gray}{$\infty$} \\
-			$1$                     &                                                 &                                                 &                    &   \leavevmode\onslide<7->{\textcolor{BrickRed}{\faCheck}}                   & \textcolor{gray}{$\infty$} \\
-			$2$                     & \leavevmode\onslide<2->{\textcolor{BrickRed}{\faCheck}} &  \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}}      & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}}                    &  \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}}                   & \textcolor{gray}{$\infty$} \\
-			$3$                     &                                                 &    \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}}                                             &   \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}}                  &  \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}}                   & \textcolor{gray}{$\infty$} \\
-			$4$                     &                                                 &                                                 &   \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}}                  &  \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}}                   & \textcolor{gray}{$\infty$} \\
-			$5$                     &                                                 &                                                 &                     &     \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}}                 & \textcolor{gray}{$\infty$} \\
-			$6$                     &                                                 &                                                 &                     & \leavevmode\onslide<6->{\textcolor{BrickRed}{\faCheck}}                    & \textcolor{gray}{$\infty$} \\
-			$7$                     & \textcolor{BrickRed}{\faCheck}                          & \leavevmode\onslide<2->{\textcolor{BrickRed}{\faCheck}} &     \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}}                &   \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}}                  & \textcolor{gray}{$\infty$} \\
+			$0$                     & \textcolor{gray}{0}                                     & \textcolor{gray}{0}                                     & \textcolor{gray}{0}                                     & \textcolor{gray}{0}                                     & \textcolor{gray}{$\infty$} \\
+			$1$                     &                                                         &                                                         &                                                         & \leavevmode\onslide<7->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$2$                     & \leavevmode\onslide<2->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$3$                     &                                                         & \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$4$                     &                                                         &                                                         & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$5$                     &                                                         &                                                         &                                                         & \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$6$                     &                                                         &                                                         &                                                         & \leavevmode\onslide<6->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$7$                     & \textcolor{BrickRed}{\faCheck}                          & \leavevmode\onslide<2->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
 			\hline
 		\end{tabular} \quad \textcolor{blue}{$\boxed{p_0=5, p_1=4, p_2=3, p_3 =1}$}
 	\end{exampleblock}

@@ -16,8 +16,9 @@ let enfiler file elt =
 let defiler file =
   if file.size = 0 then failwith "File vide" else
     file.size <- file.size - 1;
-    file.next <- file.next+1;
-    file.data.(file.next-1);;
+    let oldnext = file.next in
+    file.next <- (file.next+1) mod file.capacity;
+    file.data.(oldnext);;
 
 let creer_file cap = {capacity = cap; data = Array.make cap 0; size = 0; next = 0};;
 
