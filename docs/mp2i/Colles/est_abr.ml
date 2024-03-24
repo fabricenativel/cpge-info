@@ -110,7 +110,7 @@ let rec est_abr_v2 tabr =
   let rec est_aux tabr vmin vmax=
   match tabr with
   | Vide -> true
-  | Noeud (g, v, d) -> est_aux g vmin v && est_aux d v vmax in
+  | Noeud (g, v, d) -> v>vmin && v<vmax && est_aux g vmin v && est_aux d v vmax in
   est_aux tabr Int.min_int Int.max_int;;
 
 let () =

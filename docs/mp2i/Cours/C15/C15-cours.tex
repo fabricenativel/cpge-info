@@ -51,12 +51,12 @@
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Tri fusion en OCaml}
-	\begin{enumerate}
-		\addtocounter{enumi}{2}
-		\item{\small Ecrire une fonction {\tt tri\_fusion int list -> int list} qui renvoie la liste donnée en argument triée.}
-		\onslide<2->{\inputpartOCaml{\SPATH/tri_fusion.ml}{}{\small}{13}{19}}
-	\end{enumerate}
-\end{exampleblock}
+		\begin{enumerate}
+			\addtocounter{enumi}{2}
+			\item{\small Ecrire une fonction {\tt tri\_fusion int list -> int list} qui renvoie la liste donnée en argument triée.}
+			\onslide<2->{\inputpartOCaml{\SPATH/tri_fusion.ml}{}{\small}{13}{19}}
+		\end{enumerate}
+	\end{exampleblock}
 \end{frame}
 
 
@@ -64,60 +64,224 @@
 	\begin{block}{Equation de complexité}
 		On note :
 		\begin{itemize}
-			 \item<1-> $C(n)$ la complexité de la résolution d'un problème de taille $n$.
-			 \item<2-> $k$ le nombre de sous problèmes à résoudre et $\frac{n}{p}$ leur taille.
-			 \item<3-> $T(n)$ le coût de construction de la solution de taille $n$.
+			\item<1-> $C(n)$ la complexité de la résolution d'un problème de taille $n$.
+			\item<2-> $k$ le nombre de sous problèmes à résoudre et $\frac{n}{p}$ leur taille.
+			\item<3-> $T(n)$ le coût de construction de la solution de taille $n$.
 		\end{itemize}
 		\onslide<4->{On en déduit l' équation de complexité : \\}
 		\onslide<5-> \textcolor{blue}{$C(n) = k\,C(\frac{n}{p}) + T(n)$\\}
 		\onslide<6-> On suppose de plus que la résolution d'un problème de taille inférieure à un entier $m$ donnée s'effectue en temps constant
 	\end{block}
 	\onslide<7->{
-	\begin{exampleblock}{Exemple}
-		Dans le cas du tri fusion,
-		\begin{itemize}
-			\item<8-> Donner les valeurs de $k$, $p$ $m$ et écrire les équations de complexité.
-			\item<9-> Donner un $O$ de $T(n)$.
-		\end{itemize}
-	\end{exampleblock}}
+		\begin{exampleblock}{Exemple}
+			Dans le cas du tri fusion,
+			\begin{itemize}
+				\item<8-> Donner les valeurs de $k$, $p$ $m$ et écrire les équations de complexité.
+				\item<9-> Donner un $O$ de $T(n)$.
+			\end{itemize}
+		\end{exampleblock}}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{alertblock}{Résolution}
-		\textcolor{BrickRed}{\small \danger} Le théorème suivant (\textit{master theorem}) est hors-programme. \\
 		\onslide<2->\textcolor{gray}{Si la complexité d'un problème est définie par une équation de la forme :
-		$ C(n) = k C(\frac{n}{p}) + f(n)$, où $f$ est un polynôme de degré $d$, alors}
+			$ C(n) = k C(\frac{n}{p}) + f(n)$, où $f$ est un polynôme de degré $d$, alors}
 		\begin{itemize}
 			\item<3->\textcolor{gray}{Si $d < \frac{\log(k)}{\log(p)}$, alors $C \in O(n^\frac{\log(k)}{\log(p)})$}
 			\item<4->\textcolor{gray}{Si $d = \frac{\log(k)}{\log(p)}$, alors $C \in O(n^d \log(n))$}
 			\item<5->\textcolor{gray}{Si $d > \frac{\log(k)}{\log(p)}$, alors $C \in O(n^d)$}
 		\end{itemize}
+		\onslide<6->\textcolor{BrickRed}{\small \danger} Ce théorème appelé (\textit{master theorem}) est hors-programme. \\
+		\onslide<7-> Mais il permet de résoudre instantanément les équations de complexité de la méthode diviser pour régner !
 	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Complexité d'une méthode diviser pour régner}
+		\begin{itemize}
+			\item<1-> Dans la plupart des cas, on peut résoudre l'équation de complexité \textbf{sans} le \textit{master theorem}.\\
+				\onslide<2->\textcolor{OliveGreen}{\small Par exemple, dans le cas du tri fusion, les équations sont :
+					$\left\{
+						\begin{array}{lll}
+							C(0)  & \in & O(1)          \\
+							C(2n) & =   & 2C(n)  + O(n) \\
+						\end{array}
+						\right.$}\\
+				\onslide<3->\textcolor{OliveGreen}{\small Pour simplifier on suppose que $n$ est une puissance exacte de $2$ et on obtient : $C(2^{k+1}) \leq 2C(2^k) + M2^k$ et en divisant par $2^{k+1}$, on obtient \\}
+				\onslide<4->\textcolor{OliveGreen}{\small $u_{k+1} \leq u_{k} + M$ où $u_k = \frac{C(2^k)}{2^k}$.\\}
+				\onslide<5->\textcolor{OliveGreen}{\small par récurrence immédiate, $u_{k} \leq u_0 + kM$}
+				\onslide<6->\textcolor{OliveGreen}{\small et donc $C(n) \leq n u_0  + M\,n\log_2(n) $\\}
+				\onslide<7->\textcolor{OliveGreen}{\small c'est à dire $C(n) \in O(n\log n)$.}
+			\item<2-> Sinon, on peut utiliser le \textit{master theorem} afin d'obtenir la complexité, puis la prouver par récurrence.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\makess{Exemples résolus de la méthode diviser pou régner}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Tranche maximale dans un tableau}
+		On considère un tableau $T$ de $n$ entiers, le but du problème est de déterminer la somme maximale d'une tranche (c'est à dire d'éléments contigus de $T$).
+		Par exemple si $T = [2, -7, -5, 4, -1, 10, -4, 9, -2]$ alors la somme maximale d'une tranche est : \onslide<2->{\textcolor{OliveGreen}{18, et elle est obtenue en prenant la tranche $[ 4, -1, 10, -4, 9]$}}. \\
+		\begin{enumerate}
+			\item<4-> Proposer un algorithme de complexité quadratique permettant de résoudre ce problème.
+			\item<5-> En donner une implémentation en langage C
+			\item<6-> Une solution plus efficace :
+				\begin{enumerate}
+					\item<6-> Proposer un nouvel algorithme basé sur la méthode \textit{diviser pour régner}
+					\item<7-> Donner une implémentation en C de ce nouvel algorithme
+					\item<8-> Déterminer sa complexité
+				\end{enumerate}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution avec une complexité quadratique}
+		\begin{enumerate}
+			\item On calcule les $S_{i,j}$ (somme de la tranche des éléments du tableau compris entre les indices $i$ et $j$ inclus) de proche en proche, en utilisant $S_{ij} = S_{i,j-1} + t_j$ et on prend le maximum des valeurs obtenus.\\
+			      \onslide<2->{On utilise donc deux boucles imbriquées dans laquelle on effectue uniquement des opérations élémentaires, la complexité est donc quadratique.}
+			\item<3-> Implémentation :
+				\inputpartC{\SPATH/tmax_quadratique.c}{}{\small}{5}{14}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution : diviser pour régner}
+		\begin{enumerate}
+			\item<1-> On note $k = \left\lfloor \frac{n}{2} \right\rfloor$.
+				\begin{itemize}
+					\item<2-> \textcolor{blue}{Diviser} : on sépare $T$ en deux sous tableaux $T_g = [t_0 \dots t_{k-1}]$ et $T_d = [t_{k+1}\dots t_{n-1}]$. \\
+						\textcolor{BrickRed}{\small \danger} Attention : on remarquera bien que $t_k$ n'est dans aucun des deux sous tableaux !
+					\item<3-> \textcolor{blue}{Régner} : on recherche les tranche maximales des sous tableaux $T_g$ et $T_d$ ainsi que celle des tranches contenant l'élément $t_k$.
+					\item<4-> \textcolor{blue}{Combiner} on prend le maximum des trois valeurs obtenues.
+				\end{itemize}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution : diviser pour régner}
+		\begin{enumerate}
+			\addtocounter{enumi}{1}
+			\item<2-> Implémentation :
+				\inputpartC{\SPATH/tmax.c}{}{\small}{35}{45}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution : diviser pour régner}
+		\begin{enumerate}
+			\addtocounter{enumi}{2}
+			\item<2-> Calcul de la complexité\\
+				\onslide<3-> Pour résoudre un problème de taille $n$, on doit en résoudre deux de tailles $\lfloor \frac{n}{2} \rfloor$ et rechercher le maximum des tranches contenant l'élément $t_k$. Cette opération a une complexité linéaire, on a donc :
+				$\left\{
+					\begin{array}{lll}
+						C(0)  & \in & O(1)          \\
+						C(2n) & =   & 2C(n)  + O(n) \\
+					\end{array}
+					\right.$\\
+				\onslide<4->{On retrouve les mêmes équations de complexité que dans le cas du tri fusion. Et donc la complexité est la même : $O(n\,\log n)$. }
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Multiplication matricielle}
+		Soient $A$ et $B$ deux matrices carrés de tailles $n$, on note $C = A\times B$
+		\begin{enumerate}
+			\item<2-> Rappeler l'expression de $C_{ij}$.
+			\item<3-> Quelle est la complexité d'un algorithme calculant les coefficients de $C$ en utilisant l'expression précédente ?
+			\item<4-> on sépare $A$ et $B$ en blocs de tailles égales : \\
+			$A =
+				\begin{bmatrix}
+					A_{1,1} & A_{1,2} \\
+					A_{2,1} & A_{2,2}
+				\end{bmatrix}$ et
+			$B =
+				\begin{bmatrix}
+					B_{1,1} & B_{1,2} \\
+					B_{2,1} & B_{2,2}
+				\end{bmatrix}$ \\
+			Déterminer la complexité d'un algorithme qui effectue la multiplication par bloc : \\
+			$\begin{bmatrix}
+				A_{1,1} & A_{1,2} \\
+				A_{2,1} & A_{2,2}
+			\end{bmatrix} \times 
+				\begin{bmatrix}
+					B_{1,1} & B_{1,2} \\
+					B_{2,1} & B_{2,2}
+				\end{bmatrix}
+			$ 
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Algorithme de Strassen}
+		{\small L'algorithme de Strassen est une approche diviser pour régner :}
+				\begin{itemize}
+					\item<2->{\small \textcolor{blue}{diviser} : on sépare $A$ et $B$ en blocs de tailles égales : \\
+						$A =
+							\begin{bmatrix}
+								A_{1,1} & A_{1,2} \\
+								A_{2,1} & A_{2,2}
+							\end{bmatrix}$ et
+						$B =
+							\begin{bmatrix}
+								B_{1,1} & B_{1,2} \\
+								B_{2,1} & B_{2,2}
+							\end{bmatrix}$}
+			\item<3->{\small \textcolor{blue}{régner} On calcule \textcolor{BrickRed}{seulement \textbf{7}} produits matriciels : \\
+$M_{1} = (A_{1,1} + A_{2,2}) (B_{1,1} + B_{2,2})$ \\
+$M_{2} = (A_{2,1} + A_{2,2}) B_{1,1}$\\
+$M_{3} = A_{1,1} (B_{1,2} - B_{2,2})$\\
+$M_{4} = A_{2,2} (B_{2,1} - B_{1,1})$\\
+$M_{5} = (A_{1,1} + A_{1,2}) B_{2,2}$\\
+$M_{6} = (A_{2,1} - A_{1,1}) (B_{1,1} + B_{1,2})$\\
+$M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
+			\item<4->{\small \textcolor{blue}{combiner} On combine les solutions afin de construire les blocs de la matrice $C$ :\\
+			$C_{1,1} = M_{1} + M_{4} - M_{5} + M_{7}$\\
+			$C_{1,2} = M_{3} + M_{5}$\\
+			$C_{2,1} = M_{2} + M_{4}$\\
+			$C_{2,2} = M_{1} - M_{2} + M_{3} + M_{6}$}
+\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Complexité}
+		L'équation de complexité s'écrit alors : \\
+		$C(2n) = 7\,C(n) + O(n^2)$ \\
+		\onslide<2->{Et on montre que $C(n) \in O(n^{\log_2 7}$), et $\log_2 7 \simeq 2,807$\\}
+		\onslide<3->{On obtient donc une complexité meilleure que l'algorithme "naïf" \\ \smallskip}
+		\onslide<4->{A noter qu'à cause  des tailles respectives des \textit{facteurs cachés} dans l'algorithme de naif et dans l'algorithme de Strassen, ce dernier ne devient plus efficace en terme de temps de calcul que pour de grandes valeurs de $n$.}
+	\end{exampleblock}
 \end{frame}
 
 \makess{Rappel : mémoïsation}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple}
 		\begin{enumerate}
-			\item<1-> Ecrire une fonction récursive \textit{naïve} qui prend en argument un entier $n$ et renvoie le $n$ième terme de la suite de Fibonacci définie par :
+			\item<1-> Ecrire une fonction récursive \textit{naïve} en Ocaml qui prend en argument un entier $n$ et renvoie le $n$ième terme de la suite de Fibonacci définie par :
 				$\left\{ \begin{array}{lll}
-						f_0   & = & 0,                                                  \\
+						f_0   & = & 1,                                                  \\
 						f_1   & = & 1,                                                  \\
 						f_{n} & = & f_{n-1}+f_{n-2} \mathrm{\ \ pour\ tout\ \ } n\geq2.\end{array} \right.$
-			\item<2-> Tracer le graphe des appels récursifs de cette fonction pour $n=5$
-			\item<3-> Commenter
+					\onslide<2->{\inputpartOCaml{\SPATH/fibo.ml}{}{}{1}{2}}
+			\item<3-> Tracer le graphe des appels récursifs de cette fonction pour $n=5$
+			\item<4-> Commenter
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
 
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{exampleblock}{Correction question 1}
-		\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/fibo_rec.py}{}{\footnotesize}
-	\end{exampleblock}
-\end{frame}
+
 
 \begin{frame}{\Ctitle}{\stitle}
-	\begin{exampleblock}{Correction questions 2}
+	\begin{exampleblock}{Exemple}
 		\begin{center}
 			\psset{levelsep=1cm,treesep=0.2cm,linecolor=OliveGreen,linewidth=0.6pt}
 			\pstree{\Toval{\tiny \tt fibo(5)}}{
@@ -132,57 +296,27 @@
 					\Toval{\tiny \tt  fibo(1)}}
 			}
 		\end{center}
+		\onslide<2-> Les mêmes appels récursifs apparaissent dans plusieurs branche, on dit qu'il y a \textcolor{blue}{\textit{chevauchement des appels récursifs}}.
+		\onslide<3-> (On peut montrer que le nombre d'appels récursifs $a_n$ pour calculer $f_n$ est $a_n = 2\,f_n -1$ et donc la complexité est exponentielle)
 	\end{exampleblock}
 \end{frame}
 
 
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{exampleblock}{Correction questions 3}
-		\begin{center}
-			\psset{levelsep=1cm,treesep=0.2cm,linecolor=OliveGreen,linewidth=0.6pt}
-			\pstree{\Toval{\tiny \tt fibo(5)}}{
-				\pstree{\Toval{\tiny \tt fibo(4)}}{
-					\pstree{\Toval{\tiny \tt  fibo(3)}}{
-						\pstree{\Toval{\textcolor{BrickRed}{\tt \tiny fibo(2)}}}{\Toval{\tt \tiny fibo(1)} \Toval{\tiny \tt  fibo(0)}}
-						\Toval{\tiny \tt  fibo(1)}}
-					\pstree{\Toval{\textcolor{BrickRed}{\tt \tiny fibo(2)}}}{\Toval{\tiny  \tt fibo(1)} \Toval{\tiny \tt  fibo(0)}}
-				}
-				\pstree{\Toval{\tiny \tt fibo(3)}}{
-					\pstree{\Toval{\textcolor{BrickRed}{\tt \tiny fibo(2)}}}{\Toval{\tiny \tt  fibo(1)} \Toval{\tiny \tt  fibo(0)}}
-					\Toval{\tiny \tt  fibo(1)}}
-			}
-		\end{center} \medskip
-		{\small On calcule à plusieurs reprises les \textit{mêmes valeurs}, ici par exemple \textcolor{BrickRed}{\tt fibo(2)} est calculé à trois reprises.}
-	\end{exampleblock}
-\end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{alertblock}{Mémoïsation}
 		\begin{itemize}
 			\item<1-> La \textcolor{blue}{mémoïsation} consiste à stocker dans une structure de données les valeurs renvoyées par une fonction afin de ne pas les recalculer lors des appels identiques suivant.\\
-			\item<2-> En Python, on utilise un dictionnaire dont les clés sont les arguments de la fonction et les valeurs les résultats de la fonction.
+			\item<2-> Les tableaux associatifs dont les clés sont les arguments de la fonction et les valeurs les résultats correspondant sont des structures de données adaptées à ce stockage car on teste l'appartenance et on retrouve une valeur efficacement.
+			\item<3-> On rappelle qu'un tableau associatif peut-être implémenté de façon efficace par :
+			\begin{itemize}
+				\item une table de hachage 
+				\item un arbre binaire de recherche lorsque les clés sont ordonnées.
+			\end{itemize}
 		\end{itemize}
 	\end{alertblock}
-	\begin{exampleblock}{Exemple}
-		\onslide<3->{Par exemple, si on stocke dans un dictionnaire la valeur de {\tt fibo(2)} (clé : 2, valeur: 1), on n'a plus besoin de la recalculer lors des futurs appels.}
-	\end{exampleblock}
 \end{frame}
 
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Fibonnaci avec mémoïsation}
-		\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/fibo_rec_memo.py}{}{\footnotesize}
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{Remarque}
-		En python, la mémoïsation peut-être effectuée de façon automatique à l'aide du décorateur \kw{lru\_cache} du module \kw{ functools}. Après importation, on écrira simplement \kw{@lru\_cache} avant la définition de la fonction dont on veut mémoïser les appels.
-	\end{block}
-	\onslide<2->{
-		\begin{exampleblock}{Fibonacci mémoïsation automatique}
-			\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/fibo_rec_memo2.py}{}{\footnotesize}
-		\end{exampleblock}}
-\end{frame}
 
 \makess{Programmation dynamique : exemple introductif}
 \begin{frame}{\Ctitle}{\stitle}
@@ -191,9 +325,9 @@
 			\begin{center}
 				\begin{tabular}{|l|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|}
 					\hline
-					longueur & 1 & 2 & 3 & 4 & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 \\
+					longueur ($i$) & 1 & 2 & 3 & 4 & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 \\
 					\hline
-					prix     & 2 & 4 & 7 & 8 & 12 & 14 & 18 & 23 & 24 & 25 & 26 & 31 \\
+					prix     ($p_i$)& 2 & 4 & 7 & 8 & 12 & 14 & 18 & 23 & 24 & 25 & 26 & 31 \\
 					\hline
 				\end{tabular}
 			\end{center}}
@@ -204,8 +338,8 @@
 		\begin{enumerate}
 			\item<5-> Donner les valeurs de $v_0$ et $v_1$.
 			\item<6-> Etablir une relation de récurrence liant les $(v_i)_{0\leq i \leq N}$.
-			\item<7-> En déduire une fonction Python récursive calculant la valeur de la découpe maximale.
-			\item<8-> Utiliser la mémoïsation dans cette fonction.
+			\item<7-> En déduire une fonction  récursive en C calculant la valeur de la découpe maximale.
+			\item<8-> Vérifier qu'on se trouve dans une situation de chevauchement des appels récursifs et proposer une nouvelle version de votre fonction utilisant la mémoïsation.
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -213,20 +347,25 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Résolution}
 		\begin{enumerate}
-			\item<1-> \textcolor{OliveGreen}{$v_0=0$ et $v_1=1$}
-			\item<2-> \textcolor{OliveGreen}{En supposant qu'on connaisse les valeurs maximales de découpe pour les tailles inférieurs $n$, la découpe maximale pour la taille $n$ s'en déduit en prenant le maximum parmi les découpes maximales d'une barre de longueur $k \leq n-1$  et d'un morceau de taille $n-k$, c'est à dire :
+			\item<1-> \textcolor{OliveGreen}{\small $v_0=0$ et $v_1=2$}
+			\item<2-> \textcolor{OliveGreen}{\small En supposant qu'on connaisse les valeurs maximales de découpe pour \textit{toutes} les tailles inférieures à $n$, la découpe maximale pour la taille $n$ s'en déduit en prenant le maximum parmi les découpes maximales d'une barre de longueur $k \leq n-1$  et du prix d'un morceau de taille $n-k$, c'est à dire :
 					$v_n = \max\left\{ v_k + p_{n-k},  0 \leq k \leq n-1\right\}$}
-			\item<3-> \textcolor{OliveGreen}{Programme Python :}
-				\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/decoupe.py}{}{\scriptsize}
-				\onslide<4->\textcolor{OliveGreen}{Le programme affiche 32.}
+			\item<3-> \textcolor{OliveGreen}{\small Implémentation en C:}
+				\inputpartC{\SPATH/barre.c}{}{\footnotesize}{19}{27}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
 
 
 \begin{frame}{\Ctitle}{\stitle}
-	\begin{exampleblock}{Version avec mémoïsation}
-		\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C2/decoupe_memo.py}{}{\scriptsize}
+	\begin{exampleblock}{Résolution}
+		\begin{enumerate}
+			\addtocounter{enumi}{3}
+			\item Pour calculer $v_5$, on doit calculer $v_4, v_3, \dots v_0$. Mais l'appel à $v_4$ demande aussi le calcul de $v_3, v_2, \dots v_0$. On se trouve donc bien dans le cas d'un chevauchement d'appels récursifs. \\
+			\medskip
+			On peut proposer la version avec memoisation suivante :
+			\inputpartC{\SPATH/barre.c}{}{\footnotesize}{29}{39}
+		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
 

@@ -81,9 +81,24 @@ Ce fichier contient 5000 chaines de caractères (une par ligne), une seule de ce
 
 1. Proposer une solution utilisant une liste `deja_vu` dans laquelle on rangera les chaines de caractères au fur et à mesure de leur apparition. Vous pouvez tester votre réponse dans le formulaire ci dessous   {{check_reponse("PYKKEXW")}}
 
+    ??? Question "Corrigé"
+        
+        ```python
+        --8<-- "C2/trouve_double.py:2:20"
+        ```
+
 2. Proposer une solution utilisant les dictionnaire de Python
 
-3. Discuter l'efficacité de ces deux solution
+    ??? Question "Corrigé"
+        
+        ```python
+        --8<-- "C2/trouve_double.py:22:29"
+        ```
+
+3. Discuter l'efficacité de ces deux solutions
+
+    ??? Question "Corrigé"
+        Le test d'appartenance dans une liste a une complexité **linéaire** $O(1)$ (on teste l'égalité ou plus entre `elt` et chaque élément de la liste, donc au plus on effectue `n` comparaisons où `n` est la longueur de la liste). Par contre, comme vu en cours, le test d'appartenance à un dictionnaire s'effectue en **temps constant** ($O(1)$). La seconde solution utilisant un dictionnaire est donc plus efficace.
 
 {{ exo("A la recherche du mot caché",[])}}
 

@@ -296,9 +296,44 @@ On rappelle qu'un nombre premier est un entier naturel ayant exactement deux div
 
   
 1. Détailler les étapes de cet algorithme lorsqu'on le fait fonctionner sur la liste `[12,10,18,15,14]`
+
+    ??? Question "Corrigé"
+        * Recherche du minimum depuis l'indice 0 : $[12,\textcolor{red}{10},18,15,14]$
+        * Echange avec celui situé à l'indice 0 : $[10, 12, 18, 15, 14]$
+        * Recherche du minimum depuis l'indice 1 : $[10,\textcolor{red}{12}, 18, 15, 14]$
+        * Echange avec celui situé à l'indice 1 : $[10, 12, 18, 15, 14]$
+        * Recherche du minimum depuis l'indice 2 : $[10,12, 18, 15, \textcolor{red}{14}]$
+        * Echange avec celui situé à l'indice 2 : $[10, 12, 14, 15, 18]$
+        * Recherche du minimum depuis l'indice 3 : $[10,12, 18, \textcolor{red}{15}, 18]$
+        * Echange avec celui situé à l'indice 3 : $[10, 12, 14, 15, 18]$
+
 2. Ecrire une fonction `echange` qui prend en argument une liste et deux indices $i$ et $j$ et échange les éléments d'indice $i$ et $j$ de cette liste.
+
+    ??? Question "Corrigé"
+        ```python
+        --8<-- "C0/select_sort.py:1:3"
+        ```
+
 3. Ecrire une fonction `indice_min_depuis` qui prend en argument une liste et un indice $i$ et renvoie l'indice du minimum des éléments de cette liste depuis l'indice $i$.
+
+    ??? Question "Corrigé"
+        ```python
+        --8<-- "C0/select_sort.py:5:13"
+        ```
+
 4. Programmer et tester l'algorithme du tri par sélection
+
+    ??? Question "Corrigé"
+
+        ```python
+        --8<-- "C0/select_sort.py:15:19"
+        ```
+
+        On rappelle que les listes sont mutables en Python, et qu'on effectue ici un tri en place (la liste est modifiée et on en crée pas de nouvelle). Pour tester on peut donc écrire :
+
+        ```python
+        --8<-- "C0/select_sort.py:22:24"
+        ```
 
 
 {{ exo("Tri par insertion",[] )}}
