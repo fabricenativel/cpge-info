@@ -1,0 +1,761 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{11}
+\newcommand{\Ctitle}{\cnum {Base de données, modèle relationnel}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
+
+% Exemple introductif
+\makess{Introduction}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définitions}
+		\begin{itemize}
+			\item<1-> Le \textcolor{blue}{modèle relationnel}, introduit en 1969 par E. {\sc Codd} est une réponse à la problématique de la gestion des données en informatique :
+				\begin{itemize}
+					\item<1-> Accès concurrents aux mêmes données par des utilisateurs différents
+					\item<2-> Indépendance logique
+					\item<3-> Résistance aux pannes
+				\end{itemize}
+			\item<4-> Dans le modèle relationnel, une \textcolor{blue}{base de données} est un ensemble de \textcolor{blue}{tables} (appelés aussi \textcolor{blue}{relations}).
+			\item<5-> Un \textcolor{blue}{\sc sgbd} (Système de Gestion de Base de Données), en anglais \textcolor{gray}{{\sc dbms}, (DataBase Management Service)} est un logiciel permettant de gérer et d'interagir avec une base de données. Les plus connus sont MySQL (libre) ou Oracle (propriétaire).
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Modèle relationnel}
+		\begin{itemize}
+			\item<1-> Une \textcolor{blue}{relation} est un \textbf{ensemble} (donc pas de redondance) de n-uplets, tous de même taille.
+			\item<2-> Chaque composante d'un n-uplet est appelé  \textcolor{blue}{attribut} (ou champ).
+			\item<3-> Un attribut est caractérisé par son \textcolor{blue}{nom} et son \textcolor{blue}{domaine} (ensemble dans lequel il peut prendre ses valeurs).
+			\item<4-> Un n-uplet (donc une ligne dans une relation) s'appelle un \textcolor{blue}{enregistrement}, il modélise une entité du monde réel.
+			\item<5-> Une \textcolor{blue}{clé primaire} est un attribut (ou ensemble d'attribut) permettant d'identifier de façon unique un enregistrement.
+			\item<6-> Le \textcolor{blue}{schéma} d'une table consiste en la donnée de son nom et des noms des attributs avec le domaine de chacun.
+			\item<7-> Le \textcolor{blue}{schéma relationnel} d'une base de données est l'ensemble des schémas des tables de cette base.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Un exemple de relation}
+		\begin{tabular}{|l|l|l|l|}
+			\hline
+			\textbf{Id} & \textbf{Langage} & \textbf{Année} & \textbf{Inventeur(s)} \\
+			\hline
+			1           & C                & 1972           & Dennis Ritchie        \\
+			\hline
+			2           & C++              & 1983           & Bjarne Stroustrup     \\
+			\hline
+			3           & Java             & 1995           & James Gosling         \\
+			\hline
+			4           & Python           & 1991           & Guido van Rossum      \\
+			\hline
+			5           & JavaScript       & 1995           & Brendan Eich          \\
+			\hline
+			6           & PHP              & 1995           & Rasmus Lerdorf        \\
+			\hline
+			7           & C\#              & 2000           & Microsoft             \\
+			\hline
+			8           & Swift            & 2014           & Apple                 \\
+			\hline
+			9           & Go               & 2009           & Google                \\
+			\hline
+			10          & Rust             & 2010           & Mozilla               \\
+			\hline
+			11          & OCaml            & 1996           & Xavier Leroy et al.   \\
+			\hline
+		\end{tabular}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Un exemple de relation}
+		\begin{tabular}{|l|l|l|l|}
+			\hline
+			\textbf{Id}          & \textbf{Langage} & \textbf{Année} & \textbf{Inventeur(s)}     \\
+			\hline
+			1                    & C                & 1972           & Dennis Ritchie            \\
+			\hline
+			2                    & C++              & 1983           & Bjarne Stroustrup         \\
+			\hline
+			3                    & Java             & 1995           & James Gosling             \\
+			\hline
+			4                    & Python           & 1991           & Guido van Rossum          \\
+			\hline
+			5                    & JavaScript       & 1995           & Brendan Eich              \\
+			\hline
+			\rowcolor{Apricot} 6 & PHP              & 1995           & \rnode{A}{Rasmus Lerdorf} \\
+			\hline
+			7                    & C\#              & 2000           & Microsoft                 \\
+			\hline
+			8                    & Swift            & 2014           & Apple                     \\
+			\hline
+			9                    & Go               & 2009           & Google                    \\
+			\hline
+			10                   & Rust             & 2010           & Mozilla                   \\
+			\hline
+			11                   & OCaml            & 1996           & Xavier Leroy et al.       \\
+			\hline
+		\end{tabular}
+		\rput(2,0){\rnode{B}{\textcolor{BrickRed}{Un enregistrement}}}
+		\ncline[nodesepA=0.2cm,linecolor=BrickRed,linewidth=1pt]{->}{A}{B}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Un exemple de relation}
+		\begin{tabular}{|l|l|>{\columncolor{Apricot}}l|l|}
+			\hline
+			\textbf{Id} & \textbf{Langage} & \textbf{Année}  & \textbf{Inventeur(s)} \\
+			\hline
+			1           & C                & 1972            & Dennis Ritchie        \\
+			\hline
+			2           & C++              & 1983            & Bjarne Stroustrup     \\
+			\hline
+			3           & Java             & 1995            & James Gosling         \\
+			\hline
+			4           & Python           & 1991            & Guido van Rossum      \\
+			\hline
+			5           & JavaScript       & 1995            & Brendan Eich          \\
+			\hline
+			6           & PHP              & 1995            & Rasmus Lerdorf        \\
+			\hline
+			7           & C\#              & 2000            & Microsoft             \\
+			\hline
+			8           & Swift            & 2014            & Apple                 \\
+			\hline
+			9           & Go               & 2009            & Google                \\
+			\hline
+			10          & Rust             & 2010            & Mozilla               \\
+			\hline
+			11          & OCaml            & \rnode{A}{1996} & Xavier Leroy et al.   \\
+			\hline
+		\end{tabular} \\ \vspace{0.5cm}
+		\rput(7.2,0.22){\rnode{B}{\ L'\textcolor{BrickRed}{Attribut}  de nom \textit{Année} de domaine $\N$.}}
+		\ncdiag[nodesepA=0.1cm,linecolor=BrickRed,linewidth=1pt,angleA=270,angleB=180]{->}{A}{B}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Un exemple de relation}
+		\vspace{0.4cm}
+		\quad \quad \rput(6,0.35){\rnode{B}{Id peut servir de clé primaire car unique pour chaque enregistrement}}\\
+		\begin{tabular}{|l|l|l|l|}
+			\hline
+			\cellcolor{Apricot}{\rnode{A}{\textbf{Id}}} & \textbf{Langage} & \textbf{Année} & \textbf{Inventeur(s)} \\
+			\hline
+			1                                           & C                & 1972           & Dennis Ritchie        \\
+			\hline
+			2                                           & C++              & 1983           & Bjarne Stroustrup     \\
+			\hline
+			3                                           & Java             & 1995           & James Gosling         \\
+			\hline
+			4                                           & Python           & 1991           & Guido van Rossum      \\
+			\hline
+			5                                           & JavaScript       & 1995           & Brendan Eich          \\
+			\hline
+			6                                           & PHP              & 1995           & Rasmus Lerdorf        \\
+			\hline
+			7                                           & C\#              & 2000           & Microsoft             \\
+			\hline
+			8                                           & Swift            & 2014           & Apple                 \\
+			\hline
+			9                                           & Go               & 2009           & Google                \\
+			\hline
+			10                                          & Rust             & 2010           & Mozilla               \\
+			\hline
+			11                                          & OCaml            & 1996           & Xavier Leroy et al.   \\
+			\hline
+		\end{tabular} \\
+		\ncdiag[nodesepA=0.1cm,linecolor=BrickRed,linewidth=1pt,angleA=90,angleB=180]{->}{A}{B}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Schéma relationnel d'une base de données}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Schéma relationnel}
+		Le schéma relationnel d'une base de données présente les tables de cette base sous la forme de liste ou de tableau. Dans les deux cas, on précise la clé primaire de la table en soulignant l'attribut. On indique aussi parfois le type des attributs.
+		\end{alertblock}
+		\begin{exampleblock}{Exemple}
+		\onslide<2->{Le schéma relationnel de la table des langages de programmation peut s'écrire :}
+		\begin{itemize}
+		 \item<3-> Sous forme de liste : \\
+		 \onslide<4->  \textbf{langages} {\tt (\underline{id} : {\sc int},  {\tt Langage} : {\sc text}, {\tt Année} : {\sc int},{\tt Inventeurs} : {\sc text})}
+		 \item<5-> {Sous forme de tableau : \\
+		 \begin{tabular}{|lll|}
+	\hline
+	\multicolumn{3}{|c|}{\textbf{personnes}} \\
+	\hline
+	{\tt \underline{id}} & : & {\sc int} \\
+	\hline
+	{\tt Langage} & : & {\sc text} \\
+	\hline
+	{\tt Année} & : & {\sc int} \\
+	\hline
+	{\tt Inventeurs} & : & {\sc text} \\
+	\hline
+	\end{tabular}}
+		\end{itemize}
+		\end{exampleblock}
+	\end{frame}
+%Duplication de l'information
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Duplication de l'information}
+		\begin{itemize}
+		\item<1->On évite pour de multiples raisons (espace occupé, efficacité pour les recherches ou les modifications, \dots) de dupliquer l'information présente dans une base de données. 
+		\item<2-> On est donc amené à créer plusieurs tables \textcolor{blue}{liées} entre elles, c'est à dire que certains attributs d'une table sont les clés primaires d'une autre table. On dit que ce sont des \textcolor{red}{clés étrangères}. 
+		\item<3-> Les clés étrangères sont précédées de {\tt \#} dans le schéma relationnel.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\begin{tabular}{|>{\tiny}l|>{\tiny}l|>{\tiny}l|>{\tiny}l|>{\tiny}l|>{\tiny}l|>{\tiny}l|}
+			\hline
+			\textbf{\tiny Id} & \textbf{\tiny Chanson} & \textbf{\tiny Interprète} & \textbf{\tiny Nationalité} & \textbf{\tiny Naissance} & \textbf{\tiny Année de Sortie} & \textbf{\tiny Album} \\
+			\hline
+			1 & "Bohemian Rhapsody" & Queen & Britannique & 1946 & 1975 & "A Night at the Opera" \\
+			2 & "Like a Rolling Stone" & Bob Dylan & Américain & 1941 & 1965 & "Highway 61 Revisited" \\
+			3 & "Imagine" & John Lennon & Britannique & 1940 & 1971 & "Imagine" \\
+			4 & "Billie Jean" & Michael Jackson & Américain & 1958 & 1983 & "Thriller" \\
+			5 & "Amstrong" & Claude Nougaro & Français & 1929 & 1984 & "Nougayork" \\
+			\hline
+			\end{tabular}
+			\end{center}	
+			\begin{itemize}
+				\item<2-> Donner le schéma relationnel de cet table
+				\item<3-> Proposer un schéma composé de plusieurs tables et permettant de représenter plus efficacement les données.
+			\end{itemize}				
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\onslide<2->{On souhaite modéliser un relevé de notes sur lequel figure :
+		\begin{itemize}
+			\item[-]<3-> Un élève (nom, prénom, date de naissance, et identifiant unique)
+			\item[-]<4-> Un ensemble de matière fixées
+			\item[-]<5-> Au plus une note par matière et par élève
+		\end{itemize}
+		\onslide<6->{Expliquer pourquoi un schéma relationnel d'une seule table notes n'est pas satisfaisant et proposer un schéma relationnel constitué de 3 tables}
+		}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Intégrité référentielle}
+		Dans une base de données, l'\textcolor{red}{intégrité référentielle}, assure qu'une clé étrangère est toujours présente en tant que clé primaire dans la table qu'elle référence. Cela assure la cohérence des données et empêche des suppressions par erreur de la part des utilisateurs.
+	\end{alertblock}
+	\begin{exampleblock}{Exemple}
+		\onslide<2->{Dans l'exemple précédent, la table des notes doit toujours faire référence à un élève et à une matière. L'intégrité référentielle préserve automatiquement la relation "une note appartient forcément à un élève" et "une note est donnée dans une matière existante"}
+	\end{exampleblock}
+\end{frame}
+
+
+\makess{Langage {\sc sql}}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Généralités}
+		\begin{itemize}
+			\item<1-> \textcolor{blue}{\sc sql} \textit{(Structured Query Language)} est un langage de requête permettant d'interagir avec une base de données et d'y récupérer des informations.
+			\item<2-> Le standard du langage n'est pas parfaitement mis en oeuvre et des différences notables peuvent exister entre différents {\sc sgbd}.
+			\item<3-> Le langage permet de créer, modifier, mettre à jour, \dots les tables d'une base de données.
+			\item<4-> En {\sc mp2i} seules les requêtes permettant d'extraire des informations d'une ou plusieurs tables sont étudiées. Toutes nos requêtes seront donc basées sur l'instruction {\sc select}.
+			\item<5-> On se limitera aux domaines (types) suivant :
+			\begin{itemize}
+				\item<6-> {\sc string} : chaines de caractères
+				\item<7-> {\sc int} : nombres entiers
+				\item<8-> {\sc float} : nombres en virgule flottante
+			\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Pour illustrer le cours on utilise une table des médailles obtenus au JO :\\
+		\begin{tabular}{|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|}
+			\hline
+			Id    & City        & Year & Sport     & Discipline & Event           & Athlete          & Gender & Country       & Medal  \\
+			\hline
+			286   & Montreal    & 1976 & Athletics & Athletics  & 110m hurdles    & DRUT, Guy        & Men    & France        & Gold   \\
+			\hline
+			194   & Montreal    & 1976 & Athletics & Athletics  & 100m            & BORZOV, Valery   & Men    & Soviet Union  & Bronze \\
+			\hline
+			13810 & Beijing     & 2008 & Athletics & Athletics  & decathlon       & CLAY, Bryan      & Men    & United States & Gold   \\
+			\hline
+			3455  & Los Angeles & 1984 & Fencing   & Fencing    & épée individual & BOISSE, Philippe & Men    & France        & Gold   \\
+			\hline
+		\end{tabular}
+	\end{exampleblock}
+\end{frame}
+
+
+\makess{Requêtes sur une seule table}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Premiers pas en SQL}
+		\begin{itemize}
+			\item<1-> Pour récupérer la totalité des champs d'une table {\tt table} on utilise la syntaxe : \\
+				\onslide<2->{\textcolor{blue}{\sc select} * \textcolor{blue}{\sc from} {\tt table}} \\
+			\item<3-> Pour récupérer simplement les champs {\tt champ1, champ2,...} on utilise : \\
+				\onslide<4->{\textcolor{blue}{\sc select} {\tt champ1, champ2,...}  \textcolor{blue}{\sc from} {\tt table}}
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<5->{\mintinline[keywordcase=upper]{sql}{select City, Oyear FROM Medals} renvoie une table à deux colonnes : les villes olympiques et l'année.}\\
+				\onslide<6->{\textcolor{BrickRed}{\small \important} Pour chaque enregistrement on affiche la ville et l'année donc on obtient des répétitions : \\
+				\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|}
+					\hline
+					City     & Oyear \\
+					\hline
+					Montreal & 1976  \\
+					\hline
+					Montreal & 1976  \\
+					\hline
+					\dots    & \dots \\
+				\end{tabular}}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+% Premiers pas en SQL : clause WHERE
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Clause {\sc where}}
+		Une instruction \textcolor{blue}{\sc select} peut être suivie d'une clause \textcolor{blue}{\sc where} qui permet de rechercher les enregistrements correspondants à certains conditions. Ces conditions s'expriment à l'aide des opérateurs suivant :
+		\begin{itemize}
+			\item<2-> Comparaison : {\tt \textcolor{blue}{=}, \textcolor{blue}{<}, \textcolor{blue}{>}, \textcolor{blue}{<=}, \textcolor{blue}{>=},}  {\tt \textcolor{blue}{<>}} (différent)  et \textcolor{blue}{{\sc between}} (entre)
+			\item<3-> Logique : \textcolor{blue}{\tt and}, \textcolor{blue}{\tt or} et \textcolor{blue}{\tt not}
+				\item<4->\textcolor{gray}{Modèle de chaines de caractères : \textcolor{blue}{\sc like} où \textcolor{blue}{\tt \%} désigne n'importe quel suite de caractères et \textcolor{blue}{\tt \_} un unique caractère}
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemples}
+		\onslide<5->{Pour chercher dans la table les champions olympiques français des {\sc JO} de 1980 \\}
+		\onslide<6->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT Athlete FROM Medals WHERE Country="France" and Medal="Gold" and Oyear="1980"}
+	\end{exampleblock}
+\end{frame}
+
+% Premiers pas en SQL : Classement des résultats
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Clause {\sc order by}}
+		Une instruction \textcolor{blue}{\sc select} peut être suivie d'une clause \textcolor{blue}{\sc order by} qui permet de classer les enregistrements selon un ou plusieurs champs. Cette clause est elle même suivie de :
+		\begin{itemize}
+			\item<2-> \textcolor{blue}{\sc asc} pour indiquer un classement par ordre croissant
+			\item<3-> \textcolor{blue}{\sc desc} pour indiquer un classement par ordre décroissant
+		\end{itemize}
+		\onslide<4->{La valeur par défaut est {\sc asc}}
+	\end{alertblock}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<5-> Pour classer par ordre alphabétique les noms vainqueurs du 100 m aux JO :\\
+				\onslide<6->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT Athlete FROM Medals WHERE Event="100m" and Medal="Gold" ORDER BY Athlete}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+% Premiers pas en SQL : Clause distinct
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Clause {\sc distinct}, {\sc limit} et {\sc offset}}
+		\begin{itemize}
+			\item<2-> Une instruction \textcolor{blue}{\sc select} peut être \textit{directement} suivie d'une clause \textcolor{blue}{\sc distinct} {\tt champ} qui indique que {\tt champ} ne doit apparaître qu'une fois dans les résultats
+			\item<3-> Une instruction \textcolor{blue}{\sc select} peut être suivie d'une clause \textcolor{blue}{\sc limit} qui indique le nombre maximal d'enregistrement à renvoyer. Cette clause est particulièrement utile en relation avec \textcolor{blue}{\sc order by}.
+			\item<4-> \textcolor{blue}{\sc offset} permet de se décaler dans l'ordre des résultats.
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<5-> Pour afficher les villes olympiques  sans répétitions :\\
+				\onslide<6->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT DISTINCT City FROM Medals}
+			\item<7-> Pour afficher les trois derniers champions olympiques du décathlon\\
+				\onslide<8->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT Athlete FROM Medals WHERE Event="decathlon" and Medal="Gold" ORDER BY OYear DESC LIMIT 3}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Renommage}
+		\begin{itemize}
+			\item<1-> On peut faire des calculs dans les requêtes
+			\item<2-> On peut renommer une colonne avec \kw{AS}
+			\item<3-> Cela est particulièrement utile pour y faire référence ensuite
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemples}
+		\onslide<4-> On calcule l'ancienneté de chaque ville olympique et on les affiche par ordre croissant.\\
+		\onslide<5->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT DISTINCT City, 2023-Oyear AS Ancienneté FROM Medals ORDER BY Ancienneté DESC}
+	\end{exampleblock}
+\end{frame}
+
+% Premiers pas en SQL : agrégation et GROUP BY
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Agrégation}
+		Le langage {\sc sql} offre des opérateurs appelés \textcolor{blue}{fonction d'agrégation} permettant de calculer une valeur à partir d'un ensemble d'enregistrement :
+		\begin{itemize}
+			\item<2-> {\sc min} pour obtenir le minimum (d'un champ sur un ensemble d'enregistrement)
+			\item<3-> {\sc max} pour obtenir le max
+			\item<4-> {\sc sum} pour obtenir la somme
+			\item<5-> {\sc avg} pour obtenir le minimum
+			\item<6-> {\sc count} pour compter le nombre d'enregistrement
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<7-> Pour compter le nombre de médailles de bronze Française en 2008 :\\
+				\onslide<8->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT COUNT(*) FROM Medals WHERE Medal="Bronze" and Country="France" and Oyear=2008}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Clause {\sc group by}}
+		\begin{itemize}
+			\item<1-> On peut regrouper les résultats pour un attribut donné à l'aide de \textcolor{blue}{\sc group by}.
+			\item<2-> Un seul résultat sera affiché pour chaque valeur possible de l'attribut.
+			\item<3-> Les fonctions d'agrégation dans le \textcolor{blue}{\sc select} s'appliquent alors à chaque groupe.
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemples}
+		\onslide<4->Pour afficher le nombre total de médailles par pays\\
+		\onslide<5->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT Country, COUNT(*) AS total FROM Medals GROUP BY Country}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Clause {\sc having}}
+		\begin{itemize}
+			\item<1-> Une clause {\sc group by} peut être complété par une clause {\sc having} qui indique une condition sur les groupes à afficher.
+			\item<2-> \textcolor{BrickRed}{\small \important} Ne pas confondre :
+			\begin{itemize}
+				\item<3-> {\sc where} qui donne une condition sur les \textit{enregistrements} à afficher.
+				\item<4-> {\sc having} qui est utilisé à la suite de {\sc group by} pour donner une condition sur les groupes à afficher.
+			\end{itemize}
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemples}
+		\onslide<5->{Pour afficher les pays ayant eu au total plus de 100 médailles\\}
+		\onslide<6->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT Country, COUNT(*) AS total FROM Medals GROUP BY Country HAVING total>100}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		{\small On considère une base de données des pays du monde constitué d'une seule table : \\
+		\textbf{Pays} (\underline{Id} :  {\sc integer}, Country : {\sc text}, Region : {\sc text}, Population : {\sc integer}, Area : {\sc integer}, Coastline : {\sc float}, GDP : {\sc integer}) \\
+		Voici un exemple d'enregistrement dans cette table : \\
+		(20, "Belgium", "WESTERN EUROPE", 10379067, 30528, 0.22, 29100)\\
+		Ecrire les requêtes permettant :
+		\begin{itemize}
+			\item<2-> Lister les différentes régions
+			\item<3-> Lister pr ordre croissant les cinq pays ayant le plus d'habitant
+			\item<4-> Donner la surface de la France
+			\item<5-> Lister les pays ayant la densité de population la plus faible (rapport entre le nombre d'habitants et la surface du pays)
+			\item<6-> Donner le plus grand pays n'ayant pas d'ouverture sur la mer.
+			\item<7-> Donner la superficie moyenne des pays en les regroupant par région
+		\end{itemize}}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Requêtes sur plusieurs tables : opérations ensemblistes}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Union de deux tables}
+		Lorsque deux tables $T_1$ et $T_2$ ont \textcolor{BrickRed}{le même schéma relationnel} (c'est à dire les même colonnes), $T_1 \cup T_2$ contient les enregistrement de $T_1$ ou $T_2$ (sans duplication).
+		La syntaxe {\sc sql} correspondante est :
+		\onslide<2->{\mintinline{sql}{SELECT * FROM T1 UNION SELECT * FROM T2;}}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{\begin{center}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$7$                     & Payet   & Jean           \\
+					\hline
+					$28$                    & Hoarau  & Paul           \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$57$                    & Casimir & Tom            \\
+					\hline
+				\end{tabular}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$12$                    & Martin  & Pierre         \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$45$                    & Grondin & Eric           \\
+					\hline
+				\end{tabular} \quad
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 \cup T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom                  \\
+					\hline
+					$7$                     & Payet   & Jean                    \\
+					\hline
+					$28$                    & Hoarau  & Paul                    \\
+					\hline
+					$42$                    & Untel   & Sam                     \\
+					\hline
+					$57$                    & Casimir & Tom                     \\
+					\hline
+					$12$                    & Martin  & Pierre                  \\
+					\hline
+					$45$                    & Grondin & Eric                    \\
+					\hline
+				\end{tabular}
+			\end{center}}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Intersection de deux tables}
+		Lorsque deux tables $T_1$ et $T_2$ ont \textcolor{BrickRed}{le même schéma relationnel} (c'est à dire les même colonnes), $T_1 \cap T_2$ contient les enregistrement apparaissant dans $T_1$ et dans $T_2$.
+		\onslide<2->{La syntaxe {\sc sql} correspondante est : \\
+			\mintinline{sql}{SELECT * FROM T1 INTERSECT SELECT * FROM T2 ;}}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{\begin{center}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$7$                     & Payet   & Jean           \\
+					\hline
+					$28$                    & Hoarau  & Paul           \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$57$                    & Casimir & Tom            \\
+					\hline
+				\end{tabular} \quad
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$12$                    & Martin  & Pierre         \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$45$                    & Grondin & Eric           \\
+					\hline
+				\end{tabular}
+				\quad
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 \cap T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom   & Prénom                    \\
+					\hline
+					$42$                    & Untel & Sam                       \\
+					\hline
+				\end{tabular}
+			\end{center}}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Différence de deux tables}
+		Lorsque deux tables $T_1$ et $T_2$ ont \textcolor{BrickRed}{le même schéma relationnel} (c'est à dire les même colonnes), $T_1 - T_2$ contient les enregistrement apparaissant dans $T_1$ et pas dans $T_2$.
+		\onslide<2->{La syntaxe {\sc sql} correspondante est : \\
+			\mintinline{sql}{SELECT * FROM T1 EXCEPT SELECT * FROM T2 ;}}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{\begin{center}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$7$                     & Payet   & Jean           \\
+					\hline
+					$28$                    & Hoarau  & Paul           \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$57$                    & Casimir & Tom            \\
+					\hline
+				\end{tabular}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$12$                    & Martin  & Pierre         \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$45$                    & Grondin & Eric           \\
+					\hline
+				\end{tabular}
+				\quad
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 - T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom               \\
+					\hline
+					$7$                     & Payet   & Jean                 \\
+					\hline
+					$28$                    & Hoarau  & Paul                 \\
+					\hline
+					$57$                    & Casimir & Tom                  \\
+					\hline
+				\end{tabular}
+			\end{center}}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Produit cartésien de deux tables}
+		On peut réaliser le \textcolor{Sepia}{produit cartésien} de deux tables, c'est à dire l'ensemble des enregistrements formé d'un enregistrement de la première table et d'un enregistrement de la seconde. \\
+		\onslide<2->{La syntaxe {\sc sql} correspondante est : \\ \mintinline{sql}{SELECT * FROM T1, T2 ;}}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{
+			\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|}
+				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
+				\hline
+				\rowcolor{lightgray} Id & Nom   & Prénom           \\
+				\hline
+				$7$                     & Payet & Jean             \\
+				\hline
+				$42$                    & Untel & Sam              \\
+				\hline
+			\end{tabular}
+			\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|}
+				\multicolumn{2}{c}{\textcolor{Sepia}{Table $T_2$}} \\
+				\hline
+				\rowcolor{lightgray} Matière & Note                \\
+				\hline
+				Info                         & $15 $               \\
+				\hline
+				Maths                        & $9  $               \\
+				\hline
+				Physique                     & $10 $               \\
+				\hline
+			\end{tabular}
+			\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|}
+				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 \times T_2$}} \\
+				\hline
+				\rowcolor{lightgray} Id & Nom   & Prenom & Matière  & Note    \\
+				\hline
+				$7$                     & Payet & Jean   & Info     & $15 $   \\
+				\hline
+				$42$                    & Untel & Sam    & Info     & $15 $   \\
+				\hline
+				$7$                     & Payet & Jean   & Maths    & $9  $   \\
+				\hline
+				$42$                    & Untel & Sam    & Maths    & $9  $   \\
+				\hline
+				$7$                     & Payet & Jean   & Physique & $10 $   \\
+				\hline
+				$42$                    & Untel & Sam    & Physique & $10 $   \\
+				\hline
+			\end{tabular}}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Requêtes sur plusieurs tables : jointures}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Définition}
+		\begin{itemize}
+			\item<1-> La jointure de deux tables $T_1$ et $T_2$ sur les colonnes $A$ et $B$ revient à combiner les enregistrements de $T_1$ et $T_2$ lorsque les colonnes $A$ et $B$ coïncident.
+			\item<2-> Cette jointure se note $T_1 \Join_{A=B} T_2$
+			\item<3-> Cette notion est \textcolor{blue}{fortement liée} à celle  de clé étrangère, on effectuera souvent les jointures avec $A$ une clé primaire et $B$ une clé étrangère correspondante.
+			\item<4-> La syntaxe {\sc sql} correspondante est : \\ \mintinline{sql}{SELECT * FROM T1 JOIN T2 on T1.A = T2.B}
+			\item<5-> On peut joindre plus de deux tables.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\onslide<2->{\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|}
+					\multicolumn{2}{c}{\textcolor{Sepia}{Table Auteurs}} \\
+					\hline
+					\rowcolor{lightgray} Id   & Prénom & Nom             \\
+					\hline
+					\textcolor{blue}{1}       & Isaac  & Asimov          \\
+					\hline
+					\textcolor{BrickRed}{4}   & Franck & Herbert         \\
+					\hline
+					\textcolor{OliveGreen}{7} & Jules  & Verne           \\
+					\hline
+				\end{tabular}} \quad \quad
+			\onslide<3->{\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|}
+					\multicolumn{2}{c}{\textcolor{Sepia}{Table Livres}}                      \\
+					\hline
+					\rowcolor{lightgray} Num & Auteur                    & Titre             \\
+					\hline
+					1                        & \textcolor{BrickRed}{4}   & Dune              \\
+					\hline
+					2                        & \textcolor{blue}{1}       & Les robots        \\
+					\hline
+					3                        & \textcolor{OliveGreen}{7} & L'île mystérieuse \\
+					\hline
+					4                        & \textcolor{blue}{1}       & Fondation         \\
+					\hline
+				\end{tabular}} \end{center}
+		\onslide<4->{La jointure de \textcolor{Sepia}{Auteurs} et \textcolor{Sepia}{Livres} sur les colonnes Id et Auteur donne :}
+		\onslide<5->{\begin{center}
+			\begin{tabular}{|>{\columncolor{fluo} \footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|>{\columncolor{fluo}\footnotesize}c|>{\footnotesize}c|}
+				\hline
+				\rowcolor{lightgray} Id   & Prénom & Nom     & Num & Auteur                    & Titre             \\
+				\hline
+				\textcolor{blue}{1}       & Isaac  & Asimov  & 2   & \textcolor{blue}{1}       & Les robots        \\
+				\hline
+				\textcolor{blue}{1}       & Isaac  & Asimov  & 4   & \textcolor{blue}{1}       & Fondation         \\
+				\hline
+				\textcolor{BrickRed}{4}   & Franck & Herbert & 1   & \textcolor{BrickRed}{4}   & Dune              \\
+				\hline
+				\textcolor{OliveGreen}{7} & Jules  & Verne   & 3   & \textcolor{OliveGreen}{7} & L'île mystérieuse \\
+				\hline
+			\end{tabular}}\medskip \\
+			\onslide<6->\mintinline{sql}{SELECT * FROM Auteurs JOIN Livres on Auteurs.ID = Livres.Auteur}
+			\onslide<7->(On préfixe le nom des attributs par celui de la table afin d'éviter toute ambiguïté.)
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+
+\makess{Requêtes imbriquées}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Requête dans le résultat d'une requête}
+		\begin{itemize}
+			\item<1-> Le résultat d'une requête peut-être utilisé afin d'effectuer une autre requête.
+			\item<2-> C'est le principe des \textcolor{blue}{requêtes imbriquées}.
+			\item<3-> C'est souvent dans un \mintinline{sql}{WHERE} ou un \mintinline{sql}{HAVING}
+		\end{itemize}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<4->{Dans la relation \textit{Objet} (\underline{Référence} : {\sc int}, description : {\sc text}, prix : {\sc float}), comment retrouver le (ou les) objets ayant le prix le plus élevé ?}
+		\begin{itemize}
+			\item<5-> \mintinline{sql}{SELECT Référence, MAX(prix) FROM objet;} \\
+				\onslide<5-> Cette solution n'est pas satisfaisante car elle renverra une seule référence même si plusieurs objets ont le prix maximal.
+			\item<6-> \mintinline{sql}{SELECT Référence, prix FROM objet ORDER BY prix DESC LIMIT 1;}
+				\onslide<6-> De même pour cette solution !
+			\item<7-> \mintinline{sql}{SELECT Référence, prix FROM Objet } \\
+				\mintinline{sql}{WHERE note = (SELECT MAX(prix) FROM objet);}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\end{document}
