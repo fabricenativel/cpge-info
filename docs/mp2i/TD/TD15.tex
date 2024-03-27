@@ -1,0 +1,65 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{15}{Décompostion en sous problèmes}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C14/}
+
+
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise}[title = {Maximum}] \\
+    On s'intéresse au problème de la recherche du maximum des éléments du liste non vide {\tt l}.
+    \Question{Ecrire en OCaml une fonction {\tt max int list -> int} qui renvoie le maximum de la liste donnée en argument. Donner sa complexité en nombre de comparaisons effectuées.}
+    \Question{Mettre en place une stratégie \textit{diviser pour régner} afin de résoudre ce problème.}
+    \Question{En donner l'implémentation en OCaml.}
+    \Question{Déterminer sa complexité en nombre de comparaison effectuées et conclure.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Algorithme de Karatsuba}]\\
+    On considère deux nombres $M$ et $N$ ayant $n$ chiffres en base 10, on suppose $n$ paire et on note $k=n/2$. Ces deux nombres peuvent donc s'écrire $M = a\times 10^k + b$ et $N = c \times 10^k +d$ où $a,b,c$ et $d$ sont des nombres à $k$ chiffres.
+    \Question{Si on développe "normalement" $(a\times 10^k + b)(c \times 10^k +d)$, combien de produits de nombres à $k$ chiffres sont nécessaires pour calculer $MN$ ? }
+    \Question{Vérifier que $MN = ac \times 10^{2k} + (ac + bd - (a-b)(c-d)) \times 10^k +bd$. L'algorithme de Karatsuba, consiste à utiliser récursivement cette expression afin de calculer $MN$.}
+    \Question{Combien de produits de nombres à $k$ sont nécessaires dans le calcul de cette expression ?}
+    \Question{On considère maintenant que les additions, soustractions et décalages d'exposant sur un nombre à $2^i$ chiffres s'effectue en $O(2^i)$ et on note $T(2^i)$ le temps nécessaire au calcul du produit de deux nombres à $2^i$ chiffres en utilisant l'algorithme de Karatsuba. En déduire qu'il existe un entier $A$ tel que $T(2^i) \leqslant 3T(2^{i-1}) + A2^i$}
+    \Question{En divisant par $3^i$ et en sommant pour $i=1$ à $k$, montrer que $T(2^k) \leq C3^k$}
+    \Question{En déduire que l'algorithme de Karatsuba a une complexité $O(n^{\log_2 3}$)}
+\end{Exercise}
+
+\begin{Exercise}[title = {Recherche d'un élément dans une matrice}]\\
+    On considère une matrice $A$ de taille $m \times n$ et on suppose que chaque ligne et chaque colonne est rangée par ordre croissant. Par exemple : \\
+    $\begin{pmatrix}
+        12 & 20 & 21 & 22 & 28 & 32 \\
+        15 & 21 & 27 & 28 & 31 & 34 \\
+        18 & 24 & 29 & 33 & 42 & 44 \\
+        30 & 27 & 37 & 45 & 47 & 50 \\
+    \end{pmatrix}$\\
+    Le but de l'exercise est de mettre en place une stratégie \textit{diviser pour régner} afin de rechercher si un entier $e$ est présent ou non dans la matrice.
+    \Question{Montrer qu'en comparant $e$ avec l'élément situé en ligne $m/2$, colonne $n/2$ on peut limiter la recherche à trois sous matrices de taille $m/2 \times n/2$}
+    \Question{En déduire une stratégie du type \textit{diviser pour régner} permettant de résoudre une problème (on donnera les étapes de l'algorithme sans le programmer)}
+    \Question{Déterminer le coût maximal $C_n$ en nombre de comparaison de cet algorithme dans le cas où $n=m=2^k$ ($k \in \N$). \\
+    \aide \; On pourra supposer que $(C_n)_{(n \in \N)}$ vérifie $C_n = 3\, C_{\frac{n}{2}} + \alpha$ où $\alpha$ est une constante représentant les coûts des opérations autre que les comparaisons.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Parenthésage optimal de multiplications matricielles}] \\
+    On rappelle  que le nombre de multiplications nécessaires à la multiplication de deux matrices $A$ de dimension $m \times n$
+    et $B$ de dimension $n \times p$ est $nmp$.
+    \Question{On considère 4 matrices $A_1$ ($5 \times 2$), $A_2 (2, 10)$, $A_3 (10, 4)$ et $A_4(4,1)$. Pour chacun des parenthésages suivant déterminer le nombre de multiplications nécessaire :
+    \begin{itemize}
+        \item $(A_1A_2)(A_3A_4)$
+        \item $A_1(A_2(A_3A_4))$
+        \item $A_1((A_2A_3)A_4)$
+        \item $((A_1A_2)A_3)A_4$
+        \item $(A_1(A_2A_3))A_4$
+    \end{itemize}
+    }
+    \Question{Montrer que le problème de la recherche d'un parenthésage minimisant le nombre de multiplication possède la propriété de sous structure optimale.}
+    \Question{Se trouve-t-on dans une situation de chevauchement des sous problèmes ?}
+    \Question{On note $(l_i,c_i)$ les dimensions des matrices  $(A_i)_{1 \leq i \leq N}$ et $m(i,j)$ $(1 \leq i < j \leq N)$ le nombre minimal d'opérations dans le calcul du produit des $A_i \dots A_j$. Ecrire la relation de récurrence liant $m(i,j)$ aux $m(i,k)$ et aux $m(k+1,j)$ pour $i \leq k < j$}
+\end{Exercise}
+
+\end{document}
