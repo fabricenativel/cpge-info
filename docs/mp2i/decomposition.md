@@ -47,6 +47,29 @@ On a schématisé le tri du tableau `[| 10; 6; 3; 9; 7; 5 |]` suivant ce princip
 
 3. Donner une implémentation du tri fusion en OCaml.
 
+
+{{ exo("Le tri rapide",[])}}
+
+Le [tri rapide *(quicksort)*](https://en.wikipedia.org/wiki/Quicksort){target=_blank} est un algorithme de tri développé par T. Hoare en 1959. Le tri rapide repose comme le tri fusion sur une méthode diviser pour régner. La séparation en deux sous tableaux s'effectue en choisissant (aléatoirement) un pivot, la séparation s'effectue alors en mettant d'un côté les nombres inférieurs au pivot et de l'autre les nombres supérieurs. Par conséquent, la longueur des sous listes  obtenue dépend du pivot choisi. Par contre on s'affranchit de la phase de fusion puisqu'elle consiste simplement à concaténer les deux sous listes. Bien qu'ayant une complexité quadratique dans le pire des cas, l'algorithme a d'excellentes performances dans le cas moyen (la fonction `quicksort` existe déjà en C).
+
+Par exemple, sur le tableau $[10, 6, 3, 9, 7, 5]$ si on choisit comme pivot 5, alors la séparation en deux sous listes donnera d'un côté $[3, 5]$ (les valeurs inférieures ou égales au pivot) et de l'autre $[10, 6, 9, 7]$ (les valeurs supérieurs).
+
+On propose ici d'implémenter cet algorithme en langage C en choisissant comme pivot le dernier élément du tableau. On effectue la séparation **en place** en renvoyant l'indice du pivot. C'est à dire qu'on veut écrire une fonction de signature `#!c int partitionne(int tab[], int debut, int fin)` qui partitionne les valeurs du tableaux comprises entre les indices `debut` (inclus) et `fin` (exclu) en choisissant comme pivot `tab[fin-1]` et qui renvoie l'indice $e$ auquel se trouvera le pivot après ce partitionnement.
+On pourra procéder de la façon suivante : 
+
+$$\underbrace{\boxed{\strut t_0 \quad \quad \quad t_{e-1}}}_{\leqslant \text{pivot}}\underbrace{\boxed{\strut t_e}  \boxed{t_{e+1} \strut \quad \quad \quad}}_{> \text{pivot}}\underbrace{\boxed{t_i\strut \quad \quad \quad \quad t_{n-1}}}_{\text{non triée}}$$
+
+* La partie situé après l'indice $i$ n'est pas encore triée
+* Le dernier élément est le pivot
+* La partie située avant l'indice $e$ contient les éléments plus petits que le pivot
+* La partie située entre les indice $e$ et $i$ contient les éléments plus grand que le pivot
+
+Donc on initialise $e$ à $0$, on parcourt le tableau avec l'indice $i$, si $t_i$ est plus grand que le pivot il n'y a rien à faire, sinon il faut l'échanger avec $t_e$ et incrémenter $e$. A la fin, on renvoie $e$.
+
+1. Ecrire en C la fonction `#!c int partitionne(int tab[], int debut, int fin)`
+2. Ecrire en C la fonction `#!c void mqsort(int tab[], int start, int end)` qui trie avec l'algorithme du tri rapide la portion de tableau comprise entre les indices  `start` et `end`.
+
+
 {{ exo("Nombre d'inversion",[])}}
 
 Dans une liste d'entiers de $n$ entiers $t = [t_0,\dots t_n]$, on dit que le couple d'indice $(i,j)$ ($0 \leq i <n, 0 \leq j <n$) est une inversion lorsque $i<j$ et $t_i>t_j$ c'est à dire que les éléments sont dans l'ordre inverse de leurs indices. Par exemple, dans la liste `[1; 5; 3; 7]` le couple d'indices `(1,2)` est une inversion car `5>3`. Par contre, le couple  `(1,3)` n'est pas une d'inversion car `5<7`.
@@ -77,6 +100,12 @@ On considère un ensemble de $n$ points du plan et on souhaite déterminer la di
     1. Définir un type structuré `point` en C ayant deux coordonnées flottantes `x` et `y`.
     2. Ecrire une fonction `distance` qui prend en argument deux points et renvoie la distance euclidienne entre ces deux points.
     3. Ecrire une fonction `dmin` de complexité quadratique qui résoud le problème
+
+2. Résolution avec la méthode diviser pour régner
+
+    1. On commence par trier par ordonnée croissante l'ensemble des points, on note $N_x$ le tableau obtenu. On coupe ce tableau en deux parties (ceux d'abscisses inferieurs à $x_{\frac{n}{2}}$ et ceux d'abscisse supérieur). On recherche la distance minimale entre deux points de la moitié gauche (notée $m_g$) et deux points de la moitié droite (notée $m_g$) et on pose $m = \min\{m_g, m_d\}$.
+
+    2. Montrer qu
 
 {{ exo("La montée des marches",[]) }}
 

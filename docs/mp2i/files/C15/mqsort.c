@@ -1,5 +1,6 @@
 #include <stdio.h>
-
+#include <time.h>
+#include <stdlib.h>
 
 void echange(int tab[],int  i, int  j)
 {
@@ -10,13 +11,12 @@ void echange(int tab[],int  i, int  j)
 }
 
 
-int partitionne(int tab[], int size)
+int partitionne(int tab[], int start, int end)
 {
-    int pivot = tab[size-1];
-    echange(tab,0,size-1); 
-    int e = 0;
+    int pivot = tab[end-1];
+    int e = start;
     // Entre 0 et e : <pivot, entre e et i : >= pivot
-    for (int i = 0; i < size-1; i++)
+    for (int i = start; i < end-1; i++)
     {
         if (tab[i]<=pivot)
         {
@@ -24,17 +24,40 @@ int partitionne(int tab[], int size)
             e+=1;
         }
     }
-    echange(tab,size-1,e);
+    echange(tab,end-1,e);
     return e;
+}
+
+void affiche(int tab[], int s, int e)
+{
+    printf("[ ");
+    for (int i=s;i <e-1; i++)
+    {
+        printf("%d ",tab[i]);
+    }
+    printf("%d] \n",tab[e-1]);
+}
+
+void mqsort(int tab[], int start, int end)
+{
+    int e;
+    if ((end-start)>0)
+    {
+        e = partitionne(tab, start, end);
+        mqsort(tab,start,e);
+        mqsort(tab,e+1,end);
+    };
 }
 
 int main()
 {
-    int tab[]={3, 7, 8, 5, 2, 1, 9, 5, 4};
-    printf("Sépartation en %d",partitionne(tab,9));
-    for (int i=0;i<9;i++)
+    srand(time(NULL));
+    int s = 100;
+    int tab[s];
+    for (int i=0;i<s;i++)
     {
-        printf("%d ", tab[i]);
+        tab[i] = rand()%100;
     }
-    printf("\n");
+    mqsort(tab, 0, s);
+    affiche(tab,0,s);
 }
