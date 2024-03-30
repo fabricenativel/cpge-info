@@ -62,4 +62,18 @@
     \Question{On note $(l_i,c_i)$ les dimensions des matrices  $(A_i)_{1 \leq i \leq N}$ et $m(i,j)$ $(1 \leq i < j \leq N)$ le nombre minimal d'opérations dans le calcul du produit des $A_i \dots A_j$. Ecrire la relation de récurrence liant $m(i,j)$ aux $m(i,k)$ et aux $m(k+1,j)$ pour $i \leq k < j$}
 \end{Exercise}
 
+\begin{Exercise}[title = {Problème du lâcher d'oeuf}] \\
+    On considère un immeuble de $N$ étages (numérotées de 1 à $N$), et on dispose de $p$ oeufs. Le but du problème est de déterminer le plus petit entier $k$ ($1 \leq k \leq N$) tel qu'un oeuf  lancé depuis l'étage $k$ se brise en touchant le sol, on appellera cet étage l'étage \textit{critique} et on le note $k_c$. Si les oeufs ne se brisent pas en étant lancé de l'étage $N$, on posera par convention $k_c = N+1$. On fait les hypothèses suivantes : 
+    \begin{itemize}
+        \item Si un oeuf se brise en étant lancé depuis l'étage $k$ alors il se brise depuis tous les étages situés au dessus 
+        \item Si un oeuf ne se brise pas en étant lancé depuis l'étage $k$ alors il en est de même pour un lancer depuis un étage inférieur
+        \item Un oeuf qui ne s'est pas brisé lors d'un lancer peut-être réutilisé pour un lancer suivant sans en affecter le résultat.
+    \end{itemize}
+    On veut résoudre ce problème en minimisant le nombre de lancers à effectuer pour déterminer l'étage critique $k_c$ à partir duquel les oeuf se brisent. On note $\varphi(N, p)$ le nombre minimal de lancers à effectuer \textit{dans le pire des cas} afin de $k_c$. 
+    \Question{Quelle est la seule stratégie possible dans le cas où $p=1$ ? En déduire $\varphi(N,1)$.}
+    \Question{On suppose maintenant qu'on dispose de $p > 1$ oeuf, et on lance un oeuf depuis un étage $k$ avec $N-1 > k > 1$. En envisageant les deux possibilités (l'oeuf se casse ou non), montrer que $\varphi(N,p) = 1 + \max \left(   \varphi(k-1,p-1), \varphi(N-k,p) \right) $.  }
+    \Question{Déterminer les valers de $\varphi(0,p)$ et $\varphi(n,0)$ afin que cette relation reste valable dans les cas $p=1$, $k=1$ et $k=N$.}
+    \Question{En déduire une relation de récurrence permettant de calculer $\varphi(N,p)$}
+\end{Exercise}
+
 \end{document}
