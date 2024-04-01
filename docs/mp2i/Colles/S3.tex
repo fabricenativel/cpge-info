@@ -1,0 +1,116 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/}
+
+\ModeExercice
+
+\Colles{S24/S25/S26}{Tas, induction}
+
+\setboolean{corrige}{false}
+
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise}[title = {Insertion dans un tas}]
+	\Question{Rappeler la défintion d'un tas binaire (min)}
+	\Question{On suppose qu'un tas est représenté par un tableau $t = (t_0,\dots t_{n-1})$. Lorsqu'ils existent quels sont les indices des fils de $t_i$ ?}
+	\Question{Quel est l'indice (lorsqu'il existe) du père de $t_i$ ?}
+	\Question{Rappeler le principe d'insertion d'un nouvel élément dans un tas binaire}
+	\Question{Vérifier que l'arbre binaire suivant possède bien la structure de tas :
+		\begin{center}
+			\pstree[arrows=->,treesep=1cm,levelsep=1cm]{\TCircle{3}}
+			{\pstree{\TCircle{6}}
+				{\pstree{\TCircle{10}}
+					{\TCircle{17} \TCircle{11}}
+					\pstree{\TCircle{9}}
+					{\TCircle{15}
+						\TCircle{18}
+					}}\pstree{\TCircle{5}}
+				{\TCircle{7}
+					\TCircle{13}
+				}}
+		\end{center}
+	}
+    \Question{Détailler les étapes de l'insertion de 4 dans le tas précédent.}
+    \Question{On rappelle les structures de données vues en cours et permettant de représenter un tas :
+    \begin{itemize}
+        \item En langage C :
+        \inputpartC{tas.c}{}{}{6}{12}
+        \item En OCaml : 
+        \inputpartOCaml{tas.ml}{}{}{1}{1}
+    \end{itemize}
+    Dans le langage de votre choix, implémenter l'algorithme d'insertion dans un tas.
+    }
+\end{Exercise}
+
+\begin{Exercise}[title = {Extraction du minimum dans un tas}]
+    \Question{Rappeler la défintion d'un tas binaire (min)}
+	\Question{On suppose qu'un tas est représenté par un tableau $t = (t_0,\dots t_{n-1})$. Lorsqu'ils existent quels sont les indices des fils de $t_i$ ?}
+	\Question{Quel est l'indice (lorsqu'il existe) du père de $t_i$ ?}
+	\Question{Rappeler le principe d'extraction du minimum d'un tas binaire}
+	\Question{Vérifier que l'arbre binaire suivant possède bien la structure de tas :
+		\begin{center}
+			\pstree[arrows=->,treesep=1cm,levelsep=1cm]{\TCircle{3}}
+			{\pstree{\TCircle{6}}
+				{\pstree{\TCircle{10}}
+					{\TCircle{17} \TCircle{11}}
+					\pstree{\TCircle{9}}
+					{\TCircle{15}
+						\TCircle{18}
+					}}\pstree{\TCircle{5}}
+				{\TCircle{7}
+					\TCircle{13}
+				}}
+		\end{center}
+	}
+    \Question{Détailler les étapes de l'extraction du minimum dans le tas précédent.}
+    \Question{On rappelle les structures de données vues en cours et permettant de représenter un tas :
+    \begin{itemize}
+        \item En langage C :
+        \inputpartC{tas.c}{}{}{6}{12}
+        \item En OCaml : 
+        \inputpartOCaml{tas.ml}{}{}{1}{1}
+    \end{itemize}
+    Dans le langage de votre choix, implémenter l'algorithme d'extraction du minimum dans un tas.
+    }
+\end{Exercise}
+
+\begin{Exercise}[title = {Ensemble inductif}]\\
+    Soit $X$ l'ensemble construit par induction à partir :
+    \begin{itemize}
+        \item des axiomes $X_0 = {0}$
+        \item des règles d'inférence $r_1 : n \mapsto n+5$, $r_2 : n \mapsto n+2$ et $r_3 : n \mapsto -n$
+    \end{itemize}
+    \Question{En donnant une suite de règle permettant de l'obtenir, montrer que $11 \in X$.}
+    \Question{La définition de $X$ est-elle ambigüe ?}
+    \Question{Prouver par induction structurelle que $X \subset \Z$.}
+    \Question{Montrer que $X = \Z$.}
+    \Question{On définit en OCaml le type :
+    \inputpartOCaml{def_inductive.ml}{}{}{1}{5}
+    Ecrire une fonction {\tt res nb -> int} qui prend en renvoie l'entier associée à la suite d'applications des règles d'inférences. Par exemple {\tt res (R3 (R1 (R2 Z))) renvoie $-7$.}
+    }
+\end{Exercise}
+
+\begin{Exercise}[title = {Recherche d'un pic par la méthode diviser pour régner}]\\
+    On dit qu'un tableau $t$ de taille $n$ présente un \textit{pic} en position $p$ si et seulement si :
+    \begin{itemize}
+        \item toutes les valeurs de $t$ sont distinctes
+        \item le sous tableau $t_0,\dots t_{p}$ est trié par ordre croissant
+        \item le sous tableau $t_p,\dots t_{n-1}$ est trié par ordre décroissant.
+    \end{itemize}
+    \Question{Justifier rapidement que si un tableau présente un pic alors ce pic est unique.}
+    \Question{Ecrire dans le langage de votre choix, une fonction itérative de complexité linéaire qui prend en entrée un tableau présentant un pic et renvoyant la position de ce pic.}
+    \Question{On veut maintenant utiliser une méthode diviser pour régner.}
+    \subQuestion{Donner le cas de base et sa solution}
+    \subQuestion{Si on divise le tableau en deux moitiés, montrer qu'on peut déterminer dans laquelle se trouve le pic.}
+    \subQuestion{Donner l'implémentation de la méthode diviser pour régner dans le langage de votre choix.}
+    \subQuestion{Donner sa complexité.}
+
+\end{Exercise}
+
+\end{document}

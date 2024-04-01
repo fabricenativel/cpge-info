@@ -1,0 +1,64 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\DS{MP2I}{5}{Avril 2024}
+
+\setboolean{corrige}{false}
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$e_0$}} \\
+		\hline
+	\end{tabular}
+}
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] Les programmes demandés doivent être écrits en C ou en OCaml suivant l'exercice. Dans le cas du C, on suppose que les librairies standards usuelles ({\tt <stdio.h>}, {\tt <stdlib.h>}, {\tt <stdbool.h>}) sont déjà importées.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+
+
+\begin{Exercise}[title = {Recherche des $k$ premiers maximums}] \\
+    Les fonctions demandées dans cet exercice doivent être écrites en langage C. \\
+    \smallskip
+    On s'intéresse dans cet exercice à la recherche des $k$ premiers maximums d'un tableau de $n$ entiers $t_0 \dots t_{n-1}$ avec $k<n$. \\
+    \ExePart[name = {Cas $k=1$}]
+    \Question{Dans le cas où $k=1$, écrire une fonction de signature \mintinline{c}{int max(int t[], int n)} qui renvoie le premier maximum du tableau {\tt t} de taille {\tt n}.}
+    \Question{Donner en la justifiant brièvement la complexité de cette fonction.}
+    \ExePart[name = {Cas général, résolution par un tri}]
+    \Question{On propose de résoudre ce problème en triant le tableau $t$ par ordre décroissant puis en prenant ses $k$ premiers éléments. On suppose déjà écrit une fonction de tri de signature : \\
+    \mintinline{c}{void int tri(int t[], int n)} qui tri en place le tableau {\tt t} de taille {\tt n} donné en argument. Ecrire une fonction de signature \mintinline{c}{int * kmax(int t[], int n, int k)} qui utilise cette fonction de tri et renvoie un tableau de taille {\tt k} contenant les {\tt k} premiers maximums de {\tt t}.}
+    \Question{Donner la complexité de cette fonction en supposant que celle de la fonction de tri est en $O(n\log n)$.}
+    \ExePart[name = {Cas général, utilisation d'un tas}]
+    \Question{Rappeler la définition d'un tas min binaire. }
+
+    Dans la suite on suppose que les tas sont implémentés par la structure de donnée {\tt heap} suivante composée d'un tableau de taille maximale {\tt capacity} et de taille courante {\tt size}.
+    \inputpartC{kpmax.c}{}{}{6}{12} 
+    \Question{Donner l'indice (lorsqu'il existe) du parent de l'élément d'indice $i$.}
+    \Question{Donner les indices (lorsqu'ils existent) des fils de l'élément d'indice $i$.}
+    \Question{Expliquer le principe de l'insertion d'un élément dans un tas min binaire et donner la complexité de cette opération en la justifiant}
+    \Question{Même question pour l'extraction du minimum.} 
+    \smallskip \\
+    On suppose déjà écrite les fonctions suivantes :
+    \begin{itemize}
+        \item \mintinline{c}{heap make_heap(int cap)} qui renvoie un tas binaire vide de capacité {\tt cap}
+        \item \mintinline{c}{bool insert_heap(int nv, heap* mh)} qui insère {\tt nv} dans le tas {\tt *mh}, dans le cas où l'insertion est impossible (tas plein), la fonction renvoie {\tt false}.
+        \item \mintinline{c}{int getmin(heap * mh)} qui renvoie (en le supprimant du tas) le minimum du tas {\tt *mh}
+    \end{itemize}
+    \Question{Ecrire une fonction \mintinline{c}{int* kmax_heap(int t[], int n, int k)} qui renvoie les {\tt k} premiers maximums avec une complexité $O(n \log k)$.}
+        
+
+\end{Exercise}
+
+\end{document}
