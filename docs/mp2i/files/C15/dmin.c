@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
+#include <time.h>
 #include <stdlib.h>
 
 struct point {
@@ -17,9 +18,11 @@ double distance(point a, point b)
 double min3(double a, double b, double c)
 {
     if (a<b && a<c) {return a;}
-    if (b<c) {return c;}
-    return a;
+    if (b<c) {return b;}
+    return c;
 }
+
+
 
 double dmin(point pt[], int nb)
 {
@@ -76,33 +79,65 @@ point* lire_points(char* filename, int nb)
 double dmin_dpr(point nuagex[], point nuagey[], int deb, int fin)
 {
     double dg, dd, dm;
+    int nb_pts = fin-deb;
+    point * bande = malloc(sizeof(point)*100);
+    int nb_bande = 0;
+    int jmax;
     // Cas de base
-    if (fin-deb==2) {return distance(nuage[deb],nuage[deb+1]);}
-    if (fin-deb==3) {return min3((distance(nuage[deb],nuage[deb+1]),distance(nuage[deb],nuage[deb+2]),distance(nuage[deb+1],nuage[deb+2])));}
+    if (nb_pts==2) {return distance(nuagex[deb],nuagex[deb+1]);}
+    if (nb_pts==3) {return min3(distance(nuagex[deb],nuagex[deb+1]),distance(nuagex[deb],nuagex[deb+2]),distance(nuagex[deb+1],nuagex[deb+2]));}
     // Diviser
     int mid = (fin+deb)/2;
+    double xmid = nuagex[mid].x;
     // Régner
-    dg = dmin_dpr(nuage, deb, mid);
-    dd = dmin_dpr(nuage, mid, fin);
+    dg = dmin_dpr(nuagex, nuagey, deb, mid);
+    dd = dmin_dpr(nuagex, nuagey, mid, fin);
     if (dg<dd) {dm=dg;} else {dm=dd;}
-    // Combiner
-    
-
+    // Combiner en examinant les points de la bande de largeur 2d centrée autour de x_mid
+    // Filtrer Ny pour récupérer les points de la bande
+    for (int i=0;i<100;i++)
+    {
+        if ( abs(nuagey[i].x - xmid) <= dm)
+        {
+            bande[nb_bande++] = nuagey[i];
+        }
+    }
+    // Pour chaque point tester au plus les 7 suivants
+    for (int i=0; i<nb_bande;i++)
+    {
+        if (i+8<nb_bande) {jmax = i+8;} else {jmax = nb_bande;} 
+        for (int j=i+1;j<jmax;j++)
+        {
+            if (distance(bande[i],bande[j])<dm) { 
+                dm = distance(bande[i], bande[j]);}
+                
+        }
+    }
+    return dm;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    int t = 1000;
-    point *nuagex = lire_points("nuage.txt",t);
-    qsort(nuagex, nb, sizeof(point), cmpx);
-    point *nuagey = malloc(sizeof(point)*t);
-    qsort(nuagey, nb, sizeof(point), cmpy);
-    for (int i=0;i<10;i++)
+    int t = atoi(argv[1]);
+    srand(time(NULL));
+    point *nuagex = malloc(sizeof(point)*t);
+    for (int i=0;i<t;i++)
     {
-        printf("(%lf,%lf)\n",nuage[i].x,nuage[i].y);
+        nuagex[i].x = (double)(rand()%100000);
+        nuagex[i].y = (double)(rand()%100000);
+
     }
-    double dm = dmin(nuage, t);
-    printf("Distance minimale = %lf\n",dm);
+    qsort(nuagex, t, sizeof(point), cmpx);
+    point *nuagey = malloc(sizeof(point)*t);
+    for (int i=0;i<t;i++)
+    {
+        nuagey[i] = nuagex[i];
+    }
+    qsort(nuagey, t, sizeof(point), cmpy);
+    double dm = dmin(nuagex, t);
+    printf("Distance minimale (quadratique)= %lf\n",dm);
+    double dmdpr = dmin_dpr(nuagex,nuagey,0,t);
+    printf("Distance minimale (dpr) = %lf\n",dmdpr);
     free(nuagex);
     free(nuagey);
 }
