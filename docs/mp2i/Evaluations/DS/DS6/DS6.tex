@@ -28,37 +28,136 @@
 }
 
 
+\begin{Exercise}[title = {Questions de cours}]
+    \Question{On propose le principe suivant pour trier un tableau de $n$ entiers $(a_0, \dots, a_{n-1})$ : tant que le tableau n'est pas trié, on sélectionne deux indices $i$ et $j$ dans $\intN{0}{n-1}$ tels que $i<j$ et $a_i > a_j$ et on échange les éléments situés à ces indices. Montrer que cet algorithme termine, on précisera soigneusement le variant et la relation d'ordre bien fondée utilisée.}
+    \Question{On définit inductivement (et de façon non ambigüe) l'ensemble $D$ des mots de Dyck (ou parenthésages bien formés) par : $X_0 = \{\epsilon\}$ et la règle d'inférence d'arité~2 $(x,y) \mapsto \boldsymbol{\langle}x\boldsymbol{\rangle}y$. Les symboles \og{} $\boldsymbol{\langle}$ \fg{}, et \og{} $\boldsymbol{\rangle}$ \fg{} représentent les parenthèses.\\
+    \smallskip
+    Pour $d \in D$, on note $n_o(d)$ (resp. $n_f(d)$) le nombre de symboles $\boldsymbol{\langle}$ (resp. $\boldsymbol{\rangle}$) apparaissant dans $d$. Montrer par \textbf{induction structurelle} que $n_o(d) = n_f(d)$ pour tout $d \in D$.}
+\end{Exercise}
 
 \begin{Exercise}[title = {Recherche des $k$ premiers maximums}] \\
-    Les fonctions demandées dans cet exercice doivent être écrites en langage C. \\
-    \smallskip
+    Les fonctions demandées dans cet exercice doivent être écrites en langage C.\smallskip \\
     On s'intéresse dans cet exercice à la recherche des $k$ premiers maximums d'un tableau de $n$ entiers $t_0 \dots t_{n-1}$ avec $k<n$. \\
-    \ExePart[name = {Cas $k=1$}]
-    \Question{Dans le cas où $k=1$, écrire une fonction de signature \mintinline{c}{int max(int t[], int n)} qui renvoie le premier maximum du tableau {\tt t} de taille {\tt n}.}
+    \ExePart[name = {Résolution par extraction successive des maximums}]
+    \Question{\label{q1}Ecrire une fonction de signature \mintinline{c}{int max(int t[], int n)} qui renvoie le premier maximum du tableau {\tt t} de taille {\tt n} en supposant $n >0$.}
     \Question{Donner en la justifiant brièvement la complexité de cette fonction.}
-    \ExePart[name = {Cas général, résolution par un tri}]
-    \Question{On propose de résoudre ce problème en triant le tableau $t$ par ordre décroissant puis en prenant ses $k$ premiers éléments. On suppose déjà écrit une fonction de tri de signature : \\
-    \mintinline{c}{void int tri(int t[], int n)} qui tri en place le tableau {\tt t} de taille {\tt n} donné en argument. Ecrire une fonction de signature \mintinline{c}{int * kmax(int t[], int n, int k)} qui utilise cette fonction de tri et renvoie un tableau de taille {\tt k} contenant les {\tt k} premiers maximums de {\tt t}.}
-    \Question{Donner la complexité de cette fonction en supposant que celle de la fonction de tri est en $O(n\log n)$.}
-    \ExePart[name = {Cas général, utilisation d'un tas}]
-    \Question{Rappeler la définition d'un tas min binaire. }
-
-    Dans la suite on suppose que les tas sont implémentés par la structure de donnée {\tt heap} suivante composée d'un tableau de taille maximale {\tt capacity} et de taille courante {\tt size}.
-    \inputpartC{kpmax.c}{}{}{6}{12} 
-    \Question{Donner l'indice (lorsqu'il existe) du parent de l'élément d'indice $i$.}
-    \Question{Donner les indices (lorsqu'ils existent) des fils de l'élément d'indice $i$.}
-    \Question{Expliquer le principe de l'insertion d'un élément dans un tas min binaire et donner la complexité de cette opération en la justifiant}
-    \Question{Même question pour l'extraction du minimum.} 
-    \smallskip \\
-    On suppose déjà écrite les fonctions suivantes :
+    \Question{Afin d'extraire les $k$ premiers maximums, on propose d'extraire successivement les maximums à l'aide de la fontion écrite à la question \ref{q1} (pour extraire le kième maximum, on travaille sur le sous tableau privé des maximums précédents). Donner la complexité de cet algorithme en fonction de $k$ et de $n$ (on ne demande pas de programmer cet algorithme).}
+    \ExePart[name = {Résolution par un tri}]
+    \Question{On propose de résoudre ce problème en triant le tableau $t$ par ordre décroissant puis en prenant ses $k$ premiers éléments. On suppose déjà écrite une fonction de tri de signature : \\
+    \mintinline{c}{void int tri(int t[], int n)} qui tri en place et dans l'ordre décroissant le tableau {\tt t} de taille {\tt n} donné en argument. Ecrire une fonction de signature \mintinline{c}{int * kmax(int t[], int n, int k)} qui utilise cette fonction de tri et renvoie un tableau de taille {\tt k} contenant les {\tt k} premiers maximums de {\tt t}.}
+    \Question{Quelle est la complexité de cette solution  si la fonction de tri est le tri par sélection ?}
+    \Question{Quelle est la complexité de cette solution si la fonction de tri est le tri fusion ?}
+    \ExePart[name = {Résolution en utilisant un tas}]\\
+    Dans la suite on suppose que les tas de valeurs entières (type {\tt int}), sont \textit{déjà implémentés} par la structure de donnée {\tt heap} et on suppose déjà écrites les fonctions suivantes permettant de manipuler cette structure de données :
     \begin{itemize}
         \item \mintinline{c}{heap make_heap(int cap)} qui renvoie un tas binaire vide de capacité {\tt cap}
+        \item \mintinline{c}{int get_size(heap mh)} qui renvoie la taille du tas {\tt mh}
         \item \mintinline{c}{bool insert_heap(int nv, heap* mh)} qui insère {\tt nv} dans le tas {\tt *mh}, dans le cas où l'insertion est impossible (tas plein), la fonction renvoie {\tt false}.
-        \item \mintinline{c}{int getmin(heap * mh)} qui renvoie (en le supprimant du tas) le minimum du tas {\tt *mh}
+        \item \mintinline{c}{int get_min(heap  mh)} qui renvoie la valeur minimale contenu dans le tas {\tt mh} sans modifier le tas.
+        \item \mintinline{c}{int extract_min(heap * mh)} qui renvoie (en le supprimant du tas) le minimum du tas {\tt *mh}.
     \end{itemize}
-    \Question{Ecrire une fonction \mintinline{c}{int* kmax_heap(int t[], int n, int k)} qui renvoie les {\tt k} premiers maximums avec une complexité $O(n \log k)$.}
-        
+    \Question{Rappeler en les justifiant rapidement les complexités des opérations {\tt insert\_heap} et {\tt extract\_min} si on suppose que l'implémentation de la structure de tas est réalisée grâce à un tableau.}
+    \Question{Afin d'extraire les {\tt k} premiers éléments d'un tableau {\tt t} de taille {\tt n}, on propose de créer un tas de taille {\tt k}, puis on parcourt le tableau à l'aide d'un indice {\tt i} :
+    \begin{itemize}
+        \item si {\tt i < k }, le tas n'est pas plein et on y insère {\tt t[i]}
+        \item si {\tt n > i >= k}, on compare {\tt t[i]} avec le minimum du tas, s'il est plus grand on supprime le minimum du tas et on insère {\tt t[i]} dans le tas.
+    \end{itemize}}
+    Par exemple, si on veut extraire les 3 premiers maximums du tableau {\tt [4, 6, 2, 8, 3, 7, 1, 9, 5]}, après l'insertion des trois premiers éléments, le tas est : \\
+    \pstree[arrows=->,treesep=0.8cm,levelsep=1cm]{\Tcircle{2}}{\Tcircle{6} \Tcircle{4}} \\
+    A l'étape suivante, 8 étant plus grand que 2 (le minimum du tas), on extrait 2 du tas et on y insère 8 ce qui donne : \\
+    \pstree[arrows=->,treesep=0.8cm,levelsep=1cm]{\Tcircle{4}}{\Tcircle{6} \Tn{}} \quad \pstree[arrows=->,treesep=0.8cm,levelsep=1cm]{\Tcircle{4}}{\Tcircle{6} \Tcircle{8}}  \\
+    \subQuestion{Poursuivre le déroulement de cet algorithme en faisant figurer comme ci-dessus les étapes de l'évolution du tas.}
+    \subQuestion{Prouver que cet algorithme est correct (on pourra utiliser l'invariant valable pour tout {\tt i>=k} : \og{} le tas contient les {\tt k} premiers maximums du sous tableau compris entre les indices {\tt 0} et {\tt i-1} \fg{}).}
+    \subQuestion{Ecrire une fonction \mintinline{c}{int* kmax_heap(int t[], int n, int k)} qui extrait les {\tt k} premiers maximum du tableau {\tt t} de taille {\tt n} et les renvoie dans un tableau de taille {\tt k} en utilisant cet algorithme. Afin de manipuler le tas, on utilisera les fonctions déjà disponibles sur la structure de tas et dont les signatures sont données en début de partie.}
+    \subQuestion{Donner en la justifiant la complexité de ce nouvel algorithme en fonction de $k$ et $n$.}
+\end{Exercise}
 
+\begin{Exercise}[title={Traversée de rivière}, origin={\bac {\sc ccinp 2023}}]
+    
+Les fonctions demandées dans cet exercice doivent être écrites en OCaml. \smallskip \\ 
+Dans une vallée des Alpes, un passage à gué fait de cailloux permet de traverser la rivière. Deux groupes de randonneurs arrivent simultanément sur les berges gauche et droite de cette rivière et veulent la traverser. Le chemin étant très étroit, une seule personne peut se trouver sur chaque caillou de ce chemin . Un randonneur sur la berge de gauche peut avancer d’un caillou (vers la droite sur figure ci-dessous) et sauter par dessus le randonneur devant lui (un caillou à droite) si le caillou où il atterrit est libre. De même, chaque randonneur de la berge de droite peut avancer d’un caillou (vers la gauche sur la figure ci-dessous) et sauter par dessus le randonneur devant lui, dans la mesure où le caillou sur lequel il atterrit est libre. Une fois engagés, les randonneurs ne peuvent pas faire marche arrière. De plus, pour simplifier, on suppose qu’une fois tous les randonneurs sur le chemin, il ne reste qu’un caillou de libre.
+
+  \begin{center}
+    \includegraphics{randonneurs.eps}
+  \end{center}
+
+
+Le chemin de cailloux est défini par un tableau d'entiers :
+
+\begin{center}
+  \mintinline{OCaml}{type chemin_caillou = int array}
+\end{center}
+
+Dans ce tableau, un randonneur venant de la berge de gauche est représenté par un $1$, un randonneur issu de la berge de droite par un $2$, et un caillou libre par un $0$. Avec cette représentation, la figure ci-dessus correspond au tableau {\tt [|1; 1; 1; 0; 2; 2|]}. A partir de cette position, les mouvements possibles sont :
+\begin{itemize}
+    \item déplacement du premier randonneur de gauche : {\tt [|1; 1; 0; 1; 2; 2|]},
+    \item saut du second randonneur de gauche par dessus le premier : {\tt [|1; 0; 1; 1; 2; 2|]}
+    \item déplacement du premier randonneur de droite ; {\tt [|1; 1; 1; 2; 0; 2|]}
+    \item saut du second randonneur de droite par dessus le premier : {\tt [|1; 1; 1; 2; 2; 0|]}
+\end{itemize}
+\quad
+
+\Question{Écrire une fonction de signature \mintinline{Ocaml}{caillou_vide : chemin_caillou -> int} qui détermine la position du caillou inoccupé.}
+  
+
+
+\Question{
+  Écrire une fonction de signature \mintinline{ocaml}{echange : chemin_caillou -> int -> int -> chemin_caillou} qui permute les valeurs codées sur deux cailloux et renvoie le tableau correspondant à la nouvelle position. Le tableau d'entiers initial représentant le chemin n'est pas modifié. On pourra utiliser ici la fonction \mintinline{ocaml}{copy} du module \mintinline{ocaml}{Array}.
+}
+
+\Question{  Écrire une fonction de signature \mintinline{ocaml}{randonneurG_avance : chemin_caillou -> bool} qui teste si, parmi les randonneurs venant de la berge de gauche, il en existe un qui puisse avancer (vers la droite).
+}
+
+\Question{
+  Écrire une fonction de signature \mintinline{ocaml}{randonneurG_saute : chemin_caillou -> bool} qui teste si, parmi les randonneurs venant de la berge de gauche, il en existe un qui puisse sauter (vers la droite) au-dessus d'un randonneur.
+}
+
+  On supposera dans la suite les fonctions de signature \mintinline{ocaml}{randonneurD_avance : chemin_caillou -> bool} et \mintinline{ocaml}{randonneurD_saute : chemin_caillou -> bool} écrites de manière similaire pour les randonneurs venant de la berge de droite.
+
+\Question{
+  Écrire une fonction de signature \verb|mouvement_chemin : chemin_caillou -> chemin_caillou list| qui, en fonction de l'état du chemin, calcule la liste possible des états suivants après les opérations (si elles sont permises) :
+  \begin{enumerate}
+  \item[i)] déplacement d'un randonneur venant de la berge de gauche,
+  \item[ii)] déplacement d'un randonneur venant de la berge de droite,
+  \item[iii)] saut d'un randonneur venant de la berge de gauche,
+  \item[iv)] saut d'un randonneur venant de la berge de droite.
+  \end{enumerate}}
+
+\Question{Ecrire une fonction {\tt init\_chemin int -> int -> chemin\_caillou} qui prend en argument deux entiers {\tt ng} et {\tt nd} et renvoie le tableau correspondant à la  situation initiale de {\tt ng} randonneurs venant de la gauche et {\tt nd} randonneurs venant de la droite séparé par un caillou vide. Par exemple, {\tt init\_chemin 3 2} renvoie le tableau {\tt [| 1; 1; 1; 0; 2; 2 |]}.} 
+\Question{
+  Écrire une fonction de signature \verb|passage : int -> int -> chemin_caillou list|, utilisant la question précédente, telle que l'appel \verb|passage nG nD| résout le problème du passage de \verb|nG| randonneurs venant de la berge de gauche et \verb|nD| randonneurs venant de la berge de droite. Par exemple, \verb|passage 3 2| renvoie une liste d'états permettant de passer de {\tt [|1; 1; 1; 0; 2; 2|]} à {\tt [| 2; 2; 0; 1; 1; 1 |]}.
+  % ERREUR SUJET :
+  % j'ai fait une supposition sur le type attendu de la fonction qui ne pouvait pas être int -> int
+}
+\end{Exercise}
+
+\begin{Exercise}[title={Saut de valeur maximale}, origin={\bac {\sc capes nsi 2023}}]\\
+Les fonctions demandées dans cet exercice sont à écrire en OCaml. \smallskip \\
+Dans un tableau de flottants (type {\tt float} de OCaml) {\tt t} de taille {\tt n}, on appelle \textit{saut} un couple $(i,j)$ avec $0 \leq i \leq j <$ {\tt n  } et la \textit{valeur} d'un saut est la valeur {\tt t.(j)-t.(i)}. Le but de l'exercice est de rechercher un saut de valeur maximale dans un tableau. Par exemple, dans le tableau {\tt [| 2.0; 0.2; 3.0; 5.3; 2.0 |]}, un tel saut est {\tt (1, 3)} (car {\tt 0.2} et {\tt 5.3} sont aux indices 1 et 3 respectivement) et la valeur maximale d'un saut est donc {\tt 5.3 - 0.2 = 5.1}.
+
+\Question{Ecrire une fonction {\tt valeur float array -> int -> int -> float} qui prend en argument un tableau ainsi que deux indices {\tt i} et {\tt j} et renvoie la valeur du saut {\tt (i,j)}. Par exemple  sur le tableau {\tt [|2.0; 0.2; 3.0; 5.3; 2.0|]} avec les indices 0 et 2 cette fonction renvoie {\tt 1.0} (car {\tt t.(2)-t.(0) = 1.0}).} 
+
+\Question{Donner un exemple de tableau avec exactement deux sauts de valeur maximale et préciser ces sauts.}
+
+\Question{À l'aide d'un contre-exemple, montrer qu'on ne peut pas se contenter de chercher le minimum et le maximum d'un tableau pour trouver un saut de valeur maximale.}
+
+\Question{Écrire une fonction {\tt saut\_max\_naif} qui renvoie un saut de valeur maximale dans un tableau de taille {\tt n} en testant tous les couples $(i,j)$ tels que $0 \leq i \leq j <$ {\tt n}.\label{naif}}\medskip
+
+On propose maintenant d'utiliser une méthode diviser pour régner afin de calculer la valeur maximale d'un saut. On note $n$ la taille du tableau {\tt t} et $p = \lfloor \frac{n}{2} \rfloor$ (où $\lfloor \; \rfloor$ désigne la partie entière). On souhaite calculer :
+\begin{itemize}
+    \item $(i_g,j_g)$ un saut de valeur maximale lorsque $j_g < p$
+    \item $(i_d,j_d)$ un saut de valeur maximale lorsque $id \geqslant p$
+    \item $(i_m,j_m)$ un saut de valeur maximal lorsque $i_m < p < j_m$
+\end{itemize}
+
+\Question{Justifier qu'un saut de valeur maximale du tableau {\tt t} est nécessairement un des trois ci-dessus.}
+\Question{Justifier que $i_m$ est nécessairement l'indice d'une valeur minimale dans la moitié gauche de {\tt t} (on admettra que de même $j_m$ est nécessairement l'indice d'une valeur maximale dans la moitié droite de {\tt t}).}
+\Question{Ecrire une fonction {\tt saut\_max\_aux} qui prend en argument un tableau {\tt} ainsi que deux entiers {\tt a} et {\tt b} (avec {\tt a<b}) et renvoie un quadruplet constitué des deux indices d'un saut de valeur maximale dans {\tt t} entre les deux indices {\tt a} (inclus) et {\tt b} (exclu) ainsi que les indices d'un minimum et d'un maximum de {\tt t} entre ces deux mêmes indices. Par exemple {\tt saut\_max\_aux [| 2.0; 5.0; 3.0; 4.0; 6.0; 1.0|] 2 6} doit renvoyer {\tt (2, 4, 5, 4)} car entre les indices 2 (inclus) et 6 (exclu), le saut de valeur maximale est {\tt (2,4)} (de valeur {\tt 3.0}), le minimum est {\tt 1} et le maximum est {\tt 6}.\\
+\textit{Cette fonction doit être récursive et utiliser la méthode diviser pour régner}.
+}
+\Question{En déduire une fonction de {\tt saut\_max\_dpr} qui renvoie un saut de valeur maximale du tableau donné en argument.}
+
+\Question{Donner (en les justifiant) les complexités des deux méthodes (naïves et diviser pour régner).}
 \end{Exercise}
 
 \end{document}

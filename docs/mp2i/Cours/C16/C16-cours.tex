@@ -1,0 +1,65 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{16}
+\newcommand{\Ctitle}{\cnum {Logique}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
+
+\newcommand{\non}{\neg}
+\newcommand{\et}{\wedge}
+\newcommand{\ou}{\vee}
+\newcommand{\imp}{\to}
+\newcommand{\eq}{\leftrightarrow}
+
+
+\makess{Syntaxe des formules logiques}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		Soit $V$ un ensemble au plus dénombrable de variables logiques noté $V = \{p, q, r, \dots \}$. On définit inductivement l'ensemble $P$ des formules logiques par :
+        \begin{itemize}
+            \item<2-> L'ensemble d'axiomes $P_0 = \{ \top, \bot \} \cup V$ \\
+            \onslide<3->\textcolor{gray}{\small $\top$  se lit \og{} top \fg{} et $\bot$ se lit \og{} bottom \fg{}}
+            \item<4-> Les règles d'inférence :
+            \begin{itemize}
+                \item<4-> \textit{négation} $\non : p \mapsto \non p$ 
+                \item<5-> \textit{conjonction} $\et : p,q \mapsto (p \et q)$ 
+                \item<6-> \textit{disjonction} $\ou : p,q \mapsto (p \ou q)$ 
+                \item<7-> \textit{implication} $\imp : p,q \mapsto (p \imp q)$ 
+                \item<8-> \textit{équivalence} $\eq : p,q \mapsto (p \eq q)$ 
+            \end{itemize}
+        \end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{block}{Remarques}
+        \begin{itemize}
+            \item Afin d'éviter de surcharger les écritures, on pourra omettre certaines parenthèses :
+            \begin{itemize}
+                \item<2-> En utilisant l'associativité à droite de $\et, \ou$ : \\
+                \onslide<3-> \textcolor{gray}{Par exemple, $p \ou (q \ou r)$ s'écrit plus simplement $p \ou q \ou r$.}
+                \item<4-> En utilisant l'ordre de priorité suivant sur les connecteurs : $\non, \et, \ou, \imp, \eq$ \\
+                \onslide<5-> \textcolor{gray}{Par exemple $ (\non p) \ou (q \et r)$ s'écrit plus simplement $\non p \ou q \et r$.}
+            \end{itemize}
+            \onslide<6->{En cas de doute, on laissera les parenthèses afin de lever toute ambiguïté.}
+            \item On a définit pour le moment simplement les propositions logiques valables d'un point de vue \textit{syntaxique}, sans leur donner de sens ou de valeur.
+        \end{itemize}
+    \end{block}
+    \onslide<7->{
+    \begin{exampleblock}{Exemples}
+        \begin{itemize}
+            \item<7-> $\non p \ou \non q \et r$ est une formule logique.
+            \item<8-> $\et p \non pq$ n'est pas une formule logique.
+            \item<9-> $(p \imp q) \et (q \imp p)$ et $ p \eq q$ sont deux formules logiques \textit{différentes}.
+        \end{itemize}
+    \end{exampleblock}}
+\end{frame}
+
+\end{document}

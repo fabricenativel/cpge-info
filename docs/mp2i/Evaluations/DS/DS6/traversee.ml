@@ -79,7 +79,10 @@ let rec init_chemin ng v1 nd v2 =
   done;
   chemin;;
 
-
+let rec add x llist =
+  match llist with
+  | [] -> []
+  | h::t -> (x::h)::(add x t);;
 
 let passage ng nd =
   let debut = init_chemin ng 1 nd 2 in
@@ -87,7 +90,7 @@ let passage ng nd =
   let rec cherche position mvts =
     match mvts with
     | [] -> if position=fin then [[position]] else []
-    | mvt::suite -> let cs = cherche mvt (mouvement_chemin mvt) in List.map (List.cons position) cs @ cherche position suite 
+    | mvt::suite -> let cs = cherche mvt (mouvement_chemin mvt) in (add position cs) @ cherche position suite 
     in
     cherche debut (mouvement_chemin debut);;
 
