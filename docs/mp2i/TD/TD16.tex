@@ -1,0 +1,54 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{16}{Logique}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C14/}
+
+\newcommand{\non}{\neg}
+\newcommand{\et}{\wedge}
+\newcommand{\ou}{\vee}
+\newcommand{\imp}{\to}
+\newcommand{\eq}{\leftrightarrow}
+\newcommand{\lnode}[1]{\TCircle{$#1$}}
+\psset{treesep=0.5cm,levelsep=0.8cm}
+
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise}[title = {formules logiques}] \\
+    Les expressions suivantes sont-elles des fes formules logique sur l'ensemble de propositions $V = \{p, q, r\}$ ? (on ne s'autorise pas dans cet exercice les simplfications d'écriture)
+    \Question{ $(p) \ou \non q$}
+    \Question{ $((p \et q) \ou (\top \et r))$}
+    \Question{ $ ( p \ou r) \et (\non q))$}
+    \Question{ $ (\non (p \ou q)) \et \non r)$}
+    \Question{ $ ((s \et t) \ou (p \et q))$}
+\end{Exercise}
+
+\begin{Exercise}[title = {Représentation arborescente}]
+    \Question{Représenter les arbres syntaxiques des formules logiques suivantes }
+    \subQuestion{ $(p \ou q) \imp (r \et s)$}
+    \subQuestion{ $ (\non p \ou \non q) \eq (r \imp s)$}
+    \Question{Ecrire les formules formules logiques dont les arbres sont syntaxique sont}
+    \subQuestion{ 
+    \pstree{\lnode{\et}}{    
+    \pstree{\lnode{\ou}}{\lnode{p} \pstree{\lnode{\non}}{\lnode{q}}} 
+    \pstree{\lnode{\imp}}{ \pstree{\lnode{\non}}{\lnode{r}} \lnode{s} } }
+    }
+    \subQuestion{
+        \pstree{\lnode{\eq}}{
+            \pstree{\lnode{\et}}{
+                \lnode{r}
+                \pstree{\lnode{\non}}{\lnode{q}}
+            }
+            \pstree{\lnode{\ou}}{
+                \pstree{\lnode{\imp}}{\lnode{p} \lnode{q}}
+                \pstree{\lnode{\eq}}{\lnode{r} \lnode{s}}
+                }
+        }
+    }
+\end{Exercise}
+\end{document}

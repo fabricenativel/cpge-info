@@ -17,12 +17,13 @@
 \newcommand{\ou}{\vee}
 \newcommand{\imp}{\to}
 \newcommand{\eq}{\leftrightarrow}
-
+\newcommand{\lnode}[1]{\TCircle{$#1$}}
+\psset{treesep=0.5cm,levelsep=0.8cm}
 
 \makess{Syntaxe des formules logiques}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{alertblock}{Définition}
-		Soit $V$ un ensemble au plus dénombrable de variables logiques noté $V = \{p, q, r, \dots \}$. On définit inductivement l'ensemble $P$ des formules logiques par :
+		Soit $V$ un ensemble au plus dénombrable de variables logiques noté $V = \{p, q, r, \dots \}$. On définit inductivement l'ensemble $P$ des formules logiques sur $V$ par :
         \begin{itemize}
             \item<2-> L'ensemble d'axiomes $P_0 = \{ \top, \bot \} \cup V$ \\
             \onslide<3->\textcolor{gray}{\small $\top$  se lit \og{} top \fg{} et $\bot$ se lit \og{} bottom \fg{}}
@@ -44,22 +45,77 @@
             \item Afin d'éviter de surcharger les écritures, on pourra omettre certaines parenthèses :
             \begin{itemize}
                 \item<2-> En utilisant l'associativité à droite de $\et, \ou$ : \\
-                \onslide<3-> \textcolor{gray}{Par exemple, $p \ou (q \ou r)$ s'écrit plus simplement $p \ou q \ou r$.}
+                \onslide<3-> \textcolor{gray}{Par exemple, $(p \ou (q \ou r))$ s'écrit plus simplement $p \ou q \ou r$.}
                 \item<4-> En utilisant l'ordre de priorité suivant sur les connecteurs : $\non, \et, \ou, \imp, \eq$ \\
-                \onslide<5-> \textcolor{gray}{Par exemple $ (\non p) \ou (q \et r)$ s'écrit plus simplement $\non p \ou q \et r$.}
+                \onslide<5-> \textcolor{gray}{Par exemple $ ((\non p) \ou (q \et r))$ s'écrit plus simplement $\non p \ou q \et r$.}
             \end{itemize}
             \onslide<6->{En cas de doute, on laissera les parenthèses afin de lever toute ambiguïté.}
-            \item On a définit pour le moment simplement les propositions logiques valables d'un point de vue \textit{syntaxique}, sans leur donner de sens ou de valeur.
+            \item<7-> On a définit pour le moment simplement les propositions logiques valables d'un point de vue \textit{syntaxique}, sans leur donner de sens ou de valeur.
         \end{itemize}
     \end{block}
-    \onslide<7->{
+    \onslide<8->{
     \begin{exampleblock}{Exemples}
         \begin{itemize}
-            \item<7-> $\non p \ou \non q \et r$ est une formule logique.
-            \item<8-> $\et p \non pq$ n'est pas une formule logique.
+            \item<7-> $(((\non p) \ou (\non q)) \et r)$ est une formule logique qu'on pourra écrire plus simplement $(\non p \ou \non q) \et r$.
+            \item<8-> $\et p \non pq$ ou encore $( p \et q) \imp (r$ ne sont pas des formules logiques.
             \item<9-> $(p \imp q) \et (q \imp p)$ et $ p \eq q$ sont deux formules logiques \textit{différentes}.
         \end{itemize}
     \end{exampleblock}}
 \end{frame}
 
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{block}{Arbre syntaxique}
+        Les formules logiques admettent naturellement une représentation sous forme d'arbre :
+        \begin{itemize}
+            \item<2-> les variables logiques et les constantes $\top$ et $\bot$ sont les étiquettes des feuilles
+            \item<3-> les noeuds internes ont pour étiquette les règles d'inférence
+        \end{itemize}
+    \end{block}
+    \onslide<4->{
+    \begin{exampleblock}{Exemples}
+            La  formule logique $( p \imp q) \ou (\non r)$ admet la représentation : \\
+            \onslide<5->{
+                \begin{center}
+                \pstree{\lnode{\ou}}{\pstree{\lnode{\imp}}{\lnode{p} \lnode{q}} \pstree{\lnode{\non}}{\lnode{r}}}
+                \end{center}
+                }
+    \end{exampleblock}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple}
+        \begin{itemize}
+        \item Quelle est la formule logique ayant pour représentation arborescente :
+        \begin{center}
+        \pstree{\lnode{\et}}{
+            \pstree{\lnode{\ou}}{
+                \pstree{\lnode{\imp}}{\lnode{p} \lnode{q}}
+                \pstree{\lnode{\eq}}{\lnode{r} \lnode{s}}
+                }
+            \pstree{\lnode{\ou}}{
+                \lnode{r}
+                \pstree{\lnode{\non}}{\lnode{q}}
+            }
+        }
+        \end{center}
+        \onslide<2->\textcolor{OliveGreen}{$ ((p \imp q) \ou (r \eq s)) \et (r \ou (\non q)) $}
+        \item<3-> Dessiner la représentation arborescente de $ \non(\top \eq (p \ou q))$.
+    \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{block}{Hauteur, taille et sous formule}
+        Etant donnée une formule logique notée $P$,
+        \begin{itemize}
+            \item<2-> la \textcolor{blue}{hauteur} de $P$ 
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{block}{Implémentation en OCaml}
+        Le type somme de OCaml associé à la correspondance de motif permettent de représenter et de travailler efficacement sur les formules logiques
+    \end{block}
+\end{frame}
 \end{document}
