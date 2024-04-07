@@ -112,15 +112,16 @@ let nb_aretes ab =
 
 let () = 
 Random.self_init ();
-let t = Noeud (
-  Noeud(Noeud(Vide, 14, Noeud(Vide, 16, Noeud(Vide, 20, Vide))) ,24, Noeud(Vide, 28, Vide)), 
-   29,
-  Noeud(Vide, 31, Noeud(Vide, 30, Vide))
-)
-in
- affiche (prefixe t);
- affiche (infixe t);
- affiche (postfixe t);
- view t;
+let quatre = Noeud(Vide,4,Vide) in
+let six = Noeud(Vide,6,Vide) in
+let cinq = Noeud(quatre,5,six) in
+let deux = Noeud(Vide,2,Vide) in
+let trois = Noeud(deux,3,cinq) in
+let neuf = Noeud(Vide,9,Vide) in
+let sept = Noeud(trois,7,neuf) in
+ affiche (prefixe sept);
+ affiche (infixe sept);
+ affiche (postfixe sept);
+ view sept;
 ;;
 

@@ -110,7 +110,54 @@
     \subQuestion{Si on divise le tableau en deux moitiés, montrer qu'on peut déterminer dans laquelle se trouve le pic.}
     \subQuestion{Donner l'implémentation de la méthode diviser pour régner dans le langage de votre choix.}
     \subQuestion{Donner sa complexité.}
+\end{Exercise}
 
+\begin{Exercise}[title={Conjecture de Sloanne}]\\
+    En multipliant entre eux les chiffres d'un entier $n$, on obtient un nouvel entier $n'$, on reitère ce processus sur $n'$ aussi longtemps que le produit obtenu contient plus d'un chiffre.
+    \Question{Tester les entiers \numprint{524} et \numprint{6787832} en précisant le nombre d'étapes.}
+    \Question{Prouver que ce processus termine.}
+    \Question{Ecrire en OCaml une fonction {\tt nb\_to\_lst : int -> int list} prenant comme paramètre un entier et renvoyant la liste de ses chiffres.}
+    \Question{Ecrire une fonction {\tt vol} prenant un paramètre {\tt n} entier et renvoyant le nombre d'itérations.}
+    \Question{Que pensez-vous de la conjecture : \og le nombre d'itérations est inférieur à 9 \fg.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Rotation d'arbre}]
+    \Question{Rappeler la définition d'un arbre binaire de recherche.}
+    On rappelle l'implémentation des arbres en OCaml utilisée en cours : 
+    \inputpartOCaml{ab.ml}{}{}{1}{3}
+    \Question{Représenter l'{ac abr} {\tt sept} définie par :
+    \inputpartOCaml{ab.ml}{}{}{115}{121}}
+    \Question{Rappeler la définition de la rotation droite et proposer une implémentation. Par exemple la rotation droite de l'arbre {\tt sept} doit renvoyer {\tt Noeud (Noeud (Vide, 2, Vide), 3,
+    Noeud (Noeud (Noeud (Vide, 4, Vide), 5, Noeud (Vide, 6, Vide)), 7,
+     Noeud (Vide, 9, Vide))}}
+    \Question{Proposer une implémentation de la rotation gauche}
+    \Question{Avec un backtracking, proposer une implémentation de la fonction complet prenant comme en paramètre un abr et renvoyant un abr complet. Pour choisir la bonne voie on minimisera la hauteur.}
+\end{Exercise}
+
+\begin{Exercise}[title={Recherche de carrés magiques en retour sur trace}]\\
+    Pour un entier $n$ quelconque, le but de l'exercice est de programmer en C une recherche en \textit{backtracking} d'une solution au problème du placement des entiers $1,\dots,n^2$ entiers dans un carré de côté $n$ afin de former un carré magique.
+    \Question{Vérifier que dans le cas $n=3$ le carré suivant est une solution : \\
+    \begin{tabular}{|c|c|c|}
+        \hline
+        2 & 7 & 6 \\
+        \hline
+        9 & 5 & 1 \\
+        \hline 
+        4 & 3 & 8 \\
+        \hline
+    \end{tabular}
+    }
+    \Question{Quelle serait la somme de chacune des lignes, colonnes ou diagonales dans le cas $n=4$ ?}
+    \Question{Donner l'expression de la somme de chacune des lignes, colonnes, ou diagonales pour un entier $n$ quelconque.}    \medskip
+    \\
+    Afin d'implémenter la résolution en C, on propose de linéariser le carré en le représentant par un tableau à une seule dimension. Le carré ci-dessus est par exemple représenté par :\\ \mintinline{c}{int carre[9] = {2, 7, 6, 9, 5, 1, 4, 3, 8}}
+    \Question{Donner l'expression de l'indice d'un élément situé en ligne $i$, colonne $j$ dans le tableau linéarisé. }
+    \Question{Inversement, donner la ligne et la colonne dans le carré initial d'un élément situé à l'indice $i$ dans le tableau linéarisé.}\medskip\\
+    On représente par l'entier 0 une case non encore rempli du tableau, par exemple : \\ \mintinline{c}{int carre[9] = {1, 8, 4, 0, 0, 0, 0, 0, 0}} représente un carré ayant simplement la première ligne complète
+    \Question{Ecrire une fonction \mintinline{c}{bool valide_ligne(int carre[], int lig, int size, int somme)} qui vérifie que la ligne {\tt lig} d'un carré en cours de construction est encore valide, c'est le cas si cette ligne contient un zéro (car elle est alors incomplète) ou si elle ne contient aucun zéro et que sa somme est égale à la variable {\tt somme} fournie en argument.}\medskip\\
+    On suppose écrite les fonctions correspondantes pour les colonnes et les lignes de même qu'une fonction : 
+    \mintinline{c}{bool valide_carre(int carre[], int size, int somme)} qui vérife qu'un carré en cours de construction est encore valide.
+    \Question{Ecrire la fonction permettant de rechercher par backtracking un carré magique solution du problème posé. On pourra passer en argument à cette fonction un tableau de booléens de taille $n^2$ dont l'élément d'indice $i$ indique si l'entier $i$ a déjà été placé ou non dans le carré.}
 \end{Exercise}
 
 \end{document}
