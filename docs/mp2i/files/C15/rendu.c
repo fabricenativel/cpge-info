@@ -7,28 +7,12 @@
 int min_pieces(int s, int pieces[], int k)
 {
     int m1, m2;
-    if (s == 0)
-    {
-        return 0;
-    }
-    if (k == 0)
-    {
-        return INF;
-    }
-    if (s < pieces[k])
-    {
-        return min_pieces(s, pieces, k - 1);
-    }
+    if (s == 0)  {return 0;}
+    if (k == 0)  {return INF;}
+    if (s < pieces[k]) {return min_pieces(s, pieces, k-1);}
     m1 = 1 + min_pieces(s - pieces[k], pieces, k);
     m2 = min_pieces(s, pieces, k - 1);
-    if (m1 < m2)
-    {
-        return m1;
-    }
-    else
-    {
-        return m2;
-    }
+    if (m1 < m2)   {return m1;} else {return m2;}
 }
 
 int min_iter(int s, int pieces[], int k)
