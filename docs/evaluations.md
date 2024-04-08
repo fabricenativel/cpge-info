@@ -1,3 +1,5 @@
+hide: - navigation  in liens.md
+
 ## MP2I
 
 ### Interrogation de cours

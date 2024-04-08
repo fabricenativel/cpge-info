@@ -1,3 +1,5 @@
+hide: - navigation  in liens.md
+
 # Programme d'informatique en MP2I
 
 * {{ telecharger("Le programme complet d'informatique en MP2I/MPI","../officiel/programme.pdf",False)}}
