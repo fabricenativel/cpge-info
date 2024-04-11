@@ -47,8 +47,8 @@ def define_env(env):
         5 : [2,"Récursivité","recursivite.md"],
         6 : [9,"OCaml : aspects fonctionnels","introOCaml.md"],
         7 : [1,"Terminaison, correction, complexité","terminaison.md"],
-        8 : [3,"Structures de données linéaires","listechainees.md"],
-        9 : [9,"Ocaml : aspects impératifs","OCamlimp.d"]
+        8 : [3,"Structures de données linéaires","sl.md"],
+        9 : [9,"Ocaml : aspects impératifs","OCamlimp.md"]
     }
     env.variables['progression_mp2i_s2']={
         10 : [3,"Tableau associatif, hachage","hash.md"],

@@ -1,4 +1,3 @@
-
 type fl =
 | Top | Bot 
 | Var of int (*les variables propositionnelles*)
