@@ -32,8 +32,61 @@
     \Question{Donner la représentation de $G$ sous forme de listes d'adjacence.}
 \end{Exercise}
 
+\begin{Exercise}[title = {Représentation d'un graphe}]\\
+    On considère le graphe suivant : \medskip\\
+    \begin{pspicture}(0,-2.2)(5,2.2)
+    
+		\rput(3,2){\circlenode{x0}{$x_0$}}
+		\rput(1,0){\circlenode{x1}{$x_1$}}
+		\rput(3,0){\circlenode{x2}{$x_2$}}
+		\rput(5,0){\circlenode{x3}{$x_3$}}
+		\rput(7,0){\circlenode{x4}{$x_4$}}
+	   \rput(3,-2){\circlenode{x5}{$x_5$}}
+       \ncarc{-}{x1}{x0}
+       \ncarc{-}{x0}{x4}
+       \ncarc{-}{x5}{x1}
+       \ncarc{-}{x4}{x5}
+       \ncline{-}{x1}{x2}
+       \ncline{-}{x0}{x2}
+       \ncline{-}{x5}{x2}
+       \ncline{-}{x3}{x2}
+       \ncline{-}{x3}{x4}
+    \end{pspicture}
+    \Question{Donner sa représentation sous forme de matrice d'adjacence.}
+    \Question{Donner sa représentation sous forme de listes d'adjacence.}
+    \Question{Quel est le sommet de plus haut degré ? Donner la liste de ses voisins.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Représentation d'un graphe orienté}]\\
+    On considère le graphe $G$ représenté ci-dessous : \medskip\\
+    \begin{pspicture}(0,-2.2)(5,2.2)
+        \psset{arrowsize=0.15}
+		\rput(3,2){\circlenode{x0}{$x_0$}}
+		\rput(1,0){\circlenode{x1}{$x_1$}}
+		\rput(3,0){\circlenode{x2}{$x_2$}}
+		\rput(5,0){\circlenode{x3}{$x_3$}}
+		\rput(7,0){\circlenode{x4}{$x_4$}}
+	   \rput(3,-2){\circlenode{x5}{$x_5$}}
+       \ncarc{->}{x1}{x0}
+       \ncarc{->}{x0}{x4}
+       \ncarc{->}{x5}{x1}
+       \ncarc{->}{x4}{x5}
+       \ncline{<-}{x1}{x2}
+       \ncline{->}{x0}{x2}
+       \ncline{->}{x5}{x2}
+       \ncline{->}{x3}{x2}
+       \ncline{<-}{x3}{x4}
+    \end{pspicture}
+    \Question{Donner sa représentation sous forme de matrice d'adjacence.}
+    \Question{Donner sa représentation sous forme de listes d'adjacence.}
+    \Question{Donner les degrés entrants et sortants de chaque sommet.}
+    \Question{Donner ${\cal V_+}(x_0)$ et ${\cal V_-}(x_1)$}
+    \Question{Dessiner le graphe dont la matrice d'adjacence est la transposée de celle de ce graphe.}
+    \
+\end{Exercise}
+
 \begin{Exercise}[title = {Graphe régulier, graphe complet}]\\
-    Les graphes considérés dans cet exercice sont non orientés. On dit qu'un graphe  $G = (S,A)$ est \textit{régulier} lorsque tous ses sommets ont le même degré. Et on dit qu'un graphe est \textit{complet} lorsque qu'il y a une arête entre tous les couples de sommets
+    Les graphes considérés dans cet exercice sont non orientés. On dit qu'un graphe  $G = (S,A)$ est \textit{régulier} lorsque tous ses sommets ont le même degré. Et on dit qu'un graphe est \textit{complet} lorsque qu'il y a une arête entre tous les paires de sommets
     \Question{Dessiner un graphe non orienté régulier de taille 6 dont les sommets sont de degré 3}
     \Question{Dessiner un graphe complet de taille 5}
     \Question{Déterminer le nombre d'arête du graphe complet à $n$ sommets}
@@ -42,10 +95,39 @@
     \Question{A quelle condition portant sur $n$ et $k$ peut-on construire un graphe régulier de taille $n$ dont tous les sommets sont de degré $k$ ?}
 \end{Exercise}
 
+\begin{Exercise}[title = {sommet isolé}]\\
+    On dit qu'un sommet d'un graphe non orienté $G=(S,A)$ est \textit{isolé} lorsque son degré est nul.
+    \Question{Montrer qu'un graphe ne peut avoir simultanément un sommet isolé et un sommet de degré $|S|-1$}
+    \Question{En déduire qu'un graphe a au moins deux sommets de même degré.}
+\end{Exercise}
+
 \begin{Exercise}[title = {Parité}]\\
     Soit $G = (S,A)$ un graphe non orienté, on note $d(x)$ le degré d'un sommet $x \in A$.
     \Question{Montrer que $\displaystyle{\sum_{x \in A} d(x) = 2|A|}$}
     \Question{En déduire que $G$ a forcément un nombre pair de sommets de degré impair}
 \end{Exercise}
 
+\begin{Exercise}[title = {Parcours d'un graphe non orienté}]\\
+    On considère le graphe $G$ représenté ci-dessous : \medskip \\
+    \begin{pspicture}(0,-2.2)(5,2.2)
+        \psset{arrowsize=0.15}
+		\rput(3,2){\circlenode{x0}{$x_0$}}
+		\rput(1,0){\circlenode{x1}{$x_1$}}
+		\rput(3,0){\circlenode{x2}{$x_2$}}
+		\rput(5,0){\circlenode{x3}{$x_3$}}
+		\rput(7,0){\circlenode{x4}{$x_4$}}
+	   \rput(3,-2){\circlenode{x5}{$x_5$}}
+       \ncarc{-}{x0}{x4}
+       \ncarc{-}{x4}{x5}
+       \ncline{-}{x1}{x2}
+       \ncline{-}{x0}{x2}
+       \ncline{-}{x5}{x2}
+       \ncline{-}{x3}{x2}
+       \ncline{-}{x3}{x4}
+    \end{pspicture}
+    \Question{Donner le résultat d'un parcours en largeur de ce graphe en démarrant du sommet $x_1$.}
+    \Question{Même question en démarrant du sommet $x_2$.}
+    \Question{Donner le résultat d'un parcours en profondeur de ce graphe en démarrant du sommet $x_1$.}
+    \Question{Même question en démarrant du sommet $x_2$.}
+\end{Exercise}
 \end{document}

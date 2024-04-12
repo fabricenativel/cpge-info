@@ -48,6 +48,7 @@ void visualise(graphe g, int n)
     fprintf(writer, "graph mygraph {\n");
     for (int i=0; i<n; i++)
     {
+        fprintf(writer,"%d\n",i);
         for (int j=i+1; j<n; j++)
         {
             if (g[i][j])
@@ -72,15 +73,22 @@ void visualise(graphe g, int n)
     system("eog temp.jpg &");
 }
 
+
+void complet(graphe g, int n)
+{
+    for (int i=0; i<n; i++)
+    {
+        for (int j=i+1; j<n+1;j++)
+        {
+
+            cree_arete(g,i,j);
+        }
+    }
+}
+
 int main()
 {
     graphe g;
-    init_graphe(g, 5);
-    cree_arete(g, 1, 3);
-    cree_arete(g, 2, 4);
-    cree_arete(g, 0, 1);
-    cree_arete(g, 0, 2);
-    cree_arete(g, 0, 3);
-    affiche_graphe(g, 5);
+    complet(g,5);
     visualise(g,5);
 }

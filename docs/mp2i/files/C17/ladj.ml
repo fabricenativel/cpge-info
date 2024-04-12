@@ -1,3 +1,4 @@
+
 type graphe = {
 taille : int;
 ladj : int list array};;
@@ -20,6 +21,7 @@ let visualise g =
     | h::t -> if h>i then (Printf.fprintf writer "%d -- %d\n" i h); aux i t
   in
   for i=0 to n do
+      Printf.fprintf writer "%d\n" i;
       aux i g.ladj.(i);
     done;
   output_string writer "}\n";

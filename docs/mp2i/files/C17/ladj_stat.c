@@ -42,6 +42,7 @@ void visualise(graphe g, int n)
     fprintf(writer, "graph mygraph {\n");
     for (int i=0; i<n; i++)
     {
+        fprintf(writer,"%d\n",i);
         for (int j=1; j<=g[i][0]; j++)
         {
                 if (i>g[i][j]) {fprintf(writer,"%d -- %d\n",i,g[i][j]);}
@@ -71,13 +72,13 @@ int degre(graphe g, int i)
 int main()
 {
     graphe g;
-    init_graphe(g, 5);
+    init_graphe(g, 6);
     cree_arete(g, 1, 3);
     cree_arete(g, 2, 4);
     cree_arete(g, 0, 1);
     cree_arete(g, 0, 2);
     cree_arete(g, 0, 3);
-    affiche_graphe(g, 5);
+    affiche_graphe(g, 6);
     printf("Degré du sommet 0 : %d\n",degre(g,0));
-    visualise(g,5);
+    visualise(g,6);
 }
