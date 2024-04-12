@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #define NMAX  100 // nombre maximal de sommets
-// graphe[i][0] contient le nombre de sommets adjacents 
+// graphe[i][0] contient le degré du sommet i
 // graphe[i][1..] est la liste d'adjacence du sommet i
 typedef int graphe[NMAX][NMAX];
 
@@ -63,6 +63,10 @@ void visualise(graphe g, int n)
     system("eog temp.jpg &");
 }
 
+int degre(graphe g, int i)
+{
+    return g[i][0];
+}
 
 int main()
 {
@@ -74,5 +78,6 @@ int main()
     cree_arete(g, 0, 2);
     cree_arete(g, 0, 3);
     affiche_graphe(g, 5);
+    printf("Degré du sommet 0 : %d\n",degre(g,0));
     visualise(g,5);
 }

@@ -1,8 +1,8 @@
 type graphe = {
   taille : int; 
-  madj : bool array array;};;
+  madj : bool array array};;
 
-let cree_graph n =
+let cree_graphe n =
   {taille = n; madj = Array.make_matrix n n false};;
 
 
@@ -22,13 +22,20 @@ let cree_graph n =
 
 let cree_arete graphe i j =
   graphe.madj.(i).(j) <- true;
-  graphe.madj.(j).(i) <- true
-;;
+  graphe.madj.(j).(i) <- true;;
 
-let () = let g = cree_graph 5 in
+let degre graphe i =
+  let d = ref 0 in
+  for j = 0 to (Array.length graphe.madj - 1) do
+    if (graphe.madj.(i).(j)) then d:=!d+1;
+  done;
+  !d;;
+
+let () = let g = cree_graphe 5 in
           cree_arete g 0 1;
           cree_arete g 0 2;
           cree_arete g 0 3;
           cree_arete g 1 3;
           cree_arete g 2 4;
           visualise g;
+          Printf.printf "Le degré du sommet 0 est %d" (degre g 0);;

@@ -20,7 +20,7 @@
 			\includegraphics[width=160px]{konigsberg_bridges.eps}\\
 			{\footnotesize credit : Wikipedia}
 		\end{center}
-		Est-il possible de trouver un chemin qui passe une seule fois par chaque pont et revient à son point de départ ?
+		Est-il possible de trouver un chemin qui passe une seule fois par chaque pont ?
 	\end{block}
 \end{frame}
 
@@ -82,7 +82,7 @@
 \begin{alertblock}{Définition}
     \onslide<1->{Un \textcolor{red}{graphe non-orienté} est la donnée :}
     \begin{itemize}
-        \item<2->{D'un ensemble de \textcolor{blue}{sommets} (ou \textcolor{blue}{noeuds}) $S$ fini (\textcolor{gray}{V pour \textit{vertice} en anglais.}).}
+        \item<2->{D'un ensemble de \textcolor{blue}{sommets} (ou \textcolor{blue}{n\oe{}uds}) $S$ fini (\textcolor{gray}{V pour \textit{vertice} en anglais.}).}
         \item<3->{D'un ensemble de paires de sommets $A$ appelés \textcolor{blue}{arêtes} (\textcolor{gray}{E pour \textit{edges} en anglais}).}
     \end{itemize}
 \end{alertblock}
@@ -127,7 +127,7 @@
 		\ncline[linecolor=OliveGreen]{-}{T3}{T4}
 		\ncline[linecolor=OliveGreen]{-}{T1}{T4}
 	}
-    \onslide<6->{\textcolor{BrickRed}{\small \danger} L'emplacement des noeuds sur la représentation graphique n'a pas d'importance.}
+    \onslide<6->{\textcolor{BrickRed}{\small \danger} L'emplacement des n\oe{}uds sur la représentation graphique n'a pas d'importance.}
 \end{exampleblock}
 \end{frame}
 
@@ -135,16 +135,16 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Vocabulaire}
 		\begin{itemize}
-			\item<1-> La \textcolor{blue}{taille} d'un graphe est son nombre de sommets.
+			\item<1-> L'\textcolor{blue}{ordre} d'un graphe est son nombre de sommets.
 			\item<2-> Les \textcolor{blue}{voisins} d'un sommet $s$ est l'ensemble ${\cal V}(s) = \{t \in S  \text{ tel que } s \relbar t\}$.
 			\item<3-> Le \textcolor{blue}{degré} d'un sommet $s$ noté $d(s)$ est son nombre de voisins $d(s) = |{\cal V}(s)|$.
 		\end{itemize}
 	\end{block}
 	\onslide<4->{
-	\begin{exampleblock}{Exemples}
+	\begin{exampleblock}{Exercices}
 		\begin{enumerate}
-			\item<4-> Dessiner un graphe de taille 5 dont tous les sommets sont de degrés 2.
-			\item<5-> Donner un majorant du nombre d'arêtes d'un graphe de taille $n$.  
+			\item<4-> Dessiner un graphe d'ordre 5 dont tous les sommets sont de degrés 2.
+			\item<5-> Donner un majorant du nombre d'arêtes d'un graphe d'ordre $n$.  
 		\end{enumerate}}
 	\end{exampleblock}
 \end{frame}
@@ -153,17 +153,17 @@
 \makess{Représentations en machine}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{Représentation par matrice d'adjacence}
-		On peut représenter un graphe $G=(S,A)$ avec $|S|=n$  par une matrice $M$ appelée  \textcolor{blue}{matrice d'adjacence}, définie par : $M_{ij} = 1$ si $\ar{i,j} \in A$ et $M_{ij} = 0$ sinon. \\
+		Soit un graphe $G=(S,A)$ avec $|S|=n$, on note $S = \{x_0,\dots,x_{n-1}\}$.  La \textcolor{blue}{matrice d'adjacence} du graphe $G$ est la matrice carrée d'ordre $n$, $M$  définie par : $M_{ij} = 1$ si $\ar{x_i,x_j} \in A$ et $M_{ij} = 0$ sinon. \\
 		\onslide<2->$M$ est une matrice symétrique.
 	\end{alertblock}
 	\onslide<3->{
 	\begin{exampleblock}{Exemple : Un graphe et sa matrice d'adjacence}
 			\begin{pspicture}(-2,0)(5,2)
-				\rput(1,0.5){\Circlenode{S1}{$S_1$}}
-				\rput(1,1.5){\Circlenode{S2}{$S_2$}}
-				\rput(4,0.5){\Circlenode{S3}{$S_3$}}
-				\rput(4,1.5){\Circlenode{S4}{$S_4$}}
-				\rput(2.5,1){\Circlenode{S0}{$S_0$}}
+				\rput(1,0.5){\Circlenode{S1}{$x_1$}}
+				\rput(1,1.5){\Circlenode{S2}{$x_2$}}
+				\rput(4,0.5){\Circlenode{S3}{$x_3$}}
+				\rput(4,1.5){\Circlenode{S4}{$x_4$}}
+				\rput(2.5,1){\Circlenode{S0}{$x_0$}}
 				\ncline{-}{S0}{S1}
 				\ncline{-}{S0}{S2}
 				\ncline[linecolor=red]{-}{S0}{S3}
@@ -201,7 +201,7 @@
 						\ncline{-}{E}{B}
 					\end{pspicture}
 				\end{center}
-			\item<2-> Dessiner le graphe ayant la matrice d'adjacence suivante (on appellera les sommets $S_0, S_1, \dots $) :\\
+			\item<2-> Dessiner le graphe ayant la matrice d'adjacence suivante (on appellera les sommets $x_0, x_1, \dots $) :\\
 				$\begin{pmatrix}
 						0 & 0 & 1 & 1 & 1 \\
 						1 & 0 & 1 & 0 & 0 \\
@@ -234,6 +234,15 @@
 	\end{block}
 \end{frame}
 
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Pour initialiser une variable de type graphe lorsque le nombre de sommets est connu, on propose la solution suivante :
+		\onslide<2->{\inputpartC{\SPATH/madj_dyn.c}{}{\small}{12}{18}}
+		\onslide<3->{Ecrire la fonction {\tt detruit\_graphe} qui permet de libérer la mémoire allouée par la fonction d'initialisation ci-dessus}
+		\onslide<4->{\inputpartC{\SPATH/madj_dyn.c}{}{\small}{20}{21}}
+	\end{exampleblock}
+\end{frame}
+
 % Exemple de matrice d'adjacences
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Implémentation en OCaml}
@@ -247,20 +256,31 @@
 	\end{block}
 \end{frame}
 
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{enumerate}
+			\item<1-> Ecrire la fonction {\tt cree\_arete : graphe -> int -> int -> unit} qui crée une arête dans un graphe.
+			\onslide<2->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{23}{25}}
+			\item<1-> Ecrire une fonction {\tt degre : graphe -> int -> int} qui renvoie le degré d'un sommet.
+			 \onslide<2->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{27}{32}}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
 % Implémentation des graphes par liste d'adjacence
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{Représentation par listes d'adjacence}
 		On peut représenter un graphe à l'aide de listes d'adjacences, c'est à dire en mémorisant pour chaque sommet du graphe la liste de ses voisins.\\
-		\onslide<2->{Un graphe $G=(S,A)$ est alors un tableau de taille $|S|$ où la case d'indice $i$ contient la liste des voisins de $i$.}
+		\onslide<2->{Un graphe $G=(S,A)$ est alors un tableau de taille $|S|$ où la case d'indice $i$ contient la liste des voisins du sommet $x_i$.}
 	\end{alertblock}
 	\onslide<4->{
 	\begin{exampleblock}{Exemple : Un graphe et ses listes d'adjacence}
 		\begin{pspicture}(-2,0)(5,2)
-			\rput(1,0.5){\Circlenode{S1}{$S_1$}}
-			\rput(1,1.5){\Circlenode{S2}{$S_2$}}
-			\rput(4,0.5){\Circlenode{S3}{$S_3$}}
-			\rput(4,1.5){\Circlenode{S4}{$S_4$}}
-			\rput(2.5,1){\Circlenode{S0}{$S_0$}}
+			\rput(1,0.5){\Circlenode{S1}{$x_1$}}
+			\rput(1,1.5){\Circlenode{S2}{$x_2$}}
+			\rput(4,0.5){\Circlenode{S3}{$x_3$}}
+			\rput(4,1.5){\Circlenode{S4}{$x_4$}}
+			\rput(2.5,1){\Circlenode{S0}{$x_0$}}
 			\ncline{-}{S0}{S1}
 			\ncline[linecolor=red]{-}{S0}{S2}
 			\ncline{-}{S0}{S3}
@@ -316,11 +336,39 @@
 		\onslide<2->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{5}{8}}	
 		\onslide<3->{On évite de cette façon l'utilisation de pointeurs mais au prix d'un manque d'efficacité en terme d'occupation mémoire.}
 	\end{block}
-	\onslide<4->{
-	\begin{exampleblock}{Exemple}
-		Ecrire la fonction \mintinline{c}{void cree_arete(graphe g, int i, int j)} 
-		\onslide<5->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{17}{21}}	
-	\end{exampleblock}}
+	\onslide<4->{\begin{exampleblock}{Exemple : Un graphe et sa matrice d'adjacence}
+		\begin{pspicture}(-2,0)(5,2)
+			\rput(1,0.5){\Circlenode{S1}{$x_1$}}
+			\rput(1,1.5){\Circlenode{S2}{$x_2$}}
+			\rput(4,0.5){\Circlenode{S3}{$x_3$}}
+			\rput(4,1.5){\Circlenode{S4}{$x_4$}}
+			\rput(2.5,1){\Circlenode{S0}{$x_0$}} \nput[labelsep=1 pt]{-25}{S0}{\textcolor{blue}{\footnotesize $2$}}
+			\ncline[linecolor=red]{-}{S0}{S4}
+			\ncline[linecolor=red]{-}{S0}{S2}
+			\ncline{-}{S1}{S2}
+			\ncline{-}{S1}{S3}
+			\ncline{-}{S2}{S4}
+			\ncline{-}{S3}{S4}
+			\rput(7,1){$\begin{pmatrix}
+				\textcolor{blue}{2} & \textcolor{red}{2} & \textcolor{red}{4} & \textcolor{gray}{0} & \textcolor{gray}{0} \\
+				2 & 2 & 3 & \textcolor{gray}{0} & \textcolor{gray}{0} \\
+				3 & 0 & 1 & 4 & \textcolor{gray}{0} \\
+				\alt<5->{2}{?} & \alt<5->{1}{?} & \alt<5->{4}{?} & \alt<5->{\textcolor{gray}{0}}{?} & \alt<5->{\textcolor{gray}{0}}{?} \\
+				\alt<5->{3}{?} & \alt<5->{2}{?} & \alt<5->{0}{?} & \alt<5->{3}{?} & \alt<5->{\textcolor{gray}{0}}{?} \\
+			\end{pmatrix}$}
+		\end{pspicture} 
+\end{exampleblock}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{enumerate}
+		\item<1->Ecrire la fonction de signature \mintinline{c}{int degre(graphe g, int i)} qui renvoie le degré du sommet de numéro {\tt i}.
+		\onslide<2->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{66}{69}}	
+		\item<1->Ecrire la fonction de signature \mintinline{c}{void cree_arete(graphe g, int i, int j)} qui crée l'arête entre les sommets {\tt i} et {\tt j} dans le graphe {\tt g}
+		\onslide<3->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{17}{21}}	
+		\end{enumerate}
+	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -341,7 +389,7 @@
 	\end{block}
 	\onslide<5->{
 	\begin{exampleblock}{Exemple}
-		Ecrire la fonction {\tt cree\_arete graphe -> int ->int -> unit}
+		Ecrire la fonction {\tt cree\_arete : graphe -> int -> int -> unit}
 		\onslide<6->{\inputpartOCaml{\SPATH/ladj.ml}{}{\small}{9}{11}}
 	\end{exampleblock}}
 \end{frame}
@@ -360,7 +408,7 @@
 		\end{tabular}\\
 		\onslide<2->Un choix d'implémentation doit donc tenir compte :
 		\begin{itemize}
-			\item<3-> de la taille du graphe 
+			\item<3-> de l'ordre du graphe 
 			\item<4-> de la \textit{\og{} densité\fg{}} du graphe
 			\item<5-> des algorithmes utilisés
 		\end{itemize}
@@ -372,13 +420,13 @@
 \makess{Graphes orientés}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Relation non symétrique}
-		Dans de nombreuses situations (voie à sens unique, lien d'un site web à un autre, relation \textit{\og{} follower \fg{}} dans un réseau social, \dots), on doit modéliser sur un en ensemble $S$, des relations non symétriques, ce qui conduit à la notion de graphe orienté.
+		Dans de nombreuses situations (voie à sens unique, lien d'un site web à un autre, relation \textit{\og{} follower \fg{}} dans un réseau social, \dots), on doit modéliser sur un ensemble $S$, des relations non symétriques, ce qui conduit à la notion de graphe orienté.
 	\end{block}
 	\onslide<2->{
 	\begin{alertblock}{Définition}
 		\onslide<2->{Un \textcolor{red}{graphe orienté} est la donnée :}
     \begin{itemize}
-        \item<3->{D'un ensemble de \textcolor{blue}{sommets} (ou \textcolor{blue}{noeuds}) $S$ fini.}
+        \item<3->{D'un ensemble de \textcolor{blue}{sommets} (ou \textcolor{blue}{n\oe{}uds}) $S$ fini.}
         \item<4->{D'un ensemble de \textbf{couples} de sommets $A \subset S\times S$ appelés \textcolor{blue}{arcs}}
     \end{itemize}
 	\onslide<5-> L'ordre est important, $(x,y) \neq (y,x)$, on notera un arc $x \rightarrow y$ ou $xy$.
@@ -415,11 +463,11 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Vocabulaire}
 		\begin{itemize}
-			\item<2-> Les \textcolor{blue}{successeurs} (ou \textcolor{blue}{voisins sortants}) d'un sommet $s \in S$ sont les éléments de l'ensemble ${\cal V_{+}}(s) = \{t \in S  \text{ tel que } s \relbar t\}$.
+			\item<2-> Les \textcolor{blue}{successeurs} (ou \textcolor{blue}{voisins sortants}) d'un sommet $s \in S$ sont les éléments de l'ensemble ${\cal V_{+}}(s) = \{t \in S  \text{ tel que } s \to t\}$.
 			\item<3-> Le \textcolor{blue}{degré sortant} d'un sommet $s$ noté $d_+(s)$ est son nombre de sucesseurs $d_+(s) = |{\cal V_+}(s)|$.
-			\item<4-> Les \textcolor{blue}{prédecesseurs} (ou \textcolor{blue}{voisins entrants}) d'un sommet $s \in S$ sont les éléments de l'ensemble ${\cal V_{-}}(s) = \{t \in S  \text{ tel que } t \relbar s\}$.
+			\item<4-> Les \textcolor{blue}{prédecesseurs} (ou \textcolor{blue}{voisins entrants}) d'un sommet $s \in S$ sont les éléments de l'ensemble ${\cal V_{-}}(s) = \{t \in S  \text{ tel que } t \to s\}$.
 			\item<5-> Le \textcolor{blue}{degré entrant} d'un sommet $s$ noté $d_-(s)$ est son nombre de prédecesseurs $d_-(s) = |{\cal V_-}(s)|$.
-			\item<6-> Les \textcolor{blue}{voisins} d'un sommet $s$ sont les éléments de ${\cal V}(s) = {\cal V}_+ \cup {\cal V}_- $
+			\item<6-> Les \textcolor{blue}{voisins} d'un sommet $s$ sont les éléments de ${\cal V}(s) = {\cal V_+}(s) \cup {\cal V_-}(s) $
 			\item<7-> Le \textcolor{blue}{degré} d'un sommet $s$ noté $d(s)$ est la somme de ses degrés entrants et sortants $d(s) = d_-(s)+d_+(s)$
 		\end{itemize}
 	\end{block}
@@ -522,7 +570,7 @@
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{exampleblock}{Exemple : Un graphe pondéré et sa matrice d'adjacence}
+\begin{exampleblock}{Exemple : Un graphe orienté pondéré et sa matrice d'adjacence}
 	\begin{pspicture}(-1,0)(5,2)
 		\rput(1,0.2){\Circlenode{S1}{$S_1$}}
 		\rput(1,1.8){\Circlenode{S2}{$S_2$}}
@@ -533,7 +581,7 @@
 		\ncline{->}{S2}{S0} \naput[labelsep=0.07]{{\footnotesize 5}}
 		\ncline{->}{S0}{S3} \naput[labelsep=0.07]{{\footnotesize 8}}
 		\ncline{->}{S0}{S4} \naput[labelsep=0.07]{{\footnotesize 2}}
-		\ncline{->}{S4}{S2} \naput[labelsep=0.07]{{\footnotesize 1}}
+		\ncline{->}{S4}{S2} \nbput[labelsep=0.07]{{\footnotesize 1}}
 		\ncline{->}{S1}{S2} \naput[labelsep=0.07]{\textcolor{blue}{\footnotesize 2}}
 		\rput(8,1){$\begin{pmatrix}
 			0 & +\infty & +\infty & 8 & 2 \\

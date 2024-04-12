@@ -9,22 +9,16 @@ struct graphe
 };
 typedef struct graphe graphe;
 
-graphe cree_graphe(int n)
-{
+graphe cree_graphe(int n){
     graphe g;
     g.taille = n;
     g.madj = malloc(sizeof(bool)*n*n);
     for (int i=0;i<n*n;i++)
-    {
-        g.madj[i]=false;
-    }
-    return g;
-}
+    {g.madj[i]=false;}
+    return g;}
 
-void detruit_graphe(graphe g)
-{
-    free(g.madj);
-}
+void detruit_graphe(graphe g){
+    free(g.madj);}
 
 void print_graphe(graphe g)
 {
