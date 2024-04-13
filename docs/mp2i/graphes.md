@@ -28,7 +28,7 @@ Dans cet exercice, on s'intéresse à la représentation par matrice d'adjacence
 
 1. Ecrire une fonction d’initialisation de prototype `#!c void init_graphe(graphe g, int size)` qui initialise un graphe de taille `size` en remplissant la matrice avec des valeurs `false`
 
-2. Ecrire une fonction de création d'un arc dans un arc de prototype `#!c void cree_arete(graphe g, int i, int j)` qui permet de créer une arête de entre les sommets `i` et `j`
+2. Ecrire une fonction de création d'un arc dans un graphe de prototype `#!c void cree_arete(graphe g, int i, int j)` qui permet de créer une arête de entre les sommets `i` et `j`
 
 3. On donne ci-dessous une fonction permettant de visualiser un graphe :
 
@@ -72,7 +72,7 @@ Dans cet exercice, on s'intéresse à la représentation par matrice d'adjacence
 Reprendre l'exercice précédent en OCaml en utilisant la structure de données vue en cours et rappelée ci-dessous :
 !!! ocaml "Définition de la structure de données"
     ```ocaml
-        --8<-- "C17/madj.ml:1:3"
+        --8<-- "C17/madj.ml:2:4"
     ```
 
 La fonction de visualisation pour OCaml est donnée ci-dessous :
@@ -135,7 +135,7 @@ On rappelle la structure de données vues en cours permettant de représenter un
     
 1. Ecrire une fonction d’initialisation de prototype `#!c void init_graphe(graphe g, int size)` qui initialise un graphe de taille `size` en affectant le degré 0 à tous les noeuds.
 
-2. Ecrire une fonction de création d'un arc dans un arc de prototype `#!c void cree_arete(graphe g, int i, int j)` qui permet de créer une arête de entre les sommets `i` et `j`
+2. Ecrire une fonction de création d'un arc dans un graphe de prototype `#!c void cree_arete(graphe g, int i, int j)` qui permet de créer une arête de entre les sommets `i` et `j`
 
 3. On donne ci-dessous une fonction permettant de visualiser un graphe :
 
