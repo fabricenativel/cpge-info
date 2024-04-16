@@ -195,46 +195,50 @@ Etant donné un tableau d'entiers (positif ou négatif) $[e_0,\dots,e_{n-1}]$ on
 
 
 {{ exo("Problème du sac à dos",[]) }}
-On dispose d’un sac à dos pouvant contenir un poids maximal $P$ et de $n$ objets ayant chacun un poids $(p_i)_{0\leq i \leq n-1}$ et une valeur $(v_i)_{0\leq i \leq n-1}$. *On suppose dans la suite que les objets sont rangés par ordre croissant de poids*. Le problème du sac à dos consiste à remplir ce sac en maximisant la valeur des objets qu’il contient. On veut résoudre ce problème par programmation dynamique,
+On dispose d’un sac à dos pouvant contenir un poids maximal $P$ et de $n$ objets ayant chacun un poids $(p_i)_{1\leq i \leq n}$ et une valeur $(v_i)_{1\leq i \leq n}$. Le problème du sac à dos consiste à remplir ce sac en maximisant la valeur des objets qu’il contient tout en respectant la contrainte de poids total du sac qui doit resté inférieur à $P$. Dans toute la suite, on considère que les poids et les valeurs sont des *entiers*. On veut résoudre ce problème par programmation dynamique.
 
 1. Etablir une relation de récurrence entre différentes instances du problème.
 
     !!! Aide
-        On pourra noter  $S(p,k)$ le poids maximal atteignable pour un sac de poids maximal $p$ avec les objets $(p_i,v_i)_{0 \leq i \leq k}$ et chercher une relation de récurrence liant $S(P,k)$ à  d'autres instances du problèmes en distinguant deux cas :
+        On pourra noter  $S(p,k)$ la valeur maximale atteignable pour un sac de poids maximal $p$ avec les objets $(p_i,v_i)_{1 \leq i \leq k}$ et chercher une relation de récurrence liant $S(P,k)$ à  d'autres instances du problèmes en distinguant deux cas :
 
         * $p_k \leq p$ et donc on peut (ou pas) prendre l'objet d'indice $k$
         * $p_k > p$ et donc l'objet d'indice $k$ ne rentre pas dans le sac
 
 2. Ecrire une fonction  permettant de déterminer la valeur maximale du sac.
-3. Déterminer un remplissage du sac réalisant la valeur maximale.
-4. Résoudre le problème avec un sac de poids maximal **67** et la liste de 24 objets suivantes :
+4. Résoudre le problème avec un sac de poids maximal **670** et la liste de 24 objets suivantes :
 
-```
-7.8,3897
-3.8,1953
-7.9,3871
-9.1,4598
-1.4,602
-5.6,2730
-8.7,4283
-5.5,2668
-7.7,3895
-6.9,3512
-8.7,4318
-8.9,4355
-7.3,3660
-2.9,1574
-5.3,2548
-0.5,142
-0.8,430
-0.6,398
-3.8,1776
-8.2,4073
-8.8,4507
-5.7,2932
-1.0,599
-7.8,3802
-```
+    ```
+    78,3897
+    38,1953
+    79,3871
+    91,4598
+    14,602
+    56,2730
+    87,4283
+    55,2668
+    77,3895
+    69,3512
+    87,4318
+    89,4355
+    73,3660
+    29,1574
+    53,2548
+    5,142
+    8,430
+    6,398
+    38,1776
+    82,4073
+    88,4507
+    57,2932
+    10,599
+    78,3802
+    ```
+    Tester votre réponse ici : {{check_reponse("34098")}}
+
+3. Déterminer un remplissage du sac réalisant la valeur maximale.
+Tester votre réponse ici en donnant par ordre croissant les numéros des objets utilisés séparé par des virgules. Par exemple si les objets à prendre portent les numéros 2, 7 et 20 vous devez taper `2,7,20` : {{check_reponse("1,2,8,9,10,13,14,17,18,20,21,22,23")}}   
+attention** : les objets sont numérotés à partir de 1.)
 
 {{ exo("Distance d'édition",[]) }}
 
