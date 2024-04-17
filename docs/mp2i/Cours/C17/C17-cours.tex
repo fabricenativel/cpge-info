@@ -30,7 +30,7 @@
 			\includegraphics[width=160px]{US4.eps}\\
 			{\footnotesize credit : Wikipedia}
 		\end{center}
-		Peut-on colorier n'importe quelle carte en utilisant seulement 4 couleurs ? (sans que deux pays limitrophes aient la même couleur) 
+		Peut-on colorier n'importe quelle carte en utilisant seulement 4 couleurs ? (sans que deux pays limitrophes aient la même couleur)
 	\end{block}
 \end{frame}
 
@@ -60,75 +60,75 @@
 		\begin{itemize}
 			\item<1-> {\sc gps} : recherches de chemins,
 			\item<2-> planification de tâches,
-			\item<3-> réseaux : informatique, sociaux, 
+			\item<3-> réseaux : informatique, sociaux,
 			\item<4-> énergie, transport, \dots
 		\end{itemize}
 		\onslide<5->{La taille des graphes en jeu impose la recherche d'algorithmes efficaces :}
 		\onslide<6->{
-		\begin{center}
-		\begin{tabularx}{0.7\linewidth}{XXX}
-			\textcolor{blue}{Graphe}  & \textcolor{blue}{Sommets} & \textcolor{blue}{Arcs} \\
-			\hline 
-			\leavevmode{\onslide<7->{Facebook}} & \leavevmode{\onslide<7->{$\simeq 7,2\times 10^8$}} & \leavevmode{\onslide<7->{$\simeq 7\times10^9$}} \\
-			\leavevmode{\onslide<8->{OpenStreetMap}} & \leavevmode{\onslide<8->{$\simeq 9\times 10^9$}} & \leavevmode{\onslide<8->{$\simeq 10^9$}} \\
-			\leavevmode{\onslide<9->{Jeu d'échecs}} & \leavevmode{\onslide<9->{$\simeq  10^{47}$}} & \leavevmode{\onslide<9->{?}} \\
-		\end{tabularx}
-	\end{center}}
+			\begin{center}
+				\begin{tabularx}{0.7\linewidth}{XXX}
+					\textcolor{blue}{Graphe}                 & \textcolor{blue}{Sommets}                          & \textcolor{blue}{Arcs}                          \\
+					\hline
+					\leavevmode{\onslide<7->{Facebook}}      & \leavevmode{\onslide<7->{$\simeq 7,2\times 10^8$}} & \leavevmode{\onslide<7->{$\simeq 7\times10^9$}} \\
+					\leavevmode{\onslide<8->{OpenStreetMap}} & \leavevmode{\onslide<8->{$\simeq 9\times 10^9$}}   & \leavevmode{\onslide<8->{$\simeq 10^9$}}        \\
+					\leavevmode{\onslide<9->{Jeu d'échecs}}  & \leavevmode{\onslide<9->{$\simeq  10^{47}$}}       & \leavevmode{\onslide<9->{?}}                    \\
+				\end{tabularx}
+			\end{center}}
 	\end{block}
 \end{frame}
 
 \makess{Définition et vocabulaire des graphes}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{alertblock}{Définition}
-    \onslide<1->{Un \textcolor{red}{graphe non-orienté} est la donnée :}
-    \begin{itemize}
-        \item<2->{D'un ensemble de \textcolor{blue}{sommets} (ou \textcolor{blue}{n\oe{}uds}) $S$ fini (\textcolor{gray}{V pour \textit{vertice} en anglais.}).}
-        \item<3->{D'un ensemble de paires de sommets $A$ appelés \textcolor{blue}{arêtes} (\textcolor{gray}{E pour \textit{edges} en anglais}).}
-    \end{itemize}
-\end{alertblock}
-	\onslide<4->{\begin{block}{Remarques}
+	\begin{alertblock}{Définition}
+		\onslide<1->{Un \textcolor{red}{graphe non-orienté} est la donnée :}
 		\begin{itemize}
-			\item<5-> Une arête est donc une paire $\{x, y \}$, avec $x \in S$, $y \in S$ et $x \neq y$. 
-			\item<6-> Puisque $\{x, y \} = \{ y, x \}$, l'ordre n'a pas d'importance.
-			\item<7-> On notera $ x \relbar y$ ou plus simplement $xy$ l'arête $\{x, y \}$.
+			\item<2->{D'un ensemble de \textcolor{blue}{sommets} (ou \textcolor{blue}{n\oe{}uds}) $S$ fini (\textcolor{gray}{V pour \textit{vertice} en anglais.}).}
+			\item<3->{D'un ensemble de paires de sommets $A$ appelés \textcolor{blue}{arêtes} (\textcolor{gray}{E pour \textit{edges} en anglais}).}
 		\end{itemize}
-	\end{block}}
+	\end{alertblock}
+	\onslide<4->{\begin{block}{Remarques}
+			\begin{itemize}
+				\item<5-> Une arête est donc une paire $\{x, y \}$, avec $x \in S$, $y \in S$ et $x \neq y$.
+				\item<6-> Puisque $\{x, y \} = \{ y, x \}$, l'ordre n'a pas d'importance.
+				\item<7-> On notera $ x \relbar y$ ou plus simplement $xy$ l'arête $\{x, y \}$.
+			\end{itemize}
+		\end{block}}
 \end{frame}
 
 % Premiers exemples
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{exampleblock}{Exemple}
-    \begin{pspicture}(0,2)(5,4)
-        \rput(0.2,2.8){\Circlenode{S1}{$a$}}
-        \rput(2,3){\Circlenode{S2}{$b$}}
-        \rput(4,2){\Circlenode{S3}{$c$}} 
-        \rput(8,3){\Circlenode{S4}{$d$}}
-        \rput(7,2){\Circlenode{S5}{$e$}}
-        \rput(6,3){\Circlenode{S6}{$f$}}
-        \rput(4,3.5){\circlenode{S7}{$g$}}
-        \ncarc{-}{S4}{S5}
-        \ncarc{-}{S6}{S4} 
-        \ncarc{-}{S1}{S2}
-        \ncarc{-}{S2}{S3}
-        \ncarc{-}{S2}{S7}
-		\ncarc{-}{S7}{S3}
-    \end{pspicture}\\
-    \onslide<2->{$S = \{a,b,c,d,e,f,g\}$ \\}
-    \onslide<3->{$A = \{\ar{a,b},\ar{b,c},\ar{b,g},\ar{c,g},\ar{f,d},\ar{e,d}\}$\bigskip \\}
-	\onslide<4->{Dessiner le graphe $G'$ définit par $S' = \{1, 2, 3, 4\}$ et $A' = \{\ar{1,2},\ar{3,4},\ar{1,4}\}$}
-	\onslide<5->{
-		\begin{pspicture}(0,0)(2,2)
-			\rput(1,0.5){\Circlenode[linecolor=OliveGreen]{T1}{$\textcolor{OliveGreen}{1}$}}
-			\rput(1,1.5){\Circlenode[linecolor=OliveGreen]{T2}{$\textcolor{OliveGreen}{2}$}}
-			\rput(4,0.5){\Circlenode[linecolor=OliveGreen]{T3}{$\textcolor{OliveGreen}{3}$}}
-			\rput(4,1.5){\Circlenode[linecolor=OliveGreen]{T4}{$\textcolor{OliveGreen}{4}$}}
+	\begin{exampleblock}{Exemple}
+		\begin{pspicture}(0,2)(5,4)
+			\rput(0.2,2.8){\Circlenode{S1}{$a$}}
+			\rput(2,3){\Circlenode{S2}{$b$}}
+			\rput(4,2){\Circlenode{S3}{$c$}}
+			\rput(8,3){\Circlenode{S4}{$d$}}
+			\rput(7,2){\Circlenode{S5}{$e$}}
+			\rput(6,3){\Circlenode{S6}{$f$}}
+			\rput(4,3.5){\circlenode{S7}{$g$}}
+			\ncarc{-}{S4}{S5}
+			\ncarc{-}{S6}{S4}
+			\ncarc{-}{S1}{S2}
+			\ncarc{-}{S2}{S3}
+			\ncarc{-}{S2}{S7}
+			\ncarc{-}{S7}{S3}
 		\end{pspicture}\\
-		\ncline[linecolor=OliveGreen]{-}{T1}{T2}
-		\ncline[linecolor=OliveGreen]{-}{T3}{T4}
-		\ncline[linecolor=OliveGreen]{-}{T1}{T4}
-	}
-    \onslide<6->{\textcolor{BrickRed}{\small \danger} L'emplacement des n\oe{}uds sur la représentation graphique n'a pas d'importance.}
-\end{exampleblock}
+		\onslide<2->{$S = \{a,b,c,d,e,f,g\}$ \\}
+		\onslide<3->{$A = \{\ar{a,b},\ar{b,c},\ar{b,g},\ar{c,g},\ar{f,d},\ar{e,d}\}$\bigskip \\}
+		\onslide<4->{Dessiner le graphe $G'$ définit par $S' = \{1, 2, 3, 4\}$ et $A' = \{\ar{1,2},\ar{3,4},\ar{1,4}\}$}
+		\onslide<5->{
+			\begin{pspicture}(0,0)(2,2)
+				\rput(1,0.5){\Circlenode[linecolor=OliveGreen]{T1}{$\textcolor{OliveGreen}{1}$}}
+				\rput(1,1.5){\Circlenode[linecolor=OliveGreen]{T2}{$\textcolor{OliveGreen}{2}$}}
+				\rput(4,0.5){\Circlenode[linecolor=OliveGreen]{T3}{$\textcolor{OliveGreen}{3}$}}
+				\rput(4,1.5){\Circlenode[linecolor=OliveGreen]{T4}{$\textcolor{OliveGreen}{4}$}}
+			\end{pspicture}\\
+			\ncline[linecolor=OliveGreen]{-}{T1}{T2}
+			\ncline[linecolor=OliveGreen]{-}{T3}{T4}
+			\ncline[linecolor=OliveGreen]{-}{T1}{T4}
+		}
+		\onslide<6->{\textcolor{BrickRed}{\small \danger} L'emplacement des n\oe{}uds sur la représentation graphique n'a pas d'importance.}
+	\end{exampleblock}
 \end{frame}
 
 
@@ -144,7 +144,7 @@
 	\begin{exampleblock}{Exercices}
 		\begin{enumerate}
 			\item<4-> Dessiner un graphe d'ordre 5 dont tous les sommets sont de degrés 2.
-			\item<5-> Donner un majorant du nombre d'arêtes d'un graphe d'ordre $n$.  
+			\item<5-> Donner un majorant du nombre d'arêtes d'un graphe d'ordre $n$.
 		\end{enumerate}}
 	\end{exampleblock}
 \end{frame}
@@ -157,7 +157,7 @@
 		\onslide<2->$M$ est une matrice symétrique.
 	\end{alertblock}
 	\onslide<3->{
-	\begin{exampleblock}{Exemple : Un graphe et sa matrice d'adjacence}
+		\begin{exampleblock}{Exemple : Un graphe et sa matrice d'adjacence}
 			\begin{pspicture}(-2,0)(5,2)
 				\rput(1,0.5){\Circlenode{S1}{$x_1$}}
 				\rput(1,1.5){\Circlenode{S2}{$x_2$}}
@@ -170,14 +170,14 @@
 				\ncline{-}{S1}{S3}
 				\ncline{-}{S2}{S4}
 				\rput(7,1){$\begin{pmatrix}
-					0 & 1 & 1 & \textcolor{red}{1} & 0 \\
-					1 & 0 & 0 & 1 & 0 \\
-					1 & 0 & 0 & 0 & 1 \\
-					\textcolor{red}{1} & 1 & 0 & 0 & 0 \\
-					0 & 0 & 1 & 0 & 0 \\
-				\end{pmatrix}$}
-			\end{pspicture} 
-	\end{exampleblock}}
+							0                  & 1 & 1 & \textcolor{red}{1} & 0 \\
+							1                  & 0 & 0 & 1                  & 0 \\
+							1                  & 0 & 0 & 0                  & 1 \\
+							\textcolor{red}{1} & 1 & 0 & 0                  & 0 \\
+							0                  & 0 & 1 & 0                  & 0 \\
+						\end{pmatrix}$}
+			\end{pspicture}
+		\end{exampleblock}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -219,18 +219,18 @@
 		\onslide<3->{On évite ainsi l'utilisation de pointeurs et on manipule directement la matrice d'adjacence. On doit passer la taille effective du graphe aux fonctions lorsque nécessaire.}
 	\end{block}
 	\onslide<4->{
-	\begin{exampleblock}{Exemple}
-		Ecrire la fonction de signature \mintinline{c}{void cree_arete(graphe g, int i, int j)} qui crée l'arête reliant les sommets {\tt i} et {\tt j}.
-		\onslide<5->{\inputpartC{\SPATH/madj_stat.c}{}{\small}{19}{21}}
-	\end{exampleblock}}
+		\begin{exampleblock}{Exemple}
+			Ecrire la fonction de signature \mintinline{c}{void cree_arete(graphe g, int i, int j)} qui crée l'arête reliant les sommets {\tt i} et {\tt j}.
+			\onslide<5->{\inputpartC{\SPATH/madj_stat.c}{}{\small}{19}{21}}
+		\end{exampleblock}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Implémentation en C : type structuré}
-	On utilise un \mintinline{c}{struct} contenant un champ \mintinline{c}{int} (le nombre de sommets), et un pointeur vers la matrice d'adjacence linéarisée.
-	\onslide<2->{L'indice de $M_{ij}$ dans la matrice linéarisée est alors $i\times |S| +j$.}
-	\onslide<3->{\inputpartC{\SPATH/madj_dyn.c}{}{\small}{5}{10}}
-	\onslide<4->{Cette solution est plus efficace en terme de d'utilisation mémoire mais impose l'utilisation de pointeurs.}
+		On utilise un \mintinline{c}{struct} contenant un champ \mintinline{c}{int} (le nombre de sommets), et un pointeur vers la matrice d'adjacence linéarisée.
+		\onslide<2->{L'indice de $M_{ij}$ dans la matrice linéarisée est alors $i\times |S| +j$.}
+		\onslide<3->{\inputpartC{\SPATH/madj_dyn.c}{}{\small}{5}{10}}
+		\onslide<4->{Cette solution est plus efficace en terme de d'utilisation mémoire mais impose l'utilisation de pointeurs.}
 	\end{block}
 \end{frame}
 
@@ -260,9 +260,9 @@
 	\begin{exampleblock}{Exemples}
 		\begin{enumerate}
 			\item<1-> Ecrire la fonction {\tt cree\_arete : graphe -> int -> int -> unit} qui crée une arête dans un graphe.
-			\onslide<2->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{23}{25}}
+				\onslide<2->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{23}{25}}
 			\item<1-> Ecrire une fonction {\tt degre : graphe -> int -> int} qui renvoie le degré d'un sommet.
-			 \onslide<2->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{27}{32}}
+				\onslide<2->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{27}{32}}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -274,27 +274,27 @@
 		\onslide<2->{Un graphe $G=(S,A)$ est alors un tableau de taille $|S|$ où la case d'indice $i$ contient la liste des voisins du sommet $x_i$.}
 	\end{alertblock}
 	\onslide<4->{
-	\begin{exampleblock}{Exemple : Un graphe et ses listes d'adjacence}
-		\begin{pspicture}(-2,0)(5,2)
-			\rput(1,0.5){\Circlenode{S1}{$x_1$}}
-			\rput(1,1.5){\Circlenode{S2}{$x_2$}}
-			\rput(4,0.5){\Circlenode{S3}{$x_3$}}
-			\rput(4,1.5){\Circlenode{S4}{$x_4$}}
-			\rput(2.5,1){\Circlenode{S0}{$x_0$}}
-			\ncline{-}{S0}{S1}
-			\ncline[linecolor=red]{-}{S0}{S2}
-			\ncline{-}{S0}{S3}
-			\ncline{-}{S1}{S3}
-			\ncline{-}{S2}{S4}
-			\rput(7,1){\begin{tabular}{lcl}
-				0 &$\rightarrow$ & {\tt [1; \textcolor{red}{2}; 3]} \\
-				1 &$\rightarrow$ & {\tt [0; 3]} \\
-				2 &$\rightarrow$ &{\tt [\textcolor{red}{0}; 4]} \\
-				3 &$\rightarrow$ &{\tt [0; 1]} \\
-				4 &$\rightarrow$ &{\tt [2]} \\
-			\end{tabular}}
-		\end{pspicture} 
-\end{exampleblock}}
+		\begin{exampleblock}{Exemple : Un graphe et ses listes d'adjacence}
+			\begin{pspicture}(-2,0)(5,2)
+				\rput(1,0.5){\Circlenode{S1}{$x_1$}}
+				\rput(1,1.5){\Circlenode{S2}{$x_2$}}
+				\rput(4,0.5){\Circlenode{S3}{$x_3$}}
+				\rput(4,1.5){\Circlenode{S4}{$x_4$}}
+				\rput(2.5,1){\Circlenode{S0}{$x_0$}}
+				\ncline{-}{S0}{S1}
+				\ncline[linecolor=red]{-}{S0}{S2}
+				\ncline{-}{S0}{S3}
+				\ncline{-}{S1}{S3}
+				\ncline{-}{S2}{S4}
+				\rput(7,1){\begin{tabular}{lcl}
+						0 & $\rightarrow$ & {\tt [1; \textcolor{red}{2}; 3]} \\
+						1 & $\rightarrow$ & {\tt [0; 3]}                     \\
+						2 & $\rightarrow$ & {\tt [\textcolor{red}{0}; 4]}    \\
+						3 & $\rightarrow$ & {\tt [0; 1]}                     \\
+						4 & $\rightarrow$ & {\tt [2]}                        \\
+					\end{tabular}}
+			\end{pspicture}
+		\end{exampleblock}}
 \end{frame}
 
 % Exemple de liste d'adjacences
@@ -302,71 +302,71 @@
 	\begin{exampleblock}{Exemple}
 		\begin{enumerate}
 			\item<1-> Ecrire les listes d'adjacences du graphe suivante :
-			\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode{B}{B}}
-					\rput(4,0.7){\circlenode{D}{D}}
-					\rput(6,1.5){\circlenode{C}{C}}
-					\ncarc{-}{A}{E}
-					\ncarc{-}{A}{B}
-					\ncarc{-}{A}{C}
-					\ncarc[arcangle=-10]{-}{B}{D}
-					\ncarc{-}{C}{B}
-					\ncarc[arcangle=-10]{-}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{-}{E}{C}
-					\ncline{-}{E}{B}
-				\end{pspicture}
-			\end{center}
-			\item<2-> Dessiner le graphe représenté par le tableau $T$ tel que :	\\			
-{\tt 
-	T[0] = [2] \\
- 	T[1] = [3; 4] \\
- 	T[2] = [0; 1] \\
- 	T[3] = [1; 2] \\
- 	T[4] = [1; 2]\\
-} 
+				\begin{center}
+					\begin{pspicture}(5,2)
+						\rput(0,1.8){\circlenode{A}{A}}
+						\rput(1,0.5){\circlenode{E}{E}}
+						\rput(2,1){\circlenode{B}{B}}
+						\rput(4,0.7){\circlenode{D}{D}}
+						\rput(6,1.5){\circlenode{C}{C}}
+						\ncarc{-}{A}{E}
+						\ncarc{-}{A}{B}
+						\ncarc{-}{A}{C}
+						\ncarc[arcangle=-10]{-}{B}{D}
+						\ncarc{-}{C}{B}
+						\ncarc[arcangle=-10]{-}{D}{C}
+						\ncarc[arcangleA=-45,arcangleB=-40]{-}{E}{C}
+						\ncline{-}{E}{B}
+					\end{pspicture}
+				\end{center}
+			\item<2-> Dessiner le graphe représenté par le tableau $T$ tel que :	\\
+				{\tt
+				T[0] = [2] \\
+				T[1] = [3; 4] \\
+				T[2] = [0; 1] \\
+				T[3] = [1; 2] \\
+				T[4] = [1; 2]\\
+				}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Implémentation en C : tableau statique d'entiers}
-		\onslide<2->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{5}{8}}	
+		\onslide<2->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{5}{8}}
 		\onslide<3->{On évite de cette façon l'utilisation de pointeurs mais au prix d'un manque d'efficacité en terme d'occupation mémoire.}
 	\end{block}
 	\onslide<4->{\begin{exampleblock}{Exemple : Un graphe et sa matrice d'adjacence}
-		\begin{pspicture}(-2,0)(5,2)
-			\rput(1,0.5){\Circlenode{S1}{$x_1$}}
-			\rput(1,1.5){\Circlenode{S2}{$x_2$}}
-			\rput(4,0.5){\Circlenode{S3}{$x_3$}}
-			\rput(4,1.5){\Circlenode{S4}{$x_4$}}
-			\rput(2.5,1){\Circlenode{S0}{$x_0$}} \nput[labelsep=1 pt]{-25}{S0}{\textcolor{blue}{\footnotesize $2$}}
-			\ncline[linecolor=red]{-}{S0}{S4}
-			\ncline[linecolor=red]{-}{S0}{S2}
-			\ncline{-}{S1}{S2}
-			\ncline{-}{S1}{S3}
-			\ncline{-}{S2}{S4}
-			\ncline{-}{S3}{S4}
-			\rput(7,1){$\begin{pmatrix}
-				\textcolor{blue}{2} & \textcolor{red}{2} & \textcolor{red}{4} & \textcolor{gray}{0} & \textcolor{gray}{0} \\
-				2 & 2 & 3 & \textcolor{gray}{0} & \textcolor{gray}{0} \\
-				3 & 0 & 1 & 4 & \textcolor{gray}{0} \\
-				\alt<5->{2}{?} & \alt<5->{1}{?} & \alt<5->{4}{?} & \alt<5->{\textcolor{gray}{0}}{?} & \alt<5->{\textcolor{gray}{0}}{?} \\
-				\alt<5->{3}{?} & \alt<5->{2}{?} & \alt<5->{0}{?} & \alt<5->{3}{?} & \alt<5->{\textcolor{gray}{0}}{?} \\
-			\end{pmatrix}$}
-		\end{pspicture} 
-\end{exampleblock}}
+			\begin{pspicture}(-2,0)(5,2)
+				\rput(1,0.5){\Circlenode{S1}{$x_1$}}
+				\rput(1,1.5){\Circlenode{S2}{$x_2$}}
+				\rput(4,0.5){\Circlenode{S3}{$x_3$}}
+				\rput(4,1.5){\Circlenode{S4}{$x_4$}}
+				\rput(2.5,1){\Circlenode{S0}{$x_0$}} \nput[labelsep=1 pt]{-25}{S0}{\textcolor{blue}{\footnotesize $2$}}
+				\ncline[linecolor=red]{-}{S0}{S4}
+				\ncline[linecolor=red]{-}{S0}{S2}
+				\ncline{-}{S1}{S2}
+				\ncline{-}{S1}{S3}
+				\ncline{-}{S2}{S4}
+				\ncline{-}{S3}{S4}
+				\rput(7,1){$\begin{pmatrix}
+							\textcolor{blue}{2} & \textcolor{red}{2} & \textcolor{red}{4} & \textcolor{gray}{0}              & \textcolor{gray}{0}              \\
+							2                   & 2                  & 3                  & \textcolor{gray}{0}              & \textcolor{gray}{0}              \\
+							3                   & 0                  & 1                  & 4                                & \textcolor{gray}{0}              \\
+							\alt<5->{2}{?}      & \alt<5->{1}{?}     & \alt<5->{4}{?}     & \alt<5->{\textcolor{gray}{0}}{?} & \alt<5->{\textcolor{gray}{0}}{?} \\
+							\alt<5->{3}{?}      & \alt<5->{2}{?}     & \alt<5->{0}{?}     & \alt<5->{3}{?}                   & \alt<5->{\textcolor{gray}{0}}{?} \\
+						\end{pmatrix}$}
+			\end{pspicture}
+		\end{exampleblock}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemples}
 		\begin{enumerate}
-		\item<1->Ecrire la fonction de signature \mintinline{c}{int degre(graphe g, int i)} qui renvoie le degré du sommet de numéro {\tt i}.
-		\onslide<2->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{66}{69}}	
-		\item<1->Ecrire la fonction de signature \mintinline{c}{void cree_arete(graphe g, int i, int j)} qui crée l'arête entre les sommets {\tt i} et {\tt j} dans le graphe {\tt g}
-		\onslide<3->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{17}{21}}	
+			\item<1->Ecrire la fonction de signature \mintinline{c}{int degre(graphe g, int i)} qui renvoie le degré du sommet de numéro {\tt i}.
+			\onslide<2->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{66}{69}}
+			\item<1->Ecrire la fonction de signature \mintinline{c}{void cree_arete(graphe g, int i, int j)} qui crée l'arête entre les sommets {\tt i} et {\tt j} dans le graphe {\tt g}
+			\onslide<3->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{17}{21}}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -388,27 +388,27 @@
 		\onslide<4->{\inputpartOCaml{\SPATH/ladj.ml}{}{\small}{6}{7}}
 	\end{block}
 	\onslide<5->{
-	\begin{exampleblock}{Exemple}
-		Ecrire la fonction {\tt cree\_arete : graphe -> int -> int -> unit}
-		\onslide<6->{\inputpartOCaml{\SPATH/ladj.ml}{}{\small}{9}{11}}
-	\end{exampleblock}}
+		\begin{exampleblock}{Exemple}
+			Ecrire la fonction {\tt cree\_arete : graphe -> int -> int -> unit}
+			\onslide<6->{\inputpartOCaml{\SPATH/ladj.ml}{}{\small}{9}{11}}
+		\end{exampleblock}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Comparatif}
 		\begin{tabular}{|l|c|c|}
 			\cline{2-3}
-			\multicolumn{1}{c|}{} & Matrice d'adjacence & Liste d'adjacence \\
+			\multicolumn{1}{c|}{}        & Matrice d'adjacence & Liste d'adjacence \\
 			\hline
-			Occupation mémoire  & $O(|S|^2)$ & $O(|S|+|A|)$ \\
-			Modification d'arête & $O(1)$ & $O(|S|)$ \\
-			Test d'existence d'une arête & $O(1)$ & $O(|S|)$ \\
-			Enumération des voisins & $O(|S|)$ & $O(1)$ \\
+			Occupation mémoire           & $O(|S|^2)$          & $O(|S|+|A|)$      \\
+			Modification d'arête         & $O(1)$              & $O(|S|)$          \\
+			Test d'existence d'une arête & $O(1)$              & $O(|S|)$          \\
+			Enumération des voisins      & $O(|S|)$            & $O(1)$            \\
 			\hline
 		\end{tabular}\\
 		\onslide<2->Un choix d'implémentation doit donc tenir compte :
 		\begin{itemize}
-			\item<3-> de l'ordre du graphe 
+			\item<3-> de l'ordre du graphe
 			\item<4-> de la \textit{\og{} densité\fg{}} du graphe
 			\item<5-> des algorithmes utilisés
 		\end{itemize}
@@ -423,14 +423,14 @@
 		Dans de nombreuses situations (voie à sens unique, lien d'un site web à un autre, relation \textit{\og{} follower \fg{}} dans un réseau social, \dots), on doit modéliser sur un ensemble $S$, des relations non symétriques, ce qui conduit à la notion de graphe orienté.
 	\end{block}
 	\onslide<2->{
-	\begin{alertblock}{Définition}
-		\onslide<2->{Un \textcolor{red}{graphe orienté} est la donnée :}
-    \begin{itemize}
-        \item<3->{D'un ensemble de \textcolor{blue}{sommets} (ou \textcolor{blue}{n\oe{}uds}) $S$ fini.}
-        \item<4->{D'un ensemble de \textbf{couples} de sommets $A \subset S\times S$ appelés \textcolor{blue}{arcs}}
-    \end{itemize}
-	\onslide<5-> L'ordre est important, $(x,y) \neq (y,x)$, on notera un arc $x \rightarrow y$ ou $xy$.
-	\end{alertblock}}
+		\begin{alertblock}{Définition}
+			\onslide<2->{Un \textcolor{red}{graphe orienté} est la donnée :}
+			\begin{itemize}
+				\item<3->{D'un ensemble de \textcolor{blue}{sommets} (ou \textcolor{blue}{n\oe{}uds}) $S$ fini.}
+				\item<4->{D'un ensemble de \textbf{couples} de sommets $A \subset S\times S$ appelés \textcolor{blue}{arcs}}
+			\end{itemize}
+			\onslide<5-> L'ordre est important, $(x,y) \neq (y,x)$, on notera un arc $x \rightarrow y$ ou $xy$.
+		\end{alertblock}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -456,7 +456,7 @@
 			\item $A = \{ (a,b), (b,c), (c,d), (d,e), (e,a), (a,c), (a,d), (d,a)\}$
 		\end{itemize}
 	\end{exampleblock}
-	
+
 \end{frame}
 
 
@@ -506,7 +506,7 @@
 			\item La représentation par matrice d'adjacence reste valide mais la matrice n'est plus nécessairement symétrique.
 			\item<2-> Dans la représentation par liste d'adjacence, les listes contiennent les \textcolor{BrickRed}{voisins sortants}.
 			\item<3-> Les remarques sur le choix d'une représentation restent valides.\\
-			\onslide<4->{\textcolor{red}{\small \danger} Attention cependant, dans le cas des listes d'adjacence on a un accès en $O(1)$ à la liste des voisins \textbf{sortants}, lister les voisins entrants s'avère plus compliqué (voir TP).}
+				\onslide<4->{\textcolor{red}{\small \danger} Attention cependant, dans le cas des listes d'adjacence on a un accès en $O(1)$ à la liste des voisins \textbf{sortants}, lister les voisins entrants s'avère plus compliqué (voir TP).}
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -519,35 +519,35 @@
 	\end{block}
 	\onslide<2->
 	{\begin{alertblock}{Définition}
-		Etant donné un graphe $G=(S,A)$n une fonction de pondération de $G$ est un fonction $\omega : A \mapsto \R$. Le \textcolor{blue}{poids} de l'arête (ou arc) $a$ est le réel $w(a)$ et on dit que $(G,S,\omega)$ est un \textcolor{blue}{graphe pondéré}
-	\end{alertblock}}
+			Etant donné un graphe $G=(S,A)$n une fonction de pondération de $G$ est un fonction $\omega : A \mapsto \R$. Le \textcolor{blue}{poids} de l'arête (ou arc) $a$ est le réel $w(a)$ et on dit que $(G,S,\omega)$ est un \textcolor{blue}{graphe pondéré}
+		\end{alertblock}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple}
 		\begin{pspicture}(0,-2.2)(5,2.2)
-		\rput(1,2){\circlenode{R1}{$S_1$}}
-		\rput(3,2){\circlenode{R2}{$S_2$}}
-		\rput(1,0){\circlenode{R3}{$S_3$}}
-		\rput(3,0){\circlenode{R4}{$S_4$}}
-		\rput(5,0){\circlenode{R5}{$S_5$}}
-		\rput(1,-2){\circlenode{R6}{$S_6$}}
-		\rput(3,-2){\circlenode{R7}{$S_7$}}
-		\rput(5,-2){\circlenode{R8}{$S_8$}}
-		\ncline{R1}{R2} \naput[labelsep=0.06]{\textcolor{blue}{2}}
-		\ncline{R1}{R3} \naput[labelsep=0.06]{\textcolor{blue}{1}}
-		\ncline{R1}{R4} \naput[labelsep=0.06]{\textcolor{blue}{3}}
-		\ncline{R2}{R4} \naput[labelsep=0.06]{\textcolor{blue}{5}}
-		\ncline{R3}{R4} \naput[labelsep=0.06]{\textcolor{blue}{1}}
-		\ncline{R3}{R6} \naput[labelsep=0.06]{\textcolor{blue}{7}}
-		\ncline{R3}{R7} \naput[labelsep=0.06]{\textcolor{blue}{7}}
-		\ncline{R4}{R5} \naput[labelsep=0.06]{\textcolor{blue}{2}}
-		\ncline{R4}{R7} \naput[labelsep=0.06]{\textcolor{blue}{6}}
-		\ncline{R4}{R8} \naput[labelsep=0.06]{\textcolor{blue}{7}}
-		\ncline{R5}{R8} \naput[labelsep=0.06]{\textcolor{blue}{4}}
-		\ncline{R6}{R7} \naput[labelsep=0.06]{\textcolor{blue}{4}}
-		\ncline{R7}{R8} \naput[labelsep=0.06]{\textcolor{blue}{9}}
-	\end{pspicture}
+			\rput(1,2){\circlenode{R1}{$S_1$}}
+			\rput(3,2){\circlenode{R2}{$S_2$}}
+			\rput(1,0){\circlenode{R3}{$S_3$}}
+			\rput(3,0){\circlenode{R4}{$S_4$}}
+			\rput(5,0){\circlenode{R5}{$S_5$}}
+			\rput(1,-2){\circlenode{R6}{$S_6$}}
+			\rput(3,-2){\circlenode{R7}{$S_7$}}
+			\rput(5,-2){\circlenode{R8}{$S_8$}}
+			\ncline{R1}{R2} \naput[labelsep=0.06]{\textcolor{blue}{2}}
+			\ncline{R1}{R3} \naput[labelsep=0.06]{\textcolor{blue}{1}}
+			\ncline{R1}{R4} \naput[labelsep=0.06]{\textcolor{blue}{3}}
+			\ncline{R2}{R4} \naput[labelsep=0.06]{\textcolor{blue}{5}}
+			\ncline{R3}{R4} \naput[labelsep=0.06]{\textcolor{blue}{1}}
+			\ncline{R3}{R6} \naput[labelsep=0.06]{\textcolor{blue}{7}}
+			\ncline{R3}{R7} \naput[labelsep=0.06]{\textcolor{blue}{7}}
+			\ncline{R4}{R5} \naput[labelsep=0.06]{\textcolor{blue}{2}}
+			\ncline{R4}{R7} \naput[labelsep=0.06]{\textcolor{blue}{6}}
+			\ncline{R4}{R8} \naput[labelsep=0.06]{\textcolor{blue}{7}}
+			\ncline{R5}{R8} \naput[labelsep=0.06]{\textcolor{blue}{4}}
+			\ncline{R6}{R7} \naput[labelsep=0.06]{\textcolor{blue}{4}}
+			\ncline{R7}{R8} \naput[labelsep=0.06]{\textcolor{blue}{9}}
+		\end{pspicture}
 	\end{exampleblock}
 \end{frame}
 
@@ -556,272 +556,145 @@
 		En pratique, on se limitera le plus souvent à des poids entiers et positifs.
 		\begin{itemize}
 			\item<1-> Dans le cas d'une représentation par matrice d'adjacence, on posera :
-			$M_{ij} = \left\{
-				\begin{array}{ll}
-				0 & \text{ si } i =j  \\
-				\omega(ij) & \text{ si } i \neq j \text{ et } ij \in A \\
-				+\infty & \text{ sinon } \\
-				\end{array}
-				\right.$ 
-			\item<2-> Dans le cas d'une représentation par liste d'adjacence, on stocke dans la liste d'adjacence d'un sommet $s$, les couples $(t, \omega(st))$ 
+				$M_{ij} = \left\{
+					\begin{array}{ll}
+						0          & \text{ si } i =j                          \\
+						\omega(ij) & \text{ si } i \neq j \text{ et } ij \in A \\
+						+\infty    & \text{ sinon }                            \\
+					\end{array}
+					\right.$
+			\item<2-> Dans le cas d'une représentation par liste d'adjacence, on stocke dans la liste d'adjacence d'un sommet $s$, les couples $(t, \omega(st))$
 		\end{itemize}
 		\onslide<3->{\textcolor{red}{\small \danger\;}{L'absence d'arc est indiqué par un 0 dans la matrice d'adjacence d'un graphe non pondéré et par un $+\infty$ dans celle d'un graphe pondéré.}}
 	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{exampleblock}{Exemple : Un graphe orienté pondéré et sa matrice d'adjacence}
-	\begin{pspicture}(-1,0)(5,2)
-		\rput(1,0.2){\Circlenode{S1}{$S_1$}}
-		\rput(1,1.8){\Circlenode{S2}{$S_2$}}
-		\rput(4,0.2){\Circlenode{S3}{$S_3$}}
-		\rput(4,1.8){\Circlenode{S4}{$S_4$}}
-		\rput(2.5,1){\Circlenode{S0}{$S_0$}}
-		\ncline{->}{S1}{S3} \naput[labelsep=0.07]{{\footnotesize 7}}
-		\ncline{->}{S2}{S0} \naput[labelsep=0.07]{{\footnotesize 5}}
-		\ncline{->}{S0}{S3} \naput[labelsep=0.07]{{\footnotesize 8}}
-		\ncline{->}{S0}{S4} \naput[labelsep=0.07]{{\footnotesize 2}}
-		\ncline{->}{S4}{S2} \nbput[labelsep=0.07]{{\footnotesize 1}}
-		\ncline{->}{S1}{S2} \naput[labelsep=0.07]{\textcolor{blue}{\footnotesize 2}}
-		\rput(8,1){$\begin{pmatrix}
-			0 & +\infty & +\infty & 8 & 2 \\
-			+\infty & 0 & \textcolor{blue}{2} & 7 & +\infty \\
-			5 & +\infty & 0 & +\infty & +\infty \\
-			+\infty & +\infty & +\infty & 0 & +\infty \\
-			+\infty & +\infty & 1 & +\infty & 0 \\
-		\end{pmatrix}$}
-	\end{pspicture} 
-\end{exampleblock}
+	\begin{exampleblock}{Exemple : Un graphe orienté pondéré et sa matrice d'adjacence}
+		\begin{pspicture}(-1,0)(5,2)
+			\rput(1,0.2){\Circlenode{S1}{$S_1$}}
+			\rput(1,1.8){\Circlenode{S2}{$S_2$}}
+			\rput(4,0.2){\Circlenode{S3}{$S_3$}}
+			\rput(4,1.8){\Circlenode{S4}{$S_4$}}
+			\rput(2.5,1){\Circlenode{S0}{$S_0$}}
+			\ncline{->}{S1}{S3} \naput[labelsep=0.07]{{\footnotesize 7}}
+			\ncline{->}{S2}{S0} \naput[labelsep=0.07]{{\footnotesize 5}}
+			\ncline{->}{S0}{S3} \naput[labelsep=0.07]{{\footnotesize 8}}
+			\ncline{->}{S0}{S4} \naput[labelsep=0.07]{{\footnotesize 2}}
+			\ncline{->}{S4}{S2} \nbput[labelsep=0.07]{{\footnotesize 1}}
+			\ncline{->}{S1}{S2} \naput[labelsep=0.07]{\textcolor{blue}{\footnotesize 2}}
+			\rput(8,1){$\begin{pmatrix}
+						0       & +\infty & +\infty             & 8       & 2       \\
+						+\infty & 0       & \textcolor{blue}{2} & 7       & +\infty \\
+						5       & +\infty & 0                   & +\infty & +\infty \\
+						+\infty & +\infty & +\infty             & 0       & +\infty \\
+						+\infty & +\infty & 1                   & +\infty & 0       \\
+					\end{pmatrix}$}
+		\end{pspicture}
+	\end{exampleblock}
 \end{frame}
 
-\makess{Parcours de graphes}
+\makess{Chemins dans un graphe}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{Parcours d'un graphe}
-		A la base des algorithmes sur les graphes, on trouve les parcours de graphe, c'est à dire l'exploration des sommets. A partir du sommet de départ, on peut :
+	\begin{alertblock}{Définition}
 		\begin{itemize}
-			\item<1-> explorer tous ses voisins immédiats, puis les voisins des voisins et ainsi de suite. Le graphe est donc exploré en \og cercle concentrique\fg autour du sommet de départ  \dots, on parle alors de  \textcolor{blue}{parcours en largeur} ou \textcolor{gray}{breadth first search (\textit{BFS})} en anglais.
-			\item<2-> explorer à chaque étape le premier voisin non encore exploré. Lorsque qu'on atteint un sommet dont tous les voisins ont déjà été exploré, on revient en arrière, on parle alors de  \textcolor{blue}{parcours en profondeur} ou \textcolor{gray}{depth first search (\textit{DFS})} en anglais.
+		\item<1-> Un \textcolor{blue}{chemin} de longueur $n$ dans un graphe $G = (S,A)$ est une suite de sommets $(x_0,\dots x_n) \in S^n$ telle que pour tout $i \in \intN{0}{n-1}$, $x_ix_{i+1} \in A$.
+		\item<2-> Un chemin est \textcolor{blue}{élémentaire} lorsqu'il est sans répétition de \textit{sommets}.
+		\item<3->  Un chemin est \textcolor{blue}{simple} lorsqu'il est sans répétition d'\textit{arcs}.
 		\end{itemize}
-	\end{block}
-\end{frame}
-
-
-% Vocabulaire
-
-	
-	
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-		\begin{exampleblock}{Exemple de parcours en largeur}
-			\begin{center}
-					\begin{pspicture}(5,2)
-						\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-						\rput(1,0.5){\circlenode{E}{E}}
-						\rput(2,1){\circlenode{B}{B}}
-						\rput(4,0.7){\circlenode{D}{D}}
-						\rput(6,1.5){\circlenode{C}{C}}
-						\ncarc{->}{A}{E}
-						\ncarc{->}{A}{B}
-						\ncarc{->}{A}{C}
-						\ncarc[arcangle=-10]{->}{B}{D}
-						\ncarc{->}{C}{B}
-						\ncarc[arcangle=-10]{->}{D}{C}
-						\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-						\ncline{->}{E}{B}
-					\end{pspicture}
-				\end{center}
-		Sommets explorés : \fbox{A}
-		\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en largeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode{D}{D}}
-					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : \fbox{A}, \fbox{B,C,E}
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en largeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
-					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : \fbox{A}, \fbox{B,C,E}, \fbox{D}.
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode{B}{B}}
-					\rput(4,0.7){\circlenode{D}{D}}
-					\rput(6,1.5){\circlenode{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : \fbox{A}
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode{D}{D}}
-					\rput(6,1.5){\circlenode{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : A, B
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
-					\rput(6,1.5){\circlenode{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : A, B, D
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
-					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : A, B, D, C
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
-					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : A, B, D, C, E
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{File et parcours en largeur}
-		\begin{itemize}
-			\item<1-> Pour un parcours en largeur, on doit stocker dans une structure de données les sommets en attente d'être explorés. C'est à dire les voisins du sommet de départ, puis les voisins des voisins \dots 
-			Ces sommets doivent être retirés pour exploration, dans leur ordre d'insertion, la structure de données utilisée est donc du type \textcolor{blue}{premier entré, premier sorti} (\textcolor{gray}{first in first out (\textit{FIFO})}), c'est donc une \textcolor{blue}{file}.
-			\item<3-> Pour l'implémentation on doit pouvoir \textcolor{blue}{enfiler} (ajouter un sommet dans la file) et \textcolor{blue}{défiler} (retirer une sommet) de façon efficace donc en $O(1)$. 
-			\item<4-> Pour l'implémentation on pourra utiliser
+	\end{alertblock}
+	\onslide<4->{
+		\begin{block}{Remarques}
 			\begin{itemize}
-				\item<5-> Le module \mintinline{ocaml}{Queue} de OCaml
-				\item<6-> Une structure de liste chaînée avec des opérations enfiler et défiler en $O(1)$
-			\end{itemize} 
-		\end{itemize}
-	\end{block}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{File et parcours en profondeur}
-		\begin{itemize}
-			\item<1-> Pour un parcours en profondeur, on stocke aussi dans une structure de données les sommets en attente d'être explorés. Mais cette fois, la structure de données utilisée est  du type \textcolor{blue}{dernier entré, premier sorti} (\textcolor{gray}{last in first out (\textit{LIFO})}), c'est à dire une \textcolor{blue}{pile}.
-			\item<3-> Pour l'implémentation, on peut :
-			\begin{itemize}
-				\item<4->se contenter d'utiliser la récursivité de façon à ce que la pile des sommets en attente d'être exploré soit gérée de façon automatique via la pile des appels récursifs.
-				\item<5->Utiliser le module \mintinline{ocaml}{Stack} de OCaml (ou une simple liste).
-				\item<6->Utiliser une liste chainée en C afin d'implémenter une pile.
+				\item<4-> Ces définitions sont valables dans le cas orienté ($x_ix_{i+1} = x_i \to x_{i+1}$) ou non orienté ($x_ix_{i+1} = x_i \relbar x_{i+1}$)
+				\item<5-> La longueur est le nombre d'\textit{arcs} (un chemin de longueur $n$ contient $n+1$ sommets)
+				\item<6-> Un cycle est un chemin simple avec $x_0 = x_n$  et $n>0$.
+				\item<7-> Un cycle est dit \textcolor{blue}{élémentaire} lorsque la seule répétition de sommets est celle des extrémités.
 			\end{itemize}
+		\end{block}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{pspicture}(0,-2.2)(5,2.2)
+			\psset{arrowsize=0.15}
+			\rput(3,2){\circlenode{x0}{$x_0$}}
+			\rput(1,0){\circlenode{x1}{$x_1$}}
+			\rput(3,0){\circlenode{x2}{$x_2$}}
+			\rput(5,2){\circlenode{x7}{$x_7$}}
+			\rput(5,0){\circlenode{x3}{$x_3$}}
+			\rput(7,0){\circlenode{x4}{$x_4$}}
+		   \rput(3,-2){\circlenode{x5}{$x_5$}}
+		   \rput(7,-2){\circlenode{x6}{$x_6$}}
+		   \ncline{-}{x1}{x2}
+		   \ncline{-}{x0}{x2}
+		   \ncline{-}{x0}{x7}
+		   \ncline{-}{x2}{x7}
+		   \ncline{-}{x5}{x2}
+		   \ncline{-}{x1}{x5}
+		   \ncline{-}{x3}{x4}
+		   \ncline{-}{x6}{x4}
+		\end{pspicture}
+		\begin{itemize}
+			\item il n'existe pas de chemin de $x_1$ à $x_6$
+			\item $(x_1,x_2,x_7,x_0,x_2,x_5)$ est un chemin simple (mais pas élémentaire).
+			\item $(x_5,x_2,x_0,x_7,x_2,x_1,x_5)$ est un cycle (qui n'est pas élémentaire)
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		Soeint $G =(S,A)$ un graphe et $x,y \in S^2$ deux sommets, on dit que $y$ est \textcolor{blue}{accessible} depuis $x$ lorsqu'il existe un chemin reliant $x$ à $y$. On note alors $x \leadsto y$.
+	\end{alertblock}
+	\onslide<2->{
+	\begin{block}{Propriété}
+		La relation $\leadsto$ est :
+		\begin{itemize}
+			\item<2-> réflexive :  $x \leadsto x$
+			\item<2-> transitive : $x \leadsto y$ et $y \leadsto z$ $\implies x \leadsto z$.
+			\item<3-> symétrique \textit{lorsque $G$ est non orienté}.
+		\end{itemize}
+		Dans le cas non orienté, on appelle \textcolor{blue}{composantes connexes} les classes d'équivalence de la relation $\leadsto$.
+		}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Connexité dans le cas orienté}
+		Dans le cas où $G=(S,A)$ est orienté on distingue :
+		\begin{itemize}
+			\item<2-> les \textcolor{blue}{composantes connexes} qui sont les composantes connexes de $G$ dans lequel on a supprimé l'orientation des arcs
+			\item<3->  les \textcolor{blue}{composantes fortement connexes} qui sont les sous ensembles $C$ de $S$ maximaux pour l'inclusion tel que pour tout $(x,y) \in C^2$ $x \leadsto y$ et $y \leadsto x$.
 		\end{itemize}
 	\end{block}
 \end{frame}
 
-\end{document}  
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{pspicture}(0,-2.2)(5,2.2)
+			\psset{arrowsize=0.15}
+			\rput(3,2){\circlenode{x0}{$x_0$}}
+			\rput(1,0){\circlenode{x1}{$x_1$}}
+			\rput(3,0){\circlenode{x2}{$x_2$}}
+			\rput(5,2){\circlenode{x7}{$x_7$}}
+			\rput(5,0){\circlenode{x3}{$x_3$}}
+			\rput(7,0){\circlenode{x4}{$x_4$}}
+		   \rput(3,-2){\circlenode{x5}{$x_5$}}
+		   \rput(7,-2){\circlenode{x6}{$x_6$}}
+		   \ncline{<-}{x1}{x2}
+		   \ncline{->}{x0}{x2}
+		   \ncline{->}{x0}{x7}
+		   \ncline{->}{x2}{x7}
+		   \ncline{->}{x5}{x2}
+		   \ncline{->}{x1}{x5}
+		   \ncline{->}{x3}{x4}
+		   \ncline{->}{x6}{x4}
+		\end{pspicture}\\
+		Déterminer les composantes connexes et fortement connexes de ce graphe.
+	\end{exampleblock}
+\end{frame}
+
+\end{document}

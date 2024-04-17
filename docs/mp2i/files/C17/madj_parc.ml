@@ -40,6 +40,32 @@ let rec pp_aux graphe sommet visite =
   done;
   !rp;;
 
+
+  let rec affiche parcours =
+    match parcours with
+    | [] -> ()
+    | h::[] -> Printf.printf " -> %d |" h;
+    | h::t -> Printf.printf " -> %d" h; (affiche t);;
+
+  let pp_stack graphe sommet =
+    let todo = Stack.create()  in
+    let visite = Array.make graphe.taille false in
+    let rp = ref [] in
+    let sc = ref 0 in
+    Stack.push sommet todo;
+    while (not (Stack.is_empty todo)) do
+        sc := Stack.pop todo;
+        if (not visite.(!sc)) then
+          (visite.(!sc) <- true;
+          rp := !sc::!rp;
+          );
+        for i=graphe.taille-1 downto 0 do
+          if (graphe.madj.(!sc).(i) && not visite.(i)) then (Stack.push i  todo;)
+          done;
+    done;
+    List.rev !rp;;
+
+
 let pp graphe sommet  =
   let visite = Array.make graphe.taille false in
   visite.(sommet) <- true;
@@ -55,11 +81,6 @@ let degre graphe i =
   done;
   !d;;
 
-let rec affiche parcours =
-  match parcours with
-  | [] -> ()
-  | h::[] -> Printf.printf " -> %d |" h;
-  | h::t -> Printf.printf " -> %d" h; (affiche t);;
 
 let () = let g = cree_graphe 8 in
           cree_arete g 1 0;
@@ -74,6 +95,8 @@ let () = let g = cree_graphe 8 in
           cree_arete g 6 7;
           cree_arete g 7 6;
           visualise g;
-          Printf.printf "Parcours depuis sommet 3 : ";
-          affiche (pp g 3)
+          Printf.printf "Parcours depuis sommet 2 : \n";
+          affiche (pp g 2);
+          Printf.printf "\n";
+          affiche (pp_stack g 2);
 ;;
