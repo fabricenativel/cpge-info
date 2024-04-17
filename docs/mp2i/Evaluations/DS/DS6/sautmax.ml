@@ -1,3 +1,4 @@
+
 let valeur t i j = t.(j) -. t.(i);;
 
 let saut_max_naif t =
@@ -29,7 +30,7 @@ let saut_max_dpr t =
   let i,j, m, n = saut_max_aux t 0 (Array.length t) in
   valeur t i j;;
 
-let ()  = let size = 200000000 in
+let ()  = let size = int_of_string (Sys.argv.(1)) in
           let test = Array.make size 0. in
           Random.self_init();
           for i=0 to size-1 do

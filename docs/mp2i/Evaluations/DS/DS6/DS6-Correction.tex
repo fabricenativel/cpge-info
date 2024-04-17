@@ -8,7 +8,7 @@
 \ModeExercice
 \DS{MP2I}{5}{Avril 2024}
 
-\setboolean{corrige}{false}
+\setboolean{corrige}{true}
 
 \newcommand{\maillon}[3]{
 	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
@@ -30,9 +30,17 @@
 
 \begin{Exercise}[title = {Questions de cours}]
     \Question{On propose le principe suivant pour trier un tableau de $n$ entiers $(a_0, \dots, a_{n-1})$ : tant que le tableau n'est pas trié, on sélectionne deux indices $i$ et $j$ dans $\intN{0}{n-1}$ tels que $i<j$ et $a_i > a_j$ et on échange les éléments situés à ces indices. Montrer que cet algorithme termine, on précisera soigneusement le variant et la relation d'ordre bien fondée utilisée.}
+    \tcor{On considère l'ordre lexicographique $\preccurlyeq_L$ sur l'ensemble des $n$uplets d'entiers, on sait que cette ordre est bien fondé. On note $(a_0,\dots,a_{n-1})$ (resp. $(a'_0,\dots,a'_{n-1})$) les éléments du tableau d'entiers avant (resp. après) une itération de la boucle tant que de l'algorithme. Cette itération échange $a_i$ et $a_j$ avec $i<j$ et $a_i>a_j$. Donc, $a_k = a'_k$ pour $k \in \intN{0}{n-1}, k\neq i \text{ et } k \neq j$, $a'_i =a_j$ et $a'_j = a_i$. Donc $a'_i < a_i$ et puisque $i<j$ c'est la première différence entre ces deux $n$uplets. Donc par défintion de l'ordre lexicographique, $(a'_0,\dots,a'_{n-1})\preccurlyeq_L (a_0,\dots,a_{n-1})$ c'est donc une quantité strictement décroissante à chaque itération. Ce qui prouve la terminaison de l'algorithme.}
     \Question{On définit inductivement (et de façon non ambigüe) l'ensemble $D$ des mots de Dyck (ou parenthésages bien formés) par : $X_0 = \{\epsilon\}$ et la règle d'inférence d'arité~2 $(x,y) \mapsto \boldsymbol{\langle}x\boldsymbol{\rangle}y$. Les symboles \og{} $\boldsymbol{\langle}$ \fg{}, et \og{} $\boldsymbol{\rangle}$ \fg{} représentent les parenthèses.\\
     \smallskip
     Pour $d \in D$, on note $n_o(d)$ (resp. $n_f(d)$) le nombre de symboles $\boldsymbol{\langle}$ (resp. $\boldsymbol{\rangle}$) apparaissant dans $d$. Montrer par \textbf{induction structurelle} que $n_o(d) = n_f(d)$ pour tout $d \in D$.}
+    \tcor{
+    On note $P(d)$ la propriété $n_o(d) = n_f(d)$
+    \begin{itemize}
+    \item Initialisation : on vérifie la propriété pour les éléments de $X_0$, comme $X_0 = {\epsilon}$ et $n_o(\epsilon)=0$ et $n_f(\epsilon)=0$. $P$ est vraie pour tous les éléments de $X_0$.
+    \item Hérédité : on vérifie la conservation de la propriété par application de chacune des règles d'inférence. Si $x$ et $y$ sont deux mots de Dyck vérifiant $P$ alors $n_o(\boldsymbol{\langle}x\boldsymbol{\rangle}y) = 1 + n_o(x) + n_o(y)$ et $n_f(\boldsymbol{\langle}x\boldsymbol{\rangle}y) = 1 + n_f(x) + n_f(y)$ et puisque $x$ et $y$ vérifient $P$ on a $n_o(x) = n_f(x)$ et $n_o(y) = n_f(y)$ donc $n_o(\boldsymbol{\langle}x\boldsymbol{\rangle}y) = n_f(\boldsymbol{\langle}x\boldsymbol{\rangle}y)$ 
+    \end{itemize}
+    Par induction structurelle on conclut que $P$ est vraie pour tout $x \in D$.}
 \end{Exercise}
 
 \begin{Exercise}[title = {Recherche des $k$ premiers maximums}] \\
@@ -40,13 +48,19 @@
     On s'intéresse dans cet exercice à la recherche des $k$ premiers maximums d'un tableau de $n$ entiers $t_0 \dots t_{n-1}$ avec $k<n$. \\
     \ExePart[name = {Résolution par extraction successive des maximums}]
     \Question{\label{q1}Ecrire une fonction de signature \mintinline{c}{int max(int t[], int n)} qui renvoie le premier maximum du tableau {\tt t} de taille {\tt n} en supposant $n >0$.}
+    \inputpartC{kpmax.c}{}{}{119}{130}
     \Question{Donner en la justifiant brièvement la complexité de cette fonction.}
+    \tcor{En notant $n$ la taille du tableau, on effectue uniquement des opérations élémentaires dans une boucle de taille $n-1$ c'est donc un algorithme de complexité linéaire en la taille du tableau $n$.}
     \Question{Afin d'extraire les $k$ premiers maximums, on propose d'extraire successivement les maximums à l'aide de la fontion écrite à la question \ref{q1} (pour extraire le kième maximum, on travaille sur le sous tableau privé des maximums précédents). Donner la complexité de cet algorithme en fonction de $k$ et de $n$ (on ne demande pas de programmer cet algorithme).}
+    \tcor{Pour extraire chacun des $k$ maximums on parcourt un tableau d'au plus $n-1$ éléments et donc chaque extraction a une complexité en $O(n)$. L'algorithme a donc une complexité $O(kn)$.}
     \ExePart[name = {Résolution par un tri}]
     \Question{On propose de résoudre ce problème en triant le tableau $t$ par ordre décroissant puis en prenant ses $k$ premiers éléments. On suppose déjà écrite une fonction de tri de signature : \\
     \mintinline{c}{void int tri(int t[], int n)} qui tri en place et dans l'ordre décroissant le tableau {\tt t} de taille {\tt n} donné en argument. Ecrire une fonction de signature \mintinline{c}{int * kmax(int t[], int n, int k)} qui utilise cette fonction de tri et renvoie un tableau de taille {\tt k} contenant les {\tt k} premiers maximums de {\tt t}.}
+    \inputpartC{kpmax.c}{}{}{125}{134}
     \Question{Quelle est la complexité de cette solution  si la fonction de tri est le tri par sélection ?}
+    \tcor{L'algorithme de tri par sélection a une complexité quadratique donc cette solution aura une complexité en $O(n^2)$}
     \Question{Quelle est la complexité de cette solution si la fonction de tri est le tri fusion ?}
+    \tcor{L'algorithme de tri fusion a une complexité $O(n\log n)$ donc cette solution aura une complexité en $O(n\log n)$}
     \ExePart[name = {Résolution en utilisant un tas}]\\
     Dans la suite on suppose que les tas de valeurs entières (type {\tt int}), sont \textit{déjà implémentés} par la structure de donnée {\tt heap} et on suppose déjà écrites les fonctions suivantes permettant de manipuler cette structure de données :
     \begin{itemize}
@@ -57,6 +71,7 @@
         \item \mintinline{c}{int extract_min(heap * mh)} qui renvoie (en le supprimant du tas) le minimum du tas {\tt *mh}.
     \end{itemize}
     \Question{Rappeler en les justifiant rapidement les complexités des opérations {\tt insert\_heap} et {\tt extract\_min} si on suppose que l'implémentation de la structure de tas est réalisée grâce à un tableau.}
+    \tcor{Un tas est un arbre binaire complet et à chaque étape on remonte (ou on descend) d'un niveau dans cet arbre, la complexité de ces opérations est donc en $O(h)$ où $h$ est la  hauteur de l'arbre or l'arbre étant complet $O(h)=O(\log n)$ où $n$ est la taille de l'arbre.}
     \Question{Afin d'extraire les {\tt k} premiers éléments d'un tableau {\tt t} de taille {\tt n}, on propose de créer un tas de taille {\tt k}, puis on parcourt le tableau à l'aide d'un indice {\tt i} :
     \begin{itemize}
         \item si {\tt i < k }, le tas n'est pas plein et on y insère {\tt t[i]}
@@ -66,10 +81,28 @@
     \pstree[arrows=->,treesep=0.8cm,levelsep=1cm]{\Tcircle{2}}{\Tcircle{6} \Tcircle{4}} \\
     A l'étape suivante, 8 étant plus grand que 2 (le minimum du tas), on extrait 2 du tas et on y insère 8 ce qui donne : \\
     \pstree[arrows=->,treesep=0.8cm,levelsep=1cm]{\Tcircle{4}}{\Tcircle{6} \Tn{}} \quad \pstree[arrows=->,treesep=0.8cm,levelsep=1cm]{\Tcircle{4}}{\Tcircle{6} \Tcircle{8}}  \\
+    \psset{arrows=->,treesep=0.8cm,levelsep=1cm}
     \subQuestion{Poursuivre le déroulement de cet algorithme en faisant figurer comme ci-dessus les étapes de l'évolution du tas.}
+    \tcor{
+    \begin{itemize}
+      \item On traite 3, comme $3<4$ pas de modification \pstree{\Tcircle{4}}{\Tcircle{6} \Tcircle{8}}
+      \item On traite 7, comme $7>4$, on extrait 4 et on insère 7 \pstree{\Tcircle{6}}{\Tcircle{8} \Tcircle{7}}
+      \item On traite 1, comme $1<6$, pas de modification \pstree{\Tcircle{6}}{\Tcircle{8} \Tcircle{7}}
+      \item On traite 9, comme $9>6$, on extrait 6 et on insère 9 \pstree{\Tcircle{7}}{\Tcircle{8} \Tcircle{9}}
+      \item On traite 5, comme $5<7$, pas de modification \pstree{\Tcircle{7}}{\Tcircle{8} \Tcircle{9}}
+    \end{itemize}}
+    
     \subQuestion{Prouver que cet algorithme est correct (on pourra utiliser l'invariant valable pour tout {\tt i>=k} : \og{} le tas contient les {\tt k} premiers maximums du sous tableau compris entre les indices {\tt 0} et {\tt i-1} \fg{}).}
+    \tcor{On note $P(i)$ la propriété : \og{} le tas contient les {\tt k} premiers maximums du sous tableau compris entre les indices {\tt 0} et {\tt i-1} \fg{} alors :
+    \begin{itemize}
+      \item $P(k)$ est vraie car avant d'entrer la boucle  le tas  contient la tranche de tableau comprise entre les indices $0$ et $k-1$ qui sont bien les $k$ premiers maximums de cette tranche.
+      \item En supposant $P(i)$ vraie, montrons $P(i+1)$, l'algorithme compare $t[i+1]$ au minimum du tas qui par hypothèse de récurrence est le plus petit des $k$ premiers maximums de la tranche $0 \dots i$. S'il est plus grand, cela signifie qu'il fait partie des $k$ premiers maximum de la tranche $0 \dots i+1$ et le minimum est extrait et on insère $t[i+1]$. Sinon le tas n'est pas modifié dans les deux cas $P(i+1)$ est vérifiée.
+    \end{itemize}
+    }
     \subQuestion{Ecrire une fonction \mintinline{c}{int* kmax_heap(int t[], int n, int k)} qui extrait les {\tt k} premiers maximum du tableau {\tt t} de taille {\tt n} et les renvoie dans un tableau de taille {\tt k} en utilisant cet algorithme. Afin de manipuler le tas, on utilisera les fonctions déjà disponibles sur la structure de tas et dont les signatures sont données en début de partie.}
+    \inputpartC{kpmax.c}{}{}{95}{117}
     \subQuestion{Donner en la justifiant la complexité de ce nouvel algorithme en fonction de $k$ et $n$.}
+    \tcor{Les opérations d'insertion et d'extraction dans le tas sont toutes en $O(\log k)$ car le tas est de taille $k$. On effectue ces opérations au plus $n$  fois (une fois pour chaque élément du tableau) et donc la complexité de ce nouvel algorithme est $O(n \log k)$}
 \end{Exercise}
 
 \begin{Exercise}[title={Traversée de rivière}, origin={\bac {\sc ccinp 2023}}]
@@ -98,19 +131,18 @@ Dans ce tableau, un randonneur venant de la berge de gauche est représenté par
 \quad
 
 \Question{Écrire une fonction de signature \mintinline{Ocaml}{caillou_vide : chemin_caillou -> int} qui détermine la position du caillou inoccupé.}
-  
-
-
+\inputpartOCaml{traversee.ml}{}{}{3}{9}
 \Question{
   Écrire une fonction de signature \mintinline{ocaml}{echange : chemin_caillou -> int -> int -> chemin_caillou} qui permute les valeurs codées sur deux cailloux et renvoie le tableau correspondant à la nouvelle position. Le tableau d'entiers initial représentant le chemin n'est pas modifié. On pourra utiliser ici la fonction \mintinline{ocaml}{copy} du module \mintinline{ocaml}{Array}.
 }
-
+\inputpartOCaml{traversee.ml}{}{}{11}{16}
 \Question{  Écrire une fonction de signature \mintinline{ocaml}{randonneurG_avance : chemin_caillou -> bool} qui teste si, parmi les randonneurs venant de la berge de gauche, il en existe un qui puisse avancer (vers la droite).
 }
-
+\inputpartOCaml{traversee.ml}{}{}{18}{24}
 \Question{
   Écrire une fonction de signature \mintinline{ocaml}{randonneurG_saute : chemin_caillou -> bool} qui teste si, parmi les randonneurs venant de la berge de gauche, il en existe un qui puisse sauter (vers la droite) au-dessus d'un randonneur.
 }
+\inputpartOCaml{traversee.ml}{}{}{34}{40}
 
   On supposera dans la suite les fonctions de signature \mintinline{ocaml}{randonneurD_avance : chemin_caillou -> bool} et \mintinline{ocaml}{randonneurD_saute : chemin_caillou -> bool} écrites de manière similaire pour les randonneurs venant de la berge de droite.
 
@@ -122,13 +154,16 @@ Dans ce tableau, un randonneur venant de la berge de gauche est représenté par
   \item[iii)] saut d'un randonneur venant de la berge de gauche,
   \item[iv)] saut d'un randonneur venant de la berge de droite.
   \end{enumerate}}
-
+  \inputpartOCaml{traversee.ml}{}{}{50}{57}
 \Question{Ecrire une fonction {\tt init\_chemin int -> int -> chemin\_caillou} qui prend en argument deux entiers {\tt ng} et {\tt nd} et renvoie le tableau correspondant à la  situation initiale de {\tt ng} randonneurs venant de la gauche et {\tt nd} randonneurs venant de la droite séparé par un caillou vide. Par exemple, {\tt init\_chemin 3 2} renvoie le tableau {\tt [| 1; 1; 1; 0; 2; 2 |]}.} 
+\inputpartOCaml{traversee.ml}{}{}{72}{80}
 \Question{
   Écrire une fonction de signature \verb|passage : int -> int -> chemin_caillou list|, utilisant la question précédente, telle que l'appel \verb|passage nG nD| résout le problème du passage de \verb|nG| randonneurs venant de la berge de gauche et \verb|nD| randonneurs venant de la berge de droite. Par exemple, \verb|passage 3 2| renvoie une liste d'états permettant de passer de {\tt [|1; 1; 1; 0; 2; 2|]} à {\tt [| 2; 2; 0; 1; 1; 1 |]}.
   % ERREUR SUJET :
   % j'ai fait une supposition sur le type attendu de la fonction qui ne pouvait pas être int -> int
 }
+\inputpartOCaml{traversee2.ml}{}{}{84}{96}
+
 \end{Exercise}
 
 \begin{Exercise}[title={Saut de valeur maximale}, origin={\bac {\sc capes nsi 2023}}]\\
@@ -136,12 +171,13 @@ Les fonctions demandées dans cet exercice sont à écrire en OCaml. \smallskip 
 Dans un tableau de flottants (type {\tt float} de OCaml) {\tt t} de taille {\tt n}, on appelle \textit{saut} un couple $(i,j)$ avec $0 \leq i \leq j <$ {\tt n  } et la \textit{valeur} d'un saut est la valeur {\tt t.(j)-t.(i)}. Le but de l'exercice est de rechercher un saut de valeur maximale dans un tableau. Par exemple, dans le tableau {\tt [| 2.0; 0.2; 3.0; 5.3; 2.0 |]}, un tel saut est {\tt (1, 3)} (car {\tt 0.2} et {\tt 5.3} sont aux indices 1 et 3 respectivement) et la valeur maximale d'un saut est donc {\tt 5.3 - 0.2 = 5.1}.
 
 \Question{Ecrire une fonction {\tt valeur float array -> int -> int -> float} qui prend en argument un tableau ainsi que deux indices {\tt i} et {\tt j} et renvoie la valeur du saut {\tt (i,j)}. Par exemple  sur le tableau {\tt [|2.0; 0.2; 3.0; 5.3; 2.0|]} avec les indices 0 et 2 cette fonction renvoie {\tt 1.0} (car {\tt t.(2)-t.(0) = 1.0}).} 
-
+\inputpartOCaml{sautmax.ml}{}{}{2}{2}
 \Question{Donner un exemple de tableau avec exactement deux sauts de valeur maximale et préciser ces sauts.}
-
+\tcor{La liste {\tt [2, 6, 1, 5]} possède deux sauts de valeurs maximale : {\tt (0,1)} et {\tt (2,3)} (ces deux sauts ont une valeur de 4)} 
 \Question{À l'aide d'un contre-exemple, montrer qu'on ne peut pas se contenter de chercher le minimum et le maximum d'un tableau pour trouver un saut de valeur maximale.}
-
+\tcor{Dans la liste {\tt [2, 6, 1, 5]} le minimum est à l'indice 2 (c'est 1) et le maximum à l'indice 1 (c'est 3) et comme le minimum est après le maximum ce n'est pas le saut maximal.} 
 \Question{Écrire une fonction {\tt saut\_max\_naif} qui renvoie un saut de valeur maximale dans un tableau de taille {\tt n} en testant tous les couples $(i,j)$ tels que $0 \leq i \leq j <$ {\tt n}.\label{naif}}\medskip
+\inputpartOCaml{sautmax.ml}{}{}{4}{12}
 
 On propose maintenant d'utiliser une méthode diviser pour régner afin de calculer la valeur maximale d'un saut. On note $n$ la taille du tableau {\tt t} et $p = \lfloor \frac{n}{2} \rfloor$ (où $\lfloor \; \rfloor$ désigne la partie entière). On souhaite calculer :
 \begin{itemize}
@@ -151,13 +187,27 @@ On propose maintenant d'utiliser une méthode diviser pour régner afin de calcu
 \end{itemize}
 
 \Question{Justifier qu'un saut de valeur maximale du tableau {\tt t} est nécessairement un des trois ci-dessus.}
+\tcor{Un saut de valeur maximal $(i,j)$ du tableau {\tt t} est tel que $i \leqslant j$ et donc on est forcément dans l'une des trois situations suivantes :
+\begin{itemize}
+  \item $i\leqslant j<p$ et donc c'est un saut de valeur maximale du sous tableau constitué des éléments d'indice $0\dots p-1$
+  \item $p \leqslant i \leqslant j$ et donc c'est un saut de valeur maximale du sous tableau constitué des éléments d'indice $p\dots n-1$
+  \item $i < p < j$
+\end{itemize}  
+Ce qui correspond bien aux trois situations décrites ci-dessus.
+}
 \Question{Justifier que $i_m$ est nécessairement l'indice d'une valeur minimale dans la moitié gauche de {\tt t} (on admettra que de même $j_m$ est nécessairement l'indice d'une valeur maximale dans la moitié droite de {\tt t}).}
+\tcor{On raisonne par l'absurde, si tel n'était pas le cas, on aurait une valeur d'indice $q$ dans la moitié gauche strictement inférieur à $t[i_m]$ et donc le saut $(q,j_m)$ aurait une valeur supérieure au saut $(i_m,j_m)$ ce qui contredit que $(i_m,j_m)$ est un saut de valeur maximale.}
 \Question{Ecrire une fonction {\tt saut\_max\_aux} qui prend en argument un tableau {\tt} ainsi que deux entiers {\tt a} et {\tt b} (avec {\tt a<b}) et renvoie un quadruplet constitué des deux indices d'un saut de valeur maximale dans {\tt t} entre les deux indices {\tt a} (inclus) et {\tt b} (exclu) ainsi que les indices d'un minimum et d'un maximum de {\tt t} entre ces deux mêmes indices. Par exemple {\tt saut\_max\_aux [| 2.0; 5.0; 3.0; 4.0; 6.0; 1.0|] 2 6} doit renvoyer {\tt (2, 4, 5, 4)} car entre les indices 2 (inclus) et 6 (exclu), le saut de valeur maximale est {\tt (2,4)} (de valeur {\tt 3.0}), le minimum est {\tt 1} et le maximum est {\tt 6}.\\
 \textit{Cette fonction doit être récursive et utiliser la méthode diviser pour régner}.
 }
+\inputpartOCaml{sautmax.ml}{}{}{14}{27}
 \Question{En déduire une fonction de {\tt saut\_max\_dpr} qui renvoie un saut de valeur maximale du tableau donné en argument.}
+\inputpartOCaml{sautmax.ml}{}{}{29}{31}
 
 \Question{Donner (en les justifiant) les complexités des deux méthodes (naïves et diviser pour régner).}
+\tcor{
+  La méthode naïve a une complexité quadratique car on a deux boucles de taille $n$ imbriquées
+}
 \end{Exercise}
 
 \end{document}
