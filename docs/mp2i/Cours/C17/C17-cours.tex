@@ -115,7 +115,7 @@
 		\end{pspicture}\\
 		\onslide<2->{$S = \{a,b,c,d,e,f,g\}$ \\}
 		\onslide<3->{$A = \{\ar{a,b},\ar{b,c},\ar{b,g},\ar{c,g},\ar{f,d},\ar{e,d}\}$\bigskip \\}
-		\onslide<4->{Dessiner le graphe $G'$ définit par $S' = \{1, 2, 3, 4\}$ et $A' = \{\ar{1,2},\ar{3,4},\ar{1,4}\}$}
+		\onslide<4->{Dessiner le graphe $G'$ défini par $S' = \{1, 2, 3, 4\}$ et $A' = \{\ar{1,2},\ar{3,4},\ar{1,4}\}$}
 		\onslide<5->{
 			\begin{pspicture}(0,0)(2,2)
 				\rput(1,0.5){\Circlenode[linecolor=OliveGreen]{T1}{$\textcolor{OliveGreen}{1}$}}
@@ -136,14 +136,14 @@
 	\begin{block}{Vocabulaire}
 		\begin{itemize}
 			\item<1-> L'\textcolor{blue}{ordre} d'un graphe est son nombre de sommets.
-			\item<2-> Les \textcolor{blue}{voisins} d'un sommet $s$ est l'ensemble ${\cal V}(s) = \{t \in S  \text{ tel que } s \relbar t\}$.
+			\item<2-> Les \textcolor{blue}{voisins} d'un sommet $s$ est l'ensemble ${\cal V}(s) = \{t \in S  \text{ tel que } s \relbar t \in A \}$.
 			\item<3-> Le \textcolor{blue}{degré} d'un sommet $s$ noté $d(s)$ est son nombre de voisins $d(s) = |{\cal V}(s)|$.
 		\end{itemize}
 	\end{block}
 	\onslide<4->{
 	\begin{exampleblock}{Exercices}
 		\begin{enumerate}
-			\item<4-> Dessiner un graphe d'ordre 5 dont tous les sommets sont de degrés 2.
+			\item<4-> Dessiner un graphe d'ordre 5 dont tous les sommets sont de degré 2.
 			\item<5-> Donner un majorant du nombre d'arêtes d'un graphe d'ordre $n$.
 		\end{enumerate}}
 	\end{exampleblock}
@@ -230,7 +230,7 @@
 		On utilise un \mintinline{c}{struct} contenant un champ \mintinline{c}{int} (le nombre de sommets), et un pointeur vers la matrice d'adjacence linéarisée.
 		\onslide<2->{L'indice de $M_{ij}$ dans la matrice linéarisée est alors $i\times |S| +j$.}
 		\onslide<3->{\inputpartC{\SPATH/madj_dyn.c}{}{\small}{5}{10}}
-		\onslide<4->{Cette solution est plus efficace en terme de d'utilisation mémoire mais impose l'utilisation de pointeurs.}
+		\onslide<4->{Cette solution est plus efficace en terme d'occupation mémoire mais impose l'utilisation de pointeurs.}
 	\end{block}
 \end{frame}
 
@@ -248,9 +248,9 @@
 	\begin{block}{Implémentation en OCaml}
 		\begin{itemize}
 			\item<1->On crée le type graphe sous forme d'un type structuré
-			\onslide<2->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{1}{3}}
+			\onslide<2->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{2}{4}}
 			\item<3->La création d'un graphe peut alors se faire à l'aide d'une fonction d'initialisation
-			\onslide<4->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{5}{6}}
+			\onslide<4->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{6}{7}}
 			\onslide<5->{\textcolor{BrickRed}{\small \danger \;}{On rappelle qu'on initialise avec \mintinline{ocaml}{Array.make_matrix} afin d'éviter le problème des références multiples à une même ligne.} }
 		\end{itemize}
 	\end{block}
@@ -260,9 +260,9 @@
 	\begin{exampleblock}{Exemples}
 		\begin{enumerate}
 			\item<1-> Ecrire la fonction {\tt cree\_arete : graphe -> int -> int -> unit} qui crée une arête dans un graphe.
-				\onslide<2->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{23}{25}}
+				\onslide<2->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{25}{27}}
 			\item<1-> Ecrire une fonction {\tt degre : graphe -> int -> int} qui renvoie le degré d'un sommet.
-				\onslide<2->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{27}{32}}
+				\onslide<2->{\inputpartOCaml{\SPATH/madj.ml}{}{\small}{29}{34}}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -364,7 +364,7 @@
 	\begin{exampleblock}{Exemples}
 		\begin{enumerate}
 			\item<1->Ecrire la fonction de signature \mintinline{c}{int degre(graphe g, int i)} qui renvoie le degré du sommet de numéro {\tt i}.
-			\onslide<2->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{66}{69}}
+			\onslide<2->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{67}{70}}
 			\item<1->Ecrire la fonction de signature \mintinline{c}{void cree_arete(graphe g, int i, int j)} qui crée l'arête entre les sommets {\tt i} et {\tt j} dans le graphe {\tt g}
 			\onslide<3->{\inputpartC{\SPATH/ladj_stat.c}{}{\small}{17}{21}}
 		\end{enumerate}
@@ -373,7 +373,7 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Implémentation en C : tableau de listes chainées}
-		On utilise un tableau de liste chainées afin d'optimiser l'espace mémoire occupé :
+		On utilise un tableau de listes chainées afin d'optimiser l'espace mémoire occupé :
 		\onslide<2->{\inputpartC{\SPATH/ladj_dyn.c}{}{\small}{10}{13}}
 		\onslide<3->{\textcolor{blue}{\small \rappel\;}{ On rappelle la structure de liste chainée : }}
 		\onslide<3->{\inputpartC{\SPATH/ladj_dyn.c}{}{\small}{4}{8}}
@@ -383,14 +383,14 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Implémentation en OCaml}
 		On utilise le type \mintinline{ocaml}{list} de OCaml
-		\onslide<2->{\inputpartOCaml{\SPATH/ladj.ml}{}{\small}{1}{3}}
+		\onslide<2->{\inputpartOCaml{\SPATH/ladj.ml}{}{\small}{2}{4}}
 		\onslide<3->{On peut alors écrire une fonction de création d'un graphe de taille {\tt n} :}
-		\onslide<4->{\inputpartOCaml{\SPATH/ladj.ml}{}{\small}{6}{7}}
+		\onslide<4->{\inputpartOCaml{\SPATH/ladj.ml}{}{\small}{7}{8}}
 	\end{block}
 	\onslide<5->{
 		\begin{exampleblock}{Exemple}
 			Ecrire la fonction {\tt cree\_arete : graphe -> int -> int -> unit}
-			\onslide<6->{\inputpartOCaml{\SPATH/ladj.ml}{}{\small}{9}{11}}
+			\onslide<6->{\inputpartOCaml{\SPATH/ladj.ml}{}{\small}{10}{12}}
 		\end{exampleblock}}
 \end{frame}
 
@@ -413,7 +413,7 @@
 			\item<5-> des algorithmes utilisés
 		\end{itemize}
 		\onslide<6->{\textcolor{red}{\small \danger \;} Les complexités spatiales et temporelles des algorithmes dépendent de la représentation choisie !} \\
-		\onslide<7->{Par exemple, le test d'existence d'une arête est une opération élémentaire dans  le cas représentation par matrice d'adjacence et est de complexité linéaire (en $|S|$), dans le cas des listes d'adjacences.}
+		\onslide<7->{Par exemple, le test d'existence d'une arête est une opération élémentaire dans  le cas représentation par matrice d'adjacence et est de complexité linéaire (en $|S|$), dans le cas des listes d'adjacence.}
 	\end{block}
 \end{frame}
 
@@ -464,9 +464,9 @@
 	\begin{block}{Vocabulaire}
 		\begin{itemize}
 			\item<2-> Les \textcolor{blue}{successeurs} (ou \textcolor{blue}{voisins sortants}) d'un sommet $s \in S$ sont les éléments de l'ensemble ${\cal V_{+}}(s) = \{t \in S  \text{ tel que } s \to t\}$.
-			\item<3-> Le \textcolor{blue}{degré sortant} d'un sommet $s$ noté $d_+(s)$ est son nombre de sucesseurs $d_+(s) = |{\cal V_+}(s)|$.
+			\item<3-> Le \textcolor{blue}{degré sortant} d'un sommet $s$ noté $d_+(s)$ est son nombre de successeurs $d_+(s) = |{\cal V_+}(s)|$.
 			\item<4-> Les \textcolor{blue}{prédecesseurs} (ou \textcolor{blue}{voisins entrants}) d'un sommet $s \in S$ sont les éléments de l'ensemble ${\cal V_{-}}(s) = \{t \in S  \text{ tel que } t \to s\}$.
-			\item<5-> Le \textcolor{blue}{degré entrant} d'un sommet $s$ noté $d_-(s)$ est son nombre de prédecesseurs $d_-(s) = |{\cal V_-}(s)|$.
+			\item<5-> Le \textcolor{blue}{degré entrant} d'un sommet $s$ noté $d_-(s)$ est son nombre de prédécesseurs $d_-(s) = |{\cal V_-}(s)|$.
 			\item<6-> Les \textcolor{blue}{voisins} d'un sommet $s$ sont les éléments de ${\cal V}(s) = {\cal V_+}(s) \cup {\cal V_-}(s) $
 			\item<7-> Le \textcolor{blue}{degré} d'un sommet $s$ noté $d(s)$ est la somme de ses degrés entrants et sortants $d(s) = d_-(s)+d_+(s)$
 		\end{itemize}
@@ -519,7 +519,7 @@
 	\end{block}
 	\onslide<2->
 	{\begin{alertblock}{Définition}
-			Etant donné un graphe $G=(S,A)$n une fonction de pondération de $G$ est un fonction $\omega : A \mapsto \R$. Le \textcolor{blue}{poids} de l'arête (ou arc) $a$ est le réel $w(a)$ et on dit que $(G,S,\omega)$ est un \textcolor{blue}{graphe pondéré}
+			Etant donné un graphe $G=(S,A)$ une fonction de pondération de $G$ est un fonction $\omega : A \mapsto \R$. Le \textcolor{blue}{poids} de l'arête (ou arc) $a$ est le réel $w(a)$ et on dit que $(G,S,\omega)$ est un \textcolor{blue}{graphe pondéré}
 		\end{alertblock}}
 \end{frame}
 
@@ -598,7 +598,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{Définition}
 		\begin{itemize}
-		\item<1-> Un \textcolor{blue}{chemin} de longueur $n$ dans un graphe $G = (S,A)$ est une suite de sommets $(x_0,\dots x_n) \in S^n$ telle que pour tout $i \in \intN{0}{n-1}$, $x_ix_{i+1} \in A$.
+		\item<1-> Un \textcolor{blue}{chemin} de longueur $n$ dans un graphe $G = (S,A)$ est une suite de sommets $(x_0,\dots ,x_n) \in S^n$ telle que pour tout $i \in \intN{0}{n-1}$, $x_ix_{i+1} \in A$.
 		\item<2-> Un chemin est \textcolor{blue}{élémentaire} lorsqu'il est sans répétition de \textit{sommets}.
 		\item<3->  Un chemin est \textcolor{blue}{simple} lorsqu'il est sans répétition d'\textit{arcs}.
 		\end{itemize}
@@ -655,7 +655,7 @@
 			\item<2-> transitive : $x \leadsto y$ et $y \leadsto z$ $\implies x \leadsto z$.
 			\item<3-> symétrique \textit{lorsque $G$ est non orienté}.
 		\end{itemize}
-		Dans le cas non orienté, on appelle \textcolor{blue}{composantes connexes} les classes d'équivalence de la relation $\leadsto$.
+		\onslide<4->{Dans le cas non orienté, on appelle \textcolor{blue}{composantes connexes} les classes d'équivalence de la relation $\leadsto$.}
 		}
 	\end{block}
 \end{frame}

@@ -48,7 +48,7 @@
     On s'intéresse dans cet exercice à la recherche des $k$ premiers maximums d'un tableau de $n$ entiers $t_0 \dots t_{n-1}$ avec $k<n$. \\
     \ExePart[name = {Résolution par extraction successive des maximums}]
     \Question{\label{q1}Ecrire une fonction de signature \mintinline{c}{int max(int t[], int n)} qui renvoie le premier maximum du tableau {\tt t} de taille {\tt n} en supposant $n >0$.}
-    \inputpartC{kpmax.c}{}{}{119}{130}
+    \inputpartC{kpmax.c}{}{}{136}{147}
     \Question{Donner en la justifiant brièvement la complexité de cette fonction.}
     \tcor{En notant $n$ la taille du tableau, on effectue uniquement des opérations élémentaires dans une boucle de taille $n-1$ c'est donc un algorithme de complexité linéaire en la taille du tableau $n$.}
     \Question{Afin d'extraire les $k$ premiers maximums, on propose d'extraire successivement les maximums à l'aide de la fontion écrite à la question \ref{q1} (pour extraire le kième maximum, on travaille sur le sous tableau privé des maximums précédents). Donner la complexité de cet algorithme en fonction de $k$ et de $n$ (on ne demande pas de programmer cet algorithme).}
@@ -206,7 +206,8 @@ Ce qui correspond bien aux trois situations décrites ci-dessus.
 
 \Question{Donner (en les justifiant) les complexités des deux méthodes (naïves et diviser pour régner).}
 \tcor{
-  La méthode naïve a une complexité quadratique car on a deux boucles de taille $n$ imbriquées
+  La méthode naïve a une complexité quadratique car on a deux boucles de taille $n$ imbriquées.
+  Pour la méthode diviser pour régner, en notant $C(n)$ le nombre d'opérations pour un tableau de taille $n$, on a $C(n) = 2C(\dfrac{n}{2}) + K$ où $K$ est une constante indépendante de $n$ en effet, la résolution fait deux appels récursifs sur des tableaux de taille $\dfrac{n}{2}$ et des opérations élémentaires. A partir de cette équation on montre que $C(n) \in O(n)$, donc la méthode diviser pour régner a une complexité linéaire.
 }
 \end{Exercise}
 

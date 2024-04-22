@@ -95,8 +95,8 @@ let rec backtrack etat cible =
     with Exit -> true
     );;
 
-let () = let n1 = 2 in
-          let n2 = 2 in
+let () = let n1 = 15 in
+          let n2 = 15 in
           let deb = init_chemin n1 1 n2 2 in
          let fin = init_chemin n2 2 n1 1 in
         let res = backtrack deb fin   in
