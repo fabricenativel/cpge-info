@@ -20,16 +20,17 @@
 !!! note
     Tous les exercices sont à faire en OCaml en utilisant le type vu en cours permettant de représenter une formule logique :
     ```ocaml
-        --8<-- "C16/fl.ml:1:9"
+    --8<-- "C16/fl.ml:2:10"
     ```
     On rappelle qu'un premier exemple de fonction `fl -> int` calculant la taille d'une formule logique a été aussi donné en cours :
     ```ocaml
-        --8<-- "C16/fl.ml:19:26"
+    --8<-- "C16/fl.ml:19:26"
     ```
     Toujours à titre d'exemple, la variable en Ocaml permettant de représenter la formule logique $(p \wedge \neg q) \to r$ est :
     ```ocaml
-        --8<-- "C16/fl.ml:17:17"
+    --8<-- "C16/fl.ml:17:17"
     ```
+
 
 
 {{ exo("Hauteur d'une formule logique",[],0)}}
