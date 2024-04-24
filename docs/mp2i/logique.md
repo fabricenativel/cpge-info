@@ -65,7 +65,7 @@ On définit les valeurs de vérité avec le type `bool` de OCaml, `true` corresp
 
 1. Ecrire les fonctions `fnon` `bool -> bool`, `fet`, `fou`, `fimp`, `fequ` toute de signature `bool -> bool -> bool` qui correspondent à la sémantique des connecteurs de la logique propositionnelle.
 
-2. On représente une valuation par un tableau de booléens, par exemple le tableau `[| true; true; false |]` correspond à la valuation $\varphi(p_1)=V$, $\varphi(p_2)=V$ et $\varphi(p_3)=V$. Ecrire une fonction `eval : array bool -> fl -> bool` donnant la valeur de vérité d'une formule dans le contexte de la valuation donnée par le tableau de booléen.
+2. On représente une valuation par un tableau de booléens, par exemple le tableau `[| true; true; false |]` correspond à la valuation $\varphi(p_1)=V$, $\varphi(p_2)=V$ et $\varphi(p_3)=F$. Ecrire une fonction `eval : array bool -> fl -> bool` donnant la valeur de vérité d'une formule dans le contexte de la valuation donnée par le tableau de booléen.
 
 3. Code de Gray  
 Afin d'énumérer toutes les valuation possibles de $n$ variables logiques, on pourrait utiliser un compteur binaire. Une autre solution consiste à utiliser les [codes de Gray](https://fr.wikipedia.org/wiki/Code_de_Gray){target=_blank}. L'avantage de ces derniers est qu'on énumère les possibilités en changeant un *unique* caractère à chaque itération.  

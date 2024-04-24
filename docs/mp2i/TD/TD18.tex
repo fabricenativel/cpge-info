@@ -13,6 +13,28 @@
 
 \setcounter{Exercise}{0}
 
+\begin{Exercise}[title = {Matériel informatique}, origin = {\bac \; Oraux {\sc ccinp}}]\\
+    On considère le schéma de base de données suivant, qui décrit un ensemble de fabricants de matériel informatique, les matériels qu'ils vendent, leurs clients et ce qu'achètent leurs clients. Les attributs des clés primaires des six premières relations sont soulignés.
+    \begin{itemize}
+        \item {\tt Production(\underline{NomFabricant}, \underline{Modele})}
+        \item {\tt Ordinateur(\underline{Modele}, Frequence, Ram, Dd, Prix)}
+        \item {\tt Portable(\underline{Modele}, Frequence, Ram, Dd, Ecran, Prix)}
+        \item {\tt Imprimante(\underline{Modele}, Couleur, Type, Prix)}
+        \item {\tt Fabricant(\underline{Nom}, Adresse, NomPatron)}
+        \item {\tt Client(\underline{Num}, Nom, Prenom)}
+        \item {\tt Achat(NumClient, NomFabricant, Modele, Quantite)}
+    \end{itemize}
+Chaque client possède un numéro unique connu de tous les fabricants. La relation {\tt Production} donne pour chaque fabricant l'ensemble des modèles fabriquées par ce fabricant. Deux fabricants différents peuvent proposer le même matériel. La relation {\tt Ordinateur} donne pour chaque modèle d'ordinateur la vitesse du processeur (en Hz), les tailles de la Ram et du disque dur (en GO) et le prix de l'ordinateur (en \euro{}). La relation {\tt Portable}, en plus des attributs précédents, comporte la taille de l'écran (en pouces). La relation {\tt Imprimante} indique pour chaque modèle d'imprimante si elle imprime en couleur (vrai/faux), le type d'impression (laser ou jet d'encre) et le prix (en \euro{}). La relation {\tt Fabricant} stocke les noms et adresses de chaque fabricant, ainsi que le nom de son patron. La relation {\tt Client} stocke les noms et prénoms de tous les clients de tous les fabricants. Enfin, la relation {\tt Achat} regroupe les quadruplets (client $c$, fabricant $f$, modèle $m$ et quantité $q$) tel que le client de numéro $c$ a acheté $q$ fois le modèle $m$ au fabricant de nom $f$. On suppose que l'attribut {\tt Quantite} est toujours strictement positif.
+\Question{Proposer une clé primaire pour la relation {\tt Achat}, quelles sont les conséquences en terme de modélisation ?}
+\Question{Identifier l'ensemble des clés étrangères éventuelles de chaque table.}
+\Question{Donner en {\sc sql} des requêtes répondant aux questions suivantes :}
+\subQuestion{Quels sont les numéros de modèles des matériels (ordinateur, portable ou imprimante) fabriqués par  l’entreprise de nom Durand ?}
+\subQuestion{Quels sont les noms et adresses des fabricants produisant des portables dont le disque dur a une capacité d’au moins 500 Go ?}
+\subQuestion{Quels sont les noms des fabricants qui produisent au moins 10 modèles différents d’imprimantes ?}
+\subQuestion{Quels sont les numéros des clients n’ayant acheté aucune imprimante ?}
+
+\end{Exercise}
+
 \begin{Exercise}[title={Cinémas}, origin={\bac \; {\sc ccinp} sujet zéro}]\\
     On considère la base de données décrite par le modèle entité-association suivant :
     \begin{center}
