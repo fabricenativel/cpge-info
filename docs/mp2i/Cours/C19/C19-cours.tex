@@ -18,71 +18,83 @@
 	\begin{block}{Définitions et notations}
 		On s'intéresse au problème de la recherche d'une chaîne de caractères appelée \textcolor{blue}{motif} dans une autre chaîne de caractères appelée \textcolor{blue}{texte}. Plus précisement, on veut lister toutes les occurences (par leur position) du motif dans le texte. \\
 		On notera :
-        \begin{itemize}
-            \item<2-> $m$ le motif et $l_m$ sa longueur
-            \item<3-> $t$ le texte et $l_t$ sa longueur
-        \end{itemize}
-        \onslide<4->{D'autre part, parfois le problème se réduira à déterminer si $m$ est présent ou non dans $t$, ou encore on cherchera uniquement la première occurence.}
+		\begin{itemize}
+			\item<2-> $m$ le motif et $l_m$ sa longueur
+			\item<3-> $t$ le texte et $l_t$ sa longueur
+		\end{itemize}
+		\onslide<4->{D'autre part, parfois le problème se réduira à déterminer si $m$ est présent ou non dans $t$, ou encore on cherchera uniquement la première occurence.}
 	\end{block}
-    \onslide<5->{\begin{exampleblock}{Exemple}
-        \onslide<5->{La recherche du motif $m$=\textcolor{OliveGreen}{\tt exe} ($l_m=3$) dans le texte $t=$\textcolor{gray}{\tt un excellent exemple et un exercice extraordinaire} ($l_t=50$) doit produire la liste d'occurrences : [13; 27].\\}
-		\onslide<6->{
-            \renewcommand*{\arraystretch}{0.5}
-			\begin{tabular}{>{\tt}l@{}l@{}l@{}l@{}r}
-				\textcolor{gray}{{un}\tv{}excellent\tv{}} & \textcolor{OliveGreen}{e} & \textcolor{OliveGreen}{xe}\textcolor{gray}{mple\tv{}et\tv{}un\tv{}} & \textcolor{OliveGreen}{e} & \textcolor{OliveGreen}{xe}\textcolor{gray}{rcice\tv{}extraordinaire} \\
-                \textcolor{gray}{\tiny 0}				                      &  \textcolor{OliveGreen}{\tiny 13}                &                                                   & \textcolor{OliveGreen}{\tiny 27}                        &         \textcolor{gray}{\tiny 49}                                            \\
-			\end{tabular}
-		}
-    \end{exampleblock}}
+	\onslide<5->{\begin{exampleblock}{Exemple}
+			\onslide<5->{La recherche du motif $m$=\textcolor{OliveGreen}{\tt exe} ($l_m=3$) dans le texte $t=$\textcolor{gray}{\tt un excellent exemple et un exercice extraordinaire} ($l_t=50$) doit produire la liste d'occurrences : [13; 27].\\}
+			\onslide<6->{
+				\renewcommand*{\arraystretch}{0.5}
+				\begin{tabular}{>{\tt}l@{}l@{}l@{}l@{}r}
+					\textcolor{gray}{{un}\tv{}excellent\tv{}} & \textcolor{OliveGreen}{e}        & \textcolor{OliveGreen}{xe}\textcolor{gray}{mple\tv{}et\tv{}un\tv{}} & \textcolor{OliveGreen}{e}        & \textcolor{OliveGreen}{xe}\textcolor{gray}{rcice\tv{}extraordinaire} \\
+					\textcolor{gray}{\tiny 0}                 & \textcolor{OliveGreen}{\tiny 13} &                                                                     & \textcolor{OliveGreen}{\tiny 27} & \textcolor{gray}{\tiny 49}                                           \\
+				\end{tabular}
+			}
+		\end{exampleblock}}
 \end{frame}
 
 
 \makess{Recherche naïve}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Recherche naïve}
-		Pour recherche si un motif {\pmc m} se trouve dans une chaîne {\pmc c}, on peut :
+		Pour recherche si un motif $m$ se trouve dans un  texte $t$, on peut :
 		\begin{enumerate}
-			\item<1-> parcourir chaque caractère de la chaine {\pmc c}
-			\item<2-> si ce caractère correspond au premier caractère du motif {\pmc m},  alors on avance dans le motif tant que les caractères coïncident.
+			\item<1-> parcourir chaque caractère de $t$ jusqu'à celui d'indice $l_t-l_m$ inclus (indice de la dernière occurrence possible) :\\
+			\begin{tabular}{l|c|c|c|c|}
+				\cline{2-5}
+				indice dans le texte &	0 & \dots & ? & $l_t-1$ \\
+				\cline{2-5}
+				\multicolumn{1}{c}{indice dans le motif} & \multicolumn{2}{c|}{} & 0 & $l_m-1$ \\
+				\cline{4-5}
+			\end{tabular}
+			\item<2-> si le caractère correspond au premier caractère du motif $m$,  alors on avance dans le motif tant que les caractères coïncident.
 			\item<3-> si on atteint la fin du motif, alors {\pmc m} se trouve dans {\pmc c}. Sinon on passe au caractère suivant de {\pmc c}.
 		\end{enumerate}
 	\end{block}
+	\onslide<4->{
 	\begin{exampleblock}{Exemple}
-		\href{https://boyer-moore.codekodo.net/recherche_naive.php}{Visualisation en ligne du fonctionnement de l'algorithme}
-	\end{exampleblock}
+		\href{https://boyer-moore.codekodo.net/recherche_naive.php}{Visualisation en ligne du fonctionnement de l'algorithme }
+	\end{exampleblock}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{Proposition d'implémentation en Python}
-		\begin{lstlisting}
-	def recherche(motif,chaine):
-		lm,lc = len(motif),len(chaine)
-		for i in range(lc-lm+1):
-			i_motif,i_chaine = 0,i
-			while i_motif<lm and chaine[i_chaine] == motif[i_motif]:
-				i_motif += 1
-				i_chaine += 1
-			if i_motif == lm:
-				return True
-		return False
-		\end{lstlisting}
+	\begin{block}{Implémentation en OCaml}
+		On renvoie la \textit{liste} de toutes les occurrences : {\tt naive : string -> string -> int list}
+		\onslide<2->{\inputpartOCaml{\SPATH/naive.ml}{}{}{3}{14}}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation en OCaml}
+		Dans le cas où on teste simplement la présence, on peut provoquer une sortie anticipée de la boucle \mintinline{ocaml}{for} à l'aide d'une exception.
+		\onslide<2->{\inputpartOCaml{\SPATH/naive.ml}{}{\small}{16}{28}}
 	\end{block}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Coût de la recherche simple}
-		Soient $l_m$ la longueur du motif et $l_c$ celle de la chaine, on vérifie que l'algorithme de recherche simple demande au plus $l_m(l_c-l_m+1)$ comparaisons
+		En notant $l_m$ la longueur du motif et $l_t$ celle de la chaine :
+		\begin{itemize}
+			\item<2-> La boucle \mintinline{ocaml}{for} est parcourue au plus $l_t-l_m+1$ fois
+			\item<3-> Pour chacun de ces parcours, la boucle \mintinline{ocaml}{while} interne est parcourue au plus $l_m$ fois
+		\end{itemize}
+		\onslide<4->{Au plus, l'algorithme effectue donc $l_m(l_t-l_m+1)$ comparaisons.}
 	\end{block}
+	\onslide<5->{
 	\begin{exampleblock}{Exemple}
 		Combien de comparaisons seront nécessaires si on recherche le motif \pmc{bbbbbbbbba} (neuf fois le caractère \pmc{b} suivi d'un \pmc{a}) dans une chaine contenant un million de \pmc{b} ?
-	\end{exampleblock}
+	\end{exampleblock}}
 \end{frame}
 
+\makess{Algorithme de Boyer-Moore}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Accélération de la recherche}
-		Supposons qu'on recherche le motif \pmc{extra} dans la chaine \pmc{un excellent exemple et un exercice extraordinaire}. La comparaison naïve ci-dessus commence par :\\
+		Supposons qu'on recherche le motif {\tt extra} dans la chaine {\tt un excellent exemple et un exercice extraordinaire}. La comparaison naïve ci-dessus commence par :\\
 		\onslide<2->{
-			\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+			\begin{tabular}{|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
 				\hline
 				u                                  & n                     &   & e & x & c & e & l & l & e & n & t \\
 				\hline
@@ -99,43 +111,50 @@
 	\end{block}
 \end{frame}
 
+
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Accélération de la recherche}
 		Dans l'exemple ci-dessus cela donne : \\
 		\onslide<2->{
-			\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+			\begin{tabular}{|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
 				\hline
-				u                    & n                                  &                      & e & x & c & e & l & l & e & n & t \\
+				u                    & n                                  &                      & e &\cellcolor{OliveGreen!30}{x} & c & e & l & l & e & n & t \\
 				\hline
 				\multicolumn{4}{c}{} & \multicolumn{1}{c}{$\updownarrow$} & \multicolumn{6}{c}{}                                     \\
 				\hline
-				e                    & x                                  & t                    & r & a &   &   &   &   &   &   &   \\
+				e                    & \cellcolor{OliveGreen!30}{x}                                  & t                    & r & \cellcolor{BrickRed!30}{a} &   &   &   &   &   &   &   \\
 				\hline
 			\end{tabular}}\\
-		\onslide<3->{On peut avancer directement de 3 emplacements car le dernier \pmc{x} se trouve à 3 emplacements de la fin du motif.\\}
+		\onslide<3->{On peut directement décaler le motif de 3 emplacements car le dernier {\tt x} du motif se trouve à 3 emplacements de la fin du motif.\\}
 		\onslide<4->{
 			\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
 				\hline
-				u                    & n                                  &                      & e & x & c & e & l & l & e & n & t \\
+				u                    & n                                  &                      & e & x & c & e & \cellcolor{OliveGreen!30}{l} & l & e & n & t \\
 				\hline
 				\multicolumn{7}{c}{} & \multicolumn{1}{c}{$\updownarrow$} & \multicolumn{3}{c}{}                                     \\
 				\hline
-				                     &                                    &                      & e & x & t & r & a &   &   &   &   \\
+				                     &                                    &                      & e & x & t & r & \cellcolor{BrickRed!30}{a} &   &   &   &   \\
 				\hline
 			\end{tabular}\\}
-		\onslide<5->{Cette fois, le \pmc{l} ne se trouve pas dans le motif, on peut donc avancer de la longueur du motif.\\}
-		\onslide<6->{
-			\href{https://boyer-moore.codekodo.net/recherche_boyer.php}{Visualisation en ligne du fonctionnement de l'algorithme accéléré}}
+		\onslide<5->{Cette fois, le {\tt l} ne se trouve pas dans le motif, on peut donc décaler de la longueur du motif. Et la recherche s'arrête en ayant effectué seulement deux comparaisons.\\}
 	\end{block}
+		\onslide<6->{
+			\begin{exampleblock}{Visualisation en ligne}
+			\href{https://boyer-moore.codekodo.net/recherche_boyer.php}{Visualisation en ligne du fonctionnement de l'algorithme accéléré}
+			\end{exampleblock}}
 \end{frame}
 
 
 \begin{frame}{\Ctitle}{\stitle}
-	\begin{block}{Remarques}
+	\begin{block}{Algorithme de Boyer-Moore-Hoorspool}
 		\begin{itemize}
-			\item<1-> L'implémentation, plus délicate que la recherche naïve fait l'objet d'un exercice.
-			\item<2-> L'étude du coût de cet algorithme n'est pas au programme, mais à titre d'exemple, on pourra rechercher le nombre de comparaisons de la recherche du motif \pmc{aaaaaaaaaa} dans un texte  contenant un million de \pmc{b} et comparer avec le cas de la recherche naïve.
+		\item<1-> La première phase consiste en un prétraitement du motif, afin de construire une \textcolor{blue}{fonction de décalage} qui indique pour chaque caractère :
+		\begin{itemize}
+			\item<1-> Si le caractère est présent dans le motif alors l'indice de sa dernière occurrence 
+			\item<2-> Sinon la longueur du motif
 		\end{itemize}
+		\item<2-> Ensuite on effectue une recherche en partant de la fin du motif en cas de non correspondance, on décale de la valeur fournie par la fonction de décalage.
+	\end{itemize}
 	\end{block}
 \end{frame}
 
