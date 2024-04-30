@@ -141,7 +141,7 @@ On rappelle la structure de données vues en cours permettant de représenter un
 
     ??? langageC "Fonction de visualisation"
         ```c
-        --8<-- "C17/madj_stat.c:42:73"
+        --8<-- "C17/ladj_stat.c:37:65"
         ```
     Créer et visualiser le graphe suivant :
     ```mermaid
