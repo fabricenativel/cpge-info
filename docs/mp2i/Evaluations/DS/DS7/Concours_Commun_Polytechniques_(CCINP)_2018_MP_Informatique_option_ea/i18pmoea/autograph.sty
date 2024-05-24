@@ -1,0 +1,966 @@
+\typeout{%
+Macros for drawing automata and graphs. v0.3b4 Dec. 14, 1995}
+%%
+%% Paul Gastin
+%% LITP - IBP
+%% Universite Paris 7
+%% 2, place Jussieu
+%% F-75251 Paris Cedex 05
+%% email : Paul.Gastin@litp.ibp.fr
+%%
+%%----------------------------------------------------------------------
+%% DEBUT DE LA DOCUMENTATION
+%%----------------------------------------------------------------------
+%%
+%% Macros pour dessiner des automates et des graphes sous l'environnement
+%% picture de LaTeX 2.09 ou LaTeX2e. Exemples d'utilisations dans les
+%% fichiers autograph_sample.tex et autograph2e_sample.tex.
+%%
+%% ex: LaTeX 2.09 (necessite bezier et epic) :
+%
+%
+%\documentstyle[12pt,bezier,epic,autograph]{article}
+%
+%
+%%
+%% ex: LaTeX2e (necessite epic) :
+%%     \usepackage{epic,autograph}
+%%
+%% Macros :
+%%           \setnbptbezier
+%%           \setprecision
+%%
+%%           \letstate
+%%           \setstatediam
+%%           \setrepeatedstatediam
+%%           \drawstate
+%%           \drawinitialstate
+%%           \drawfinalstate
+%%           \drawrepeatedstate
+%%           \settranslabelskip
+%%           \settransdecal
+%%           \drawtrans
+%%           \setprofcurve
+%%           \drawcurvedtrans
+%%           \setloopdiam
+%%           \drawloop
+%%
+%%           \letvertex
+%%           \setvertexdiam
+%%           \drawvertex
+%%           \drawcircledvertex
+%%           \setedgelabelskip
+%%           \setedgedecal
+%%           \drawedge
+%%           \drawundirectededge
+%%           \setprofcurve
+%%           \drawcurvededge
+%%           \drawundirectedcurvededge
+%%
+%%           \drawvector
+%%
+%% Configurations: 
+%%
+%% \unitlength
+%%        Voir manuel LaTeX. Valeur par defaut 4pt (environ 1.4mm).
+%%        Ce choix est motive par le fait que, en standard,
+%%        LaTeX ne sait dessiner que des cercles dont le diametre
+%%        est multiple de 4pt. Si une valeur non multiple de 4pt
+%%        est choisie comme diametre des etats (combinaison entre
+%%        \setstatediam et \unitlength), les transitions 
+%%        n'arriveront plus precisement sur le cercle des etats. 
+%%        Pour les graphes, on peut choisir ce qu'on veut. 
+%% ex: \unitlength=1mm           % Pour les graphes
+%%     \unitlength=4pt           % Pour les automates (~ 1,4mm)
+%%
+%% \setnbptbezier{n}:
+%%        Pour definir le nombre de points des courbes de Bezier
+%%        utilisees pour dessiner les boucles et les courbes.
+%%        Nombre entier. Valeur par defaut: 100.
+%%        En LaTeX2e cela redefinit la commande \qbeziermax.
+%% ex: \setnbptbezier{20}     % accelere la compilation
+%%
+%% \setprecision{n}:
+%%        Pour definir la precision des calculs.
+%%        Les calculs seront faits en n-iemes de \unitlength.
+%%        Si on utilise une valeur trop elevee, lors du dessin de longues
+%%        transitions on risque un "arithmetic overflow" a la compilation.
+%%        Nombre entier. Valeur par defaut: 10.
+%% ex: \setprecision{100}
+%%
+%% Etats :
+%%
+%% \letstate nom=(x,y)
+%%        Definition d'un etat: Le nom ne contient que des lettres.
+%%        Attention a ne pas mettre d'espace dans la definition.
+%%        Un etat est defini par les coordonnees (x,y) de son centre,
+%%        en NOMBRES ENTIERS de \unitlength.
+%%        \letstate admet comme arguments optionnels le diametre de l'etat
+%%        et le diametre du cercle interieur de l'etat s'il est repete.
+%%        La deuxieme valeur n'est utilisee que par \drawrepeatedstate.
+%%        On ne peut cependant pas donner une seule de ces deux valeurs.
+%%        Par defaut, les valeurs courantes fixees par \setstatediam et
+%%        \setrepeatedstatediam sont utilisees.
+%%        On peut redefinir un etat. Les nouvelles donnees seront
+%%        utilisees a partir de la redefinition.
+
+
+
+%% ex: \letstate A=(0,0)
+%%     \letstate[10,8] C=(-15,5)
+%%
+
+%% \setstatediam{n}:
+%%        Fixe la valeur par defaut du diametre en \unitlength des etats. 
+%%        Nombre entier. Valeur par defaut: 6.
+%%        En standard, la valeur maximale est 10 pour \unitlength=4pt. 
+%% ex: \setstatediam{10} % bien pour les slides
+%%
+%% \setrepeatedstatediam{n}:
+%%        Fixe la valeur par defaut du diametre en \unitlength
+%%        du cercle interieur des etats repetes.
+%%        Nombre entier. Valeur par defaut: 5.
+%% ex: \setrepeatedstatediam{8} % bien pour les slides
+%%
+%% Dessin d'un etat: On fournit le nom de l'etat et son etiquette.
+%%        Pour \drawinitialstate et \drawfinalstate, le premier
+%%        argument est une lettre parmi t(op), b(ottom), l(eft), r(ight)
+%%        qui specifie ou se trouve la marque sur l'etat.
+%%        Il est optionnel avec par defaut l pour \drawinitialstate
+%%        et r pour \drawfinalstate.
+%% ex: \drawstate(A){3}
+%%     \drawinitialstate(B){0}
+%%     \drawfinalstate(C){1}
+%%     \drawrepeatedstate(D){2}
+%%     \drawstate(E){}                                   % etat sans nom
+%%     \drawinitialstate[b](F){4}\drawfinalstate[t](F){} %initial et final
+%%
+%% Transitions :
+%%
+%% \settranslabelskip{n}:
+%%        Pour definir l'espace en \unitlength entre la transition 
+%%        et son etiquette. Nombre entier. Valeur par defaut: 1
+%% ex: \settranslabelskip{2}
+%%
+%% \settransdecal{n}:
+%%        Pour definir le decalage en \unitlength entre une transition
+%%        droite (drawtrans) et la droite joignant les deux etats.
+%%        Pour eviter leur chevauchement, on utilise une valeur <>0
+%%        lorsqu'il y a une transition dans chaque sens entre les deux
+%%        etats. Une valeur positive (resp. negative) decale la transition
+%%        vers sa gauche (resp. droite) en regardant dans le sens de la
+%%        transition. Si la valeur est trop importante, une transition
+%%        droite risque de ne pas toucher l'etat.
+%%        Nombre entier. Valeur par defaut: 0.
+%% ex: \settransdecal{1}      % bien pour eviter le chevauchement.
+%%
+%% \setprofcurve{n}:
+%%        Distance en \unitlength entre le milieu de la transition courbe
+%%        et la droite joignant les deux etats. Une valeur positive
+%%        (resp. negative) deforme la transition vers sa gauche
+%%        (resp. droite) en regardant dans le sens de la transition.
+%%        Nombre entier. Valeur par defaut: 3.
+%% ex: \setprofcurve{15}
+%%     \setprofcurve{-7}
+%%     \setprofcurve{0}       % trace une droite
+%%
+%% Dessin d'une transition: On fournit les noms des etats joints par la
+%%        transition et l'etiquette de la transition. Le premier
+%%        argument est une lettre parmi l(eft), r(ight) qui specifie ou
+%%        se trouve l'etiquette par rapport a la transition lorsqu'on
+%%        regarde dans le sens de la transition.
+%%        Il est optionnel avec par defaut l.
+%%     \drawtrans trace une transition droite.
+%%     \drawcurvedtrans trace une transition courbe.
+%%        Cela necessite beaucoup plus de calculs que \drawtrans.
+%%        La concavite de la courbe est fixee par \setprofcurve.
+%%        Plus precisement, \setprofcurve definit la distance entre
+%%        le point milieu de la transition et le milieu des deux etats.
+%%        Si cette distance est nulle, la courbe est en fait droite.
+%%        Dans certains cas, le resultat est meilleur qu'avec \drawtrans.
+%% ex: \drawtrans(A,B){$G,g,\gamma$}
+%%     \drawtrans[l](B,A){$h$}
+%%     \drawcurvedtrans[r](A,C){$E,\varepsilon$}
+%%     \drawtrans(D,A){}                    % transition sans etiquette
+%%
+%% Boucles :
+%%
+%% \setloopdiam{n}:
+%%        Definition du diametre des boucles en \unitlength. 
+%%        Nombre entier. Valeur par defaut: 6.
+%%        Si le diametre d'une boucle est trop grand par rapport au
+%%        diametre de son etat (rapport > 1.5), le raccord est imparfait.
+%% ex: \setloopdiam{10} % bien pour les slides
+%%
+%% Dessin d'une boucle: On fournit le nom de l'etat sur lequel porte
+%%        la boucle et l'etiquette de la boucle. Le premier argument
+%%        est une lettre parmi t(op), b(ottom), l(eft), r(ight)
+%%        qui specifie ou se trouve la boucle.
+%%        Il est optionnel avec par defaut t.
+%% ex: \drawloop[b](A){$A,a,\alpha$}
+%%     \drawloop[r](B){$A,a,\alpha$}
+%%     \drawloop(C){}                         % boucle sans etiquette
+%%
+%% Graphes: 
+%%
+%% \letvertex A=(0,0)
+%%        Definition d'un sommet. Le nom ne contient que des lettres.
+%%        Attention a ne pas mettre d'espace dans la definition.
+%%        Un etat est defini par les coordonnees (x,y) de son centre,
+%%        en NOMBRES ENTIERS de \unitlength.
+%%        \letstate admet comme argument optionnel le diametre du sommet,
+%%        en NOMBRES ENTIERS de \unitlength.
+%%        Par defaut, la valeur fixee par \setvertexdiam est utilisee.
+%%        Ce diametre est utilise par \drawcircledvertex et pour
+%%        determiner l'origine et l'extremite des aretes et des boucles 
+%%        meme si le sommet n'est pas encercle. 
+%%        On peut redefinir un etat. Les nouvelles donnees seront
+%%        utilisees a partir de la redefinition.
+%% ex: \letvertex A=(0,0)
+%%     \letvertex[10] C=(-15,5)
+%%
+%% \setvertexdiam(n)
+%%        Fixe le diametre par defaut en \unitlength d'un sommet.
+%%        Nombre entier. Valeur par defaut: 6.
+%%
+%% \drawvertex
+%%        Dessine un sommet sans cercle autour. Voir \drawstate.
+%%
+%% \drawcircledvertex
+%%        Dessine un sommet avec cercle autour. Voir \drawstate.
+%%
+%% \setedgelabelskip
+%%        Espace entre l'arete et son etiquette. Voir \settranslabelskip.
+%%
+%% \setedgedecal
+%%        Decalage entre l'arete et l'axe des etats. Voir \settransdecal.
+%%
+%% \drawedge
+%%        Dessine une arete dirigee droite. Voir \drawtrans.
+%%
+%% \drawundirectededge
+%%        Dessine une arete non dirigee droite. Voir \drawtrans.
+%%
+%% \setprofcurve{n}:
+%%        Distance en \unitlength entre le milieu de l'arete courbe
+%%        et la droite joignant les deux etats.
+%%        Voir \setprofcurve dans la section sur les automates.
+%%
+%% \drawcurvededge
+%%        Dessine une arete dirigee courbe. Voir \drawcurvedtrans.
+%%
+%% \drawundirectedcurvededge
+%%        Dessine une arete non dirigee courbe. Voir \drawcurvedtrans.
+%%
+%% Divers: 
+%%
+%% \drawvector:
+%%        Dessine un vecteur entre les points specifies. 
+%%        Aucune limitation sur la pente. 
+%% ex: \drawvector(10,70)(70,20)
+%%
+%%----------------------------------------------------------------------
+%% FIN DE LA DOCUMENTATION
+%%----------------------------------------------------------------------
+%%
+%%----------------------------------------------------------------------
+%% DESCRIPTION DES EVOLUTIONS
+%%----------------------------------------------------------------------
+%%
+%% 0.2 -> 0.3 : utilise l(eft) et r(ight) a la place de t(op) et b(ottom)
+%% comme options pour le dessin des transitions et des aretes.
+%% l(eft) se comporte exactement comme t(op). Par contre, r(ight) est
+%% different de b(ottom). r(ight) a pour seul effet de placer l'etiquette
+%% a droite de la transition tandis que b(ottom) avait aussi pour effet
+%% d'inverser le sens du decalage fixe par \settransdecal ou \setprofcurve.
+%% Le resultat obtenu correspond plus a l'intuition, surtout si on fixe
+%% une valeur negative pour \settransdecal ou \setprofcurve.
+%% Afin d'assurer la compatibilite, les anciennes options t(op) et b(ottom)
+%% sont toujours acceptees, mais avec emission d'un warning.
+%%
+%%              \letstate admet comme arguments optionnels le diametre de
+%% l'etat et le diametre du cercle interieur de l'etat repete. On ne peut
+%% pas donner une seule de ces deux valeurs. Par defaut, les valeurs
+%% fixees par \setstatediam et \setrepeatedstatediam sont utilisees.
+%%
+%%              \letvertex admet comme argument optionnel le diametre du
+%% sommet. Par defaut, la valeur fixee par \setvertexdiam est utilisee.
+%%
+%%              Le diametre d'une boucle est maintenant independant de
+%% celui des etats. Pour avoir un bon raccord, il faut toutefois que le
+%% rapport entre diametre de la boucle et celui de l'etat n'exede pas 1,5.
+%%
+%%              Il est maintenant possible de dessiner une transition
+%% (droite ou courbe) entre deux etats de diametres differents.
+%% Cette possibilite permet entre autre de dessiner une transition courbe
+%% avec changement de concavite. On utilise un etat intermediaire de
+%% diametre 0 comme dans l'exemple suivant.
+%%    \letstate[4,3]  A=(-20,0) \drawstate(A){1}
+%%    \letstate[10,8] B=(20,0)  \drawstate(B){$x>2$}
+%%    \letstate[0,0]  C=(0,0)
+%%    \setprofcurve{8}  \drawundirectedcurvededge(A,C){}
+%%    \setprofcurve{-8} \drawcurvedtrans[r](C,B){$A,a,\alpha$}
+%%
+%% 0.1 -> 0.2 : Modification de la valeur par defaut de \setprecision.
+%% l'ancienne valeur provoquait des "arithmetic overflow" lors du dessin
+%% de longues transitions.
+%% 
+%%----------------------------------------------------------------------
+%% FIN DE LA DESCRIPTION DES EVOLUTIONS
+%%----------------------------------------------------------------------
+%%
+%% Declarations:
+%% Explications au debut du fichier
+
+\newif\if@arrow
+
+\unitlength=4pt
+\newdimen\save@unitlength
+
+\def\fact@prec{10}
+\def\setprecision#1{
+  \divide\loop@diam by \fact@prec
+  \divide\trans@label@skip by \fact@prec
+  \divide\trans@decal by \fact@prec
+  \def\fact@prec{#1}
+  \multiply\loop@diam by \fact@prec
+  \multiply\trans@label@skip by \fact@prec
+  \multiply\trans@decal by \fact@prec
+}
+
+\def\setstatediam#1{\def\@diam{#1}}
+\setstatediam{6}
+
+\def\setrepeatedstatediam#1{\def\@repdiam{#1}}
+\setrepeatedstatediam{5}
+
+\def\setloopdiam#1{\loop@diam=#1 \multiply\loop@diam by \fact@prec}
+\newcount\loop@diam \setloopdiam{6}
+
+\def\settranslabelskip#1{
+  \trans@label@skip=#1 \multiply\trans@label@skip by \fact@prec}
+\newcount\trans@label@skip \settranslabelskip{1}
+
+\def\settransdecal#1{\trans@decal=#1 \multiply\trans@decal by \fact@prec}
+\newcount\trans@decal \settransdecal{0}
+
+\def\setprofcurve#1{\prof@curve=#1 \multiply\prof@curve by \fact@prec}
+\newcount\prof@curve \setprofcurve{3}
+
+\ifx\documentclass\undefined
+  \def\mon@bezier{\bezier{\nb@pt@bezier}}
+  \def\setnbptbezier#1{\def\nb@pt@bezier{#1}}
+\else
+  \def\mon@bezier{\qbezier}
+  \def\setnbptbezier#1{\renewcommand{\qbeziermax}{#1}}
+\fi
+\setnbptbezier{100}
+
+\newcount\diam@a \newcount\diam@b
+\newcount\state@radius \newcount\loop@radius \newcount\demi@radius
+\newcount\x@a \newcount\x@b \newcount\x@c \newcount\x@d \newcount\x@e
+\newcount\y@a \newcount\y@b \newcount\y@c \newcount\y@d \newcount\y@e
+\newcount\aux@a \newcount\aux@b \newcount\aux@c \newcount\aux@d
+\newcount\delta@x \newcount\delta@y
+\newbox\temp@box
+
+%%----------------------------------------------------------------------
+%%
+%% Miscellanees
+%%
+%% Note: Certaines macros utilisent des variables declarees dans epic.
+%%
+%% \vecslope(x@diff dimen, y@diff dimen)
+%% Inspire de \lineslope de epic.sty.
+%% Utilise des variables declarees dans epic.sty.
+%% Les commentaires ci-dessous sont ceux de \lineslope.
+%%
+%% Given base (x@diff) and height (y@diff) in dimensions, determines the
+%% closest available slope and returns the two required integers in \@xarg
+%% and \@yarg. The given base and height can be ANYTHING, -ve or +ve, or
+%% even 0pt. \lineslope knows about (0,1) and (1,0) slopes too and returns
+%% correct values if the conditions regarding x@diff & y@diff are obeyed
+%% (see NOTE). Used by \drawline. This is the simplest and only way I could
+%% figure out to accomplish it!.
+%% NOTE: both the dimensions (x@diff & y@diff) must be in SAME units and the
+%% larger of the two dimensions must be atleast 1pt (i.e. 65536sp). To avoid
+%% dividing by 0, I make the larger dimension = 1pt if it is < 1pt.
+%% will need a similar one for vectors, or maybe this can be used. For
+%% vectors the range is -4, 4 unlike lines where it is -6, 6.
+%\newif\if@flippedargs
+\def\vecslope(#1,#2){%
+\ifdim #1 <0pt \@xdim= -#1 \else\@xdim=#1\fi
+\ifdim #2 <0pt \@ydim= -#2 \else\@ydim=#2\fi
+%%\typeout{xdim,ydim= \the\@xdim, \the\@ydim}
+\ifdim\@xdim >\@ydim \@tempdima=\@xdim \@xdim=\@ydim \@ydim=\@tempdima
+\@flippedargstrue\else\@flippedargsfalse\fi% x < y
+\ifdim\@ydim >1pt \@tempcnta=\@ydim
+            \divide\@tempcnta by 65536% now \@tempcnta=integral part of #1.
+            \divide\@xdim \@tempcnta\fi
+\ifdim\@xdim <.125pt \@xarg=1 \@yarg=0
+ \else\ifdim\@xdim <.291666pt   \@xarg=4 \@yarg=1
+ \else\ifdim\@xdim <.416666pt   \@xarg=3 \@yarg=1
+ \else\ifdim\@xdim <.583333pt   \@xarg=2 \@yarg=1
+ \else\ifdim\@xdim <.708333pt   \@xarg=3 \@yarg=2
+ \else\ifdim\@xdim <.875pt  \@xarg=4 \@yarg=3
+       \else            \@xarg=1 \@yarg=1%
+\fi\fi\fi\fi\fi\fi
+\if@flippedargs\relax\else\@tempcnta=\@xarg \@xarg=\@yarg
+              \@yarg=\@tempcnta\fi
+\ifdim #1 <0pt \@xarg= -\@xarg\fi
+\ifdim #2 <0pt \@yarg= -\@yarg\fi
+%%\typeout{closest slope integers = \the\@xarg, \the\@yarg}
+}
+
+%% \drawvector:
+%%        Dessine un vecteur entre les points specifies. 
+%%        Aucune limitation sur la pente. 
+%% ex: \drawvector(10,70)(70,20)
+%%
+\def\drawvector(#1,#2)(#3,#4){%
+ \drawline(#1,#2)(#3,#4)
+ \x@diff=#3\unitlength \advance\x@diff by -#1\unitlength
+ \y@diff=#4\unitlength \advance\y@diff by -#2\unitlength
+ \vecslope(\x@diff,\y@diff)% returns the two integers in \@xarg & \@yarg.
+ \put(#3,#4){\vector(\@xarg,\@yarg){0}}
+}
+
+%% \distance: Calcule la distance en \unitlength entre deux points. 
+%% Le resultat se trouve dans \@distance.
+%%
+\newcount\@distance
+\def\distance(#1,#2)(#3,#4){
+  \x@diff=#3\unitlength\relax\advance\x@diff by -#1\unitlength\relax
+  \y@diff=#4\unitlength\relax\advance\y@diff by -#2\unitlength\relax
+  \sqrtandstuff{\x@diff}{\y@diff}{1\unitlength}
+  \@distance=\num@segments
+%%\typeout{distance = \the\@distance}
+}
+
+%%----------------------------------------------------------------------
+%%
+%% Definition d'un etat
+%% Explications au debut du fichier
+
+\def\letstate{
+  \@ifnextchar[{\letstate@un}{\letstate@deux}}
+\def\letstate@un[#1,#2] #3=(#4,#5){
+  \expandafter\def\csname state@#3@x\endcsname{#4}
+  \expandafter\def\csname state@#3@y\endcsname{#5}
+  \expandafter\edef\csname state@#3@diam\endcsname{#1}
+  \expandafter\edef\csname state@#3@repdiam\endcsname{#2}
+  }
+\def\letstate@deux #1=(#2,#3){
+  \expandafter\def\csname state@#1@x\endcsname{#2}
+  \expandafter\def\csname state@#1@y\endcsname{#3}
+  \expandafter\edef\csname state@#1@diam\endcsname{\@diam}
+  \expandafter\edef\csname state@#1@repdiam\endcsname{\@repdiam}
+  }
+
+%% Dessin d'un etat
+%% Explications au debut du fichier
+
+\def\drawstate(#1)#2{
+  \save@unitlength=\unitlength \divide\unitlength by \fact@prec
+  \x@a=\csname state@#1@x\endcsname \multiply\x@a by \fact@prec
+  \y@a=\csname state@#1@y\endcsname \multiply\y@a by \fact@prec
+  \diam@a=\csname state@#1@diam\endcsname \multiply\diam@a by \fact@prec
+  \put(\x@a,\y@a){\makebox(0,0){#2}}
+  \put(\x@a,\y@a){\circle{\diam@a}}
+  \unitlength=\save@unitlength
+  }
+
+\def\drawinitialstate{
+  \@ifnextchar[{\@idrawinitialstate}{\@idrawinitialstate[l]}}
+\def\@idrawinitialstate[#1](#2)#3{
+  \save@unitlength=\unitlength \divide\unitlength by \fact@prec
+  \x@a=\csname state@#2@x\endcsname \multiply\x@a by \fact@prec
+  \y@a=\csname state@#2@y\endcsname \multiply\y@a by \fact@prec
+  \diam@a=\csname state@#2@diam\endcsname \multiply\diam@a by \fact@prec
+  \state@radius=\diam@a \divide\state@radius by 2
+  \put(\x@a,\y@a){\makebox(0,0){#3}}
+  \put(\x@a,\y@a){\circle{\diam@a}}
+  \if#1l \advance\x@a by -\diam@a \aux@a=1  \aux@b=0  \fi
+  \if#1r \advance\x@a by  \diam@a \aux@a=-1 \aux@b=0  \fi
+  \if#1t \advance\y@a by  \diam@a \aux@a=0  \aux@b=-1 \fi
+  \if#1b \advance\y@a by -\diam@a \aux@a=0  \aux@b=1  \fi
+  \put(\x@a,\y@a){\vector(\aux@a,\aux@b){\state@radius}}
+  \unitlength=\save@unitlength
+  }
+
+\def\drawfinalstate{
+  \@ifnextchar[{\@idrawfinalstate}{\@idrawfinalstate[r]}}
+\def\@idrawfinalstate[#1](#2)#3{
+  \save@unitlength=\unitlength \divide\unitlength by \fact@prec
+  \x@a=\csname state@#2@x\endcsname \multiply\x@a by \fact@prec
+  \y@a=\csname state@#2@y\endcsname \multiply\y@a by \fact@prec
+  \diam@a=\csname state@#2@diam\endcsname \multiply\diam@a by \fact@prec
+  \state@radius=\diam@a \divide\state@radius by 2
+  \put(\x@a,\y@a){\makebox(0,0){#3}}
+  \put(\x@a,\y@a){\circle{\diam@a}}
+  \if#1l \advance\x@a by -\state@radius \aux@a=-1 \aux@b=0 \fi
+  \if#1r \advance\x@a by \state@radius \aux@a=1 \aux@b=0 \fi
+  \if#1t \advance\y@a by \state@radius \aux@a=0 \aux@b=1 \fi
+  \if#1b \advance\y@a by -\state@radius \aux@a=0 \aux@b=-1 \fi
+  \put(\x@a,\y@a){\vector(\aux@a,\aux@b){\state@radius}}
+  \unitlength=\save@unitlength
+  }
+
+\def\drawrepeatedstate(#1)#2{
+  \save@unitlength=\unitlength \divide\unitlength by \fact@prec
+  \x@a=\csname state@#1@x\endcsname \multiply\x@a by \fact@prec
+  \y@a=\csname state@#1@y\endcsname \multiply\y@a by \fact@prec
+  \diam@a=\csname state@#1@diam\endcsname \multiply\diam@a by \fact@prec
+  \diam@b=\csname state@#1@repdiam\endcsname \multiply\diam@b by \fact@prec
+  \put(\x@a,\y@a){\makebox(0,0){#2}}
+  \put(\x@a,\y@a){\circle{\diam@a}}
+  \put(\x@a,\y@a){\circle{\diam@b}}
+  \unitlength=\save@unitlength
+  }
+
+%%----------------------------------------------------------------------
+%%
+%% Dessin d'une transition
+%% Explications au debut du fichier
+
+\def\autograph@warning#1{
+  \typeout{autograph warning on input line \the\inputlineno : 
+           #1 is an old option.}
+  \typeout{Still accepted for compatibility reasons. Use l or r instead.}
+  \typeout{}
+  }
+
+\def\drawtrans{\@arrowtrue\@ifnextchar[{\@idrawtrans}{\@idrawtrans[l]}}
+\def\@idrawtrans[#1](#2,#3)#4{
+  \if#1t \autograph@warning{t} \fi
+  \if#1b \autograph@warning{b} \fi
+  \save@unitlength=\unitlength \divide\unitlength by \fact@prec
+  \x@a=\csname state@#2@x\endcsname \multiply\x@a by \fact@prec
+  \y@a=\csname state@#2@y\endcsname \multiply\y@a by \fact@prec
+  \diam@a=\csname state@#2@diam\endcsname \multiply\diam@a by \fact@prec
+  \x@b=\csname state@#3@x\endcsname \multiply\x@b by \fact@prec
+  \y@b=\csname state@#3@y\endcsname \multiply\y@b by \fact@prec
+  \diam@b=\csname state@#3@diam\endcsname \multiply\diam@b by \fact@prec
+  \delta@x=\x@b \advance\delta@x by -\x@a
+  \delta@y=\y@b \advance\delta@y by -\y@a
+  \distance(\x@a,\y@a)(\x@b,\y@b)
+% Calcul des points extremites de la transition et dessin de la fleche.
+  \aux@c=-\trans@decal
+  \multiply\aux@c by \delta@y \divide\aux@c by \@distance
+  \aux@d= \trans@decal
+  \multiply\aux@d by \delta@x \divide\aux@d by \@distance
+  \if#1b \aux@c=-\aux@c \aux@d=-\aux@d \fi
+  
+  \aux@a=\diam@a \divide\aux@a by 2
+  \multiply\aux@a by \delta@x \divide\aux@a by \@distance
+  \aux@b=\diam@a \divide\aux@b by 2
+  \multiply\aux@b by \delta@y \divide\aux@b by \@distance
+  \advance\x@a by  \aux@a \advance\x@a by \aux@c
+  \advance\y@a by  \aux@b \advance\y@a by \aux@d
+  
+  \aux@a=\diam@b \divide\aux@a by 2
+  \multiply\aux@a by \delta@x \divide\aux@a by \@distance
+  \aux@b=\diam@b \divide\aux@b by 2
+  \multiply\aux@b by \delta@y \divide\aux@b by \@distance
+  \advance\x@b by -\aux@a \advance\x@b by \aux@c
+  \advance\y@b by -\aux@b \advance\y@b by \aux@d
+  \if@arrow
+    \drawvector(\x@a,\y@a)(\x@b,\y@b)
+  \else
+    \drawline(\x@a,\y@a)(\x@b,\y@b)
+  \fi
+% Calcul du deplacement de l'etiquette par rapport au centre de la
+% transition.
+  \setbox\temp@box\hbox{#4}
+  \aux@a=\wd\temp@box \divide\aux@a by \unitlength
+%%\typeout{width = \the\aux@a}
+  \multiply\aux@a by \delta@y
+  \ifnum\aux@a<0 \aux@a=-\aux@a \fi
+  \aux@c=\ht\temp@box \advance\aux@c by \dp\temp@box
+  \divide\aux@c by \unitlength
+%%\typeout{height + depth = \the\aux@c}
+  \multiply\aux@c by \delta@x
+  \ifnum\aux@c<0 \aux@c=-\aux@c \fi
+  \advance\aux@c by \aux@a
+  \divide\aux@c by \@distance \divide\aux@c by 2
+  \advance\aux@c by \trans@label@skip
+  \aux@a=-\delta@y \multiply\aux@a by \aux@c \divide\aux@a by \@distance
+  \aux@b=\delta@x \multiply\aux@b by \aux@c \divide\aux@b by \@distance
+%%\typeout{delta x = \the\aux@a}
+%%\typeout{delta y = \the\aux@b}
+  \if#1r \aux@a=-\aux@a \aux@b=-\aux@b \fi
+  \if#1b \aux@a=-\aux@a \aux@b=-\aux@b \fi
+  \advance\x@a by \x@b \divide\x@a by 2 \advance\x@a by \aux@a
+  \advance\y@a by \y@b \divide\y@a by 2 \advance\y@a by \aux@b
+  \put(\x@a,\y@a){\makebox(0,0){#4}}
+  \unitlength=\save@unitlength
+  }
+
+\def\drawcurvedtrans{\@arrowtrue
+  \@ifnextchar[{\@idrawcurvedtrans}{\@idrawcurvedtrans[l]}}
+\def\@idrawcurvedtrans[#1](#2,#3)#4{
+  \if#1t \autograph@warning{t} \fi
+  \if#1b \autograph@warning{b} \fi
+  \save@unitlength=\unitlength \divide\unitlength by \fact@prec
+  \x@a=\csname state@#2@x\endcsname \multiply\x@a by \fact@prec
+  \y@a=\csname state@#2@y\endcsname \multiply\y@a by \fact@prec
+  \diam@a=\csname state@#2@diam\endcsname \multiply\diam@a by \fact@prec
+  \x@b=\csname state@#3@x\endcsname \multiply\x@b by \fact@prec
+  \y@b=\csname state@#3@y\endcsname \multiply\y@b by \fact@prec
+  \diam@b=\csname state@#3@diam\endcsname \multiply\diam@b by \fact@prec
+  \delta@x=\x@b \advance\delta@x by -\x@a
+  \delta@y=\y@b \advance\delta@y by -\y@a
+  \distance(\x@a,\y@a)(\x@b,\y@b)
+%%\typeout{delta x = \the\delta@x}
+%%\typeout{delta y = \the\delta@y}
+%%\typeout{hypothenus = \the\@distance}
+% Calcul du deplacement \aux@a et \aux@b de l'etiquette par rapport
+% au point E, centre de la transition.
+  \setbox\temp@box\hbox{#4}
+  \aux@a=\wd\temp@box \divide\aux@a by \unitlength
+%%\typeout{width = \the\aux@a}
+  \multiply\aux@a by \delta@y
+  \ifnum\aux@a<0 \aux@a=-\aux@a \fi
+  \aux@c=\ht\temp@box \advance\aux@c by \dp\temp@box
+  \divide\aux@c by \unitlength
+%%\typeout{height + depth = \the\aux@c}
+  \multiply\aux@c by \delta@x
+  \ifnum\aux@c<0 \aux@c=-\aux@c \fi
+  \advance\aux@c by \aux@a
+  \divide\aux@c by \@distance \divide\aux@c by 2
+  \advance\aux@c by \trans@label@skip
+  \aux@a=\aux@c \multiply\aux@a by -\delta@y \divide\aux@a by \@distance
+  \aux@b=\aux@c \multiply\aux@b by  \delta@x \divide\aux@b by \@distance
+  \if#1r \aux@a=-\aux@a \aux@b=-\aux@b \fi
+  \if#1b \aux@a=-\aux@a \aux@b=-\aux@b \fi
+% Calcul du point E, centre de la transition, extremite du 1er arc de bezier.
+  \aux@c=\prof@curve \if#1b \aux@c=-\aux@c \fi
+  \multiply\aux@c by \delta@y \divide\aux@c by \@distance
+  \x@e=\x@a \advance\x@e by \x@b \divide\x@e by 2
+  \advance\x@e by -\aux@c
+  \aux@c=\prof@curve \if#1b \aux@c=-\aux@c \fi
+  \multiply\aux@c by \delta@x \divide\aux@c by \@distance
+  \y@e=\y@a \advance\y@e by \y@b \divide\y@e by 2
+  \advance\y@e by \aux@c
+% Calcul du point D milieu du premier arc de bezier.
+  \x@d=\x@e \divide\delta@x by 4 \advance\x@d by -\delta@x
+  \y@d=\y@e \divide\delta@y by 4 \advance\y@d by -\delta@y
+% Calcul du point C origine du premier arc de bezier.
+  \distance(\x@a,\y@a)(\x@d,\y@d)
+  \x@c=\x@d \advance\x@c by -\x@a \multiply\x@c by \diam@a
+  \divide\x@c by 2 \divide\x@c by \@distance \advance\x@c by \x@a
+  \y@c=\y@d \advance\y@c by -\y@a \multiply\y@c by \diam@a
+  \divide\y@c by 2 \divide\y@c by \@distance \advance\y@c by \y@a
+% Dessin du premier arc de bezier.
+  \mon@bezier(\x@c,\y@c)(\x@d,\y@d)(\x@e,\y@e)
+%%  \drawline(\x@c,\y@c)(\x@d,\y@d)
+%%  \drawline(\x@d,\y@d)(\x@e,\y@e)
+% Calcul du point D milieu du deuxieme arc de bezier.
+  \x@d=\x@e \advance\x@d by \delta@x
+  \y@d=\y@e \advance\y@d by \delta@y
+% Calcul du point C origine du deuxieme arc de bezier.
+  \x@c=\x@d \advance\x@c by -\x@b \multiply\x@c by \diam@b
+  \divide\x@c by 2 \divide\x@c by \@distance \advance\x@c by \x@b
+  \y@c=\y@d \advance\y@c by -\y@b \multiply\y@c by \diam@b
+  \divide\y@c by 2 \divide\y@c by \@distance \advance\y@c by \y@b
+% Dessin du deuxieme arc de Bezier.
+  \mon@bezier(\x@c,\y@c)(\x@d,\y@d)(\x@e,\y@e)
+%%  \drawline(\x@c,\y@c)(\x@d,\y@d)
+%%  \drawline(\x@d,\y@d)(\x@e,\y@e)
+% puis on met la fleche au bout de la transition
+  \if@arrow
+    \x@diff=\x@c\unitlength \advance\x@diff by -\x@d\unitlength
+    \y@diff=\y@c\unitlength \advance\y@diff by -\y@d\unitlength
+    \vecslope(\x@diff,\y@diff)% returns the integers in \@xarg & \@yarg.
+    \put(\x@c,\y@c){\vector(\@xarg,\@yarg){0}}
+  \fi
+% Enfin, on affiche l'etiquette de la transition.
+  \advance\x@e by \aux@a \advance\y@e by \aux@b
+  \put(\x@e,\y@e){\makebox(0,0){#4}}
+  \unitlength=\save@unitlength
+}
+
+%%----------------------------------------------------------------------
+%%
+%% Dessin d'une boucle
+%% Explications au debut du fichier
+
+\def\drawloop{\@arrowtrue\@ifnextchar[{\@idrawloop}{\@idrawloop[t]}}
+\def\@idrawloop[#1](#2)#3{
+  \save@unitlength=\unitlength \divide\unitlength by \fact@prec
+  \x@a=\csname state@#2@x\endcsname \multiply\x@a by \fact@prec
+  \y@a=\csname state@#2@y\endcsname \multiply\y@a by \fact@prec
+  \diam@a=\csname state@#2@diam\endcsname \multiply\diam@a by \fact@prec
+  \state@radius=\diam@a \divide\state@radius by 2
+  \loop@radius=\loop@diam \divide\loop@radius by 2
+  \demi@radius=\loop@radius \divide\demi@radius by 2
+% Approximation du point de raccord entre le cercle de l'etat et la boucle.
+  \aux@c=\loop@radius \multiply\aux@c by \aux@c \multiply\aux@c by -134
+  \divide\aux@c by \state@radius \divide\aux@c by 1000
+  \advance\aux@c by \state@radius
+  \if#1l
+%   On commence par la boucle
+    \y@b=\y@a \advance\y@b by -\demi@radius
+    \y@c=\y@a \advance\y@c by -\loop@radius
+    \x@c=\x@a \advance\x@c by -\state@radius \advance\x@c by -\loop@radius
+              \advance\x@a by -\aux@c
+    \x@b=\x@c \advance\x@b by  \demi@radius
+    \x@d=\x@c \advance\x@d by -\loop@radius
+    \mon@bezier(\x@a,\y@b)(\x@b,\y@c)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@d,\y@c)(\x@d,\y@a)
+    \advance\y@b by \loop@radius
+    \advance\y@c by \loop@diam
+    \mon@bezier(\x@a,\y@b)(\x@b,\y@c)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@d,\y@c)(\x@d,\y@a)
+%   puis on met la fleche au bout de la boucle
+    \if@arrow
+      \x@diff=\x@a\unitlength \advance\x@diff by -\x@b\unitlength
+      \y@diff=-\demi@radius\unitlength
+      \vecslope(\x@diff,\y@diff)% returns the integers in \@xarg & \@yarg.
+      \put(\x@a,\y@b){\vector(\@xarg,\@yarg){0}}
+    \fi
+%   enfin l'etiquette
+    \advance\x@d by -\trans@label@skip
+    \put(\x@d,\y@a){\makebox(0,0)[r]{#3}}
+  \fi
+  \if#1r
+%   On commence par la boucle
+    \y@b=\y@a \advance\y@b by  \demi@radius
+    \y@c=\y@a \advance\y@c by  \loop@radius
+    \x@c=\x@a \advance\x@c by  \state@radius \advance\x@c by \loop@radius
+              \advance\x@a by  \aux@c
+    \x@b=\x@c \advance\x@b by -\demi@radius
+    \x@d=\x@c \advance\x@d by  \loop@radius
+    \mon@bezier(\x@a,\y@b)(\x@b,\y@c)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@d,\y@c)(\x@d,\y@a)
+    \advance\y@b by -\loop@radius
+    \advance\y@c by -\loop@diam
+    \mon@bezier(\x@a,\y@b)(\x@b,\y@c)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@d,\y@c)(\x@d,\y@a)
+%   puis on met la fleche au bout de la boucle
+    \if@arrow
+      \x@diff=\x@a\unitlength \advance\x@diff by -\x@b\unitlength
+      \y@diff=\demi@radius\unitlength
+      \vecslope(\x@diff,\y@diff)% returns the integers in \@xarg & \@yarg.
+      \put(\x@a,\y@b){\vector(\@xarg,\@yarg){0}}
+    \fi
+%   enfin l'etiquette
+    \advance\x@d by \trans@label@skip
+    \put(\x@d,\y@a){\makebox(0,0)[l]{#3}}
+  \fi
+  \if#1t
+%   On commence par la boucle
+    \x@b=\x@a \advance\x@b by -\demi@radius
+    \x@c=\x@a \advance\x@c by -\loop@radius
+    \y@c=\y@a \advance\y@c by  \state@radius \advance\y@c by \loop@radius
+              \advance\y@a by  \aux@c
+    \y@b=\y@c \advance\y@b by -\demi@radius
+    \y@d=\y@c \advance\y@d by  \loop@radius
+    \mon@bezier(\x@b,\y@a)(\x@c,\y@b)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@c,\y@d)(\x@a,\y@d)
+    \advance\x@b by \loop@radius
+    \advance\x@c by \loop@diam
+    \mon@bezier(\x@b,\y@a)(\x@c,\y@b)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@c,\y@d)(\x@a,\y@d)
+%   puis on met la fleche au bout de la boucle
+    \if@arrow
+      \x@diff=-\demi@radius\unitlength
+      \y@diff=\y@a\unitlength \advance\y@diff by -\y@b\unitlength
+      \vecslope(\x@diff,\y@diff)% returns the integers in \@xarg & \@yarg.
+      \put(\x@b,\y@a){\vector(\@xarg,\@yarg){0}}
+    \fi
+%   enfin l'etiquette
+    \advance\y@d by \trans@label@skip
+    \put(\x@a,\y@d){\makebox(0,0)[b]{#3}}
+  \fi
+  \if#1b
+%   On commence par la boucle
+    \x@b=\x@a \advance\x@b by  \demi@radius
+    \x@c=\x@a \advance\x@c by  \loop@radius
+    \y@c=\y@a \advance\y@c by -\state@radius \advance\y@c by -\loop@radius
+              \advance\y@a by -\aux@c
+    \y@b=\y@c \advance\y@b by  \demi@radius
+    \y@d=\y@c \advance\y@d by -\loop@radius
+    \mon@bezier(\x@b,\y@a)(\x@c,\y@b)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@c,\y@d)(\x@a,\y@d)
+    \advance\x@b by -\loop@radius
+    \advance\x@c by -\loop@diam
+    \mon@bezier(\x@b,\y@a)(\x@c,\y@b)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@c,\y@d)(\x@a,\y@d)
+%   puis on met la fleche au bout de la boucle
+    \if@arrow
+      \x@diff=\demi@radius\unitlength
+      \y@diff=\y@a\unitlength \advance\y@diff by -\y@b\unitlength
+      \vecslope(\x@diff,\y@diff)% returns the integers in \@xarg & \@yarg.
+      \put(\x@b,\y@a){\vector(\@xarg,\@yarg){0}}
+    \fi
+%   enfin l'etiquette
+    \advance\y@d by -\trans@label@skip
+    \put(\x@a,\y@d){\makebox(0,0)[t]{#3}}
+  \fi
+  \unitlength=\save@unitlength
+}
+%%----------------------------------------------------------------------
+%%
+%% Dessin d'une boucle sans flèche
+%% Explications au debut du fichier
+
+\def\drawundirectedloop{\@ifnextchar[{\@idrawundirectedloop}{\@idrawundirectedloop[t]}}
+\def\@idrawundirectedloop[#1](#2)#3{
+  \save@unitlength=\unitlength \divide\unitlength by \fact@prec
+  \x@a=\csname state@#2@x\endcsname \multiply\x@a by \fact@prec
+  \y@a=\csname state@#2@y\endcsname \multiply\y@a by \fact@prec
+  \diam@a=\csname state@#2@diam\endcsname \multiply\diam@a by \fact@prec
+  \state@radius=\diam@a \divide\state@radius by 2
+  \loop@radius=\loop@diam \divide\loop@radius by 2
+  \demi@radius=\loop@radius \divide\demi@radius by 2
+% Approximation du point de raccord entre le cercle de l'etat et la boucle.
+  \aux@c=\loop@radius \multiply\aux@c by \aux@c \multiply\aux@c by -134
+  \divide\aux@c by \state@radius \divide\aux@c by 1000
+  \advance\aux@c by \state@radius
+  \if#1l
+%   On commence par la boucle
+    \y@b=\y@a \advance\y@b by -\demi@radius
+    \y@c=\y@a \advance\y@c by -\loop@radius
+    \x@c=\x@a \advance\x@c by -\state@radius \advance\x@c by -\loop@radius
+              \advance\x@a by -\aux@c
+    \x@b=\x@c \advance\x@b by  \demi@radius
+    \x@d=\x@c \advance\x@d by -\loop@radius
+    \mon@bezier(\x@a,\y@b)(\x@b,\y@c)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@d,\y@c)(\x@d,\y@a)
+    \advance\y@b by \loop@radius
+    \advance\y@c by \loop@diam
+    \mon@bezier(\x@a,\y@b)(\x@b,\y@c)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@d,\y@c)(\x@d,\y@a)
+%   puis on met la fleche au bout de la boucle
+%    \if@arrow
+%      \x@diff=\x@a\unitlength \advance\x@diff by -\x@b\unitlength
+%      \y@diff=-\demi@radius\unitlength
+%      \vecslope(\x@diff,\y@diff)% returns the integers in \@xarg & \@yarg.
+%      \put(\x@a,\y@b){\vector(\@xarg,\@yarg){0}}
+%    \fi
+%   enfin l'etiquette
+    \advance\x@d by -\trans@label@skip
+    \put(\x@d,\y@a){\makebox(0,0)[r]{#3}}
+  \fi
+  \if#1r
+%   On commence par la boucle
+    \y@b=\y@a \advance\y@b by  \demi@radius
+    \y@c=\y@a \advance\y@c by  \loop@radius
+    \x@c=\x@a \advance\x@c by  \state@radius \advance\x@c by \loop@radius
+              \advance\x@a by  \aux@c
+    \x@b=\x@c \advance\x@b by -\demi@radius
+    \x@d=\x@c \advance\x@d by  \loop@radius
+    \mon@bezier(\x@a,\y@b)(\x@b,\y@c)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@d,\y@c)(\x@d,\y@a)
+    \advance\y@b by -\loop@radius
+    \advance\y@c by -\loop@diam
+    \mon@bezier(\x@a,\y@b)(\x@b,\y@c)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@d,\y@c)(\x@d,\y@a)
+%   puis on met la fleche au bout de la boucle
+%    \if@arrow
+%      \x@diff=\x@a\unitlength \advance\x@diff by -\x@b\unitlength
+%      \y@diff=\demi@radius\unitlength
+%      \vecslope(\x@diff,\y@diff)% returns the integers in \@xarg & \@yarg.
+%      \put(\x@a,\y@b){\vector(\@xarg,\@yarg){0}}
+%    \fi
+%   enfin l'etiquette
+    \advance\x@d by \trans@label@skip
+    \put(\x@d,\y@a){\makebox(0,0)[l]{#3}}
+  \fi
+  \if#1t
+%   On commence par la boucle
+    \x@b=\x@a \advance\x@b by -\demi@radius
+    \x@c=\x@a \advance\x@c by -\loop@radius
+    \y@c=\y@a \advance\y@c by  \state@radius \advance\y@c by \loop@radius
+              \advance\y@a by  \aux@c
+    \y@b=\y@c \advance\y@b by -\demi@radius
+    \y@d=\y@c \advance\y@d by  \loop@radius
+    \mon@bezier(\x@b,\y@a)(\x@c,\y@b)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@c,\y@d)(\x@a,\y@d)
+    \advance\x@b by \loop@radius
+    \advance\x@c by \loop@diam
+    \mon@bezier(\x@b,\y@a)(\x@c,\y@b)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@c,\y@d)(\x@a,\y@d)
+%   puis on met la fleche au bout de la boucle
+%    \if@arrow
+%      \x@diff=-\demi@radius\unitlength
+%      \y@diff=\y@a\unitlength \advance\y@diff by -\y@b\unitlength
+%      \vecslope(\x@diff,\y@diff)% returns the integers in \@xarg & \@yarg.
+%      \put(\x@b,\y@a){\vector(\@xarg,\@yarg){0}}
+%    \fi
+%   enfin l'etiquette
+    \advance\y@d by \trans@label@skip
+    \put(\x@a,\y@d){\makebox(0,0)[b]{#3}}
+  \fi
+  \if#1b
+%   On commence par la boucle
+    \x@b=\x@a \advance\x@b by  \demi@radius
+    \x@c=\x@a \advance\x@c by  \loop@radius
+    \y@c=\y@a \advance\y@c by -\state@radius \advance\y@c by -\loop@radius
+              \advance\y@a by -\aux@c
+    \y@b=\y@c \advance\y@b by  \demi@radius
+    \y@d=\y@c \advance\y@d by -\loop@radius
+    \mon@bezier(\x@b,\y@a)(\x@c,\y@b)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@c,\y@d)(\x@a,\y@d)
+    \advance\x@b by -\loop@radius
+    \advance\x@c by -\loop@diam
+    \mon@bezier(\x@b,\y@a)(\x@c,\y@b)(\x@c,\y@c)
+    \mon@bezier(\x@c,\y@c)(\x@c,\y@d)(\x@a,\y@d)
+%   puis on met la fleche au bout de la boucle
+%    \if@arrow
+%      \x@diff=\demi@radius\unitlength
+%      \y@diff=\y@a\unitlength \advance\y@diff by -\y@b\unitlength
+%      \vecslope(\x@diff,\y@diff)% returns the integers in \@xarg & \@yarg.
+%      \put(\x@b,\y@a){\vector(\@xarg,\@yarg){0}}
+%    \fi
+%   enfin l'etiquette
+    \advance\y@d by -\trans@label@skip
+    \put(\x@a,\y@d){\makebox(0,0)[t]{#3}}
+  \fi
+  \unitlength=\save@unitlength
+}
+
+%%----------------------------------------------------------------------
+%%
+%% Graphes
+%% Explications au debut du fichier
+
+\def\letvertex{
+  \@ifnextchar[{\letvertex@un}{\letvertex@deux}}
+\def\letvertex@un[#1] #2=(#3,#4){
+  \expandafter\def\csname state@#2@x\endcsname{#3}
+  \expandafter\def\csname state@#2@y\endcsname{#4}
+  \expandafter\edef\csname state@#2@diam\endcsname{#1}
+  }
+\def\letvertex@deux #1=(#2,#3){
+  \expandafter\def\csname state@#1@x\endcsname{#2}
+  \expandafter\def\csname state@#1@y\endcsname{#3}
+  \expandafter\edef\csname state@#1@diam\endcsname{\@diam}
+  }
+
+\def\setvertexdiam{\setstatediam}
+\def\setedgelabelskip{\settranslabelskip}
+\def\setedgedecal{\settransdecal}
+\def\drawcircledvertex{\drawstate}
+
+\def\drawvertex(#1)#2{
+  \save@unitlength=\unitlength \divide\unitlength by \fact@prec
+  \x@a=\csname state@#1@x\endcsname \multiply\x@a by \fact@prec
+  \y@a=\csname state@#1@y\endcsname \multiply\y@a by \fact@prec
+  \put(\x@a,\y@a){\makebox(0,0){#2}}
+  \unitlength=\save@unitlength
+  }
+
+\def\drawedge{\@arrowtrue\@ifnextchar[{\@idrawtrans}{\@idrawtrans[l]}}
+
+\def\drawcurvededge{\@arrowtrue
+  \@ifnextchar[{\@idrawcurvedtrans}{\@idrawcurvedtrans[l]}}
+
+\def\drawundirectededge{\@arrowfalse
+  \@ifnextchar[{\@idrawtrans}{\@idrawtrans[l]}}
+
+\def\drawundirectedcurvededge{\@arrowfalse
+  \@ifnextchar[{\@idrawcurvedtrans}{\@idrawcurvedtrans[l]}}
+
+%%----------------------------------------------------------------------

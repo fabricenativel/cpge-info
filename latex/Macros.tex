@@ -19,12 +19,13 @@
 
 % Mode Concours
 \newcommand{\ModeConcours}{
+   \newcounter{qconcours}
+   \setcounter{qconcours}{1}
    \renewcommand{\ExerciseName}{Exercice}
    \renewcommand{\ExerciseHeaderTitle}{\ExerciseTitle}
 \renewcommand{\ExerciseHeaderOrigin}{\ExerciseOrigin}
 \renewcommand{\ExerciseHeader}{\ding{113} \textbf{\sffamily{\ExerciseName \ \ExerciseHeaderNB}} \ifthenelse{\equal{\ExerciseTitle}{\empty}}{}{:} \textit{\ExerciseHeaderTitle} \hfill \ExerciseHeaderOrigin}
-\renewcommand{\QuestionNB}{\textbf{Q\arabic{Question}\ --}\ }
-}
+\renewcommand{\QuestionNB}{\textbf{Q\arabic{qconcours}--}\ \addtocounter{qconcours}{1}}}
 
 \newcommand{\noeud}[1]{\Tr{\fbox{\tt #1}}}
 \newcommand{\FPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/}
@@ -509,6 +510,10 @@
 \cor{#1}
 \end{tcolorbox}}{}
 }
+\newcommand{\iscor}[1]
+{
+   \ifthenelse{\boolean{corrige}}{#1}
+}
 \newcommand{\rc}[1]{\textcolor{OliveGreen}{#1}}
 
 %Référence aux exercices par leur numéro
@@ -562,6 +567,13 @@
 %Titre de la fiche
 \begin{center}
    {\Large \textbf{Devoir surveillé d'informatique}}
+\end{center} \cfoot{\thepage/\pageref{LastPage}}}
+
+\newcommand{\CB}[2]{\lhead{{#1} : \textbf{Councours blanc - Informatique}}
+\rhead{Lycée Leconte de Lisle -- #2} \setlength{\fboxsep}{8pt}
+%Titre de la fiche
+\begin{center}
+   {\Large \textbf{Concours Blanc - Epreuve d'informatique}}
 \end{center} \cfoot{\thepage/\pageref{LastPage}}}
 
 \newcommand{\PC}[3]{\lhead{Concours {#1} -- #2}

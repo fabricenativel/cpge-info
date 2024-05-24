@@ -1,0 +1,351 @@
+\documentclass[11pt,a4paper]{article}\nofiles
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts,amsmath,amssymb,enumitem}
+\usepackage[francais]{babel}
+\textheight245mm
+\textwidth170mm
+\hoffset-21mm
+\voffset-15mm
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\VV}{\mathbb{V}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\PP}{\mathbb{P}}
+\parindent0pt
+\begin{document}
+\begin{center}
+{\bf \Large CCP 2018 - Option informatique}
+\end{center}
+
+\section*{I. Logique et calcul des propositions}
+Vous avez \'et\'e s\'electionn\'e(e) pour participer au jeu ``Cherchez les Cl\'es du Paradis (CCP)". 
+Le jeu se d\'eroule en trois \'epreuves, au cours desquelles vous devez collecter des cl\'es vertes. 
+A l'issue de chacune d'entre elles, vous passez \`a l'\'epreuve suivante en cas de succ\`es et \^etes \'elimin\'e(e) en cas d'\'echec.
+
+\subsection*{I.1 Premi\`ere \'epreuve}
+Jean-Pierre Pendule, le c\'el\`ebre animateur, vous accueille pour la premi\`ere \'epreuve. 
+Il vous explique la r\`egle du jeu. 
+Devant vous, deux bo\^\i tes et sur chacune d'entre elles une inscription. 
+Chacune des bo\^\i tes contient soit une cl\'e verte, soit une cl\'e rouge. 
+Vous devez choisir l'une des bo\^\i tes~: si le r\'esultat est une cl\'e rouge, alors vous quittez le jeu, si c'est une cl\'e verte vous \^etes qualifi\'e(e) pour l'\'epreuve suivante.
+
+Jean-Pierre Pendule d\'evoile les inscriptions sur chacune des bo\^\i tes et vous affirme qu'elles sont soit vraies toutes les deux, soit fausses toutes les deux~:
+\begin{itemize}
+\item sur la bo\^\i te $1$, il est \'ecrit ``Une au moins des deux bo\^\i tes contient une cl\'e verte"~;
+\item  sur la bo\^\i te $2$, il est \'ecrit ``Il y a une cl\'e rouge dans l'autre bo\^\i te".
+\end{itemize}
+Dans toute cette partie, on note $P_i$ la proposition affirmant qu'il y a une cl\'e verte dans la bo\^\i te $i$.
+\begin{enumerate}
+\item[{\bf Q.1}] Donner une formule de la logique des propositions repr\'esentant la phrase \'ecrite sur la bo\^\i te 1.
+\item[{\bf Q.2}] Donner ude m\^eme ne formule de la logique des propositions pour l'inscription de la bo\^\i te 2.
+\item[{\bf Q.3}] Donner une formule repr\'esentant l'affirmation de l'animateur. Simplifier cette formule de sorte \`a n'obtenir qu'une seule occurrence de chaque $P_i$.
+\item[{\bf Q.4}] Quel choix devez-vous faire pour continuer le jeu \`a coup s\^ur~?
+\end{enumerate}
+
+\subsection*{I.2 Deuxi\`eme \'epreuve}
+Bravo, vous avez obtenu la premi\`ere cl\'e verte. 
+Jean-PierrePendule vous f\'elicit\'e et vous annonce que cette premi\`ere \'epreuve n'\'etait qu'une mise en jambe. 
+Avec les m\^emes r\`egles du jeu, l'animateur vous propose alors deux nouvelles bo\^\i tes portant les inscriptions suivantes~:
+\begin{itemize}
+\item sur la bo\^\i te $1$, il est \'ecrit ``Il y a une cl\'e rouge dans cette bo\^\i te, ou bien il y a une cl\'e verte dans la bo\^\i te 2"~;
+\item  sur la bo\^\i te $2$, il est \'ecrit ``Il y a une cl\'e verte dans la bo\^\i te 1".
+\end{itemize}
+\begin{enumerate}
+\item[{\bf Q.5}] Donner une formule de la logique des propositions pour chaque affirmation.
+\item[{\bf Q.6}] Sachant qu'encore une fois les deux affirmations sont soit vraies toutes les deux, soit fausses toutes les deux, donner le contenu de chaqu bo\^\i te. En d\'eduire votre choix pour remporter la deuxi\`eme cl\'e verte.
+\end{enumerate}
+
+\subsection*{I.3 Troisi\`eme \'epreuve}
+Le suspens est \`a son comble, vous voici arriv\'e(e) \`a la derni\`ere \'epreuve. 
+A votre grande surprise, Jean-Pierre Pendule vous d\'evoile une troisi\`eme bo\^\i te et vous explique les r\`egles du jeu. 
+Dans une des bo\^\i tes se cache la cl\'e qui vous permet de remporter la victoire finale. 
+Dans une autre bo\^\i te se cache une cl\'e rouge qui vous fait tout perdre. 
+La derni\`ere bo\^\i te est vide. 
+Encore une fois, chacune des bo\^\i tes porte une inscription~:
+\begin{itemize}
+\item sur la bo\^\i te $1$, il est \'ecrit ``La bo\^\i te 3 est vide"~;
+\item  sur la bo\^\i te $2$, il est \'ecrit ``La cl\'e rouge est dans la bo\^\i te 1"~;
+\item  sur la bo\^\i te $3$, il est \'ecrit ``Cette bo\^\i te est vide".
+\end{itemize}
+L'animateur affirme que l'inscription port\'ee sur la bo\^\i te contenant la cl\'e verte est vraie, celle port\'ee par la bo\^\i te contenant la cl\'e rouge est fausse. 
+L'inscription affich\'ee sur la bo\^\i te vide est aussi vraie.
+\begin{enumerate}
+\item[{\bf Q.7}] Donner une formule de la logique des propositions pour chaque inscription.
+\item[{\bf Q.8}] Donner une formule de la logique des propositions synth\'etisant l'information que vous apport\'ee l'animateur.
+\item[{\bf Q.9}] En supposant que la cl\'e verte est dans la bo\^\i te 2, montrer par l'absurde que l'on aboutit \`a une incoh\'erence.
+\item[{\bf Q.10}] Donner alors la composition des trois bo\^\i tes.
+\end{enumerate}
+
+\section*{II. Automates}
+\textit{Le sujet pr\'esent\'e ici n'est pas exactement celui d'origine. Celui-ci comportait de nombreuses fautes d'\'enonc\'e et des notions \'etaient utilis\'ees sans \^etre d\'efinies. Les questions restent cependant les m\^emes (et elles me semblent souvent mal pos\'ees).}\\
+
+\textbf{Dans ce probl\`eme, on travaillera exclusivement avec des automates d\'eterministes et complets que l'on appellera simplement automates.}\\
+
+Un langage est r\'egulier si et seulement si il est accept\'e par un automate.
+Cependant, plusieurs automates peuvent accepter le m\^eme langage. 
+L'objectif de cette partie est de montrer que tout langage reconnaissable $L$ est reconnu par un unique (au renommage pr\`es des \'etats) automate, tel que tout automate reconnaissant $L$ a au moins autant d'\'etats que lui. 
+Cet unique automate est appel\'e automate minimal reconnaissant $L$.
+
+\subsection*{II.1 D\'efinitions}
+Un \textbf{automate} $A$ est un quintuplet $A=(Q,\Sigma,q_0,F,\delta)$, avec~:
+\begin{itemize}
+\item $Q$ un ensemble fini non vide d'\'etats,
+\item $\Sigma$ un alphabet (ensemble fini non vide),
+\item $q_0$ est l'\'etat initial,
+\item $F\subset Q$ un ensemble d'\'etats finaux,
+\item $\delta : Q\times \Sigma \to Q$ une application de transition d\'efinie sur $Q\times \Sigma$ tout entier.
+\end{itemize}
+Il s'agit, comme \'evoqu\'e plus haut, de la notion d'automate d\'eterministe et complet.
+\vskip3mm
+
+Soit $\Sigma$ un alphabet. $\Sigma^*$ est l'ensemble des mots construits \`a partir de $\Sigma$, $\Lambda$ est le mot vide et $|u|_a$ est le nombre d'occurrences de la lettre $a\in~\Sigma$ dans le mot $u$.
+\vskip3mm
+
+Soit $L\subset \Sigma^*$ un langage et $u\in \Sigma^*$. Le \textbf{r\'esiduel \`a gauche de $L$ par rapport \`a $u$} est le langage
+\[u^{-1}L=\{v\in \Sigma^*,\ uv\in L\}\]
+\begin{enumerate}
+\item[{\bf Q.11}] Pour $L=\{ab,ba,aab\}$, donner le r\'esiduel de $L$ par rapport \`a $a$.
+\end{enumerate}
+D\'efinissons alors une relation $\sim_L$ sur $\Sigma^*$, dite congruence de N\'erode, de la mani\`ere suivante~: pour tous $u,v\in \Sigma^*$,
+\[u\sim_L v\iff u^{-1}L=v^{-1}L\]
+\begin{enumerate}
+\item[{\bf Q.12}] Montrer que $\sim_L$ est une relation d'\'equivalence et que $\forall u,v,w\in \Sigma^*,\ (u\sim_Lv)\Rightarrow (uw\sim_L vw)$.
+\item[{\bf Q.13}] Posons $L=\{u\in \Sigma^*,\ |u|_a=0\ \textrm{mod }\ 3\}$ le langage bas\'e sur $\Sigma=\{a,b\}$, compos\'e des mots de $\Sigma^*$ ayant un nombre de $a$ multiple de $3$. Pour chacun des cas suivants, d\'eterminer si les deux mots sont \'equivalents par $\sim_L$~:
+\begin{enumerate}
+\item[(i)] $b$ et $ab$,
+\item[(ii)] $aba$ et $bab$,
+\item[(iii)] $abbaba$ et $aaa$.
+\end{enumerate}
+\end{enumerate}
+Soit $A=(Q,\Sigma,q_0,F,\delta)$ un automate (au sens d\'efini plus haut). La fonction de transition $\delta^*$ \'etendue aux mots est d\'efinie de mani\`ere r\'ecursive par
+\begin{itemize}
+\item $\forall q\in Q,\ \delta^*(q,\Lambda)=q$
+\item $\forall a\in \Sigma,\ \forall m\in \Sigma^*,\ \forall q\in Q,\ \delta^*(q,m.a)=\delta(\delta^*(q,m),a)$
+\end{itemize}
+Pour $q\in Q$ et $G\subset Q$, on note
+\[q^{-1}G=\{u\in \Sigma^*,\ \delta^*(q,u)\in G\}\]
+$q^{-1}G$ est donc l'ensemble des mots qui correspondent \`a des chemins d\'ebutant en $q$ et aboutissant dans un \'etat de $G$. En particulier, $q^{-1}F$ est l'ensemble menant de $q$ \`a un \'etat terminal. On dira que $q^{-1}F$ est l'ensemble des mots \textbf{accept\'e par l'automate depuis $q$}.\\
+
+Une relation d'\'equivalence $\sim_A$ est \'egalement d\'efinie sur $Q$ par
+\[p\sim_A q\iff p^{-1}F=q^{-1}F\]
+L'automate $A$ accepte le langage $L=q_0^{-1}F$. Si $q\in Q$ et $u\in \Sigma^*$ sont tels que $\delta^*(q_0,u)=q$ alors on peut montrer que $q^{-1}F=u^{-1}L$. 
+Ainsi, la congruence de N\'erode peut \^etre utilis\'ee pour d\'efinir un automate particulier appel\'e automate minimal de $L$.\\
+
+Soit $L$ un langage. L'\textbf{automate minimal} de $L$ est d\'efini par le quintuplet $A_L=(Q_L,\Sigma,q_L,F_L,\delta_L)$ avec
+\begin{itemize}
+\item $Q_L=\{u^{-1}L,\ u\in \Sigma^*\}$
+\item $q_L=\Lambda^{-1}L=L$
+\item $F_L=\{u^{-1}L,\ u\in L\}=\{q\in Q_L,\ \Lambda \in q\}$
+\item $\forall q\in Q_L,\ \forall a\in \Sigma,\ \delta_L(q,a)=a^{-1}q$
+\end{itemize}
+
+\begin{enumerate}
+\item[{\bf Q.14}] Montrer que si $L$ est un langage r\'egulier alors $Q_L$ est fini.\\
+Dans ce cas, l'automate minimal est alors bien un automate au sens de notre \'enonc\'e (ensemble fini d'\'etat, caract\`ere d\'eterministe et complet).
+\end{enumerate}
+
+Un automate $A=(Q,\Sigma,q_0,F,\delta)$ est \textbf{accessible} si pour tout $q\in Q$, il existe $u\in \Sigma^*$ tel que $\delta^*(q_0,u)=q$.\\
+
+Un automate $A=(Q,\Sigma,q_0,F,\delta)$ est \textbf{r\'eduit} si pour tous $p,q\in Q$, $(p^{-1}F=q^{-1}F)\Rightarrow p=q$. $A$ est donc r\'eduit si les langages accept\'es depuis deux \'etats distincts sont distincts, ou encore si chaque classe d'\'equivalence pour la relation $\sim_A$ sur $Q$ est un singleton.\\
+
+Pour $L\subset \Sigma^*$ rationnel, il est possible de montrer que l'automate minimal $A_L$ de $L$ est accessible et r\'eduit. Le paragraphe suivant s'int\'eresse \`a la construction de l'automate minimal du langage reconnu par un automate fini $A$ donn\'e en exploitant cette propri\'et\'e.
+
+\subsection*{II.2 Construction de l'automate minimal}
+Soit $A=(Q,\Sigma,q_0,F,\delta)$ un automate fini acceptant le langage $L\subset \Sigma^*$. 
+Trouver l'automate minimal $A_L$ de $L$ revient \`a trouver un automate fini accessible et r\'eduit \'equivalent \`a $A$ (c'est \`a dire reconnaissant le m\^eme langage).\\
+
+Pour touver un automate accessible, il suffit par exemple de visiter les \'etats qui peuvent \^etre atteints par $A$ depuis $q_0$ et d'\'eliminer les autres \'etats. 
+Il reste donc \`a trouver une m\'ethode pour rendre $A$ r\'eduit. 
+Par d\'efinition de la relation $\sim_A$ sur $Q$, $A$ est r\'eduit si pour tout couple $(p,q)\in Q^2$ avec $p\neq q$, $p\not \sim_A q$. 
+Notons que $p\not \sim_A q$ a lieu s'il existe $u\in \Sigma^*$ tel que $\delta^*(p,u)\in F$ et $\delta^*(q,u)\notin F$ ou $\delta^*(q,v)\in F$ et $\delta^*(p,u)\notin F$. 
+On dit alors que $u$ \textbf{distingue} $p$ et $q$ ou que le couple $(u,v)$ est \textbf{distingu\'e} par $u$.\\
+
+L'algorithme qui suit est un algorithme de r\'eduction du langage associ\'e \`a $A$ utilisant ces notions. Dans la suite, $N_k$ d\'esigne l'ensemble des couples d'\'etats de $Q$ qui sont distingu\'es par un mot de longueur $k$ et qui ne sont distingu\'es par aucun autre mot strictement plus court.
+\vskip3mm
+\hrule
+\vskip1mm
+\textbf{Algorithme} : recherche des \'etats \'equivalents
+\vskip1mm
+\hrule
+
+\textbf{Entr\'ee} : un automate d\'eterministe $A=(Q,\Sigma,q_0,F,\delta)$\\
+\textbf{Sortie} : les ensembles d'\'etats \'equivalents\\
+
+$k\leftarrow 0$\\
+*********Initialisation************\\
+$N_0\leftarrow \emptyset$\\
+\textbf{pour} tous $p\in F$ et $q\in Q\setminus F$, \textbf{faire}\par
+\hskip7mm ***La paire $(p,q)$ est distingu\'ee***\par
+\hskip7mm $N_0\leftarrow N_0\cup\{(p,q)\}$.\\
+\textbf{Tant que} $N_k\neq \emptyset$, \textbf{faire}\par
+\hskip7mm ****Construction de $N_{k+1}$****\par
+\hskip7mm $N_{k+1}\leftarrow \emptyset$\par
+\hskip7mm \textbf{pour} chaque paire $(p,q)\in N_k$, \textbf{faire}\par
+\hskip14mm \textbf{pour} chaque $a\in \Sigma$, \textbf{faire}\par
+\hskip21mm \textbf{pour} chaque $(r,s)\in Q^2$ tel que $\delta(r,a)=p$ et $\delta(s,a)=q$, \textbf{faire}\par
+\hskip28mm \textbf{si} $(r,s)\notin \bigcup_{i=0}^kN_i$, \textbf{alors}\par
+\hskip35mm $N_{k+1}\leftarrow N_{k+1}\cup \{(r,s),(s,r)\}$\par
+\hskip7mm $k\leftarrow k+1$
+\vskip1mm
+\hrule
+
+\begin{enumerate}
+\item[{\bf Q.15}] Montrer pourquoi, dans la phase d'initialisation, la paire $(p,q)$ est distingu\'ee.
+\item[{\bf Q.16}] Montrer pourquoi, si $N_i=\emptyset$, alors $\forall j>i,\ N_j=\emptyset$.
+\end{enumerate}
+Soit alors $A=(Q,\Sigma,q_0,F,\delta)$ l'automate fini suivant
+\begin{itemize}
+\item $Q=\{1,2,3,4,5,6\}$
+\item $\Sigma=\{a,b\}$
+\item $q_0=\{4\}$
+\item $F=\{2,5\}$
+\item $\delta$ est repr\'esent\'e par la table $\begin{array}{c|c|c|c|c|c|c}&1&2&3&4&5&6\\\hline
+a&2&4&6&5&1&6\\\hline
+b&1&3&2&1&6&2\end{array}$.
+\end{itemize}
+\begin{enumerate} 
+\item[{\bf Q.17}] Repr\'esenter graphiquement l'automate $A$. La repr\'esentation suivra les contraintes suivantes
+\begin{itemize}
+\item les \'etats sont des cercles, le nom de l'\'etat est \'ecrit \`a l'int\'erieur du cercle
+\item les transitions sont repr\'esent\'ees par des fl\`eches partant de l'\'etat de d\'epart et pointant sur l'\'etat d'arriv\'ee~; le symbole d\'efinissant la transition est indiqu\'e au milieu de la fl\`eche
+\item l'\'etat initial est signal\'e par une fl\`eche sans \'etiquette pointant sur cet \'etat
+\item les \'etats finaux sont entour\'es d'un deuxi\`eme cercle, externe au premier
+\end{itemize}
+\item[{\bf Q.18}] Appliquer l'algorithme pour trouver l'ensemble des \'etats \'equivalents. 
+Pour chaque it\'eration $k$, la trace de l'algorithme sera donn\'ee par une matrice $T$ de taille $|Q|\times |Q|$, avec $T(i,j)$ valant la longueur d'un chemin, s'il existe, qui distingue le couple $(i,j)$ ($T(i,j)$ vide sinon). 
+En d\'eduire les classes d'\'equivalence des \'etats de $A$.
+\end{enumerate}
+Un th\'eor\`eme, non d\'etaill\'e ici, permet alors de projeter $A$ sur $A_L$ et de pr\'eciser \'etats et transitions de cet automate minimal. 
+Il permet en particulier de d\'efinir les \'etats de $A_L$ comme \'etant les classes d'\'equivalence issues de l'algorithme pr\'ec\'edent. 
+Il permet \'egalement d'affirmer que si un \'etat de $A_L$ correspond \`a une classe d'\'equivalence $[q]_A$ pour la relation $\sim_A$, alors la lecture d'un symbole $a\in \Sigma$ depuis cet \'etat dans $A_L$ conduit \`a l'\'etat correspondant \`a la classe $[\delta(q,a)]_A$.
+\begin{enumerate}
+\item[{\bf Q.19}] Repr\'esenter graphiquement l'automate minimal de la question pr\'ec\'edente, avec ses \'etats et ses transitions.
+\end{enumerate}
+
+
+\section*{III. Algorithmique et programmation}
+Nous proposons dans cette partie d'\'etudier une m\'ethode de compression de donn\'ees. 
+L'algorithme propos\'e ici impl\'emente plusieurs couches d'arrangement de donn\'ees et de compressions successives, utilis\'ees dans l'ordre suivant pour la compression et l'ordre inverse pour la d\'ecompression~:
+\begin{itemize}
+\item[(i)] Transformation de Burrows-Wheeler,
+\item[(ii)] Codage par plages (RLE),
+\item[(iii)] Codage de Huffman
+\end{itemize}
+
+Soit $\Sigma$ un alphabet de symboles, de cardinal $|\Sigma|=h$. 
+On munit $\Sigma$ d'une relation d'ordre $\leq$. 
+$\Sigma^k$ est l'ensemble des mots de longueur $k$ construits \`a partir de $\Sigma$. 
+$\Sigma^k$ est muni de la relation d'ordre lexicographique induite par la relation d'ordre $\leq$.
+
+Pour $\mu\in \Sigma^k$, on note $|\mu|=k$ la taille de $\mu$ et $|\mu|_a$ le nombre d'occurrences de $a\in \Sigma$ dans $\mu$.\\
+
+Dans toute cette partie, lorsqu'il s'agira de coder une fonction \texttt{Ocaml}, un mot $\mu \in \Sigma^k$ sera repr\'esent\'e par une liste de caract\`eres (\texttt{char list}).\\
+
+Les paragraphes suivants \'etudient les algorithmes et propri\'et\'es de ces phases, chacun d'entre eux pouvant \^etre abord\'e \textbf{de mani\`ere ind\'ependante}.
+
+\subsection*{III.1 Transformation de Burrows-Wheeler (BWT)}
+Soit $\mu\in \Sigma^k$ un mot. La transformation BWT r\'ealise une permutation des symboles de $\mu$ de sorte que les symboles identiques sont regroup\'es dans de longues s\'equences. 
+Cette transformation n'effectue pas de compression, mais pr\'epare donc \`a une compression plus efficace.
+
+Dans la suite, nous \'etudions le codage et le d\'ecodage d'un mot transform\'e par cette op\'eration.\\
+
+\textbf{Phase de codage}\\
+On rajoute \`a la fin de $\mu$ un marqueur de fin (par convention not\'e $|$, inf\'erieur par $\leq$ \`a tous les autres symboles de $\Sigma$). 
+Dans toute la suite, $\hat{\mu}$ d\'esigne le mot auquel on a ajout\'e le symbole $|$. 
+\begin{enumerate}
+\item[{\bf Q.20}] Pour $\mu=turlututu$, construire une matrice $M$ dont les lignes sont les diff\'erentes permutations circulaires successives du mot $\hat{\mu}$. Les permutations seront ici envisag\'ees par d\'ecalage \`a droite des caract\`eres.
+\item[{\bf Q.21}] Ecrire une fonction r\'ecursive \texttt{circulaire : 'a list $\to$ 'a list} qui r\'ealise une permutation \`a droite d'un mot $\mu$ donn\'e en entr\'ee.
+\item[{\bf Q.22}] Ecrire une fonction \texttt{matrice\_mot : 'a list $\to$ 'a list list} qui construit la matrice $M$ \`a partir d'un mot pass\'e en entr\'ee. 
+La valeur de retour est une liste de liste de symboles (une liste de mots). Cette fonction utilisera la fonction \texttt{circulaire}.
+\end{enumerate}
+Une permutation des lignes de $M$ est alors effectu\'ee, de sorte \`a classer les lignes par ordre lexicographique. On note $M'=P\cdot M$ la matrice obtenue, $P$ \'etant la matrice de permutation.
+\begin{enumerate}
+\item[{\bf Q.23}] Donner les matrices $P$ et $M'$ dans le cas du mot $\hat{\mu}$, pour $\mu=turlututu$.
+\end{enumerate}
+ Pour construire la matrice de permutation $P$, il faut trier la liste des mots d\'efinissant $M$. La m\'ethode de tri choisie ici est le tri par insertion.
+\begin{enumerate}
+\item[{\bf Q.24}] Ecrire une fonction r\'ecursive \texttt{tri : 'a list $\to$ 'a list} qui r\'ealise le tri par insertion d'une liste d'\'el\'ements.
+\item[{\bf Q.25}] En d\'eduire une fonction \texttt{matrice\_mot\_tri\'ee : 'a list $\to$ 'a list list} qui construit $M'$ \`a partir de $M$.
+\item[{\bf Q.26}] Pour $\mu\in \Sigma^k$, donner le nombre de comparaisons de symboles n\'ecessaires au pire des cas, pour trier deux permutations circulaires du mot $\mu$.
+\item[{\bf Q.27}] En d\'eduire la complexit\'e dans le pire des cas pour le tri des $k$ permutations circulaires d'un mot $\mu\in \Sigma^k$ (exprim\'ee en nombre de comparaisons de symboles).
+\end{enumerate}
+La transformation BWT consiste alors \`a coder le mot $\mu$ par la derni\`ere colonne de la matrice $M'$ obtenue \`a partir de $\hat{\mu}$. On note $BWT(\mu)$ ce codage.
+\begin{enumerate} 
+\item[{\bf Q.28}] Ecrire une fonction \texttt{codageBWT : char list $\to$ char list} qui encode un mot pass\'e en entr\'ee. On utilisera une fonction r\'ecursive pemettant de r\'ecup\'erer le dernier symbole de chacun des mots de $M'$. Donner le codage du mot $\mu=turlututu$.
+\end{enumerate}
+
+\textbf{Phase de d\'ecodage}\\
+Pour d\'ecoder un mot cod\'e par BWT, il est n\'ecessaire de reconstruire it\'erativement $M'$ \`a partir de la seule donn\'ee du mot code $BWT(\mu)$. 
+Par construction, $BWT(\mu)$ est la derni\`ere colonne de $M'$.
+
+On pose ici comme exemple $BWT(\mu)=edngvnea|$.
+\begin{enumerate}
+\item[{\bf Q.29}] Construire, \`a partir de la seule donn\'ee de $BWT(\mu)$, la premi\`ere colonne de $M'$. Justifier le principe de construction.
+\end{enumerate}
+La derni\`ere et la premi\`ere colonne de $M'$ donnent alors tous les sous-mots de longueur $2$ du mot $\mu$.
+\begin{enumerate}
+\item[{\bf Q.30}] Proposer un algorithme permettant d'obtenir la deuxi\`eme colonne de $M'$. Donner cette deuxi\`eme colonne pour $BWT(\mu)=edngvnea|$.
+\item[{\bf Q.31}] On dispose \`a l'it\'eration $n$ des $(n-1)$ premi\`eres colonnes de $M'$ et de sa derni\`ere colonne. Proposer un principe algorithmique permettant de construire la $n$-i\`eme colonne de $M'$.
+\item[{\bf Q.32}] En d\'eduire un algorithme it\'eratif permettant de reconstruire $M'$.
+\item[{\bf Q.33}] Quel d\'ecodage obtient-on pour le mot $BWT(\mu)$ propos\'e~?
+\end{enumerate}
+
+\subsection*{III.2 Codage par plages RLE (Informatique pour tous)}
+Le codage RLE (Run Length Coding), ou codage par plages, est une m\'ethode de compression dont le principe est de remplacer dans une cha\^\i ne de symboles une sous-cha\^\i ne de symboles identiques par le couple constitu\'e du nombre de symboles identiques et du symbole lui m\^eme. 
+Par exemple, la cha\^\i ne "aaababb" est compress\'ee en $[(3,`a`),(1,`b`),(1,`a`),(2,`b`)]$.
+\begin{enumerate}
+\item[{\bf Q.34}] Proposer un type naturel Python pour la compression RLE, qui permet de repr\'esenter le r\'esultat comme indiqu\'e pr\'ec\'edemment.
+\end{enumerate}
+
+\textbf{Phase de codage}\\
+On s'int\'eresse tout d'abord au codage RLE d'un mot.
+\begin{enumerate}
+\item[{\bf Q.35}] Ecrire une fonction it\'erative en Python \texttt{def RLE(mot):} qui code un mot pass\'e en entr\'ee par codage RLE.
+\end{enumerate}
+\textbf{Phase de codage}\\
+On s'int\'eresse maintenant au d\'ecodage d'une liste.
+\begin{enumerate}
+\item[{\bf Q.36}] Ecrire une fonction it\'erative en Python \texttt{def decodeRLE(codeRLE):} qui d\'ecode une liste \texttt{codeRLE} issue du codage RLE d'un mot.
+\end{enumerate}
+
+\subsection*{III.3 Codage de Huffman (Informatique pour tous)}
+\textit{Le texte qui suit n'est pas tout \`a fait celui d'origine car des notions n'\'etaient soit pas d\'efinies soit inutiles dans le cadre du sujet.}\\
+
+La derni\`ere \'etape de l'algorithme propos\'e impl\'emente le codage de Huffman, qui utilise la structure d'arbre binaire. 
+Le principe est de coder un symbole de mani\`ere d'autant plus courte que son nombre d'occurrences est \'elev\'e. 
+Les arbres consid\'er\'es sont \'etiquet\'es. Plus pr\'ecis\'ement, un noeud est soit une feuille soit un noeud interne \`a deux fils.
+\begin{itemize}
+\item Chaque feuille est \'etiquet\'ee par un couple form\'e d'un caract\`ere et d'un entier naturel. Ce dernier s'appelle le poids de la feuille (du noeud \'egal \`a cette feuille).
+\item Chaque noeud interne est \'etiquet\'e par un entier naturel qu'on appelle aussi le poids du noeud.
+\end{itemize}
+Si $t$ est un noeud, on note $n_t$ son poids. Ce poids se confond avec l'\'etiquette du noeud dans le cs d'un noeud interne.\\
+L'arbre de Huffman se construit \`a l'aide de l'algorithme suivant.\\
+
+\hrule \vskip1mm
+\textbf{Algorithme} : Codage de Huffman
+\vskip1mm
+\hrule
+\vskip1mm
+\textbf{Entr\'ee} : $\mu$ un mot de taille $|\mu|$.\\
+\textbf{Sortie} : \texttt{Huffman}($\mu$) le codage de Huffman de $\mu$.\\
+\textbf{pour} $a\in \Sigma$, \textbf{faire}\par
+\hspace{7mm} \textbf{si} $|\mu|_a>0$ \textbf{alors}\par
+\hspace{14mm} cr\'eer une feuille d'\'etiquette $(a,|\mu|_a)$.\\
+$\mathcal{L} \leftarrow$ liste des noeuds cr\'e\'es dans l'ordre croissant des poids\\
+$\mathcal{A} \leftarrow$ liste vide\\
+\textbf{tant que} $(longueur (\mathcal{L})+longueur (\mathcal{A})>1)$ \textbf{faire}\par
+\hspace{7mm} \begin{minipage}{12cm}$(g,d)\leftarrow$ deux noeuds de plus faible poids parmi les 2 premiers noeuds de $\mathcal{L}$ et les 2 premiers noeuds de $\mathcal{A}$\end{minipage}\par
+\hspace{7mm} \begin{minipage}{12cm} Cr\'eer un noeud $t$ d'\'etiquette $n_t=n_g+n_d$\ et tel que $gauche(t)=g$ et $droite(t)= d$\end{minipage}\par
+%\hspace{7mm} Coder la branche de $t$ \`a $g$ par $0$\par
+%\hspace{7mm} Coder la branche de $t$ \`a $d$ par $1$\par
+\hspace{7mm} Ins\'erer $t$ \`a la fin de $\mathcal{A}$\par
+\hspace{7mm} Retirer $g$ et $d$ de $\mathcal{L}$ ou $\mathcal{A}$ (selon leur provenance)\\
+\texttt{Huffman}($\mu$) $ \leftarrow \mathcal{A}$.\\
+\vskip1mm
+\hrule
+\begin{enumerate}
+\item[{\bf Q.37}] Construire le codage de Huffman du mot $\mu=turlututu$ en utilisant l'algorithme $2$. Vous expliciterez par des dessins d'arbres chacune des \'etapes de construction de \texttt{Huffman}($\mu$).
+\item[{\bf Q.38}] Quelle est la forme de l'arbre de Huffman dans un mot o\`u tous les symboles ont le m\^eme nombre d'occurrences~?
+\end{enumerate}
+\end{document}

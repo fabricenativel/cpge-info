@@ -1,0 +1,268 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeConcours
+\CB{MP2I}{Mai 2024}
+
+\setboolean{corrige}{true}
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$e_0$}} \\
+		\hline
+	\end{tabular}
+}
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] Les programmes demandés doivent être écrits en C ou en OCaml suivant l'exercice. Dans le cas du C, on suppose que les librairies standards usuelles ({\tt <stdio.h>}, {\tt <stdlib.h>}, {\tt <stdbool.h>}) sont déjà importées.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+\begin{Exercise}[title = {Base de données et {\sc sql}}, origin = {\bac \; {\sc capes nsi 2021}, épreuve 1} ]\\
+On s'intéresse dans cette partie à un site Internet d'échange de supports de cours entre enseignants  de {\sc mp2i/mpi}. Chaque personne désirant proposer ou récupérer du contenu doit commencer par se créer un compte sur ce site et peut ensuite accéder à du contenu ou en proposer.
+
+Ce site repose sur une base de données contenant en particulier une table, nommée {\tt ressources}. Elle possède un enregistrement par document téléversé sur le site. Ses attributs sont :
+\begin{itemize}
+	\item {\tt id}, un identifiant numérique, unique pour chaque ressource ;
+	\item {\tt owner}, le pseudo de la personne ayant créé la ressource ;
+	\item {\tt annee}, l'année de publication de la ressource ;
+	\item {\tt titre}, une chaine de caractères décrivant la ressource ;
+	\item {\tt type}, chaine de caractères pouvant être cours, ds, tp ou td.
+\end{itemize}
+
+Voici un extrait de cette table :
+
+\medskip
+
+\begin{center}
+	\begin{tabular}{|l|l|c|c|r|}
+		\hline
+		{\tt id}       & {\tt owner}                          & {\tt annee}    & {\tt titre}                     & {\tt type}     \\
+		\hline
+		4        & dknuth                         & 2020     & Machine à décalage        & cours    \\
+		13       & alovelace                      & 2022     & Intelligence artificielle & td       \\
+		$\cdots$ & $\cdots$                       & $\cdots$ & $\cdots$                  & $\cdots$ \\
+		\hline
+	\end{tabular}
+\end{center}
+
+
+\Question{Écrire une requête SQL permettant de connaitre tous les titres des ressources déposées par \og{}{\tt jclarke}\fg{} classées par année de publication croissante.}
+\Question{Écrire une requête SQL permettant de connaitre le nombre total de ressources de type cours présentes sur le site.}
+\Question{Que fait la requête suivante : ?
+	      \begin{minted}{sql}
+SELECT R.owner
+FROM Ressources AS R
+WHERE R.type = 'td'
+GROUP BY R.owner
+ORDER BY COUNT(*) DESC
+LIMIT 3
+\end{minted}
+}
+\end{Exercise}
+
+\begin{Exercise}[title = {Logique et calcul des propositions}, origin = {\bac \; {\sc ccinp 2018 - mp}}]
+	Vous avez été sélectionné(e) pour participer au jeu ``Cherchez les Clés du Paradis (CCP)".
+	Le jeu se déroule en trois épreuves, au cours desquelles vous devez collecter des clés vertes.
+	A l'issue de chacune d'entre elles, vous passez à l'épreuve suivante en cas de succès et êtes éliminé(e) en cas d'échec.\\
+
+	\ExePart[name = {Première épreuve}]\\
+	Jean-Pierre Pendule, le célèbre animateur, vous accueille pour la première épreuve.
+	Il vous explique la règle du jeu.
+	Devant vous, deux boîtes et sur chacune d'entre elles une inscription.
+	Chacune des boîtes contient soit une clé verte, soit une clé rouge.
+	Vous devez choisir l'une des boîtes~: si le résultat est une clé rouge, alors vous quittez le jeu, si c'est une clé verte vous êtes qualifié(e) pour l'épreuve suivante.
+
+	Jean-Pierre Pendule dévoile les inscriptions sur chacune des boîtes et vous affirme qu'elles sont soit vraies toutes les deux, soit fausses toutes les deux~:
+	\begin{itemize}
+		\item sur la boîte $1$, il est écrit \og{}Une au moins des deux boîtes contient une clé verte\fg{};
+		\item  sur la boîte $2$, il est écrit \og{}Il y a une clé rouge dans l'autre boîte\fg{}.
+	\end{itemize}
+	Dans toute cette partie, on note $P_i$ la proposition affirmant qu'il y a une clé verte dans la boîte $i$.
+	\Question{Donner une formule de la logique des propositions représentant la phrase écrite sur la boîte 1.}
+	\Question{Donner de même une formule de la logique des propositions pour l'inscription de la boîte 2.}
+	\Question{Donner une formule représentant l'affirmation de l'animateur. Simplifier cette formule de sorte à n'obtenir qu'une seule occurrence de chaque $P_i$.}
+	\Question{Quel choix devez-vous faire pour continuer le jeu à coup sûr~?}\\
+
+
+	\ExePart[name = {Deuxième épreuve}]\\
+	Bravo, vous avez obtenu la première clé verte.
+	Jean-Pierre Pendule vous félicite et vous annonce que cette première épreuve n'était qu'une mise en jambe.
+	Avec les mêmes règles du jeu, l'animateur vous propose alors deux nouvelles boîtes portant les inscriptions suivantes~:
+	\begin{itemize}
+		\item sur la boîte $1$, il est écrit \og{}Il y a une clé rouge dans cette boîte, ou bien il y a une clé verte dans la boîte 2\fg{};
+		\item  sur la boîte $2$, il est écrit \og{}Il y a une clé verte dans la boîte 1\fg{}.
+	\end{itemize}
+	\Question{Donner une formule de la logique des propositions pour chaque affirmation.}
+	\Question{Sachant qu'encore une fois les deux affirmations sont soit vraies toutes les deux, soit fausses toutes les deux, donner le contenu de chaque boîte. En déduire votre choix pour remporter la deuxième clé verte.}\\
+
+
+	\ExePart[name = {Troisième épreuve}]\\
+	Le suspens est à son comble, vous voici arrivé(e) à la dernière épreuve.
+	A votre grande surprise, Jean-Pierre Pendule vous dévoile une troisième boîte et vous explique les règles du jeu.
+	Dans une des boîtes se cache la clé qui vous permet de remporter la victoire finale.
+	Dans une autre boîte se cache une clé rouge qui vous fait tout perdre.
+	La dernière boîte est vide.
+	Encore une fois, chacune des boîtes porte une inscription~:
+	\begin{itemize}
+		\item sur la boîte $1$, il est écrit \og{}La boîte 3 est vide\fg{};
+		\item  sur la boîte $2$, il est écrit \og{}La clé rouge est dans la boîte 1\fg{}~;
+		\item  sur la boîte $3$, il est écrit \og{}Cette boîte est vide\fg{}.
+	\end{itemize}
+	L'animateur affirme que l'inscription portée sur la boîte contenant la clé verte est vraie, celle portée par la boîte contenant la clé rouge est fausse.
+	L'inscription affichée sur la boîte vide est aussi vraie.
+	\Question{Donner une formule de la logique des propositions pour chaque inscription.}
+	\Question{Donner une formule de la logique des propositions synthétisant l'information que vous a apportée l'animateur.}
+	\Question{En supposant que la clé verte est dans la boîte 2, montrer que l'on aboutit à une incohérence.}
+	\Question{Donner alors la composition des trois boîtes.}
+
+\end{Exercise}
+
+\begin{Exercise}[title = {Traversée maximale d'une matrice carrée}]\\
+	Les fonctions demandées dans cet exercice doivent être écrites en OCaml. On rappelle que qu'en OCaml, on peut convertir une liste en tableau à l'aide de {\tt Array.of\_list} par exemple {\tt Array.of\_list [6; 7; 42;]} renvoie {\tt [| 6; 7; 42; |]}\smallskip \\
+	On considère une matrice à $n$ lignes et $n$ colonnes notée $M$ à coefficients dans $\N$, et dont le coefficient situé à la ligne $i$ et à la colonne $j$ avec $0 \leqslant i \leqslant n-1$ et  $0 \leqslant j \leqslant n-1$ sera noté $M_{i,j}$. On s'intéresse aux chemins depuis la première valeur en haut à gauche ($M_{0,0})$ jusqu'à la dernière en bas à droite ($M_{n-1,n-1}$) qui n'utilisent que les déplacements vers la droite ($\rightarrow$) ou vers le bas ($\downarrow$). Voici deux exemples de tels chemins dans une même matrice $A$ de 4 lignes et 4 colonnes : \\
+	\begin{center}
+		\begin{tabularx}{0.8\textwidth}{YY}
+			$\renewcommand\arraystretch{2}
+				\begin{pmatrix}
+					\circlenode{a}{2} & 5                 & 4                 & 6                 \\
+					\circlenode{b}{8} & 5                 & 9                 & 8                 \\
+					\circlenode{c}{5} & \circlenode{d}{7} & \circlenode{e}{4} & 6                 \\
+					9                 & 6                 & \circlenode{f}{4} & \circlenode{g}{4} \\
+				\end{pmatrix}$
+			\ncline{->}{a}{b}
+			\ncline{->}{b}{c}
+			\ncline{->}{c}{d}
+			\ncline{->}{d}{e}
+			\ncline{->}{e}{f}
+			\ncline{->}{f}{g}                   &
+			$    \renewcommand\arraystretch{2}
+				\begin{pmatrix}
+
+					\circlenode{a}{2} & \circlenode{b}{5} & \circlenode{c}{4} & 6                 \\
+					8                 & 5                 & \circlenode{d}{9} & \circlenode{e}{8} \\
+					5                 & 7                 & 4                 & \circlenode{f}{6} \\
+					9                 & 6                 & 4                 & \circlenode{g}{4} \\
+				\end{pmatrix}$
+			\ncline{->}{a}{b}
+			\ncline{->}{b}{c}
+			\ncline{->}{c}{d}
+			\ncline{->}{d}{e}
+			\ncline{->}{e}{f}
+			\ncline{->}{f}{g}
+			\\
+			Un exemple $C_1$ de chemin dans $A$ & Un exemple $C_2$ de chemin dans $A$ \\
+		\end{tabularx} \end{center}
+	On appelle \textit{somme d'un chemin} dans une matrice $M$, la somme des coefficients $M_{i,j}$ rencontrés en suivant ce chemin. Dans les exemples ci-dessus, le chemin $C_1$ a une somme de $34$ et le chemin $C_2$ a une somme de $38$. Le but du problème est d'étudier divers algorithmes qui cherchent à déterminer un chemin dont la somme est maximale.\\
+	\ExePart[name = {Un premier algorithme naïf}]\\
+	On propose l'algorithme suivant afin de résoudre ce problème  : si les deux directions bas ou droite sont possibles on choisit celle qui mène vers le coefficient de matrice le plus élevé, en cas d'égalité, on choisit (arbitrairement) la direction bas. Dans l'exemple ci-dessus à partir de $M_{0,0}=2$ on peut aller vers à droite vers $M_{0,1} = 5$ ou en bas vers $M_{1,0}=8$ et on choisit donc d'aller en bas puisque $8>5$. Une fois arrivé en $M_{1,0}$ les deux directions possibles mènent vers des coefficients identiques (5 des deux côtés) et donc, on va vers le bas. Enfin, lorsqu'une seule direction est possible (parce qu'on a atteint la dernière colonne ou la dernière ligne), c'est cette direction qui est choisie.
+	\Question{Poursuivre le déroulement de cet algorithme sur la matrice $A$ donnée en exemple ci-dessus, dessiner le chemin obtenu et donner sa somme.}
+	\Question{Dans quelle famille d'algorithme peut-on classer cet algorithme ? Justifier.}
+	\Question{Donner la complexité de cet algorithme.}
+	\Question{Montrer en exhibant un exemple dans le cas $n=4$ que cet algorithme ne fournit par toujours un chemin de somme maximale.}
+	\Question{Montrer que pour une matrice de taille $n$, un chemin de $M_{0,0}$ à $M_{n-1,n-1}$ est constitué de $2n-2$ directions.}
+	\Question{On définit le type :
+	\inputpartOCaml{crossmax.ml}{}{}{2}{2}
+	Ecrire une fonction {\tt choix : int array array -> int -> int -> direction} qui prend en argument une matrice d'entiers {\tt M}, une ligne {\tt lig} et une colonne  {\tt col} et renvoie {\tt Bas} ou {\tt Droite} suivant le choix effectué par l'algorithme décrit ci-dessus à partir de la position située à la ligne {\tt lig} à la colonne {\tt col} de la matrice {\tt M}.
+	}
+	\Question{Ecrire une fonction {\tt naïf int array array -> direction array} qui prend en entrée une matrice d'entiers {\tt M} et renvoie le chemin fournit par l'algorithme naïf décrit ci-dessus.}
+	\Question{Ecrire une fonction {\tt somme int array array -> direction array -> int} qui prend en entrée une matrice d'entiers {\tt M}, un chemin dans cette matrice et renvoie la somme de ce chemin.}
+	\ExePart[name = {Résolution exacte par force brute}] \\
+	On propose l'algorithme par force brute qui consiste à énumérer tous les chemins possibles de $M_{0,0}$ vers $M_{n-1,n-1}$ à calculer leur somme puis à renvoyer la somme maximale atteignable. Afin de décrire un chemin on le fait correspondre à un tableau de $n-1$ entiers compris entre $1$ et $2n-2$, qui indique la position des {\tt Bas} dans le chemin. Par exemple pour $n=3$, le chemin {\tt [| Bas; Droite; Bas; Droite |]} sera représenté par {\tt [| 1; 3 |]} car les {\tt Bas} se trouvent en première et troisième position du tableau. De la même façon, le chemin $C_1$ donné en exemple en début d'énoncé dans le cas $n=4$ est {\tt [| Bas; Bas; Droite; Droite; Bas; Droite |]} et sera donc représenté par {\tt [| 1; 2; 5 |]}.
+    \Question{A quel chemin correspond le tableau d'entiers {\tt [|3; 5; 6|]} ? }
+    \Question{Ecrire  une fonction {\tt cree\_chemin int array -> direction array} qui prend en argument un tableau d'entiers  et renvoie le chemin  correspondant. Par exemple, {\tt cree\_chemin [| 4; 1 |]} renvoie le tableau {\tt [| Bas; Droite; Droite; Bas |]}.}
+	\Question{Ecrire en OCaml une fonction {\tt entiers : int -> int list}} qui prend en entrée un entier {\tt n} et renvoie la liste des entiers de {\tt n} à {\tt 1}. Par exemple {\tt entiers 4} renvoie la liste {\tt [4; 3; 2; 1]}.
+	\Question{On souhaite maintenant énumérer les tableaux d'entiers représentant les chemins. Ecrire en OCaml une fonction {\tt chemins :  int -> int array list} qui prend en argument un entier {\tt n}  et renvoie la liste des tableaux d'entiers représentant les chemins possibles. Par exemple {\tt chemins 2} renvoie {\tt [[| 4; 3 |]; [| 4; 2 |]; [| 4; 1 |]; [| 3; 2 |]; [| 3; 1 |]; [| 2; 1 |]]}.}
+	\Question{En déduire une fonction {\tt force\_brute : int array array -> int} qui prend en entrée une matrice d'entiers et renvoie la somme maximale atteignable en traversant cette matrice.}
+    \Question{Montrer que pour une matrice  $M$ de $n$ lignes et $n$ colonnes, il existe $\binom{2n-2}{n-1}$ chemins possibles de $M_{0,0}$ vers $M_{n-1,n-1}$.}
+	\Question{En déduire la complexité de l'algorithme par force brute en admettant que le calcul de la somme d'un chemin donné est en $O(n)$ où $n$ est la longueur de ce chemin. On pourra utiliser la formule de Stirling : $n! \sim \left(\frac{n}{e}\right)^n\sqrt{2 \pi n}$.}
+	\ExePart[name = {Résolution par programmation dynamique}] \\
+	Etant donné une matrice carré $M$ de taille $n$ on note $S$ la matrice dont le coefficient situé ligne $i$ colonne $j$ est la somme maximale des chemins  de $M_{0,0}$ vers $M_{i,j}$, on a donc $S_{0,0}=M_{0,0}$.
+	\Question{Ecrire la relation de recurrence permettant de calculer les $S_{0,k}$ pour $1 \leqslant k \leqslant n-1$.}
+	\Question{Ecrire la relation de recurrence permettant de calculer les $S_{k,0}$ pour $1 \leqslant k \leqslant n-1$.}
+	\Question{Montrer que pour $i$ et $j$ non nuls, $S_{i,j} = \max \left\{ S_{i-1,j}, S_{i,j-1} \right\} + M_{i,j}$.} 
+    \Question{Ecrire une fonction \textit{récursive} qui calcule de façon descendante les coefficients de la matrice $S$.}
+    \Question{Faire un schéma des appels récursifs de la fonction précédente, que peut-on en conclure ?}
+	\Question{Ecrire une fonction OCaml \textit{itérative} {\tt somme\_maxi int array array -> int array array} qui prend en argument une matrice $M$ et calcule de façon ascendante les coefficients de la matrice $S$.}
+	\Question{Déterminer la complexité de cette fonction en fonction $n$.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Liste chaînée circulaire}]\\
+    Le langage utilisé dans cette partie est le langage C. \smallskip\\ 
+	On veut implémenter une structure de données de liste chainée circulaire avec un pointeur sur la queue telle que représentée ci-dessous :
+	\begin{center}
+		\begin{tabular}{ccllllc}
+			                                           &                         &                         &                         &                         & \rnode{liste}{{\footnotesize queue}} & \\
+			                                           &                         &                         &                         &                         &                                      & \\
+			\rnode{head}{\raisebox{-2pt}{\phantom{Y}}} & \maillon{$e_0$}{v0}{p0} & \maillon{$e_1$}{v1}{p1} & \maillon{$e_2$}{v2}{p2} & \maillon{$e_3$}{v3}{p3} & \maillon{$e_4$}{v4}{p4}              & \\
+		\end{tabular}\\
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p0}{v1}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p2}{v3}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p3}{v4}
+		\ncline[nodesepB=0.25cm,nodesepA=0.05cm]{*->}{liste}{v4}
+		\ncbar[nodesepB=0.2cm,nodesepA=-0.2cm,angleA=-90,angleB=-90]{*->}{p4}{v0}
+	\end{center} \bigskip
+	La queue pointe toujours vers \textit{le dernier élément inséré} ainsi, après l'ajout d'un nouvel élément $e_5$, la structure de donnée ci-dessus devient :
+	\begin{center}
+		\begin{tabular}{ccllllcl}
+			                                           &                         &                         &                         &                         &                         & \hspace{-0.6cm}\rnode{liste}{{\footnotesize queue}} & \\
+			                                           &                         &                         &                         &                         &                         &                                                        \\
+			\rnode{head}{\raisebox{-2pt}{\phantom{Y}}} & \maillon{$e_0$}{v0}{p0} & \maillon{$e_1$}{v1}{p1} & \maillon{$e_2$}{v2}{p2} & \maillon{$e_3$}{v3}{p3} & \maillon{$e_4$}{v4}{p4} & \maillon{$e_5$}{v5}{p5}                                \\
+		\end{tabular}\\
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p0}{v1}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p2}{v3}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p3}{v4}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p4}{v5}
+		\ncline[nodesepB=0.25cm,nodesepA=0.05cm]{*->}{liste}{v5}
+		\ncbar[nodesepB=0.2cm,nodesepA=-0.2cm,angleA=-90,angleB=-90]{*->}{p5}{v0}
+	\end{center} \bigskip
+	Lorsqu'on retire un élément de cette structure de données, on retire le maillon qui suit le dernier élément inséré. Par conséquent, si on retire un élément de la structure de donnée ci-dessus, c'est le maillon contenant $e_0$ qui est retiré et on obtient :
+	\begin{center}
+		\begin{tabular}{ccllllcl}
+			                                           &  &                         &                         &                         &                         & \hspace{-0.6cm}\rnode{liste}{{\footnotesize queue}} & \\
+			                                           &  &                         &                         &                         &                         &                                                        \\
+			\rnode{head}{\raisebox{-2pt}{\phantom{Y}}} &  & \maillon{$e_1$}{v1}{p1} & \maillon{$e_2$}{v2}{p2} & \maillon{$e_3$}{v3}{p3} & \maillon{$e_4$}{v4}{p4} & \maillon{$e_5$}{v5}{p5}                                \\
+		\end{tabular}\\
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p2}{v3}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p3}{v4}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p4}{v5}
+		\ncline[nodesepB=0.25cm,nodesepA=0.05cm]{*->}{liste}{v5}
+		\ncbar[nodesepB=0.2cm,nodesepA=-0.2cm,angleA=-90,angleB=-90]{*->}{p5}{v1}
+	\end{center} \bigskip
+	Afin d'implémenter cette structure de données, on propose d'utiliser les types suivants
+	\inputpartC{file.c}{}{}{5}{11}
+	La liste chainée circulaire vide est alors représentée par le pointeur {\sc null}.
+    \Question{En partant d'une liste chainée circulaire initialement vide, donner les étapes de son évolution après les opérations suivantes  : \begin{enumerate}
+    \item {\tt ajouter 12}
+    \item {\tt ajouter  6}
+    \item {\tt ajouter  7}
+    \item {\tt retirer }
+    \item {\tt ajouter 42}
+    \item {\tt retirer} 
+    \end{enumerate}
+    On précisera la valeur des entiers renvoyés par la fonction {\tt Retirer}.
+    }
+	\Question{Pour ajouter un élément dans une liste circulaire, on propose la fonction ci-dessous :
+		\inputpartC{file.c}{}{}{35}{42}
+		Indiquer, en justifiant votre réponse, quelle ligne de cette fonction est problématique si la liste circulaire {\tt lc} est vide.
+	}
+	\Question{Corriger la fonction {\tt ajouter\_errone} afin de traiter convenablement le cas où la liste circulaire {\tt lc} est vide.}
+	\Question{Ecrire la fonction {\tt retirer} de signature \mintinline{c}{int retirer(liste_circulaire *lc)} qui prend en argument une liste circulaire \textit{supposée non vide} et renvoie la valeur du maillon situé après le pointeur de queue en le retirant de la liste circulaire.}
+	\Question{Quelle structure de données connue a-t-on implémenté ici ? Justifier et proposer des noms plus appropriés pour les fonctions {\tt ajouter} et {\tt retirer}.}
+	\Question{Ecrire une fonction {\tt longueur} de signature \mintinline{c}{int longueur(liste_circulaire *lc)} qui renvoie le nombre d'éléments d'une liste chaînée circulaire.}
+	\Question{Donner, en les justifiant, les complexités des opérations {\tt retirer}, {\tt ajouter} et {\tt longueur}.}
+\end{Exercise}
+
+\end{document}
