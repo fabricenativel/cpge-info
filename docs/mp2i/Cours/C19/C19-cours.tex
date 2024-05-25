@@ -42,19 +42,19 @@
 	\begin{block}{Recherche naïve}
 		Pour recherche si un motif $m$ se trouve dans un  texte $t$, on peut :
 		\begin{enumerate}
-			\item<1-> parcourir chaque caractère de $t$ jusqu'à celui d'indice $l_t-l_m$ inclus (indice de la dernière occurrence possible) :\\
+			\item<1-> parcourir chaque caractère de $t$ jusqu'à celui d'indice \alt<2->{$l_t-l_m$}{\textcolor{red}{?}} inclus (indice de la dernière occurrence possible) :\\
 			\begin{tabular}{l|c|c|c|c|}
 				\cline{2-5}
-				indice dans le texte &	0 & \dots & ? & $l_t-1$ \\
+				indice dans le texte &	0 & \dots & \alt<2->{$l_t-l_m$}{\textcolor{red}{?}} & $l_t-1$ \\
 				\cline{2-5}
 				\multicolumn{1}{c}{indice dans le motif} & \multicolumn{2}{c|}{} & 0 & $l_m-1$ \\
 				\cline{4-5}
 			\end{tabular}
-			\item<2-> si le caractère correspond au premier caractère du motif $m$,  alors on avance dans le motif tant que les caractères coïncident.
-			\item<3-> si on atteint la fin du motif, alors {\pmc m} se trouve dans {\pmc c}. Sinon on passe au caractère suivant de {\pmc c}.
+			\item<3-> si le caractère correspond au premier caractère du motif $m$,  alors on avance dans le motif tant que les caractères coïncident.
+			\item<4-> si on atteint la fin du motif, alors $m$ se trouve dans $t$. Sinon on passe au caractère suivant de $t$.
 		\end{enumerate}
 	\end{block}
-	\onslide<4->{
+	\onslide<5->{
 	\begin{exampleblock}{Exemple}
 		\href{https://boyer-moore.codekodo.net/recherche_naive.php}{Visualisation en ligne du fonctionnement de l'algorithme }
 	\end{exampleblock}}
@@ -150,12 +150,21 @@
 		\begin{itemize}
 		\item<1-> La première phase consiste en un prétraitement du motif, afin de construire une \textcolor{blue}{fonction de décalage} qui indique pour chaque caractère :
 		\begin{itemize}
-			\item<1-> Si le caractère est présent dans le motif alors l'indice de sa dernière occurrence 
-			\item<2-> Sinon la longueur du motif
+			\item<2-> Si le caractère est présent dans le motif alors l'indice de sa dernière occurrence 
+			\item<3-> Sinon la longueur du motif
 		\end{itemize}
-		\item<2-> Ensuite on effectue une recherche en partant de la fin du motif en cas de non correspondance, on décale de la valeur fournie par la fonction de décalage.
+		\item<4> Ensuite on effectue une recherche en partant de la fin du motif en cas de non correspondance, on décale de la valeur fournie par la fonction de décalage.
 	\end{itemize}
 	\end{block}
+	\onslide<4->{
+		\begin{exampleblock}{Exemple}
+			\begin{enumerate}
+				\item<4-> Construire la table de décalage du motif "{\tt deux}"
+				\item<5-> Simuler le fonction de l'algorithme de Boyer-Moore-Hoorspool pour recherche ce motif dans le chaine " 
+			\end{enumerate}
+			
+		\end{exampleblock}
+	}
 \end{frame}
 
 
