@@ -148,24 +148,45 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Algorithme de Boyer-Moore-Hoorspool}
 		\begin{itemize}
-		\item<1-> La première phase consiste en un prétraitement du motif, afin de construire une \textcolor{blue}{fonction de décalage} qui indique pour chaque caractère :
+		\item<1-> La première phase consiste en un prétraitement du motif, afin de construire une \textcolor{blue}{fonction de décalage} qui indique pour chaque caractère \textcolor{blue}{\tt c}:
 		\begin{itemize}
-			\item<2-> Si le caractère est présent dans le motif alors l'indice de sa dernière occurrence 
+			\item<2-> Si \textcolor{blue}{\tt c} est dans le motif, Le nombre de caractères entre la \textit{dernière occurrence} de \textcolor{blue}{\tt c} et la fin du motif (l'avant dernière si \textcolor{blue}{\tt c} est le dernier caractère.)
 			\item<3-> Sinon la longueur du motif
 		\end{itemize}
-		\item<4> Ensuite on effectue une recherche en partant de la fin du motif en cas de non correspondance, on décale de la valeur fournie par la fonction de décalage.
+		\item<4-> Ensuite on effectue une recherche en partant de la fin du motif en cas de non correspondance, on décale de la valeur fournie par la fonction de décalage.
 	\end{itemize}
 	\end{block}
-	\onslide<4->{
+	\onslide<5->{
 		\begin{exampleblock}{Exemple}
 			\begin{enumerate}
-				\item<4-> Construire la table de décalage du motif "{\tt deux}"
-				\item<5-> Simuler le fonction de l'algorithme de Boyer-Moore-Hoorspool pour recherche ce motif dans le chaine " 
+				\item<6-> Construire la table de décalage du motif "\textcolor{gray}{\tt toto}"
+				\item<7-> Simuler le fonction de l'algorithme de Boyer-Moore-Hoorspool pour recherche ce motif dans le chaine "\textcolor{gray}{\tt zéro plus zéro = la tête à toto}"
 			\end{enumerate}
 			
 		\end{exampleblock}
 	}
 \end{frame}
 
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercices}
+		\begin{enumerate}
+		\item Ecrire en C, une fonction de signature \mintinline{c}{int *cree_decalage(char *motif)} qui renvoie la table de décalage d'un motif. On représentera un caractère par son code (donc un entier) et on suppose qu'on utilise la table {\sc ascii} standard qui contient 127 caractères. 
+		\item Simuler la recherche de \textcolor{gray}{\tt abb} dans le texte \textcolor{gray}{\tt b...b} ($t$ fois la lettre b) avec l'algorithme de Boyer-Mooore. Donner le nombre de comparaisons effectué et comparer avec la recherche naïve.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
 
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation en C}
+		Fonction qui renvoie {\tt true} si {\tt motif} est présent dans {\tt texte} et {\tt false} sinon.
+		\inputpartC{\SPATH/bmh.c}{}{\small}{50}{63}
+	\end{block}
+\end{frame}
+
+\makess{Algorithme de Rabin-Karp}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Principe}
+		L'idée de l'algorithme est d'utiliser une fonction de hachage $h$ sur les chaines de caractères, et de comparer les hash du motif $h(m)$ avec le hash du texte commençant à l'indice \textcolor{blue}{\tt i} et de longueur $l_m$ pour {\textcolor{blue}{\tt i}} de 0 à $l_t-l_m$. On effectue la comparaison caractère par caractère seulement dans le cas où les deux hash sont égaux.
+	\end{block}
+\end{frame}
 \end{document}
