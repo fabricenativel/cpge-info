@@ -5,29 +5,18 @@
 
 #define NB_CHAR 256
 
-int derniere_occurrence(char c, char *motif)
-{
-    for (int i = strlen(motif) - 1; i >= 0; i--)
-    {
-        if (motif[i] == c)
-        {
-            return strlen(motif) - 1 - i;
-        }
-    }
-    return strlen(motif);
-}
-
 // La fonction de décalage
 int *cree_decalage(char *motif)
 {
+    int lm = strlen(motif);
     int *decalage = malloc(sizeof(int) * NB_CHAR);
     for (int i = 0; i < NB_CHAR; i++)
     {
-        decalage[i] = strlen(motif);
+        decalage[i] = lm;
     }
-    for (int i = 0; i < (int)strlen(motif); i++)
+    for (int i = 0; i < lm - 1; i++)
     {
-        decalage[(int)motif[i]] = derniere_occurrence(motif[i], motif);
+        decalage[(int)motif[i]] = lm - i - 1;
     }
     return decalage;
 }
@@ -43,32 +32,40 @@ int bmh(char *motif, char *texte, int *nbcmp)
     while (idx < lt - lm + 1)
     {
         *nbcmp = *nbcmp + 1;
-        if (texte[idx + lm - 1] == motif[lm - 1])
+        im = lm - 1;
+        while (im >= 0 && texte[idx + im] == motif[im])
         {
-            im = 2;
-            while (im <= lm && texte[idx + lm - im] == motif[lm - im])
-            {
-                im++;
-                *nbcmp = *nbcmp + 1;
-            }
-            if (im> lm)
-            {
-                cpt++;
-            }
-            idx += 1;
+            im = im - 1;
+            *nbcmp = *nbcmp + 1;
         }
-        else
+        if (im < 0)
         {
-            idx += dec[(int)texte[idx + lm - 1]];
+            cpt++;
         }
+        idx += dec[(int)texte[idx + lm - 1]];
     }
     return cpt;
 }
 
+bool appartient_bmh(char *motif, char *texte){
+    int *dec = cree_decalage(motif);
+    int lt = strlen(texte);
+    int lm = strlen(motif);
+    int idx = 0;
+    int im;
+    while (idx < lt - lm + 1){
+        im = lm - 1;
+        while (im >= 0 && texte[idx + im] == motif[im]){
+            im = im - 1;}
+        if (im < 0){
+            return true;}
+        idx += dec[(int)texte[idx + lm - 1]];}
+    return false;}
+
 // Affichage fonction décalage
 void affiche(int dec[], int l)
 {
-    for (int i = 0; i < 256; i++)
+    for (int i = 0; i < NB_CHAR; i++)
     {
         if (dec[i] != l)
         {
@@ -108,6 +105,7 @@ int main(int argc, char *argv[])
             affiche(dec, strlen(argv[1]));
             nbocc = bmh(argv[1], texte, &nbcmp);
             printf("Nombre d'occurrences trouvées = %d (avec %d comparaisons) \n", nbocc, nbcmp);
+            if (appartient_bmh(argv[1],texte)) {printf("Motif trouvé \n");} else {printf("Motif absent \n");}
         }
     }
 }

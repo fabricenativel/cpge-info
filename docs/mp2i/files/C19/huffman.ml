@@ -8,9 +8,9 @@ type pqueue =
   data : (int*ab) array;
 };;
 
-let leftchild i n = let s = 2*i+1 in if s<n then s else -1
+let leftchild i n = let s = 2*i+1 in if s<n then s else -1;;
 
-let parent i = let p = (i-1)/2 in if i<>0 then p else -1
+let parent i = let p = (i-1)/2 in if i<>0 then p else -1;;
 
 let swap tab i j =
   let temp = tab.(i) in
@@ -73,13 +73,13 @@ let cree_code code_abr =
   let rec aux_cc code_abr ch =
     match code_abr with
   |   _,Feuille(n) -> (code.(n) <- ch;)
-  |   _,Noeud(g,d) -> (aux_cc (0,g) ("0"^ch); aux_cc (0,d) ("1"^ch) ;)
+  |   _,Noeud(g,d) -> (aux_cc (0,g) (ch^"0"); aux_cc (0,d) (ch^"1") ;)
   in
   aux_cc code_abr "";
   code;;
 ;;
 
-let () = let test ="satisfaisant" in
+let () = let test = Sys.argv.(1) in
             let fq = frequence test in
             Printf.printf "Calcul des fréquences ok !\n";
             let ab_code = construire_arbre fq in
