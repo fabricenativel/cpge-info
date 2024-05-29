@@ -26,7 +26,7 @@ let swap tab i j =
     done;
     heap.size <- heap.size + 1;;
 
-let nbchar = 127;;
+let nbchar = 128;;
 
 let frequence texte =
   let fq = Array.make nbchar 0 in
@@ -79,15 +79,36 @@ let cree_code code_abr =
   code;;
 ;;
 
-let () = let test = Sys.argv.(1) in
-            let fq = frequence test in
+let lire fname =
+  let reader = open_in fname in
+  let contenu = ref "" in
+  try
+    while true do
+      contenu := !contenu^ (input_line reader);
+    done;
+  !contenu
+  with End_of_file -> !contenu;
+;;
+
+let () = let filename = Sys.argv.(1) in
+            let contenu = lire filename in
+            Printf.printf "Le fichier comporte %d caractères \n" (String.length contenu);
+            let fq = frequence contenu in
             Printf.printf "Calcul des fréquences ok !\n";
             let ab_code = construire_arbre fq in
             Printf.printf "Construction arbre ok ! \n";
             let code = cree_code (ab_code) in
             for i=0 to nbchar-1 do
-              if code.(i)<>"" then Printf.printf "Caractère : %c : %s\n" (char_of_int i) code.(i);
+              if code.(i)<>"" then Printf.printf "%d ->  %c : %s\n" i (char_of_int i) code.(i);
             done;
+            Printf.printf "Taille initiale (8 bits/char ) = %d \n" (String.length contenu*8);
+            let tc = ref 0 in
+            for i=0 to String.length contenu -1 do
+              tc := !tc + String.length (code.(int_of_char contenu.[i]));
+            done;
+            Printf.printf "Taille compressée  = %d \n" !tc;
+            Printf.printf "Taux de compression = %f \n" ((float_of_int !tc)/. float_of_int ((String.length contenu*8)));
+          ;;
 
 
     

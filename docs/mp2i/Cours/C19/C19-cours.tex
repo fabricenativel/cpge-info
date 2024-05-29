@@ -12,8 +12,15 @@
 \newcommand{\Ctitle}{\cnum {Algorithmes des textes}}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
 \newcommand{\tv}{\textvisiblespace}
+\newcommand{\cn}[2]{\TCircle{\textcolor{blue}{\tt #1}} \nput[labelsep=1 pt]{25}{\pssucc}{\textcolor{BrickRed}{\scriptsize #2}}}
+\newcommand{\fn}[2]{\TCircle{\textcolor{blue}{\tt #1}} \nput[labelsep=1 pt]{-90}{\pssucc}{\textcolor{OliveGreen}{\scriptsize #2}}}
+\newcommand{\dn}[1]{\TCircle{\textcolor{blue}{\tt #1}}}
+\newcommand{\tn}[1]{\Tdot \nput[labelsep=1 pt]{45}{\pssucc}{\textcolor{BrickRed}{\scriptsize #1}}}
 
-\makess{Position du problème}
+\
+\psset{arrows=->,treesep=0.8cm,levelsep=0.6cm}
+
+\makess{Problème de la recherche textuelle}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Définitions et notations}
 		On s'intéresse au problème de la recherche d'une chaîne de caractères appelée \textcolor{blue}{motif} dans une autre chaîne de caractères appelée \textcolor{blue}{texte}. Plus précisement, on veut lister toutes les occurences (par leur position) du motif dans le texte. \\
@@ -186,7 +193,171 @@
 \makess{Algorithme de Rabin-Karp}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Principe}
-		L'idée de l'algorithme est d'utiliser une fonction de hachage $h$ sur les chaines de caractères, et de comparer les hash du motif $h(m)$ avec le hash du texte commençant à l'indice \textcolor{blue}{\tt i} et de longueur $l_m$ pour {\textcolor{blue}{\tt i}} de 0 à $l_t-l_m$. On effectue la comparaison caractère par caractère seulement dans le cas où les deux hash sont égaux.
+		\begin{itemize}
+		\item<1-> L'idée de l'algorithme est d'utiliser une fonction de hachage $h$ sur les chaines de caractères, et de comparer pour chaque indice \textcolor{blue}{\tt i} où une correspondance peut exister (de 0 à $l_t-l_m$) les hash du motif $h(m)$ avec le hash du texte commençant à l'indice \textcolor{blue}{\tt i} et de longueur $l_m$ c'est à dire $h((t_i,t_{i+1},\dots,t_{i+l_m-1}))$.
+		\item<2-> On effectue la comparaison caractère par caractère seulement dans le cas où les deux hash sont égaux.
+		\end{itemize}
+	\end{block}
+	\onslide<3->
+	{\begin{exampleblock}{Exemple}
+		On suppose qu'on recherche \og{}\textcolor{gray}{\tt de}\fg{} dans le texte \og{}\textcolor{gray}{\tt bahcdef}\fg{} et que la fonction de hachage fait simplement la somme des codes {\sc ascii} des caractères. Calculer le hash du motif et détailler les étapes de l'algorithme.
+	\end{exampleblock}}
+\end{frame}
+
+	\begin{frame}{\Ctitle}{\stitle}
+		\begin{block}{Principe (amélioré)}
+		\begin{itemize}
+		\item<3-> Si le calcul du hash de la partie du texte $(t_i,t_{i+1},\dots,t_{i+l_m-1})$ s'effectue en $O(m)$ alors la complexité est la même que celle de la recherche naïve. 
+		\item<4-> On tire parti du fait que deux hash consécutifs à calculer ne diffère que de deux caractères : \\
+		$(\textcolor{red}{t_i},t_{i+1},\dots,t_{i+l_m-1})$ \\
+		$(t_{i+1},\dots,t_{i+l_m-1},\textcolor{red}{t_i+l_m})$ \\
+		 et on utilise une fonction de hachage dite \textcolor{blue}{déroulante} (\textit{rolling hash}) pour \textcolor{blue}{calculer les hash de proche en proche en $O(1)$}.
+		\end{itemize}
 	\end{block}
 \end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{enumerate}
+			\item Ecrire en C, une fonction de hachage $h$ qui effectue simplement la somme des codes des caractères.
+			\item Montrer qu'il s'agit d'une fonction de hachage déroulante et donner l'expression de $h(t_{i+1},\dots,t_{i+l_m-1},\textcolor{red}{t_i+l_m})$ en fonction de $h(\textcolor{red}{t_i},t_{i+1},\dots,t_{i+l_m-1})$ 
+			\item Ecrire une l'implémentation de l'algorithme de Rabin-Karp qui utilise cette fonction de hachage. \\
+			\textcolor{OliveGreen}{\small \aide \;} lors que les deux hash sont égaux (celui du motif) et celui de la partie de texte, on pouura utiliser directement la fonction \textcolor{blue}{strncmp} de {\tt <string.h>} qui prend en argument deux chaines de caractères et un entier $n$ et renvoie 0 lorsque les $n$ premiers caractères des deux chaines sont égaux.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Compression avec l'algorithme de Huffmann}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Hypothèses}
+		{\small On considère dans toute la suite, qu'on travaille sur un fichier texte au format {\sc ascii} et on rappelle que ce format permet de représenter 128 caractères (de code 0 à 127) tous codés sur 8 bits. Par conséquent la taille d'un tel fichier (en bits) est simplement 8 fois son nombre de caractères.
+		On cherche à compresser la taille d'un tel fichier \textit{sans perdre d'informations}.}
+	\end{block}
+	\onslide<2->{
+	\begin{alertblock}{Principe}
+		Le principe de base de l'algorithme d'Huffman est de représenter par un code plus court les caractères les plus fréquents :
+		\begin{itemize}
+			\item on commence par calculer le nombre d'occurrences de chaque caractère
+			\item on construit un arbre dont les feuilles sont les caractères et où la profondeur d'un caractère est fonction directe de sa fréquence (plus un caractère est haut dans l'arbre et plus il apparaît souvent)
+			\item on génère un code \textcolor{blue}{prefixe} unique pour chaque caractère.
+		\end{itemize}
+	\end{alertblock}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Illustration sur un exemple}
+		On souhaite compresser le texte \og{}\textcolor{gray}{\tt les petits tests}\fg{}.
+		\begin{enumerate}
+			\item<2-> 
+			{\begin{tabular}{|l|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
+				\hline
+				Caractère & \tv{} & e & i & l & p & s & t \\
+				\hline
+				Occurrences & $2$ & $3$ & $1$ & $1$ & $1$ & $4$ & $4$ \\
+				\hline
+			\end{tabular}
+			}
+			\item<4-> Au départ chaque caractère représente un arbre comportant un noeud unique : \\
+			\begin{tabular}{ccccccc}
+				\cn{i}{1}  & \cn{l}{1} & \cn{p}{1} & \cn{\tv{}}{2}  &\cn{e}{3} & \cn{s}{4} & \cn{t}{4} \\
+			\end{tabular}
+			\item<5-> On extrait les deux arbres portant les plus petits nombres d'occurrences et on les assemblent en un nouvel arbre ayant la somme de leur nombre d'occurrence : \\
+			\begin{tabular}{cc} \cn{i}{1} & \cn{l}{1} \\ \end{tabular} forment \pstree{\tn{2}}{\dn{i} \dn{l}}
+			\item<6-> Ce nouvel arbre est inséré dans la structure de données et on réitère le processus jusqu'à ce qu'il reste un seul arbre
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Encore quelques étapes pour illustrer $\dots$}
+		\begin{itemize}
+			\item[]<2->
+			\begin{tabular}{cccccc}
+				\cn{p}{1} & \pstree{\tn{2}}{\dn{i} \dn{l}}  & \cn{\tv{}}{2}  &\cn{e}{3} & \cn{s}{4} & \cn{t}{4} \\
+			\end{tabular}
+			\item[]<2->
+			\begin{tabular}{ccccc}
+				\cn{\tv{}}{2} & \pstree{\tn{3}} {\dn{p} \pstree{\Tdot}{\dn{i} \dn{l}}}    &\cn{e}{3} & \cn{s}{4} & \cn{t}{4} \\
+			\end{tabular}
+			\item[]<3->
+			\begin{tabular}{cccc}
+				   \cn{e}{3} & \cn{s}{4} & \cn{t}{4} & \pstree{\tn{5}}{\dn{\tv{}} \pstree{\Tdot}{\dn{p} \pstree{\Tdot}{\dn{i} \dn{l}}}}   \\
+			\end{tabular}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Et pour finir $\dots$}
+		\begin{itemize}
+			\item[]<3->
+			\begin{tabular}{ccc}
+				     \cn{t}{4} & \pstree{\tn{5}}{\dn{\tv{}} \pstree{\Tdot}{\dn{p} \pstree{\Tdot}{\dn{i} \dn{l}}}} & \pstree{\tn{7}}{\dn{e} \dn{s}} \\
+			\end{tabular}
+			\item[]<3->
+			\begin{tabular}{ccc}
+				     \pstree{\tn{7}}{\dn{e} \dn{s}} & \pstree{\tn{9}}{\dn{t}  \pstree{\Tdot}{\dn{\tv{}} \pstree{\Tdot}{\dn{p} \pstree{\Tdot}{\dn{i} \dn{l}}}}}  \\
+			\end{tabular}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Attribution des codes}
+	Sur l'arbre final on attribut un code à chaque caractère en fonction de sa position dans l'arbre (on ajoute \textcolor{OliveGreen}{\tt 0} en allant à gauche et \textcolor{OliveGreen}{\tt 1} en allant à droite)
+	\begin{center}
+	\pstree{\Tdot}{\pstree{\Tdot}{\fn{e}{00} \fn{s}{01}}  \pstree{\Tdot}{\fn{t}{10}  \pstree{\Tdot}{\fn{\tv{}}{110} \pstree{\Tdot}{\fn{p}{1110} \pstree{\Tdot}{\fn{i}{11110} \fn{l}{11111}}}}}} \vspace{0.7cm}
+	\end{center}
+	On obtient un \textcolor{BrickRed}{code préfixe}, c'est à dire que le code d'un caractère n'est jamais le début du code d'un autre (ce qui évite toute ambigüité lors de la décompression).
+	Le texte initial contenait 4 caractères \textcolor{blue}{\tt s} pour un total de 32 bits, maintenat les \textcolor{blue}{\tt s} sont codés sur 2 bits et donc  occupent simplement {\tt 8 bits}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercices}
+	\begin{enumerate}
+		\item <1-> Calculer le taux de compression de l'algorithme sur l'exemple précédent.
+		\item <2-> Quelle structure de données est la plus adaptée pour ranger les arbres au fur et à mesure de leur construction, pourquoi ?
+		\item <3-> Faire fonctionner l'algorithme à la main pour compresser le texte \og{}\textcolor{gray}{trop top}\fg{}
+	\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Compression avec l'algorithme LZW}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Introduction}
+		\begin{itemize}
+		\item<1-> Le nom de cet algorithme provient de celui de ses trois inventeurs : Lemp, Ziv et Welch.
+		\item<2-> L'algorithme a l'avantage de pouvoir compresser un texte au fur et à mesure de sa lecture et  est donc adapté à la compression d'un flux de données
+		\item<3-> Le principe est d'attribuer un code aux sous chaines rencontrées dans le texte de façon à disposer d'un code compact si elles se présentent à nouveau.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Illustration sur un exemple}
+		On veut compresser le texte \textcolor{blue}{\tt saisissais} qui ne contient que les 3 lettres \textcolor{blue}{\tt a} \textcolor{blue}{\tt i} et \textcolor{blue}{\tt s}. On commence par attribuer à chaque lettre un code : \textcolor{blue}{\tt a} $\rightarrow 0$, \textcolor{blue}{\tt i} $\rightarrow 1$ et \textcolor{blue}{\tt s} $\rightarrow 2$.
+		  \\
+		\onslide<2->{
+		{Puis on parcourt le texte en émettant le code du \textcolor{BrickRed}{plus long préfixe rencontré}. On rajoute ce prefixe augmenté du caractère suivant dans la liste des codes (de façon à disposer d'un code lorsqu'on le rencontrera à nouveau.)}
+		\begin{center}
+		\begin{tabular}{|p{3cm}|c|p{3cm}|}
+			\hline
+			  Position & Emis & Nouveau préfixe \\
+			\hline
+			\leavevmode\onslide<3->{\tt \underline{\textcolor{red}{s}}aisissais}  & \leavevmode\onslide<3->2 & \leavevmode\onslide<3->{\textcolor{blue}{\tt sa} $\rightarrow 3$}  \\
+			 \leavevmode\onslide<4->{{\tt \textcolor{gray}{s}\underline{\textcolor{red}{a}}isissais}} & \leavevmode\onslide<4->{0} & \leavevmode\onslide<4->{{\textcolor{blue}{\tt ai} $\rightarrow 4$}} \\
+			 \leavevmode\onslide<5->{{\tt \textcolor{gray}{sa}\underline{\textcolor{red}{i}}sissais}} & \leavevmode\onslide<5->{1} & \leavevmode\onslide<5->{{\textcolor{blue}{\tt is} $\rightarrow 5$}} \\
+			 \leavevmode\onslide<6->{{\tt \textcolor{gray}{sai}\underline{\textcolor{red}{s}}issais}} & \leavevmode\onslide<6->{2} & \leavevmode\onslide<6->{{\textcolor{blue}{\tt si} $\rightarrow 6$}} \\
+			 \leavevmode\onslide<7->{{\tt \textcolor{gray}{sais}\underline{\textcolor{red}{is}}sais}} & \leavevmode\onslide<7->{5} & \leavevmode\onslide<7->{{\textcolor{blue}{\tt iss} $\rightarrow 7$}} \\
+			 \leavevmode\onslide<8->{{\tt \textcolor{gray}{saisis}\underline{\textcolor{red}{sa}}is}} & \leavevmode\onslide<8->{3} & \leavevmode\onslide<8->{{\textcolor{blue}{\tt sai} $\rightarrow 3$}} \\
+			 \leavevmode\onslide<8->{{\tt \textcolor{gray}{saisissa}\underline{\textcolor{red}{is}}}} & \leavevmode\onslide<8->{5} &  \\
+			 \hline
+		\end{tabular}
+	\end{center}}
+	\end{block}
+\end{frame}
+
+
 \end{document}
