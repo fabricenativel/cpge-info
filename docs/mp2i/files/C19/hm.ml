@@ -61,13 +61,7 @@ let defile fp =
 
   let lire fname =
     let reader = open_in fname in
-    let contenu = ref "" in
-    try
-      while true do
-        contenu := !contenu^ (input_line reader);
-      done;
-    !contenu
-    with End_of_file -> !contenu;
+    In_channel.input_all reader;;
   ;;
 
   let frequence texte =
@@ -75,6 +69,7 @@ let defile fp =
     for i=0 to String.length texte - 1 do
       fq.(int_of_char texte.[i]) <- fq.(int_of_char texte.[i]) + 1;
     done;
+    fq.(13)<-0;
     fq;;
 
 
@@ -117,14 +112,17 @@ let defile fp =
     let ab_code = construire_arbre fq in
     Printf.printf "Construction arbre ok ! \n";
     let code = cree_code (ab_code) in
+    let ti = ref 0 in
     for i=0 to nbchar-1 do
       if code.(i)<>"" then Printf.printf "%d ->  %c : %s\n" i (char_of_int i) code.(i);
+      ti := !ti + fq.(i)
     done;
-    Printf.printf "Taille initiale (8 bits/char ) = %d \n" (String.length contenu*8);
+    ti := !ti*8;
+    Printf.printf "Taille initiale (8 bits/char ) = %d \n" !ti;
     let tc = ref 0 in
     for i=0 to String.length contenu -1 do
       tc := !tc + String.length (code.(int_of_char contenu.[i]));
     done;
     Printf.printf "Taille compressée  = %d \n" !tc;
-    Printf.printf "Taux de compression = %f \n" ((float_of_int !tc)/. float_of_int ((String.length contenu*8)));
+    Printf.printf "Taux de compression = %f \n" ((float_of_int !tc)/. float_of_int (!ti));
   ;;

@@ -81,13 +81,7 @@ let cree_code code_abr =
 
 let lire fname =
   let reader = open_in fname in
-  let contenu = ref "" in
-  try
-    while true do
-      contenu := !contenu^ (input_line reader);
-    done;
-  !contenu
-  with End_of_file -> !contenu;
+  In_channel.input_all reader;;
 ;;
 
 let () = let filename = Sys.argv.(1) in
@@ -103,9 +97,12 @@ let () = let filename = Sys.argv.(1) in
             done;
             Printf.printf "Taille initiale (8 bits/char ) = %d \n" (String.length contenu*8);
             let tc = ref 0 in
+            Printf.printf "Texte compressé : ";
             for i=0 to String.length contenu -1 do
               tc := !tc + String.length (code.(int_of_char contenu.[i]));
+              Printf.printf "%s" code.(int_of_char contenu.[i]);
             done;
+            print_newline();
             Printf.printf "Taille compressée  = %d \n" !tc;
             Printf.printf "Taux de compression = %f \n" ((float_of_int !tc)/. float_of_int ((String.length contenu*8)));
           ;;

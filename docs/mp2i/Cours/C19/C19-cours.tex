@@ -50,21 +50,21 @@
 		Pour recherche si un motif $m$ se trouve dans un  texte $t$, on peut :
 		\begin{enumerate}
 			\item<1-> parcourir chaque caractère de $t$ jusqu'à celui d'indice \alt<2->{$l_t-l_m$}{\textcolor{red}{?}} inclus (indice de la dernière occurrence possible) :\\
-			\begin{tabular}{l|c|c|c|c|}
-				\cline{2-5}
-				indice dans le texte &	0 & \dots & \alt<2->{$l_t-l_m$}{\textcolor{red}{?}} & $l_t-1$ \\
-				\cline{2-5}
-				\multicolumn{1}{c}{indice dans le motif} & \multicolumn{2}{c|}{} & 0 & $l_m-1$ \\
-				\cline{4-5}
-			\end{tabular}
+				\begin{tabular}{l|c|c|c|c|}
+					\cline{2-5}
+					indice dans le texte                     & 0                     & \dots & \alt<2->{$l_t-l_m$}{\textcolor{red}{?}} & $l_t-1$ \\
+					\cline{2-5}
+					\multicolumn{1}{c}{indice dans le motif} & \multicolumn{2}{c|}{} & 0     & $l_m-1$                                           \\
+					\cline{4-5}
+				\end{tabular}
 			\item<3-> si le caractère correspond au premier caractère du motif $m$,  alors on avance dans le motif tant que les caractères coïncident.
 			\item<4-> si on atteint la fin du motif, alors $m$ se trouve dans $t$. Sinon on passe au caractère suivant de $t$.
 		\end{enumerate}
 	\end{block}
 	\onslide<5->{
-	\begin{exampleblock}{Exemple}
-		\href{https://boyer-moore.codekodo.net/recherche_naive.php}{Visualisation en ligne du fonctionnement de l'algorithme }
-	\end{exampleblock}}
+		\begin{exampleblock}{Exemple}
+			\href{https://boyer-moore.codekodo.net/recherche_naive.php}{Visualisation en ligne du fonctionnement de l'algorithme }
+		\end{exampleblock}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -91,9 +91,9 @@
 		\onslide<4->{Au plus, l'algorithme effectue donc $l_m(l_t-l_m+1)$ comparaisons.}
 	\end{block}
 	\onslide<5->{
-	\begin{exampleblock}{Exemple}
-		Combien de comparaisons seront nécessaires si on recherche le motif \pmc{bbbbbbbbba} (neuf fois le caractère \pmc{b} suivi d'un \pmc{a}) dans une chaine contenant un million de \pmc{b} ?
-	\end{exampleblock}}
+		\begin{exampleblock}{Exemple}
+			Combien de comparaisons seront nécessaires si on recherche le motif \pmc{bbbbbbbbba} (neuf fois le caractère \pmc{b} suivi d'un \pmc{a}) dans une chaine contenant un million de \pmc{b} ?
+		\end{exampleblock}}
 \end{frame}
 
 \makess{Algorithme de Boyer-Moore}
@@ -125,11 +125,11 @@
 		\onslide<2->{
 			\begin{tabular}{|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
 				\hline
-				u                    & n                                  &                      & e &\cellcolor{OliveGreen!30}{x} & c & e & l & l & e & n & t \\
+				u                    & n                                  &                      & e & \cellcolor{OliveGreen!30}{x} & c & e & l & l & e & n & t \\
 				\hline
-				\multicolumn{4}{c}{} & \multicolumn{1}{c}{$\updownarrow$} & \multicolumn{6}{c}{}                                     \\
+				\multicolumn{4}{c}{} & \multicolumn{1}{c}{$\updownarrow$} & \multicolumn{6}{c}{}                                                                \\
 				\hline
-				e                    & \cellcolor{OliveGreen!30}{x}                                  & t                    & r & \cellcolor{BrickRed!30}{a} &   &   &   &   &   &   &   \\
+				e                    & \cellcolor{OliveGreen!30}{x}       & t                    & r & \cellcolor{BrickRed!30}{a}   &   &   &   &   &   &   &   \\
 				\hline
 			\end{tabular}}\\
 		\onslide<3->{On peut directement décaler le motif de 3 emplacements car le dernier {\tt x} du motif se trouve à 3 emplacements de la fin du motif.\\}
@@ -138,30 +138,30 @@
 				\hline
 				u                    & n                                  &                      & e & x & c & e & \cellcolor{OliveGreen!30}{l} & l & e & n & t \\
 				\hline
-				\multicolumn{7}{c}{} & \multicolumn{1}{c}{$\updownarrow$} & \multicolumn{3}{c}{}                                     \\
+				\multicolumn{7}{c}{} & \multicolumn{1}{c}{$\updownarrow$} & \multicolumn{3}{c}{}                                                                \\
 				\hline
-				                     &                                    &                      & e & x & t & r & \cellcolor{BrickRed!30}{a} &   &   &   &   \\
+				                     &                                    &                      & e & x & t & r & \cellcolor{BrickRed!30}{a}   &   &   &   &   \\
 				\hline
 			\end{tabular}\\}
 		\onslide<5->{Cette fois, le {\tt l} ne se trouve pas dans le motif, on peut donc décaler de la longueur du motif. Et la recherche s'arrête en ayant effectué seulement deux comparaisons.\\}
 	\end{block}
-		\onslide<6->{
-			\begin{exampleblock}{Visualisation en ligne}
+	\onslide<6->{
+		\begin{exampleblock}{Visualisation en ligne}
 			\href{https://boyer-moore.codekodo.net/recherche_boyer.php}{Visualisation en ligne du fonctionnement de l'algorithme accéléré}
-			\end{exampleblock}}
+		\end{exampleblock}}
 \end{frame}
 
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Algorithme de Boyer-Moore-Hoorspool}
 		\begin{itemize}
-		\item<1-> La première phase consiste en un prétraitement du motif, afin de construire une \textcolor{blue}{fonction de décalage} qui indique pour chaque caractère \textcolor{blue}{\tt c}:
-		\begin{itemize}
-			\item<2-> Si \textcolor{blue}{\tt c} est dans le motif, Le nombre de caractères entre la \textit{dernière occurrence} de \textcolor{blue}{\tt c} et la fin du motif (l'avant dernière si \textcolor{blue}{\tt c} est le dernier caractère.)
-			\item<3-> Sinon la longueur du motif
+			\item<1-> La première phase consiste en un prétraitement du motif, afin de construire une \textcolor{blue}{fonction de décalage} qui indique pour chaque caractère \textcolor{blue}{\tt c}:
+				\begin{itemize}
+					\item<2-> Si \textcolor{blue}{\tt c} est dans le motif, Le nombre de caractères entre la \textit{dernière occurrence} de \textcolor{blue}{\tt c} et la fin du motif (l'avant dernière si \textcolor{blue}{\tt c} est le dernier caractère.)
+					\item<3-> Sinon la longueur du motif
+				\end{itemize}
+			\item<4-> Ensuite on effectue une recherche en partant de la fin du motif en cas de non correspondance, on décale de la valeur fournie par la fonction de décalage.
 		\end{itemize}
-		\item<4-> Ensuite on effectue une recherche en partant de la fin du motif en cas de non correspondance, on décale de la valeur fournie par la fonction de décalage.
-	\end{itemize}
 	\end{block}
 	\onslide<5->{
 		\begin{exampleblock}{Exemple}
@@ -169,7 +169,7 @@
 				\item<6-> Construire la table de décalage du motif "\textcolor{gray}{\tt toto}"
 				\item<7-> Simuler le fonction de l'algorithme de Boyer-Moore-Hoorspool pour recherche ce motif dans le chaine "\textcolor{gray}{\tt zéro plus zéro = la tête à toto}"
 			\end{enumerate}
-			
+
 		\end{exampleblock}
 	}
 \end{frame}
@@ -177,8 +177,8 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exercices}
 		\begin{enumerate}
-		\item Ecrire en C, une fonction de signature \mintinline{c}{int *cree_decalage(char *motif)} qui renvoie la table de décalage d'un motif. On représentera un caractère par son code (donc un entier) et on suppose qu'on utilise la table {\sc ascii} standard qui contient 127 caractères. 
-		\item Simuler la recherche de \textcolor{gray}{\tt abb} dans le texte \textcolor{gray}{\tt b...b} ($t$ fois la lettre b) avec l'algorithme de Boyer-Mooore. Donner le nombre de comparaisons effectué et comparer avec la recherche naïve.
+			\item Ecrire en C, une fonction de signature \mintinline{c}{int *cree_decalage(char *motif)} qui renvoie la table de décalage d'un motif. On représentera un caractère par son code (donc un entier) et on suppose qu'on utilise la table {\sc ascii} standard qui contient 127 caractères.
+			\item Simuler la recherche de \textcolor{gray}{\tt abb} dans le texte \textcolor{gray}{\tt b...b} ($t$ fois la lettre b) avec l'algorithme de Boyer-Mooore. Donner le nombre de comparaisons effectué et comparer avec la recherche naïve.
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -194,24 +194,24 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Principe}
 		\begin{itemize}
-		\item<1-> L'idée de l'algorithme est d'utiliser une fonction de hachage $h$ sur les chaines de caractères, et de comparer pour chaque indice \textcolor{blue}{\tt i} où une correspondance peut exister (de 0 à $l_t-l_m$) les hash du motif $h(m)$ avec le hash du texte commençant à l'indice \textcolor{blue}{\tt i} et de longueur $l_m$ c'est à dire $h((t_i,t_{i+1},\dots,t_{i+l_m-1}))$.
-		\item<2-> On effectue la comparaison caractère par caractère seulement dans le cas où les deux hash sont égaux.
+			\item<1-> L'idée de l'algorithme est d'utiliser une fonction de hachage $h$ sur les chaines de caractères, et de comparer pour chaque indice \textcolor{blue}{\tt i} où une correspondance peut exister (de 0 à $l_t-l_m$) les hash du motif $h(m)$ avec le hash du texte commençant à l'indice \textcolor{blue}{\tt i} et de longueur $l_m$ c'est à dire $h((t_i,t_{i+1},\dots,t_{i+l_m-1}))$.
+			\item<2-> On effectue la comparaison caractère par caractère seulement dans le cas où les deux hash sont égaux.
 		\end{itemize}
 	\end{block}
 	\onslide<3->
 	{\begin{exampleblock}{Exemple}
-		On suppose qu'on recherche \og{}\textcolor{gray}{\tt de}\fg{} dans le texte \og{}\textcolor{gray}{\tt bahcdef}\fg{} et que la fonction de hachage fait simplement la somme des codes {\sc ascii} des caractères. Calculer le hash du motif et détailler les étapes de l'algorithme.
-	\end{exampleblock}}
+			On suppose qu'on recherche \og{}\textcolor{gray}{\tt de}\fg{} dans le texte \og{}\textcolor{gray}{\tt bahcdef}\fg{} et que la fonction de hachage fait simplement la somme des codes {\sc ascii} des caractères. Calculer le hash du motif et détailler les étapes de l'algorithme.
+		\end{exampleblock}}
 \end{frame}
 
-	\begin{frame}{\Ctitle}{\stitle}
-		\begin{block}{Principe (amélioré)}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Principe (amélioré)}
 		\begin{itemize}
-		\item<3-> Si le calcul du hash de la partie du texte $(t_i,t_{i+1},\dots,t_{i+l_m-1})$ s'effectue en $O(m)$ alors la complexité est la même que celle de la recherche naïve. 
-		\item<4-> On tire parti du fait que deux hash consécutifs à calculer ne diffère que de deux caractères : \\
-		$(\textcolor{red}{t_i},t_{i+1},\dots,t_{i+l_m-1})$ \\
-		$(t_{i+1},\dots,t_{i+l_m-1},\textcolor{red}{t_i+l_m})$ \\
-		 et on utilise une fonction de hachage dite \textcolor{blue}{déroulante} (\textit{rolling hash}) pour \textcolor{blue}{calculer les hash de proche en proche en $O(1)$}.
+			\item<3-> Si le calcul du hash de la partie du texte $(t_i,t_{i+1},\dots,t_{i+l_m-1})$ s'effectue en $O(m)$ alors la complexité est la même que celle de la recherche naïve.
+			\item<4-> On tire parti du fait que deux hash consécutifs à calculer ne diffère que de deux caractères : \\
+				$(\textcolor{red}{t_i},t_{i+1},\dots,t_{i+l_m-1})$ \\
+				$(t_{i+1},\dots,t_{i+l_m-1},\textcolor{red}{t_i+l_m})$ \\
+				et on utilise une fonction de hachage dite \textcolor{blue}{déroulante} (\textit{rolling hash}) pour \textcolor{blue}{calculer les hash de proche en proche en $O(1)$}.
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -220,9 +220,9 @@
 	\begin{exampleblock}{Exemple}
 		\begin{enumerate}
 			\item Ecrire en C, une fonction de hachage $h$ qui effectue simplement la somme des codes des caractères.
-			\item Montrer qu'il s'agit d'une fonction de hachage déroulante et donner l'expression de $h(t_{i+1},\dots,t_{i+l_m-1},\textcolor{red}{t_i+l_m})$ en fonction de $h(\textcolor{red}{t_i},t_{i+1},\dots,t_{i+l_m-1})$ 
+			\item Montrer qu'il s'agit d'une fonction de hachage déroulante et donner l'expression de $h(t_{i+1},\dots,t_{i+l_m-1},\textcolor{red}{t_i+l_m})$ en fonction de $h(\textcolor{red}{t_i},t_{i+1},\dots,t_{i+l_m-1})$
 			\item Ecrire une l'implémentation de l'algorithme de Rabin-Karp qui utilise cette fonction de hachage. \\
-			\textcolor{OliveGreen}{\small \aide \;} lors que les deux hash sont égaux (celui du motif) et celui de la partie de texte, on pouura utiliser directement la fonction \textcolor{blue}{strncmp} de {\tt <string.h>} qui prend en argument deux chaines de caractères et un entier $n$ et renvoie 0 lorsque les $n$ premiers caractères des deux chaines sont égaux.
+			      \textcolor{OliveGreen}{\small \aide \;} lors que les deux hash sont égaux (celui du motif) et celui de la partie de texte, on pouura utiliser directement la fonction \textcolor{blue}{strncmp} de {\tt <string.h>} qui prend en argument deux chaines de caractères et un entier $n$ et renvoie 0 lorsque les $n$ premiers caractères des deux chaines sont égaux.
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -231,38 +231,38 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Hypothèses}
 		{\small On considère dans toute la suite, qu'on travaille sur un fichier texte au format {\sc ascii} et on rappelle que ce format permet de représenter 128 caractères (de code 0 à 127) tous codés sur 8 bits. Par conséquent la taille d'un tel fichier (en bits) est simplement 8 fois son nombre de caractères.
-		On cherche à compresser la taille d'un tel fichier \textit{sans perdre d'informations}.}
+			On cherche à compresser la taille d'un tel fichier \textit{sans perdre d'informations}.}
 	\end{block}
 	\onslide<2->{
-	\begin{alertblock}{Principe}
-		Le principe de base de l'algorithme d'Huffman est de représenter par un code plus court les caractères les plus fréquents :
-		\begin{itemize}
-			\item on commence par calculer le nombre d'occurrences de chaque caractère
-			\item on construit un arbre dont les feuilles sont les caractères et où la profondeur d'un caractère est fonction directe de sa fréquence (plus un caractère est haut dans l'arbre et plus il apparaît souvent)
-			\item on génère un code \textcolor{blue}{prefixe} unique pour chaque caractère.
-		\end{itemize}
-	\end{alertblock}}
+		\begin{alertblock}{Principe}
+			Le principe de base de l'algorithme d'Huffman est de représenter par un code plus court les caractères les plus fréquents :
+			\begin{itemize}
+				\item on commence par calculer le nombre d'occurrences de chaque caractère
+				\item on construit un arbre dont les feuilles sont les caractères et où la profondeur d'un caractère est fonction directe de sa fréquence (plus un caractère est haut dans l'arbre et plus il apparaît souvent)
+				\item on génère un code \textcolor{blue}{prefixe} unique pour chaque caractère.
+			\end{itemize}
+		\end{alertblock}}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Illustration sur un exemple}
 		On souhaite compresser le texte \og{}\textcolor{gray}{\tt les petits tests}\fg{}.
 		\begin{enumerate}
-			\item<2-> 
-			{\begin{tabular}{|l|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
-				\hline
-				Caractère & \tv{} & e & i & l & p & s & t \\
-				\hline
-				Occurrences & $2$ & $3$ & $1$ & $1$ & $1$ & $4$ & $4$ \\
-				\hline
-			\end{tabular}
-			}
+			\item<2->
+				{\begin{tabular}{|l|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
+					\hline
+					Caractère   & \tv{} & e   & i   & l   & p   & s   & t   \\
+					\hline
+					Occurrences & $2$   & $3$ & $1$ & $1$ & $1$ & $4$ & $4$ \\
+					\hline
+				\end{tabular}
+				}
 			\item<4-> Au départ chaque caractère représente un arbre comportant un noeud unique : \\
-			\begin{tabular}{ccccccc}
-				\cn{i}{1}  & \cn{l}{1} & \cn{p}{1} & \cn{\tv{}}{2}  &\cn{e}{3} & \cn{s}{4} & \cn{t}{4} \\
-			\end{tabular}
+				\begin{tabular}{ccccccc}
+					\cn{i}{1} & \cn{l}{1} & \cn{p}{1} & \cn{\tv{}}{2} & \cn{e}{3} & \cn{s}{4} & \cn{t}{4} \\
+				\end{tabular}
 			\item<5-> On extrait les deux arbres portant les plus petits nombres d'occurrences et on les assemblent en un nouvel arbre ayant la somme de leur nombre d'occurrence : \\
-			\begin{tabular}{cc} \cn{i}{1} & \cn{l}{1} \\ \end{tabular} forment \pstree{\tn{2}}{\dn{i} \dn{l}}
+				\begin{tabular}{cc} \cn{i}{1} & \cn{l}{1} \\ \end{tabular} forment \pstree{\tn{2}}{\dn{i} \dn{l}}
 			\item<6-> Ce nouvel arbre est inséré dans la structure de données et on réitère le processus jusqu'à ce qu'il reste un seul arbre
 		\end{enumerate}
 	\end{block}
@@ -273,15 +273,15 @@
 		\begin{itemize}
 			\item[]<2->
 			\begin{tabular}{cccccc}
-				\cn{p}{1} & \pstree{\tn{2}}{\dn{i} \dn{l}}  & \cn{\tv{}}{2}  &\cn{e}{3} & \cn{s}{4} & \cn{t}{4} \\
+				\cn{p}{1} & \pstree{\tn{2}}{\dn{i} \dn{l}} & \cn{\tv{}}{2} & \cn{e}{3} & \cn{s}{4} & \cn{t}{4} \\
 			\end{tabular}
 			\item[]<2->
 			\begin{tabular}{ccccc}
-				\cn{\tv{}}{2} & \pstree{\tn{3}} {\dn{p} \pstree{\Tdot}{\dn{i} \dn{l}}}    &\cn{e}{3} & \cn{s}{4} & \cn{t}{4} \\
+				\cn{\tv{}}{2} & \pstree{\tn{3}} {\dn{p} \pstree{\Tdot}{\dn{i} \dn{l}}} & \cn{e}{3} & \cn{s}{4} & \cn{t}{4} \\
 			\end{tabular}
 			\item[]<3->
 			\begin{tabular}{cccc}
-				   \cn{e}{3} & \cn{s}{4} & \cn{t}{4} & \pstree{\tn{5}}{\dn{\tv{}} \pstree{\Tdot}{\dn{p} \pstree{\Tdot}{\dn{i} \dn{l}}}}   \\
+				\cn{e}{3} & \cn{s}{4} & \cn{t}{4} & \pstree{\tn{5}}{\dn{\tv{}} \pstree{\Tdot}{\dn{p} \pstree{\Tdot}{\dn{i} \dn{l}}}} \\
 			\end{tabular}
 		\end{itemize}
 	\end{block}
@@ -293,11 +293,11 @@
 		\begin{itemize}
 			\item[]<3->
 			\begin{tabular}{ccc}
-				     \cn{t}{4} & \pstree{\tn{5}}{\dn{\tv{}} \pstree{\Tdot}{\dn{p} \pstree{\Tdot}{\dn{i} \dn{l}}}} & \pstree{\tn{7}}{\dn{e} \dn{s}} \\
+				\cn{t}{4} & \pstree{\tn{5}}{\dn{\tv{}} \pstree{\Tdot}{\dn{p} \pstree{\Tdot}{\dn{i} \dn{l}}}} & \pstree{\tn{7}}{\dn{e} \dn{s}} \\
 			\end{tabular}
 			\item[]<3->
 			\begin{tabular}{ccc}
-				     \pstree{\tn{7}}{\dn{e} \dn{s}} & \pstree{\tn{9}}{\dn{t}  \pstree{\Tdot}{\dn{\tv{}} \pstree{\Tdot}{\dn{p} \pstree{\Tdot}{\dn{i} \dn{l}}}}}  \\
+				\pstree{\tn{7}}{\dn{e} \dn{s}} & \pstree{\tn{9}}{\dn{t}  \pstree{\Tdot}{\dn{\tv{}} \pstree{\Tdot}{\dn{p} \pstree{\Tdot}{\dn{i} \dn{l}}}}} \\
 			\end{tabular}
 		\end{itemize}
 	\end{block}
@@ -305,59 +305,132 @@
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Attribution des codes}
-	Sur l'arbre final on attribut un code à chaque caractère en fonction de sa position dans l'arbre (on ajoute \textcolor{OliveGreen}{\tt 0} en allant à gauche et \textcolor{OliveGreen}{\tt 1} en allant à droite)
-	\begin{center}
-	\pstree{\Tdot}{\pstree{\Tdot}{\fn{e}{00} \fn{s}{01}}  \pstree{\Tdot}{\fn{t}{10}  \pstree{\Tdot}{\fn{\tv{}}{110} \pstree{\Tdot}{\fn{p}{1110} \pstree{\Tdot}{\fn{i}{11110} \fn{l}{11111}}}}}} \vspace{0.7cm}
-	\end{center}
-	On obtient un \textcolor{BrickRed}{code préfixe}, c'est à dire que le code d'un caractère n'est jamais le début du code d'un autre (ce qui évite toute ambigüité lors de la décompression).
-	Le texte initial contenait 4 caractères \textcolor{blue}{\tt s} pour un total de 32 bits, maintenat les \textcolor{blue}{\tt s} sont codés sur 2 bits et donc  occupent simplement {\tt 8 bits}
+		Sur l'arbre final on attribut un code à chaque caractère en fonction de sa position dans l'arbre (on ajoute \textcolor{OliveGreen}{\tt 0} en allant à gauche et \textcolor{OliveGreen}{\tt 1} en allant à droite)
+		\begin{center}
+			\pstree{\Tdot}{\pstree{\Tdot}{\fn{e}{00} \fn{s}{01}}  \pstree{\Tdot}{\fn{t}{10}  \pstree{\Tdot}{\fn{\tv{}}{110} \pstree{\Tdot}{\fn{p}{1110} \pstree{\Tdot}{\fn{i}{11110} \fn{l}{11111}}}}}} \vspace{0.7cm}
+		\end{center}
+		On obtient un \textcolor{BrickRed}{code préfixe}, c'est à dire que le code d'un caractère n'est jamais le début du code d'un autre (ce qui évite toute ambigüité lors de la décompression).
+		Le texte initial contenait 4 caractères \textcolor{blue}{\tt s} pour un total de 32 bits, maintenat les \textcolor{blue}{\tt s} sont codés sur 2 bits et donc  occupent simplement {\tt 8 bits}
 	\end{block}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exercices}
-	\begin{enumerate}
-		\item <1-> Calculer le taux de compression de l'algorithme sur l'exemple précédent.
-		\item <2-> Quelle structure de données est la plus adaptée pour ranger les arbres au fur et à mesure de leur construction, pourquoi ?
-		\item <3-> Faire fonctionner l'algorithme à la main pour compresser le texte \og{}\textcolor{gray}{trop top}\fg{}
-	\end{enumerate}
+		\begin{enumerate}
+			\item <1-> Calculer le taux de compression de l'algorithme sur l'exemple précédent.
+			\item <2-> Quelle structure de données est la plus adaptée pour ranger les arbres au fur et à mesure de leur construction, pourquoi ?
+			\item <3-> Faire fonctionner l'algorithme à la main pour compresser le texte \og{}\textcolor{gray}{trop top}\fg{}
+		\end{enumerate}
 	\end{exampleblock}
+	\onslide<4->{
+	\begin{block}{Remarques}
+		\begin{itemize}
+			\item On montre que le codage de Huffman est \textcolor{blue}{optimal} pour un code préfixe.
+			\item Pour des textes \og{} normaux \fg{} Le taux de compression de l'algorithme est d'environ 50 \% mais les variations peuvent être importantes.
+		\end{itemize}
+	\end{block}}
 \end{frame}
 
 \makess{Compression avec l'algorithme LZW}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Introduction}
 		\begin{itemize}
-		\item<1-> Le nom de cet algorithme provient de celui de ses trois inventeurs : Lemp, Ziv et Welch.
-		\item<2-> L'algorithme a l'avantage de pouvoir compresser un texte au fur et à mesure de sa lecture et  est donc adapté à la compression d'un flux de données
-		\item<3-> Le principe est d'attribuer un code aux sous chaines rencontrées dans le texte de façon à disposer d'un code compact si elles se présentent à nouveau.
+			\item<1-> Le nom de cet algorithme provient de celui de ses trois inventeurs : Lemp, Ziv et Welch.
+			\item<2-> L'algorithme a l'avantage de pouvoir compresser un texte au fur et à mesure de sa lecture et  est donc adapté à la compression d'un flux de données
+			\item<3-> C'est l'algorithme utilisé dans l'utilitaire de compression {\tt compress} et intervient dans le format d'image \sc{gif}.
 		\end{itemize}
 	\end{block}
+	\onslide<4->{
+		\begin{alertblock}{Principe}
+			Le principe est d'attribuer un code aux sous chaines (prefixes) rencontrées lors du parcours du texte de façon à disposer d'un code compact si elles se présentent à nouveau.
+		\end{alertblock}}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Illustration sur un exemple}
 		On veut compresser le texte \textcolor{blue}{\tt saisissais} qui ne contient que les 3 lettres \textcolor{blue}{\tt a} \textcolor{blue}{\tt i} et \textcolor{blue}{\tt s}. On commence par attribuer à chaque lettre un code : \textcolor{blue}{\tt a} $\rightarrow 0$, \textcolor{blue}{\tt i} $\rightarrow 1$ et \textcolor{blue}{\tt s} $\rightarrow 2$.
-		  \\
-		\onslide<2->{
-		{Puis on parcourt le texte en émettant le code du \textcolor{BrickRed}{plus long préfixe rencontré}. On rajoute ce prefixe augmenté du caractère suivant dans la liste des codes (de façon à disposer d'un code lorsqu'on le rencontrera à nouveau.)}
-		\begin{center}
-		\begin{tabular}{|p{3cm}|c|p{3cm}|}
-			\hline
-			  Position & Emis & Nouveau préfixe \\
-			\hline
-			\leavevmode\onslide<3->{\tt \underline{\textcolor{red}{s}}aisissais}  & \leavevmode\onslide<3->2 & \leavevmode\onslide<3->{\textcolor{blue}{\tt sa} $\rightarrow 3$}  \\
-			 \leavevmode\onslide<4->{{\tt \textcolor{gray}{s}\underline{\textcolor{red}{a}}isissais}} & \leavevmode\onslide<4->{0} & \leavevmode\onslide<4->{{\textcolor{blue}{\tt ai} $\rightarrow 4$}} \\
-			 \leavevmode\onslide<5->{{\tt \textcolor{gray}{sa}\underline{\textcolor{red}{i}}sissais}} & \leavevmode\onslide<5->{1} & \leavevmode\onslide<5->{{\textcolor{blue}{\tt is} $\rightarrow 5$}} \\
-			 \leavevmode\onslide<6->{{\tt \textcolor{gray}{sai}\underline{\textcolor{red}{s}}issais}} & \leavevmode\onslide<6->{2} & \leavevmode\onslide<6->{{\textcolor{blue}{\tt si} $\rightarrow 6$}} \\
-			 \leavevmode\onslide<7->{{\tt \textcolor{gray}{sais}\underline{\textcolor{red}{is}}sais}} & \leavevmode\onslide<7->{5} & \leavevmode\onslide<7->{{\textcolor{blue}{\tt iss} $\rightarrow 7$}} \\
-			 \leavevmode\onslide<8->{{\tt \textcolor{gray}{saisis}\underline{\textcolor{red}{sa}}is}} & \leavevmode\onslide<8->{3} & \leavevmode\onslide<8->{{\textcolor{blue}{\tt sai} $\rightarrow 3$}} \\
-			 \leavevmode\onslide<8->{{\tt \textcolor{gray}{saisissa}\underline{\textcolor{red}{is}}}} & \leavevmode\onslide<8->{5} &  \\
-			 \hline
-		\end{tabular}
-	\end{center}}
+		\\
+		\onslide<2->
+			{Puis on parcourt le texte en émettant le code du \textcolor{BrickRed}{plus long préfixe rencontré}. On crée un nouveau code pour  ce prefixe augmenté du caractère le suivant dans le texte (de façon à disposer d'un code lorsqu'on le rencontrera à nouveau.)}
+			\onslide<3->{
+			\begin{center}
+				\begin{tabular}{|p{3cm}|c|p{3cm}|}
+					\hline
+					Position                                                                                 & Emis                       & Nouveau préfixe                                                      \\
+					\hline
+					\leavevmode\onslide<3->{\tt \underline{\textcolor{red}{s}}aisissais}                     & \leavevmode\onslide<3->2   & \leavevmode\onslide<3->{\textcolor{blue}{\tt sa} $\rightarrow 3$}    \\
+					\leavevmode\onslide<4->{{\tt \textcolor{gray}{s}\underline{\textcolor{red}{a}}isissais}} & \leavevmode\onslide<4->{0} & \leavevmode\onslide<4->{{\textcolor{blue}{\tt ai} $\rightarrow 4$}}  \\
+					\leavevmode\onslide<5->{{\tt \textcolor{gray}{sa}\underline{\textcolor{red}{i}}sissais}} & \leavevmode\onslide<5->{1} & \leavevmode\onslide<5->{{\textcolor{blue}{\tt is} $\rightarrow 5$}}  \\
+					\leavevmode\onslide<6->{{\tt \textcolor{gray}{sai}\underline{\textcolor{red}{s}}issais}} & \leavevmode\onslide<6->{2} & \leavevmode\onslide<6->{{\textcolor{blue}{\tt si} $\rightarrow 6$}}  \\
+					\leavevmode\onslide<7->{{\tt \textcolor{gray}{sais}\underline{\textcolor{red}{is}}sais}} & \leavevmode\onslide<7->{5} & \leavevmode\onslide<7->{{\textcolor{blue}{\tt iss} $\rightarrow 7$}} \\
+					\leavevmode\onslide<8->{{\tt \textcolor{gray}{saisis}\underline{\textcolor{red}{sa}}is}} & \leavevmode\onslide<8->{3} & \leavevmode\onslide<8->{{\textcolor{blue}{\tt sai} $\rightarrow 8$}} \\
+					\leavevmode\onslide<8->{{\tt \textcolor{gray}{saisissa}\underline{\textcolor{red}{is}}}} & \leavevmode\onslide<8->{5} &                                                                      \\
+					\hline
+				\end{tabular}
+			\end{center}}
+		\onslide<9-> Codage initial : {\tt 2012122012} \\
+		\onslide<10-> Codage compressé : {\tt 2012535}
 	\end{block}
 \end{frame}
 
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Compresser le texte \textcolor{blue}{\tt blablabla} en attribuant les codes de départ suivant : \\ \textcolor{blue}{\tt a} $\rightarrow 0$, \textcolor{blue}{\tt b} $\rightarrow 1$ et \textcolor{blue}{\tt l} $\rightarrow 2$. \\
+		\onslide<2->\textcolor{OliveGreen}{On obtient la liste de codes : {\tt [1; 2; 0; 3; 5; 4;]}}
+	\end{exampleblock}
+	\onslide<3->{
+	\begin{alertblock}{Principe de la décompression}
+		On peut \textcolor{BrickRed}{reconstruire} la table de codage au fur et à mesure de la décompression. On n'a donc pas besoin de joindre la table de codage des prefixes au fichier compressé. Ce dernier contient déjà tous les éléments qui permettront sa décompression.
+		\begin{itemize}
+			\item<4-> On démarre avec la table initiale de codage ne contenant que les caractères
+			\item<5-> A chaque émission d'un code, on ajoute dans le table de codage la chaine émise suivie du premier caractère du code suivant.\\
+			\onslide<6->{\textcolor{BrickRed}{\small \danger \;} \textit{Sauf dans un cas $\dots$ (voir plus loin) }}
+		\end{itemize}
+	\end{alertblock}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Illustration sur un exemple}
+		Table initial de codage : \textcolor{blue}{\tt a} $\rightarrow 0$, \textcolor{blue}{\tt i} $\rightarrow 1$ et \textcolor{blue}{\tt s} $\rightarrow 2$\\
+		\textcolor{BrickRed}{\small \danger \;}{Les nouveaux prefixes se contruisent comme étant la chaine émise augmentée du premier caractère du code suivant.}
+		\begin{center}
+			\begin{tabular}{|p{3cm}|c|p{3cm}|}
+				\hline
+				Codage                                                                                 & Décompression                       & Nouveau préfixe                                                      \\
+				\hline
+				\leavevmode\onslide<2->{\tt \underline{\textcolor{red}{2}0}12535}                     & \leavevmode\onslide<2->\textcolor{blue}{\tt s}   & \leavevmode\onslide<2->{\textcolor{blue}{\tt sa} $\rightarrow 3$}    \\
+				\leavevmode\onslide<3->{\tt \textcolor{gray}{2}\underline{\textcolor{red}{0}1}2535}                     & \leavevmode\onslide<3->{\tt s\textcolor{OliveGreen}{a}}   & \leavevmode\onslide<3->{\textcolor{blue}{\tt ai} $\rightarrow 4$}    \\
+				\leavevmode\onslide<4->{\tt \textcolor{gray}{20}\underline{\textcolor{red}{1}2}535}                     & \leavevmode\onslide<4->{\tt sa\textcolor{OliveGreen}{i}}   & \leavevmode\onslide<4->{\textcolor{blue}{\tt is} $\rightarrow 5$}    \\
+				\leavevmode\onslide<5->{\tt \textcolor{gray}{201}\underline{\textcolor{red}{2}5}35}                     & \leavevmode\onslide<5->{\tt sai\textcolor{OliveGreen}{s}}   & \leavevmode\onslide<5->{\textcolor{blue}{\tt si} $\rightarrow 6$}    \\
+				\leavevmode\onslide<6->{\tt \textcolor{gray}{2012}\underline{\textcolor{red}{5}3}5}                     & \leavevmode\onslide<6->{\tt sais\textcolor{OliveGreen}{is}}   & \leavevmode\onslide<6->{\textcolor{blue}{\tt sis} $\rightarrow 7$}    \\
+				\leavevmode\onslide<7->{\tt \textcolor{gray}{20125}\underline{\textcolor{red}{3}5}}                     & \leavevmode\onslide<7->{\tt saisis\textcolor{OliveGreen}{sa}}   & \leavevmode\onslide<7->{\textcolor{blue}{\tt sai} $\rightarrow 8$}    \\
+				\leavevmode\onslide<8->{\tt \textcolor{gray}{201253}\underline{\textcolor{red}{5}}}                     & \leavevmode\onslide<8->{\tt saisissa\textcolor{OliveGreen}{is}}   &     \\
+				\hline
+			\end{tabular}
+		\end{center}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		On rappelle que la compression de \textcolor{blue}{\tt blablabla} en attribuant les codes de départ :\\ \textcolor{blue}{\tt a} $\rightarrow 0$, \textcolor{blue}{\tt b} $\rightarrow 1$ et \textcolor{blue}{\tt l} $\rightarrow 2$ donne la liste de codes : {\tt [1; 2; 0; 3; 5; 4;]}. \\
+		Montrer qu'un décompressant cette liste de codes en suivant l'algorithme décrit plus haut, on retrouve bien le texte de départ.
+	\end{exampleblock}
+	\onslide<2->{
+	\begin{block}{Reste une subtilité $\dots$}
+		\begin{itemize}
+			\item<3-> Compresser le texte \textcolor{blue}{\tt taratatata} en attribuant les codes de départ suivant : \\ \textcolor{blue}{\tt a} $\rightarrow 0$, \textcolor{blue}{\tt r} $\rightarrow 1$ et \textcolor{blue}{\tt t} $\rightarrow 2$. \\
+			\onslide<4->\textcolor{OliveGreen}{On obtient la liste de codes : {\tt [2; 0; 1; 0; 3; 7; 0]}}
+			\item<5-> Décompresser la liste obtenue, quel situation (qui n'était pas apparue dans les exemples précédents) se produit ?
+			\item<6-> Modifier l'algorithme de décompression initial afin de traiter ce cas.
+		\end{itemize}
+	\end{block}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation}
+		L'implémentation détaillée en OCaml, sera vue en {\sc tp}, on utilise les tables de hachage du module \textcolor{blue}{\tt Hashtbl} afin de stocker les codes des prefixes, c'est à dire que les clés de la table sont les préfixes (donc des chaines de caractères) et les valeurs les codes associées.
+	\end{block}
+\end{frame}
 
 \end{document}

@@ -1,0 +1,63 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{19}{Algorithme des textes}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C18/}
+
+
+\psset{treesep=0.5cm,levelsep=0.8cm}
+
+\setcounter{Exercise}{0}
+
+\begin{Exercise}[title = complexité des algorithmes de recherche]\\
+Dans tout cet exercice, on exprime la complexité en nombre de comparaisons effectués par l'algorithme. Et note $t$ la longueur du texte et $m$ la longueur du motif.
+\Question{Montrer que la recherche naïve effectue entre $t$ et $t\times m$ comparaisons et donner des exemples dans laquelle ces deux bornes sont atteintes.}
+\end{Exercise}
+
+\begin{Exercise}[title = Algorithme naïf avec motif à caractère unique]
+    \Question{Montrer qu'il est possible d'améliorer l'algorithme de recherche naïf si on suppose que tous les caractères du motifs apparaissent une seule fois dans le motif. \\
+    \aide \; Faire par exemple la recherche de {\tt abcd} dans le texte {\tt abceababccabcdabb} et observer ce qu'il se passe lorsqu'on trouve un début de correspondance.}
+    \Question{Donner une implémentation en C ou en OCaml de ce nouvel algorithme.}
+\end{Exercise}
+
+\begin{Exercise}[title = Dérouler l'algorithme de Boyer-Moore-Hoorspool]
+\Question{Donner la table de décalage du motif {\tt tele}}
+\Question{Donner les étapes du déroulement de l'algorithme de Boyer-Moore-Hoorspool pour recherche toutes les occurrences de ce motif dans le texte : {\tt le telephone ou la television} }
+\end{Exercise}
+
+\begin{Exercise}[title = Rabin-Karp à deux motifs]
+\Question{Ecrire une fonction {\tt hash  : string -> int} qui effectue la somme des carrés des code {\sc ascii} de la chaine donnée en argument}
+\Question{Ecrire l'implémentation de l'algorithme de Rabin-Karp afin de recherche un motif dans un texte.}
+\Question{Adapter votre algorithme de façon à pourvoir rechercher les occurences de deux motifs {\tt m1} et {\tt m2} qu'on suppose de même longueur.}
+\Question{Proposer une nouvelle modification si les motifs sont de taille différentes.}
+\end{Exercise}
+
+\newcommand{\tv}{\textvisiblespace}
+\newcommand{\dn}[1]{\TCircle{\textcolor{blue}{\tt #1}}}
+\begin{Exercise}[title = Quelques arbres de Huffmann]
+    \Question{Donner l'arbre de Huffman obtenu pour un texte contenant 10 caractères ayant tous le même nombre d'occurences $n$.}
+    \Question{Donner l'arbre de Huffman obtenu pour un texte contenant 7 caractères  dont les nombres d'occurences sont 1, 2, 4, 8, 16, 32 et 64.}
+    \Question{On donne l'arbre de Huffmann suivant :
+    \begin{center}
+        \pstree{\Tdot}{
+        \pstree{\Tdot}{\pstree{\Tdot}{\pstree{\Tdot}{{\dn{a} \dn{f}}} \dn{c}} \pstree{\Tdot}{\dn{i} \dn{\tv}}}
+        \pstree{\Tdot}{\dn{e} \pstree{\Tdot}{\pstree{\Tdot}{\dn{r} \pstree{\Tdot}{\dn{x} \dn{p}}} \pstree{\Tdot}{\dn{l} \dn{t}}}}
+        }\vspace{0.7cm}
+    \end{center}
+    Donner les codes  des caractères présents dans l'arbre.
+    }
+    \Question{Donner le texte dont la compression est : \\{\tt 11101001111011101111010111101110110101011000010100011001100010000001010111010}}
+    \Question{Calculer la taille initiale du texte et la taille du texte compressé.}
+\end{Exercise}
+
+\begin{Exercise}[title = Algorithme {\sc lzw}]
+    \Question{Décrire le fonction de l'algorithme {\sc lzw} sur une chaine qui contient $n$ caractères identiques.}
+    \Question{On considère la compression d'un texte contenant $5$ caractères différents. Donner une chaîne de caractères de longueur 20 pour laquelle l'algorithme {\sc lzw} ne réduit pas la taille du résultat par rapport à l'entrée.}
+\end{Exercise}
+
+
+\end{document}

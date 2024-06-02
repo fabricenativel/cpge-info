@@ -3,5 +3,5 @@ with open("dico.txt") as reader:
 
 for m in mots:
     s = set(list(m))
-    if len(s)==4 and len(m)==12:
+    if len(s)==4 and len(m)>=11:
         print(m)
