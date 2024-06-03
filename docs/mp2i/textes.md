@@ -23,11 +23,20 @@
         * pour les algorithmes de recherche on pourra indexer chaque caractère par une table de 128 entiers (c'est à dire identifier un caractère à son code {{sc("ascii")}}.
         * pour mesurer les taux de compressions, on pourra considérer qu'un fichier contenant $n$ caractères a une taille de $8n$ bits (le cas de l'{{sc("utf-8")}} s'avère bien plus problématique puis qu'un caractère occupe de 1 à 4 octets.)
 
-    * On donner ci dessous un tel fichier prêt à l'emploi à télécharger : il s'agit du livre *Notre-Dame de Paris* (V. {{sc("Hugo")}}, 1831) qui servira d'exemple pour les tests.   
+    * On donne ci dessous un tel fichier prêt à l'emploi à télécharger : il s'agit du livre *Notre-Dame de Paris* (V. {{sc("Hugo")}}, 1831) qui servira d'exemple pour les tests.   
     {{telecharger("Notre-Dame de Paris (ascii)","./files/C19/notredame_ascii.txt",false)}}
-    * Pour produire de tels fichiers, on pourra partir de n'importe quel livre téléchargeable sur le site du   [projet Gutenberg](https://www.gutenberg.org/){target=_blank}. Le format par défaut lors du téléchargement est l'{{sc("utf-8")}}, pour convertir ce fichier au format {{sc("ascii")}} en effectuant une translittération, c'est à dire par exemple en remplaçant `à` par `a` ou encore `é` par `e` on pourra utiliser l'utilitaire `iconv` en ligne de commande avec la syntaxe suivante :
-    ```bahs
+    * Pour produire de tels fichiers, on pourra partir de n'importe quel fichier texte au format {{sc("utf-8")}} (par exemple un livre téléchargeable sur le site du   [projet Gutenberg](https://www.gutenberg.org/){target=_blank}) puis convertir ce fichier au format {{sc("ascii")}} en effectuant une translittération, c'est à dire par exemple en remplaçant `à` par `a` ou encore `é` par `e` pour cela, on pourra utiliser l'utilitaire `iconv` en ligne de commande avec la syntaxe suivante :
+    ```bash
     iconv -f utf-8 -t ascii//TRANSLIT <source> -o <destination>
+    ```
+
+!!! aide
+    En Ocaml la fonction suivante `lire_fichier string -> string` permet de lire la totalité d'un fichier dont on donne le nom et renvoie le contenu sous la forme d'une chaine de caractère :
+
+    ```ocaml
+    let lire_fichier fname =
+    let reader = open_in fname in
+    In_channel.input_all reader;;
     ```
 
 {{exo("Autour de la recherche naïve",[],0)}}
@@ -60,15 +69,15 @@ Dans les deux langages, pour tester les programmes, on pourra :
         On rappelle :  
 
         * qu'en C, la fonction `main` doit alors s'écrire `#!c main(int argc, char* argv[])` et que le tableau de chaines de caractères `argv` contient les arguments présents sur la ligne de commande à partir de l'indice 1 (`argv[0]` est le nom de l'exécutable).
-        * qu'en OCaml, on peut récupérer directement l'argument numéro `i`  à l'aide de `#!ocaml Sys.argv[i]` (comme en C, l'argument d'indice 0 est le nom de l'exécutable)
+        * qu'en OCaml, on peut récupérer directement l'argument numéro `i`  à l'aide de `#!ocaml Sys.argv.(i)` (comme en C, l'argument d'indice 0 est le nom de l'exécutable)
 
 {{exo("Avec une table de décalage",[])}}
 
 On rappelle qu'on peut accélérer la recherche en commençant par la fin du motif (de longueur $l_m$) et en utilisant une *table de décalage* $d$  qui indique de combien d'emplacement on peut avancer lorsqu'on rencontre deux caractères qui ne se correspondent pas :
 
 * Si un caractère $c$ n'est pas dans le motif alors $d(c)=l_m$ 
-* Si c est le dernier caractère du motif, la distance entre l'*avant-dernière* occurrence de $c$ et la fin du motif
-* Sinon $d(c) =$ la distance entre la dernière occurrence de $c$ et la fin du motif
+* Si c est le dernier caractère du motif, alors $d(c)$ est la distance entre l'*avant-dernière* occurrence de $c$ et la fin du motif
+* Sinon $d(c)$ est la distance entre la dernière occurrence de $c$ et la fin du motif
 
 Dans une recherche naïve on teste les correspondances à chaque indice possible dans le texte, cette table de décalage permet d'avancer plus vite (au maximum on avance de la longueur du motif).
 
@@ -89,7 +98,7 @@ Dans une recherche naïve on teste les correspondances à chaque indice possible
 
 3. Tester en recherchant `ab` dans le fichier `notredame_ascii.txt`, combien de collisions ne sont *pas* des correspondances ? {{check_reponse("1803")}}
 
-4.  Tester avec la nouvelle fonction de décalage   
+4.  Tester avec la nouvelle fonction de hachage   
 $\displaystyle{h(s) = \sum_{i=0}^{n-1} 31^i \times c_i}$ (où les $c_i$ sont les caractères de la chaine $s$)
 
 {{ exo("Algorithme de Huffmann",[])}}
