@@ -12,7 +12,10 @@ let affiche t =
 
 exception Echec
 
-let gen_auto n =
+let valide tab i = true;;
+
+(* Recherche par backtracking les tableaux autoréférents de taille n*)
+let recherche n =
   let t = Array.make n (-1) in
   let rec remplir_a_partir_de i =
     if i = n then
@@ -25,8 +28,9 @@ let gen_auto n =
       for k = 0 to n - 1 do
         try
           t.(i) <- k;
-          (* Début élagage *)
-          (* Fin élagage *)
+          (* Ici on valide que le début de solution est correcte  *)
+          if not (valide t i) then raise Echec;
+          (* Fin de la validation partir *)
           remplir_a_partir_de (i + 1)
         with Echec -> ()
       done
