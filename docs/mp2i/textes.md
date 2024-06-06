@@ -141,6 +141,35 @@ Dans tout la suite on suppose défini `#!ocaml let nbchar = 128`,
 7. Tester l'algorithme de compression de Huffmann sur le fichier `notre_dame_ascii.txt` disponible en téléchargement ci-dessus. Quel taux de compression obtient-on (arrondir à 3 chiffres après la virgule) ? {{check_reponse("0.558")}}
 
 
+{{ exo("Algorithme LZW",[])}}
+
+Le but de l'exercice est d'implémenter en OCaml l'algorithme {{sc("lzw")}}, on rappelle qu'on considère qu'on compresse des textes en {{sc("ascii")}} et qu'on identifie un caractère à son code (un entier compris entre 0 et 127). On se fixe un maximum pour la taille des codes (en bits) produits par l'algorithme. Lorsque ce maximum est atteint, on ne produit plus de codes pour les prefixes rencontrés.
+
+1. Définir en début de programme une constante `taille_max`, qui contiendra la taille maximale en bits d'un code, on pourra prendre la valeur 16 (de cette façon, un code occupe au maximum 2 octets). Ecrire une fonction qui renvoie le numéro maximal d'un code en connaissant la taille maximale de code utilisée.
+
+2. On stocke les codes de chacun préfixe dans une *table de hachage*, et on rappelle qu'initialement seuls les codes des lettres sont dans la table. Ecrire une fonction `code_ascii : () -> (string, int) Hashtbl` qui renvoie une table de hachage dont les clés sont les caractères {{sc("ascii")}} et les valeurs les codes associés.
+        
+    !!! aide
+        * On pourra commencer par écrire une fonction `string_of_char : char -> string`  qui renvoie le caractère passé en argument sous la forme d'une chaine de caractère, par exemple `string_of_char 'A'` renvoie `"A"`.
+        * On rappelle les fonctions suivantes du module `Hashtbl` :
+            * `#!ocaml Hashtbl.mem` crée une table de hachage (on doit donner une taille initiale)
+            * `#!ocaml Hashtbl.mem` permet de tester l'appartenance
+            * `#!ocaml Hashtbl.add` permet d'ajouter un nouveau couple (clé, valeur)
+            * `#!ocaml Hashtbl.find` permet de récupérer la valeur associée à une clé
+            * `#!ocaml Hashtbl.replace` permet de modifier la valeur associée à une clé
+
+3. Ecrire la fonction de compression de signature : `compression : string -> (string,int) Hashtbl -> int -> int list * int` qui prend en argument  la texte à compresser, la table de hachage, le nombre de caractères de l'alphabet initial et renvoie la liste des codes générés ainsi que le nombre total de codes.
+
+    !!! aide
+        On rappelle qu'à chaque étape :
+
+        * on émet le code du plus long préfixe se trouvant dans la table
+        * on crée un nouveau code pour ce préfixe augmenté du caractère suivant
+
+4. Ecrire la fonction de décompression de signature `decompression : int list -> string` qui prend en argument la liste des codes et renvoie le texte décompressé. Cette fois, on a besoin d'un tableau de chaines de caractères dont indicé par le numéro des codes. Initialement ce tableau contient les caractères {{sc("ascii")}}.
+
+5. Tester vos fonctions d'abord sur de petits exemples tels que ceux vu en cours puis des fichiers plus longs.
+
 ## Humour d'informaticien
 
 ![tree](./Images/C19/dependency.png){.imgcentre width=500px}
