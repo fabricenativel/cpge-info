@@ -12,236 +12,489 @@
 \newcommand{\Ctitle}{\cnum {Algorithmes des graphes}}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
 \newcommand{\ar}[1]{\{#1\}}
+\newcommand{\normal}[1]{\circlenode{#1}{#1}}
+\newcommand{\todo}[1]{\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{#1}{#1}}
+\newcommand{\visited}[1]{\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{#1}{#1}}
 
+
+
+\makess{Introduction}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Problématique}
+		\textit{Avant d'aborder ce chapitre il faut revoir le vocabulaire et les notions liés aux graphes ainsi que leur représentation en machine.}\medskip \\
+		\onslide<2->{Etant donné un \textcolor{blue}{graphe $(S,A)$}, on s'intéresse de ce chapitre à des questions comme :}
+		\begin{itemize}
+			\item<3-> Pour $(u,v) \in S^2$, existe-t-il un \textcolor{blue}{chemin} de $u$ à $v$ ? Si oui, peut-on déterminer un chemin de plus faible \textcolor{blue}{coût} ?
+			\item<4-> Quels sont les sommets atteignables depuis un sommet donné ?
+			\item<5-> $G$ contient-il un \textcolor{blue}{cycle} ?
+			\item<6-> \dots
+		\end{itemize}
+		\onslide<7->{Le langage d'implémentation des algorithmes sera prioritairement OCaml.}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{\textcolor{yellow}{\small \rappel\;} Rappel : itération sur les éléments d'une liste}
+		\begin{itemize}
+			\item<1->On rappelle qu'en OCaml, on peut appliquer une fonction aux éléments d'une liste avec \mintinline{OCaml}{List.iter} de signature {\tt ('a -> unit) -> 'a list -> unit}, le premier argument est la fonction à appliquer et le second la liste des éléments. On notera bien que la fonction \textit{renvoie} {\tt unit}.\\
+			\onslide<2->{Par exemple, \mintinline{ocaml}{List.iter print_int [1; 2; 3];;} affiche {\tt 123}}.
+			\item<3-> La fonction à appliquer, peut être défini sous la forme d'une fonction anonyme avec {\tt fun}.
+				\onslide<4->{Par exemple, \mintinline{ocaml}{List.iter (fun n -> print_int n; print_string "; ") [1; 2; 3];;} affiche {\tt 1; 2; 3; }}
+		\end{itemize}
+	\end{block}
+	\begin{exampleblock}{Exercices}
+		\begin{enumerate}
+			\item<5-> Utiliser {\tt List.iter} pour afficher les longueurs d'une liste de chaîne de caractères.
+			\item<6-> Ecrire, \textit{en utilisant} \mintinline{ocaml}{List.iter}, une fonction {\tt somme: int list -> int} qui renvoie la somme des éléments de la liste d'entiers donnée en argument.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
 
 \makess{Parcours de graphes}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Parcours d'un graphe}
 		A la base des algorithmes sur les graphes, on trouve les parcours de graphe, c'est à dire l'exploration des sommets. A partir du sommet de départ, on peut :
 		\begin{itemize}
-			\item<1-> explorer tous ses voisins immédiats, puis les voisins des voisins et ainsi de suite. Le graphe est donc exploré en \og cercle concentrique\fg autour du sommet de départ  \dots, on parle alors de  \textcolor{blue}{parcours en largeur} ou \textcolor{gray}{breadth first search (\textit{BFS})} en anglais.
-			\item<2-> explorer à chaque étape le premier voisin non encore exploré. Lorsque qu'on atteint un sommet dont tous les voisins ont déjà été exploré, on revient en arrière, on parle alors de  \textcolor{blue}{parcours en profondeur} ou \textcolor{gray}{depth first search (\textit{DFS})} en anglais.
+			\item<2-> explorer tous ses voisins immédiats, puis les voisins des voisins et ainsi de suite. Le graphe est donc exploré en \og cercle concentrique\fg autour du sommet de départ  \dots, on parle alors de  \textcolor{blue}{parcours en largeur} ou \textcolor{gray}{breadth first search (\textit{BFS})} en anglais.
+			\item<3-> explorer à chaque étape le premier voisin non encore exploré. Lorsque qu'on atteint un sommet dont tous les voisins ont déjà été exploré, on revient en arrière, on parle alors de  \textcolor{blue}{parcours en profondeur} ou \textcolor{gray}{depth first search (\textit{DFS})} en anglais.
 		\end{itemize}
+		\onslide<4->Ces deux parcours ({\tt dfs} ou {\tt bfs}) marquent exactement les sommets atteignables depuis la source (mais les sommets sont visités dans un ordre différent). Et les deux algorithmes peuvent donc être utilisés pour déterminer les \textit{composantes connexes} d'un graphe.
 	\end{block}
 \end{frame}
 
 
-% Vocabulaire
-
-	
-	
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-		\begin{exampleblock}{Exemple de parcours en largeur}
-			\begin{center}
-					\begin{pspicture}(5,2)
-						\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-						\rput(1,0.5){\circlenode{E}{E}}
-						\rput(2,1){\circlenode{B}{B}}
-						\rput(4,0.7){\circlenode{D}{D}}
-						\rput(6,1.5){\circlenode{C}{C}}
-						\ncarc{->}{A}{E}
-						\ncarc{->}{A}{B}
-						\ncarc{->}{A}{C}
-						\ncarc[arcangle=-10]{->}{B}{D}
-						\ncarc{->}{C}{B}
-						\ncarc[arcangle=-10]{->}{D}{C}
-						\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-						\ncline{->}{E}{B}
-					\end{pspicture}
-				\end{center}
-		Sommets explorés : \fbox{A}
-		\end{exampleblock}
-\end{frame}
-
+% Parcours en largeur
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple de parcours en largeur}
 		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode{D}{D}}
-					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : \fbox{A}, \fbox{B,C,E}
+			\begin{pspicture}(5,2)
+				\alt<2->{\rput(0,1.8){\visited{A}}}{\rput(0,1.8){\normal{A}}}
+				\alt<3->{\rput(1,0.5){\visited{E}}}{\rput(1,0.5){\normal{E}}}
+				\alt<3->{\rput(2,1){\visited{B}}}{\rput(2,1){\normal{B}}}
+				\alt<3->{\rput(6,1.5){\visited{C}}}{\rput(6,1.5){\normal{C}}}
+				\alt<5->{\rput(6,0){\visited{F}}}{\rput(6,0){\normal{F}}}
+				\alt<7->{\rput(7,0.7){\visited{G}}}{\rput(7,0.7){\normal{G}}}
+				\alt<5->{\rput(4,0.7){\visited{D}}}{\rput(4,0.7){\normal{D}}}
+				\ncarc{->}{A}{E}
+				\ncarc{->}{A}{B}
+				\ncarc{->}{A}{C}
+				\ncarc[arcangle=-10]{->}{B}{D}
+				\ncarc{->}{C}{B}
+				\ncarc[arcangle=-10]{->}{C}{F}
+				\ncarc[arcangle=-10]{->}{F}{G}
+				\ncarc[arcangle=-10]{->}{D}{C}
+				\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+				\ncline{->}{E}{B}
+			\end{pspicture}
+		\end{center} \vspace{0.2cm}
+		Sommets explorés  : \onslide<2->{\fbox{A,}} \onslide<4->{\fbox{B, C, E}} \onslide<6->{\fbox{D, F,}} \onslide<8->{\fbox{G\phantom{,}}} \\
+		\onslide<9->{Ecrire le parcours en largeur du graphe suivant (on part du sommet $S_1$)
+			\begin{pspicture}(0,-1.6)(5,1.6)
+				\rput(1,1.3){\circlenode{R1}{$S_1$}}
+				\rput(3,1.3){\circlenode{R2}{$S_2$}}
+				\rput(1,0){\circlenode{R3}{$S_3$}}
+				\rput(3,0){\circlenode{R4}{$S_4$}}
+				\rput(5,0){\circlenode{R5}{$S_5$}}
+				\rput(1,-1.3){\circlenode{R6}{$S_6$}}
+				\rput(3,-1.3){\circlenode{R7}{$S_7$}}
+				\rput(5,-1.3){\circlenode{R8}{$S_8$}}
+				\ncline{->}{R1}{R2}
+				\ncline{->}{R2}{R4}
+				\ncline{->}{R2}{R5}
+				\ncline{->}{R4}{R6}
+				\ncline{->}{R4}{R7}
+				\ncline{->}{R6}{R3}
+				\ncline{->}{R4}{R1}
+				\ncline{->}{R4}{R5}
+				\ncline{->}{R7}{R8}
+				\ncline{->}{R8}{R5}
+				\ncline{->}{R3}{R1}
+			\end{pspicture}}
 	\end{exampleblock}
 \end{frame}
 
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en largeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
-					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : \fbox{A}, \fbox{B,C,E}, \fbox{D}.
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode{B}{B}}
-					\rput(4,0.7){\circlenode{D}{D}}
-					\rput(6,1.5){\circlenode{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : \fbox{A}
-	\end{exampleblock}
-\end{frame}
-
+% Ex parcours en profondeur
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple de parcours en profondeur}
 		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode{D}{D}}
-					\rput(6,1.5){\circlenode{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : A, B
+			\begin{pspicture}(5,2)
+				\alt<2->{\rput(0,1.8){\visited{A}}}{\rput(0,1.8){\normal{A}}}
+				\alt<3->{\rput(2,1){\visited{B}}}{\rput(2,1){\normal{B}}}
+				\alt<5->{\rput(6,1.5){\visited{C}}}{\rput(6,1.5){\normal{C}}}
+				\alt<4->{\rput(4,0.7){\visited{D}}}{\rput(4,0.7){\normal{D}}}
+				\alt<8->{\rput(1,0.5){\visited{E}}}{\rput(1,0.5){\normal{E}}}
+				\alt<6->{\rput(6,0){\visited{F}}}{\rput(6,0){\normal{F}}}
+				\alt<7->{\rput(7,0.7){\visited{G}}}{\rput(7,0.7){\normal{G}}}
+				\ncarc{->}{A}{E}
+				\ncarc{->}{A}{B}
+				\ncarc{->}{A}{C}
+				\ncarc[arcangle=-10]{->}{B}{D}
+				\ncarc{->}{C}{B}
+				\ncarc[arcangle=-10]{->}{C}{F}
+				\ncarc[arcangle=-10]{->}{F}{G}
+				\ncarc[arcangle=-10]{->}{D}{C}
+				\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+				\ncline{->}{E}{B}
+			\end{pspicture}
+		\end{center} \vspace{0.2cm}
+		Sommets explorés  : \onslide<2->{A,} \onslide<3->{B,} \onslide<4->{D,} \onslide<5->{C,} \onslide<6->{F,} \onslide<7->{G,} \onslide<8->{E} \\
+		\onslide<9->{Ecrire le parcours en profondeur du graphe suivant (on part du sommet $S_1$)
+			\begin{pspicture}(0,-1.6)(5,1.6)
+				\rput(1,1.3){\circlenode{R1}{$S_1$}}
+				\rput(3,1.3){\circlenode{R2}{$S_2$}}
+				\rput(1,0){\circlenode{R3}{$S_3$}}
+				\rput(3,0){\circlenode{R4}{$S_4$}}
+				\rput(5,0){\circlenode{R5}{$S_5$}}
+				\rput(1,-1.3){\circlenode{R6}{$S_6$}}
+				\rput(3,-1.3){\circlenode{R7}{$S_7$}}
+				\rput(5,-1.3){\circlenode{R8}{$S_8$}}
+				\ncline{->}{R1}{R2}
+				\ncline{->}{R2}{R4}
+				\ncline{->}{R2}{R5}
+				\ncline{->}{R4}{R6}
+				\ncline{->}{R4}{R7}
+				\ncline{->}{R6}{R3}
+				\ncline{->}{R4}{R1}
+				\ncline{->}{R4}{R5}
+				\ncline{->}{R7}{R8}
+				\ncline{->}{R8}{R5}
+				\ncline{->}{R3}{R1}
+			\end{pspicture}}
 	\end{exampleblock}
 \end{frame}
 
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
-					\rput(6,1.5){\circlenode{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : A, B, D
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
-					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : A, B, D, C
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
-					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : A, B, D, C, E
-	\end{exampleblock}
-\end{frame}
-
+\makess{Parcours en largeur}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{File et parcours en largeur}
 		\begin{itemize}
-			\item<1-> Pour un parcours en largeur, on doit stocker dans une structure de données les sommets en attente d'être explorés. C'est à dire les voisins du sommet de départ, puis les voisins des voisins \dots 
-			Ces sommets doivent être retirés pour exploration, dans leur ordre d'insertion, la structure de données utilisée est donc du type \textcolor{blue}{premier entré, premier sorti} (\textcolor{gray}{first in first out (\textit{FIFO})}), c'est donc une \textcolor{blue}{file}.
-			\item<3-> Pour l'implémentation on doit pouvoir \textcolor{blue}{enfiler} (ajouter un sommet dans la file) et \textcolor{blue}{défiler} (retirer une sommet) de façon efficace donc en $O(1)$. 
-			\item<4-> Pour l'implémentation on pourra utiliser
-			\begin{itemize}
-				\item<5-> Le module \mintinline{ocaml}{Queue} de OCaml
-				\item<6-> Une structure de liste chaînée avec des opérations enfiler et défiler en $O(1)$
-			\end{itemize} 
+			\item<1-> Pour un parcours en largeur, on doit stocker dans une structure de données les sommets en attente d'être explorés. C'est à dire les voisins du sommet de départ, puis les voisins des voisins \dots
+				Ces sommets doivent être retirés pour exploration, dans leur ordre d'insertion, la structure de données utilisée est donc du type \textcolor{blue}{premier entré, premier sorti} (\textcolor{gray}{first in first out (\textit{FIFO})}), c'est donc une \textcolor{blue}{file} qu'on implémentera à l'aide du module \mintinline{ocaml}{Queue} de OCaml.
+			\item<2-> L'algorithme de parcours en largeur ({\sc bfs}) est donc le suivant :
+				\begin{itemize}
+					\item<3-> Initialement, la file contient le noeud de départ
+					\item<4-> A chaque étape, on défile un noeud, \textit{on marque ce noeud comme visité}, et on enfile ses fils \textit{non encore marqués}.
+				\end{itemize}
 		\end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{File et parcours en profondeur}
+	\begin{block}{Implémentation en OCaml}
+		On utilise la représentation par liste d'adjacence des graphes orientés et on rappelle que dans ce cas, les listes d'adjacence contiennent les voisins \textcolor{BrickRed}{sortants} :
+		\inputpartOCaml{\SPATH/bfs.ml}{}{}{2}{2}
+		On rappelle les fonctions principales du module \mintinline{OCaml}{Queue} :
 		\begin{itemize}
-			\item<1-> Pour un parcours en profondeur, on stocke aussi dans une structure de données les sommets en attente d'être explorés. Mais cette fois, la structure de données utilisée est  du type \textcolor{blue}{dernier entré, premier sorti} (\textcolor{gray}{last in first out (\textit{LIFO})}), c'est à dire une \textcolor{blue}{pile}.
-			\item<3-> Pour l'implémentation, on peut :
-			\begin{itemize}
-				\item<4->se contenter d'utiliser la récursivité de façon à ce que la pile des sommets en attente d'être exploré soit gérée de façon automatique via la pile des appels récursifs.
-				\item<5->Utiliser le module \mintinline{ocaml}{Stack} de OCaml (ou une simple liste).
-				\item<6->Utiliser une liste chainée en C afin d'implémenter une pile.
-			\end{itemize}
+			\item \mintinline{ocaml}{Queue.create: unit -> 'a Queue}  qui crée une file vide d'éléments de type {\tt 'a}.
+			\item \mintinline{ocaml}{Queue.push: 'a Queue -> 'a -> unit}  qui enfile un élément.
+			\item \mintinline{ocaml}{Queue.pop 'a Queue -> 'a} qui défile.
+			\item \mintinline{ocaml}{Queue.is_empty 'a Queue -> bool} qui test si la file est vide.
 		\end{itemize}
 	\end{block}
 \end{frame}
 
-\end{document}  
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		\begin{enumerate}
+			\item<2-> Ecrire \mintinline{ocaml}{cree_graphe: int -> digraph} qui prend en argument un entier {\tt n} et renvoie un graphe orienté vide de taille {\tt n}.
+			\item<3-> Ecrire \mintinline{ocaml}{ajoute_aretes: digraphe -> (int*int) list -> unit} qui prend en argument une liste d'arêtes, chaque arête étant une couple d'entiers (somme de départ, sommet d'arrivée) et ajoute ces arêtes dans le graphe donné en argument.
+			\item<4-> Ecrire la fonction \mintinline{ocaml}{bfs: digraphe -> int -> int array} qui renvoie le résultat du parcours en largeur d'un graphe sous la forme d'un tableau de distance (en nombre d'arêtes depuis le sommet de départ).\\
+				\onslide<4->{\textcolor{OliveGreen}{\small \aide \;} On pourra procéder avec  les étapes suivantes :
+					\begin{itemize}
+						\item créer une file vide et y enfiler le sommet de départ
+						\item créer le tableau de distance en initialisant à $-1$ (ou \mintinline{ocaml}{Int.max_int}) pour indiquer que le sommet n'a pas encore été visité sauf pour le sommet de départ dont la distance est 0.
+						\item Ecrire la boucle principale : tant que la file n'est pas vide, à chaque étape on extrait un sommet et on enfile ses fils \textit{n'ayant pas encore été parcourus}
+					\end{itemize}}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Proposition de correction}
+		\inputpartOCaml{\SPATH/bfs.ml}{}{}{6}{15}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Analyse de l'algorithme {\sc bfs}}
+		\begin{itemize}
+			\item<2-> Chaque sommet est inséré une unique fois dans la file et à chaque tour de boucle on retire un sommet ce qui assure la \textcolor{blue}{terminaison}
+			\item<3-> Pour la \textcolor{blue}{correction}, on prouve l'invariant suivant : pour le sommet {\tt s} retiré de la file à chaque tour de boucle, \mintinline{ocaml}{distance.(s)} contient la distance minimale (en nombre d'arêtes) du sommet de départ à {\tt s}.
+				\begin{itemize}
+					\item<4-> C'est vrai au premier tour de boucle puisque le premier sommet retiré est le sommet de départ et qu'on initialise {\tt distance.(depart)} à 0.
+					\item<5-> La propriété est conservée à chaque tour de boucle, en effet en la supposant vraie à tous les tours de boucle précédents, les sommets présents dans la file sont les sommets {\tt t}  non encore parcourus et tels que {\tt distance.(t)} contienne {\tt distance.(t) = distance.(s) + 1} où {\tt s} est un sommet déjà parcouru. Puisque {\tt s} a déjà été retiré de la file {\tt distance.(s)} est minimale et donc {\tt distance.(t) aussi}.
+				\end{itemize}
+			\item<6-> La boucle {\tt while} s'exécute au plus $|S|$ fois et l'itération sur les voisins sortants d'un sommet permet d'examiner chaque arête au plus une fois. La complexité du parcours en largeur est donc un $O(|S|+|A|)$
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Parcours en profondeur}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Pile et parcours en profondeur}
+		\begin{itemize}
+			\item<1-> Pour un parcours en profondeur, on stocke aussi dans une structure de données les sommets en attente d'être explorés. Mais cette fois, la structure de données utilisée est  du type \textcolor{blue}{dernier entré, premier sorti} (\textcolor{gray}{last in first out (\textit{LIFO})}), c'est à dire une \textcolor{blue}{pile}.
+			\item<3-> Pour l'implémentation, on peut :
+				\begin{itemize}
+					\item<4->se contenter d'utiliser la récursivité de façon à ce que la pile des sommets en attente d'être exploré soit gérée de façon automatique via la pile des appels récursifs.
+					\item<5->Utiliser le module \mintinline{ocaml}{Stack} de OCaml afin de gérer directement la pile des sommets en attente d'être exploré.
+				\end{itemize}
+		\end{itemize}
+		\onslide<6->{\small \textcolor{BrickRed}{\danger \;} La différence entre les deux parcours ne se limite pas à l'utilisation d'une pile ou d'une file. En effet, dans le cas d'un parcours en largeur, un sommet ne peut jamais être inséré deux fois dans la file. Dans le parcours d'un parcours en profondeur, on peut effectuer un appel récursif sur le même sommet plusieurs fois (ou un sommet peut apparaître plusieurs fois dans la pile) mais la seconde fois, l'appel récursif se termine immédiatement.}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation en OCaml}
+		\onslide<1->{Comme pour le parcours en largeur, On utilise la représentation par liste d'adjacence des graphes orientés  :
+			\inputpartOCaml{\SPATH/bfs.ml}{}{}{2}{2}}
+		\onslide<2->{
+		On utilise ici la pile d'appel récursif \textit{en gardant la trace des sommets visités}. On renvoie donc un tableau de booléens {\tt visite} qui vaut {\tt true} si le sommet a été rencontré lors du parcours et {\tt false sinon}.}
+		\onslide<3->
+		{
+			L'algorithme consiste à relancer récursivement le parcours sur les fils du noeud courant non encore visités. Un appel récursif sur un noeud déjà visité se termine immédiatement.
+		}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Parcours en profondeur}
+		\inputpartOCaml{\SPATH/dfs.ml}{}{}{6}{16}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Dérouler soigneusement l'algorithme {\tt dfs} sur le graphe ci-dessous en partant du sommet $S_0$ et en indiquant à chaque fois le sommet sur lequel la fonction auxiliaire {\tt aux\_dfs} est appelée. On supposera que les voisins sont traités dans l'ordre croissant.
+		\begin{center}
+			\begin{pspicture}(-1,0)(5,2)
+				\rput(1,0.2){\Circlenode{S1}{$S_1$}}
+				\rput(-1,0.2){\Circlenode{S6}{$S_6$}}
+				\rput(1,1.8){\Circlenode{S2}{$S_2$}}
+				\rput(4,0.2){\Circlenode{S3}{$S_3$}}
+				\rput(4,1.8){\Circlenode{S4}{$S_4$}}
+				\rput(6,1.8){\Circlenode{S5}{$S_5$}}
+				\rput(6,0.2){\Circlenode{S7}{$S_7$}}
+				\rput(2.5,1){\Circlenode{S0}{$S_0$}}
+				\ncline{->}{S2}{S0}
+				\ncline{->}{S0}{S3}
+				\ncline{->}{S0}{S4}
+				\ncline{->}{S4}{S2}
+				\ncline{->}{S1}{S2}
+				\ncline{->}{S4}{S5}
+				\ncline{->}{S2}{S6}
+				\ncline{->}{S6}{S1}
+				\ncline{->}{S4}{S7}
+			\end{pspicture}\end{center}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Ecrire la fonction {\tt dfs\_stack: digraphe -> int -> boolarray} de parcours en profondeur en version itérative, on utilise donc une pile (module \mintinline{ocaml}{Stack} de OCaml) pour stocker les sommets en attente de traitement.
+		On rappelle les fonctions principales de ce module  :
+		\begin{itemize}
+			\item \mintinline{ocaml}{Stack.create} de signature {\tt () -> 'a t} qui crée une pile vide d'éléments de type {\tt 'a}. Par exemple \mintinline{ocaml}{let mapile = Stack.create ()}
+			\item \mintinline{ocaml}{Stack.push} de signature {\tt 'a -> 'a t -> ()} qui empile un élément. Par exemple \mintinline{ocaml}{Stack.push 5 mapile} empile l'entier 5 sur {\tt mapile} (le type option 'a est alors le type {\tt int}).
+			\item \mintinline{ocaml}{Stack.pop} de signature {\tt 'a t -> 'a} qui renvoie l'élément situé au sommet de la pile en le dépilant.
+		\end{itemize}
+		\textcolor{OliveGreen}{\small \aide \;} S'inspirer de la version récursive !
+	\end{exampleblock}
+\end{frame}
+
+\makess{Tri topologique}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Problème d'ordonnancement}
+		Un graphe orienté permet de modéliser un problème d'ordonnancement :
+		\begin{itemize}
+			\item<1-> Un sommet est une tâche à effectuer
+			\item<2-> Un arc $s \rightarrow t$, indique que la tache $s$ doit être effectuée \textit{avant} la tâche $t$.
+		\end{itemize}
+		\onslide<3->{\textcolor{gray}{\small Par exemple, si le graphe représente les tâche nécessaires à la construction d'une maison, on doit faire la tâche \og{} peindre les murs \fg{} \textit{après} la tache \og {monter les murs} \fg{}.}}
+	\end{block}
+	\onslide<4->{\begin{alertblock}{Définition}
+			Le \textcolor{blue}{tri topologique} d'un graphe orienté \textcolor{BrickRed}{acyclique} est une liste ordonnée de ses sommets tels que pour tout arc $u \rightarrow v$, le sommet $u$ apparaît avant le sommet $v$ dans la liste.
+		\end{alertblock}
+	}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\begin{pspicture}(0,-1.9)(10,1.9)
+				\psset{arrowsize=0.15}
+				\rput(3,1.7){\circlenode{x0}{$x_0$}}
+				\rput(1,0){\circlenode{x1}{$x_1$}}
+				\rput(3,0){\circlenode{x2}{$x_2$}}
+				\rput(5,1.7){\circlenode{x7}{$x_7$}}
+				\rput(5,0){\circlenode{x3}{$x_3$}}
+				\rput(7,0){\circlenode{x4}{$x_4$}}
+				\rput(3,-1.7){\circlenode{x5}{$x_5$}}
+				\rput(7,-1.7){\circlenode{x6}{$x_6$}}
+				\ncline{->}{x1}{x2}
+				\ncline{->}{x1}{x0}
+				\ncline{->}{x0}{x2}
+				\ncline{->}{x0}{x7}
+				\ncline{->}{x2}{x7}
+				\ncline{->}{x2}{x5}
+				\ncline{->}{x1}{x5}
+				\ncline{->}{x3}{x4}
+				\ncline{->}{x6}{x4}
+				\ncline{->}{x2}{x3}
+				\ncline{->}{x7}{x4}
+				\ncline{->}{x5}{x3}
+				\ncline{->}{x3}{x6}
+				\ncline{->}{x3}{x7}
+			\end{pspicture}
+		\end{center}
+		\begin{enumerate}
+			\item<1-> Parmi les listes suivantes laquelle est un tri topologique ?
+				\begin{itemize}
+					\item $L_1 = \{ x_1, x_2, x_0, x_5, x_7, x_3, x_4, x_6 \}$
+					\item $L_2 = \{ x_1, x_0, x_2, x_5, x_3, x_6, x_4, x_7 \}$
+					\item $L_3 = \{ x_1, x_0, x_2, x_5, x_3, x_6, x_7, x_4 \}$
+					\item $L_4 = \{ x_1, x_0, x_2, x_3, x_4, x_5, x_6, x_7 \}$
+				\end{itemize}
+			\item<2-> Déterminer (si possible) un autre tri topologique pour ce graphe.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Ordre postfixe d'un parcours en profondeur}
+		On peut modifier le parcours en profondeur afin de garder la trace dans une liste de l'ordre dans lequel les sommets ont été visités.
+		\begin{itemize}
+			\item<2-> Pour garantir la visite de tous les sommets, on doit effectuer un parcours en profondeur à partir de \textit{chaque sommet du graphe}.
+			\item<3-> On ajoute un sommet \textit{après} avoir relancé le parcours sur tous ces fils
+		\end{itemize}
+		On obtient ainsi l'ordre \textcolor{blue}{postfixe} d'un graphe orienté acyclique
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		Dérouler soigneusement l'algorithme {\tt bfs} sur le graphe suivant \textit{pour chaque sommet} de $s_0$ à $s_5$. Quel est l'ordre postfixe obtenu ?
+		\begin{pspicture}(0,-1)(10,1)
+			\rput(2,0.7){\circlenode{S0}{$s_0$}}
+			\rput(2,-0.7){\circlenode{S3}{$s_3$}}
+			\rput(3,0){\circlenode{S1}{$s_1$}}
+			\rput(7,0.7){\circlenode{S2}{$s_2$}}
+			\rput(5,0.7){\circlenode{S5}{$s_5$}}
+			\rput(5,-0.2){\circlenode{S4}{$s_4$}}
+			\ncline{->}{S2}{S1}
+			\ncline{->}{S1}{S4}
+			\ncline{->}{S4}{S2}
+			\ncline{->}{S5}{S2}
+			\ncline{->}{S1}{S5}
+			\ncline{->}{S0}{S1}
+			\ncline{->}{S3}{S0}
+			\ncbar{->}{S3}{S2}
+		\end{pspicture}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Propriété}
+		Sur un graphe orienté acyclique, l'ordre postfixe est un tri topologique. \\
+		\onslide<2->{\small \textcolor{gray}{Pour la preuve, on considère $u \rightarrow v \in A$, et on montre par disjonction de cas que {\tt dfs u} termine \textit{après} {\tt dfs v}}}
+	\end{alertblock}
+	\onslide<3->{
+		\begin{exampleblock}{Implémentation en OCaml}
+			\inputpartOCaml{\SPATH/tri_topologique.ml}{3,8,10}{\footnotesize}{35}{45}
+		\end{exampleblock}
+	}
+\end{frame}
+
+\makess{Algorithme de Djikstra}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Algorithme de Djikstra : exemple}
+		\begin{center}
+			\begin{pspicture}(5,2.7)
+				\rput(0,2.2){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
+				\alt<15->{\rput(5,1.2){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}}{\rput(5,1.2){\circlenode{E}{E}}}
+				\alt<11->{\rput(1.5,1.1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}}{\rput(1.5,1.1){\circlenode{B}{B}}}
+				\alt<22->{\rput(4,0.4){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}}{\rput(4,0.4){\circlenode{D}{D}}}
+				\alt<6->{\rput(3,2.3){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}}{\rput(3,2.3){\circlenode{C}{C}}}
+				\alt<19->{\rput(7,1.3){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{F}{F}}}{\rput(7,1.3){\circlenode{F}{F}}}
+				\alt<5->{\ncarc[linecolor=red,linewidth=1pt]{A}{C}}{\ncarc{A}{C}} \naput{1}
+				\alt<4->{\ncarc[arcangle=-10,linecolor=red,linewidth=1pt]{A}{B}}{\ncarc[arcangle=-10]{A}{B}} \naput{5}
+				\alt<8->{\ncarc[linecolor=red,linewidth=1pt]{B}{C}}{\ncarc{B}{C}} \naput{3}
+				\alt<14->{\ncarc[linewidth=1pt,linecolor=red]{B}{E}}{\ncarc{B}{E}} \naput{2}
+				\alt<10->{\ncarc[linecolor=red,linewidth=1pt]{C}{F}}{\ncarc{C}{F}} \naput{7}
+				\alt<9->{\ncarc[arcangle=-5,linecolor=red,linewidth=1pt]{C}{E}}{\ncarc[arcangle=-5]{C}{E}} \naput{5}
+				\alt<13->{\ncarc[arcangle=-10,linecolor=red,linewidth=1pt]{B}{D}}{\ncarc[arcangle=-10]{B}{D}} \nbput{4}
+				\alt<21->{\ncarc[arcangle=-10,linecolor=red,linewidth=1pt]{D}{F}}{\ncarc[arcangle=-10]{D}{F}} \nbput{3}
+				\alt<18->{\ncarc[linecolor=red,linewidth=1pt]{E}{F}}{\ncarc{E}{F}} \naput{1}
+			\end{pspicture}
+		\end{center}
+		\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|}
+			\hline
+			A                                        & B                                         & C                                        & D                                      & E                                         & F                                         &                                    \\
+			\hline
+			\alt<2->{ 0 (A)}{ }                      & \alt<4->{5 (A)}{}                         & \alt<5->{1 (A)}{ }                       &                                        &                                           &                                           & \alt<3->{ \textcolor{blue}{A}}{ }  \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<8->{4 (C)}{ }                        & \alt<6->{\textcolor{red}{1 (A)}}{ }      &                                        & \alt<9->{6 (C)}{ }                        & \alt<10->{8 (C)}{ }                       & \alt<7->{ \textcolor{blue}{C}}{ }  \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<11->{\textcolor{red}{4 (C)}}{ }      & \alt<7->{\textcolor{blue}{\ding{52}}}{ } & \alt<13->{8 (B)}{ }                    & \alt<14->{6 (B)}{ }                       & \alt<13->{8 (C)}{ }                       & \alt<12->{ \textcolor{blue}{B}}{ } \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<12->{\textcolor{blue}{\ding{52}}}{ } & \alt<7->{\textcolor{blue}{\ding{52}}}{ } &   \alt<15->{8 (B)}{ }                  & \alt<15->{\textcolor{red}{6 (B)}}{ }      & \alt<15->{7 (E)}{}                        & \alt<16->{ \textcolor{blue}{E}}{ } \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<12->{\textcolor{blue}{\ding{52}}}{ } & \alt<7->{\textcolor{blue}{\ding{52}}}{ } & \alt<21->{8 (B)}{ }                   & \alt<16->{\textcolor{blue}{\ding{52}}}{ } & \alt<19->{\textcolor{red}{7 (E)}}{ }      & \alt<20->{ \textcolor{blue}{F}}{ } \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<12->{\textcolor{blue}{\ding{52}}}{ } & \alt<7->{\textcolor{blue}{\ding{52}}}{ } & \alt<22->{\textcolor{red}{{8 (B)}}}{ } & \alt<16->{\textcolor{blue}{\ding{52}}}{ } & \alt<19->{\textcolor{blue}{\ding{52}}}{ } & \alt<23->{ \textcolor{blue}{D}}{ } \\
+			\hline
+		\end{tabularx}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Principe}
+		\begin{itemize}
+		\item<1-> L'algorithme de Djikstra recherche le plus court chemin depuis un sommet de départ $s$ vers \textit{tous les autres} sommets du graphe.
+		\item<2-> Les poids sont supposés \textcolor{BrickRed}{positifs}.
+		\item<3-> C'est un adaptation du parcours en largeur, dans laquelle la file d'attente des sommets en attente de traitement est une \textcolor{blue}{file de priorité}.
+		\item<4->  La priorité est la distance minimale trouvée pour le moment depuis le sommet de départ. \\
+		\textcolor{gray}{\small Idéalement, on doit donc disposer d'une file de priorité où la mise à jour de la priorité d'un élément est disponible. Pour notre implémentation, par souci de simplicité, on adoptera une file de priorité \og{} traditionnelle \fg{} et on enfilera plusieurs fois le même sommet (avec des priorités différentes). Et on utilisera un tableau de booléens afin de ne pas traiter deux fois le même sommet. Cela a des conséquences en terme de complexité mais non significatives à notre niveau.}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Proposition d'implémentation}
+		\inputpartOCaml{\SPATH/djikstra.ml}{}{\small}{64}{78}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Complexité}
+		\begin{itemize}
+		\item<1-> En utilisant une file de priorité \og{} traditionnelle \fg{}, chaque sommet peut être enfilé autant de fois que son degré entrant, la file contient donc au plus $|A|$ éléments. 
+		\item<2-> On peut raisonnablement supposer que la complexité des opérations {\tt enfiler} et {\tt defiler} est logarithmique (on a vu que c'est le cas si la file est implémentée par un tas binaire). Donc la complexité des opérations sur la file ont un coût maximal $O(\log |A|)$.
+		\item<3-> La complexité totale de l'algorithme est donc un $O(|A| \log |A|)$. En remarquant que $O(\log |A|)=O(\log |S|)$ (car $|A| \leq |S|$), on obtient une complexité \textcolor{BrickRed}{$O(|A|\log|S|)$}.
+		\end{itemize}
+		\onslide<4->{\textcolor{gray}{En utilisant une file de priorité avec possibilité de modifier en temps constant la priorité d'un élément, ob peut obtenir une meilleure complexité}}
+	\end{block}
+\end{frame}
+
+\makess{Algorithme de Floyd-Warshall}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Principe}
+		\begin{itemize}
+			\item<1-> L'algorithme de Floyd-Warshall est un algorithme de \textcolor{blue}{programmation dynamique} permettant de rechercher la plus courte distance entre toutes les paires de sommets d'un graphe.
+			\item<2-> Pour un graphe pondéré $G = (S,A, \omega)$ dont les sommets sont numérotés \textcolor{blue}{à partir de 1}, l'idée de l'algorithme est de construire successivement (pour $k=0, \dots |S|$) les matrices $M(i,j,k)$ qui donnent en ligne $i$ colonne $j$, la plus courte distance des chemins entre les sommets $i$ et $j$ qui n'utilisent que les sommets  \textcolor{blue}{intermédiaires} de numéros inférieurs ou égaux à $k$. \\
+			\textcolor{gray}{Par exemple, $M(3,5,2)$ est la plus courte distance entre les sommets 3 et 5 qui n'utilisent que les sommets intermédiaires $1$ et $2$.}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Pour un graphe $G=(S,A, \omega)$ dont les sommets sont numérotés à partir de 1, on note $\delta(i,j)$ la longueur minimale d'un chemin entre les sommets $i$ et $j$ et on note pose $\delta(i,j) = +\infty$ si aucun chemin n'existe entre $i$ et $j$.
+		\begin{enumerate}
+			\item<1-> Que vaut $M(i,j,|S|)$ ?
+			\item<2-> Déterminer $M(i,j,0)$ pour tout $(i,j) \in \intN{1}{|S|}$.
+			\item<3-> Pour tout $(i,j) \in \intN{1}{|S|}$ et $k = 1 \dots |S|$, établir la relation de récurrence liant $M(i,j,k)$ à $M(i,j,k-1)$, $M(i,k,k-1)$ et $M(k,j, k-1)$.
+			\item<4-> Déduire des questions précédentes une implémentation itérative (ascendante) en OCaml de l'algorithme de Floyd-Warshall.
+			\item<5-> Quelle est la complexité de l'algorithme de Floyd-Warshall ?
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\end{document}

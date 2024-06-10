@@ -7,7 +7,11 @@
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
 \ModeConcours
 \CB{MP2I}{Mai 2024}
-
+\newcommand{\non}{\neg}
+\newcommand{\et}{\wedge}
+\newcommand{\ou}{\vee}
+\newcommand{\imp}{\to}
+\newcommand{\eq}{\leftrightarrow}
 \setboolean{corrige}{true}
 
 \newcommand{\maillon}[3]{
@@ -57,7 +61,20 @@ Voici un extrait de cette table :
 
 
 \Question{Écrire une requête SQL permettant de connaitre tous les titres des ressources déposées par \og{}{\tt jclarke}\fg{} classées par année de publication croissante.}
+\ifcorrige
+\begin{minted}{sql}
+SELECT titre 
+FROM ressources 
+WHERE owner = "jclarke"
+ORDER BY annee ASC;
+\end{minted}
+\fi
 \Question{Écrire une requête SQL permettant de connaitre le nombre total de ressources de type cours présentes sur le site.}
+\begin{minted}{sql}
+SELECT COUNT(*)
+FROM ressources
+GROUP BY type HAVING type = "cours";
+\end{minted}
 \Question{Que fait la requête suivante : ?
 	      \begin{minted}{sql}
 SELECT R.owner
@@ -68,6 +85,7 @@ ORDER BY COUNT(*) DESC
 LIMIT 3
 \end{minted}
 }
+\tcor{Cette requête permet d'afficher les trois premiers propriétaires de ressources ayant posté le plus de ressources de type {\tt td}}
 \end{Exercise}
 
 \begin{Exercise}[title = {Logique et calcul des propositions}, origin = {\bac \; {\sc ccinp 2018 - mp}}]
@@ -89,10 +107,18 @@ LIMIT 3
 	\end{itemize}
 	Dans toute cette partie, on note $P_i$ la proposition affirmant qu'il y a une clé verte dans la boîte $i$.
 	\Question{Donner une formule de la logique des propositions représentant la phrase écrite sur la boîte 1.}
+	\tcor{La formule logique associée à la phrase de la boîte 1 est $P_1 \ou P_2$}
 	\Question{Donner de même une formule de la logique des propositions pour l'inscription de la boîte 2.}
+	\tcor{La formule logique associée à la phrase de la boîte 2 est $\non P_1$}
 	\Question{Donner une formule représentant l'affirmation de l'animateur. Simplifier cette formule de sorte à n'obtenir qu'une seule occurrence de chaque $P_i$.}
+	\tcor{L'affirmation de l'animateur se traduit par $Q =((P_1 \ou P_2) \et \non P_1) \ou (\non(P_1 \ou P_2) \et \non \non P_1)$
+	$\begin{array}{lll}
+		Q 	& = & ((P_1 \et \non P_1) \ou P_2 \et \non P_1) \ou (\non P_1 \et \non P_2 \et P_1) \\
+			& = & P_2 \et \non P_1
+	\end{array}$
+	}
 	\Question{Quel choix devez-vous faire pour continuer le jeu à coup sûr~?}\\
-
+	\tcor{D'après la question précédente, la clé verte se trouve dans la boîte 2, il faut donc choisir cette boîte.}
 
 	\ExePart[name = {Deuxième épreuve}]\\
 	Bravo, vous avez obtenu la première clé verte.

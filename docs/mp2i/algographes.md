@@ -23,3 +23,6 @@
 2. Dans cet algorithme on doit disposer d'une structure de données permettant de savoir si un sommet a déjà été visité ou non. On proposer d'utiliser un tableau de booléens  `visite` (si le sommet `i` n'a pas été encore visité alors l'élément d'indice `i` de visite vaut `false`). 
 
 
+## Humour d'informaticien
+
+![goto](./Images/C20/goto.png){.imgcentre width=500px}
