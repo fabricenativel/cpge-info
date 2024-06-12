@@ -31,7 +31,6 @@ void ajouter(liste_circulaire *lc, int v)
     *lc = nm;
 }
 
-
 void ajouter_errone(liste_circulaire *lc, int val)
 {
     maillon *nouveau = malloc(sizeof(maillon));
@@ -57,31 +56,21 @@ int retirer(liste_circulaire *f)
     return res;
 }
 
-
-int longueur(liste_circulaire lc)
-{
-    if (est_vide(lc))
-    {
-        return 0;
-    }
-    else
-    {
+int longueur(liste_circulaire lc){
+    if (est_vide(lc)){
+        return 0;}
+    else {
         liste_circulaire start = lc;
         int nb = 1;
-        while (lc->suivant != start)
-        {
+        while (lc->suivant != start){
             nb += 1;
-            lc = lc->suivant;
-        }
-        return nb;
-    }
-    
+            lc = lc->suivant;}
+        return nb;}
 }
-
 
 void view(liste_circulaire lc)
 {
-    printf("Longueur = %d\n",longueur(lc));
+    printf("Longueur = %d\n", longueur(lc));
     if (est_vide(lc))
     {
         printf("NULL");

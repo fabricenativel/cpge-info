@@ -78,6 +78,11 @@ let somme_chemin matrice chemin =
     done;
     s.(n-1).(n-1);;
 
+  let rec resolution_rec data lig col =
+    if (lig=0 && col=0) then data.(0).(0)
+      else if (lig =0) then data.(0).(col)+ resolution_rec data  0 (col-1) 
+      else if (col =0) then data.(lig).(0)+ resolution_rec data  (lig-1) 0 else
+        data.(lig).(col) + max (resolution_rec data (lig-1) col) (resolution_rec data lig (col-1));;
 
   let read_data filename size =
     let reader = open_in filename in
@@ -92,7 +97,8 @@ let somme_chemin matrice chemin =
 
 let choix matrice lig col =
   let n = Array.length matrice in
-  if (col = n-1 || (lig!=n-1 && matrice.(lig+1).(col)>=matrice.(lig).(col+1))) then Bas else Droite
+  if (col = n-1 || (lig!=n-1 && matrice.(lig+1).(col)>=matrice.(lig).(col+1))) 
+  then Bas else Droite
 
 let naif matrice =
   let n = Array.length matrice in
@@ -119,5 +125,6 @@ let naif matrice =
   done;
     Printf.printf "Résolution (naif) = %d\n" (somme_chemin data (naif data));
     Printf.printf "Résolution (FB) = %d\n" (force_brute data);
+    Printf.printf "Résolution (Récursif) = %d\n" (resolution_rec data (n-1) (n-1));
     Printf.printf "Résolution (PD) = %d\n" (prog_dyn data);
   ;;
