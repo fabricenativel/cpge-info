@@ -310,7 +310,7 @@
 			\item<1-> Un sommet est une tâche à effectuer
 			\item<2-> Un arc $s \rightarrow t$, indique que la tache $s$ doit être effectuée \textit{avant} la tâche $t$.
 		\end{itemize}
-		\onslide<3->{\textcolor{gray}{\small Par exemple, si le graphe représente les tâche nécessaires à la construction d'une maison, on doit faire la tâche \og{} peindre les murs \fg{} \textit{après} la tache \og {monter les murs} \fg{}.}}
+		\onslide<3->{\textcolor{gray}{\small Par exemple, si le graphe représente les tâches nécessaires à la construction d'une maison, on doit faire la tâche \og{} peindre les murs \fg{} \textit{après} la tache \og {monter les murs} \fg{}.}}
 	\end{block}
 	\onslide<4->{\begin{alertblock}{Définition}
 			Le \textcolor{blue}{tri topologique} d'un graphe orienté \textcolor{BrickRed}{acyclique} est une liste ordonnée de ses sommets tels que pour tout arc $u \rightarrow v$, le sommet $u$ apparaît avant le sommet $v$ dans la liste.
@@ -367,8 +367,9 @@
 			\item<2-> Pour garantir la visite de tous les sommets, on doit effectuer un parcours en profondeur à partir de \textit{chaque sommet du graphe}.
 			\item<3-> On ajoute un sommet \textit{après} avoir relancé le parcours sur tous ces fils
 		\end{itemize}
-		On obtient ainsi l'ordre \textcolor{blue}{postfixe} d'un graphe orienté acyclique
+		\onslide<4->{On obtient ainsi l'ordre \textcolor{blue}{postfixe} d'un graphe orienté acyclique.}
 	\end{block}
+	\onslide<5->{
 	\begin{exampleblock}{Exemple}
 		Dérouler soigneusement l'algorithme {\tt bfs} sur le graphe suivant \textit{pour chaque sommet} de $s_0$ à $s_5$. Quel est l'ordre postfixe obtenu ?
 		\begin{pspicture}(0,-1)(10,1)
@@ -387,7 +388,7 @@
 			\ncline{->}{S3}{S0}
 			\ncbar{->}{S3}{S2}
 		\end{pspicture}
-	\end{exampleblock}
+	\end{exampleblock}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -449,7 +450,7 @@
 		\begin{itemize}
 		\item<1-> L'algorithme de Djikstra recherche le plus court chemin depuis un sommet de départ $s$ vers \textit{tous les autres} sommets du graphe.
 		\item<2-> Les poids sont supposés \textcolor{BrickRed}{positifs}.
-		\item<3-> C'est un adaptation du parcours en largeur, dans laquelle la file d'attente des sommets en attente de traitement est une \textcolor{blue}{file de priorité}.
+		\item<3-> C'est un adaptation du parcours en largeur, dans laquelle la file des sommets en attente de traitement est une \textcolor{blue}{file de priorité}.
 		\item<4->  La priorité est la distance minimale trouvée pour le moment depuis le sommet de départ. \\
 		\textcolor{gray}{\small Idéalement, on doit donc disposer d'une file de priorité où la mise à jour de la priorité d'un élément est disponible. Pour notre implémentation, par souci de simplicité, on adoptera une file de priorité \og{} traditionnelle \fg{} et on enfilera plusieurs fois le même sommet (avec des priorités différentes). Et on utilisera un tableau de booléens afin de ne pas traiter deux fois le même sommet. Cela a des conséquences en terme de complexité mais non significatives à notre niveau.}
 		\end{itemize}
@@ -467,9 +468,9 @@
 		\begin{itemize}
 		\item<1-> En utilisant une file de priorité \og{} traditionnelle \fg{}, chaque sommet peut être enfilé autant de fois que son degré entrant, la file contient donc au plus $|A|$ éléments. 
 		\item<2-> On peut raisonnablement supposer que la complexité des opérations {\tt enfiler} et {\tt defiler} est logarithmique (on a vu que c'est le cas si la file est implémentée par un tas binaire). Donc la complexité des opérations sur la file ont un coût maximal $O(\log |A|)$.
-		\item<3-> La complexité totale de l'algorithme est donc un $O(|A| \log |A|)$. En remarquant que $O(\log |A|)=O(\log |S|)$ (car $|A| \leq |S|$), on obtient une complexité \textcolor{BrickRed}{$O(|A|\log|S|)$}.
+		\item<3-> La complexité totale de l'algorithme est donc un $O(|A| \log |A|)$. En remarquant que $O(\log |A|)=O(\log |S|)$ (car $|A| \leq |S|^2$), on obtient une complexité \textcolor{BrickRed}{$O(|A|\log|S|)$}.
 		\end{itemize}
-		\onslide<4->{\textcolor{gray}{En utilisant une file de priorité avec possibilité de modifier en temps constant la priorité d'un élément, ob peut obtenir une meilleure complexité}}
+		\onslide<4->{\textcolor{gray}{En utilisant une file de priorité avec possibilité de modifier en temps constant la priorité d'un élément, on peut obtenir une meilleure complexité}}
 	\end{block}
 \end{frame}
 
