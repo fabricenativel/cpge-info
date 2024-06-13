@@ -14,7 +14,7 @@
 \setcounter{Exercise}{0}
 
 
-\begin{Exercise}[title = {Parcours d'un graphe non orienté}]\\
+\begin{Exercise}[title = {Parcours de graphes}]\\
     On considère le graphe $G$ représenté ci-dessous : \medskip \\
     \begin{pspicture}(0,-2.2)(5,2.2)
         \psset{arrowsize=0.15}
@@ -24,17 +24,72 @@
 		\rput(5,0){\circlenode{x3}{$x_3$}}
 		\rput(7,0){\circlenode{x4}{$x_4$}}
 	   \rput(3,-2){\circlenode{x5}{$x_5$}}
-       \ncarc{-}{x0}{x4}
-       \ncarc{-}{x4}{x5}
-       \ncline{-}{x1}{x2}
-       \ncline{-}{x0}{x2}
-       \ncline{-}{x5}{x2}
-       \ncline{-}{x3}{x2}
-       \ncline{-}{x3}{x4}
+       \rput(3,-2){\circlenode{x5}{$x_5$}}
+       \rput(1.5,1.5){\circlenode{x6}{$x_6$}}
+       \rput(1.5,-1.5){\circlenode{x7}{$x_7$}}
+       \ncarc{->}{x0}{x4}
+       \ncarc{->}{x4}{x5}
+       \ncline{->}{x1}{x2}
+       \ncline{->}{x0}{x2}
+       \ncline{->}{x5}{x2}
+       \ncline{->}{x3}{x2}
+       \ncline{->}{x3}{x4}
+       \ncline{->}{x2}{x6}
+       \ncline{->}{x2}{x7}
+       \ncline{->}{x0}{x3}
+       \ncline{->}{x1}{x6}
+       \ncline{->}{x7}{x1}
+       \ncline{->}{x6}{x0}
     \end{pspicture}
     \Question{Donner le résultat d'un parcours en largeur de ce graphe en démarrant du sommet $x_1$.}
     \Question{Même question en démarrant du sommet $x_2$.}
     \Question{Donner le résultat d'un parcours en profondeur de ce graphe en démarrant du sommet $x_1$.}
     \Question{Même question en démarrant du sommet $x_2$.}
 \end{Exercise}
+
+\begin{Exercise}[title = {Parcours et graphe complet ou cylique}]
+    \Question{Quel est résultat du parcours en largeur d'un graphe complet à $n$ sommets $\{x0,\dots x_{n-1} \}$ qui démarrer au sommet $x_i$ ?}
+    \Question{Même question pour un parcours en profondeur.}
+    \Question{Reprendre les questions précédentes pour un graphe cyclique à $n$ sommets. C'est à dire ayant comme arc $x_i \rightarrow x_{i+1}$ pour $i \in \intN{0}{n-2}$ et $x_{n-1} \rightarrow x_0$.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Recherche de cycle}]
+    \Question{Ecrire une fonction {\tt contient\_cycle: digraphe -> int -> bool} qui teste s'il existe un cycle dans le graphe orienté donnée en argument accessible à partir du sommet donnée. On utilisera un parcours en profondeur en marquant les sommets en trois couleurs : non visité/ en cours de visite/ déjà visité. Si le parcours revient sur un sommet en cours de visite, on a trouvé un cycle. On pourra alors lever l'exception prédéfinie {\tt Exit} afin de renvoyer {\tt true}}
+\end{Exercise}
+
+\begin{Exercise}[title = {Chemin Hamiltonien}]\\
+    Soit $G = (S,A)$ un graphe orienté, on suppose pour pour tout $(s,t) \in S^2$, on a $s \rightarrow t \in A$ ou $t \rightarrow s \in A$ mais pas les deux à la fois. 
+    \Question{Montrer qu'il existe un chemin dans $G$ qui passe une et une seule fois par chaque sommet (un tel chemin est dit \textit{Hamiltonien}).\\
+    \aide \; On pourra procéder par récurrence}
+    \Question{On suppose les graphes représentés en OCaml par matrices d'adjacence à l'aide d'un type {\tt digraphe}. Ecrire une fonction de signature {\tt chemin : digraphe -> int list} qui prend en argument un graphe respectant les hypothèses de l'énoncé et renvoie un chemin hamiltonien de ce graphe.}
+
+\end{Exercise}
+
+\begin{Exercise}[title = {Algorithme de Dijkstra}]\\
+    \begin{center}
+    \begin{pspicture}(4,-2.4)(4,2.4)
+        \psset{arrowsize=0.15}
+		\rput(3,2){\circlenode{x6}{$x_6$}}
+		\rput(7,2){\circlenode{x5}{$x_5$}}
+		\rput(1,0){\circlenode{x4}{$x_4$}}
+		\rput(5,0){\circlenode{x0}{$x_0$}}
+		\rput(9,0){\circlenode{x1}{$x_1$}}
+	   \rput(3,-2){\circlenode{x2}{$x_2$}}
+       \rput(7,-2){\circlenode{x3}{$x_3$}}
+       \ncline{-}{x4}{x6} \naput{4}
+       \ncline{-}{x6}{x5} \naput{5}
+       \ncline{-}{x5}{x1} \naput{4}
+       \ncline{-}{x4}{x2} \nbput{2}
+       \ncline{-}{x1}{x3} \naput{8}
+       \ncline{-}{x2}{x3} \naput{3}
+       \ncline{-}{x0}{x6} \nbput{4}
+       \ncline{-}{x0}{x2} \nbput{7}
+       \ncline{-}{x0}{x5} \naput{1}
+       \ncline{-}{x0}{x3} \naput{2}
+       \ncline{-}{x0}{x1} \naput{5}
+    \end{pspicture}
+\end{center}
+Dérouler les étapes de l'algorithme de Djikstra sur ce graphe en partant du sommet $x_4$ et en utilisant un tableau tel que celui vu dans l'exemple du cours.
+\end{Exercise}
+
 \end{document}
