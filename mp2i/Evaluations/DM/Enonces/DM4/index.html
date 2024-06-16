@@ -1,0 +1,1594 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cours d'informatique en MP2I et ITC  (lycée Leconte de Lisle)">
+      
+      
+        <meta name="author" content="Fabrice NATIVEL">
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
+    
+    
+      
+        <title>DM4 - Informatique en CPGE</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.6543a935.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/fenarius.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dm4-le-jeu-de-la-vie" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../../../.." title="Informatique en CPGE" class="md-header__button md-logo" aria-label="Informatique en CPGE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Informatique en CPGE
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DM4
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+    
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../progression/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../itc/progression/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../evaluations/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../programmes/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../liens/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Informatique en CPGE" class="md-nav__button md-logo" aria-label="Informatique en CPGE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Informatique en CPGE
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chapitres
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Chapitres
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../progression/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Index
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../systemes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C0-Notions d'architecture et de systèmes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../introC/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C1-Premiers pas en langage C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../validation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C2-Spécifications et tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../pointeurs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C3-Pointeurs et types structurés
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../arithmetique/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C4-Arithmétique des ordinateurs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../recursivite/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C5-Récursivité
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../introOCaml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C6-OCaml : aspects fonctionnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../terminaison/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C7-Terminaison, correction, complexité
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C8-Structures de données linéaires
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../OCamlimp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C9-Ocaml : aspects impératifs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../hash/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C10-Tableau associatif, hachage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../introbd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C11-Introduction aux bases de données
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../arbres/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C12-Arbres binaires
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../forcebrute/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C13-Force brute, retour sur trace
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../induction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C14-Induction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../decomposition/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C15-Décomposition en sous problèmes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../logique/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C16-Logique
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../graphes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C17-Graphes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mea/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C18-Modèle entité-association
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../textes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C19-Algorithmes des textes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algographes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C20-Algorithmes des graphes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/progression/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Index
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/revisions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C0-Un peu de Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/introbd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C1-Introduction aux bases de données
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/progdyn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C2-Programmation dynamique
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/jointures/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C3-Jointures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/knn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C4-k plus proches voisins, k-moyennes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/algojeux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C5-Algorithme pour l'étude des jeux
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../evaluations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evaluations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../programmes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Programme d'informatique en MP2I
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../liens/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Liens
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#partie-1-grille-de-taille-4x4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partie 1 : Grille de taille 4x4
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partie-2-lecture-depuis-un-fichier" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partie 2 : Lecture depuis un fichier
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partie-3-visualisation-sous-forme-dimage-pbm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partie 3 : Visualisation sous forme d'image pbm
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="dm4-le-jeu-de-la-vie"><span class='numeval'>dm4</span> Le jeu de la vie  <span style='float:right;'><span class="twemoji" title="Devoir maison"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.31 18.9c.44-.69.69-1.52.69-2.4 0-2.5-2-4.5-4.5-4.5S11 14 11 16.5s2 4.5 4.5 4.5c.87 0 1.69-.25 2.38-.68L21 23.39 22.39 22l-3.08-3.1m-3.81.1a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5M5 20v-8H2l10-9 10 9h-1.82c-1.18-1.23-2.84-2-4.68-2-3.58 0-6.5 2.92-6.5 6.5 0 1.29.38 2.5 1.03 3.5H5Z"/></svg></span></span></h1>
+<p>Le devoir porte sur le <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie" target="_blank">jeu de la vie</a> inventé par le mathématicien <a href="https://fr.wikipedia.org/wiki/John_Horton_Conway" target="blank">John Conway</a>. Pour découvrir ce "jeu", vous pouvez regarder l'excellente vidéo de la chaine youtube science étonnante :</p>
+<div class="centre"><iframe width="560" height="315" src="https://www.youtube.com/embed/S-W0NX97DB0?si=2xGfJnml3529SJqR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+
+<div class="admonition note">
+<p class="admonition-title">Devoir optionnel</p>
+<ul>
+<li>Bien qu'optionnel, ce devoir permet de manipuler des tableaux à deux dimensions en C et est donc <em>tres fortement recommandé</em>. </li>
+<li>Le devoir est à rendre <strong>en TP</strong> pour le 15/11/2023 </li>
+</ul>
+</div>
+<p>Le <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie" target="_blank">jeu de la vie</a> permet de faire évoluer un ensemble de cases (appelées cellule) d'une grille (théoriquement infinie mais qui sera limitée pour ce DM) en suivant les règles suivantes :</p>
+<ul>
+<li>une cellule (donc une case de la grille) n'a que deux états possibles : vivante (la case est remplie) ou morte (la case est vide)</li>
+<li>une cellule morte qui possède exactement trois voisines vivantes devient vivante</li>
+<li>une cellule vivante qui possède exactement 2 ou 3 voisines reste vivante sinon elle meurt.</li>
+</ul>
+<p>Par exemple :
+Dans la configuration suivante, où on a numéroté chacune des cellules vivantes de façon à décrire le processus :</p>
+<table class='jeuvie'><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#9312;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#9313;</span></td><td><span class='cellule'>&#9314;</span></td><td><span class='cellule'>&nbsp;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#9315;</span></td><td><span class='cellule'>&nbsp;</span></td></tr><tr><td><span class='cellule'>&#9316;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td></tr></table>
+
+<p>La cellule 1 possède 1 voisines donc elle meurt, de même que la cellule numérotée 5 qui n'a aucune voisine.
+Les cellules 2, 3 et 4, restent vivantes car elles ont deux ou trois voisines.
+Et deux nouvelles cellules apparaissent (on les a numérotés 6 et 7) dans les cases qui possédaient exactement trois voisines. La configuration suivante est donc :</p>
+<table class='jeuvie'><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#9317;</span></td><td><span class='cellule'>&nbsp;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#9313;</span></td><td><span class='cellule'>&#9314;</span></td><td><span class='cellule'>&#9318;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#9315;</span></td><td><span class='cellule'>&nbsp;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td></tr></table>
+<p>Aux étapes suivantes, on obtient les configuration ci-dessous (on ne numérote plus les cellules pour simplifier):</p>
+<table class='jeuvie'><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&#128976;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&#128976;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td></tr></table>
+<table class='jeuvie'><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td></tr><tr><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td></tr></table>
+<table class='jeuvie'><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td></tr><tr><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td></tr></table>
+
+<p>Le but de l'exercice est de simuler le jeu de la vie en C dans une grille de dimension données. On représentera dans la totalité du sujet une grille par un tableau a <em>une dimension</em> de booléens. C'est à dire qu'on utilise la technique de linéarisation du tableau vu en cours. Par exemple la grille <table class='jeuvie'><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td></tr><tr><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td></tr><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td></tr></table> </p>
+<p>sera représenté en mémoire par un tableau à une seule dimension : <table class='jeuvie'><tr><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&nbsp;</span></td><td><span class='cellule'>&#128976;</span></td><td><span class='cellule'>&nbsp;</span></td></tr></table></p>
+<p>où les cellules mortes sont <code>false</code> et les cellules vivantes <code>true</code>. </p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On rappelle qu'en faisant cette linéarisation l'élément situé en ligne <code>i</code> et colonne <code>j</code> a pour indice <code>i*LARGEUR + j</code> dans le tableau linéarisé.</p>
+</div>
+<h2 id="partie-1-grille-de-taille-4x4">Partie 1 : Grille de taille 4x4</h2>
+<div class="admonition note">
+<p class="admonition-title">Taille de la grille</p>
+<p>Dans chaque partie du sujet, les dimension de la grille seront deux constantes entières notées <code>HAUTEUR</code> et <code>LARGEUR</code>. Pour définir ces constantes, deux possibilités s'offrent à vous :</p>
+<ul>
+<li>utiliser <code>const</code> et les définir en variable globale en début de programme avec par exemple <code>const int HAUTEUR = 4;</code> (c'est la version recommandée au programme de mp2i).</li>
+<li>utiliser une directive de précompilation <code>#define HAUTEUR 4</code> qui aura pour effet avant la compilation de remplacer dans votre code toutes les occurences de <code>HAUTEUR</code> par <code>4</code>.</li>
+</ul>
+</div>
+<p>Dans cette partie la grille est de dimension <code>4x4</code> et on cherche à reproduire l'évolution donnée en introduction. </p>
+<ol>
+<li>
+<p>Ecrire une fonction <code>affiche</code> qui prend en argument un tableau de booléens de taille <code>HAUTEUR*LARGEUR</code> et l'affiche sous la forme d'une grille de <code>HAUTEUR</code> lignes sur <code>LARGEUR</code> colonnes en affichant <code>.</code> pour une cellule morte et <code>*</code> pour une cellule vivante. Vous pouvez tester votre fonction avec le tableau suivant :</p>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>bool etat[HAUTEUR*LARGEUR] = {false,false,false,true,false,true,true,false,false,false,true,false,true,false,false,false};
+</span></code></pre></div>
+dont l'affichage devrait produire :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>...#
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>.##.
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>..#.
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>#...
+</span></code></pre></div></p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On rappelle qu'il est inutile de passer en argument la dimension du tableau car ce sont des variables globales</p>
+</div>
+</li>
+<li>
+<p>Ecrire une fonction <code>compte_voisin</code> qui prend en argument un tableau de booléens de taille <code>HAUTEUR*LARGEUR</code>, un entier <code>l</code> (la ligne), un entier <code>c</code> (la colonne) et renvoie le nombres de voisins de l'élément situé en ligne <code>l</code>, colonne <code>c</code>.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<ul>
+<li>On pourra écrire une fonction annexe qui teste si deux entiers <code>i</code> et <code>j</code> sont bien les indices de ligne et de colonne d'un élément de la grille (c'est à dire si <code>0 &lt;= i &lt; HAUTEUR</code> et <code>0 &lt;= j &lt; LARGEUR</code>).</li>
+<li>Faites des tests pour cette fonction, par exemple pour la grille <code>etat</code> donnée à la question précédente, vous devriez obtenir :<ul>
+<li><code>compte_voisin(etat, 0, 0) = 1</code></li>
+<li><code>compte_voisin(etat, 1, 3) = 3</code></li>
+<li><code>compte_voisin(etat, 3, 1) = 2</code></li>
+</ul>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Ecrire une fonction <code>etat_suivant</code> qui prend en argument un tableau de booléens de dimension <code>HAUTEUR*LARGEUR</code> et renvoie un <strong>nouveau tableau de booléens, sans modifier celui donné en argument</strong> contenant l'évolution suivante dans le jeu de la vie. Par exemple pour le tableau <code>etat</code> donné dans la question <code>1</code>, l'affichage du tableau produit par l'appel <code>etat_suivant(etat)</code> donne :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>..#.
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>.###
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>..#.
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>....
+</span></code></pre></div></p>
+</li>
+<li>
+<p>Ecrire une fonction <code>copie_etat</code> qui prend en argument deux tableaux de booléens <code>etat1</code> et <code>etat2</code> de dimension <code>HAUTEUR*LARGEUR</code> ne renvoie rien et copie les valeurs de <code>etat2</code> dans <code>etat1</code></p>
+</li>
+<li>
+<p>Ecrire une fonction <code>evolution</code> qui prend en argument un tableau de booléens de dimension <code>HAUTEUR*LARGEUR</code> ainsi qu'un entier <code>nb_etapes</code> et un booléen <code>voir</code>. Cette fonction renvoie un tableau de booléens représentant l'état de la grille après <code>nb_etapes</code> evolutions, de plus si le booléen <code>voir</code> vaut <code>true</code> alors toutes les étapes intermédiaires sont affichées dans le terminal.
+Par exemple, avec le tableau <code>etat</code> donné à la question 1, l'appel <code>resultat = evolution(etat, 10, true);</code> produit le résultat suivant dans le terminal :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>..#.
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>.###
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>..#.
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>....
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>.###
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>.#.#
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>.###
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>....
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>.#.#
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>#...
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>.#.#
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>..#.
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>....
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>##..
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>.##.
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>..#.
+</span></code></pre></div>
+Ce qui correspond bien aux évolutions du motif vu en introduction.</p>
+</li>
+</ol>
+<h2 id="partie-2-lecture-depuis-un-fichier">Partie 2 : Lecture depuis un fichier</h2>
+<p>Le but de cette partie est de modifier l'état d'un motif connu ; le <a href="https://conwaylife.com/wiki/Period-33_glider_gun" target="_blank"><em>glider gun</em></a>, téléchargeable ci-dessous sous la forme d'un fichier texte dans lequel les cellules vivantes sont représentées par le caractère <code>O</code> et les cellules mortes par <code>.</code>
+<span class='centre'><a class="md-button" href="../glidergun.cells">Glider gun <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7 7-7Z"/></svg></span></a></span></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Le jeu de la vie possède son propre <a href="https://conwaylife.com/wiki/" target="_blank">wiki</a> sur lequel des passionés du jeu postent des motifs nouveaux regulièrement. Le motif du Glider gun donné ci-dessus est extrait de ce site.</p>
+</div>
+<p>Dans cette partie, on travaille sur une grille de dimensions <code>57x37</code>. On doit donc modifier les constantes <code>HAUTEUR</code> et <code>LARGEUR</code> en début de programme. </p>
+<ol>
+<li>
+<p>Ecrire une fonction <code>lire_grille</code> qui prend en argument un nom de fichier. Ce fichier représente l'état d'une grille de jeu de la vie de dimension <code>57x37</code>, les cellules mortes sont représentés par le caractère <code>O</code> et les cellules vivantes par le caractère <code>.</code>, cette fonction renvoie un tableau de booléens qui représente un etat du jeu.</p>
+</li>
+<li>
+<p>Ecrire une fonction <code>compte_vivant</code> qui détermine le nombre de cellules vivantes d'un état du jeu.</p>
+</li>
+<li>
+<p>Donner le nombre de cellules vivantes après 100 évolutions du <em>Glider gun</em>. Vous pouvez tester votre réponse dans le formulaire ci-contre : 
+<input type="text" id="q37" class="text-input-neutral"> <img id="q37img" src="https://fabricenativel.github.io/cpge-info/images/circle-question.svg" width="24px" style="vertical-align:middle"> 
+<input type="button" value="valider" class="repbutton" onclick="check('q37','f0bc318fb8965cad8d73d578cd03c63b7987dc6a79b906aada091e1b6a13443f')">
+<input type="button" value="reset" class="repbutton" onclick="imgreset('q37')"></p>
+</li>
+</ol>
+<h2 id="partie-3-visualisation-sous-forme-dimage-pbm">Partie 3 : Visualisation sous forme d'image pbm</h2>
+<p>Le format d'image <span style="font-variant:small-caps;">pbm</span> pour <em>Portable Bitmap file forMat</em> est un format d'image élémentaire permettant de représenter des images en noir et blanc. Le fichier est au format texte, </p>
+<ul>
+<li>sur la première ligne on doit écrire <code>P1</code></li>
+<li>la seconde ligne contient les dimensions de l'image séparés par un espace (nombre de colonnes puis nombre de lignes)</li>
+<li>Les lignes suivantes sont des constituées de 1 et de 0. Un <code>1</code> indique un pixel noir et  un <code>0</code> un pixel blanc</li>
+</ul>
+<p>Par exemple :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>P1
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>4 4
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>0110
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>0010
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>0010
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>1000
+</span></code></pre></div></p>
+<p>est le fichier <span style="font-variant:small-caps;">pbm</span> d'une image 4x4 qui agrandi donne le résultat ci-dessous : <br />
+&nbsp; &nbsp; <img alt="ex_pbm" src="../ex_pbm.png" /></p>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>Selon la configuration de votre ordinateur et votre système d'exploitation, il vous faudra peut-être installer une application permettant de visualiser les images au format <span style="font-variant:small-caps;">pbm</span>.</p>
+</div>
+<ol>
+<li>
+<p>Ecrire une fonction <code>cree_image</code> qui prend en argument un etat du jeu de la vie (de dimension 57x37) et crée le fichier <span style="font-variant:small-caps;">pbm</span> correspondant.</p>
+</li>
+<li>
+<p>Créer l'image au format <span style="font-variant:small-caps;">pbm</span> de l'état initial du <em>Glider gun</em>.  </p>
+</li>
+<li>
+<p>Créer l'image du <em>Glider gun</em> après 100 itérations.</p>
+</li>
+</ol>
+<div class="admonition lien">
+<p class="admonition-title">Pour aller plus loin</p>
+<p>Divers outils existent pour transformer une suite d'image en une animation (gif animé ou vidéo). Sur un système d'exploitation Linux on pourra par exemple utiliser <code>convert</code> disponible après installé <code>ImageMagick</code>. </p>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../../../..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.tabs", "navigation.tabs.sticky"], "search": "../../../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.ad660dcc.min.js"></script>
+      
+        <script src="../../../../../javascript/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../../../../javascript/check.js"></script>
+      
+    
+  </body>
+</html>

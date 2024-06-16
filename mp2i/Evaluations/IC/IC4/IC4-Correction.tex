@@ -1,0 +1,35 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\IC{4}{Relations d'ordre}
+\newcommand{\SPATH}{\FPATH Evaluations/IC/IC4/}
+\setboolean{corrige}{true}
+
+\setcounter{Exercise}{0}
+\begin{Exercise}[title = {Caractérisation des ordres bien fondés}]
+\Question{Rappeler la définition d'un ordre bien bien fondé.}
+\tcor{On dit que relation d'ordre $\preccurlyeq$ sur un ensemble $E$ est bien fondé lorsqu'il n'existe pas de suite strictement décroissante d'elements de $E$.}
+\Question{Soit $(E,\preccurlyeq)$ un ensemble ordonné, prouver qu'un $\preccurlyeq$ est bien fondé si et seulement si toute partie non vide de $(E,\preccurlyeq)$ admet un élément minimal}
+\tcor{Sens direct : \\
+Si $(E,\preccurlyeq)$ un ensemble ordonné où $\preccurlyeq$ est bien fondée et $A$ une partie non vide de $E$. On suppose que $A$ n'admet pas d'élément minimal, et on considère l'application  $ f : A \mapsto A$ qui a tout élément de $a \in A$ associe $f(a)$ tel que $f(a) \preccurlyeq a$, cela est possible puisque $A$ n'a pas d'élément minimal. On considère alors la suite $(x_n)_{n \in N}$ définie par : $x_0=a$ et $x_n = f^n(a)$. Par construction cette suite est strictement décroissante ce qui est impossible puisque $(E,\preccurlyeq)$ est bien fondé.\smallskip \\
+Sens réciproque : \\
+On suppose que toute partie non vide de $E$ admet un élément minimal, montrons par l'absurde qu'il ne peut pas exister de suite strictement décroissante d'elements de $E$, soit $(x_n)_{n \in N}$ une suite d'éléments de $E$ strictement décroissante, l'ensemble des valeurs prises par cette suite $A = \{x_i, i \in \N\}$ admet un élément minimal donc il existe un indice $m \in \N$ tel que $x_m$ soit un élément minimal de $A$, or comme $(x_n)$ est strictement décroissante $x_{m+1}$ est un élément de $A$ strictement inférieur à $x_m$, on aboutit à une contradiction.
+}
+\end{Exercise}
+\begin{Exercise}[title = {Terminaison d'une fonction}]
+\Question{Ecrire en OCaml la fonction {\tt fusion int list -> int list -> int list} qui prend en argument deux listes d'entiers triées et renvoie  leur fusion triée. Par exemple {\tt fusion [1; 4; 7; 9; 10] [2; 3; 8; 15]} renvoie {\tt [1; 2; 3; 4; 7; 8; 9; 10; 15]}}
+\inputpartOCaml{fusion.ml}{}{}{1}{5}
+\Question{En utilisant un variant sur $(\N^2, \preccurlyeq_p)$ où $\preccurlyeq_P$ désigne l'ordre produit sur $\N^2$, prouver la terminaison de cette fonction}
+\tcor{On note $n_1$ (resp. $n_2$) la longueur de {\tt l1} (resp. {\tt l2}), et $n_1'$, $n_2'$ ces mêmes longueurs après un appel récursif. Alors :
+\begin{itemize}
+    \item Soit $n_1'= n1-1$ et $n_2' = n_2$ 
+    \item Soit $n_1'= n1$ et $n_2' = n_2-1$ 
+\end{itemize}
+Dans les deux cas $(n_1',n_2') \preccurlyeq_P (n_1,n_2)$, l'ordre produit sur $\N^2$ étant bien fondé, la fonction termine car il n'existe pas de suite strictement décroissante d'éléments de $(N^2,\preccurlyeq)$.
+}
+\end{Exercise}
+\end{document}

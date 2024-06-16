@@ -1,0 +1,2355 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cours d'informatique en MP2I et ITC  (lycée Leconte de Lisle)">
+      
+      
+        <meta name="author" content="Fabrice NATIVEL">
+      
+      
+      
+        <link rel="prev" href="../progression/">
+      
+      
+        <link rel="next" href="../introbd/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
+    
+    
+      
+        <title>C0-Un peu de Python - Informatique en CPGE</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/fenarius.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#c0-un-peu-de-python" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../.." title="Informatique en CPGE" class="md-header__button md-logo" aria-label="Informatique en CPGE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Informatique en CPGE
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              C0-Un peu de Python
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mp2i/progression/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../progression/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../evaluations/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../programmes/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../liens/" class="md-tabs__link">
+          
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Informatique en CPGE" class="md-nav__button md-logo" aria-label="Informatique en CPGE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Informatique en CPGE
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chapitres
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Chapitres
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/progression/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Index
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/systemes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C0-Notions d'architecture et de systèmes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/introC/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C1-Premiers pas en langage C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/validation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C2-Spécifications et tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/pointeurs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C3-Pointeurs et types structurés
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/arithmetique/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C4-Arithmétique des ordinateurs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/recursivite/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C5-Récursivité
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/introOCaml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C6-OCaml : aspects fonctionnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/terminaison/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C7-Terminaison, correction, complexité
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/sl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C8-Structures de données linéaires
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/OCamlimp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C9-Ocaml : aspects impératifs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/hash/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C10-Tableau associatif, hachage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/introbd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C11-Introduction aux bases de données
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/arbres/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C12-Arbres binaires
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/forcebrute/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C13-Force brute, retour sur trace
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/induction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C14-Induction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/decomposition/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C15-Décomposition en sous problèmes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/logique/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C16-Logique
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/graphes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C17-Graphes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/mea/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C18-Modèle entité-association
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/textes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C19-Algorithmes des textes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/algographes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C20-Algorithmes des graphes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../progression/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Index
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    C0-Un peu de Python
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    C0-Un peu de Python
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cours
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#travaux-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Travaux pratiques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Travaux pratiques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pour-demarrer-en-douceur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pour démarrer en douceur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-1-premieres-fonctions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 1 : Premières fonctions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-2-un-peu-de-dessin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 2 : Un peu de dessin
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-3-simulation-dun-lancer-de-de" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 3 : Simulation d'un lancer de dé
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-4-pierre-feuille-ciseaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 4 : Pierre, feuille, ciseaux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-5-nombre-premier" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 5 : Nombre premier
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sur-les-listes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sur les listes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-6-generation-de-listes-en-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 6 : Génération de listes en Python
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-7-parcours-de-listes-en-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 7 : Parcours de listes en Python
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-8-recherche-doccurences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 8 : Recherche d'occurences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-9-chaines-de-caracteres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 9 : Chaines de caractères
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manipulations-de-fichiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manipulations de fichiers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-10-nombre-de-lignes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 10 : Nombre de lignes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-11-somme-des-entiers-dans-un-fichier" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 11 : Somme des entiers dans un fichier
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-12-recherche-dans-un-dictionnaire" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 12 : Recherche dans un dictionnaire
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercices-de-synthese" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercices de synthèse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-13-conjecture-de-syracuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 13 : Conjecture de syracuse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-14-probleme-de-joseph" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 14 : Problème de Joseph
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-15-triangle-de-pascal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 15 : Triangle de Pascal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-16-crible-derastothene" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 16 : Crible d'Erastothène
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-17-tri-par-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 17 : Tri par sélection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-18-tri-par-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 18 : Tri par insertion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-19-recherche-dichotomique" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 19 : Recherche dichotomique
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-20-boite-de-plus-grand-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 20 : Boîte de plus grand volume
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introbd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C1-Introduction aux bases de données
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../progdyn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C2-Programmation dynamique
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jointures/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C3-Jointures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../knn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C4-k plus proches voisins, k-moyennes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algojeux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C5-Algorithme pour l'étude des jeux
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../evaluations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evaluations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programmes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Programme d'informatique en MP2I
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../liens/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Liens
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cours
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#travaux-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Travaux pratiques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Travaux pratiques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pour-demarrer-en-douceur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pour démarrer en douceur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-1-premieres-fonctions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 1 : Premières fonctions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-2-un-peu-de-dessin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 2 : Un peu de dessin
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-3-simulation-dun-lancer-de-de" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 3 : Simulation d'un lancer de dé
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-4-pierre-feuille-ciseaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 4 : Pierre, feuille, ciseaux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-5-nombre-premier" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 5 : Nombre premier
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sur-les-listes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sur les listes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-6-generation-de-listes-en-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 6 : Génération de listes en Python
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-7-parcours-de-listes-en-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 7 : Parcours de listes en Python
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-8-recherche-doccurences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 8 : Recherche d'occurences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-9-chaines-de-caracteres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 9 : Chaines de caractères
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manipulations-de-fichiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manipulations de fichiers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-10-nombre-de-lignes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 10 : Nombre de lignes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-11-somme-des-entiers-dans-un-fichier" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 11 : Somme des entiers dans un fichier
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-12-recherche-dans-un-dictionnaire" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 12 : Recherche dans un dictionnaire
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercices-de-synthese" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercices de synthèse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-13-conjecture-de-syracuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 13 : Conjecture de syracuse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-14-probleme-de-joseph" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 14 : Problème de Joseph
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-15-triangle-de-pascal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 15 : Triangle de Pascal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-16-crible-derastothene" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 16 : Crible d'Erastothène
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-17-tri-par-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 17 : Tri par sélection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-18-tri-par-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 18 : Tri par insertion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-19-recherche-dichotomique" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 19 : Recherche dichotomique
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-20-boite-de-plus-grand-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 20 : Boîte de plus grand volume
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="c0-un-peu-de-python"><span class='numchapitre'>C0</span> Un peu de Python <span style='float:right;'><span class="twemoji" title="Python"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6zM286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4.1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3.1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z"/></svg></span></span></h1>
+<h2 id="cours">Cours</h2>
+<p><span class='centre'><a class="md-button" href="../Cours/C0/C0-cours.pdf" target="_blank">Support de cours chapitre 0 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M64 464h48v48H64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0h165.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V304h-48V160h-80c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16v384c0 8.8 7.2 16 16 16zm112-112h32c30.9 0 56 25.1 56 56s-25.1 56-56 56h-16v32c0 8.8-7.2 16-16 16s-16-7.2-16-16V368c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24h-16v48h16zm96-80h32c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48h-32c-8.8 0-16-7.2-16-16V368c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16h-16v96h16zm80-112c0-8.8 7.2-16 16-16h48c8.8 0 16 7.2 16 16s-7.2 16-16 16h-32v32h32c8.8 0 16 7.2 16 16s-7.2 16-16 16h-32v48c0 8.8-7.2 16-16 16s-16-7.2-16-16V368z"/></svg></span></a></span></p>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>Ce diaporama ne vous donne que quelques points de repères lors de vos révisions. Il devrait être complété par la relecture attentive de vos <strong>propres</strong> notes de cours et par une révision approfondie des exercices.</p>
+</div>
+<p>Les exemples vu en cours</p>
+<ul>
+<li>
+<details class="python">
+<summary>Syracuse</summary>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">syracuse</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="k">if</span> <span class="n">n</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        <span class="k">return</span> <span class="n">n</span><span class="o">//</span><span class="mi">2</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="k">return</span> <span class="mi">3</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>
+</span></code></pre></div></details>
+</li>
+<li>
+<details class="python">
+<summary>Série harmonique</summary>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span> <span class="nf">serie_harmonique</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="n">somme</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        <span class="n">somme</span> <span class="o">=</span> <span class="n">somme</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">i</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="k">return</span> <span class="n">somme</span>
+</span></code></pre></div>
+</details>
+</li>
+<li>
+<details class="python">
+<summary>Calcul du PGCD</summary>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span> <span class="nf">pgcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="k">while</span> <span class="n">b</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">%</span><span class="n">b</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="k">return</span> <span class="n">a</span>
+</span></code></pre></div>
+</details>
+</li>
+<li>
+<details class="python">
+<summary>Recherche simple dans une liste</summary>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">def</span> <span class="nf">est_dans</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">l</span><span class="p">):</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>        <span class="k">if</span> <span class="n">x</span><span class="o">==</span><span class="n">n</span><span class="p">:</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>            <span class="k">return</span> <span class="kc">True</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="k">return</span> <span class="kc">False</span>
+</span></code></pre></div>
+</details>
+</li>
+<li>
+<details class="python">
+<summary>maximum des éléments d'une liste</summary>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span> <span class="nf">max_liste</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="c1"># la liste doit être non vide</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">current_max</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="k">if</span> <span class="n">elt</span><span class="o">&gt;</span><span class="n">current_max</span><span class="p">:</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>            <span class="n">current_max</span> <span class="o">=</span> <span class="n">elt</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="k">return</span> <span class="n">current_max</span>
+</span></code></pre></div>
+</details>
+</li>
+</ul>
+<h2 id="travaux-pratiques">Travaux pratiques</h2>
+<h3 id="pour-demarrer-en-douceur">Pour démarrer en douceur</h3>
+<h3 id="exercice-1-premieres-fonctions"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 1 : <em>Premières fonctions</em></h3>
+<ol>
+<li>
+<p>Ecrire une fonction <code>perimetre_rectangle</code> qui prend en argument en argument deux entiers <code>longueur</code> et <code>largeur</code> et renvoie le perimètre du rectangle de dimension <code>longueur</code>x<code>largeur</code></p>
+</li>
+<li>
+<p>Ecrire une fonction <code>est_triangle</code> qui prend en argument trois entiers <code>a</code>,<code>b</code> et <code>c</code> et qui renvoie <code>true</code> si ces trois entiers peuvent être les longueurs des trois côtés d'un triangle. </p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>Cela revient à vérifier que les trois entiers vérifient l'inégalité triangulaire ou encore que le plus grand des trois est inférieur à la somme des deux autres.</p>
+</div>
+</li>
+<li>
+<p>On appelle <em>factorielle</em> d'un entier <span class="arithmatex">\(n\)</span> et on note <span class="arithmatex">\(n!\)</span> le produit de cet entier par tous ceux qui le précèdent à l'exception de zéro. Et on convient d'autre part que <span class="arithmatex">\(0!=1\)</span>. Par exemple <span class="arithmatex">\(5! = 5 \times 4 \times \times 3 \times 2 \times 1 = 120\)</span>. Ecrire une fonction <code>factorielle</code> qui prend en argument un entier <code>n</code> et renvoie sa factorielle.</p>
+</li>
+<li>
+<p>Ecrire une fonction <code>bissextile</code> qui prend en argument un entier <code>annee</code> et renvoie <code>true</code> si cette année est bissextile et <code>false</code> sinon.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>Une année est bissextile si elle est divisible par 4 mais pas par 100 ou s'il est divisible par 400.</p>
+</div>
+</li>
+<li>
+<p>Ecrire une fonction prenant en entrée un entier <span class="arithmatex">\(n\)</span> et renvoyant le plus petit entier <span class="arithmatex">\(k\)</span> tel que <span class="arithmatex">\(2^k \geq n\)</span>.</p>
+</li>
+<li>
+<p>Ecrire une fonction prenant en entrée un entier <span class="arithmatex">\(n\)</span> et qui renvoie    <span class="arithmatex">\(\displaystyle{\sum_{k=1}^{n} k^2}\)</span>.</p>
+</li>
+</ol>
+<h3 id="exercice-2-un-peu-de-dessin"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 2 : <em>Un peu de dessin</em></h3>
+<ol>
+<li>
+<p>Ecrire une fonction <code>carre_plein</code> prenant comme paramètre un entier <code>cote</code> et un caractère <code>car</code> et permettant d'afficher un carré de côté <code>cote</code> rempli de caractères <code>car</code>. Par exemple, <code>carre(5,'C')</code> produit l'affichage suivant :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>CCCCC
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>CCCCC
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>CCCCC
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>CCCCC
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>CCCCC
+</span></code></pre></div></p>
+</li>
+<li>
+<p>Ecrire une fonction <code>rectangle_creux</code>  prenant trois paramètres : deux entiers <code>largeur</code> et <code>longueur</code> et un caractère <code>car</code> permettant d'afficher un rectangle creux de dimensions <code>largeur</code> sur <code>longueur</code> dont la bordure est constitué de caractères <code>car</code>. Par exemple <code>rectangle_creux(3,7,'~')</code> devrait produire l'affichage suivant :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>~~~~~~~
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>~     ~
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>~~~~~~~
+</span></code></pre></div></p>
+</li>
+<li>
+<p>De la même façon écrire une fonction <code>triangle</code> prenant comme paramètre un entier <code>hauteur</code> et un caractère <code>car</code> telle que <code>triangle(6,'*')</code> produise l'affichage suivant :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>     *
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    ***
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>   *****
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  *******
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a> *********
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>***********
+</span></code></pre></div></p>
+</li>
+</ol>
+<h3 id="exercice-3-simulation-dun-lancer-de-de"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 3 : <em>Simulation d'un lancer de dé</em></h3>
+<p>Au jeu des <a href="https://fr.wikipedia.org/wiki/Jeu_des_petits_chevaux" target="_blank">"petits chevaux"</a>, le joueur doit lancer un dé à six faces pour et obtenir 6 pour "sortir un de ses chevaux de l'écurie". On se demande, en moyenne combien de coups  il faut pour obtenir un 6 sur un lancer de dé.</p>
+<ol>
+<li>En utilisant le module <code>random</code>,  écrire une fonction <code>lancer_de</code> qui ne prend aucun argument et renvoie un nombre choisir au hasard entre 1 et 6.</li>
+<li>Ecrire une fonction, <code>obtenir6</code> qui ne prend aucun argument et qui renvoie le nombre lancer effectué pour obtenir une première fois 6.</li>
+<li>Calculer la moyenne du nombre de coups nécessaire pour obtenir un six pour un grand nombre de parties (par exemple 10000).</li>
+</ol>
+<h3 id="exercice-4-pierre-feuille-ciseaux"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 4 : <em>Pierre, feuille, ciseaux</em></h3>
+<p>Ecrire un programme permettant de jouer à pierre-feuille-ciseaux contre l'ordinateur. On pourra procéder en </p>
+<ol>
+<li>Ecrivant une fonction <code>gagnant</code> qui prend en argument deux entiers représentant les choix de l'ordinateur et celui du joueur (par exemple : 0 = pierre, 1 = feuille, 2 =ciseaux) et renvoie le résultat de la partie sous la forme d'une chaine de caractères comme par exemple ("match nul" ou "joueur gagnant")</li>
+<li>
+<p>Ecrire une fonction <code>choix_ordi</code> qui renvoie un choix aléatoire parmi les trois possibilités</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On rapelle que la fonction <code>randint</code> du module <code>random</code> permet de choisir un entier naturel compris entre les deux entiers donnés en argument.</p>
+</div>
+</li>
+<li>
+<p>Ecrire une fonction <code>choix_joueur</code> sans argument qui renvoie le choix du joueur</p>
+</li>
+<li>
+<p>Utiliser les trois fonctions précédentes </p>
+</li>
+</ol>
+<h3 id="exercice-5-nombre-premier"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 5 : <em>Nombre premier</em></h3>
+<p>Ecrire une fonction <code>est_premier</code> qui prend en argument un entier <span class="arithmatex">\(n\)</span> et renvoie <code>True</code> si ce nombre est premier et <code>False</code> sinon.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On pourra se contenter de tester si les entiers  <span class="arithmatex">\(k\)</span> compris entre 2 et <span class="arithmatex">\(\sqrt{n}\)</span> divisent <span class="arithmatex">\(n\)</span>.</p>
+</div>
+<h3 id="sur-les-listes">Sur les listes</h3>
+<h3 id="exercice-6-generation-de-listes-en-python"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 6 : <em>Génération de listes en Python</em></h3>
+<ol>
+<li>
+<p>On considère le programme suivant :
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">liste1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">liste2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">liste3</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="n">liste3</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></code></pre></div></p>
+<ol>
+<li>Quel est le contenu de chacune des listes ?</li>
+<li>Indiquer par quel procédé chacune de ces listes a été crée.</li>
+</ol>
+</li>
+<li>
+<p>Ecrire un programme python permettant de créer les listes suivantes :</p>
+<ol>
+<li>Une liste contenant 12 fois le chiffre 7.</li>
+<li>La liste des nombres entiers de 1 à 100.</li>
+<li>
+<p>Une liste contenant 1000 nombres tirés au sort entre 1 et 6.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On rappelle que la fonction <code>randint</code> peut être importer depuis le module <code>random</code>, elle permet de tirer un nombre en deux valeurs <code>a</code> et <code>b</code> données en paramètres.</p>
+</div>
+</li>
+<li>
+<p>La liste des cubes des entiers de 1 à 10.</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="exercice-7-parcours-de-listes-en-python"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 7 : <em>Parcours de listes en Python</em></h3>
+<p>On suppose qu'on dispose d'une liste de notes, on veut écrire une fonction qui renvoie le nombres de notes qui sont en dessous de la moyenne. </p>
+<ol>
+<li>
+<p>On considère une première version de cette fonction :
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">def</span> <span class="nf">inferieur_moyenne</span><span class="p">(</span><span class="n">liste_notes</span><span class="p">):</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="n">nb</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">liste_notes</span><span class="p">:</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>        <span class="k">if</span> <span class="o">.....</span><span class="p">:</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>            <span class="n">nb</span> <span class="o">=</span> <span class="o">.......</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="k">return</span> <span class="o">...</span>
+</span></code></pre></div></p>
+<ol>
+<li>Recopier et compléter cette fonction</li>
+<li>Tester cette fonction </li>
+</ol>
+</li>
+<li>
+<p>Voici une deuxième version de cette fonction :
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">def</span> <span class="nf">inferieur_moyenne</span><span class="p">(</span><span class="n">liste_notes</span><span class="p">):</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">nb</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="k">for</span> <span class="n">indice</span> <span class="ow">in</span> <span class="o">........</span><span class="p">:</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>        <span class="k">if</span> <span class="o">...........</span> <span class="p">:</span> 
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>            <span class="n">nb</span> <span class="o">=</span> <span class="o">.......</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="k">return</span> <span class="o">...</span>
+</span></code></pre></div></p>
+<ol>
+<li>Recopier et compléter cette fonction</li>
+<li>Tester cette fonction</li>
+</ol>
+</li>
+<li>
+<p>Quelle est la différence principale entre ces deux versions de la même fonction ?</p>
+</li>
+<li>
+<p>Ecrire les fonctions suivantes :</p>
+<ol>
+<li><code>somme_liste</code> qui prend comme argument une liste non vide de nombres et renvoie la somme de ces nombres.</li>
+<li><code>moyenne_liste</code> qui prend comme argument une liste non vide de nombres et renvoie la moyenne de ces nombres.</li>
+<li><code>max_liste</code> qui prend comme argument une liste non vide de nombres et renvoie le plus grand de ces nombres.</li>
+<li><code>min_liste</code> qui prend comme argument une liste non vide de nombres et renvoie le plus petit de ces nombres.</li>
+</ol>
+</li>
+</ol>
+<h3 id="exercice-8-recherche-doccurences"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 8 : <em>Recherche d'occurences</em></h3>
+<ol>
+<li>Ecrire une fonction <code>present</code> qui prend en argument un elément <code>elt</code> et une liste <code>liste</code>   et qui renvoie <code>True</code> si <code>elt</code> se trouve dans la liste <code>liste</code> et <code>False</code> sinon. Par exemple <code>present(3,[1,4,5])</code> renvoie <code>False</code>, par contre <code>present(4,[1,4,5])</code> renvoie <code>True</code>.</li>
+<li>Tester cette fonction</li>
+<li>Ecrire une fonction <code>occurence</code> qui renvoie le nombre de fois où <code>elt</code> apparaît dans <code>liste</code>.</li>
+<li>Ecrire une fonction <code>indice</code> qui renvoie l'indice de la première apparition d'<code>elt</code>dans <code>liste</code>. On renvoie <span class="arithmatex">\(-1\)</span> si <code>elt</code> ne se trouve pas dans <code>liste</code>.</li>
+</ol>
+<h3 id="exercice-9-chaines-de-caracteres"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 9 : <em>Chaines de caractères</em></h3>
+<ol>
+<li>Ecrire une fonction <code>compte_caractere(s,c)</code> qui prendre en argument une chaîne de caractère <code>s</code> et un caractère <code>c</code> et retourne le nombre de fois où <code>c</code> apparait dans <code>s</code>. Par exemple <code>compte_caractere("informatique","i"")</code> renvoie 2 puisqu'il y a deux <code>i</code> dans le mot <code>informatique</code></li>
+<li>Ecrire une fonction <code>inverse</code> qui prend en argument une chaîne de caractère et retourne cette chaîne écrite à l'envers. Par exemple, <code>inverse("Python")</code> donnera <code>"nohtyP"</code>.</li>
+<li>Ecrire une fonction <code>compare</code> qui prend en argument deux chaînes de caractères et renvoie le nombre de fois où ces deux chaines on la même lettre au même emplacement. Par exemple, <code>compare("Python","Poterie")</code> retourne 2 car le "P" et le "t" sont situés aux mêmes emplacements dans les deux mots.</li>
+</ol>
+<h3 id="manipulations-de-fichiers">Manipulations de fichiers</h3>
+<h3 id="exercice-10-nombre-de-lignes"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 10 : <em>Nombre de lignes</em></h3>
+<p>Ecrire une fonction qui prend en paramètre un nom de fichier et retourne le nombre de lignes de ce fichier.</p>
+<h3 id="exercice-11-somme-des-entiers-dans-un-fichier"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 11 : <em>Somme des entiers dans un fichier</em></h3>
+<p>Le fichier <code>entiers.txt</code> téléchargeable ci-dessous contient sur chaque ligne un entier. Ecrire un programme Python qui lit ce fichier et fait la somme de ces entiers.
+<span class='centre'><a class="md-button" href="../files/C0/entiers.txt">entiers.txt <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7 7-7Z"/></svg></span></a></span></p>
+<p>Vérifier la réponse fournie par votre programme ci-dessous :</p>
+<p><input type="text" id="q4" class="text-input-neutral"> <img id="q4img" src="https://fabricenativel.github.io/cpge-info/images/circle-question.svg" width="24px" style="vertical-align:middle"> 
+<input type="button" value="valider" class="repbutton" onclick="check('q4','8a3c2b9ad5ab06cb5dbe2c292312fabae6a756a2aa45786480764dafd29b08f3')">
+<input type="button" value="reset" class="repbutton" onclick="imgreset('q4')"></p>
+<h3 id="exercice-12-recherche-dans-un-dictionnaire"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 12 : <em>Recherche dans un dictionnaire</em></h3>
+<p>Pour cette exercice on utilise le dictionnaire téléchargeable ci-dessous:
+<span class='centre'><a class="md-button" href="../files/C0/dictionnaire.txt">Dictionnaire <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7 7-7Z"/></svg></span></a></span></p>
+<ol>
+<li>Combien il y a-t-il de mots dans ce dictionnaire ?</li>
+<li>Lister tous les mots de 17 lettres de ce dictionnaire.</li>
+<li>Quel est le plus grand mot de ce dictionnaire ?</li>
+<li>Lister tous les mots de 5 lettres qui ont un <em>d</em> en deuxième position et se terminent par un <em>e</em>.</li>
+<li>Lister tous les mots palindromes de ce dictionnaire (un mot palindrome est un mot pouvant se lire indifféremment dans les deux sens par exemple <em>kayak</em> ou <em>été</em>)</li>
+</ol>
+<h3 id="exercices-de-synthese">Exercices de synthèse</h3>
+<h3 id="exercice-13-conjecture-de-syracuse"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 13 : <em>Conjecture de syracuse</em></h3>
+<p>La <a href="https://fr.wikipedia.org/wiki/Conjecture_de_Syracuse" target="_blank">conjecture de syracuse</a> est l'hypothèse selon laquelle la suite définie <span class="arithmatex">\((u_n)_{n \in \mathbb{N}}\)</span> définie par son premier terme <span class="arithmatex">\(u_0\)</span> et la relation de récurrence :<br />
+<span class="arithmatex">\(u_{n+1} = \left\{ \begin{array}{ll} \dfrac{u_n}{2} &amp; \mathrm{\ si\ } u_n \mathrm{\ est \ paire} \\ 3u_n+1 &amp; \mathrm{\ sinon} \\ \end{array} \right.\)</span><br />
+atteint 1. Dans la suite de cette exercice on supposera cette conjecture vérifiée.</p>
+<ol>
+<li>Ecrire la fonction <code>terme_suivant</code> qui prend en argument un entier <span class="arithmatex">\(n\)</span> et renvoie <span class="arithmatex">\(\dfrac{n}{2}\)</span> si <span class="arithmatex">\(n\)</span> est paire et <span class="arithmatex">\(3n+1\)</span> sinon.</li>
+<li>Ecrire une fonction <code>duree_vol</code> qui prend en argument un entier <span class="arithmatex">\(u_0\)</span> et renvoie le plus petit entier <span class="arithmatex">\(n\)</span> appelé <em>durée de vol</em> tel que <span class="arithmatex">\(u_n=1\)</span>. Par exemple <code>duree_vol(7)</code> doit renvoyer 16,en effet les termes successif de la suite sont <code>7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4 ,2, 1</code>.</li>
+<li>Quelle est la plus grande durée de vol lorsque <span class="arithmatex">\(1 \leq u_0 \leq 1000\)</span>. Pour quelle(s) valeur(s) de <span class="arithmatex">\(u_0\)</span> est-elle atteinte ?</li>
+</ol>
+<h3 id="exercice-14-probleme-de-joseph"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 14 : <em>Problème de Joseph</em></h3>
+<div class="centre"><iframe width="560" height="315" src="https://www.youtube.com/embed/uCsD3ZGzMgE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<p>Le but de l'activité est d'écrire un programme permettant de résoudre le <a href="https://fr.wikipedia.org/wiki/Probl%C3%A8me_de_Jos%C3%A8phe" target="_blank">problème de Joseph</a> en révisant les listes de Python.</p>
+<ol>
+<li>
+<p>On représente un cercle de <code>n</code> soldats par la liste <code>[1,2,...,n]</code>. Ecrire une fonction <code>soldats(n)</code> qui renvoie la liste <code>[1,2,....,n]</code></p>
+</li>
+<li>
+<p>Afin de repérer l'épée, on décide que le soldat qui la tient se situe <em>toujours en première position de la liste</em>. Ainsi avec 5 soldats le cercle initial est <code>[1,2,3,4,5]</code> (<code>1</code> tient l'épée, il élimine 2 et passe l'épée à 3), donc après une étape la liste sera <code>[3,4,5,1]</code> (<code>3</code> tient l'épée) </p>
+</li>
+<li>
+<p>Programmer une fonction <code>josephus(n)</code> qui renvoie le soldat survivant pour un cercle de <code>n</code> soldats.</p>
+</li>
+<li>
+<p>Quel sera le survivant dans une cercle de 1000 soldats ?</p>
+</li>
+</ol>
+<h3 id="exercice-15-triangle-de-pascal"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 15 : <em>Triangle de Pascal</em></h3>
+<p>Ecrire un programme qui prend en argument un entier <span class="arithmatex">\(1 \leq n \leq 10\)</span> et affiche les <span class="arithmatex">\(n\)</span> premières lignes du <a href="https://fr.wikipedia.org/wiki/Triangle_de_Pascal" target="_blank">triangle de Pascal</a>. Par exemple <code>pascal(4)</code> affiche :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>1
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>1 1
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>1 2 1
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>1 3 3 1
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>1 4 6 4 1
+</span></code></pre></div></p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<ul>
+<li>On rappelle que le coefficient situé ligne <span class="arithmatex">\(n\)</span> et colonne <span class="arithmatex">\(k\)</span> noté <span class="arithmatex">\(\displaystyle{\binom{n}{k}}\)</span> se déduit de ceux de la ligne précédente grâce à la formule de Pascal : <span class="arithmatex">\(\displaystyle{\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}}\)</span></li>
+<li>On pourra utiliser deux tableaux, l'un représentant la ligne précédente et un second la ligne en cours de construction.</li>
+</ul>
+</div>
+<h3 id="exercice-16-crible-derastothene"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 16 : <em>Crible d'Erastothène</em></h3>
+<p>On rappelle qu'un nombre premier est un entier naturel ayant exactement deux diviseurs 1 et lui-même, ainsi 13 est premier mais pas 15. Le <a href="https://fr.wikipedia.org/wiki/Crible_d%27%C3%89ratosth%C3%A8ne">crible d'Erastothène</a> est un algorithme permettant de trouver tous les nombres premiers inférieurs ou égaux à un entier <code>n</code> donné. </p>
+<div class="admonition abstract">
+<p class="admonition-title">Algorithme</p>
+<ul>
+<li>on crée une liste de booléens <code>premiers</code> de taille <code>n+1</code></li>
+<li>on initialise le tableau à <code>true</code> sauf <code>premiers[0]</code> et <code>premiers[1]</code> qui sont à <code>false</code> puisque  <span class="arithmatex">\(0\)</span> et <span class="arithmatex">\(1\)</span> ne sont pas premiers.</li>
+<li>on parcourt ce tableau si <code>premiers[i]</code> est à <code>true</code> alors on met tous ses multiples (sauf lui-même) à <code>false</code></li>
+<li>le parcours s'arrête dès que l'entier <code>i</code> est supérieur à <span class="arithmatex">\(\sqrt{n}\)</span>.  </li>
+</ul>
+</div>
+<ol>
+<li>
+<p>Ecrire une fonction <code>crible</code> qui prend en paramètre un entier <code>n</code> et implémente cet algorithme. L'utiliser pour afficher les nombres premiers inférieurs à 100.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>Vous devriez obtenir : <code>2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97</code></p>
+</div>
+</li>
+<li>
+<p>Ecrire une fonction <code>somme_premiers</code> qui prend en argument un entier <code>seuil</code> et renvoie la somme de tous les nombres premiers inférieurs ou égaux à <code>seuil</code>. Par exemple <code>somme_premiers(100)</code> renvoie <code>1060</code></p>
+</li>
+</ol>
+<h3 id="exercice-17-tri-par-selection"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 17 : <em>Tri par sélection</em></h3>
+<div class="admonition abstract">
+<p class="admonition-title">Algorithme</p>
+<p>L'algorithme du <em>tri par sélection</em> consiste à :  </p>
+<ul>
+<li>rechercher le plus petit élement de la liste à partir de l'indice <strong>0</strong></li>
+<li>échanger cet élément avec celui situé à l'indice <strong>0</strong></li>
+<li>rechercher le plus petit élement de la liste à partir de l'indice <strong>1</strong></li>
+<li>échanger cet élément avec celui situé à l'indice <strong>1</strong></li>
+<li>et ainsi de suite jusqu'à atteindre la fin de la liste</li>
+</ul>
+</div>
+<ol>
+<li>
+<p>Détailler les étapes de cet algorithme lorsqu'on le fait fonctionner sur la liste <code>[12,10,18,15,14]</code></p>
+<details class="question">
+<summary>Corrigé</summary>
+<ul>
+<li>Recherche du minimum depuis l'indice 0 : <span class="arithmatex">\([12,\textcolor{red}{10},18,15,14]\)</span></li>
+<li>Echange avec celui situé à l'indice 0 : <span class="arithmatex">\([10, 12, 18, 15, 14]\)</span></li>
+<li>Recherche du minimum depuis l'indice 1 : <span class="arithmatex">\([10,\textcolor{red}{12}, 18, 15, 14]\)</span></li>
+<li>Echange avec celui situé à l'indice 1 : <span class="arithmatex">\([10, 12, 18, 15, 14]\)</span></li>
+<li>Recherche du minimum depuis l'indice 2 : <span class="arithmatex">\([10,12, 18, 15, \textcolor{red}{14}]\)</span></li>
+<li>Echange avec celui situé à l'indice 2 : <span class="arithmatex">\([10, 12, 14, 15, 18]\)</span></li>
+<li>Recherche du minimum depuis l'indice 3 : <span class="arithmatex">\([10,12, 18, \textcolor{red}{15}, 18]\)</span></li>
+<li>Echange avec celui situé à l'indice 3 : <span class="arithmatex">\([10, 12, 14, 15, 18]\)</span></li>
+</ul>
+</details>
+</li>
+<li>
+<p>Ecrire une fonction <code>echange</code> qui prend en argument une liste et deux indices <span class="arithmatex">\(i\)</span> et <span class="arithmatex">\(j\)</span> et échange les éléments d'indice <span class="arithmatex">\(i\)</span> et <span class="arithmatex">\(j\)</span> de cette liste.</p>
+<details class="question">
+<summary>Corrigé</summary>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Echange les éléments situés aux indices i et j dans liste</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">def</span> <span class="nf">echange</span><span class="p">(</span><span class="n">liste</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="n">liste</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">liste</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">liste</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">liste</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span></code></pre></div>
+</details>
+</li>
+<li>
+<p>Ecrire une fonction <code>indice_min_depuis</code> qui prend en argument une liste et un indice <span class="arithmatex">\(i\)</span> et renvoie l'indice du minimum des éléments de cette liste depuis l'indice <span class="arithmatex">\(i\)</span>.</p>
+<details class="question">
+<summary>Corrigé</summary>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Recherche l&#39;indice du minimum de la liste à partir de l&#39;indice i</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">def</span> <span class="nf">indice_min_depuis</span><span class="p">(</span><span class="n">liste</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="n">ind_mini</span> <span class="o">=</span> <span class="n">i</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    <span class="n">mini</span> <span class="o">=</span> <span class="n">liste</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">liste</span><span class="p">)):</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>        <span class="k">if</span> <span class="n">liste</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&lt;</span><span class="n">mini</span><span class="p">:</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>            <span class="n">ind_mini</span> <span class="o">=</span> <span class="n">j</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>            <span class="n">mini</span> <span class="o">=</span> <span class="n">liste</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="k">return</span> <span class="n">ind_mini</span>
+</span></code></pre></div>
+</details>
+</li>
+<li>
+<p>Programmer et tester l'algorithme du tri par sélection</p>
+<details class="question">
+<summary>Corrigé</summary>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Tri pas sélection</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="k">def</span> <span class="nf">tri_selection</span><span class="p">(</span><span class="n">liste</span><span class="p">):</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">liste</span><span class="p">)):</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>        <span class="n">j</span> <span class="o">=</span> <span class="n">indice_min_depuis</span><span class="p">(</span><span class="n">liste</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>        <span class="n">echange</span><span class="p">(</span><span class="n">liste</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+</span></code></pre></div>
+<p>On rappelle que les listes sont mutables en Python, et qu'on effectue ici un tri en place (la liste est modifiée et on en crée pas de nouvelle). Pour tester on peut donc écrire :</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">tri_selection</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nb">print</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+</span></code></pre></div>
+</details>
+</li>
+</ol>
+<h3 id="exercice-18-tri-par-insertion"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 18 : <em>Tri par insertion</em></h3>
+<div class="admonition abstract">
+<p class="admonition-title">Algorithme</p>
+<ul>
+<li>L'algorithme du <em>tri par insertion</em> consiste à considérer qu'une partie de la liste (initialement vide) située au début est déjà triée. On parcourt ensuite le reste de la liste et on insère chaque élément à la bonne position dans la partie déjà triée.  </li>
+<li>Pour réaliser cette insertion, on pourra echanger l'élement avec son voisin de gauche tant qu'il lui est supérieur et que le début de la liste n'est pas atteint.</li>
+</ul>
+</div>
+<p>Programmer et tester cet algorithme.</p>
+<h3 id="exercice-19-recherche-dichotomique"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 19 : <em>Recherche dichotomique</em></h3>
+<div class="admonition abstract">
+<p class="admonition-title">Algorithme</p>
+<p>Pour rechercher un élement dans une liste <strong>triée</strong>, on peut :</p>
+<ul>
+<li>partager la liste en deux parties de longueur égale (à une unité près).</li>
+<li>comparer l'élément cherché avec celui situé au milieu et en déduire dans quel moitié poursuivre la recherche.</li>
+<li>l'algorithme s'arrête lorsque la zone de recherche est vide.</li>
+</ul>
+</div>
+<p>Programmer et tester cet algorithme</p>
+<h3 id="exercice-20-boite-de-plus-grand-volume"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 20 : <em>Boîte de plus grand volume</em></h3>
+<p>Le fichier <code>boites.txt</code> est téléchargeable ci-dessous, chaque ligne de ce fichier contient la référence d'un modèle de boîte sous la forme d'un code à 4 lettres suivi de trois entiers représentant les dimensions de la boîte. A titre d'exemple, les trois premières lignes du fichier sont :
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>NWLR 283 75 46 
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>QBHC 117 70 79 
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>ZOWK 262 66 31
+</span></code></pre></div>
+Donc, la boite de référence <code>NWLR</code> a comme dimension <code>283x75x46</code>.
+<span class='centre'><a class="md-button" href="../files/C0/boites.txt">boites.txt <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7 7-7Z"/></svg></span></a></span></p>
+<p>Trouver la référence de la plus de plus grand volume, et vérifier votre résultat dans le formulaire suivant : <br />
+<input type="text" id="q5" class="text-input-neutral"> <img id="q5img" src="https://fabricenativel.github.io/cpge-info/images/circle-question.svg" width="24px" style="vertical-align:middle"> 
+<input type="button" value="valider" class="repbutton" onclick="check('q5','084917f6067f08042f75c4ebe38a495efcba6180a2c296eed65854741aa5cb5f')">
+<input type="button" value="reset" class="repbutton" onclick="imgreset('q5')"></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.tabs", "navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.ad660dcc.min.js"></script>
+      
+        <script src="../../javascript/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascript/check.js"></script>
+      
+    
+  </body>
+</html>
