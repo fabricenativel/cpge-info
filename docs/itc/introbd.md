@@ -8,7 +8,7 @@
 {{ cours(num) }}
 
 Les exemples vu en cours s'appuient sur la base de données suivante :
-{{ telecharger("Médailles Olympiques 1976-2008","files/C1/olympics1976-2008.db")}}
+{{ telecharger("Médailles Olympiques 1976-2008","../files/C1/olympics1976-2008.db")}}
 
 
 ## Travaux pratiques

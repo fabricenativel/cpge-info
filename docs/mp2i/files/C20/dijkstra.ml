@@ -47,8 +47,8 @@ let defile fp =
     fp.taille <- fp.taille-1;
     let cp = ref 0 in
     let lc = ref (fils !cp) in
-    while (!lc < fp.taille && (prio fp.donnees.(!lc) < prio fp.donnees.(!cp) || (!lc+1 < fp.taille && prio fp.donnees.(!lc+1) < prio fp.donnees.(!cp)))) do
-      if (!lc+1 >= fp.taille || prio fp.donnees.(!lc)< prio fp.donnees.(!lc+1)) then
+    while (!lc+1 < fp.taille && (min (prio fp.donnees.(!lc+1)) (prio fp.donnees.(!lc)) < prio fp.donnees.(!cp))) do
+      if (prio fp.donnees.(!lc)< prio fp.donnees.(!lc+1)) then
        (swap fp.donnees !cp !lc;
         cp := !lc)
       else  
@@ -56,6 +56,8 @@ let defile fp =
         cp := !lc+1);
       lc := fils !cp ;
     done;
+    if (!lc<fp.taille && prio fp.donnees.(!lc) < prio fp.donnees.(!cp)) then
+      (swap fp.donnees !cp !lc);
     res;
     )
   ;;

@@ -10,7 +10,7 @@ hide: - navigation  in liens.md
 
 # Programme de mathématiques en MP2I
 
-* {{ telecharger("Programme de mathématiques","../officiel/ProgrammeMaths",False)}}
+* {{ telecharger("Programme de mathématiques","../officiel/ProgrammeMaths.pdf",False)}}
 
 # Programme d'informatique en tronc commun
 
