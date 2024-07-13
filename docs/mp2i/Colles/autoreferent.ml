@@ -48,6 +48,16 @@ let compte tab elt idx =
     true;
     with  Exit -> false;;
 
+
+
+
+
+
+
+
+
+
+    
 let valide_partielle tab idx =
   let n = Array.length tab in
   (* Vérifier que la somme + cases non=0 restant à remplir ne dépasse pas la taille du tableau *)

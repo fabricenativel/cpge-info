@@ -13,6 +13,8 @@ hide: - navigation  in liens.md
 * [Les cours d'Anthony Lick](https://anthonylick.com/mp2i/){target=_blank}
 * [Ivan Noyer](https://www.nussbaumcpge.be/public_html/Sup/MP2I/generalite.php){target=_blank}
 * [Cours de J.B Bianquis (Lycée du Parc 2021-2022) au format pdf](https://ens-fr.gitlab.io/algo2/poly-mp2i.pdf)
+* [MP2I de Fermat](https://cahier-de-prepa.fr/mp2i-fermat/docs?Info)
+
 
 ## Ressources pour l'Informatique Tronc Commun
 * [CPGE-SII](http://www.cpge-sii.com/informatique/itc2/){target=_blank}
