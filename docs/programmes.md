@@ -2,17 +2,17 @@ hide: - navigation  in liens.md
 
 # Programme d'informatique en MP2I
 
-* {{ telecharger("Le programme complet d'informatique en MP2I/MPI","../officiel/programme.pdf",False)}}
+* {{ telecharger("Le programme complet d'informatique en MP2I/MPI","./officiel/programme.pdf",False)}}
 
-* {{ telecharger("Annexe pour le langage C","../officiel/programmeC.pdf",False)}}
+* {{ telecharger("Annexe pour le langage C","./officiel/programmeC.pdf",False)}}
 
-* {{ telecharger("Annexe pour le langage OCaml","../officiel/programmeOCaml.pdf",False)}}
+* {{ telecharger("Annexe pour le langage OCaml","./officiel/programmeOCaml.pdf",False)}}
 
 # Programme de mathématiques en MP2I
 
-* {{ telecharger("Programme de mathématiques","../officiel/ProgrammeMaths.pdf",False)}}
+* {{ telecharger("Programme de mathématiques","./officiel/programmeMaths.pdf",False)}}
 
 # Programme d'informatique en tronc commun
 
-* {{ telecharger("Le programme complet d'ITC","../officiel/programmeITC.pdf",False)}}
+* {{ telecharger("Le programme complet d'ITC","./officiel/programmeITC.pdf",False)}}
 

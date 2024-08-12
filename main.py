@@ -122,7 +122,7 @@ def define_env(env):
 
     # Affichage téléchargement diaporama de cours
     @env.macro
-    def cours(num):
+    def affiche_cours(num):
         fichier=f'C{num}/C{num}-cours.pdf'
         aff_cours = f'''
 <span class='centre'>[Support de cours chapitre {num} :fontawesome-regular-file-pdf:](./Cours/'''+fichier+'''){.md-button target=_blank}</span>
@@ -207,10 +207,34 @@ def define_env(env):
                 for theme in lf[2]:
                     ico = ico + env.variables["themes_"+niveau][int(theme)][1]
                 if publish_date <= today:
-                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../{niveau}/Evaluations/{utype}/{utype}{lf[0]}/{utype}{lf[0]}.pdf) | [:fontawesome-solid-file-circle-check:](../{niveau}/Evaluations/{utype}/{utype}{lf[0]}/{utype}{lf[0]}-Correction.pdf)  |\n"
+                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](./{niveau}/Evaluations/{utype}/{utype}{lf[0]}/{utype}{lf[0]}.pdf) | [:fontawesome-solid-file-circle-check:](./{niveau}/Evaluations/{utype}/{utype}{lf[0]}/{utype}{lf[0]}-Correction.pdf)  |\n"
                 nums+=1
         return aff
     
+    @env.macro
+    def affiche_eval(niveau):
+        ttypes = ["DS","IC","TP","DM"]
+        noms = {"IC":"Interrogation de cours", "DS": "Devoirs surveillés", "DM" : "Devoirs maison", "TP": "Travaux pratiques"}
+        entete = "|N° |Date| Thèmes| Titre | Enoncé| Corrigé |\n"
+        entete+= "|:-:|:---|:-----:|-------|:-----:|:-------:|\n"
+        listes = {k : f"###{noms[k]}\n"+entete for k in ttypes}
+        FNAME = f"./eval{niveau}.csv"
+        today = datetime.date.today()
+        with open(FNAME,"r",encoding="utf-8") as f:
+            for s in f:
+                ico = ""
+                utype,numero,titre,themes,date=s.split(";") 
+                d,m,y = date.strip().split("/")
+                publish_date = datetime.date(*tuple(map(int,(y,m,d))))
+                for theme in themes:
+                    ico = ico + env.variables["themes_"+niveau][int(theme)][1]
+                if publish_date <= today:
+                    listes[utype]+=f"|**{numero}**|{d}{y}{m}|{ico}|{titre}|[:fontawesome-solid-file-pen:](./{niveau}/Evaluations/{utype}/{utype}{numero}/{utype}{numero}.pdf) | [:fontawesome-solid-file-circle-check:]({niveau}/Evaluations/{utype}/{utype}{numero}/{utype}{numero}-Correction.pdf)  |\n"      
+                elif utype=="DS":
+                    listes[utype]+=f"|**{numero}**|*prévu le {d}/{m}/{y}*||.......|:material-file-question-outline:| :material-file-question:|\n"
+        return "\n".join([listes[k] for k in ttypes])
+        
+
     # Affichage de la liste des DM construite depuis le csv
     @env.macro
     def liste_dm(niveau):
@@ -229,9 +253,9 @@ def define_env(env):
                 for theme in lf[2]:
                     ico = ico + env.variables["themes_"+niveau][int(theme)][1]
                 if publish_date <= today:
-                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../mp2i/Evaluations/DM/Enonces/DM{lf[0]}/) | [:fontawesome-solid-file-circle-check:](../mp2i/Evaluations/DM/DM{lf[0]}/DM{lf[0]}-Correction/)|\n"
+                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](mp2i/Evaluations/DM/Enonces/DM{lf[0]}.md) | [:fontawesome-solid-file-circle-check:](mp2i/Evaluations/DM/DM{lf[0]}/DM{lf[0]}-Correction.md)|\n"
                 else:
-                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](../mp2i/Evaluations/DM/Enonces/DM{lf[0]}/) | {publish_date.day}/{publish_date.month}/{publish_date.year}|\n"
+                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](mp2i/Evaluations/DM/Enonces/DM{lf[0]}.md) | {publish_date.day}/{publish_date.month}/{publish_date.year}|\n"
                 nums+=1
         return aff
     

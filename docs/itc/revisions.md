@@ -5,7 +5,7 @@
 
 ## Cours
 
-{{ cours(num) }}
+{{ affiche_cours(num) }}
 
 Les exemples vu en cours
 

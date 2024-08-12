@@ -5,7 +5,7 @@
 
 ## Cours
 
-{{ cours(num) }}
+{{ affiche_cours(num) }}
 
 
 
@@ -20,7 +20,7 @@ Le but de cette activité, proposé sur le site de l'université américaine  [N
 ![schemabase](./Images/C3/sqlmm.png){: .imgcentre}
 
 Toutes les requêtes peuvent être exécutées directement sur le site, cependant vous pouvez télécharger ci-dessous la base afin d'exécuter vos requêtes en local :
-{{ telecharger("SQL Murder Mystery","../files/C9/sql-murder-mystery.db")}}
+{{ telecharger("SQL Murder Mystery","files/C3/sql-murder-mystery.db")}}
 
 Cliquer sur l'image ci-dessous pour accéder à l'enquête et trouver le coupable.
 [![illustration](./Images/C3/mm.png){: .imgcentre}](https://mystery.knightlab.com/walkthrough.html){target=_blank}

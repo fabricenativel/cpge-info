@@ -9,7 +9,7 @@
 ## Cours
 
 
-{{ cours(num) }}
+{{ affiche_cours(num) }}
 
 ### Exemples du cours
 

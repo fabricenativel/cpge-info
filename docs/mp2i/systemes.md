@@ -8,7 +8,7 @@
   professional like gnu) (...)","Linus Torvalds","[comp.os.minix newsgroup 1991](https://groups.google.com/group/comp.os.minix/msg/b813d52cbc5a044b)")}}
 ## Cours
 
-{{ cours(num) }}
+{{ affiche_cours(num) }}
 
 ## Travaux dirigés
 

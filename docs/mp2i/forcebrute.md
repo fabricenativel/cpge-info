@@ -7,7 +7,7 @@
 
 ## Cours
 
-{{ cours(num) }}
+{{ affiche_cours(num) }}
 
 
 ## Travaux pratiques
@@ -128,7 +128,7 @@ Le but de l'exercice est d'écrire un programme en C permettant de résoudre un 
 
 7. Le site de [kaggle](https:://www.kaggle.com){target=_blank} propose un [fichier](https://www.kaggle.com/datasets/bryanpark/sudoku){target=_blank} contenant un million de grilles de sudoku (le fichier fait 71 Mb) avec la solution. Sur chaque ligne du fichier, la grille est donnée sous la forme d'une chaine de caractères 81 caractères où `0` indique une case vide puis on trouve (séparé par une virgule) la solution de la grille. Un court extrait de ce fichier contenant seulement les 1000 premières grilles est disponible ci-dessous :
 
-{{telecharger("1000 grilles","../files/C13/grilles/kaggle1000.txt")}}
+{{telecharger("1000 grilles","files/C13/grilles/kaggle1000.txt")}}
 
 Ecrire un programme permettant de lire une grille de sudoku à ce format. Tester votre programme sur ces 1000 grilles.
 

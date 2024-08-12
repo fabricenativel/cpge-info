@@ -7,7 +7,7 @@
 
 ## Cours
 
-{{ cours(num) }}
+{{ affiche_cours(num) }}
 
 ## Travaux dirigés
 
@@ -81,7 +81,7 @@ On rappelle que les puissances de la matrice d'adjacence d'un graphe donnent le 
         Dans le cours, on avait utilisé la valeur `-1` pour indiquer l'absence de chemin. Une autre possibilité est d'utiliser un **type option** c'est en OCaml une façon élégante d'indiquer l'absence de valeur ici, le tableau de distance peut contenir un entier ou alors `None` pour indiquer qu'aucun chemin n'a été trouvé. C'est à dire qu'on utilise le type `#!ocaml None | Some of int` (voir la [documentation](https://ocaml.org/manual/5.2/api/Option.html){target=_blank}).
 
 3. Vous pouvez télécharger ci-dessous un fichier texte représentant un graphe **non orienté** à 50 noeuds (et 100 arêtes). Chaque ligne est une arête sous la forme de deux entiers : sommet de départ et sommet d'arrivée. Ecrire une fonction `lire_graphe string -> int -> int*int list` qui prend en argument une chaine de caractère (le nom du fichier) ainsi qu'un entier `n` (le nombre de sommets) et renvoie un graphe d'ordre `n` en y créant chaque arête lue dans le fichier.
-{{telecharger("Exemple (50 noeuds et 100 arêtes)","../files/C20/ex50.txt")}}
+{{telecharger("Exemple (50 noeuds et 100 arêtes)","files/C20/ex50.txt")}}
 
 4. Tester votre fonction de parcours en largeur sur ce graphe, un seul sommet se situe à la distance maximale. Multiplier le numéro de ce sommet par cette distance et tester votre résultat : {{check_reponse("200")}}
 

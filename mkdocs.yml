@@ -1,14 +1,15 @@
 site_name: Informatique en CPGE
 site_description: Cours d'informatique en MP2I et ITC  (lycée Leconte de Lisle)
 site_author: Fabrice NATIVEL
+site_url : https://fabricenativel.github.io/cpge-info/
 
 docs_dir: docs
 
 nav:
   - "<img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil" : index.md
   - "<img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I" :
+      - "Index des chapitres" : mp2i/progression.md
       - "Chapitres" :
-        - "Index" : mp2i/progression.md
         - "C0-Notions d'architecture et de systèmes" : mp2i/systemes.md
         - "C1-Premiers pas en langage C" : mp2i/introC.md
         - "C2-Spécifications et tests" : mp2i/validation.md
@@ -46,7 +47,7 @@ nav:
     - liens.md
 
 theme:
-  name: material
+  name: pyodide-mkdocs-theme
   custom_dir: overrides
   language : fr 
   features:
@@ -88,8 +89,8 @@ markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
       options:
         custom_icons:
           - overrides/.icons
@@ -105,9 +106,16 @@ markdown_extensions:
 
 
 plugins:
-  - search
-  - macros
-  - kroki
+  - material/search
+  - material/tags:
+      tags_file: tags.md
+  - pyodide_macros:
+      # Vous pouvez ajouter ici tout réglage que vous auriez ajouté concernant les macros:
+      on_error_fail: true     # Il est conseillé d'ajouter celui-ci si vous ne l'utilisez pas.
+      build:
+        python_libs:
+          - turtle
+        tab_to_spaces: 4
 
 # Pour mathjax
 extra_javascript:

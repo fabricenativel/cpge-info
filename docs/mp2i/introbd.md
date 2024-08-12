@@ -7,7 +7,7 @@
 
 ## Cours
 
-{{ cours(num) }}
+{{ affiche_cours(num) }}
 
 ## Travaux dirigés
 
@@ -23,7 +23,7 @@
 <div class="centre"><iframe width="560" height="315" src="https://www.youtube.com/embed/yeX_Zs7zztY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 
 1. Télécharger les données présentées dans la vidéo précédente sous la forme d'une base de données :
-    {{ telecharger("Dette et Croissance","../files/C1/DettePIB.db")}} et l'ouvrir à l'aide de `sqlitebrowser`. Cette base est composée d'une seule table :
+    {{ telecharger("Dette et Croissance","files/C11/DettePIB.db")}} et l'ouvrir à l'aide de `sqlitebrowser`. Cette base est composée d'une seule table :
     <table>
     <tr><th colspan="2" align="center"> RR </th></tr>
     <tr><td>^^`Id`^^</td><td>`INTEGER` :material-key:</td></tr>
@@ -75,7 +75,7 @@
 {{ exo("Prix Nobel",[])}}
 
 1. Télécharger ci-dessous une base de données des Prix Nobel :
-{{telecharger("Prix Nobel","./files/C1/Nobel.db")}}
+{{telecharger("Prix Nobel","files/C11/Nobel.db")}}
 2. Ouvrir cette base avec `sqlitebrowser`
 3. Dans <span class='encadre'>Parcourir les données</span> prendre note du noms des colonnes et de leur signification. 
 4. Ecrire les requêtes {{ sc("sql") }} permettant :
@@ -88,7 +88,7 @@
 
 {{ exo("Tremblements de terre",[]) }} 
 1. Télécharger ci-dessous une base de données des tremblements de terre :
-{{telecharger("Tremblements de terre","./files/C1/earthquakes.db")}}
+{{telecharger("Tremblements de terre","files/C11/earthquakes.db")}}
 2. Ouvrir cette base avec `sqlitebrowser`
 3. Dans <span class='encadre'>Parcourir les données</span> prendre note du noms des colonnes et de leur signification. 
 4. Ecrire les requêtes {{ sc("sql") }} permettant :
@@ -138,7 +138,7 @@ Le but de cette activité, proposé sur le site de l'université américaine  [N
 ![schemabase](./Images/C11/sqlmm.png){: .imgcentre}
 
 Toutes les requêtes peuvent être exécutées directement sur le site, cependant vous pouvez télécharger ci-dessous la base afin d'exécuter vos requêtes en local :
-{{ telecharger("SQL Murder Mystery","../files/C9/sql-murder-mystery.db")}}
+{{ telecharger("SQL Murder Mystery","files/C11/sql-murder-mystery.db")}}
 
 Cliquer sur l'image ci-dessous pour accéder à l'enquête et trouver le coupable.
 [![illustration](./Images/C11/mm.png){: .imgcentre}](https://mystery.knightlab.com/walkthrough.html){target=_blank}

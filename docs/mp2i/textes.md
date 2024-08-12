@@ -8,7 +8,7 @@
 
 ## Cours
 
-{{ cours(num) }}
+{{ affiche_cours(num) }}
 
 ## Travaux dirigés
 

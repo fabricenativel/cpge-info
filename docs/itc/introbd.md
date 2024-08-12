@@ -5,10 +5,10 @@
 
 ## Cours
 
-{{ cours(num) }}
+{{ affiche_cours(num) }}
 
 Les exemples vu en cours s'appuient sur la base de données suivante :
-{{ telecharger("Médailles Olympiques 1976-2008","../files/C1/olympics1976-2008.db")}}
+{{ telecharger("Médailles Olympiques 1976-2008","files/C1/olympics1976-2008.db")}}
 
 
 ## Travaux pratiques
@@ -19,7 +19,7 @@ Les exemples vu en cours s'appuient sur la base de données suivante :
 <div class="centre"><iframe width="560" height="315" src="https://www.youtube.com/embed/yeX_Zs7zztY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 
 1. Télécharger les données présentées dans la vidéo précédente sous la forme d'une base de données :
-    {{ telecharger("Dette et Croissance","../files/C1/DettePIB.db")}} et l'ouvrir à l'aide de `sqlitebrowser`. Cette base est composée d'une seule table :
+    {{ telecharger("Dette et Croissance","files/C1/DettePIB.db")}} et l'ouvrir à l'aide de `sqlitebrowser`. Cette base est composée d'une seule table :
     <table>
     <tr><th colspan="2" align="center"> RR </th></tr>
     <tr><td>^^`Id`^^</td><td>`INTEGER` :material-key:</td></tr>
