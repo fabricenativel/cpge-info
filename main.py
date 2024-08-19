@@ -21,7 +21,11 @@ def define_env(env):
         1 : ("Python",":fontawesome-brands-python:{title='Python'}"),
         2 : ("Base de données",":fontawesome-solid-database:{title='Base de données'}"),
         3 : ("Programmation dynamique",":fontawesome-solid-book-bookmark:{title='Dictionnaire et programmation dynamique'}"),
-        4 : ("Algorithme pour l'IA et l'étude des jeux",":material-dice-multiple:{title='IA et jeux'}")
+        4 : ("Algorithme pour l'IA et l'étude des jeux",":material-dice-multiple:{title='IA et jeux'}"),
+        5 : ("Fonctions récursives",":fontawesome-solid-stairs:{title='Récursivité'}"),
+        6 : ("Méthodes de programmation et analyse des algorithmes",":fontawesome-solid-gears:{title='Algorithmique'}"),
+        7 : ("Représentation des nombres",":octicons-file-binary-16:{title='Représentation des nombres'}"),
+        8 : ("Base des graphes, plus courts chemins",":material-graph:{title='Base des graphes'}")
     }
     
     # Les icones illustrant les exercices
@@ -65,13 +69,33 @@ def define_env(env):
     }
 
     # Progression : Thème, Titre, durée, fichiers
+    env.variables['progression_itc_s1']={
+        0 : [1,"Faire le point !","point.md"],
+        1 : [1,"Bases de Python","bases.md"],
+        2 : [1,"Listes et dictionnaires","listes.md"],
+        3 : [1,"Fichiers","fichiers.md"],
+        4 : [6,"Notions d'algorithmique","algorithmique.md"],
+        5 : [6,"Manipulation d'images","images.md"],
+        6 : [5,"Récursivité","récursivite.md"],
+        7 : [6,"Algorithmes gloutons","gloutons.md"],
+        8 : [6,"Tris","tris.md"]
+    }
+    env.variables['progression_itc_s2']={
+        9 : [6,"Spécifications et tests","tests.md"],
+        10 : [7,"Représentation des entiers","entiers.md"],
+        11 : [6,"Terminaison et corrections","terminaison.md"],
+        12 : [8,"Graphes","graphes.md"],
+        13 : [6,"Complexité","complexite.md"],
+        14 : [7,"Représentation des flottants","flottants.md"],
+        15 : [8,"Plus courts chemins dans un graphe","parcours.md"]
+    }
     env.variables['progression_itc_s3']={
-        0 : [1,"Un peu de Python","revisions.md"],
-        1 : [2,"Introduction aux bases de données","introbd.md"],
-        2 : [3,"Programmation dynamique","progdyn.md"],
-        3 : [2,"Requêtes sur plusieurs tables","jointures.md"],
-        4 : [4,"k plus proches voisins, k-moyennes","knn.md"],
-        5 : [4,"Algorithme pour l'étude des jeux","algojeux.md"]
+        16 : [1,"Un peu de Python","revisions.md"],
+        17 : [2,"Introduction aux bases de données","introbd.md"],
+        18 : [3,"Programmation dynamique","progdyn.md"],
+        19 : [2,"Requêtes sur plusieurs tables","jointures.md"],
+        20 : [4,"k plus proches voisins, k-moyennes","knn.md"],
+        21 : [4,"Algorithme pour l'étude des jeux","algojeux.md"]
     }
 
     # affichage d'un chapitre dans la progression

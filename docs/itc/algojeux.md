@@ -1,4 +1,4 @@
-{% set num = 5 %}
+{% set num = 21 %}
 {% set niveau = "itc_s3"%}
 
 {{ titre_chapitre(num,niveau)}}
@@ -7,7 +7,7 @@
 
 {{ affiche_cours(num) }}
 
-## Travaux pratiques
+## Travaux pratique
 
 {{exo("Représentation par liste d'adjacence",[],0)}}
 
