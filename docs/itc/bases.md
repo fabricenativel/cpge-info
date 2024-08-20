@@ -96,7 +96,7 @@ Les opérateurs `not` (unaires), `or` et `and` (binaires) sont définies sur les
     * L'opérateur binaire `or` renvoie la disjonction de deux expression booléenne (`a or b` vaut True ssi `a` ou `b` valent `True`)
 
 {{ exo("Expression booléene",[])}}
-Ecrire une expression booléenne correspond au *ou exclusif*, entre deux valeurs booléennes `a` et `b`, c'est à dire qui vaut vraie si `a` ou `b` est vraie mais pas les deux à la fois.
+Ecrire une expression booléenne qui correspond au *ou exclusif*, entre deux valeurs booléennes `a` et `b`, c'est à dire qui vaut vraie si `a` ou `b` est vraie mais pas les deux à la fois.
 
 ### Variables
 
@@ -194,7 +194,7 @@ Affichera `Bon week-end !` si la variable `jour` vaut `"Samedi"` ou `"Dimanche"`
 {{IDE(MIN_SIZE=7)}}
 
 1. On suppose déjà définie une variable `reponse` et une variable `points`, écrire une instruction conditionnelle qui affiche `Bonne réponse` lorsque `reponse` vaut 2 et incrémente la variable `points`. Dans le cas contraire `points` est décrémenté et on affiche `Erreur`
-2. On suppose déjà définies deux variables `a` et `b`, écrire une instruction conditionnelle qui permet de définir la variable `©` égale au maximum entre `a` et `b`
+2. On suppose déjà définies deux variables `a` et `b`, écrire une instruction conditionnelle qui permet de définir la variable `c` égale au maximum entre `a` et `b`
 
 
 ### Boucles
@@ -216,14 +216,14 @@ for i in range(5):
 !!! retenir "A retenir"
     * L'instruction `for <variable> in range(<entier>)`  permet de créer une variable parcourant les entiers de 0 (inclus) à `<entier>` (exclu)
     * Les instructions indentées suivantes seront exécutées pour chaque valeur prise par la variable
-    * La boucle `for`` permet donc notamment de répéter un nombre *prédéfini* de fois des instructions, on dit que c'est une boucle *bornée*.
+    * La boucle `for` permet donc notamment de répéter un nombre *prédéfini* de fois des instructions, on dit que c'est une boucle *bornée*.
     * L'instruction `range`, peut être utilisée :
         * avec un seul paramètre `n`, la variable prend alors les valeurs entières de l'intervalle $[0;n-1]$
         * avec deux paramètres `m` et `n`, la variable prend alors les valeurs entières de l'intervalle $[m;n-1]$
         * avec trois paramètres `m`, `n` et `s` la variable prend alors les valeurs de $[m;n-1] \cap \{ m + ks; k \in \mathbb{N}\}$.
 
 Lorsqu'il n'est pas possible de connaître à l'avance le nombre de répétitions nécessaires, on utilise une boucle `while` qui s'exécute tant qu'une condition est vraie. Par exemple, si on suppose qu'on a placé un capital à un taux d'intérêt $t=3 \%$, et qu'on veut savoir au bout de combien d'années ce capital aura doublé, on peut utiliser le programme suivant :
-```python
+```python title=""
 annee = 1
 taux = 1.03
 taux_global = taux
@@ -296,5 +296,54 @@ Par exemple, si on souhaite simplement affiché le nombre de degrés Fahrenheit 
 1. Ecrire une fonction qui prend en argument une valeur numérique `x` et renvoie son carré.
 2. Ecrire une fonction qui prend trois arguments `a,b` et `c` et calcule $b^2 - 4ac$.
 3. Ecrire une fonction qui prend en argument un entier et renvoie `True` si cet entier est divisible par 7 et qu'il se termine par 9.
-4. Ecire une fonction qui renvoie `True` si l'entier donné en argument est une année [bissextile](https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile){target=_blank}. Une année est bissextile si elle est divisible par 4 mais pas par 100 ou s'il est divisible par 400.
-5. Ecrire une fonction qui prend en argument une chaine de caractère et renvoie son dernier caractère
+4. Ecrire une fonction qui renvoie la valeur absolue du nombre `x` donné en argument.
+
+    !!! note
+        Cette fonction existe déjà et s'appelle `abs`.
+
+5. Ecrire une fonction qui renvoie `True` si l'entier donné en argument est une année [bissextile](https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile){target=_blank}. Une année est bissextile si elle est divisible par 4 mais pas par 100 ou s'il est divisible par 400.
+6. Ecrire une fonction qui prend en argument une chaine de caractère et renvoie son dernier caractère.
+7. Ecrire une fonction `est_triangle` qui prend en argument trois nombres `a`, `b` et `c` et qui renvoie `True` si ces trois entiers peuvent être les longueurs des trois côtés d'un triangle.
+
+    !!! aide
+        * Cela revient à vérifier que les trois entiers vérifient l'inégalité triangulaire ou encore que le plus grand des trois est inférieur à la somme des deux autres
+        * La fonction permettant de déterminer le maximum d'une liste de nombres existe déjà et s'appelle `max`.
+
+
+### Instruction `input`
+
+Lorsqu'un programme Python rencontre une instruction comme `variable = input()`, il attend la saisie d'un texte au clavier (suivie de l'appui de la touche entrée ++return++) et la **chaine de caractère** saisie est alors affectée à la variable `variable`. On peut préciser le message à afficher avant la saisie en argument de `input`. Par exemple :
+```python title=""
+prenom = input("Entrer votre prénom")
+print("Bonjour,",prenom)
+```
+
+!!! danger
+    Ce qui est saisi au clavier est toujours interprété par Python comme du **texte** (type `str`), pour l'utiliser comme nombre il faudra effectuer une conversion vers le type souhaite (`int` ou `float`).
+
+## Exercices
+
+{{ exo("Factorielle",[])}}
+
+On appelle *factorielle* d'un entier $n$ et on note $n!$ le produit de cet entier par tous ceux qui le précèdent à l'exception de zéro. Et on convient d'autre part que $0!=1$. Par exemple $5! = 5 \times 4 \times \times 3 \times 2 \times 1 = 120$. Ecrire une fonction `factorielle` qui prend en argument un entier `n` et renvoie sa factorielle.
+
+Vérifier en entrant ici la valeur de $42!$ : {{check_reponse("1405006117752879898543142606244511569936384000000000") }}
+
+{{ exo("Nombre premier",[])}}
+
+Ecrire une fonction qui prend en argument un nombre et renvoie `True` lorsque ce nombre est premier et `False` sinon.
+
+{{ exo("Puissance",[])}}
+
+Ecrire *sans utiliser l'opérateur* `**` de Python, une fonction puissance qui prend en entrée `x` et `n` (entier) et renvoie $x^n$.
+
+{{ exo("Palindrome",[])}}
+
+Ecrire une fonction qui vérifie si la chaine passée en argument est un [palindrome](https://fr.wikipedia.org/wiki/Palindrome){target=_blank} (c'est à dire qu'elle s'écrit à l'identique de droite à gauche ou de gauche à droite, comme le mot *radar*).
+
+
+{{ exo("Parcours de chaine de caractères",[])}}
+
+1. Ecrire une fonction `contient` qui prend en argument une chaine de caractère `chaine` et un caractere `c` et qui renvoie `True` si `c` est dans `chaine` et  `False` sinon.
+
+2. Ecrire une fonction `occurrence` qui prend en argument une chaine de caractère `chaine` et un caractere `c` et qui renvoie le nombre d'apparitions de `c` dans `chaine`.
