@@ -6,19 +6,39 @@
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
 \ModeExercice
 \TD{1}{Langage C}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/}
 
 \setcounter{Exercise}{0}
-\begin{Exercise}[title={Déclaration}]
+
+
+\begin{Exercise}[title={Déclarations}]
 	\Question{Ecrire les instructions permettant de :}
 		\subQuestion{Déclarer une variable {\tt n} de type entier.}
 		\subQuestion{Déclarer une variable {\tt x} de type flottant initialisée à 1.}
 		\subQuestion{Déclarer une variable {\tt test} de type booléen, quelle librairie est nécessaire ?}
 		\subQuestion{Déclarer un tableau de 5 entiers initialisés aux valeurs \{1, 4, 9, 16, 25\}}
+		\subQuestion{Déclarer une chaine de caractères initialisée à \og \textit{Trop bien le langage C} \fg{};}
+		\subQuestion{Déclarer une variable de type {\tt char} contenant le caractère \$.}
 	\Question{Ecrire les signatures des fonctions suivantes :}
 		\subQuestion{{\tt divisible\_par} qui prend en argument deux entiers $n$ et $p$ et renvoie un booléen.}
 		\subQuestion{{\tt somme} qui prend en argument un tableau de flottant et renvoie un flottant.}
 		\subQuestion{{\tt carre} qui prend en argument un entier  renvoie un entier.}
 		\subQuestion{{\tt affiche} qui prend en argument un booléen  et ne renvoie rien.}
+\end{Exercise}
+
+\begin{Exercise}[title={Comportements indéfinis}]
+	\Question{Rappeler ce qu'est un \textit{comportement indéfini} en C.}
+	\Question{Donner au moins un exemple de programme ayant un comportement indéfini.}
+\end{Exercise}
+
+
+\begin{Exercise}[title={Opérations sur les types de bases}]
+	\Question{On considère le programme suivant :}
+	\inputpartC{\SPATH/op.c}{}{\small}{1}{7}
+	\subQuestion{Quel est le résultat produit ? Expliquer.}
+	\subQuestion{Que se passe-t-il si on change la ligne 5 en \mintinline{c}{float r = 5.0 % 3.0;}}
+	\Question{Ecrire une expression booléenne valant vraie si {\tt a} est égale à {\tt b+c} ou si {\tt c} est non nul et que {\tt a} est divisible par {\tt c}}. L'évaluation de cette expression génère-t-elle une erreur si {\tt c} est nul ?
+	\Question{On suppose déjà déclarée la variable \mintinline{c}{char c = 'A';}. Quel est le résultat de l'instruction suivante :\\ \mintinline{c}{printf("%c \n",c+1);}}
 \end{Exercise}
 
 \begin{Exercise}[title={Portée}] \\
@@ -70,39 +90,51 @@ Que penser des programmes suivants (erreurs, avertissements, comportements indé
 \begin{itemize}
 	\item[\textbullet] Programme A :
 	\begin{langageC}
-		#include <stdio.h>
-		int main()
-		int tab[5] = {42}
-		for (i=0;i<=5;i++){
-			printf("%d \n",tab[i]);
+#include <stdio.h>
+int main()
+int tab[5] = {42}
+for (i=0;i<=5;i++){
+	printf("%d \n",tab[i]);
 		}
 	\end{langageC}
 	\item[\textbullet] Programme B :
 	\begin{langageC}
-		#include <stdio.h>
-		int main(){
-		int tab[5] = {42}
-		int i = 0;
-		while (true)
-			{
-				printf("%d \n",tab[i]);
-				i = i + 1
-				if (i==5) {break;}
-			}
-		}
+#include <stdio.h>
+int main(){
+int tab[5] = {42}
+int i = 0;
+while (true)
+	{
+		printf("%d \n",tab[i]);
+		i = i + 1
+		if (i==5) {break;}
+	}
+}
 	\end{langageC}
 	\item[\textbullet] Programme C :
 	\begin{langageC}
-		#include <stdio.h>
-		int programme() {
-			float s=0;
-			for int (i=0;i<10000;i++)
-			{
-				s = s + 1/i;
-			}
-			print("somme =%f\n",%s);
-		}
+#include <stdio.h>
+int programme() {
+	float s=0;
+	for int (i=0;i<10000;i++)
+	{
+		s = s + 1/i;
+	}
+	print("somme =%f\n",%s);
+}
 	\end{langageC}
+	\item[\textbullet] Programme D :
+	\inputpartC{\SPATH/no_return.c}{}{}{1}{13}
 \end{itemize}
 \end{Exercise}
+
+\begin{Exercise}[title={A propos de {\tt ++}}]
+\Question{Rappeler le type auquel il s'applique et le rôle de l'opérateur {\tt ++}}
+\Question{On suppose déjà déclarée une variable \mintinline{c}{int a = 42;}.\\
+Que vaut b si on a écrit \mintinline{c}{int b = a++ + a;} ? \\
+Détailler votre raisonnement.}
+\end{Exercise}
+
+
+
 \end{document}

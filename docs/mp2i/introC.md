@@ -14,17 +14,17 @@
 ### Exemples du cours
 
 * ??? langageC "Hello world"
-    ```C
+    ```C title=""
     --8<-- "C1/cours_ex1.c"
     ```
 
 * ??? langageC "Somme des entiers de 1 à 100"
-    ```c
+    ```c title=""
     --8<-- "C1/cours_ex2.c"
     ```
 
 * ??? langageC "Fonction Syracuse"
-    ```c
+    ```c title=""
     --8<-- "C1/cours_ex3.c"
     ```
 

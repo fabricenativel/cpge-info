@@ -1,14 +1,18 @@
 #include <stdio.h>
 
-void echange(int a, int b){
+void echange(int a, int b)
+{
     int temp = a;
     a = b;
-    b= temp;}
+    b = temp;
+}
 
-int main(){
+int main()
+{
     int a = 12;
     int b = 50;
-    echange(a,b);
-    printf("a = %i\n",a);
-    printf("b = %i\n",b);
-    return 0;}
+    echange(a, b);
+    printf("a = %i\n", a);
+    printf("b = %i\n", b);
+    return 0;
+}
