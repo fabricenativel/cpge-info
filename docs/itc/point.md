@@ -59,7 +59,7 @@ Quelle est la valeur de $f$ ?
     ```
     `b` vaut 1 car comme `a>10`, c'est l'instruction `b=1` qui est exécutée.
 
-Vérifier votre réponse : {{check_reponse("120797051")}}
+Vérifier votre réponse : {{check_reponse("115722051")}}
 
 {{ exo("",[]) }}
 On considère la suite $(u_n)_{n \in \mathbb{N}}$ définie par $u_0 = 0.7$ et $u_{n+1} = 3.5 u_n(1-u_n)$. Calculer $u_{2024}$ (on donnera la valeur arrondie au centième).

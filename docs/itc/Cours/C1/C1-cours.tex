@@ -1,276 +1,187 @@
-\PassOptionsToPackage{dvipsnames,table}{xcolor}
-\documentclass[10pt]{beamer}
-\usepackage{Cours}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
 
 
 \begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
 
-\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+% Entête de la fiche (à modifier avec la macro correspondante dans le fichier macros)
+\Fiche{Bases de Python}{\sc pcsi}
 
-% Numéro et titre de chapitre
-\setcounter{numchap}{1}
-\newcommand{\Ctitle}{\cnum Introduction aux bases de données}
-
-\makess{Généralités}
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Définitions}
-		\begin{itemize}
-			\item<1-> Une \textcolor{blue}{table} est un tableau à deux dimensions, les colonnes sont appelés \textcolor{blue}{attributs} et les lignes \textcolor{blue}{enregistrements}.
-			\item<2-> Une \textcolor{blue}{base de données} est un ensemble de tables.
-			\item<3-> Le \textcolor{blue}{domaine} d'un attribut est l'ensemble des valeurs que peut prendre cet attribut.
-			\item<4-> Une \textcolor{blue}{clé primaire} est  un ensemble minimal d'attributs permettant d'identifier de façon unique chaque enregistrement.\\
-				\onslide<5->\textcolor{gray}{\small On utilisera souvent des clés primaire ayant un seul attribut}
-			\item<6-> \textcolor{blue}{\sc sql} \textit{(Structured Query Language)} est un langage de requête permettant d'interagir avec une base de données et d'y récupérer des informations.
-		\end{itemize}
-	\end{alertblock}
-\end{frame}
-
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple}
-		Extrait de la table {\tt Medals} de la base de données {\tt olympics1976-2008.db} :\\
-		\begin{tabular}{|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|}
-			\hline
-			Id    & City        & Year & Sport     & Discipline & Event           & Athlete          & Gender & Country       & Medal  \\
-			\hline
-			286   & Montreal    & 1976 & Athletics & Athletics  & 110m hurdles    & DRUT, Guy        & Men    & France        & Gold   \\
-			\hline
-			194   & Montreal    & 1976 & Athletics & Athletics  & 100m            & BORZOV, Valery   & Men    & Soviet Union  & Bronze \\
-			\hline
-			13810 & Beijing     & 2008 & Athletics & Athletics  & decathlon       & CLAY, Bryan      & Men    & United States & Gold   \\
-			\hline
-			3455  & Los Angeles & 1984 & Fencing   & Fencing    & épée individual & BOISSE, Philippe & Men    & France        & Gold   \\
-			\hline
-		\end{tabular}
-	\end{exampleblock}
-\end{frame}
-
-\makess{Langage SQL}
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple}
-		Extrait de la table {\tt Medals} de la base de données {\tt olympics1976-2008.db} :\\
-		\begin{tabular}{|>{\tiny}c|>{\tiny\columncolor{Apricot}}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|}
-			\hline
-			Id    & City        & Year & Sport     & Discipline & Event           & Athlete          & Gender & Country       & Medal  \\
-			\hline
-			286   & Montreal    & 1976 & Athletics & Athletics  & 110m hurdles    & DRUT, Guy        & Men    & France        & Gold   \\
-			\hline
-			194   & Montreal    & 1976 & Athletics & Athletics  & 100m            & BORZOV, Valery   & Men    & Soviet Union  & Bronze \\
-			\hline
-			13810 & Beijing     & 2008 & Athletics & Athletics  & decathlon       & CLAY, Bryan      & Men    & United States & Gold   \\
-			\hline
-			3455  & Los Angeles & 1984 & Fencing   & Fencing    & épée individual & BOISSE, Philippe & Men    & France        & Gold   \\
-			\hline
-		\end{tabular}
-		\begin{itemize}
-			\item<1->\textcolor{BrickRed}{{\tt City} est un attribut, son domaine est l'ensemble des noms de villes ayant accueilli les {\sc jo} sur la période 1976-2008.}
-		\end{itemize}
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple}
-		Extrait de la table {\tt Medals} de la base de données {\tt olympics1976-2008.db} :\\
-		\begin{tabular}{|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|}
-			\hline
-			Id                     & City        & Year & Sport     & Discipline & Event           & Athlete          & Gender & Country       & Medal  \\
-			\hline
-			\rowcolor{Apricot} 286 & Montreal    & 1976 & Athletics & Athletics  & 110m hurdles    & DRUT, Guy        & Men    & France        & Gold   \\
-			\hline
-			194                    & Montreal    & 1976 & Athletics & Athletics  & 100m            & BORZOV, Valery   & Men    & Soviet Union  & Bronze \\
-			\hline
-			13810                  & Beijing     & 2008 & Athletics & Athletics  & decathlon       & CLAY, Bryan      & Men    & United States & Gold   \\
-			\hline
-			3455                   & Los Angeles & 1984 & Fencing   & Fencing    & épée individual & BOISSE, Philippe & Men    & France        & Gold   \\
-			\hline
-		\end{tabular}
-		\begin{itemize}
-			\item<1->{\tt City} est un attribut, son domaine est l'ensemble des noms de villes ayant accueilli les {sc jo} sur la période 1976-2008.
-			\item<1->\textcolor{BrickRed}{Exemple d'enregistrement}
-			\item
-		\end{itemize}
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple}
-		Extrait de la table {\tt Medals} de la base de données {\tt olympics1976-2008.db} :\\
-		\begin{tabular}{|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c|}
-			\hline
-			\cellcolor{Apricot}{Id} & City        & Year & Sport     & Discipline & Event           & Athlete          & Gender & Country       & Medal  \\
-			\hline
-			286                     & Montreal    & 1976 & Athletics & Athletics  & 110m hurdles    & DRUT, Guy        & Men    & France        & Gold   \\
-			\hline
-			194                     & Montreal    & 1976 & Athletics & Athletics  & 100m            & BORZOV, Valery   & Men    & Soviet Union  & Bronze \\
-			\hline
-			13810                   & Beijing     & 2008 & Athletics & Athletics  & decathlon       & CLAY, Bryan      & Men    & United States & Gold   \\
-			\hline
-			3455                    & Los Angeles & 1984 & Fencing   & Fencing    & épée individual & BOISSE, Philippe & Men    & France        & Gold   \\
-			\hline
-		\end{tabular}
-		\begin{itemize}
-			\item<1->{\tt City} est un attribut, son domaine est l'ensemble des noms de villes ayant accueilli les {\sc jo} sur la période 1976-2008.
-			\item<1->{Exemple d'enregistrement}
-			\item<1->\textcolor{BrickRed}{Id est un numéro unique pour chaque enregistrement, et peut donc servir de clé primaire.}
-		\end{itemize}
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Schéma d'une table}
-		Le schéma d'une table est la liste de ses attributs avec leur domaine. On souligne le (ou les) attributs formant la clé primaire.
-	\end{alertblock}
-	\begin{exampleblock}{Exemple}
-		\onslide<2->{Le schéma relationnel de la table {\tt Medals} peut s'écrire :} \\
-		\onslide<4->  \textbf{Medals} {\tt (\underline{id} : {\sc int},  {\tt City} : {\sc text}, {\tt Year} : {\sc INT}, {\tt Sport} : {\sc text},\dots)}
-	\end{exampleblock}
-\end{frame}
+\pythonmode
 
 
-% Premiers pas en SQL
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Premiers pas en SQL}
-		\begin{itemize}
-			\item<1-> Pour récupérer la totalité des champs d'une table {\tt table} on utilise la syntaxe : \\
-				\onslide<2->{\textcolor{blue}{\sc select} * \textcolor{blue}{\sc from} {\tt table}} \\
-			\item<3-> Pour récupérer simplement les champs {\tt champ1, champ2,...} on utilise : \\
-				\onslide<4->{\textcolor{blue}{\sc select} {\tt champ1, champ2,...}  \textcolor{blue}{\sc from} {\tt table}}
-		\end{itemize}
-	\end{alertblock}
-	\begin{exampleblock}{Exemples}
-		\begin{itemize}
-			\item<5->{\mintinline[keywordcase=upper]{sql}{select City, Oyear FROM Medals} renvoie une table à deux colonnes : les villes olympiques et l'année.}\\
-				\onslide<6->{\textcolor{BrickRed}{\small \important} Pour chaque enregistrement on affiche la ville et l'année donc on obtient des répétitions : \\
-				\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|}
-					\hline
-					City     & Oyear \\
-					\hline
-					Montreal & 1976  \\
-					\hline
-					Montreal & 1976  \\
-					\hline
-					\dots    & \dots \\
-				\end{tabular}}
-		\end{itemize}
-	\end{exampleblock}
-\end{frame}
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Types de bases et opérateurs associés},colbacktitle=cfond]
+\begin{itemize}
+ \item [\textbullet] \mintinline{python}{int} : nombres entiers de taille \textit{non limitée} \strut \\
+ \begin{tabularx}{\linewidth}{|>{\tt}l|l|X|}
+	\hline
+	+ & addition &  \\
+	\hline
+	- & soustraction &  \\
+	\hline
+	* & multiplication & \\
+	\hline
+	/ & division \textit{décimale} &  ex : {\tt 13/5} vaut {\tt 2.6}. \\
+	\hline
+	** & exponentiation & ex : {\tt 3**4} vaut 81 \\
+	\hline
+	// & quotient dans la division euclidienne & ex : {\tt 13//5} vaut 2. \\
+	\hline
+	\% & reste dans la division euclidienne & ex : {\tt 13\%5} vaut 3. Tests de divisibilité. \\
+	\hline
+ \end{tabularx}
+ \item [\textbullet] \mintinline{python}{float} : nombres en virgule flottante de taille limitée \\
+ S'écrivent toujours avec le séparateur décimal \textbf{\tt .}, mêmes opérateurs que sur les entiers (à l'exception de {\tt //} et {\tt \%}).
+ \item [\textbullet] \mintinline{python}{bool} : deux valeurs possibles {\tt True} et {\tt False} \\
+ \begin{tabularx}{\linewidth}{|>{\tt}l|l|X|}
+	\hline
+	not & négation (unaire) & inverse la valeur de l'argument.\\
+	\hline
+	or & ou (binaire) & vaut {\tt True} si au moins un des arguments vaut {\tt True}. \\
+	\hline
+	and & et (binaire) & vaut {\tt True} si les deux arguments valent {\tt True}. \\
+	\hline
+ \end{tabularx}
+	\item [\textbullet] \mintinline{python}{str} : chaines de caractères \\
+	\begin{tabularx}{\linewidth}{|>{\tt}l|l|X|}
+		\hline
+		+ & concaténation & ex : {\tt "Hello"+"World"} vaut {\tt "HelloWorld"}\\
+		\hline
+		* & répétition & ex : {\tt "Euh"*4} vaut {\tt "EuhEuhEuhEuh"} \\
+		\hline
+		len & longueur & ex : {\tt len("Python")} vaut 6 \\
+		\hline
+		[] & ième caractères & numérotation depuis 0, ex : {\tt "Hello"[1]} vaut {\tt "e"}\\
+		\hline
+	 \end{tabularx}
+\end{itemize}
+Des conversions sont possibles entre ces divers types, par exemple, \mintinline{python}{int("34")} transforme la chaine de caractères {\tt "34"} en l'entier {\tt 34}, \mintinline{python}{float(34)} transforme l'entier 34 en flottant {\tt 34.0}.
+\end{tcolorbox}
 
-% Premiers pas en SQL : clause WHERE
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{alertblock}{Clause {\sc where}}
-		Une instruction \textcolor{blue}{\sc select} peut être suivie d'une clause \textcolor{blue}{\sc where} qui permet de rechercher les enregistrements correspondants à certains conditions. Ces conditions s'expriment à l'aide des opérateurs suivant :
-		\begin{itemize}
-			\item<2-> Comparaison : {\tt \textcolor{blue}{=}, \textcolor{blue}{<}, \textcolor{blue}{>}, \textcolor{blue}{<=}, \textcolor{blue}{>=},}  {\tt \textcolor{blue}{<>}} (différent)  et \textcolor{blue}{{\sc between}} (entre)
-			\item<3-> Logique : \textcolor{blue}{\tt and}, \textcolor{blue}{\tt or} et \textcolor{blue}{\tt not}
-				\item<4->\textcolor{gray}{Modèle de chaines de caractères : \textcolor{blue}{\sc like} où \textcolor{blue}{\tt \%} désigne n'importe quel suite de caractères et \textcolor{blue}{\tt \_} un unique caractère}
-		\end{itemize}
-	\end{alertblock}
-	\begin{exampleblock}{Exemples}
-		\onslide<5->{Pour chercher dans la table les champions olympiques français des {\sc JO} de 1980 \\}
-		\onslide<6->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT Athlete FROM Medals WHERE Country="France" and Medal="Gold" and Oyear="1980"}
-	\end{exampleblock}
-\end{frame}
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Comparaison},colbacktitle=cfond]
+	\begin{tabularx}{\linewidth}{|>{\tt}l|l|X|}
+		\hline
+		> & strictement supérieur & \\
+		\hline
+		< & strictement inférieur & \\
+		\hline
+		>= & supérieur ou égal & les symboles sont dans l'ordre de leur lecture\\
+		\hline
+		<= & inférieur ou égal & \\
+		\hline
+		== & égal & {\small \danger} à ne pas confondre avec {\tt =} utilisé pour l'affectation des variables \\
+		\hline
+		!= & différent & \\
+		\hline
+	\end{tabularx}
+\end{tcolorbox}
 
-% Premiers pas en SQL : Classement des résultats
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Clause {\sc order by}}
-		Une instruction \textcolor{blue}{\sc select} peut être suivie d'une clause \textcolor{blue}{\sc order by} qui permet de classer les enregistrements selon un ou plusieurs champs. Cette clause est elle même suivie de :
-		\begin{itemize}
-			\item<2-> \textcolor{blue}{\sc asc} pour indiquer un classement par ordre croissant
-			\item<3-> \textcolor{blue}{\sc desc} pour indiquer un classement par ordre décroissant
-		\end{itemize}
-		\onslide<4->{La valeur par défaut est {\sc asc}}
-	\end{alertblock}
-	\begin{exampleblock}{Exemples}
-		\begin{itemize}
-			\item<5-> Pour classer par ordre alphabétique les noms vainqueurs du 100 m aux JO :\\
-				\onslide<6->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT Athlete FROM Medals WHERE Event="100m" and Medal="Gold" ORDER BY Athlete}
-		\end{itemize}
-	\end{exampleblock}
-\end{frame}
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Instructions conditionnelles},colbacktitle=cfond]
+	\begin{itemize}
+		\item[\textbullet] Pour exécuter des {\tt <instructions>} si une {\tt condition} est vérifiée:
+	\setlength{\multicolsep}{0pt}
+	\begin{multicols}{2}
+	Syntaxe :
+	\begin{python} 
+if <condition>:
+	<instructions>
+	\end{python} 
+	Exemple : 
+	\begin{python} 
+if a!=0:
+	b = 1/a
+	\end{python} 
+\end{multicols}
+\item[\textbullet] Pour exécuter {\tt <instructions1>} si une {\tt condition} est vérifiée et {\tt <instructions2>} sinon:
+\begin{multicols}{2}
+	Syntaxe :
+	\begin{python} 
+if <condition>:
+	<instructions1>
+else:
+	<instructions2>
+	\end{python} 
+	Exemple : 
+	\begin{python} 
+if x < y:
+	minimum = x
+else:
+	minimum = y
+	\end{python} 
+\end{multicols}
+\end{itemize}
+Pour imbriquer plusieurs {\tt if ... else}, on utilise {\tt elif}.
+\end{tcolorbox}
 
-% Premiers pas en SQL : Clause distinct
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Clause {\sc distinct} et {\sc limit}}
-		\begin{itemize}
-			\item<2-> Une instruction \textcolor{blue}{\sc select} peut être \textit{directement} suivie d'une clause \textcolor{blue}{\sc distinct} {\tt champ} qui indique que {\tt champ} ne doit apparaître qu'une fois dans les résultats
-			\item<3-> Une instruction \textcolor{blue}{\sc select} peut être suivie d'une clause \textcolor{blue}{\sc limit} qui indique le nombre maximal d'enregistrement à renvoyer. Cette clause est particulièrement utile en relation avec \textcolor{blue}{\sc order by}.
-		\end{itemize}
-	\end{alertblock}
-	\begin{exampleblock}{Exemples}
-		\begin{itemize}
-			\item<5-> Pour afficher les villes olympiques  sans répétitions :\\
-				\onslide<6->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT DISTINCT City FROM Medals}
-			\item<7-> Pour afficher les trois derniers champions olympiques du décathlon\\
-				\onslide<8->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT Athlete FROM Medals WHERE Event="decathlon" and Medal="Gold" ORDER BY OYear DESC LIMIT 3}
-		\end{itemize}
-	\end{exampleblock}
-\end{frame}
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Boucles {\tt while}},colbacktitle=cfond]
+	Les boucles {\tt while} répètent un bloc d'instruction tant qu'une condition est vraie.
+	\setlength{\multicolsep}{0pt}
+	\begin{multicols}{2}
+		Syntaxe :
+		\begin{python} 
+while <condition>:
+	<instructions>
+		\end{python} 
+		Exemple : 
+		\begin{python}
+rep = "" 
+while rep!='O' and rep!='N':
+	rep = input("O/N ?")
+		\end{python}
+	\end{multicols}
+\end{tcolorbox}
 
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Boucles {\tt for} avec {\tt range}},colbacktitle=cfond]
+\begin{itemize}
+	\item[\textbullet] L'instruction {\tt range} génère des entiers et peut prendre un, deux ou trois arguments :
+	\begin{tabularx}{\linewidth}{|>{\tt}l|X|}
+		\hline
+		range(n) & génère les {\tt n} entiers de l'intervalle $\intN{0}{n-1}$ \\
+		\hline
+		range(m,n) & génère les entiers de l'intervalle $\intN{m}{n-1}$ \\
+		\hline
+		range(m,n,s) & génère les entiers de l'intervalle $\intN{m}{n-1} \cap \{m+ks, s \in \N\}$ \\
+		\hline
+	\end{tabularx}
+	{\small \danger \;} Dans les trois cas, la valeur {\tt n} n'est pas prise.
+	\item[\textbullet] L'instruction {\tt range} peut s'utiliser conjointement avec une boucle {\tt for} pour créer une variable qui prendra les valeurs générées par le {\tt range}, le bloc d'{\tt <instructions>} qui suit est alors exécuté pour chaque valeur de la variable.
+	\setlength{\multicolsep}{0pt}
+	\begin{multicols}{2}
+		Syntaxe :
+		\begin{python} 
+for <variable> in range(...):
+	<instructions1>
+		\end{python} 
+		Exemple : 
+		\begin{python} 
+for i in range(1,9):
+	print(i) # va afficher 1, 2,... 8
+		\end{python}
+	\end{multicols}
+Une boucle {\tt for} permet donc en particulier de \textit{répéter} un nombre donné de fois des instructions.
+\end{itemize}
+\end{tcolorbox}
 
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Renommage}
-		\begin{itemize}
-			\item<1-> On peut faire des calculs dans les requêtes
-			\item<2-> On peut renommer une colonne avec \kw{AS}
-			\item<3-> Cela est particulièrement utile pour y faire référence ensuite
-		\end{itemize}
-	\end{alertblock}
-	\begin{exampleblock}{Exemples}
-		\onslide<4-> On calcule l'ancienneté de chaque ville olympique et on les affiche par ordre croissant.
-		\onslide<5->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT DISTINCT City, 2023-Oyear AS Ancienneté FROM Medals ORDER BY Ancienneté DESC}
-	\end{exampleblock}
-\end{frame}
-
-% Premiers pas en SQL : agrégation et GROUP BY
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Agrégation}
-		Le langage {\sc sql} offre des opérateurs appelés \textcolor{blue}{fonction d'agrégation} permettant de calculer une valeur à partir d'un ensemble d'enregistrement :
-		\begin{itemize}
-			\item<2-> {\sc min} pour obtenir le minimum (d'un champ sur un ensemble d'enregistrement)
-			\item<3-> {\sc max} pour obtenir le max
-			\item<4-> {\sc sum} pour obtenir la somme
-			\item<5-> {\sc avg} pour obtenir le minimum
-			\item<6-> {\sc count} pour compter le nombre d'enregistrement
-		\end{itemize}
-	\end{alertblock}
-	\begin{exampleblock}{Exemples}
-		\begin{itemize}
-			\item<7-> Pour compter le nombre de médailles de bronze Française en 2008 :\\
-				\onslide<8->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT COUNT(*) FROM Medals WHERE Medal="Bronze" and Country="France" and Oyear=2008}
-		\end{itemize}
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Clause {\sc group by}}
-		\begin{itemize}
-			\item<1-> On peut regrouper les résultats pour un attribut donné à l'aide de \textcolor{blue}{\sc group by}.
-			\item<2-> Un seul résultat sera affiché pour chaque valeur possible de l'attribut.
-			\item<3-> Les fonctions d'agrégation dans le \textcolor{blue}{\sc select} s'appliquent alors à chaque groupe.
-		\end{itemize}
-	\end{alertblock}
-	\begin{exampleblock}{Exemples}
-		\onslide<4->Pour afficher le nombre total de médailles par pays\\
-		\onslide<5->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT Country, COUNT(*) AS total FROM Medals GROUP BY Country}
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Clause {\sc having}}
-		\begin{itemize}
-			\item<1-> Une clause {\sc group by} peut être complété par une clause {\sc having} qui indique une condition sur les groupes à afficher.
-			\item<2-> \textcolor{BrickRed}{\small \important} Ne pas confondre :
-			\begin{itemize}
-				\item<3-> {\sc where} qui donne une condition sur les \textit{enregistrements} à afficher.
-				\item<4-> {\sc having} qui est utilisé à la suite de {\sc group by} pour donner une condition sur les groupes à afficher.
-			\end{itemize}
-		\end{itemize}
-	\end{alertblock}
-	\begin{exampleblock}{Exemples}
-		\onslide<5->{Pour afficher les pays ayant eu au total plus de 100 médailles\\}
-		\onslide<6->\mintinline[keywordcase=upper,fontsize=\small,breaklines=true]{sql}{SELECT Country, COUNT(*) AS total FROM Medals GROUP BY Country HAVING total>100}
-	\end{exampleblock}
-\end{frame}
-
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Fonctions},colbacktitle=cfond]
+\begin{itemize}
+\item[\textbullet] Les fonctions sont des blocs d'instructions réutilisables (chaque appel à la fonction exécute son bloc d'instruction), leur définition commence par le mot clé {\tt def} puis ont écrit le nom de la fonction puis la liste de ses arguments entre parenthèses (séparés par des virgules).
+\item[\textbullet] Une fonction peut prendre zéro, un ou plusieurs arguments.
+\item[\textbullet] Une fonction \textit{peut} renvoyer un résultat à l'aide d'une instruction {\tt return}.
+\item[\textbullet] Exemple : une fonction à 3 arguments et qui renvoie une valeur 
+\begin{python}
+def discriminant(a,b,c):
+	return b**2 - 4*a*c
+\end{python}
+\item[\textbullet] Exemple : une fonction à un argument et qui ne renvoie rien (elle produit un affichage)
+\begin{python}
+def triangle(n):
+	for i in range(1,n):
+		print("*"*i) 
+\end{python}
+\end{itemize}
+{\small \danger} Ne pas confondre  {\tt print} et {\tt return}. La fonction {\tt discriminant} ci-dessus \textit{renvoie} un résultat, donc on pourrait écrire {\tt d = discriminant(1,-11,30)} afin de récupérer dans {\tt d} la valeur calculée. La fonction {\tt triangle} ne renvoie rien, elle produit un affichage, il serait donc illogique d'écrire {\tt t~=~triangle(4)}. Par contre {\tt triangle(4)} fera appel à cette fonction et affichera un triangle de 3 lignes d'étoiles.
+\end{tcolorbox}
 
 \end{document}

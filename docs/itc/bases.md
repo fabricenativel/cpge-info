@@ -272,7 +272,7 @@ Par exemple, si on souhaite simplement affiché le nombre de degrés Fahrenheit 
  `#!python print("100 degrés celsius =",celsius_en_farenheit(100)," degrés Fahrenheit")`
 
 !!! retenir "A retenir"
-    * La definition d'une fonction en Python commence par le mot clé `#!python def` suivi du nom de la fonction puis de ces arguments entre parenthèses et séparés par des virgules
+    * La definition d'une fonction en Python commence par le mot clé `#!python def` suivi du nom de la fonction puis de ses arguments entre parenthèses et séparés par des virgules
     * Une fonction peut prendre 0, un, ou plusieurs arguments
     * Les instructions qui forment le corps de la fonction sont *indentés*, la fin de cette indentation marque la fin du bloc d'instructions de la fonction
     * Une fonction *peut* renvoyer un résultat à l'aide d'une instruction `#!python return`
@@ -321,6 +321,10 @@ print("Bonjour,",prenom)
 !!! danger
     Ce qui est saisi au clavier est toujours interprété par Python comme du **texte** (type `str`), pour l'utiliser comme nombre il faudra effectuer une conversion vers le type souhaite (`int` ou `float`).
 
+## Cours
+
+{{fiche_cours(num)}}
+
 ## Exercices
 
 {{ exo("Factorielle",[])}}
@@ -329,13 +333,60 @@ On appelle *factorielle* d'un entier $n$ et on note $n!$ le produit de cet entie
 
 Vérifier en entrant ici la valeur de $42!$ : {{check_reponse("1405006117752879898543142606244511569936384000000000") }}
 
-{{ exo("Nombre premier",[])}}
 
-Ecrire une fonction qui prend en argument un nombre et renvoie `True` lorsque ce nombre est premier et `False` sinon.
 
 {{ exo("Puissance",[])}}
 
-Ecrire *sans utiliser l'opérateur* `**` de Python, une fonction puissance qui prend en entrée `x` et `n` (entier) et renvoie $x^n$.
+Le but de l'exercice est d'écrire la fonction puissance (sans utiliser l'opérateur `**` de Python).
+
+1. En supposant `n` entier et positif, écrire *sans utiliser l'opérateur* `**` de Python, une fonction `puissance_positif` qui prend en entrée un nombre `x` et `n`  et renvoie $x^n$.
+2. Ecrire une nouvelle fonction `puissance` qui prend en argument un nombre `x` et un entier `n` et renvoie $x^n$.
+
+    !!! aide
+        Attention à bien traiter tous les cas possibles.
+
+
+{{ exo("Un peu de dessin",[]) }}
+
+1. Ecrire une fonction `carre_plein` prenant comme paramètre un entier `cote` et un caractère `car` et permettant d'afficher un carré de côté `cote` rempli de caractères `car`. Par exemple, `carre(5,'C')` produit l'affichage suivant :
+```
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+```
+
+2. Ecrire une fonction `rectangle_creux`  prenant trois paramètres : deux entiers `largeur` et `longueur` et un caractère `car` permettant d'afficher un rectangle creux de dimensions `largeur` sur `longueur` dont la bordure est constitué de caractères `car`. Par exemple `rectangle_creux(3,7,'~')` devrait produire l'affichage suivant :
+```
+~~~~~~~
+~     ~
+~~~~~~~
+```
+
+3. De la même façon écrire une fonction `triangle` prenant comme paramètre un entier `hauteur` et un caractère `car` telle que `triangle(6,'*')` produise l'affichage suivant :
+```
+     *
+    ***
+   *****
+  *******
+ *********
+***********
+```
+
+{{ exo("Nombres premiers",[])}}
+
+1. Ecrire une fonction `racine` qui prend en entrée un entier `n` positif et renvoie le plus grand entier `k` tel que `k * k <= n`.
+    Par exemple, `racine(9)` renvoie 3 et `racine(18)` renvoie 4.
+
+2. Ecrire une fonction qui prend en argument un nombre et renvoie `True` lorsque ce nombre est premier et `False` sinon.
+
+    !!! aide
+        On peut se contenter de tester si les entiers $k$ compris entre 2 et la partie entière de $\sqrt{n}$ inclus divisent $n$ et utiliser la question 1.
+
+3. Ecrire une fonction `somme_premiers` qui prend en entrée un entier `n` et calcule la somme des nombres premiers inférieurs ou égaux à `n`. Par exemple `somme_premiers(10)` vaut `2 + 3 + 5 + 7 = 17`
+
+4. Tester votre fonction en calculant `somme_premiers(10000)` :  {{check_reponse("5736396")}}
 
 {{ exo("Palindrome",[])}}
 
@@ -347,3 +398,33 @@ Ecrire une fonction qui vérifie si la chaine passée en argument est un [palind
 1. Ecrire une fonction `contient` qui prend en argument une chaine de caractère `chaine` et un caractere `c` et qui renvoie `True` si `c` est dans `chaine` et  `False` sinon.
 
 2. Ecrire une fonction `occurrence` qui prend en argument une chaine de caractère `chaine` et un caractere `c` et qui renvoie le nombre d'apparitions de `c` dans `chaine`.
+
+3. On considère la chaine `mystere` ci-dessous composée de caractères très semblables difficiles à distinguer à l'oeil nu :
+```
+mystere = "O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8"
+```
+Combien de `O` contient cette chaine ?  
+Vérifier votre réponse : {{check_reponse("220")}}
+
+{{ exo("Conjecture de syracuse",[])}}
+
+La [conjecture de syracuse](https://fr.wikipedia.org/wiki/Conjecture_de_Syracuse){target=_blank} est l'hypothèse selon laquelle la suite définie $(u_n)_{n \in \mathbb{N}}$ définie par son premier terme $u_0$ et la relation de récurrence :  
+$u_{n+1} = \left\{ \begin{array}{ll} \dfrac{u_n}{2} & \mathrm{\ si\ } u_n \mathrm{\ est \ paire} \\ 3u_n+1 & \mathrm{\ sinon} \\ \end{array} \right.$  
+atteint 1. Dans la suite de cette exercice on supposera cette conjecture vérifiée (bien qu'elle n'ait pas été mathématiquement prouvée, la conjecture a été vérifiée numériquement pour tous les entiers jusqu'à $2^{58}$).
+
+1. Ecrire la fonction `terme_suivant` qui prend en argument un entier $n$ et renvoie $\dfrac{n}{2}$ si $n$ est paire et $3n+1$ sinon.
+2. Ecrire une fonction `duree_vol` qui prend en argument un entier $u_0$ et renvoie le plus petit entier $n$ appelé *durée de vol* tel que $u_n=1$. Par exemple `duree_vol(7)` doit renvoyer 16, en effet les termes successif de la suite sont `7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4 ,2, 1`.  
+Tester votre fonction en calculant la durée de vol de 123456789 :   
+Vérifier votre réponse : {{check_reponse("177")}}
+
+3. Quelle est la plus grande durée de vol lorsque $1 \leq u_0 \leq 10000$ ?  
+Vérifier votre réponse : {{check_reponse("261")}}
+
+4. Vérifier que cette durée de vol maximale est atteinte pour une seule valeur de $u_0$, quelle est cette valeur ?  
+Vérifier votre réponse : {{check_reponse("6171")}}
+
+5. L'altitude maximale est la valeur maximale atteinte par la suite de Syracuse. Ecrire une fonction prenant $u_0$ et renvoyant l'altitude maximale atteinte. Par exemple l'altitude maximal de $u_0 = 7$ est $52$ (voir les termes de cette suite à la question 2.).
+
+6. Quelle est l'altitude maximale de $9331$ ?  
+Vérifier votre réponse : {{check_reponse("345544")}}
+

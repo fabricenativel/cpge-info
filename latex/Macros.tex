@@ -4,6 +4,10 @@
 \renewcommand{\thesubQuestion}{\theQuestion.\alph{subQuestion}}
 \renewcommand{\AnswerName}{Réponses à l'exercise }
 }
+\newcommand{\Fiche}[2]{\lhead{\textbf{{\sc #1}}}
+\rhead{Niveau: \textbf{#2}}
+\cfoot{}}
+\definecolor{cfond}{gray}{0.4}
 
 \newcommand{\ModeActivite}{
 % Traduction des noms pour le package exercise
@@ -36,7 +40,8 @@
 \newcommand{\inputpartC}[5]{\begin{mdframed}[backgroundcolor=codebg] \inputminted[breaklines=true,fontsize=#3,linenos=true,highlightcolor=fluo,tabsize=2,highlightlines={#2},firstline=#4,lastline=#5,firstnumber=1]{c}{#1} \end{mdframed}}
 \newcommand{\inputC}[2]{\begin{mdframed}[backgroundcolor=codebg] \inputminted[breaklines=true,fontsize=#2,linenos=true,highlightcolor=fluo,tabsize=2]{c}{#1} \end{mdframed}}
 \newminted[langageC]{c}{linenos=true,escapeinside=``,highlightcolor=fluo,tabsize=2}
-\BeforeBeginEnvironment{minted}{\begin{mdframed}[backgroundcolor=codebg]}
+\newminted[python]{python}{linenos=true,escapeinside=``,highlightcolor=fluo,tabsize=4}
+\BeforeBeginEnvironment{minted}{\begin{mdframed}[backgroundcolor=codebg,skipabove=0cm]}
    \AfterEndEnvironment{minted}{\end{mdframed}}
 
 % Font light medium et bold pour tt :
@@ -404,7 +409,6 @@
 \newcommand{\bac}{\faGraduationCap}
 \newcommand{\histoire}{\faUniversity}
 \newcommand{\coeur}{\faSave}
-\newcommand{\python}{\faPython}
 \newcommand{\os}{\faMicrochip}
 \newcommand{\rd}{\faCubes}
 \newcommand{\data}{\faColumns}
@@ -670,11 +674,11 @@ Nom :  \textbf{\textbf{\nom{}}} \qquad \qquad Prénom :  \textbf{\prenom{}}  \hf
 % Intervalle d'entiers
 \newcommand{\intN}[2]{\llbracket #1; #2 \rrbracket}
 % Cadre avec lignes réponses
-\newcommand{\Pointille}[1][3]{%
-\begin{tabularx}{\linewidth}{|X|}
-   \hline
-\multido{}{#1}{%
-\makebox[\linewidth]{\dotfill}\\[\parskip]} \\
-   \hline
-\end{tabularx}
+\def\gaddtotok#1{\global\tabtok\expandafter{\the\tabtok#1}}
+\newtoks\tabtok
+\newcommand*\reponse[2]{%
+	\global\tabtok{\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{|X|p{1cm}|}\hline \dotfill & \cellcolor{gray!30}{\small \dots/#2} \\ \cline{2-2}}%
+	\multido{}{#1}{\gaddtotok{ \multicolumn{2}{|>{\hsize=\dimexpr1\hsize+2\tabcolsep+\arrayrulewidth+1cm\relax}X|}{\dotfill}\\ }}%
+	\gaddtotok{\hline \end{tabularx}}%
+	\the\tabtok
 }

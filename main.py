@@ -153,6 +153,14 @@ def define_env(env):
 !!! warning "Attention"
     Ce diaporama ne vous donne que quelques points de repères lors de vos révisions. Il devrait être complété par la relecture attentive de vos **propres** notes de cours et par une révision approfondie des exercices.'''
         return aff_cours
+    
+    # Affichage téléchargement diaporama de cours
+    @env.macro
+    def fiche_cours(num):
+        fichier=f'C{num}/C{num}-cours.pdf'
+        aff_cours = f'''
+<span class='centre'>[Fiche de cours chapitre {num} :fontawesome-regular-file-pdf:](./Cours/'''+fichier+'''){.md-button target=_blank}</span>'''
+        return aff_cours
 
     # Affichage téléchargement fiche de TD
     @env.macro
@@ -211,6 +219,20 @@ def define_env(env):
             table+='</tr>'
         table += '</table>'
         return table
+    
+    # Voir les indices d'un iterable
+    @env.macro
+    def indices(content,quote=False):
+        table = '<table class="data">'
+        q = "\'" if quote else ""
+        l1, l2 = '',''
+        for i,c in enumerate(content):
+            l1 += f'<td>{q}{c}{q}</td>'
+            l2 += f'<td>{i}</td>'
+        table+=f'<tr>{l1}</tr><tr>{l2}</tr>'
+        table += '</table>'
+        return table
+
 
     # Affichage de la liste des TP construite depuis le csv
     @env.macro
@@ -237,7 +259,7 @@ def define_env(env):
     
     @env.macro
     def affiche_eval(niveau):
-        ttypes = ["DS","IC","TP","DM"]
+        ttypes = ["DS","IC","TP","DM"] if niveau=="MP2I" else ["DS","IC","TP"]
         noms = {"IC":"Interrogation de cours", "DS": "Devoirs surveillés", "DM" : "Devoirs maison", "TP": "Travaux pratiques"}
         entete = "|N° |Date| Thèmes| Titre | Enoncé| Corrigé |\n"
         entete+= "|:-:|:---|:-----:|-------|:-----:|:-------:|\n"
@@ -355,3 +377,7 @@ def define_env(env):
         aff += '</table>'
         return aff
 
+
+    @env.macro
+    def mpy(s):
+        return "`#!python "+s+"`"

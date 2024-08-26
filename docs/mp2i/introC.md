@@ -36,8 +36,13 @@
 
 {{ exo("Premières compilations",[],0) }}
 
-1. Lancer VS Code et ouvrir un répertoire de travail (par exemple `~/TP/LangageC/TP1`)
-2. Dans l'onglet extension (accessible via le raccourci clavier ++ctrl+shift+x++), chercher "C" et installer "*C/C++ IntelliSense, debugging, and code browsing.*"
+1. Lancer VS Code et dans le menu `Fichier >  Ouvrir le dossier` (raccourci ++ctrl+k++, ++ctrl+o++) ouvrir un répertoire de travail pour ce premier TP (par exemple `~/LangageC/TP1`). 
+
+    !!! note
+        Une bonne habitude de Travail avec VS Code est d'ouvrir directement un répertoire de travail (celui à partir duquel les compilations seront faites).
+
+2. Dans l'onglet extension (accessible via le raccourci clavier ++ctrl+shift+x++), chercher "C" et installer "*C/C++ IntelliSense, debugging, and code browsing.*". Cette extension permet de bénéficier de la coloration syntaxique et de la détection des erreurs dans VS Code.
+
 3. Pour chacun des trois programmes vus en cours et disponibles [ci-dessus](#exemples-du-cours)
     1. Le copier dans VS code et l'enregistrer (la coloration syntaxique devrait être visible)
     2. Dans le terminal de VS Code le compiler avec `gcc`
@@ -49,6 +54,20 @@
 
         !!! aide 
             Il faut spécifier le chemin vers l'exécutable, ici `./`
+
+{{ exo("Premiers programmes",[])}}
+
+1. Ecrire un programme qui affiche à l'écran `"Mon tout premier programme en C"`
+
+2. Ajouter dans votre programme les déclaration des variables  entières `a` valant 2024 et  `b` valant 42. 
+
+3. Faire afficher à l'écran la valeur de $2024 \times 42$.
+
+4. Ecrire une instruction conditionnelle qui affiche dans le terminal `divisible` si 2024 est divisible par 42 et `non divisible` sinon.
+
+5. Déclarer une variable entière `s` valant 0. Ecrire une boucle qui permet de calculer la somme des entiers **divisibles par 7 et par 13* de 1 à 2024.  
+Vérifier votre réponse : {{check_reponse("23023")}}
+
 
 
 {{ exo("Quelques fonctions pour démarrer",[]) }}
@@ -69,17 +88,34 @@
     !!! aide
         Cela revient à vérifier que les trois entiers vérifient l'inégalité triangulaire ou encore que le plus grand des trois est inférieur à la somme des deux autres.
 
-4. On appelle *factorielle* d'un entier $n$ et on note $n!$ le produit de cet entier par tous ceux qui le précèdent à l'exception de zéro. Et on convient d'autre part que $0!=1$. Par exemple $5! = 5 \times 4 \times \times 3 \times 2 \times 1 = 120$. Ecrire une fonction `factorielle` qui prend en argument un entier `n` et renvoie sa factorielle.
+4. On considère le programme de calcul suivant :
 
-5. Ecrire une fonction `bissextile` qui prend en argument un entier `annee` et renvoie `true` si cette année est bissextile et `false` sinon.
+    * choisir un nombre entier
+    * ajouter 3 à ce nombre
+    * multiplier par le nombre choisi au départ
+    * soustraire 9
+
+    Ecrire une fonction `calcul` qui prend en entrée le nombre choisi au départ et renvoie le résultat du programme de calcul.
+
+5. On appelle *factorielle* d'un entier $n$ et on note $n!$ le produit de cet entier par tous ceux qui le précèdent à l'exception de zéro. Et on convient d'autre part que $0!=1$. Par exemple $5! = 5 \times 4 \times \times 3 \times 2 \times 1 = 120$. Ecrire une fonction `factorielle` qui prend en argument un entier `n` et renvoie sa factorielle.
+
+6. Ecrire une fonction `bissextile` qui prend en argument un entier `annee` et renvoie `true` si cette année est bissextile et `false` sinon.
 
     !!! aide
         Une année est bissextile si elle est divisible par 4 mais pas par 100 ou s'il est divisible par 400.
 
+7. Ecrire une fonction `maxint` qui prend en argument deux entiers `a` et `b` et renvoie le maximum de ces deux entiers.
+
+8. Ecrire une fonction `xor` qui prend en argument deux booléens `x` et `y` et renvoie vraie si `x` ou `y` vaut vraie mais pas les deux à la fois.
+
+9. Ecrire une fonction qui prend en argument un entier et renvoie `true` si cet entier est divisible par 7 et qu'il se termine par 9.
+
 {{ exo("Ecrire quelques boucles",[]) }}
 
-1. Ecrire une fonction prenant en entrée un entier $n$ et renvoyant le plus petit entier $k$ tel que $2^k \geq n$.
-2. Ecrire un programme permettant de calculer la somme suivante :  
+1. Ecrire une fonction prenant en entrée un entier `n` et qui affiche la table de multiplication de cet entier.
+2. La coupe du monde de football se déroule tout les quatre ans et sa première édition date de 1930. D'autre part, à cause de la seconde guerre mondiale, la compétition n'a pas eu lieu en 1942 et en 1946. Ecrire un programme  qui liste toutes les années où la coupe du monde s'est déroulée de 1930 à nos jours. Compléter ce programme de façon à afficher le numéro de l'édition pour chaque année.
+3. Ecrire une fonction prenant en entrée un entier $n$ et renvoyant le plus petit entier $k$ tel que $2^k \geq n$.
+4. Ecrire un programme permettant de calculer la somme suivante :  
  $\displaystyle{\sum_{k=1}^{100} k^2}$.
 
 {{ exo("Un peu de dessin",[]) }}
@@ -109,6 +145,54 @@ CCCCC
  *********
 ***********
 ```
+
+{{ exo("Puissance",[])}}
+
+1. En supposant `n` entier et positif, écrire, une fonction `puissance_positif` qui prend en entrée un nombre `x` et `n`  et renvoie $x^n$.
+2. Ecrire une nouvelle fonction `puissance` qui prend en argument un nombre `x` et un entier `n` et renvoie $x^n$.
+
+    !!! aide
+        Attention à bien traiter tous les cas possibles.
+
+
+{{ exo("Nombres premiers",[])}}
+
+1. Ecrire une fonction `racine` qui prend en entrée un entier `n` positif et renvoie le plus grand entier `k` tel que `k * k <= n`.
+    Par exemple, `racine(9)` renvoie 3 et `racine(18)` renvoie 4.
+
+2. Ecrire une fonction qui prend en argument un nombre et renvoie `true` lorsque ce nombre est premier et `false` sinon.
+
+    !!! aide
+        On rappelle qu'un nombre est premier s'il possède exactement deux diviseurs : 1 et lui-même. On peut donc se contenter de tester si les entiers $k$ compris entre 2 et la partie entière de $\sqrt{n}$ inclus divisent $n$ et utiliser la question 1.
+
+3. Ecrire une fonction `somme_premiers` qui prend en entrée un entier `n` et calcule la somme des nombres premiers inférieurs ou égaux à `n`. Par exemple `somme_premiers(10)` vaut `2 + 3 + 5 + 7 = 17`
+
+4. Tester votre fonction en calculant `somme_premiers(10000)` :  {{check_reponse("5736396")}}
+
+
+
+{{ exo("Conjecture de syracuse",[])}}
+
+La [conjecture de syracuse](https://fr.wikipedia.org/wiki/Conjecture_de_Syracuse){target=_blank} est l'hypothèse selon laquelle la suite définie $(u_n)_{n \in \mathbb{N}}$ définie par son premier terme $u_0$ et la relation de récurrence :  
+$u_{n+1} = \left\{ \begin{array}{ll} \dfrac{u_n}{2} & \mathrm{\ si\ } u_n \mathrm{\ est \ paire} \\ 3u_n+1 & \mathrm{\ sinon} \\ \end{array} \right.$  
+atteint 1. Dans la suite de cette exercice on supposera cette conjecture vérifiée (bien qu'elle n'ait pas été mathématiquement prouvée, la conjecture a été vérifiée numériquement pour tous les entiers jusqu'à $2^{58}$).
+
+1. Ecrire la fonction `terme_suivant` qui prend en argument un entier $n$ et renvoie $\dfrac{n}{2}$ si $n$ est paire et $3n+1$ sinon.
+2. Ecrire une fonction `duree_vol` qui prend en argument un entier $u_0$ et renvoie le plus petit entier $n$ appelé *durée de vol* tel que $u_n=1$. Par exemple `duree_vol(7)` doit renvoyer 16, en effet les termes successif de la suite sont `7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4 ,2, 1`.  
+Tester votre fonction en calculant la durée de vol de 123456789 :   
+Vérifier votre réponse : {{check_reponse("177")}}
+
+3. Quelle est la plus grande durée de vol lorsque $1 \leq u_0 \leq 10000$ ?  
+Vérifier votre réponse : {{check_reponse("261")}}
+
+4. Vérifier que cette durée de vol maximale est atteinte pour une seule valeur de $u_0$, quelle est cette valeur ?  
+Vérifier votre réponse : {{check_reponse("6171")}}
+
+5. L'altitude maximale est la valeur maximale atteinte par la suite de Syracuse. Ecrire une fonction prenant $u_0$ et renvoyant l'altitude maximale atteinte. Par exemple l'altitude maximal de $u_0 = 7$ est $52$ (voir les termes de cette suite à la question 2.).
+
+6. Quelle est l'altitude maximale de $9331$ ?  
+Vérifier votre réponse : {{check_reponse("345544")}}
+
 
 {{ exo("Somme des éléments d'un tableau",[]) }}
 
