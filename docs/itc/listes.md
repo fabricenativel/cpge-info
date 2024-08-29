@@ -231,6 +231,12 @@ On peut importer une fonction `f` se trouvant dans une librarie `lib` grâce à 
 
 On peut aussi importer la totalité de la librairie `lib` avec `#!python import lib`, par exemple, pour importer la totalité de la librairie `math` on écrit simplement `#!python import math`. Dans ce cas *toutes* les fonctions de la librairie sont accessibles mais on doit les nommer en les préfixant par le nom de la librairie, ici on pourrait donc calculer la racine carrée de 10 avec `racine10 = math.sqrt(10)`.
 
+## Cours
+
+{{fiche_cours(num)}}
+
+
+## Exercices
 
 {{ exo("Génération de listes en Python",[])}}
 

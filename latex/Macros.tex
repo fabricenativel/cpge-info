@@ -510,7 +510,7 @@
 \newcommand{\cor}[1]{\par \textcolor{blue!75!black}{#1}}
 \newcommand{\br}[1]{\cor{\textbf{#1}}}
 \newcommand{\tcor}[1]{
-   \ifthenelse{\boolean{corrige}}{\begin{tcolorbox}[width=\linewidth,colback={white},colbacktitle=white,coltitle=green!50!black,colframe=green!50!black,boxrule=0.2mm]   
+\ifthenelse{\boolean{corrige}}{\begin{tcolorbox}[width=\linewidth,colback={white},colbacktitle=white,coltitle=green!50!black,colframe=green!50!black,boxrule=0.2mm]   
 \cor{#1}
 \end{tcolorbox}}{}
 }
@@ -677,8 +677,9 @@ Nom :  \textbf{\textbf{\nom{}}} \qquad \qquad Prénom :  \textbf{\prenom{}}  \hf
 \def\gaddtotok#1{\global\tabtok\expandafter{\the\tabtok#1}}
 \newtoks\tabtok
 \newcommand*\reponse[2]{%
+   \ifthenelse{\boolean{corrige}}{}{
 	\global\tabtok{\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{|X|p{1cm}|}\hline \dotfill & \cellcolor{gray!30}{\small \dots/#2} \\ \cline{2-2}}%
 	\multido{}{#1}{\gaddtotok{ \multicolumn{2}{|>{\hsize=\dimexpr1\hsize+2\tabcolsep+\arrayrulewidth+1cm\relax}X|}{\dotfill}\\ }}%
 	\gaddtotok{\hline \end{tabularx}}%
 	\the\tabtok
-}
+   }}

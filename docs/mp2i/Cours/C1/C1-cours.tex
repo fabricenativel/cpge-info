@@ -228,7 +228,7 @@
 			\hline
 			\leavevmode\onslide<8->{\kw{float} et \kw{double}}                   & \leavevmode\onslide<8->{\kw{+}, \kw{-}, \kw{*}, \kw{/}}                                                                            & \leavevmode\onslide<8->{Représentation des nombres en virgules flottantes en simple ou double précision de la norme {\sc ieee754}. Fonctions élémentaires dans \kw{math.h}} \\
 			\hline
-			\leavevmode\onslide<9->{\kw{bool}, valeurs \kw{true} ou \kw{false}.}                                   & \leavevmode\onslide<9->{\kw{||},  \kw{\&\&}, \kw{!}}                                                                                & \leavevmode\onslide<9->{Booléens accessibles dans \kw{stdbool.h}. Evaluations paresseuses des expressions.}                                                                 \\
+			\leavevmode\onslide<9->{\kw{bool}, valeurs \kw{true} ou \kw{false}.}                                   & \leavevmode\onslide<9->{\kw{||},  \kw{\&\&}, \kw{!}}                                                                                & \leavevmode\onslide<9->{Booléens accessibles dans \kw{stdbool.h}. Evaluation \og{}\textit{séquentielle}\fg{} des expressions.}                                                                 \\
 			\hline
 			\leavevmode\onslide<10->{\kw{char}}                                   & \leavevmode\onslide<10->{\textcolor{gray}{\tt +, -}}                                                                                & \leavevmode\onslide<10->{Caractères noté entre quotes (\kw{'}), uniquement ceux de la table {\sc ascii}. Caractère nul : \kw{'\textbackslash{}0'}}                           \\
 			\hline
@@ -243,7 +243,7 @@
 		\item<1-> Déclarer deux variables entières \kw{a} et \kw{b} initialisées respectivement à 2024 et 137. Déclarer \kw{c} ayant comme valeur le reste dans division euclidienne de \kw{a} par \kw{b}.
 		\item<2-> Déclarer et initialiser \kw{d} ayant comme valeur $b^2 - 4ac$, en supposant que $a$, $b$ et $c$ sont des variables flottantes existantes et initialisées.
 		\item<3-> On suppose déjà déclarées deux variables booléennes \kw{x} et \kw{y}, écrire une expression booléenne correspondant à \kw{x} {\tt xor} \kw{y}. 
-		\item<4-> Discuter l'effet de l'instruction conditionnelle \mintinline{c}{if (a > 0 || a / b < 1)} suivant les valeurs des variables entières {\tt a} et {\tt b}.
+		\item<4-> Discuter l'effet de l'instruction conditionnelle \mintinline{c}{if (b>0 && a/b < 1)} suivant les valeurs des variables entières {\tt a} et {\tt b}.
 		\item<5-> La déclaration de variable suivante est-elle correcte ? \mintinline{c}{char c = "a";} 
 		\item<6-> Quelle est selon vous la cause du message : \textit{\textcolor{darkgray}{warning: ‘return’ with a value, in function returning void}} lors d'une compilation ?
 	\end{enumerate}
@@ -255,20 +255,22 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Affichage et spécificateur de format}
 		En C, l'affichage des variables se fait à l'aide de spécificateurs de format suivant le type de la variable \\
-		\textcolor{gray}{
+		\textcolor{black}{
 			\begin{tabular}{|l|l|}
 				\hline
 				Type                                               & Spécificateur \\
 				\hline
 				\kw{char}                                          & \kw{\%{}c}    \\
 				\hline
-				\kw{char[]}                                        & \kw{\%{}s}    \\
+				\kw{char[]} (chaine de caractères)                                       & \kw{\%{}s}    \\
 				\hline
 				\kw{unsigned int}, \kw{uint8\_t} et \kw{uint32\_t} & \kw{\%{}u}    \\
 				\hline
 				\kw{int}, \kw{int8\_t} et \kw{int32\_t}            & \kw{\%{}d}    \\
 				\hline
 				\kw{float}                                         & \kw{\%{}f}    \\
+				\hline
+				\kw{double}                                         & \kw{\%{}lf}    \\
 				\hline
 				\kw{uint64\_t}                                     & \kw{\%{}lu}   \\
 				\hline
@@ -373,12 +375,12 @@
 			\item<3->\kw{-Wextra} affichage de \textit{warning} supplémentaires
 			\item<4->\kw{-Wconversion} pour signaler les problèmes éventuels de conversion implicite
 		\end{itemize}
-		\onslide<5-> D'autre part, il est préférable de spécifier un fichier un nom pour l'exécutable produit grâce à l'option \kw{-o}
+		\onslide<5-> D'autre part, il est préférable de spécifier un nom pour l'exécutable produit grâce à l'option \kw{-o}
 	\end{block}
 	\onslide<6->{
 		\begin{exampleblock}{Exemple}
 			Pour compiler le programme {\tt exemple.c}, la ligne de compilation devrait donc être : \\
-			{\tt gcc exemple.c -o exemple.exe -Wall -Wextra -Wconversion}
+			\mintinline{bash}{gcc exemple.c -o exemple.exe -Wall -Wextra}
 		\end{exampleblock}}
 \end{frame}
 
@@ -519,6 +521,7 @@
 					\hline
 					H & e & l & l & o & \; & ! & \textbackslash{}0 \\
 					\hline
+					\multicolumn{1}{c}{\footnotesize \textcolor{gray}{0}} & \multicolumn{1}{c}{\footnotesize \textcolor{gray}{1}}& \multicolumn{1}{c}{\footnotesize \textcolor{gray}{2}}& \multicolumn{1}{c}{\footnotesize \textcolor{gray}{3}} & \multicolumn{1}{c}{\footnotesize \textcolor{gray}{4}} &\multicolumn{1}{c}{\footnotesize \textcolor{gray}{5}} & \multicolumn{1}{c}{\footnotesize \textcolor{gray}{6}}& \multicolumn{1}{c}{\footnotesize \textcolor{gray}{7}} \\
 				\end{tabular}
 			\item<3-> Le module \kw{string.h} fournit des fonctions usuelles de manipulation de caractères, notamment :
 				\begin{itemize}
@@ -526,7 +529,7 @@
 					\item<5-> \kw{strcpy} : copie une chaine de caractères
 					\item<6-> \kw{strcat} : concaténation de chaines de caractères
 				\end{itemize}
-			\item<4-> Contrairement à un tableau \og{} classique \fg{}, on peut donc connaitre la longueur d'une chaine de caractères, grâce à la présence du caractère sentinelle \kw{\textbackslash{0}} qui en indique la fin.
+			\item<7-> Contrairement à un tableau \og{}classique\fg{}, on peut donc connaitre la longueur d'une chaine de caractères, grâce à la présence du caractère sentinelle \kw{'\textbackslash{0}'} qui en indique la fin.
 		\end{itemize}
 	\end{block}
 \end{frame}

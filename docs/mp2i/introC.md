@@ -65,7 +65,7 @@
 
 4. Ecrire une instruction conditionnelle qui affiche dans le terminal `divisible` si 2024 est divisible par 42 et `non divisible` sinon.
 
-5. Déclarer une variable entière `s` valant 0. Ecrire une boucle qui permet de calculer la somme des entiers **divisibles par 7 et par 13* de 1 à 2024.  
+5. Déclarer une variable entière `s` valant 0. Ecrire une boucle qui permet de calculer la somme des entiers *divisibles par 7 et par 13* de 1 à 2024.  
 Vérifier votre réponse : {{check_reponse("23023")}}
 
 
@@ -194,19 +194,11 @@ Vérifier votre réponse : {{check_reponse("6171")}}
 Vérifier votre réponse : {{check_reponse("345544")}}
 
 
-{{ exo("Somme des éléments d'un tableau",[]) }}
-
-1. Ecrire une fonction `somme` qui prend en argument un tableau ainsi que sa taille et renvoie la somme des éléments de ce tableau.
-
-2. Créer un tableau de  `carres` de taille 100 et grâce à une boucle l'initialiser de façon à ce que `carres[i]=i*i`.
-
-3. Calculer la somme des carres des entiers de 1 à 100.
-
 {{ exo("Simulation d'un lancer de dé",[])}}
 
 Au jeu des ["petits chevaux"](https://fr.wikipedia.org/wiki/Jeu\_des\_petits\_chevaux){target=_blank}, le joueur doit lancer un dé à six faces  et obtenir 6 pour "sortir un de ses chevaux de l'écurie". On se demande, en moyenne combien de coups  il faut pour obtenir un 6 sur un lancer de dé.
 
-1. Ecrire une fonction `lancer_de` qui ne prend aucun argument et renvoie un nombre choisir au hasard entre 1 et 6.
+1. Ecrire une fonction `lancer_de` qui ne prend aucun argument et renvoie un nombre choisi au hasard entre 1 et 6.
 
     !!! aide
         La fonction `rand()` du langage C renvoie un entier aléatoire, entre 0 et le plus grand entier représentable. On peut ensuite utiliser un modulo pour se ramener dans un intervalle de longueur 6.
@@ -215,6 +207,14 @@ Au jeu des ["petits chevaux"](https://fr.wikipedia.org/wiki/Jeu\_des\_petits\_ch
 
 3. Calculer la moyenne du nombre de coups nécessaire pour obtenir un six pour un grand nombre de parties (par exemple 10000). Pouvez-vous retrouver ce résultat en utilisant vos connaissances en probabilités ?
 
+
+{{ exo("Somme des éléments d'un tableau",[]) }}
+
+1. Ecrire une fonction `somme` qui prend en argument un tableau ainsi que sa taille et renvoie la somme des éléments de ce tableau.
+
+2. Créer un tableau de  `carres` de taille 100 et grâce à une boucle l'initialiser de façon à ce que `carres[i]=i*i`.
+
+3. Calculer la somme des carres des entiers de 1 à 100.
 
 {{ exo("Appartient à un tableau",[]) }}
 

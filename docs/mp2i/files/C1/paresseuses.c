@@ -1,10 +1,9 @@
 #include <stdio.h>
-
+#include <stdbool.h>
 int main()
 {
-    int a = 45;
-    int b = 0;
-    if (a > 0 || a / b < 1)
+    bool t = (bool)0;
+    if (t)
     {
         printf("Ok ! \n");
     }

@@ -72,8 +72,8 @@ def define_env(env):
     env.variables['progression_itc_s1']={
         0 : [1,"Faire le point !","point.md"],
         1 : [1,"Bases de Python","bases.md"],
-        2 : [1,"Listes et dictionnaires","listes.md"],
-        3 : [1,"Fichiers","fichiers.md"],
+        2 : [1,"Listes","listes.md"],
+        3 : [1,"Fichiers, dictionnaires","fichiers.md"],
         4 : [6,"Notions d'algorithmique","algorithmique.md"],
         5 : [6,"Manipulation d'images","images.md"],
         6 : [5,"Récursivité","récursivite.md"],
