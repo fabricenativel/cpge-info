@@ -275,7 +275,7 @@ def define_env(env):
                 for theme in themes:
                     ico = ico + env.variables["themes_"+niveau][int(theme)][1]
                 if publish_date <= today:
-                    listes[utype]+=f"|**{numero}**|{d}{y}{m}|{ico}|{titre}|[:fontawesome-solid-file-pen:](./{niveau}/Evaluations/{utype}/{utype}{numero}/{utype}{numero}.pdf) | [:fontawesome-solid-file-circle-check:]({niveau}/Evaluations/{utype}/{utype}{numero}/{utype}{numero}-Correction.pdf)  |\n"      
+                    listes[utype]+=f"|**{numero}**|{d}/{m}/{y}|{ico}|{titre}|[:fontawesome-solid-file-pen:](./{niveau}/Evaluations/{utype}/{utype}{numero}/{utype}{numero}.pdf) | [:fontawesome-solid-file-circle-check:]({niveau}/Evaluations/{utype}/{utype}{numero}/{utype}{numero}-Correction.pdf)  |\n"      
                 elif utype=="DS":
                     listes[utype]+=f"|**{numero}**|*prévu le {d}/{m}/{y}*||.......|:material-file-question-outline:| :material-file-question:|\n"
         return "\n".join([listes[k] for k in ttypes])
