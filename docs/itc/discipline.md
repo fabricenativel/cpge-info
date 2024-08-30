@@ -88,7 +88,9 @@ def cherche_position(element,liste):
 
 
 {{ exo("Puissance",[])}}
-On considère la fonction Python suivante :
+
+
+
 ```python
 def puissance(x,n):
     p = x
