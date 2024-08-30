@@ -75,8 +75,8 @@ def define_env(env):
         2 : [1,"Listes","listes.md"],
         3 : [1,"Fichiers","fichiers.md"],
         4 : [6,"Discipline de programmation","discipline.md"],
-        5 : [6,"Manipulation d'images","images.md"],
-        6 : [5,"Récursivité","récursivite.md"],
+        5 : [6,"Dictionnaires","dictionnaires.md"],
+        6 : [5,"Récursivité","recursivite.md"],
         7 : [6,"Algorithmes gloutons","gloutons.md"],
         8 : [6,"Tris","tris.md"]
     }
