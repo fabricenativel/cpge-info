@@ -89,7 +89,7 @@ def cherche_position(element,liste):
 
 {{ exo("Puissance",[])}}
 
-
+Pour un exercice demandant d'écrire une fonction `puissance` qui prend entrée un nombre `x` et un entier `n` et renvoie $x^n$, un étudiant a écrit :
 
 ```python
 def puissance(x,n):
@@ -99,7 +99,7 @@ def puissance(x,n):
     return p
 ```
 
-1. Que fait cette fonction ? Ecrire sa chaîne de documentation.
-2. Proposer des préconditions sur les arguments.
-3. Montrer que l'algorithme utilisé dans cette fonction a une complexité linéaire.
+1. Compléter cette fonction en rajoutant sa spécification.
+2. Proposer des tests montrant que cette fonction ne respecte pas complètement sa spécification.
+3. Corriger cette fonction et proposer un jeu de tests.
 
