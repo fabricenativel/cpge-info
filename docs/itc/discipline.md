@@ -68,7 +68,7 @@ assert imax([1, 2, 7, 7, 3, 7, 4, 7]) == 2
 
 ## Exercices de synthèse
 
-{{ exo("Ecrire la spécification d'une fonction",[])}}
+{{ exo("Ecrire la spécification d'une fonction",[],0)}}
 
 On considère la fonction Python suivante :
 ```python linenums="1"
@@ -103,3 +103,30 @@ def puissance(x,n):
 2. Proposer des tests montrant que cette fonction ne respecte pas complètement sa spécification.
 3. Corriger cette fonction et proposer un jeu de tests.
 
+{{ exo("Nombre de chiffres d'un entier positif",[])}}
+
+1. Ecrire une fonction `nombre_chiffres(n : int) -> int` qui prend en entrée un entier positif et renvoie son nombre de chiffres. Par exemple `nombre_chiffres(212)` doit renvoyer 3
+2. Ecrire les préconditions sous la forme d'instructions `assert`
+3. Proposer un jeu de test pour cette fonction.
+
+{{ exo("Répétition dans une liste",[])}}
+
+1. Ecrire une fonction `contient_repetition(l : list) -> bool` qui renvoie `True` si la liste donnée en argument contient le même élément répété *à la suite*. Par exemple `contient_repetition([2, 5, 5, 3])` renvoie `True` mais `contient_repetition([2, 5, 3, 5])` renvoie `False`
+2. Proposer un jeu de test pour cette fonction
+
+
+## S'entrainer sur CodEx
+
+Le site [CodEx](https://codex.forge.apps.education.fr/) est un site d’entraînement à la programmation Python, un exercice  :
+
+* demande généralement d'écrire une fonction répondant à une spécification précise
+* inclus des *tests visibles* sous la forme d'instructions `assert` de façon à valider une première fois votre fonction 
+* inclus des *tests cachés* qui permettent de valider définitivement votre fonction
+* inclus généralement une solution et des conseils qui apparaissent après réussite ou cinq essais infructueux de validation.
+
+Voici quelques exercices à faire pour vous entrainer, mais vous pouvez en [chercher d'autres](https://codex.forge.apps.education.fr/recherche/) en évitant les thèmes que nous n'avons pas encore abordés :
+
+* [anniversaire de chat](https://codex.forge.apps.education.fr/exercices/channiv/){target=_blank}
+* [dentiste](https://codex.forge.apps.education.fr/exercices/dentiste/){target=_blank}
+* [est trié](https://codex.forge.apps.education.fr/exercices/est_trie/){target=_blank}
+* [moyenne olympique](https://codex.forge.apps.education.fr/exercices/moy_olympic/){target=_blank}
