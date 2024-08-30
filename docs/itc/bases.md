@@ -325,7 +325,7 @@ print("Bonjour,",prenom)
 
 {{fiche_cours(num)}}
 
-## Exercices
+## Exercices de synthèse
 
 {{ exo("Factorielle",[])}}
 

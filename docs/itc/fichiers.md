@@ -27,7 +27,7 @@ Si après avoir exécuté le programme ci-dessous vous obtenez un `FileNotFoundE
     * Cette fonction prend en paramètre un nom de fichier et renvoie un descripteur de fichier.
     * L'erreur `FileNotFoundError` indique que le fichier n'a pas été trouvé.
 
-## Lecture de données dans un fichier
+## Lecture d'un fichier
 
 Si l'instruction `#!python desc_fic = open("informaticiens.txt")` s'est produite correctement, on dispose maintenant d'un canal de lecture vers le fichier. Pour lire les données on utilise la fonction `#!python read` sur ce descripteur :
 
@@ -58,8 +58,6 @@ La variable `deuxieme_lecture` est vide le descripteur de fichier étant positio
     * Après lecture, le descripteur de fichier est positionné en fin de fichier et il n'y a plus d'information à lire.
 
 
-## Fermeture d'un fichier
-
 Une bonne pratique de programmation consiste à fermer un fichier après l'avoir utilisé. C'est le rôle de l'instruction `#!python close`, le programme précédent devrait donc se terminer par `#!python desc_fic.close()`.
 
 {{ exo("A vous de jouer !",[],0)}}
@@ -68,7 +66,6 @@ Une bonne pratique de programmation consiste à fermer un fichier après l'avoir
 2. Lire ce fichier et en afficher le contenu
 3. Fermer ce fichier
 
-## Listes des lignes
 
 Au lieu de lire la totalité d'un fichier en une seule fois, il peut être préférable d'en récupérer les lignes soit dans une liste, soit une à une :
 
@@ -100,7 +97,7 @@ Au lieu de lire la totalité d'un fichier en une seule fois, il peut être préf
 1. En utilisant `readlines` lire dans une liste les films présents dans le fichiers `films.txt`. Quel film se trouve sur la ligne 4 (on numérote les lignes à partir de 0).
 2. Même question en utilisant `readline`
 
-## Ouverture de fichiers en écriture
+## Ecriture dans un fichier
 
 Pour écrire dans un fichier, il faut l'ouvrir en mode `'w'` (pour **w**rite), si le fichier n'existe pas sur votre disque dur, il sera automatiquement crée :
 ```python
@@ -152,6 +149,7 @@ print(dates)
 # affiche [['15', '01', '2012'], ['9', '09', '2007'], ['24', '08', '1999'], ['11', '04', '2000']]
 ```
 
+## Exercices de synthèse
 
 {{ exo("Manipulation de fichiers en Python",[])}}
 
@@ -183,3 +181,29 @@ Pour cette exercice on utilise le dictionnaire téléchargeable ci-dessous:
 3. Quel est le plus grand mot de ce dictionnaire ?
 4. Lister tous les mots de 5 lettres qui ont un *d* en deuxième position et se terminent par un *e*.
 5. Lister tous les mots palindromes de ce dictionnaire (un mot palindrome est un mot pouvant se lire indifféremment dans les deux sens par exemple *kayak* ou *été*)
+
+
+{{ exo("Somme des entiers dans un fichier",[])}}
+
+Le fichier `entiers.txt` téléchargeable ci-dessous contient sur chaque ligne un entier. Ecrire un programme Python qui lit ce fichier et fait la somme de ces entiers.
+{{telecharger("entiers.txt","./files/C3/entiers.txt")}}
+
+Vérifier la réponse fournie par votre programme ci-dessous :
+{{ check_reponse('-1113')}}
+
+!!! aide
+    Les données lues dans un fichier sont toujours des chaines de caractères (type `str`), si on les additionne avec `+` cela correspond donc à la concaténation des chaines de caractères (comme dans `"20" + "24"` qui donne `"2024"`). Pour traiter les valeurs lues dans le fichier comme des entiers, il faudra donc au préalable les convertir en entier !
+
+
+{{ exo("Boîte de plus grand volume",[])}}
+
+Le fichier `boites.txt` est téléchargeable ci-dessous, chaque ligne de ce fichier contient la référence d'un modèle de boîte sous la forme d'un code à 4 lettres suivi de trois entiers représentant les dimensions de la boîte. A titre d'exemple, les trois premières lignes du fichier sont :
+```
+NWLR 283 75 46 
+QBHC 117 70 79 
+ZOWK 262 66 31
+```
+Donc, la boite de référence `NWLR` a comme dimension `283x75x46`.
+{{telecharger("boites.txt","./files/C3/boites.txt")}}
+
+Trouver la référence de la boîte de plus grand volume, et vérifier votre résultat dans le formulaire suivant :   {{ check_reponse("ZSDW") }}

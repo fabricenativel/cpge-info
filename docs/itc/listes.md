@@ -236,7 +236,7 @@ On peut aussi importer la totalité de la librairie `lib` avec `#!python import 
 {{fiche_cours(num)}}
 
 
-## Exercices
+## Exercices de synthèse
 
 {{ exo("Génération de listes en Python",[])}}
 

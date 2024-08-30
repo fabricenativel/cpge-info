@@ -31,7 +31,7 @@ for niv in NIVEAU:
                     publiable = publish_date<=TODAY
                     direval = f"{PATH[niv][td]}{td}{nd}"
                     enligne = os.path.isdir(direval)
-                    print(Fore.WHITE+f"\t \t {eval} : ",end='')
+                    print(Fore.WHITE+f"\t>{eval} : ",end='')
                     if publiable and enligne:
                         print(Fore.GREEN+"Publiable et déjà en ligne : pas de changements")
                     if not publiable and not enligne:
