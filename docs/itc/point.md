@@ -121,7 +121,7 @@ Dans le cas $k=256$, et à l'étape 1000, combien de `#` contient la chaine ?
 Vérifier votre réponse : {{check_reponse("263")}}
 
 {{ exo("",[]) }}
-On donne ci-dessous, une liste d'entiers `altitudes` (déjà présente dans votre mini IDE), qui correspond aux altitudes d'un coureur lors d'une course de montagne. On veut déterminer le *denivelé positif* de ce coureur c'est à dire la somme des longueurs des *ascensions*. Par exemple, si la liste `altitudes` est `[330, 490, 380, 610, 780, 550]` alors :
+On donne ci-dessous, une liste d'entiers `altitudes` (déjà présente dans votre mini IDE), qui correspond aux altitudes d'un coureur lors d'une course de montagne. On veut déterminer le *denivelé positif* de ce coureur c'est-à-dire la somme des longueurs des *ascensions*. Par exemple, si la liste `altitudes` est `[330, 490, 380, 610, 780, 550]` alors :
 
 * la course commence par une ascension de dénivelé positif $160$ ($490-330$)
 * puis on a une descente (de $490$ à $380$)
@@ -167,7 +167,7 @@ Quel est l'élément restant dans le cas $k=100$ ?
     En python `append` et `pop` permettent d'effectuer les opérations suivantes sur une liste:
 
     * `append` ajoute l'élément donné en argument à la fin de la liste. Par exemple si `liste_de_courses = ["courgettes","poivrons","tomates","oignons"]`, l'instruction `liste_de_courses.append("aubergines")` va ajouter en fin de `liste_de_courses` l'élément `"aubergines"`. **Attention** à la syntaxe qui est `<liste>.append(<element>)`.
-    * `pop` modifie une liste en lui enlevant son *dernier* élément et renvoie ce dernier élément. C'est à dire que le résultat d'un `pop` (l'élément supprimé) peut-être utilisé (pour donner une valeur à une variable par exemple). Par exemple si `matieres = ["Informatique","Anglais","Maths","Physique","SVT"]`, l'instruction `supprime = matieres.pop()` a **deux** effets :
+    * `pop` modifie une liste en lui enlevant son *dernier* élément et renvoie ce dernier élément. c'est-à-dire que le résultat d'un `pop` (l'élément supprimé) peut-être utilisé (pour donner une valeur à une variable par exemple). Par exemple si `matieres = ["Informatique","Anglais","Maths","Physique","SVT"]`, l'instruction `supprime = matieres.pop()` a **deux** effets :
         * le dernier élément de `matieres` est supprimé la liste devient `matieres = ["Informatique","Anglais","Maths","Physique"]`
         * ce dernier élément devient la valeur de `supprime` (et donc `supprime = "SVT"`)
 

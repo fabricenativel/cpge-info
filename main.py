@@ -1,4 +1,5 @@
 import datetime
+import csv
 from hashlib import sha256
 
 def define_env(env):
@@ -98,6 +99,11 @@ def define_env(env):
         21 : [4,"Algorithme pour l'étude des jeux","algojeux.md"]
     }
 
+    with open("qcm.csv","r",encoding="utf-8") as f:
+        questions = list(csv.DictReader(f,delimiter=";"))
+    env.variables['qcm']=questions
+
+
     # affichage d'un chapitre dans la progression
     @env.macro
     def chapitre(num,theme,titre,lien,niveau):
@@ -138,7 +144,7 @@ def define_env(env):
     # Affichage titre DM
     @env.macro
     def dm(numero,titre):
-        ligne=f"# <span class='numeval'>dm{numero}</span> {titre} "
+        ligne=f"# <span class='numchapitre'>DM{numero}</span> {titre} "
         ligne+="<span style='float:right;'>:material-home-search:{title='Devoir maison'}</span>"
         return ligne
 
@@ -259,7 +265,7 @@ def define_env(env):
     
     @env.macro
     def affiche_eval(niveau):
-        ttypes = ["DS","IC","TP","DM"] if niveau=="MP2I" else ["DS","IC","TP"]
+        ttypes = ["DS","IC","TP"]
         noms = {"IC":"Interrogation de cours", "DS": "Devoirs surveillés", "DM" : "Devoirs maison", "TP": "Travaux pratiques"}
         entete = "|N° |Date| Thèmes| Titre | Enoncé| Corrigé |\n"
         entete+= "|:-:|:---|:-----:|-------|:-----:|:-------:|\n"
@@ -284,7 +290,7 @@ def define_env(env):
     # Affichage de la liste des DM construite depuis le csv
     @env.macro
     def liste_dm(niveau):
-        aff="\n"
+        aff="### Devoirs maison \n"
         aff+= "|N° | Thèmes| Titre | Enoncé| Corrigé |\n"
         aff+= "|:-:|:-----:|-------|:-----:|:-------:|\n"
         FNAME = f"./dm{niveau}.csv"
@@ -293,15 +299,15 @@ def define_env(env):
             nums=1
             for s in f:
                 ico = ""
-                lf=s.split(";")
-                y,m,d = tuple(map(int,lf[3].split("/")))
-                publish_date = datetime.date(y,m,d)
-                for theme in lf[2]:
+                num,titre,themes,date=s.split(";")
+                d,m,y = date.strip().split("/")
+                publish_date = datetime.date(*tuple(map(int,(y,m,d))))
+                for theme in themes:
                     ico = ico + env.variables["themes_"+niveau][int(theme)][1]
                 if publish_date <= today:
-                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](mp2i/Evaluations/DM/Enonces/DM{lf[0]}.md) | [:fontawesome-solid-file-circle-check:](mp2i/Evaluations/DM/DM{lf[0]}/DM{lf[0]}-Correction.md)|\n"
+                    aff+=f"|**{nums}**|{ico}|{titre}|[:fontawesome-solid-file-pen:](mp2i/Evaluations/DM/DM{num}/DM{num}.md) | [:fontawesome-solid-file-circle-check:](mp2i/Evaluations/DM/DM{num}/DM{num}-Correction.md)|\n"
                 else:
-                    aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](mp2i/Evaluations/DM/Enonces/DM{lf[0]}.md) | {publish_date.day}/{publish_date.month}/{publish_date.year}|\n"
+                    aff+=f"|**{nums}**|{ico}|{titre}|[:fontawesome-solid-file-pen:](mp2i/Evaluations/DM/DM{num}/DM{num}.md) | {d}/{m}/{y}|\n"
                 nums+=1
         return aff
     
@@ -381,3 +387,61 @@ def define_env(env):
     @env.macro
     def mpy(s):
         return "`#!python "+s+"`"
+
+
+    @env.macro
+    def affiche_question(num,index):
+        lenonce = env.variables.qcm[num]["enonce"]
+        # Traitement si enoncé sur plusieurs lignes
+        nl = lenonce.find('\n')
+        if nl>0:
+            lenonce=lenonce.replace("\n",'"\n',1)
+            lenonce=lenonce.replace("\n",'\n    ')
+        else:
+            lenonce+='"'
+        # Traitement si image
+        limg = env.variables.qcm[num]["image"]
+        if limg!='':
+            lenonce+=f'\n \t ![illustration](./images/C{env.variables.qcm[num]["chapitre"]}/{limg})'
+            lenonce+='{: .imgcentre}\n'
+        modele = f'''
+!!! fabquestion "**{index}.** {lenonce}
+    === "Réponses<span class='invisible'>{num}</span>"
+        - [ ] a) {env.variables.qcm[num]["reponseA"]}
+        - [ ] b) {env.variables.qcm[num]["reponseB"]}
+        - [ ] c) {env.variables.qcm[num]["reponseC"]}
+        - [ ] d) {env.variables.qcm[num]["reponseD"]}
+    === "Correction<span class='invisible'>{num}</span>"\n'''
+        for rep in "ABCD":
+            clerep = "reponse"+rep
+            if env.variables.qcm[num]["bonne_reponse"]==rep:
+                modele+=f"        - [x] {rep.lower()}) =={env.variables.qcm[num][clerep]}== \n"
+            else:
+                modele+=f"        - [ ] {rep.lower()}) ~~{env.variables.qcm[num][clerep]}~~ \n"
+        return modele
+
+    @env.macro
+    def affiche_qcm(liste_question):
+        qcm = ""
+        for index in range(len(liste_question)):
+            qcm+=affiche_question(liste_question[index],index+1)
+        return qcm
+    
+    @env.macro
+    def qcm_chapitre(num_chap):
+        index=1
+        qcmc=""
+        for num in range(len(env.variables.qcm)):
+            if int(env.variables.qcm[num]["chapitre"])==num_chap:
+                qcmc+=affiche_question(num,index)
+                index+=1
+        return qcmc
+    
+    @env.macro
+    def all_qcm():
+        index=1
+        qcmc=""
+        for num in range(len(env.variables.qcm)):
+            qcmc+=affiche_question(num,index)
+            index+=1
+        return qcmc

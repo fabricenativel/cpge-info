@@ -88,7 +88,7 @@ On définit les fonctions `pair` et `impair` de façon mutuellement récursive d
 
 {{ exo("Mélange de Fisher-Yates",[])}}
 
-Le [mélange de Fisher-Yates](https://fr.wikipedia.org/wiki/M%C3%A9lange_de_Fisher-Yates){target=_blank} est un algorithme permettant de générer une permutation aléatoire d'un tableau à $n$ éléments. Il consiste à parcourir le tableau de la fin vers le début, en échangeant l'élément aléatoirement avec un de ceux qui le précède. C'est à dire que pour l'indice $i$ variant de $n-1$ à 1 on échange `tab[i]` avec `tab[j]` où $j$ est choisi aléatoirement entre $0$ et $i$.
+Le [mélange de Fisher-Yates](https://fr.wikipedia.org/wiki/M%C3%A9lange_de_Fisher-Yates){target=_blank} est un algorithme permettant de générer une permutation aléatoire d'un tableau à $n$ éléments. Il consiste à parcourir le tableau de la fin vers le début, en échangeant l'élément aléatoirement avec un de ceux qui le précède. c'est-à-dire que pour l'indice $i$ variant de $n-1$ à 1 on échange `tab[i]` avec `tab[j]` où $j$ est choisi aléatoirement entre $0$ et $i$.
 
 1. Proposer une version itérative de cet algorithme
 
@@ -140,7 +140,7 @@ La [courbe de Koch](https://fr.wikipedia.org/wiki/Flocon_de_Koch){target=_blank}
 1. A l'aide du module `turtle`, produire une image tel que ci-dessous qui représente la courbe de Koch d'ordre 5. Le résultat produit ci-dessus a été obtenu grâce à l'appel `koch(600,5)` (la largeur de l'image est de 500px et sa hauteur 300)
 ![vonkoch](./files/C3/koch.bmp){.imgcentre width=500px}
 
-2. En utilisant cette fonction construire le flocon de Koch, c'est à dire la figure obtenu en construisant les courbe de Koch sur les trois côtés d'un triangle équilatéral.
+2. En utilisant cette fonction construire le flocon de Koch, c'est-à-dire la figure obtenu en construisant les courbe de Koch sur les trois côtés d'un triangle équilatéral.
 
 {{ exo("Tours de Hanoi",[])}}
 

@@ -158,7 +158,7 @@ Un [outil en ligne](https://visualgo.net/en/dfsbfs){target=_blank}, permet de vi
 
 {{exo("File et module deque",[])}}
 
-On rappelle qu'une file est une structure de données de type {{sc("fifo")}} (premier entré, premier sorti). Les opérations de base (enfiler ou défiler) doivent s'effectuer de façon efficace (c'est à dire en $O(1)$)
+On rappelle qu'une file est une structure de données de type {{sc("fifo")}} (premier entré, premier sorti). Les opérations de base (enfiler ou défiler) doivent s'effectuer de façon efficace (c'est-à-dire en $O(1)$)
 
 1. Si on considère qu'une liste de Python est une file (la sortie de la file est à la fin), quelle opération permet d'enfiler ? de défiler ?
 

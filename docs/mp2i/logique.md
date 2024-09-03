@@ -83,12 +83,12 @@ L'algorithme d'énumération est le suivant :
 
     1. Ecrire une fonction `switch : valuation -> int -> unit` qui inverse l'un des bits d'un code de Gray.
 
-    2. Ecrire une fonction `first : int -> valuation` qui renvoie le premier code de Gray (c'est à dire celle correspondante à toutes les variables ayant pour valeur $F$)
+    2. Ecrire une fonction `first : int -> valuation` qui renvoie le premier code de Gray (c'est-à-dire celle correspondante à toutes les variables ayant pour valeur $F$)
 
     3. Ecrire une fonction `next : valuation -> unit` qui met à jour la valuation en passant à la valeur suivante dans l'énumération de Gray.
 
         !!! aide
-            Pour gérer le cas où on demande le code qui vient après le dernier code (c'est à dire qu'il n'y a pas de chiffre à gauche du 1 situé le plus à droite), on pourra au choix lever une exception (par exemple `Exit` est prédéfinie dans le langage) ou alors renvoyer un booléen qui indique si le code a pu être incrémenté ou non (la signature est dans ce cas `next : valuation -> bool`)
+            Pour gérer le cas où on demande le code qui vient après le dernier code (c'est-à-dire qu'il n'y a pas de chiffre à gauche du 1 situé le plus à droite), on pourra au choix lever une exception (par exemple `Exit` est prédéfinie dans le langage) ou alors renvoyer un booléen qui indique si le code a pu être incrémenté ou non (la signature est dans ce cas `next : valuation -> bool`)
 
     4. Ecrire une fonction `affiche : valuation -> unit` permettant d'afficher une valuation par exemple sous la forme `0; 1; 0; 0`
 
@@ -112,7 +112,7 @@ On veut maintenant construire la table de vérité d'une formule
 
 Dans cet exercice, on implémente l'algorithme de Quine en supposant que les formules sont données sous forme normale conjonctive ({{sc("fnc")}}). Par exemple avec 3 variables logique $p, q$ et $r$, $P = (\neg p \vee q \vee r) \wedge (p \vee q) \wedge (p \vee q \vee \neg r)$ est sous {{sc("fnc")}}.
 
- On rappelle que chaque élément de la conjonction s'appelle une *clause*, par exemple $(\neg p \vee q \vee r)$ est une clause de P. Chaque clause est composé de *littéraux*, c'est à dire d'une variable logique ou de sa négation, on est donc amené à définir les types suivants en OCaml afin de représenter un {{sc("fnc")}} :
+ On rappelle que chaque élément de la conjonction s'appelle une *clause*, par exemple $(\neg p \vee q \vee r)$ est une clause de P. Chaque clause est composé de *littéraux*, c'est-à-dire d'une variable logique ou de sa négation, on est donc amené à définir les types suivants en OCaml afin de représenter un {{sc("fnc")}} :
 
 ```ocaml
 --8<-- "C16/quine.ml:2:6"

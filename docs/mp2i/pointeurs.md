@@ -319,7 +319,7 @@ Le but de l'exercice est d'écrire un programme en C permettant de trouver la r�
 
 {{ exo("Compilation séparée",[] )}}
 
-On trouvera sur [cette page](https://w3.cs.jmu.edu/lam2mo/cs240_2015_08/turtle.html){target=_blank}, les fichiers `turtle.c` et `turtle.h` qui définissent une implémentation simple du dessin à l'aide d'une tortue graphique comme dans le [langage logo](https://fr.wikipedia.org/wiki/Logo_(langage)){target=_blank}. C'est à dire qu'on peut dessiner en bougeant à l'aide d'une "tortue" qui se déplace, avance, tourne, ... 
+On trouvera sur [cette page](https://w3.cs.jmu.edu/lam2mo/cs240_2015_08/turtle.html){target=_blank}, les fichiers `turtle.c` et `turtle.h` qui définissent une implémentation simple du dessin à l'aide d'une tortue graphique comme dans le [langage logo](https://fr.wikipedia.org/wiki/Logo_(langage)){target=_blank}. c'est-à-dire qu'on peut dessiner en bougeant à l'aide d'une "tortue" qui se déplace, avance, tourne, ... 
 
 !!! warning "Attention"
     Le module `turtle` utilise le module `<math.h>`, avec gcc il faudra donc utiliser l'option `-lm` pour lier le module math lors de la compilation finale.

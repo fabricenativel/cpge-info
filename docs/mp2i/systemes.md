@@ -74,7 +74,7 @@
 5. Dans le terminal taper  `./gameshell.sh` 
 
     !!! retenir "A retenir"
-        On retiendra que pour lancer un exécutable  depuis le terminal, on donne son chemin. Ici puisqu'il se trouve dans le répertoire courant (c'est à dire <code><mark>.</mark></code>) on tape donc <code><mark>./</mark>gameshell</code>
+        On retiendra que pour lancer un exécutable  depuis le terminal, on donne son chemin. Ici puisqu'il se trouve dans le répertoire courant (c'est-à-dire <code><mark>.</mark></code>) on tape donc <code><mark>./</mark>gameshell</code>
 
 
     !!! aide "Aide"

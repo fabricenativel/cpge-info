@@ -14,7 +14,7 @@
 
 === "Windows"
 
-    1. Télécharger les fichiers d'installation sur [python.org](https://www.python.org/downloads/windows/){target=_blank}. Il faut sélectionner dans les *stable releases*, le fichier d'installation correspondant à votre ordinateur (sur un ordinateur récent cela devrait être la version `(64-bit)`)
+    1. Télécharger les fichiers d'installation sur [python.org](https://www.python.org/downloads/windows/){target=_blank}. Il faut sélectionner dans les *stable releases*, le fichier d'installation correspondant à votre ordinateur (sur un ordinateur récent cela devrait être la version `64-bit`)
     2. Lancer l'installation en prenant soin de bien cocher l'option `Add Python to PATH` (en bas de la fenêtre du programme d'installation)
     3. Ouvrir un terminal et y taper simplement `python` pour vérifier que tout s'est déroulé correctement
 
@@ -39,7 +39,7 @@ Pour accéder à une *console* Python, taper la commande `python` dans un termin
 
 
 ### Expressions arithmétiques
-Taper dans le terminal `6*7` puis la toucher ++return++ pour voir apparaître la réponse à [*la grande question sur la vie, l'Univers et le reste*](https://fr.wikipedia.org/wiki/La_grande_question_sur_la_vie,_l%27Univers_et_le_reste){target=_blank}. En mode *console* Python évalue donc les expressions arithmétiques entrées au clavier et affiche leur valeur dans la console. Les opérateurs utilisés dans ces expressions sont rappelés ci-dessous
+Taper dans le terminal `6*7` puis la touche ++return++ pour voir apparaître la réponse à [*la grande question sur la vie, l'Univers et le reste*](https://fr.wikipedia.org/wiki/La_grande_question_sur_la_vie,_l%27Univers_et_le_reste){target=_blank}. En mode *console* Python évalue donc les expressions arithmétiques entrées au clavier et affiche leur valeur dans la console. Les opérateurs utilisés dans ces expressions sont rappelés ci-dessous
 
 !!! retenir "A retenir !"
     En Python, les expressions arithmétiques utilisent les opérateurs suivants :
@@ -96,7 +96,7 @@ Les opérateurs `not` (unaires), `or` et `and` (binaires) sont définies sur les
     * L'opérateur binaire `or` renvoie la disjonction de deux expression booléenne (`a or b` vaut True ssi `a` ou `b` valent `True`)
 
 {{ exo("Expression booléene",[])}}
-Ecrire une expression booléenne qui correspond au *ou exclusif*, entre deux valeurs booléennes `a` et `b`, c'est à dire qui vaut vraie si `a` ou `b` est vraie mais pas les deux à la fois.
+Ecrire une expression booléenne qui correspond au *ou exclusif*, entre deux valeurs booléennes `a` et `b`, c'est-à-dire qui vaut vraie si `a` ou `b` est vraie mais pas les deux à la fois.
 
 ### Variables
 
@@ -131,7 +131,7 @@ Cette variable peut être utilisé dans d'autre calculs, par exemple `age = anne
 
 Python manipule aussi des variables non numériques : les *chaines de caractères* (type `str`) toujours données entre guillemets simple (`'`) ou double (`"`). Par exemple, `#!python mot = "Hello"`, ou `#!python phrase = "L'informatique, c'est fantastique"`. Attention, remplacer les guillemets double `"`, par des simples dans l'instruction précédente, serait problématique ... voyez-vous pourquoi ?
 
-Les opérateur suivants sont définis sur les chaines de caractères :
+Les opérateurs suivants sont définis sur les chaines de caractères :
 
 * `+` qui ajoute bout à bout deux chaines de caractères, on parle d'opérateur de *concaténation*. Par exemple `"Hello"`+`"world"` donne `Helloworld`.
 * `*` dont le second opérande est un entier `n` et qui concatène `n` fois la chaine donnée en argument avec elle même. Par exemple `"bla"*3` done `"blablabla"`.
@@ -157,7 +157,7 @@ print(d)
 
 !!! retenir "A retenir"
     * En mode programme, Python exécute une séquence d'instructions
-    * Seuls les affichages, explicitement demandés à l'aide de l'instructions `print` sont fournis
+    * Seuls les affichages explicitement demandés à l'aide d'instructions `print` sont réalisés
     * Un même instruction `print` peut produire plusieurs affichages, on sépare alors les éléments à afficher par des virgules. Par exemple si `a` vaut 10, `#!python print("La variable a vaut ",a)` affichera `La variable a vaut 10`.
 
 ### Instructions conditionnelles
@@ -180,15 +180,18 @@ if <condition>:
 else:
     <instructions2>
 ```
-C'est à dire que si `<condition>` s'évalue à `True` alors c'est `<instructions1>` qui est exécuté sinon c'est `<instructions2>`.
+c'est-à-dire que si `<condition>` s'évalue à `True` alors c'est `<instructions1>` qui est exécuté sinon c'est `<instructions2>`.
 Par exemple :
-```python title=""
+```python linenums="1"
 if jour=="Samedi" or jour=="Dimanche":
     print("Bon week-end !")
 else:
     print("Au boulot !")
 ```
 Affichera `Bon week-end !` si la variable `jour` vaut `"Samedi"` ou `"Dimanche"` et `"Au boulot !"` sinon.
+
+!!! danger
+    La condition de la ligne 1 ci-dessous, pourrait s'écrire en français, "Si le jour est samedi ou dimanche". Ce qu'on pourrait vouloir traduire en Python par `#!python if jour=="Samedi" or "Dimanche"`. Cette construction bien qu'acceptée par Python n'est **PAS** le test désiré (et s'évalue en fait toujours à `True`). On fera donc attention à **toujours** avoir une comparaison dans les deux opérandes d'un `and` (ou d'un `or`).
 
 {{ exo("Instructions conditionnelles",[])}}
 {{IDE(MIN_SIZE=7)}}
@@ -207,7 +210,7 @@ print("#"*5)
 print("#"*5)
 print("#"*5)
 ```
-C'est à dire qu'on doit répéter un nombre donné de fois une même instruction, ce qui peut-être réalisé de façon beaucoup plus élégante à l'aide d'une *boucle* :
+c'est-à-dire qu'on doit répéter un nombre donné de fois une même instruction, ce qui peut-être réalisé de façon beaucoup plus concise *et qui se généralise aisément à un nombre quelconque de ligne* à l'aide d'une *boucle* :
 ```python title=""
 for i in range(5):
     print("#"*5)
@@ -266,8 +269,8 @@ def celsius_en_fahrenheit(c):
     return f
 ```
 
-Maintenant en tapant par exemple `celsius_en_fahrenheit(10)`, on effectue un **appel** à cette fonction, qui renvoie un résultat, ce résultat peut être mémorisé dans une variable, utilisé comme paramètre d'une autre fonction, affiché ...
-Par exemple, si on souhaite simplement affiché le nombre de degrés Fahrenheit correspondant à 100 degré Celsius, on pourrait ajouter la ligne suivante au programme précédent :
+Maintenant en tapant, par exemple `celsius_en_fahrenheit(10)`, on effectue un **appel** à cette fonction, qui renvoie un résultat, ce résultat peut être mémorisé dans une variable, utilisé comme paramètre d'une autre fonction, affiché, ...
+Par exemple, si on souhaite simplement afficher le nombre de degrés Fahrenheit correspondant à 100 degré Celsius, on pourrait ajouter la ligne suivante au programme précédent :
 
  `#!python print("100 degrés celsius =",celsius_en_farenheit(100)," degrés Fahrenheit")`
 
@@ -302,7 +305,7 @@ Par exemple, si on souhaite simplement affiché le nombre de degrés Fahrenheit 
         Cette fonction existe déjà et s'appelle `abs`.
 
 5. Ecrire une fonction qui renvoie `True` si l'entier donné en argument est une année [bissextile](https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile){target=_blank}. Une année est bissextile si elle est divisible par 4 mais pas par 100 ou s'il est divisible par 400.
-6. Ecrire une fonction qui prend en argument une chaine de caractère et renvoie son dernier caractère.
+6. Ecrire une fonction qui prend en argument une chaine de caractères et renvoie son dernier caractère.
 7. Ecrire une fonction `est_triangle` qui prend en argument trois nombres `a`, `b` et `c` et qui renvoie `True` si ces trois entiers peuvent être les longueurs des trois côtés d'un triangle.
 
     !!! aide
@@ -312,7 +315,7 @@ Par exemple, si on souhaite simplement affiché le nombre de degrés Fahrenheit 
 
 ### Instruction `input`
 
-Lorsqu'un programme Python rencontre une instruction comme `variable = input()`, il attend la saisie d'un texte au clavier (suivie de l'appui de la touche entrée ++return++) et la **chaine de caractère** saisie est alors affectée à la variable `variable`. On peut préciser le message à afficher avant la saisie en argument de `input`. Par exemple :
+Lorsqu'un programme Python rencontre une instruction comme `variable = input()`, il attend la saisie d'un texte au clavier (suivie de l'appui de la touche entrée ++return++) et la **chaine de caractères** saisie est alors affectée à la variable `variable`. On peut préciser le message à afficher avant la saisie en argument de `input`. Par exemple :
 ```python title=""
 prenom = input("Entrer votre prénom")
 print("Bonjour,",prenom)
@@ -324,6 +327,7 @@ print("Bonjour,",prenom)
 ## Cours
 
 {{fiche_cours(num)}}
+
 
 ## Exercices de synthèse
 
@@ -390,14 +394,14 @@ CCCCC
 
 {{ exo("Palindrome",[])}}
 
-Ecrire une fonction qui vérifie si la chaine passée en argument est un [palindrome](https://fr.wikipedia.org/wiki/Palindrome){target=_blank} (c'est à dire qu'elle s'écrit à l'identique de droite à gauche ou de gauche à droite, comme le mot *radar*).
+Ecrire une fonction qui vérifie si la chaine passée en argument est un [palindrome](https://fr.wikipedia.org/wiki/Palindrome){target=_blank} (c'est-à-dire qu'elle s'écrit à l'identique de droite à gauche ou de gauche à droite, comme le mot *radar*).
 
 
 {{ exo("Parcours de chaine de caractères",[])}}
 
-1. Ecrire une fonction `contient` qui prend en argument une chaine de caractère `chaine` et un caractere `c` et qui renvoie `True` si `c` est dans `chaine` et  `False` sinon.
+1. Ecrire une fonction `contient` qui prend en argument une chaine de caractères `chaine` et un caractere `c` et qui renvoie `True` si `c` est dans `chaine` et  `False` sinon.
 
-2. Ecrire une fonction `occurrence` qui prend en argument une chaine de caractère `chaine` et un caractere `c` et qui renvoie le nombre d'apparitions de `c` dans `chaine`.
+2. Ecrire une fonction `occurrence` qui prend en argument une chaine de caractères `chaine` et un caractere `c` et qui renvoie le nombre d'apparitions de `c` dans `chaine`.
 
 3. On considère la chaine `mystere` ci-dessous composée de caractères très semblables difficiles à distinguer à l'oeil nu :
 ```
@@ -408,7 +412,7 @@ Vérifier votre réponse : {{check_reponse("220")}}
 
 {{ exo("Conjecture de syracuse",[])}}
 
-La [conjecture de syracuse](https://fr.wikipedia.org/wiki/Conjecture_de_Syracuse){target=_blank} est l'hypothèse selon laquelle la suite définie $(u_n)_{n \in \mathbb{N}}$ définie par son premier terme $u_0$ et la relation de récurrence :  
+La [conjecture de syracuse](https://fr.wikipedia.org/wiki/Conjecture_de_Syracuse){target=_blank} est l'hypothèse selon laquelle la suite  $(u_n)_{n \in \mathbb{N}}$ définie par son premier terme $u_0$ et la relation de récurrence :  
 $u_{n+1} = \left\{ \begin{array}{ll} \dfrac{u_n}{2} & \mathrm{\ si\ } u_n \mathrm{\ est \ paire} \\ 3u_n+1 & \mathrm{\ sinon} \\ \end{array} \right.$  
 atteint 1. Dans la suite de cette exercice on supposera cette conjecture vérifiée (bien qu'elle n'ait pas été mathématiquement prouvée, la conjecture a été vérifiée numériquement pour tous les entiers jusqu'à $2^{58}$).
 

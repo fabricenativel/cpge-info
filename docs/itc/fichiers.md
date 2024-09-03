@@ -2,7 +2,7 @@
 {% set niveau = "itc_s1"%}
 {{ titre_chapitre(num,niveau)}}
 
-Dans de très nombreuses situations, un programme doit pouvoir récupérer ou écrire des informations dans un fichier. Ce chapitre propose de découvrir les fonctions de Python permettant de le faire. Nous utiliserons deux exemples de fichiers disponibles en téléchargement ci-dessous :
+Dans de très nombreuses situations, un programme doit pouvoir récupérer ou écrire des informations dans un fichier. Ce chapitre propose de découvrir les fonctions de Python permettant de le faire. Nous utiliserons trois exemples de fichiers disponibles en téléchargement ci-dessous :
 
 * le fichier [informaticiens.txt](./files/C3/informaticiens.txt) qui contient une liste d'informaticiens célèbres
 * le fichier [films.txt](./files/C3/films.txt) qui contient une liste de films.
@@ -15,11 +15,11 @@ Dans de très nombreuses situations, un programme doit pouvoir récupérer ou é
 
 Pour ouvrir un fichier, on utilise la fonction `#!python open`, cette fonction prend comme paramètre le nom du fichier et elle renvoie une variable appelée **descripteur de fichier**. Par exemple, dans l'instruction suivante :
 ```python
-desc_fic = open("informaticiens.txt")
+lecteur = open("informaticiens.txt")
 ```
-la variable `desc_fic` est notre descripteur de fichier, et nous avons ouvert le fichier ayant pour nom sur le disque dur : `informaticiens.txt`. Il faut interpréter un descripteur de fichier comme un *canal de lecture* pour accéder à ce fichier.
+la variable `lecteur` est notre descripteur de fichier, et nous avons ouvert le fichier ayant pour nom sur le disque dur : `informaticiens.txt`. Il faut interpréter un descripteur de fichier comme un *canal de lecture* pour accéder à ce fichier.
 
-Si après avoir exécuté le programme ci-dessous vous obtenez un `FileNotFoundError: [Errno 2] No such file or directory:` c'est que Python ne trouve pas sur votre disque le fichier que vous essayer d'ouvrir, on rappelle que le programme Python et le fichier doivent se trouver dans le même répertoire !
+Si après avoir exécuté le programme ci-dessous vous obtenez un `FileNotFoundError: [Errno 2] No such file or directory:` c'est que Python ne trouve pas sur votre disque dur le fichier que vous essayez d'ouvrir, on rappelle que le programme Python et le fichier doivent se trouver dans le même répertoire !
 
 !!! retenir "A retenir"
 
@@ -29,36 +29,36 @@ Si après avoir exécuté le programme ci-dessous vous obtenez un `FileNotFoundE
 
 ## Lecture d'un fichier
 
-Si l'instruction `#!python desc_fic = open("informaticiens.txt")` s'est produite correctement, on dispose maintenant d'un canal de lecture vers le fichier. Pour lire les données on utilise la fonction `#!python read` sur ce descripteur :
+Si l'instruction `#!python lecteur = open("informaticiens.txt")` s'est produite correctement, on dispose maintenant d'un canal de lecture vers le fichier. Pour lire les données on utilise la fonction `#!python read` sur ce descripteur :
 
 ```python
-desc_fic = open("informaticiens.txt")
+lecteur = open("informaticiens.txt")
 # Une fois le fichier ouvert, on effectue les opérations de lecture sur le descripteur
-contenu = desc_fic.read()
+contenu = lecteur.read()
 print(contenu)
 ```
 
 Comme vous pouvez le constater, la fonction `#!python read` lit la **totalité** du fichier en une seule fois ! 
-D'autre part, une fois le fichier lu tout se passe comme si le descripteur de fichier `desc_fic` était arrivé à la fin du fichier, ainsi une deuxième lecture du fichier ne retournera plus aucune donnée (la fin de fichier est déjà atteinte).
+D'autre part, une fois le fichier lu tout se passe comme si le descripteur de fichier `lecteur` était arrivé à la fin du fichier, ainsi une deuxième lecture du fichier ne retournera plus aucune donnée (la fin de fichier est déjà atteinte).
 
 ```python
-desc_fic = open("informaticiens.txt")
+lecteur = open("informaticiens.txt")
 # Une fois le fichier ouvert, on effectue les opérations de lecture sur le descripteur
-contenu = desc_fic.read()
+contenu = lecteur.read()
 print(contenu)
-deuxieme_lecture = desc_fic.read()
+deuxieme_lecture = lecteur.read()
 print("Deuxieme lecture :", deuxieme_lecture)
 ```
 
 La variable `deuxieme_lecture` est vide le descripteur de fichier étant positionné "à la fin" il n'y a plus d'informations à lire.
 
-!! retenir "A retenir"
+!!! retenir "A retenir"
 
-    * La fonction `!#python read` permet de lire la *totalité* d'un fichier ouvert avec `#!python open`.
+    * La fonction `#!python read` permet de lire la *totalité* d'un fichier ouvert avec `#!python open`.
     * Après lecture, le descripteur de fichier est positionné en fin de fichier et il n'y a plus d'information à lire.
 
 
-Une bonne pratique de programmation consiste à fermer un fichier après l'avoir utilisé. C'est le rôle de l'instruction `#!python close`, le programme précédent devrait donc se terminer par `#!python desc_fic.close()`.
+Une bonne pratique de programmation consiste à fermer un fichier après l'avoir utilisé. C'est le rôle de l'instruction `#!python close`, le programme précédent devrait donc se terminer par `#!python lecteur.close()`.
 
 {{ exo("A vous de jouer !",[],0)}}
 
@@ -71,23 +71,23 @@ Au lieu de lire la totalité d'un fichier en une seule fois, il peut être préf
 
 * afin de récupérer les lignes d'un fichier dans une liste, on peut utiliser `readlines` :
     ```python
-    desc_fic = open("informaticiens.txt")
-    lignes = desc_fic.readlines()
+    lecteur = open("informaticiens.txt")
+    lignes = lecteur.readlines()
     print(lignes)
-    desc_fic.close()
+    lecteur.close()
     ```
     On remarquera bien la différence avec `read` : ici on obtient une liste, ce qui permet par exemple d'accéder directement à une ligne en particulier du fichier : `#!pyton print(lignes[5])`.
 
 * une autre possibilié est d'utiliser `readline` qui a pour effet de lire une seule ligne du fichier puis de positionner le descripteur de fichier sur la ligne suivante :
     ```python
     # Ouverture du fichier
-    desc_fic = open("informaticiens.txt")
+    lecteur = open("informaticiens.txt")
     # Lecture de la première ligne 
-    ligne1 = desc_fic.readline()
+    ligne1 = lecteur.readline()
     # le pointeur de lecture est positionné à la ligne suivante, un autre appel à readline lira donc la 2e ligne
-    ligne2 = desc_fic.readline()
+    ligne2 = lecteur.readline()
     # Lecture terminée on ferme le fichier
-    desc_fic.close()
+    lecteur.close()
     print(ligne1)
     print(ligne2)
     ```

@@ -18,14 +18,14 @@
 ## Travaux pratiques
 
 !!! danger
-    * Afin de tester les divers algorithmes sur les textes, on suppose dans tous les exercices qu'on dispose d'un fichier texte encodé au **format {{sc("ascii")}} standard** c'est à dire qu'on utilise **128 cractères tous encodés sur 8 bits**. De cette façon :
+    * Afin de tester les divers algorithmes sur les textes, on suppose dans tous les exercices qu'on dispose d'un fichier texte encodé au **format {{sc("ascii")}} standard** c'est-à-dire qu'on utilise **128 cractères tous encodés sur 8 bits**. De cette façon :
     
-        * pour les algorithmes de recherche on pourra indexer chaque caractère par une table de 128 entiers (c'est à dire identifier un caractère à son code {{sc("ascii")}}.
+        * pour les algorithmes de recherche on pourra indexer chaque caractère par une table de 128 entiers (c'est-à-dire identifier un caractère à son code {{sc("ascii")}}.
         * pour mesurer les taux de compressions, on pourra considérer qu'un fichier contenant $n$ caractères a une taille de $8n$ bits (le cas de l'{{sc("utf-8")}} s'avère bien plus problématique puis qu'un caractère occupe de 1 à 4 octets.)
 
     * On donne ci dessous un tel fichier prêt à l'emploi à télécharger : il s'agit du livre *Notre-Dame de Paris* (V. {{sc("Hugo")}}, 1831) qui servira d'exemple pour les tests.   
     {{telecharger("Notre-Dame de Paris (ascii)","./files/C19/notredame_ascii.txt",false)}}
-    * Pour produire de tels fichiers, on pourra partir de n'importe quel fichier texte au format {{sc("utf-8")}} (par exemple un livre téléchargeable sur le site du   [projet Gutenberg](https://www.gutenberg.org/){target=_blank}) puis convertir ce fichier au format {{sc("ascii")}} en effectuant une translittération, c'est à dire par exemple en remplaçant `à` par `a` ou encore `é` par `e` pour cela, on pourra utiliser l'utilitaire `iconv` en ligne de commande avec la syntaxe suivante :
+    * Pour produire de tels fichiers, on pourra partir de n'importe quel fichier texte au format {{sc("utf-8")}} (par exemple un livre téléchargeable sur le site du   [projet Gutenberg](https://www.gutenberg.org/){target=_blank}) puis convertir ce fichier au format {{sc("ascii")}} en effectuant une translittération, c'est-à-dire par exemple en remplaçant `à` par `a` ou encore `é` par `e` pour cela, on pourra utiliser l'utilitaire `iconv` en ligne de commande avec la syntaxe suivante :
     ```bash
     iconv -f utf-8 -t ascii//TRANSLIT <source> -o <destination>
     ```

@@ -88,7 +88,7 @@ On rappelle qu'un nombre premier est un entier naturel ayant exactement deux div
     * on parcourt ce tableau si `premiers[i]` est à `true` alors on met tous ses multiples (sauf lui-même) à `false`
     * le parcours s'arrête dès que l'entier `i` est supérieur à $\sqrt{n}$.  
 
-1. Ecrire  une fonction `crible` qui prend en paramètre un entier `n` et implémente cet algorithme de façon à renvoyer le tableau de booléens issu du crible (c'est à dire tel que `tab.(i)` contient `true` si `i` est premier et  `false` sinon)
+1. Ecrire  une fonction `crible` qui prend en paramètre un entier `n` et implémente cet algorithme de façon à renvoyer le tableau de booléens issu du crible (c'est-à-dire tel que `tab.(i)` contient `true` si `i` est premier et  `false` sinon)
 
 2. Ecrire une fonction `premiers` qui prend en argument un entier `n`, utilise la fonction précédente puis crée la liste des nombres premiers jusqu'à `n`.
 

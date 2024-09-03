@@ -549,20 +549,21 @@
 \fbox{\parbox[b][1cm][t]{0.3\textwidth}{Nom : \hfill \po{3} \par \vfill Prénom : \hfill \po{3}} } \hfill 
 \fbox{\parbox[b][1cm][t]{0.6\textwidth}{Note : \po{1} / 20} }
 \end{center} \cfoot{}}
-\newcommand{\TPnote}[2]{\lhead{\textbf{TP noté d'informatique n° #1}}
+\newcommand{\TPnote}[3]{\lhead{\textbf{TP noté d'informatique n° #1}}
 \rhead{\textbf{#2}} \setlength{\fboxsep}{8pt}
-\begin{center}
-%Titre de la fiche
+\ifthenelse{\boolean{corrige}}{}
+{\begin{center}
 \fbox{\parbox[b][1cm][t]{0.3\textwidth}{Nom : \hfill \po{3} \par \vfill Prénom : \hfill \po{3}} } \hfill 
-\fbox{\parbox[b][1cm][t]{0.6\textwidth}{Note : \po{1} / 20} }
-\end{center} \cfoot{}}
+\fbox{\parbox[b][1cm][t]{0.6\textwidth}{Note : \po{1} / #3} }
+\end{center}} \cfoot{}}
 \newcommand{\IC}[2]{\lhead{\textbf{Interro de cours n° #1}}
 \rhead{{\sc mp2i --} \textbf{#2}} \setlength{\fboxsep}{8pt}
-\begin{center}
+\ifthenelse{\boolean{corrige}}{}
+{\begin{center}
 %Titre de la fiche
 \fbox{\parbox[b][1cm][t]{0.3\textwidth}{Nom : \hfill \po{3} \par \vfill Prénom : \hfill \po{3}} } \hfill 
 \fbox{\parbox[b][1cm][t]{0.6\textwidth}{Note : \po{1} / 10} }
-\end{center} \cfoot{}}
+\end{center}}\cfoot{}}
 \newcommand{\DS}[3]{\lhead{{#1} : \textbf{DS d'informatique n° #2}}
 \rhead{Lycée Leconte de Lisle -- #3} \setlength{\fboxsep}{8pt}
 %Titre de la fiche
@@ -678,7 +679,7 @@ Nom :  \textbf{\textbf{\nom{}}} \qquad \qquad Prénom :  \textbf{\prenom{}}  \hf
 \newtoks\tabtok
 \newcommand*\reponse[2]{%
    \ifthenelse{\boolean{corrige}}{}{
-	\global\tabtok{\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{|X|p{1cm}|}\hline \dotfill & \cellcolor{gray!30}{\small \dots/#2} \\ \cline{2-2}}%
+	\global\tabtok{\\ \renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{|X|p{1cm}|}\hline \dotfill & \cellcolor{gray!30}{\small \dots/#2} \\ \cline{2-2}}%
 	\multido{}{#1}{\gaddtotok{ \multicolumn{2}{|>{\hsize=\dimexpr1\hsize+2\tabcolsep+\arrayrulewidth+1cm\relax}X|}{\dotfill}\\ }}%
 	\gaddtotok{\hline \end{tabularx}}%
 	\the\tabtok

@@ -197,7 +197,7 @@ $(3+2)\textcolor{red}{\underline{]}}-(4+1)$
 
 {{ exo("Evaluation d'une expression en notation polonaise inverse",[])}}
 
-La *notation polonaise inverse* ({{sc("npi")}}) est une méthode d'écriture des expressions mathématiques qui n'utilise pas de parenthèses et qui de plus se calcule sans règles de priorité. Prenons un exemple, l'expression $(3+7)\times5$, s'écrit en notation polonaise inversée : $3\ 7\ + 5 \times$. C'est à dire qu'on donne d'abord les deux opérandes puis l'opération. Pour d'autres exemples on pourra consulter : [la page wikipedia dédiée](https://fr.wikipedia.org/wiki/Notation\_polonaise\_inverse){target=_blank} 
+La *notation polonaise inverse* ({{sc("npi")}}) est une méthode d'écriture des expressions mathématiques qui n'utilise pas de parenthèses et qui de plus se calcule sans règles de priorité. Prenons un exemple, l'expression $(3+7)\times5$, s'écrit en notation polonaise inversée : $3\ 7\ + 5 \times$. c'est-à-dire qu'on donne d'abord les deux opérandes puis l'opération. Pour d'autres exemples on pourra consulter : [la page wikipedia dédiée](https://fr.wikipedia.org/wiki/Notation\_polonaise\_inverse){target=_blank} 
 
 Le but de l'exercice est d'écrire une fonction  évaluant une expression en {{sc("npi")}} passée en paramètre à l'aide d'une pile :
 

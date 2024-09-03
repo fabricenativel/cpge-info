@@ -20,7 +20,7 @@
 
 
 !!! Note "A propos des notebooks"
-    On utilise pour la première fois les **jupyter notebook**, c'est à dire des documents contenant à la fois :
+    On utilise pour la première fois les **jupyter notebook**, c'est-à-dire des documents contenant à la fois :
 
     * des zones de texte explicatives, 
     * des zones de code Python, executables directement à la façon de ce qui se passe lorsqu'on utilise Python en mode console.

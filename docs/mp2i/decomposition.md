@@ -54,7 +54,7 @@ Le [tri rapide *(quicksort)*](https://en.wikipedia.org/wiki/Quicksort){target=_b
 
 Par exemple, sur le tableau $[10, 6, 3, 9, 7, 5]$ si on choisit comme pivot 5, alors la séparation en deux sous listes donnera d'un côté $[3, 5]$ (les valeurs inférieures ou égales au pivot) et de l'autre $[10, 6, 9, 7]$ (les valeurs supérieurs).
 
-On propose ici d'implémenter cet algorithme en langage C en choisissant comme pivot le dernier élément du tableau. On effectue la séparation **en place** en renvoyant l'indice du pivot. C'est à dire qu'on veut écrire une fonction de signature `#!c int partitionne(int tab[], int debut, int fin)` qui partitionne les valeurs du tableaux comprises entre les indices `debut` (inclus) et `fin` (exclu) en choisissant comme pivot `tab[fin-1]` et qui renvoie l'indice $e$ auquel se trouvera le pivot après ce partitionnement.
+On propose ici d'implémenter cet algorithme en langage C en choisissant comme pivot le dernier élément du tableau. On effectue la séparation **en place** en renvoyant l'indice du pivot. c'est-à-dire qu'on veut écrire une fonction de signature `#!c int partitionne(int tab[], int debut, int fin)` qui partitionne les valeurs du tableaux comprises entre les indices `debut` (inclus) et `fin` (exclu) en choisissant comme pivot `tab[fin-1]` et qui renvoie l'indice $e$ auquel se trouvera le pivot après ce partitionnement.
 On pourra procéder de la façon suivante : 
 
 $$\underbrace{\boxed{\strut t_0 \quad \quad \quad t_{e-1}}}_{\leqslant \text{pivot}}\underbrace{\boxed{\strut t_e}  \boxed{t_{e+1} \strut \quad \quad \quad}}_{> \text{pivot}}\underbrace{\boxed{t_i\strut \quad \quad \quad \quad t_{n-1}}}_{\text{non triée}}$$
@@ -72,7 +72,7 @@ Donc on initialise $e$ à $0$, on parcourt le tableau avec l'indice $i$, si $t_i
 
 {{ exo("Nombre d'inversion",[])}}
 
-Dans une liste d'entiers de $n$ entiers $t = [t_0,\dots t_n]$, on dit que le couple d'indice $(i,j)$ ($0 \leq i <n, 0 \leq j <n$) est une inversion lorsque $i<j$ et $t_i>t_j$ c'est à dire que les éléments sont dans l'ordre inverse de leurs indices. Par exemple, dans la liste `[1; 5; 3; 7]` le couple d'indices `(1,2)` est une inversion car `5>3`. Par contre, le couple  `(1,3)` n'est pas une d'inversion car `5<7`.
+Dans une liste d'entiers de $n$ entiers $t = [t_0,\dots t_n]$, on dit que le couple d'indice $(i,j)$ ($0 \leq i <n, 0 \leq j <n$) est une inversion lorsque $i<j$ et $t_i>t_j$ c'est-à-dire que les éléments sont dans l'ordre inverse de leurs indices. Par exemple, dans la liste `[1; 5; 3; 7]` le couple d'indices `(1,2)` est une inversion car `5>3`. Par contre, le couple  `(1,3)` n'est pas une d'inversion car `5<7`.
 
 1. Ecrire en OCaml, une fonction `nb_inversion int list -> int` qui  renvoie le nombre d'inversions de la liste donnée en argument en examinant chaque couple d'indice `(i,j)`. Quelle est la complexité de cette fonction ?
 
@@ -177,7 +177,7 @@ Le problème de la recherche de la découpe de valeur maximale d'une barre a ét
 
 Etant donné un tableau d'entiers (positif ou négatif) $[e_0,\dots,e_{n-1}]$ on cherche dans ce tableau la tranche de plus grande somme. Par exemple pour le tableau $[-2, 7, 1, -3, 5, -8, -2, 9]$ c'est la tranche $[7, 1, -3, 5]$ qui a la plus grande somme et cette somme est 10. On n'autorise pas de tranche de longueur nulle et donc par exemple pour le tableau $[-5, -2, -7]$ c'est la tranche $[-2]$ qui a la plus grande somme.
 
-1. Implémenter  l'algorithme naïf qui calcule la somme de toutes les tranches possibles c'est à dire les $\displaystyle{S_{ij} = \sum_{k=i}^{j} e_k}$ et donne ensuite le maximum. Quel est la complexité de cet algorithme ?
+1. Implémenter  l'algorithme naïf qui calcule la somme de toutes les tranches possibles c'est-à-dire les $\displaystyle{S_{ij} = \sum_{k=i}^{j} e_k}$ et donne ensuite le maximum. Quel est la complexité de cet algorithme ?
 
     !!! aide
         On pourra d'abord écrire la fonction `somme_tranche` qui prend en argument deux entiers $i$ et $j$ et renvoie $S_{ij}$

@@ -71,7 +71,7 @@ Le poids maximal du sac est de 15kg, la combinaison d'objet ne dépassant pas ce
 
 {{exo("Retour sur le problème des n reines",[])}}
 
-On rappelle (voir cours) que le [problème des $n$ reines](https://en.wikipedia.org/wiki/Eight_queens_puzzle){target = _blank} consiste à placer $n$ reines sur un échiquier de taille $n \times n$ sans qu'aucune reine n'en menace une autre (c'est à dire que deux reines ne se trouvent pas sur la même ligne, colonne ou diagonale.)
+On rappelle (voir cours) que le [problème des $n$ reines](https://en.wikipedia.org/wiki/Eight_queens_puzzle){target = _blank} consiste à placer $n$ reines sur un échiquier de taille $n \times n$ sans qu'aucune reine n'en menace une autre (c'est-à-dire que deux reines ne se trouvent pas sur la même ligne, colonne ou diagonale.)
 
 Comme chaque reine est nécessairement sur une colonne différente, on représentera une position par un tableau `tab` de taille $n$ tel que `tab[i]` contient le numéro de colonne de la reine `i` (numéroté à partir de 0) ou `-1` si la reine n'est pas encore placée. Par exemple, pour $n=8$, l'échiquier ci-dessous (credit [wikipedia](http://wikipedia.fr){target=_blank}), correspond au tableau : `[3, 0, 4, 7, 2, 6, 2, 5]`
 
@@ -182,7 +182,7 @@ Dans cette exercice afin de simplifier, on considère que l'opération est une *
 Ecrire un programme permettant de résoudre un cryptarithme par retour sur trace.
 
 !!! aide
-    Comme toujours pour une résolution par *backtracking* on devra commencer par écrire une fonction permettant de valider une solution partielle. C'est à dire une solution dans laquelle certaines lettres ont déjà des valeurs. On prendra garde à traiter le cas d'une retenue éventuelle. Ainsi pour chaque "colonne" de l'addition **lorsque les lettres présentes sur la colonne ont déjà une valeur** en notant $c_1$ le chiffre de la première opérande, $c_2$ le chiffre de la seconde opérante, $c_r$ la retenue éventuelle (initialisée à 0) et $r$ le chiffre du résultat on doit vérifier que $(c_1 + c_2 + c_r) \mod 10 = r$
+    Comme toujours pour une résolution par *backtracking* on devra commencer par écrire une fonction permettant de valider une solution partielle. c'est-à-dire une solution dans laquelle certaines lettres ont déjà des valeurs. On prendra garde à traiter le cas d'une retenue éventuelle. Ainsi pour chaque "colonne" de l'addition **lorsque les lettres présentes sur la colonne ont déjà une valeur** en notant $c_1$ le chiffre de la première opérande, $c_2$ le chiffre de la seconde opérante, $c_r$ la retenue éventuelle (initialisée à 0) et $r$ le chiffre du résultat on doit vérifier que $(c_1 + c_2 + c_r) \mod 10 = r$
 
 ## Humour d'informaticien
 

@@ -136,7 +136,7 @@ On donne ci-dessous un exemple d'évolution avec $N=10$
         ....#.#.#.#.........#.#.#.#...
         ```
 
-3. Justifier rapidement que les évolutions successives contiennent un cycle, c'est à dire qu'on retombe sur un contenu de tableau déjà obtenu lors d'une évolution précédente.
+3. Justifier rapidement que les évolutions successives contiennent un cycle, c'est-à-dire qu'on retombe sur un contenu de tableau déjà obtenu lors d'une évolution précédente.
 
 4. Proposer une solution utilisant une table de hachage et permettant de déterminer le nombre d'itérations nécessaires avant de rencontrer un motif déjà parcouru.  
 Testez votre réponse (pour le motif de départ de la question 2) {{check_reponse("32766")}} 

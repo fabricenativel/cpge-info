@@ -21,16 +21,16 @@ Selon vous, ces résultats sont-ils ceux attendus par le concepteur de la foncti
 
 ## Définitions
 
-L'exemple introductif ci-dessus est celui d'une fonction sans **spécification**, c'est à dire qu'on ne dispose pas d'une description formelle et détaillée de ses caractéristiques, en particulier, on ne sait pas :
+L'exemple introductif ci-dessus est celui d'une fonction sans **spécification**, c'est-à-dire qu'on ne dispose pas d'une description formelle et détaillée de ses caractéristiques, en particulier, on ne sait pas :
 
 * quel est le type des arguments et quelles sont leurs valeurs admissibles, c'est ce qu'on appelle les **préconditions**.
 * ce que renvoie la fonction, ni si elle produit d'autres effets (affichages, modification des arguments, ...), c'est ce qu'on appelle les **postconditions**
 
 En Python, l'usage est :
 
-* de fournir une spécification sous la forme d'une [*docstring*](https://peps.python.org/pep-0257/){target=_blank} c'est à dire d'une chaine de caractères écrite entre trois guillemets et située immédiatement après la ligne du `#!python def` de la fonction. Cette docstring précise les types attendus en entrée pour les arguments et le type renvoyé.
+* de fournir une spécification sous la forme d'une [*docstring*](https://peps.python.org/pep-0257/){target=_blank} c'est-à-dire d'une chaine de caractères écrite entre trois guillemets et située immédiatement après la ligne du `#!python def` de la fonction. Cette docstring précise les types attendus en entrée pour les arguments et le type renvoyé.
 * d'inclure des vérification des postconditions et des préconditions, si ces vérifications échouent le programme s'arrête en produisant un message d'erreur. Ces verifications sont effectuées à l'aide d'instructions `assert` qui prennent la forme suivante : `#!python assert <condition>, <message d'erreur>`. Par exemple `#!python assert len(l) != 0, "La liste doit être non vide"` vérifie que la liste `l` n'est pas vide, dans le cas contraire le programme s'arrête avec le message "La liste doit être non vide"
-* d'indiquer *dans le code même de la fonction*  des annotations de type. C'est à dire qu'après chaque argument d'une fonction, on indique son type précédé du caractère `:` et qu'on indique le type renvoyé par la fonction en le précédant de `->`. Par exemple, une fonction `exemple` prenant en argument une liste `l` et un entier `n` et renvoyant un booléen s'écrira : `#!python def exemple(l : list, n: int) -> bool`
+* d'indiquer *dans le code même de la fonction*  des annotations de type. c'est-à-dire qu'après chaque argument d'une fonction, on indique son type précédé du caractère `:` et qu'on indique le type renvoyé par la fonction en le précédant de `->`. Par exemple, une fonction `exemple` prenant en argument une liste `l` et un entier `n` et renvoyant un booléen s'écrira : `#!python def exemple(l : list, n: int) -> bool`
 
     !!! note
         Ces *annotations de type* ne sont ni obligatoires ni vérifiées à l'execution, cependant dans les sujets de concours récents (depuis 2023), elles apparaissent régulièrement à titre d'exemples :
@@ -53,7 +53,7 @@ L'exemple donné ci-dessous, devrait donc plutôt s'écrire :
 3. Grâce à la précondition, on peut accéder sans risque à `l[0]` car on sait que la liste contient au moins un élément.
 
 
-Le comportement correct d'une fonction peut être *validé* (mais pas *prouvé*) par l'utilisation d'un jeu de test. C'est à dire un ensemble de couple d'entrées de la fonction et de sorties attendues. On teste en particulier les *cas limites* (*edge cases* en anglais), par exemple dans le cas d'une fonction travaillant sur les listes, le cas des listes vides ou réduites à un seul élément. Les instructions `assert` permettent de vérifier que la fonction passe les tests. Dans le cas de la fonction ci-dessus, on pourrait par exemple ajouter les tests suivants :
+Le comportement correct d'une fonction peut être *validé* (mais pas *prouvé*) par l'utilisation d'un jeu de test. c'est-à-dire un ensemble de couple d'entrées de la fonction et de sorties attendues. On teste en particulier les *cas limites* (*edge cases* en anglais), par exemple dans le cas d'une fonction travaillant sur les listes, le cas des listes vides ou réduites à un seul élément. Les instructions `assert` permettent de vérifier que la fonction passe les tests. Dans le cas de la fonction ci-dessus, on pourrait par exemple ajouter les tests suivants :
 
 ```python
 # Test avec une liste contenant un unique élément :

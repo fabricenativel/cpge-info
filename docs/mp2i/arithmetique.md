@@ -106,7 +106,7 @@ Ecrire une fonction `to_decimal` qui prend en argument un entier `base` (compris
             Si `i` est de type entier, l'opération `1/i` est la division entière, pour une division décimal l'un des arguments au moins doit être un nombre en virgule flotttante, on peut donc (par exemple) faire `1.0/i`.
 
 4.  1. Ecrire un programme calculant la somme des inverses des nombres entiers allant de $1$ à $10^9$.
-    2. Faire de même en inversant l'ordre des calculs c'est à dire en commençant par ajouter les nombres de plus grands dénominateurs.
+    2. Faire de même en inversant l'ordre des calculs c'est-à-dire en commençant par ajouter les nombres de plus grands dénominateurs.
     3. Expliquer la différence entre les deux résultats obtenus (visible en utilisant le spécificateur de format `%.16f` lors de l'affichage des flottants)
     4. Lequel des deux est selon vous le plus précis ? (justifier)
 

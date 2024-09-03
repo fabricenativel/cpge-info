@@ -234,10 +234,10 @@ Ecrire une fonction `my_strlen` qui prend en argument une chaine de caractères 
 
 1. Ecrire une fonction `retourne` qui prend en argument une chaine de caractères et affiche cette chaine écrite à l'envers. Par exemple `retourne("Bonjour")` affiche `"ruojnoB"`.
 
-2. Ecrire une fonction `palindrome` qui prend en argument une chaine de caractères et renvoie `true` si cette chaine est un palindrome (c'est à dire qu'elle se lit indifféremment de gauche à droite ou de droite à gauche) et `false` sinon. Par exemple `palindrome("radar")` renvoie `true`.
+2. Ecrire une fonction `palindrome` qui prend en argument une chaine de caractères et renvoie `true` si cette chaine est un palindrome (c'est-à-dire qu'elle se lit indifféremment de gauche à droite ou de droite à gauche) et `false` sinon. Par exemple `palindrome("radar")` renvoie `true`.
 
 {{ exo("Nombre parfait",[] )}}
-Un nombre parfait est un entier positif égal à la  la somme de ses diviseurs stricts (c'est à dire autres que lui-même). Par exemple, 6 est un nombre parfait car $6 = 3 + 2 + 1$. 
+Un nombre parfait est un entier positif égal à la  la somme de ses diviseurs stricts (c'est-à-dire autres que lui-même). Par exemple, 6 est un nombre parfait car $6 = 3 + 2 + 1$. 
 
 1. Écrire une fonction `parfait` qui renvoie `true` si l'entier positif donné en argument est parfait et `false` sinon.
 2. Utiliser cette fonction pour vérifier que $8128$ est un nombre parfait mais pas $2023$.

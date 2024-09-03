@@ -20,7 +20,7 @@
 
 
 !!! Note "A propos des notebooks"
-    Dans cette activité, on utilise pour la première fois les **jupyter notebook**, c'est à dire des documents contenant à la fois :
+    Dans cette activité, on utilise pour la première fois les **jupyter notebook**, c'est-à-dire des documents contenant à la fois :
 
     * des zones de texte explicatives, 
     * des zones de code Ocaml, executables directement à la façon de ce qui se passe lorsqu'on utilise l'environnement `utop` de OCaml.
@@ -186,7 +186,7 @@ Ecrire une fonction `indice` qui prend en argument un entier `n` et une liste d'
 
 {{ exo("Retourner une liste",[])}}
 
-Ecrire une fonction `retourne` qui prend en argument une liste et renvoie la liste retournée (c'est à dire avec les éléments dans l'ordre inverse). Par exemple `retourne [2; 4; 5; 1]` renvoie la liste `[1; 5; 4; 2]` 
+Ecrire une fonction `retourne` qui prend en argument une liste et renvoie la liste retournée (c'est-à-dire avec les éléments dans l'ordre inverse). Par exemple `retourne [2; 4; 5; 1]` renvoie la liste `[1; 5; 4; 2]` 
 
 !!! note "Remarque"
     Cette fonction existe déjà, c'est `List.rev`
