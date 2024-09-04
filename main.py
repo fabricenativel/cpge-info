@@ -46,7 +46,7 @@ def define_env(env):
     env.variables['progression_mp2i_s1']={
         0 : [5,"Systèmes","systemes.md"],
         1 : [8,"Premiers pas en langage C","introC.md"],
-        2 : [1,"Spécifications et tests","validation.md"],
+        2 : [1,"Discipline de programmation","discipline.md"],
         3 : [8,"Pointeurs et types structurés","pointeurs.md"],
         4 : [3,"Arithmétique des ordinateurs","arithmetique.md"],
         5 : [2,"Récursivité","recursivite.md"],
