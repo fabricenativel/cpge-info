@@ -1,5 +1,5 @@
 \PassOptionsToPackage{dvipsnames,table}{xcolor}
-\documentclass[10pt]{beamer}
+\documentclass[10pt,french]{beamer}
 \usepackage{Cours}
 
 \begin{document}
@@ -8,7 +8,8 @@
 
 % Numéro et titre de chapitre
 \setcounter{numchap}{2}
-\newcommand{\Ctitle}{\cnum {Validation et tests}}
+\newcommand{\Ctitle}{\cnum {Discipline de programmation}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
 
 \makess{Algorithme, programme, paradigme}
 \begin{frame}{\Ctitle}{\stitle}
@@ -274,4 +275,215 @@ bool bissextile(int annee) {
 \end{exampleblock}
 \end{frame}
 
+\makess{Terminaison d'un algorithme}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Exemple introductif}
+	\SetAlFnt{\small}
+	\setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Multiplier sans utiliser {\tt *}}
+		\Entree{$n \in \N, m \in \N$}
+		\Sortie{$nm$}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$r \leftarrow 0$\;
+		\Tq{$m >0$}{
+		$m \leftarrow m-1$ \;
+		$r \leftarrow r+n$ \;
+		}
+		\Return $r$
+	  \end{algorithm}
+	  \begin{enumerate}
+	  \item<2-> Donner une implémentation en C de cet algorithme.
+	  \item<3-> Montrer que dans la boucle "tant que":
+	  \begin{itemize}
+		\item<3-> $m$ ne prend que des valeurs entières
+		\item<4-> $m$ prend des valeurs \textit{strictement} positives
+		\item<5-> les valeurs prises par $m$ sont \textit{strictement} décroissantes.
+	  \end{itemize}
+	  \end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définitions}
+    \begin{itemize}
+        \item<2-> On dit qu'un algorithme \textcolor{blue}{termine} lorsqu'il renvoie un résultat en un nombre fini d'étapes quels que soient les valeurs des entrées.
+        \item<3-> Un \textcolor{blue}{variant de boucle} est une quantité :
+            \begin{enumerate}
+            \item<4-> à valeurs entières,
+            \item<5-> \textit{strictement} positives,
+            \item<6-> qui décroît \textit{strictement} à chaque passage dans la boucle.
+            \end{enumerate}
+		\end{itemize}
+	\end{block}
+	\onslide<7->
+	{\begin{alertblock}{\textcolor{yellow}{\important \;} Propriété}
+		Si une boucle admet un variant, alors cette boucle termine.
+	\end{alertblock}}
+	\onslide<8->
+	{
+		\begin{exampleblock}{Exemple}
+			$m$ est un variant de boucle de l'algorithme de multiplication ci-dessus et donc cet algorithme termine.
+		\end{exampleblock}
+	}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+	\SetAlFnt{\small}
+	\setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Nombre de chiffres en base 10}
+		\Entree{$n \in \N$}
+		\Sortie{$p$ nombre de chiffres de $n$ dans son écriture en base 10.}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		\Si{$n=0$}{\Return 1}
+		$p \leftarrow 0$\;
+		\Tq{$n >0$}{
+		$p \leftarrow p+1$ \;
+		$n \leftarrow \lfloor \frac{n}{10} \rfloor $ \;
+		}
+		\Return $p$
+	  \end{algorithm}
+	  \begin{enumerate}
+	  \item<2-> Donner une implémentation en C de cet algorithme.
+	  \item<3-> Prouver la terminaison de cet algorithme.
+	  \end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Implémentation en C}
+		\inputpartC{\SPATH/nbchiffres.c}{}{\small}{4}{18}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Preuve de terminaison}
+		Montrons que $n$ est un variant de la boucle {\tt tant que} de l'algorithme :
+		\begin{enumerate}
+		\item<1-> $n$ ne prend que des valeurs entières, en effet, $n \in \N$  en entrée et $\PE{\dfrac{n}{10}}$ est entier.
+		\item<2-> $n$ est positif strictement par condition d'entrée dans la boucle. 
+		\item<3-> $n$ décroît strictement à chaque passage dans la boucle car comme $n > 0$, $\PE{\dfrac{n}{10}} < n$
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		\begin{enumerate}
+		\item<1-> Ecrire un algorithme qui prend en entrée un entier $n>1$ et renvoie le premier diviseur strictement supérieur à 1 de cet entier. Par exemple pour $n=7$ l'algorithme renvoie 7 et pour $n=15$, l'algorithme renvoie $3$.
+		\item<2-> Donner une implémentation en C de cet algorithme sous la forme d'une fonction dont on précisera soigneusement la spécification.
+		\item<3-> Prouver la terminaison de cet algorithme.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Correction d'un algorithme}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Exemple introductif}
+	\SetAlFnt{\small}
+	\setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Multiplier sans utiliser {\tt *}}
+		\Entree{$n \in \N, m \in \N$}
+		\Sortie{$nm$}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$r \leftarrow 0$\;
+		\Tq{$m >0$}{
+		$m \leftarrow m-1$ \;
+		$r \leftarrow r+n$ \;
+		}
+		\Return $r$
+	  \end{algorithm}
+	  On note $k$ le nombre de passage dans la boucle {\tt tant que} et considère la propriété suivante suivante noté $\mathcal{P}(k)$ : \og{} après $k$ tour de boucles, $r = kn$ \fg{}. Montrer que cette propriété est vraie :
+	  \begin{enumerate}
+	  \item<2-> avant d'entrée dans la boucle
+	  \item<3-> qu'elle reste vraie à chaque tour de boucle
+	  \end{enumerate}
+	  \onslide<4->{Que peut-on en conclure ?}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définitions}
+    \begin{itemize}
+        \item<1-> Un \textcolor{blue}{invariant de boucle} est une propriété qui :
+            \begin{itemize}
+            \item<2-> est vraie à l'entrée dans la boucle (\textcolor{blue}{initialisation}),
+            \item<3-> reste vraie à chaque itération si elle l'était à l'itération précédente (\textcolor{blue}{conservation}).
+            \end{itemize}
+		\item<4-> Un algorithme est dit \textcolor{blue}{partiellement correct} lorsqu'il renvoie la réponse attendue quand il se termine.
+		\item<5-> Un algorithme est dit \textcolor{blue}{totalement correct} lorsqu'il est partiellement correcte et que sa terminaison est prouvée.
+		\end{itemize}
+	\end{block}
+	\onslide<7->
+	{\begin{alertblock}{\textcolor{yellow}{\important \;} Prouver la correction d'un algorithme}
+		On utilise un invariant de boucle qui en sortie de boucle fournit une propriété permettant de montrer la correction.\\
+		\textcolor{gray}{La méthode est similaire à une récurrence mathématique.}
+	\end{alertblock}}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+	\SetAlFnt{\small}
+	\setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Nombre de chiffres en base 10}
+		\Entree{$n \in \N$}
+		\Sortie{$p$ nombre de chiffres de $n$ dans son écriture en base 10.}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		\Si{$n=0$}{\Return 1}
+		$p \leftarrow 0$\;
+		\Tq{$n >0$}{
+		$p \leftarrow p+1$ \;
+		$n \leftarrow \lfloor \frac{n}{10} \rfloor $ \;
+		}
+		\Return $p$
+	  \end{algorithm}
+	  Prouver que cet algorithme est correct.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+\begin{exampleblock}{Correction}
+	\textcolor{gray}{Idée : à chaque tour de boucle, on incrémente $p$ et $n$ perd un chiffre. La somme de $p$ et du nombre de chiffres de $n$ est donc constante. C'est l'invariant de boucle ! \\ \medskip}
+	\onslide<2->{L'algorithme est correct pour $n=0$, montrons qu'il l'est aussi pour $n>0$, on note $n_k$ (resp. $p_k$) la valeur de $n$ (resp $p$) après $k$ tour de boucles, $c(m)$ le nombre de chiffre d'un entiers $m>0$ et on pose $c(0)=0$. On considère la propriété $P(k)$ : \og{} $c(n) = p_k + c(n_k)$ \fg{}.}
+	\begin{itemize}
+	\item<3-> initialisation : $P(0)$ est vraie puisque $p_0=0$ et $n_0=n$.
+	\item<4-> conservation : Soit $k \in \N$ tel que $P(k)$ est vraie, au tour de boucle suivant : \\
+	\onslide<5->{$p_{k+1} + c(n_{k+1}) = p_k + 1 + c\left(\PE{\dfrac{n_k}{10}}\right)$ \\}
+	\onslide<6->{$p_{k+1} + c(n_{k+1}) = p_k + 1 + c\left(n_k\right) - 1$ \\}
+	\onslide<7->{$p_{k+1} + c(n_{k+1}) = c(n)$, par $P(k)$ est vraie.}
+	\end{itemize}
+	\onslide<8->{En sortie de boucle, on a  $n_k=0$ et donc $p = c(n)$ et l'algorithme est correct.}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+	\SetAlFnt{\small}
+	\setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Premier diviseur}
+		\Entree{$n \in \N, n > 1$}
+		\Sortie{$d$ premier diviseur de $n$ strictement supérieur à $1$.}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$d \leftarrow 2$\;
+		\Tq{$n \mod d \neq 0$}{
+		$d \leftarrow d+1$ \;
+		}
+		\Return $d$
+	  \end{algorithm}
+	  Prouver que cet algorithme est correct.
+	\end{exampleblock}
+\end{frame}
+
 \end{document}
+

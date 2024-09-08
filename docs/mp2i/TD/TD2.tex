@@ -70,4 +70,71 @@ bool mystere(int n) {
 }
 \end{Exercise}
 
+\begin{Exercise}[title = {Etude d'un algorithme}]\\
+	On considère l'algorithme suivant : \\
+	\SetAlFnt{\small}
+	\setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Quotient dans la division euclidienne}
+		\Entree{$a \in \N, b \in \N^*$}
+		\Sortie{$q \in \N$, quotient de $a$ par $b$}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$q \leftarrow 0$\;
+		\Tq{$a-bq >0$}{
+		$q \leftarrow q+1$ \;
+		}
+		\Return $q$
+	  \end{algorithm}
+
+\Question{Proposer une implémentation de cet algorithme en langage C, sous la forme d'une fonction dont on précisera soigneusement la spécification.}
+\Question{Etudier la terminaison de cet algorithme.}
+\Question{Etudier la correction de cet algorithme.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Multiplication à la russe}]\\
+	On considère l'algorithme suivant : \\
+	\SetAlFnt{\small}
+	\setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Multiplication à la russe}
+		\Entree{$a \in \N, b \in \N$}
+		\Sortie{$ab$}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$m \leftarrow 0$\;
+		\Tq{$a >0 $ }{
+			\Si{$a \mod 2 =1$}
+			{ $m \leftarrow m + b$ \;
+			  $a \leftarrow a - 1$\;
+			}
+			\Sinon
+			{$a \leftarrow a / 2$\;
+			 $b \leftarrow b + b$ \;
+			}
+		}
+		\Return $m$
+	  \end{algorithm}
+	  \Question{Faire fonctionner cet algorithme à la main pour $a = 7$ et $b=5$.}
+	  \Question{Donner une implémentation en C de cette algorithme sous la forme d'une fonction dont on précisera soigneusement la spécification}
+	  \Question{Prouver la terminaison de cet algorithme. \\
+	 	{\small \aide \;} $a$ est un variant de boucle. 
+	  }
+	  \Question{Prouver la correction de cet algorithme. \\
+	 	{\small \aide\;} $m + ab$ vaut toujours le produit des valeurs initales de $a$ et de $b$.} 
+
+\end{Exercise}
+
+\begin{Exercise}[title = {Tri par sélection}] \\
+	L'algorithme du tri par sélection d'un tableau $t$ de longueur $n$, consiste, pour chaque entier $i$ de $0$ à $n-1$ à :
+	\begin{itemize}
+	\item rechercher le plus petit élément du sous tableau $\{t[i], \dots, t[n-1]\}$.
+	\item l'échanger avec celui situé à l'indice $i$.
+	\end{itemize}
+	\Question{Ecrire cet algorithme en pseudo langage}
+	\Question{En donner une implémentation en langage C en spécifiant soigneusement les fonctions utilisées.}
+	\Question{Proposer un jeu de tests}
+	\Question{Prouver la correction totale de cet algorithme.}
+\end{Exercise}
+
 \end{document}
