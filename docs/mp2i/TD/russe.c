@@ -1,8 +1,11 @@
 #include <stdio.h>
+#include <assert.h>
 
 int russe(int a, int b)
 {
     int m = 0;
+    int a0 = a;
+    int b0=b;
     printf("a = %d, b= %d, m=%d \n",a,b,m);
     while (a>0)
     {
@@ -17,6 +20,7 @@ int russe(int a, int b)
             b = b*2;
         }
         printf("a = %d, b= %d, m=%d \n",a,b,m);
+        assert (m + a*b == a0*b0);
     }
     return m;
 }

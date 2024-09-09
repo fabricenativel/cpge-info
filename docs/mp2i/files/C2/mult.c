@@ -5,10 +5,12 @@ int mult(int n, int m)
 {
     assert (n>=0 && m>=0);
     int r = 0;
+    int m0 =m;
     while (m>0)
     {
         m = m - 1;
         r =r + n;
+        assert (r == (m0-m)*n);
     }
     return r;
 }

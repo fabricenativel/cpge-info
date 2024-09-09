@@ -70,17 +70,26 @@ bool mystere(int n) {
 }
 \end{Exercise}
 
-\begin{Exercise}[title = {Compte à rebours}]
+\begin{Exercise}[title = {Compte à rebours}]\\
 	On considère la fonction C suivante :
 	\inputpartC{rebours.c}{}{}{4}{13}
 	\Question{Cette fonction est-elle conforme à sa spécification ?}
 	\Question{$n$ est-il un variant de boucle ? Sinon quelle propriété est manquante ?}
 \end{Exercise}
 
+\begin{Exercise}[title = {Maximum des éléments d'un tableauœ}]
+	\Question{Ecrire en C une fonction qui renvoie le maximum des éléments d'un tableau non vide. Par exemple pour le tableau {\tt \{2, 5, 4, 9, 7, 6\}}, la fonction renvoie {\tt 9}.}
+	\Question{Prouver la correction de cette fonction.}
+\end{Exercise}
+
+
+
 \begin{Exercise}[title = {Somme des éléments pairs}]
 	\Question{Ecrire en C une fonction qui renvoie la somme des éléments pairs d'un tableau. Par exemple pour le tableau {\tt \{2, 5, 4, 9, 7, 6\}}, la fonction renvoie {\tt 2 + 4 + 6 = 12}.}
 	\Question{Prouver la correction de cette fonction.}
 \end{Exercise}
+
+
 
 
 \begin{Exercise}[title = {Etude d'un algorithme}]\\
@@ -94,10 +103,12 @@ bool mystere(int n) {
 		\Sortie{$q \in \N$, quotient de $a$ par $b$}
 		\everypar={\footnotesize \textcolor{gray}{\nl}}
 		$q \leftarrow 0$\;
-		\Tq{$a-bq >0$}{
+		$r \leftarrow a$\;
+		\Tq{$r \geqslant 0$}{
 		$q \leftarrow q+1$ \;
+		$r \leftarrow r-b$ \;
 		}
-		\Return $q$
+		\Return $q - 1$
 	  \end{algorithm}
 
 \Question{Proposer une implémentation de cet algorithme en langage C, sous la forme d'une fonction dont on précisera soigneusement la spécification.}
