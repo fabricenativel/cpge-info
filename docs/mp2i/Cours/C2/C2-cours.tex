@@ -298,7 +298,7 @@ bool bissextile(int annee) {
 	  \item<3-> Montrer que dans la boucle "tant que":
 	  \begin{itemize}
 		\item<3-> $m$ ne prend que des valeurs entières
-		\item<4-> $m$ prend des valeurs \textit{strictement} positives
+		\item<4-> $m$ prend des valeurs positives
 		\item<5-> les valeurs prises par $m$ sont \textit{strictement} décroissantes.
 	  \end{itemize}
 	  \end{enumerate}
@@ -312,7 +312,7 @@ bool bissextile(int annee) {
         \item<3-> Un \textcolor{blue}{variant de boucle} est une quantité :
             \begin{enumerate}
             \item<4-> à valeurs entières,
-            \item<5-> \textit{strictement} positives,
+            \item<5-> positives,
             \item<6-> qui décroît \textit{strictement} à chaque passage dans la boucle.
             \end{enumerate}
 		\end{itemize}
@@ -365,7 +365,7 @@ bool bissextile(int annee) {
 		Montrons que $n$ est un variant de la boucle {\tt tant que} de l'algorithme :
 		\begin{enumerate}
 		\item<1-> $n$ ne prend que des valeurs entières, en effet, $n \in \N$  en entrée et $\PE{\dfrac{n}{10}}$ est entier.
-		\item<2-> $n$ est positif strictement par condition d'entrée dans la boucle. 
+		\item<2-> $n$ est positif  par condition d'entrée dans la boucle. 
 		\item<3-> $n$ décroît strictement à chaque passage dans la boucle car comme $n > 0$, $\PE{\dfrac{n}{10}} < n$
 		\end{enumerate}
 	\end{exampleblock}
@@ -399,10 +399,10 @@ bool bissextile(int annee) {
 		}
 		\Return $r$
 	  \end{algorithm}
-	  On note $k$ le nombre de passage dans la boucle {\tt tant que} et considère la propriété suivante suivante noté $\mathcal{P}(k)$ : \og{} après $k$ tour de boucles, $r = kn$ \fg{}. Montrer que cette propriété est vraie :
+	  On note $m_0$ la valeur initiale de $m$ et on considère la propriété suivante suivante noté $I$ : \og{} $r = (m_0-m)n$ \fg{}. Montrer que cette propriété est vraie :
 	  \begin{enumerate}
-	  \item<2-> avant d'entrée dans la boucle
-	  \item<3-> qu'elle reste vraie à chaque tour de boucle
+	  \item<2-> avant d'entrée dans la boucle,
+	  \item<3-> qu'elle reste vraie à chaque tour de boucle.
 	  \end{enumerate}
 	  \onslide<4->{Que peut-on en conclure ?}
 	\end{block}
@@ -453,15 +453,15 @@ bool bissextile(int annee) {
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 \begin{exampleblock}{Correction}
 	\textcolor{gray}{Idée : à chaque tour de boucle, on incrémente $p$ et $n$ perd un chiffre. La somme de $p$ et du nombre de chiffres de $n$ est donc constante. C'est l'invariant de boucle ! \\ \medskip}
-	\onslide<2->{L'algorithme est correct pour $n=0$, montrons qu'il l'est aussi pour $n>0$, on note $n_k$ (resp. $p_k$) la valeur de $n$ (resp $p$) après $k$ tour de boucles, $c(m)$ le nombre de chiffre d'un entiers $m>0$ et on pose $c(0)=0$. On considère la propriété $P(k)$ : \og{} $c(n) = p_k + c(n_k)$ \fg{}.}
+	\onslide<2->{Le cas $n=0$ est trivial, on note $n_0$ la valeur initiale de $n$ et on suppose donc $n_0>0$,  on considère la propriété $I$ : \og{} $c(n_0) = p + c(n)$ \fg{}. Où $c(m)$ vaut 0 si $m=0$ et le nombre de chiffres de $m$ en base 10 sinon.}
 	\begin{itemize}
-	\item<3-> initialisation : $P(0)$ est vraie puisque $p_0=0$ et $n_0=n$.
-	\item<4-> conservation : Soit $k \in \N$ tel que $P(k)$ est vraie, au tour de boucle suivant : \\
-	\onslide<5->{$p_{k+1} + c(n_{k+1}) = p_k + 1 + c\left(\PE{\dfrac{n_k}{10}}\right)$ \\}
-	\onslide<6->{$p_{k+1} + c(n_{k+1}) = p_k + 1 + c\left(n_k\right) - 1$ \\}
-	\onslide<7->{$p_{k+1} + c(n_{k+1}) = c(n)$, par $P(k)$ est vraie.}
+	\item<3-> initialisation : $I$ est vraie avant d'entrer dans la boucle puisque $p=0$ et $n=n_0$.
+	\item<4-> conservation : on suppose $I$ vraie du début d'un tour de boucle et  on note $n'$ (resp. $p'$) la valeur de $n$ (resp $p'$) après ce tour de boucle  \\
+	\onslide<5->{$p' + c(n') = p + 1 + c\left(\PE{\dfrac{n}{10}}\right)$ \\}
+	\onslide<6->{$p' + c(n') = p + 1 + c\left(n\right) - 1$ \\}
+	\onslide<7->{$p' + c(n') = c(n_0)$, par $I$ est vraie à l'entrée de la boucle.}
 	\end{itemize}
-	\onslide<8->{En sortie de boucle, on a  $n_k=0$ et donc $p = c(n)$ et l'algorithme est correct.}
+	\onslide<8->{En sortie de boucle, on a  $n'=0$ et donc $p = c(n_0)$ et l'algorithme est correct.}
 \end{exampleblock}
 \end{frame}
 

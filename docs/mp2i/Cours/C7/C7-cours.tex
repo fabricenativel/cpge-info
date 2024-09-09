@@ -19,50 +19,27 @@
         \begin{enumerate}
             \item<2-> \textcolor{blue}{terminaison} : peut-on garantir que l'algorithme se termine en un temps fini ? (ne concerne que les algorithmes avec des boucles non bornées)
             \item<3-> \textcolor{blue}{correction} : peut-on garantir que l'algorithme fournit la réponse attendue ?
-            \item<4-> \textcolor{blue}{complexité} : evolution du temps d'exécution de l'algorithme en fonction de la taille des données. En particulier, le temps d'exécution d'un algorithme sur une entrée donnée sera-t-il \og raisonnable \fg ?
+            \item<4-> \textcolor{blue}{complexité} : evolution du temps d'exécution de l'algorithme en fonction de la taille des données (prédiction de temps de calcul, comparaisons des performances d'algorithmes résolvant le même problème.)
         \end{enumerate}
         \onslide<5->{L'algorithme étudié doit avoir une \textcolor{blue}{spécification} précise (entrées, sorties, préconditions, postconditions, effets de bord). On parle d'algorithmes (et non de programmes) car ces questions sont indépendantes de l'implémentation dans un langage de programmation quelconque.}
     \end{block}	
 \end{frame}
 
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exemple}
-        Nous avons déjà rencontrés plusieurs algorithmes de tri (tri par insertion, tri par sélection, tri fusion). On cherche maintenant :
-        \begin{itemize}
-            \item <2-> A obtenir une \textcolor{blue}{preuve mathématique} que ces algorithmes se terminent et donc n'entrent jamais dans une boucle infinie quelques soient les données.
-            \item <3-> A obtenir une \textcolor{blue}{preuve mathématique} que ces algorithmes trient effectivement les listes de nombres données en argument et ce quelques soient leur taille et les valeurs qu'elles contiennent.
-            \item <4-> A comparer ces algorithmes en quantifiant leur efficacité (qui peut être mesuré de diverses façons).  
-        \end{itemize}
-    \end{exampleblock}
-\end{frame}
-
 \makess{Terminaison}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{exampleblock}{Exemple introductif}
-    Que dire de la terminaison de la fonction suivante ?
-    \inputpartC{\SPATH/intro_terminaison.c}{}{\small}{4}{12}
-    \begin{itemize}
-        \item<2-> \textcolor{OliveGreen}{Si {\tt n} est strictement négatif, c'est une boucle infinie.\\}
-        \onslide<3->{\textcolor{gray}{\small On ne tient pas compte des dépassements de capacités sur les entiers.}}
-        \item<4-> \textcolor{OliveGreen}{Sinon  elle termine.\\}
-        \onslide<5->\textcolor{gray}{\small Dans le cas contraire, les valeurs prises par {\tt n} formeraient une suite strictement décroissante d'entiers naturels.}
-    \end{itemize}
-\end{exampleblock}
-\end{frame}
-
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{block}{Définitions}
+\begin{block}{\textcolor{gray}{\small \rappel \;} Définitions}
     \begin{itemize}
         \item<2-> On dit qu'un algorithme \textcolor{blue}{termine} si il renvoie un résultat en un nombre fini d'étapes quels que soient les valeurs des entrées.
         \item<3-> Un \textcolor{blue}{variant de boucle} est une quantité :
             \begin{itemize}
             \item<4-> à valeurs dans $\N$.
+            \item<4-> \textit{strictement} positive, 
             \item<5-> qui décroît \textit{strictement} à chaque passage dans la boucle.
             \end{itemize}
         \item<6-> Pour un algorithme récursif, un \textcolor{blue}{variant} est une quantité :
         \begin{itemize}
             \item<7-> à valeurs dans $\N$.
+            \item<7-> \textit{strictement} positive, 
             \item<8-> qui décroît \textit{strictement} à chaque appel récursif.
         \end{itemize}
     \end{itemize}
@@ -135,15 +112,7 @@
 
 \makess{Correction}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exemple introductif}
-        Comment garantir que cette fonction renvoie bien la somme des éléments du tableau donné en argument ?
-        \inputpartC{\SPATH/intro_correction.c}{}{\small}{5}{13}
-        \textcolor{OliveGreen}{Par un raisonnement par récurrence sur $k$, on  prouve que \og{} après $k$ tours de boucle, {\tt s} contient la somme des $k$ premiers éléments de {\tt tab}\fg{}.}
-    \end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-\begin{alertblock}{Correction d'un algorithme}
+\begin{alertblock}{\textcolor{gray}{\small \rappel \;}Correction d'un algorithme}
     On dira qu'un algorithme est \textcolor{red}{correct}
     \onslide<2-> lorsqu'il renvoie la réponse attendue pour n'importe quel donnée en entrée.\\
     \onslide<3-> On parle de \textcolor{blue}{correction partielle} quand le résultat est correct lorsque l'algorithme s'arrête. Et de \textcolor{blue}{correction totale} lorsque la correction est partielle et que l'algorithme se termine.
@@ -219,12 +188,59 @@
 \makess{Complexité}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
     \begin{exampleblock}{Exemple introductif}
-        Ecrire en C,
-        \begin{enumerate}
-            \item<2-> Une fonction {\tt recherche\_simple} qui prend en argument un tableau {\tt tab} et un entier {\tt n} et renvoie {\tt true} si {\tt n} est dans {\tt tab} et {\tt false} sinon. \\
-            \onslide<3->\inputpartC{\SPATH/complexite.c}{}{\small}{6}{10}
-            \item<4-> On suppose maintenant que le tableau est \textit{triée}, et pour effectuer la recherche, on procède par dichotomie. \onslide<5->{c'est-à-dire qu'on compare la valeur cherchée à l'élément situé au milieu du tableau, on relance alors la recherche sur la \textit{"bonne"} moitié.} \onslide<6->{Ecrire en C, une fonction itérative {\tt recherche\_dicho} qui correspond à ce nouvel algorithme.}
-        \end{enumerate}
+        On considère l'algorithme suivant :
+        \SetAlFnt{\small}
+	\setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Recherche simple}
+		\Entree{$a \in \N$ et un tableau d'entiers $t$ de longueur $n$}
+		\Sortie{Booléen indiquant si $a \in t$.}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		\Pour{$i \leftarrow 0$ à $n-1$ }{
+		\Si{$t[i]=a$}{
+            \Return Vrai
+        }
+		}
+		\Return Faux
+	  \end{algorithm} 
+      \begin{enumerate}
+        \item<2-> Ecrire une implémentation en C.
+        \item<3-> Prouver que cet algorithme est totalement correct.
+        \item<3-> Combien de comparaisons effectue cet algorithme dans le meilleur des cas ?
+        \item<4-> Même question dans le pire des cas.
+    \end{enumerate}
+    \end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple introductif}
+        \SetAlFnt{\small}
+	\setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+        \footnotesize
+		\DontPrintSemicolon
+		\caption{Recherche dichotomique}
+		\Entree{$a \in \N$ et un tableau d'entiers $t$ \textcolor{blue}{\textit{trié}} de longueur $n$}
+		\Sortie{Booléen indiquant si $a \in t$.}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+        $ d \leftarrow 0$ \;
+        $ f \leftarrow n-1$ \;
+		\Tq{$f - d \geqslant 0$}{
+            $ m \leftarrow (f+d)/2$ \;
+		\Si{$t[m]=a$}{
+            \Return Vrai 
+        }
+        \Si{$a<t[m]$}
+        {
+            $f \leftarrow m - 1$
+        }\Sinon
+        {   $d \leftarrow m + 1$}
+		}
+		\Return Faux
+	  \end{algorithm} 
+      Mêmes questions sur ce nouvel algorithme.
     \end{exampleblock}
 \end{frame}
 
