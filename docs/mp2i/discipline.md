@@ -36,6 +36,7 @@ Voici le code d'une fonction `recherche` en C :
 
 1. Ecrire une fonction bissextile qui prend en argument un entier strictement positif `annee` et renvoie `true` si `annee` est une année bissextile.
 2. Ecrire une fonction `verifie_date` prenant en argument trois entiers (jour, mois et annee)  et renvoyant `true` si `jour/mois/annee` est une date valide.
+3. Proposer un jeu de tests pour cette fonction.
 
 
 {{ exo("Somme des éléments d'un tableau",[])}}

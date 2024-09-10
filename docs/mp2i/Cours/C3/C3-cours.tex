@@ -8,6 +8,7 @@
 % Numéro et titre de chapitre
 \setcounter{numchap}{3}
 \newcommand{\Ctitle}{\cnum {Pointeurs, types structurés}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
 
 \makess{Mémoire en C}
 \begin{frame}{\Ctitle}{\stitle}
@@ -29,8 +30,11 @@
 					\end{tabular}
 					\ncline[linecolor=BrickRed,linewidth=1pt]{->}{p}{x}
 				}
-			\item<5-> La valeur particulière \kw{NULL}  indique qu'un pointeur ne pointe sur rien.
-			\item<6-> En C, la gestion de la mémoire n'est pas totalement automatique (comme en Python ou en OCaml). Certains aspects reviennent au programmeur, ce qui impose de comprendre le modèle mémoire du C.
+			\item<6-> Le C offre la possibilité de manipuler les variables mais aussi leurs adresses mémoires :
+			\begin{itemize}
+			\item<7-> \mintinline{c}{&x} (de type pointeur vers un entier : \mintinline{c}{int *}) est l'adresse de la variable {\tt x} (dans l'exemple précédent {\tt \&x = 2741})
+			\item<8-> \mintinline{c}{*p} (de type entier : \mintinline{c}{int})est le contenu de l'adresse {\tt p} (dans l'exemple précédent {\tt *p = 42})
+			\end{itemize}
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -189,7 +193,7 @@
 		Cette organisation de la mémoire a des conséquences importantes
 		\begin{itemize}
 			\item<1-> La taille de la pile est limitée (bien plus que celle du tas), donc une variable locale de taille importante risque de provoquer un débordement de pile (\textit{stackoverflow}). Il est nettement préférable de l'allouer dans le tas.
-			\item<2-> Lors de l'appel à une fonction, les variables locales (et autres informations) sont stockés dans la pile. A la fin de l'exécution, ces informations sont supprimés de la pile. Conserver des pointeurs vers des adresses de variables locales est donc problématique.
+			\item<2-> Lors de l'appel à une fonction, les variables locales (et autres informations) sont stockées dans la pile. A la fin de l'exécution, ces informations sont supprimées de la pile. Conserver des pointeurs vers des adresses de variables locales est donc problématique.
 			\item<3-> De la mémoire alloué par le programmeur dans le tas et non libérée est considérée comme non disponible, créant des fuites mémoires (\textit{memory leak}).
 		\end{itemize}
 	\end{block}
@@ -198,16 +202,16 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Un premier exemple}
 		\begin{langageC}
-			int main()  {
-			double big_array[1500000];
-			return 0;}
+int main()  {
+	double big_array[1500000];
+	return 0;}
 		\end{langageC}
 		{\small
 		\begin{enumerate}
 			\item<1-> Rappeler la taille d'un \kw{double}, en déduire la taille du tableau {\tt big\_array} \\
-				\onslide<5-> {\textcolor{OliveGreen}{Un double occupe 8 octects, donc ce tableau $8 \times 1,5 = 12$ Mo.}}
+				\onslide<5-> {\textcolor{OliveGreen}{Un double occupe 8 octets, donc ce tableau $8 \times 1,5 = 12$ Mo.}}
 			\item<2-> Comment expliquer que programme a provoqué une {\tt erreur de segmentation}, alors qu'il a été exécuté sur une machine possédant 8 Go de mémoire vive ?\\
-				\onslide<6-> {\textcolor{OliveGreen}{La taille du tableau dépasse celle de la pile sur laquelle il est alloué.}}
+				\onslide<6-> {\textcolor{OliveGreen}{La taille du tableau dépasse celle de la pile, or le tableau étant une variable locale est alloué dans la pile.}}
 			\item<3-> En déduire une information sur la taille de la pile d'appel sur cet ordinateur. \\
 				\onslide<7-> {\textcolor{OliveGreen}{La pile fait moins de 12Mo (sa taille est de l'ordre de 8Mo sur l'ordinateur utilisé)}}
 			\item<4-> Comment résoudre ce problème ? \\
@@ -220,10 +224,14 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{Opérateurs {\tt \&} et {\tt *}}
 		\begin{itemize}
-			\item<2-> L'opérateur unaire \kw{\&}, appelé opérateur d'adresse, permet en C de récupérer l'adresse mémoire d'une variable.
-			\item<3-> L'opérateur unaire \kw{*}, appelé opérateur de déréférencement, permet en C de récupérer la valeur stockée dans une adresse mémoire. \\
+			\item<1-> Si \kw{t} est un type du C, par exemple (\kw{int}, \kw{char}, \dots), alors \kw{t *} est du type pointeur vers une valeur de type \kw{t}. Par exemple : \\
+				\onslide<2->{\mintinline{c}{int *p; //déclare un pointeur p vers un entier}} \\
+			\item<3-> Une valeur spéciale \mintinline{c}{NULL}, indique un pointeur qui ne pointe vers rien. Par exemple,\\
+				\onslide<4->{\mintinline{c}{char *c = NULL; // pointeur vers caractère initialisé à NULL}} \\
+			\item<5-> L'opérateur unaire \kw{\&}, appelé opérateur d'adresse, permet en C de récupérer l'adresse mémoire d'une variable.
+			\item<6-> L'opérateur unaire \kw{*}, appelé opérateur de déréférencement, permet en C de récupérer la valeur stockée dans une adresse mémoire. \\
 				\textcolor{BrickRed}{\important} Déréférencer un pointeur \kw{NULL} est un comportement indéfini.
-			\item<4-> Pour résumer : \\
+			\item<7-> Pour résumer : \\
 				\begin{tabularx}{\linewidth}{|c|c|X|}
 					\cline{2-3}
 					\multicolumn{1}{c|}{} & S'applique à   & Permet de                                           \\
@@ -233,9 +241,6 @@
 					\kw{*}                & à un pointeur  & récupérer la valeur à l'emplacement mémoire désigné \\
 					\hline
 				\end{tabularx}
-			\item<5-> Si \kw{t} est un type du C, par exemple (\kw{int}, \kw{char}, \dots), alors \kw{t *} est du type pointeur vers \kw{t}. Par exemple : \\
-				\onslide<6->{\mintinline{c}{int ma_fonction(int *n)}} \\
-				\onslide<7->{est une fonction qui prend en paramètre l'adresse d'un \kw{int}}
 		\end{itemize}
 	\end{alertblock}
 \end{frame}
@@ -244,9 +249,9 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple 1}
 		\onslide<1->\begin{langageC*}{fontsize=\small}
-			int n = 42;
-			int p = &n;
-			printf("Valeur stockée à l'adresse de p = %d",*p);
+int n = 42;
+int p = &n;
+printf("Valeur stockée à l'adresse de p = %d",*p);
 		\end{langageC*}
 		\onslide<2->{\small Dans l'exemple ci-dessus, \kw{p} est un pointeur qui contient l'adresse de \kw{n}.}
 		\onslide<3->{\small Le \kw{printf} affiche le contenu de l'adresse pointée par \kw{p} donc 42.}
@@ -256,8 +261,8 @@
 			\item<4-> \small Ecrire une fonction {\tt echange} qui prend en argument deux adresses vers des entiers et échange les valeurs de ces deux entiers.
 			\item<5-> \small Ajouter un appel à {\tt echange} dans le programme ci-dessous de façon à échanger les valeurs des variables \kw{a} et \kw{b}.
 				\onslide<3->\begin{langageC*}{fontsize=\small}
-					int a = 42;
-					int b = 14;
+int a = 42;
+int b = 14;
 				\end{langageC*}
 		\end{enumerate}
 	\end{exampleblock}
@@ -287,9 +292,9 @@
 	\begin{exampleblock}{Exemple}
 		\onslide<4->
 		\begin{langageC}
-			double *t =  malloc(sizeof(int)*100); //alloue le bloc mémoire
-			t[5] = 12; // affecte la valeur 12 au 6eme élément du bloc
-			t[113] = 27; // Comportement indéfini
+int *t =  malloc(sizeof(int)*100); //alloue le bloc mémoire
+t[5] = 12; // affecte la valeur 12 au 6eme élément du bloc
+t[113] = 27; // Comportement indéfini
 		\end{langageC}
 	\end{exampleblock}
 \end{frame}
@@ -298,9 +303,9 @@
 	\begin{alertblock}{{\tt free}}
 		\begin{itemize}
 			\item<1-> La fonction \kw{free} permet de libérer un bloc mémoire précédemment alloué grâce à {\tt malloc}
-			\item<2-> On appelle donc \kw{free} sur un pointeur crée \kw{p} par \kw{malloc}. Cet appel doit ompérativement se faire sur la portée de \kw{p}. En dehors, le bloc mémoire n'est plus libérable
-			\item<3-> Des blocs mémoire non libérés (ou non libérables) créent des fuites de mémoire.
-			\item<4-> On utilisera toujours l'option \kw{fsanitize = adress} du compilateur pour détecter ses fuites mémoires.
+			\item<2-> On appelle donc \kw{free} sur un pointeur \kw{p} crée  par \kw{malloc}. Cet appel doit impérativement se faire sur la portée de la variable \kw{p}. En dehors, le bloc mémoire n'est plus libérable, ce qui conduit nécessairement à une fuite mémoire.
+			\item<3-> Des blocs mémoire non libérés (ou non libérables) ne sont pas considérés comme disponibles et donc sont "perdus", ce sont les fameuses fuites mémoires (\textit{memory leak}), c'est à dire à une dimunition de la mémoire disponible durant le déroulement d'un programme.
+			\item<4-> On utilisera toujours l'option \kw{fsanitize = adress} du compilateur pour détecter ces fuites mémoires.
 		\end{itemize}
 	\end{alertblock}
 \end{frame}
@@ -309,8 +314,8 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple : fonction renvoyant un tableau}
 		\begin{itemize} \item<1-> Ecrire une fonction {\tt make\_tab} qui prend en argument deux entiers {\tt size} et {\tt init} et renvoie un pointeur vers un tableau de {\tt size} cases initialisés à la valeur {\tt init}.
-				\onslide<2->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/renvoie_tab.c}{}{\small}{4}{10}
-			\item<3-> \textcolor{BrickRed}{\small \danger} L'allocation \textcolor{BrickRed}{doit} se faire avec \kw{malloc}, sinon elle est faite sur la pile et donc disparait lorsqu'on quitte la fonction.
+				\onslide<2->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/renvoie_tab.c}{}{\small}{4}{9}
+			\item<3-> \textcolor{BrickRed}{\small \danger} L'allocation \textcolor{BrickRed}{doit} se faire avec \kw{malloc}, sinon le bloc mémoire est alloué sur la pile, dans la zone de contexte d'appel de la fonction, cette zone est dépilé dès qu'on quitte la fonction et donc la zone mémoire du tableau n'est plus accessible.
 			\item<4-> La fonction appelante doit libérer la mémoire allouée avec \kw{free} (sous peine de fuites mémoires.)
 		\end{itemize}
 	\end{exampleblock}
@@ -350,29 +355,30 @@
 			\item<1-> On peut définir en C, des types structurés, appelé \kw{struct} composés de plusieurs champs.
 			\item<2-> La syntaxe générale de définition d'un type structuré est :
 				\begin{langageC}
-					struct nom_type_struct {
-					type1 elt1;
-					type2 elt2;
-					...}
+struct nom_type_struct {
+	type1 elt1;
+	type2 elt2;
+	...};
 				\end{langageC}
 			\item<3-> Un nom de type (qui peut être celui du {\tt struct}) peut être associé à un type structuré de façon à y faire référence plus rapidement.\\
-				\mintinline{c}{typedef struct nom_type_struct nom_type}
+				\mintinline{c}{typedef struct nom_type_struct nom_type}\\
+				\textcolor{gray}{Le programme de MP2I recommande d'utiliser {\tt nom\_type\_s} pour le nom du {\tt struct} et {\tt nom\_type} pour le type.}
 		\end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple}
-		Pour créer le type structuré \kw{personne\_struct} contenant les trois champs nom (chaine de caractères), poids et taille (float) :
+		Pour créer le type structuré \kw{personne\_s} contenant les trois champs nom (chaine de caractères), poids et taille (float) :
 		\begin{langageC}
-			struct personne_struct {
-			char nom[50];
-			poids float;
-			taille float;
-			}
+struct personne_s {
+	char nom[50];
+	poids float;
+	taille float;
+};
 		\end{langageC}
 		On peut donner un nom à ce type : \\
-		\mintinline{c}{typedef struct personne_struct personne;}
+		\mintinline{c}{typedef struct personne_s personne;}
 	\end{exampleblock}
 \end{frame}
 
@@ -394,7 +400,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple : Hulk fait un régime}
 		Quel sera l'affichage produit par le programme ci-dessous, pourquoi ?
-		\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/personne.c}{}{\footnotesize}
+		\inputpartC{\SPATH/personne.c}{}{\scriptsize}{3}{22}
 	\end{exampleblock}
 \end{frame}
 
@@ -441,20 +447,20 @@
 		\begin{itemize}
 			\item<1-> \small Ecrire l'instruction permettant d'ouvrir ce fichier en mode lecture
 				\onslide<5->\begin{langageC*}{fontsize=\small}
-					FILE *fichier = fopen("entiers.txt","r");
+FILE *fichier = fopen("entiers.txt","r");
 				\end{langageC*}
 			\item<2-> \small Déclarer deux entiers {\tt n} (qui va contenir les entiers lus) et {\tt somme} initialisé à 0.
 				\onslide<6->\begin{langageC*}{fontsize=\small}
-					int n, somme = 0;
+int n, somme = 0;
 				\end{langageC*}
 			\item<3-> \small Ecrire une boucle while permettant de lire chacun des entiers jusqu'à la fin du fichier et d'en faire la somme dans la variable {\tt somme}
 				\onslide<7->\begin{langageC*}{fontsize=\small}
-					while (fscanf(fichier,"%d",&n)!=EOF) {
-					somme = somme + n;}
+while (fscanf(fichier,"%d",&n)!=EOF) {
+somme = somme + n;}
 				\end{langageC*}
 				\item<4->\small Ecrire l'instruction permettant de fermer le fichier
 				\onslide<8->\begin{langageC*}{fontsize=\small}
-					fclose(fichier);
+fclose(fichier);
 				\end{langageC*}
 		\end{itemize}
 	\end{exampleblock}
@@ -514,11 +520,11 @@
 			\item<1-> Des types composés \kw{struct} peuvent être définis dans le fichier d'en-tête sans donner leur structure. Ce point sera détaillé plus loin dans le cours lorsqu'on abordera les structures de données.
 			\item<2-> Afin d'éviter des redondances, on peut spécifier dans le fichier d'en-tête
 				\begin{langageC}
-					#ifndef NONMODULE
-					#define NONMODULE
-					// ici définition des signatures des fonctions
-					// et ici des types structurés éventuels
-					#endif
+#ifndef NONMODULE
+#define NONMODULE
+// ici définition des signatures des fonctions
+// et ici des types structurés éventuels
+#endif
 				\end{langageC}
 				Cela évite d'avoir des problèmes en cas de double inclusion malheureuse du même fichier.
 			\item<3-> Afin d'éviter des conflits entre des fonctions portant le même nom et définie dans des modules ou dans le programme principale, on peut prefixer tous les noms de fonctions ou de type d'un module par le nom de ce module.
