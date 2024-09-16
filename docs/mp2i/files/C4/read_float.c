@@ -15,7 +15,7 @@
 //Lecture des bits d'un entier  signé représenté sur size octets
 uint8_t* get_bits(uint64_t n, int size)
 {   assert (size<=32);
-    uint8_t* bits = malloc(sizeof(uint8_t)*size);
+    uint8_t* bits = malloc((int)sizeof(uint8_t)*size);
     for (int i=0;i<size;i++)
     {
         bits[size-i-1]=(n >> i) & 1;

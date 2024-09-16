@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-// Compte à rebours de n à 0 et afficher "Partez !"
+// Compte à rebours de n à 0 et affiche "Partez !"
 void compte_rebours(int n)
 {
     while (n != 0)
