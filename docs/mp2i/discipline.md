@@ -73,7 +73,39 @@ Le but de l'exercice est d'implémenter cet algorithme
 2. Ecrire une fonction de signature `void parcours(int tab[], int limite, int taille)` qui parcours `tab` jusqu'à l'indice `limite` en échangeant l'élément avec son voisin de droite s'il lui est inférieure. Donner les préconditions.
 3. Ecrire une fonction `void tri_bulles(int tab, int size)` qui trie en place le tableau `tab`. Propose des tests pour valider le comportement de cette fonction.
 
+{{ exo("Nombres narcissiques",[])}}
 
+Un nombre $a$ ayant $p$ chiffres en base 10, noté $a = \overline{a_{p-1}\dots a_1a_0}^{10}$ est dit [narcissique](https://fr.wikipedia.org/wiki/Nombre_narcissique){target=_blank} lorsqu'il est égal à la somme des puissance $p$ièmes de ses chiffres, c'est à dire lorsque $a = a_{p-1}^p + \dots + a_1^p + a_0^p$. Exemples :
+
+* $153$ est narcissique ($p=3$) car, $1^3 + 5^3 + 3^3 = 153$
+* $255$ n'est pas narcissique ($p=3$)  car, $2^3 + 5^3 + 5^5 = 258$
+* $1634$ est narcissique ($p=4$) car, $1^4 + 6^4 + 3^4 + 4^4 = 1634$
+* $3375$ n'est pas narcissique ($p=4$), car $3^4 + 3^4 + 7^4 + 5^4 = 3188$
+
+Le but de l'exercice est de trouver le plus grand nombre narcissique inférieur à un million.
+
+1. Ecrire une fonction prenant en entrée un entier $n$ et un entier $p$ et renvoyant $n^p$. On se limite au cas $p>0$ et $n\geqslant 0$ et on vérifiera ces préconditions à l'aide d'instructions. Ecrire dans le code en commentaire une spécification précise de cette fonction et proposer un jeu de tests sous la forme d'instructions `assert`.
+
+2. Ecrire une fonction `nb_chiffres` prenant en entrée un entier $n \geqslant 0$ et renvoyant son nombre de chiffres. Par exemple `nb_chiffres(1634)` doit renvoyer 4.
+
+    !!! aide
+        Voir le [cours](#cours)
+
+3. Ecrire une fonction `est_narcissique` qui prend en argument un entier `n` et qui renvoie `true` si et seulement si `n` est un nombre narcissique.
+
+    !!! aide
+        On rappelle que si $a = \overline{a_{p-1}\dots a_1a_0}^{10}$, alors :
+
+        * $a_0$ est le reste  dans la division euclidienne de $a$ par 10,
+        * le quotient dans la division euclidienne de $a$ par 10 est $\overline{a_{p-1}\dots a_1}^{10}$.
+
+4. Tester cette fonction en écrivant les instructions `assert` permettant de vérifier les exemples de nombre narcissiques ou non donnés en début d'exercice.
+
+5. Ecrire une fonction `narcissique_seuil` qui prend en entrée un entier `n` et renvoie le plus grand nombre narcissique inférieur à cet entier `n`. Par exemple `narcissique_seuil(200)` doit renvoyer `153`. Quel est le plus grand nombre narcissique inférieur à un million ?  
+Tester votre réponse {{ check_reponse("548834")}}
+
+6. Ecrire une fonction `compte_narcissique` qui prend en entrée un entier `n` et renvoie le nombre de nombres narcissiques inférieurs ou égaux à `n`. Combien de nombre narcissiques sont inférieurs à un million ?  
+Tester votre réponse {{ check_reponse("21")}}
 
 ## Humour d'informaticien
 ![punition](./Images/C2/comments.webp){.imgcentre width=500px}
