@@ -5,6 +5,7 @@
 \begin{document}
 
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
 
 % Numéro et titre de chapitre
 \setcounter{numchap}{5}
@@ -44,11 +45,9 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple : les puissances positives}
 		\begin{itemize}
-			\item<1-> \textcolor{OliveGreen}{Puissance : version itérative}
-				\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{3}{7}
+			\item[]<1-> \inputpartC{\SPATH/puissance.c}{}{\scriptsize}{3}{11}
 			\item<2-> $a^n = \textcolor{OliveGreen}{a} \times a^{\textcolor{OliveGreen}{n-1}}$
-			\item<3-> \textcolor{OliveGreen}{Puissance : version récursive}
-				\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{9}{13}
+			\item[]<3-> \inputpartC{\SPATH/puissance.c}{}{\scriptsize}{13}{23}
 		\end{itemize}
 	\end{exampleblock}
 \end{frame}
@@ -58,7 +57,7 @@
 	\begin{block}{Un petit détour par OCaml}
 		La récursivité est très présente dans le paradigme de programmation fonctionnel que nous verrons en OCaml.
 		On présente donc ici la version récursive des puissances en OCaml (même si nous n'avons pas encore commencé son apprentissage)
-		\onslide<2->\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.ml}{}{\small}{1}{2}
+		\onslide<2->\inputpartOCaml{\SPATH/puissance.ml}{}{\small}{1}{2}
 	\end{block}
 \end{frame}
 
@@ -67,7 +66,7 @@
 	\begin{block}{Un petit détour par OCaml}
 		La récursivité est très présente dans le paradigme de programmation fonctionnel que nous verrons en OCaml.
 		On présente donc ici la version récursive des puissances en OCaml (même si nous n'avons pas encore commencé son apprentissage)
-		\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.ml}{1}{\small}{1}{2}
+		\inputpartOCaml{\SPATH/puissance.ml}{1}{\small}{1}{2}
 		\begin{itemize}
 			\item <2-> La définition d'une fonction commence par \kw{let}, suivi de \kw{rec} si la fonction est récursive.
 			\item <3-> Remarquer l'absence des parenthèses autour des arguments, et surtout l'absence du type des variables. En effet, OCaml détecte automatiquement le type des variables utilisés (ici des entiers) par un procédé appelé \textcolor{blue}{inférence de types}.
@@ -80,7 +79,7 @@
 	\begin{block}{Un petit détour par OCaml}
 		La récursivité est très présente dans le paradigme de programmation fonctionnel que nous verrons en OCaml.
 		On présente donc ici la version récursive des puissances en OCaml (même si nous n'avons pas encore commencé son apprentissage)
-		\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.ml}{2}{\small}{1}{2}
+		\inputpartOCaml{\SPATH/puissance.ml}{2}{\small}{1}{2}
 		\begin{itemize}
 			\item<2-> Le test d'égalité est le \textcolor{blue}{simple} {\tt =}
 			\item<3-> Le mot clé \kw{then} suit le test d'égalité.
@@ -117,10 +116,10 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Factorielle : correction}
 		\begin{enumerate}
-			\item<1-> Version itérative  \inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.c}{}{\footnotesize}{3}{7}
+			\item<1-> Version itérative  \inputpartC{\SPATH/fact.c}{}{\footnotesize}{3}{7}
 			\item<2-> $n! = n \times (n-1)!$
-			\item<3-> Version récursive en C \inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.c}{}{\footnotesize}{9}{12}
-			\item<4-> Version récursive en Ocaml \inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.ml}{}{\small}{1}{2}
+			\item<3-> Version récursive en C \inputpartC{\SPATH/fact.c}{}{\footnotesize}{9}{12}
+			\item<4-> Version récursive en Ocaml \inputpartOCaml{\SPATH/fact.ml}{}{\small}{1}{2}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -128,8 +127,8 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Triangle : correction}
 		\begin{enumerate}
-			\item<1-> Version itérative  \inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/triangle.c}{}{\small}{13}{16}
-			\item<2-> Version récursive \inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/triangle.c}{}{\small}{18}{22}
+			\item<1-> Version itérative  \inputpartC{\SPATH/triangle.c}{}{\small}{13}{16}
+			\item<2-> Version récursive \inputpartC{\SPATH/triangle.c}{}{\small}{18}{22}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -141,7 +140,7 @@
 	\end{alertblock}
 	\begin{exampleblock}{Exemples}
 		\onslide<2->{La fonction \kw{puissance}  vue en début de chapitre :
-			\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{9}{13}}
+			\inputpartC{\SPATH/puissance.c}{1}{\small}{21}{21}}
 		\onslide<3->{n'est \textcolor{BrickRed}{pas} récursive terminale, }
 		\onslide<4->{en effet bien que l'appel récursif soit placé à la fin, le dernier calcul effectué par la fonction est la multiplication.}
 	\end{exampleblock}
@@ -151,10 +150,10 @@
 	\begin{exampleblock}{Exemples}
 		\begin{enumerate}
 			\item<1-> La fonction {\tt factorielle} ci-dessous est-elle récursive terminale ?
-				\onslide<1->{\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.c}{}{\small}{9}{12}}
+				\onslide<1->{\inputpartC{\SPATH/fact.c}{}{\small}{9}{12}}
 				\onslide<2->\textcolor{OliveGreen}{Non, car le dernier calcul effectué par la fonction est la multiplication.}
 			\item<3-> Même question pour la fonction {\tt triangle}
-				\onslide<3->{\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/triangle.c}{}{\small}{18}{22}}
+				\onslide<3->{\inputpartC{\SPATH/triangle.c}{}{\small}{18}{22}}
 				\onslide<4->\textcolor{OliveGreen}{Oui, l'appel récursif est la dernière instruction à être exécutée.}
 		\end{enumerate}
 	\end{exampleblock}
@@ -230,9 +229,9 @@
 		L'idée est d'utiliser une variable auxiliaire (un \textit{accumulateur}) qui est passé en argument à l'appel récursif et dans lequel les calculs sont effectués au fur et à mesure des appels.
 		\begin{itemize}
 			\item<2->En C :
-			\onslide<2->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.c}{}{\small}{14}{17}
+			\onslide<2->\inputpartC{\SPATH/fact.c}{}{\small}{14}{17}
 			\item<2->En OCaml :
-			\onslide<2->\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fact.ml}{}{\small}{4}{5}
+			\onslide<2->\inputpartOCaml{\SPATH/fact.ml}{}{\small}{4}{5}
 		\end{itemize}
 	\end{exampleblock}
 \end{frame}
@@ -242,9 +241,9 @@
 		Donner une version récursive terminale de la fonction puissance :
 		\begin{itemize}
 			\item<2-> En C
-				\onslide<3->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\small}{15}{19}
+				\onslide<3->\inputpartC{\SPATH/puissance.c}{}{\footnotesize}{25}{35}
 			\item<4-> En OCaml
-				\onslide<4->\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.ml}{}{\small}{4}{5}
+				\onslide<4->\inputpartOCaml{\SPATH/puissance.ml}{}{\footnotesize}{4}{5}
 		\end{itemize}
 	\end{exampleblock}
 \end{frame}
@@ -279,13 +278,13 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Correction : En C}
-		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/arithgeo.c}{}{\small}{5}{15}
+		\inputpartC{\SPATH/arithgeo.c}{}{\small}{5}{15}
 	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Correction : En OCaml}
-		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/arithgeo.ml}{}{\small}{1}{5}
+		\inputpartC{\SPATH/arithgeo.ml}{}{\small}{1}{5}
 		\onslide<2->On remarquera \kw{+.}, \kw{*.}, et \kw{/.} qui correspondent aux opérations sur les flottants (inférence de type)
 	\end{exampleblock}
 \end{frame}
@@ -312,9 +311,9 @@
 	\begin{exampleblock}{Correction question 1}
 		\begin{itemize}
 			\item <1-> En C
-			\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fibo_rec.c}{}{\small}{3}{6}
+			\inputpartC{\SPATH/fibo_rec.c}{}{\small}{3}{6}
 			\item<2-> En OCaml
-			\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/fibo_rec.ml}{}{\small}{1}{2}
+			\inputpartOCaml{\SPATH/fibo_rec.ml}{}{\small}{1}{2}
 		\end{itemize}
 		
 	\end{exampleblock}
@@ -374,12 +373,12 @@
 	\end{block}
 \end{frame}
 
-\makess{Une technique de programmation élégante}
+\makess{Penser récursif}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Remarques}
 		\begin{itemize}
 			\item<1->Bien que la programmation récursive soit parfois gourmande en ressource (débordement de pile, chevauchement d'appels récursifs). Certains problèmes ont une solution récursive très lisible et rapide à programmer.
-			\item<2-> La formulation récursive est donc parfois \og plus adaptée \fg{} à un problème et constitue une façon élégante et concise de programmer une résolution.
+			\item<2-> La formulation récursive est donc parfois \og plus adaptée \fg{} à un problème et constitue une façon \og{}élégante\fg{} et concise de programmer une résolution.
 			\item<3-> On présente ici un exemple simple mais d'autres seront vus en TP (tours de Hanoï, dessins récursifs)
 		\end{itemize}
 	\end{block}
@@ -389,7 +388,7 @@
 	\begin{exampleblock}{Exemple : exponentiation rapide}
 		\begin{enumerate}
 			\item<1-> Combien faut-il faire de multiplications pour calculer $a^{13}$ avec la fonction
-				\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\footnotesize}{3}{7}
+				\inputpartC{\SPATH/puissance.c}{}{\footnotesize}{3}{7}
 			\item<2-> Combien en faut-il si on procède de la façon suivante :
 				\begin{itemize}
 					\item<3-> Calculer $a^6$, l'élever au carré et le multiplier par $a$.
@@ -397,8 +396,9 @@
 					\item<5-> Pour calculer $a^3$, élever $a$ au carré et multiplier par $a$.
 				\end{itemize}
 			\item<6-> Généraliser la méthode précédente au cas d'un exposant quelconque et en déduire une relation de récurrence entre $a^n$ et $a^\frac{n}{2}$ si $n$ et pair et $a^\frac{n-1}{2}$ sinon.
-			\item<7-> Proposer une implémentation récursive en C puis en Ocaml.
-			\item<8-> Que pensez-vous d'une implémentation itérative ?
+			\item<7-> Proposer une implémentation récursive en C.
+			\item<7-> Même question en Ocaml.
+			\item<8-> Donner une version itérative de cet algorithme.
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -423,10 +423,89 @@
 		\begin{enumerate}
 			\addtocounter{enumi}{3}
 			\item<1-> \textcolor{OliveGreen}{Implémentation en C :}
-				\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.c}{}{\footnotesize}{21}{29}
-			\item<2-> \textcolor{OliveGreen}{Implémentation en OCaml :}
-			\inputpartOCaml{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/puissance.ml}{}{\footnotesize}{7}{11}
+				\inputpartC{\SPATH/puissance.c}{}{\scriptsize}{37}{55}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exponentiation rapide}
+		\begin{enumerate}
+			\addtocounter{enumi}{4}
+			\item<1-> \textcolor{OliveGreen}{Implémentation en OCaml :}
+			\inputpartOCaml{\SPATH/puissance.ml}{}{\footnotesize}{7}{11}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exponentiation rapide}
+		\begin{enumerate}
+			\addtocounter{enumi}{5}
+			\item<1-> \textcolor{OliveGreen}{Version itérative}
+			\begin{algorithm}[H]
+				\DontPrintSemicolon
+				\caption{Version itérative de l'exponentiation rapide}
+				\Entree{$a \in \R^{*+}, n \in \N$}
+				\Sortie{$a^n$}
+				\everypar={\footnotesize \textcolor{gray}{\nl}}
+				$p \leftarrow 1$\;
+				\Tq{$n \neq 0$}{
+				\Si{$n$ est impair}
+				{$p \leftarrow p\times a$ \;}
+				$a \leftarrow a*a$ \;
+				$n \leftarrow \lfloor\frac{n}{2}\rfloor$ \;
+				}
+				\Return $p$
+			  \end{algorithm}	
+		Moins \og{} naturel \fg{} que sa version itérative, cet algorithme sera prouvé totalement correct en TD.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Terminaison d'une fonction récursive}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Principe}
+		Pour prouver la terminaison d'une fonction récursive, on montre qu'une quantité qui dépend des paramètres d'appels de la fonction :
+		\begin{itemize}
+		\item<2-> est entière,
+		\item<3-> positive,
+		\item<4-> strictement décroissante.
+		\end{itemize}
+		\onslide<5->{La méthode est donc similaire à celle utilisée pour prouver la terminaison des boucles.}
+	\end{block}
+	\onslide<6->
+	{
+		\begin{exampleblock}{Exemple}
+			La fonction factorielle récursive en OCaml rappelée ci-dessous :
+			\inputpartOCaml{\SPATH/fact.ml}{}{\small}{1}{2}
+			Termine car le paramètre d'appel $n$ est positif, décroît strictement et reste positif (par condition d'appel récursif).
+		\end{exampleblock}
+	}
+\end{frame}
+
+\makess{Correction d'une fonction récursive}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Principe}
+		Pour prouver la correction d'une fonction récursive, on peut utiliser une preuve par récurrence :
+		\begin{itemize}
+		\item<2-> on vérifie que la fonction est correcte pour le cas de base (initialisation)
+		\item<3-> puis, on prouve que si la fonction est correcte à un range $n \in \N$ alors elle l'est aussi au range $n+1$.
+		\end{itemize}
+	\end{block}
+	\onslide<4->
+	{
+		\begin{exampleblock}{Exemple}
+			La fonction factorielle récursive en OCaml rappelée ci-dessous :
+			\inputpartOCaml{\SPATH/fact.ml}{}{\small}{1}{2}
+			est correcte car:
+			\begin{itemize}
+			\item<5-> elle est correcte pour $n=0$ puisqu'elle renvoie 1 et que $0!=1$.
+			\item<6-> si elle est correcte au rang {\tt n}, alors {\tt fact(n)}=$n!$. Et comme, {\tt fact(n+1) = (n+1) * fact(n)}, on en déduit {\tt fact(n) =}$(n+1)!$.
+		\end{itemize}
+		\end{exampleblock}
+	}
+\end{frame}
 \end{document}
+

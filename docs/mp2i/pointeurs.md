@@ -101,19 +101,23 @@ On souhaite écrire en C, un programme qui affiche l'adresse et le contenu d'une
 
 {{ exo("Renvoyer un tableau",[])}}
 
-1. Recopier et compléter la fonction `get_tab` suivante qui prend en argument un entier `size` et une valeur  entière `val` et renvoie un tableau de taille `size` dont toutes les cases sont initialisées à `val` :
-```C
-int* get_tab(int size, int val)
-{
-    // Allouer sur le tas la place pour size entiers
-    int* tab = .........;
-    for (int i=0;.....;.....) 
+!!! note
+    On utilise, l'abus de langage "renvoyer un *tableau*", on gardera cependant à l'esprit qu'en C, on renvoie en fait un pointeur vers une zone mémoire de taille $n \times t$ où $n$ est la taille du tableau et $t$ la taille en mémoire de l'un de ses éléments. L'accès à cette zone mémoire se fait comme pour un tableau (c'est-à-dire avec la notation `tab[i]`). 
+
+1. Recopier et compléter la fonction `get_tab` suivante qui prend en argument un entier `size` et une valeur  entière `val` et renvoie un "tableau" de taille `size` dont toutes les cases sont initialisées à `val` :
+
+    ```C
+    int* get_tab(int size, int val)
     {
-        tab[i] = ....;
+        // Allouer sur le tas la place pour size entiers
+        int* tab = .........;
+        for (int i=0;.....;.....) 
+        {
+            tab[i] = ....;
+        }
+        return tab;
     }
-    return tab;
-}
-```
+    ```
 
 2. Ecrire un programme permettant de tester cette fonction
 
@@ -126,7 +130,8 @@ int* get_tab(int size, int val)
     * une fonction  renvoyant un tableau contenant `size` entiers aléatoires tous compris entre deux valeurs `vmin` et `vmax`
 
         !!! aide
-            Pour générer un entier aléatoire entre `vmin` et `vmax` on utilisera la fonction `rand()` qui renvoie un entier entre 0 et une constante `RAND_MAX` puis on utilisera un modulo. 
+            * Pour générer un entier aléatoire entre `vmin` et `vmax` on utilisera la fonction `rand()` qui renvoie un entier entre 0 et une constante `RAND_MAX` puis on utilisera un modulo. 
+            * Pour initialiser le générateur de nombre aléatoires on utilise usuellement la fonction `srand` en lui donnant en argument une durée en seconde obtenue à l'aide de `time(NULL)` (importer `time.h`).
 
 
 {{ exo("Suite de Fibonnaci",[])}}
@@ -142,7 +147,7 @@ $\left\{ \begin{array}{lll}
 2. Ecrire une fonction `somme_pair` qui prend en argument un tableau (et donc sa taille) et renvoie la somme des termes pairs de ce tableau. Par exemple si `tab = {0,1,1,2,3}` alors `somme_pair(tab,5)` doit renvoyer `2`.
 
 3. A l'aide des deux fonctions précédentes, calculer la somme des termes pairs de la suite de Fibonnaci pour $n<42$. Vous pouvez tester le résultat de votre programme dans le formulaire ci-dessous :  
-{{ check_reponse("82790070")}}
+    {{ check_reponse("82790070")}}
 
 
 {{ exo("Minimum et maximum",[])}}

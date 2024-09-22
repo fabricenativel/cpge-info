@@ -11,6 +11,11 @@
 
 {{ affiche_cours(num) }}
 
+
+## Travaux dirigés
+
+{{ td(num) }}
+
 ## Travaux pratiques
 
 !!! note
@@ -85,6 +90,27 @@ On définit les fonctions `pair` et `impair` de façon mutuellement récursive d
 1. Donner une implémentation en C de ces deux fonctions.
 
 1. Donner une implémentation en OCaml de ces deux fonctions.
+
+{{ exo("Chiffres romaines",[])}}
+
+En [numération romaine](https://fr.wikipedia.org/wiki/Num%C3%A9ration_romaine){target=_blank}, les nombres s'écrivent avec les symboles suivants :
+
+* I valant 1
+* V valant 5
+* X valant 10
+* L valant 50
+* C valant 100
+* D valant 500
+* M valant 1000
+
+On lit un nombre de la gauche vers la droite, si la valeur d'un symbole est inférieure à celle du suivant alors on retranche sa valeur du total, sinon on l'ajoute. Par exemple, `XIV` vaut `14` car la valeur du `I` doit être retranchée (car inférieure à celle de `V`).
+
+1. Ecrire une fonction de signature `#!c int valeur_symbole(char s)` qui renvoie la valeur du symbole donné en argument.
+
+    !!! note
+        On peut utiliser une suite de `if` imbriqués ou alors [un `switch`](https://fr.wikipedia.org/wiki/Switch_(instruction)){target=_blank} (mais qui n'est pas au programme de MP2I).
+
+2. Ecrire une fonction **récursive** de signature `#!c int valeur(char s[])` qui renvoie la valeur du nombre romains `s` donné sous la forme d'une suite de caractères.
 
 {{ exo("Mélange de Fisher-Yates",[])}}
 

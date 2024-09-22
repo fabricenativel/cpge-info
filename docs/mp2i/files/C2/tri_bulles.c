@@ -34,9 +34,6 @@ void tri_bulles(int tab[], int taille)
     for (int lim=taille-1;lim>=1;lim--)
     {
         parcours(tab,lim,taille);
-        affiche(tab,taille);
-    
-
     }
 }
 
