@@ -145,11 +145,10 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 \begin{exampleblock}{Correction de l'exemple 1}
-    \textcolor{OliveGreen}{On note  $\{ e_1, e_2, \dots, e_n \}$ les élements de \kw{tab} et  $k$ le nombre de tours de boucle\\}
-    \onslide<2->{\textcolor{OliveGreen}{Montrons que la propriété : \\}   \og{} \textit{\kw{nb} contient le nombre de de fois où \kw{elt} apparaît dans les $k$ premiers éléments de \kw{tab}} \fg{}  \textcolor{OliveGreen}{est un invariant de boucle.}} 
+    \onslide<2->{\textcolor{OliveGreen}{Montrons que la propriété : \\}   \og{} \textit{\kw{nb} contient le nombre de de fois où \kw{elt} apparaît dans le sous tableau \kw{\{tab[0], \dots tab[i-1]\}}} \fg{}  \textcolor{OliveGreen}{est un invariant de boucle.}} 
     \begin{itemize}
-        \item<4-> \textcolor{OliveGreen}{En entrant dans la boucle ($k=0$) la propriété est vraie car \kw{cpt} vaut 0.}
-        \item<5-> \textcolor{OliveGreen}{Supposons la propriété vraie au $k$-ième tour de boucle alors, au tour suivant elle reste vraie puisqu'on ajoute 1 au compteur lorsque \kw{elt}$=e_{k+1}$}
+        \item<4-> \textcolor{OliveGreen}{En entrant dans la boucle ($i=0$) la propriété est vraie car le sous tableau est vide et \kw{cpt} vaut 0.}
+        \item<5-> \textcolor{OliveGreen}{A chaque tour de boucle, on ajoute 1 au compteur lorsque \kw{elt}{\tt =tab[i]} donc si cette variable contenait le nombre d'occurrence de \kw{elt} du sous tableau \kw{\{tab[0], \dots tab[i-1]\}} alors elle contiendra le nombre d'occurrence de \kw{elt} du sous tableau \kw{\{tab[0], \dots tab[i]\}}. Donc la propriété reste vraie à chaque tour de boucle.}
     \end{itemize}
     \onslide<6->\textcolor{OliveGreen}{Cette propriété est donc bien un invariant de boucle.}
     \onslide<7->\textcolor{OliveGreen}{L'invariant de boucle reste vraie en sortie de boucle ce qui prouve que l'algorithme est correct.}
@@ -157,32 +156,20 @@
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{block}{Correction d'un algorithme récursif}
-        Dans le cas d'un algorithme récursif, la preuve de la correction peut s'obtenir :
-        \begin{itemize}
-            \item<1-> Directement à partir des identités mathématiques issues du code de la fonction.
-            \item<2-> Par un raisonnement inductif, c'est-à-dire similaire à une récurrence.
-        \end{itemize}
+    \begin{block}{\textcolor{lightgray}{\small \rappel \;} Correction d'un algorithme récursif}
+        Dans le cas d'un algorithme récursif, la preuve de la correction peut s'obtenir en effectuant une preuve par récurrence.
     \end{block}
-    \onslide<3->{
-    \begin{exampleblock}{Exemple 2 : factoriel récursif}
-        \onslide<4->\inputpartOCaml{\SPATH/correction.ml}{}{\small}{1}{2}
-        \onslide<5-> Les identités {\tt fact 0 = 1} et {\tt fact n =  n * fact (n-1)} si $n>0$, correspondent bien à la définition mathématique de la factorielle c'est-à-dire $0!=1$ et pour tout $n \in \N^*$, $n! = n \times (n-1)!$, donc cette fonction est correcte
-    \end{exampleblock}}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
+    \onslide<2->{
     \begin{exampleblock}{Exemple 2 : liste des termes pairs}
-        {\small On considère la fonction récursive suivante qui renvoie la liste des termes pairs.}
-        \onslide<2->\inputpartOCaml{\SPATH/correction.ml}{}{\small}{4}{8}
-        \onslide<3->{\small Pour prouver  que cette fonction est correcte on peut faire le raisonnement inductif suivant :}
-        \onslide<4->{\small On note $P(n)$, la propriété : \og{} \textit{pour une liste de taille $n$, \kw{pairs} renvoie la liste des termes pairs de cette liste} \fg{}. Alors :}
+        {\footnotesize On considère la fonction récursive suivante qui renvoie la liste des termes pairs.}
+        \onslide<2->\inputpartOCaml{\SPATH/correction.ml}{}{\footnotesize}{4}{8}
+        \onslide<3->{\footnotesize On note $P(n)$, la propriété : \og{} \textit{pour une liste de taille $n$, \kw{pairs} renvoie la liste des termes pairs de cette liste} \fg{}. Alors :}
         \begin{itemize}
-            \item<5-> {\small $P(0)$ est vérifiée d'après le cas de base}
-            \item<6-> {\small On suppose que $P(n)$ vérifié au rang $n$, et on considère une liste de taille $n+1$ notée {\tt h::t}. Comme  {\tt t} est de taille $n$, on lui applique l'hypothèse de récurrence et {\tt pair t} renvoie bien la liste des termes pairs.}
-            \onslide<7->{\small  La formule de récursivité permet alors de conclure que $P(n+1)$ est vérifiée puisque {\tt pair h::t} renvoie h::(pair t) si {\tt h} est pair et {\tt pair t} sinon. }
+            \item<4-> {\footnotesize $P(0)$ est vérifiée d'après le cas de base}
+            \item<5-> {\footnotesize On suppose que $P(n)$ vérifié au rang $n$, et on considère une liste de taille $n+1$ notée {\tt h::t}. Comme  {\tt t} est de taille $n$, on lui applique l'hypothèse de récurrence et {\tt pair t} renvoie bien la liste des termes pairs.}
+            \onslide<6->{\footnotesize  La formule de récursivité permet alors de conclure que $P(n+1)$ est vérifiée puisque {\tt pair h::t} renvoie h::(pair t) si {\tt h} est pair et {\tt pair t} sinon. }
         \end{itemize}
-    \end{exampleblock}
+    \end{exampleblock}}
 \end{frame}
 
 \makess{Complexité}
@@ -205,62 +192,43 @@
 		\Return Faux
 	  \end{algorithm} 
       \begin{enumerate}
-        \item<2-> Ecrire une implémentation en C.
-        \item<3-> Prouver que cet algorithme est totalement correct.
-        \item<3-> Combien de comparaisons effectue cet algorithme dans le meilleur des cas ?
-        \item<4-> Même question dans le pire des cas.
+        \item<2-> Combien de comparaisons effectue cet algorithme dans le meilleur des cas ?
+        \item<3-> Même question dans le pire des cas.
+        \item<4-> Que dire du cas où on recherche un élément $a$ présent en un seul exemplaire dans le tableau $t$ en supposant les positions équiprobables ?
     \end{enumerate}
     \end{exampleblock}
 \end{frame}
 
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exemple introductif}
-        \SetAlFnt{\small}
-	\setlength{\algomargin}{8pt}
-	\begin{algorithm}[H]
-        \footnotesize
-		\DontPrintSemicolon
-		\caption{Recherche dichotomique}
-		\Entree{$a \in \N$ et un tableau d'entiers $t$ \textcolor{blue}{\textit{trié}} de longueur $n$}
-		\Sortie{Booléen indiquant si $a \in t$.}
-		\everypar={\footnotesize \textcolor{gray}{\nl}}
-        $ d \leftarrow 0$ \;
-        $ f \leftarrow n-1$ \;
-		\Tq{$f - d \geqslant 0$}{
-            $ m \leftarrow (f+d)/2$ \;
-		\Si{$t[m]=a$}{
-            \Return Vrai 
+    \begin{exampleblock}{Correction}
+    \begin{enumerate}
+        \item<2-> \textcolor{OliveGreen}{\small Si l'élément cherché est en première position dans le tableau on effectue une seule comparaison.}
+        \item<3-> \textcolor{OliveGreen}{\small Si l'élément cherché n'est pas dans le tableau (ou qu'il y figure en dernière position) on effectue $n$ comparaison.}
+        \item<4-> \textcolor{OliveGreen}{\small on note $X$ le nombre de comparaisons avant de trouver $a$, alors $p(X=k) = \dfrac{1}{n}$. Donc,\\
+        $\begin{array}{lll}
+         \onslide<5->{E(X) &=& \displaystyle{\sum_{k=1}^{n} k\,\dfrac{1}{n}} \\}
+         \onslide<6->{E(X) &=&  \dfrac{n+1}{2}}
+        \end{array}$
         }
-        \Si{$a<t[m]$}
-        {
-            $f \leftarrow m - 1$
-        }\Sinon
-        {   $d \leftarrow m + 1$}
-		}
-		\Return Faux
-	  \end{algorithm} 
-      Mêmes questions sur ce nouvel algorithme.
-    \end{exampleblock}
+    \end{enumerate}
+    \onslide<7->\textcolor{OliveGreen}{Le nombre de comparaisons varie donc avec les données du problème.}\\
+    \onslide<8->{On peut cependant toujours \textit{majorer} le nombre de comparaisons, qui reste inférieur dans tous les cas à $Kn$  où $K$ est une constante et $n$ la taille du tableau.}
+\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exemple introductif}
-        \inputpartC{\SPATH/complexite.c}{}{\small}{12}{26}    
-    \end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exemple introductif}
-        Graphe des temps d'exécution (l'élément cherché est absent du tableau).
-        \begin{center}
-            \includegraphics[height=130px]{recherche.eps}
-        \end{center}
+    \begin{block}{Calcul de complexité}
+        L'exemple précédent est celui du calcul de la complexité d'un algorithme :
         \begin{itemize}
-            \item<2-> La recherche dichotomique est plus rapide.
-            \item<3-> Temps proportionnel à la taille du tableau pour la recherche simple.
+        \item<1-> on utilise \textcolor{blue}{une mesure de l'efficacité} de l'algorithme.\\
+        \onslide<2-> \textcolor{gray}{Dans l'exemple c'est le nombre de tests de comparaisons effectués par l'algorithme. D'autres mesures sont possibles, notamment le nombre d'opérations élémentaires ou encore la quantité de mémoire occupée.}
+        \item<3-> comme les performances de l'algorithme varient en fonction des données, on s'intéresse généralement à une simple \textcolor{blue}{majoration dans le \textit{pire des cas}}. \\
+        \onslide<4-> \textcolor{gray}{Dans l'exemple bien que l'algorithme puisse parfois répondre avec une seule comparaison c'est le pire des cas qui nous intéresse.}
+        \item<5-> on fournit une \textcolor{blue}{majoration asymptotique} c'est à dire à une constante multiplicative près et à partir d'un certain rang.\\
+        \onslide<6-> \textcolor{gray}{Dans l'exemple précédent la majoration était $Kn$.}
         \end{itemize}
-    \end{exampleblock}
+    \end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -268,15 +236,15 @@
         La \textcolor{red}{complexité} d'un algorithme est une mesure de son efficacité.
         \onslide<2-> On parle notamment de :
         \begin{itemize}
-            \item<3-> \textcolor{blue}{Complexité en temps} : le nombre d'opérations nécessaire à l'exécution d'un algorithme.
+            \item<3-> \textcolor{blue}{Complexité en temps} : le nombre d'opérations \textit{élémentaires} nécessaire à l'exécution d'un algorithme.
             \item<4-> Complexité en mémoire : l'occupation mémoire en fonction de la taille des données.
         \end{itemize}
-        \onslide<5->{Ces deux éléments varient en fonction de la taille et de la nature des données. On s'intéressera principalement à la complexité temporelle.}
+        \onslide<5->{Ces deux éléments varient en fonction de la taille et de la nature des données, on donne donc généralement une majoration dans le pire des cas.}
     \end{alertblock}
     \onslide<6->{
-    \begin{exampleblock}{Exemple}
-        La recherche dichotomique est plus rapide que la recherche simple, elle demande moins d'opérations, sa complexité doit donc être meilleure
-    \end{exampleblock}}
+    \begin{block}{Remarque}
+        On peut aussi parler de la \textcolor{blue}{complexité en moyenne}, qui s'intéresse au  nombre moyen d'operations effectuées par un algorithme sur un ensemble d'entrées de taille $n$.
+    \end{block}}
 \end{frame}
 
 
@@ -297,47 +265,6 @@
     \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{alertblock}{Types de complexité}
-    Le nombre d'opérations d'un algorithme peut varier en fonction de la nature des données, on est donc à amener à définir :
-        \begin{itemize}
-            \item<4-> la \textcolor{blue}{complexité dans le meilleur cas}, le nombre minimal d'operations effectuées par un algorithme sur une entrée de taille $n$.
-            \item<5-> la \textcolor{blue}{complexité dans le pire cas}, le nombre maximal d'operations effectuées par un algorithme sur une entrée de taille $n$.
-            \item<6-> la \textcolor{blue}{complexité en moyenne}, le nombre moyen d'operations effectuées par un algorithme sur un ensemble d'entrées de taille $n$.
-        \end{itemize}
-    \onslide<7->{En général, on s'intéresse à la \textcolor{blue}{complexité dans le pire cas}, car on cherche à \textcolor{blue}{majorer} le nombre d'opérations effectuées par l'algorithme.}
-    \end{alertblock}
-\end{frame} 
-
-
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exemple : recherche simple dans un tableau}
-        {\small On considère la fonction ci dessous qui recherche si l'\kw{elt} est ou non dans {\kw{tab}}}
-        \inputpartC{\SPATH/complexite.c}{}{\small}{6}{10}
-    \begin{enumerate}
-        \item<3-> {\small En donnant un exemple, montrer que cette fonction peut renvoyer le résultat en effectuant une seule comparaison.}
-        \item<4-> {\small En donnant un exemple, montrer que cette fonction peut renvoyer le résultat en effectuant $n$ comparaison.}
-        \item<5-> {\small On suppose à présent qu'on cherche un élément $a$ qui se trouve à un seul exemplaire dans le tableau et que les positions sont équiprobables. c'est-à-dire que pour tout $i \in \intN{0}{n-1}$ $a$ se trouve à l'indice $i$ avec la probabilité $\dfrac{1}{n}$. Quel sera le nombre \textit{moyen} de comparaison à effectuer avec de renvoyer le résultat ?}
-    \end{enumerate}
-\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exemple : recherche simple dans un tableau}
-    \begin{enumerate}
-        \item<2-> \textcolor{OliveGreen}{\small Si l'élément cherché est en première position dans le tableau on effectue une seule comparaison.}
-        \item<3-> \textcolor{OliveGreen}{\small Si l'élément cherché n'est pas dans le tableau (ou qu'il y figure en dernière position) on effectue $n$ comparaison.}
-        \item<4-> \textcolor{OliveGreen}{\small on note $X$ le nombre de comparaisons avant de trouver $a$, alors $p(X=k) = \dfrac{1}{n}$. Donc,\\
-        $\begin{array}{lll}
-         \onslide<5->{E(X) &=& \displaystyle{\sum_{k=1}^{n} k\,\dfrac{1}{n}} \\}
-         \onslide<6->{E(X) &=&  \dfrac{n+1}{2}}
-        \end{array}$
-        }
-    \end{enumerate}
-    \onslide<7->\textcolor{OliveGreen}{Le nombre de comparaisons varie donc avec les données du problème.}
-\end{exampleblock}
-\end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
     \begin{block}{Majoration asymptotique}
@@ -366,12 +293,15 @@
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{block}{Autres expressions de la complexité}
+    \begin{block}{Remarques}
+        Ecrire $u_n = O(v_n)$ traduit une \textit{majoration asymptotique}, \\
+        \textcolor{gray}{Par exemple si $u_n = 42n+2024$,  on pourrait écrire $u_n = O(n)$ mais aussi  que $u_n = O(n^2)$ (ou encore $u_n = O(n^3)$).}\\
+        On veut généralement  donner le \og{} meilleur grand O \fg{}. Afin d'exprimer formellement cette notion, on note :
         \begin{itemize}
-            \item<1-> On note $u_n = \Omega(v_n)$ si $v_n = O(v_n)$ 
-            \item<2-> On note $v_n = \Theta(v_n)$ si $u_n = O(v_n)$ et $v_n = O(u_n)$ \\
-            \onslide<3-> Cette notation peut être utilisé pour donner un équivalent (plutôt qu'une majoration de la complexité)
+            \item<2-> $u_n = \Omega(v_n)$ s'il existe $K \in \R^+$ et $n_0 \in \N$ tel que pour tout $n \geqslant n_0, u_n \geqslant Kv_n$ \\
+            \item<3-> $v_n = \Theta(v_n)$ si $u_n = O(v_n)$ et $v_n = O(u_n)$ \\
         \end{itemize}
+        \onslide<4->{On utilisera principalement la notation $O$, en gardant à l'esprit qu'on essaye toujours d'avoir la meilleure majoration}.
     \end{block}
 \end{frame}
 
@@ -456,17 +386,6 @@
     \end{exampleblock}}
 \end{frame}
 
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{block}{Equation de complexité}
-        Dans le cas des fonction récursives, la complexité pour une entrée de taille $n$ s'exprime à partir de complexité pour des tailles inférieures. On est donc amené à résoudre une \textit{équation de complexité}.
-    \end{block}
-    \onslide<2->{
-    \begin{exampleblock}{Exemple}
-        Par exemple si on considère la version récursive du calcul de la somme d'une liste d'entiers en OCaml :
-        \inputpartOCaml{\SPATH/somme.ml}{}{\small}{1}{4}
-        Alors on a $C(n) = C(n-1) + a$, et donc $C(n)$ est arithmétique de raison $a$ et $C(n)$ est un $O(n)$.
-    \end{exampleblock}}
-\end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
     \begin{exampleblock}{Les tours de Hanoï}
@@ -485,7 +404,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
     \begin{exampleblock}{Enoncé : recherche dichotomique}
     On reprend l'exemple de la recherche dichotomique dans un tableau trié:
-    \inputpartC{\SPATH/complexite.c}{}{\tiny}{12}{26}
+    \inputpartC{\SPATH/complexite.c}{}{\scriptsize}{12}{26}
     \begin{itemize}
         \item<2-> Prouver que cet algorithme termine
         \item<3-> Prouver qu'il est correct
@@ -545,10 +464,10 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
     \begin{exampleblock}{Correction du tri sélection}
-        \textcolor{OliveGreen}{Pour montrer que l'algorithme est correct, on prouve  la propriété : $P(k)$ : \og{} après $k$ itérations, les $k$ premiers éléments du tableau sont ceux du tableau trié pour $k=0 \dots n$.}
+        \textcolor{OliveGreen}{Pour montrer que l'algorithme est correct, on prouve  l'invariant : $I$ : \og{}  Les $i$ premiers éléments du tableau sont ceux du tableau trié \fg{}.}
         \begin{itemize}
-            \item<2->\textcolor{OliveGreen}{Pour $k=0$, la propriété est vraie (aucun élément n'est encore trié)}
-            \item<3->\textcolor{OliveGreen}{En supposant $P(k)$ vraie (c'est-à-dire les $k$ premiers éléments du tableau sont ceux du tableau trié), on montre $P(k+1)$. L'algorithme consiste à placer le minimum des éléments restants à l'indice $k+1$, cet élément est bien celui d'indice $k+1$ dans le tableau trié (il est supérieur aux éléments situés avant et inférieur à ceux qui restent à trier). Et donc $P(k+1)$ est vraie.}
+            \item<2->\textcolor{OliveGreen}{Pour $i=0$, la propriété est vraie (aucun élément n'est encore trié)}
+            \item<3->\textcolor{OliveGreen}{En supposant l'invariant vraie au début d'un tour de boucle (c'est-à-dire les $i$ premiers éléments du tableau sont ceux du tableau trié), on montre qu'il est conservé. L'algorithme consiste à placer le minimum des éléments restants à l'indice $i+1$, cet élément est bien celui d'indice $i+1$ dans le tableau trié (il est supérieur aux éléments situés avant et inférieur à ceux qui restent à trier). Et donc l'invariant est conservé.}
         \end{itemize}
     \end{exampleblock}
 \end{frame}
@@ -559,7 +478,7 @@
         \begin{itemize}
             \item<1-> Chaque recherche de minimum parcourt au plus la totalité du tableau et est donc un $O(n)$.
             \item<2-> Cette recherche est effectuée $n-1$ fois et est donc aussi un $O(n)$.
-            \item<3-> En conclusion la tri par sélection a un complexité en $O(n^2)$.
+            \item<3-> En conclusion la tri par sélection a une complexité en $O(n^2)$.
         \end{itemize}
     \end{exampleblock}
 \end{frame}

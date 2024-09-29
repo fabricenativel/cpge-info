@@ -7,202 +7,149 @@
 
 {{ affiche_cours(num) }}
 
+{{ telecharger("Memento de Python","../Cours/C16/memo.pdf")}}
+
 Les exemples vu en cours
 
 * ??? python "Syracuse"
     ```python
-    --8<-- "C0/syracuse.py"
+    --8<-- "C16/syracuse.py"
     ```
 
 * ??? python "Série harmonique"
     ```python
-    --8<-- "C0/harmo.py"
+    --8<-- "C16/harmo.py"
     ```
 
 * ??? python "Calcul du PGCD"
     ```python
-    --8<-- "C0/pgcd.py"
+    --8<-- "C16/pgcd.py"
     ```
 
 * ??? python "Recherche simple dans une liste"
     ```python
-    --8<-- "C0/est_dans.py"
+    --8<-- "C16/est_dans.py"
     ```
 
 * ??? python "maximum des éléments d'une liste"
     ```python
-    --8<-- "C0/max_liste.py"
+    --8<-- "C16/max_liste.py"
     ```
 
 ## Travaux pratiques
 
 
-### Pour démarrer en douceur
+{{ exo("Factorielle",[],0)}}
 
-{{ exo("Premières fonctions",[],0)}}
+On appelle *factorielle* d'un entier $n$ et on note $n!$ le produit de cet entier par tous ceux qui le précèdent à l'exception de zéro. Et on convient d'autre part que $0!=1$. Par exemple $5! = 5 \times 4 \times \times 3 \times 2 \times 1 = 120$. Ecrire une fonction `factorielle` qui prend en argument un entier `n` et renvoie sa factorielle.
 
-1. Ecrire une fonction `perimetre_rectangle` qui prend en argument en argument deux entiers `longueur` et `largeur` et renvoie le perimètre du rectangle de dimension `longueur`x`largeur`
+Vérifier en entrant ici la valeur de $42!$ : {{check_reponse("1405006117752879898543142606244511569936384000000000") }}
 
 
-3. Ecrire une fonction `est_triangle` qui prend en argument trois entiers `a`,`b` et `c` et qui renvoie `true` si ces trois entiers peuvent être les longueurs des trois côtés d'un triangle. 
+{{ exo("Calcul des termes d'une suite",[])}}
 
-    !!! aide
-        Cela revient à vérifier que les trois entiers vérifient l'inégalité triangulaire ou encore que le plus grand des trois est inférieur à la somme des deux autres.
+On considère la suite $(u_n)_{n \in \mathbb{N}}$ définie par $u_0 = 0.7$ et $u_{n+1} = 3.5 u_n(1-u_n)$. Calculer $u_{2024}$ (on donnera la valeur arrondie au centième).
 
-4. On appelle *factorielle* d'un entier $n$ et on note $n!$ le produit de cet entier par tous ceux qui le précèdent à l'exception de zéro. Et on convient d'autre part que $0!=1$. Par exemple $5! = 5 \times 4 \times \times 3 \times 2 \times 1 = 120$. Ecrire une fonction `factorielle` qui prend en argument un entier `n` et renvoie sa factorielle.
+Vérifier votre réponse : {{check_reponse("0.38")}} (valeur arrondie au centièmre)
 
-5. Ecrire une fonction `bissextile` qui prend en argument un entier `annee` et renvoie `true` si cette année est bissextile et `false` sinon.
+{{ exo("Calcul d'une somme",[])}}
 
-    !!! aide
-        Une année est bissextile si elle est divisible par 4 mais pas par 100 ou s'il est divisible par 400.
+Calculer la somme des entiers compris entre 1 et 10000 qui se terminent par 7 ou sont divisibles par 19.
 
-6. Ecrire une fonction prenant en entrée un entier $n$ et renvoyant le plus petit entier $k$ tel que $2^k \geq n$.
+Vérifier votre réponse : {{check_reponse("736847875")}}
 
-7. Ecrire une fonction prenant en entrée un entier $n$ et qui renvoie    $\displaystyle{\sum_{k=1}^{n} k^2}$.
+{{ exo("Somme des codes des caractères",[])}}
+En informatique, chaque caractère est associé à un entier : son code *unicode*, par exemple le code *unicode* du caractère `A` est 65. En Python, pour obtenir le code *unicode* d'un caractère on utilise la fonction `ord`, ainsi `ord('A')` vaut 65. Déterminer la somme de de tous les codes *unicode* des caractères de la phrase "*faire un peu de Python, c'est vraiment trop bien !*" ?  
+**Attention** : les guillemets ne font pas partie de la phrase. 
 
-{{ exo("Un peu de dessin",[]) }}
+!!! note "Remarques"
+    L'unicode étend le code {{sc("ascii")}} qui est parfois plus connu. En effet, lorsque le code {{sc("ascii")}} d'un caractère existe, il correspond à son code unicode. Ainsi le code {{sc("ascii")}} de `A` existe (et vaut donc aussi 65), mais `ù` n'est pas un caractère {{sc("ascii")}} et n'a donc pas de code {{sc("ascii")}} mais a bien un code unicode : 249.
 
-1. Ecrire une fonction `carre_plein` prenant comme paramètre un entier `cote` et un caractère `car` et permettant d'afficher un carré de côté `cote` rempli de caractères `car`. Par exemple, `carre(5,'C')` produit l'affichage suivant :
-```
-CCCCC
-CCCCC
-CCCCC
-CCCCC
-CCCCC
-```
 
-2. Ecrire une fonction `rectangle_creux`  prenant trois paramètres : deux entiers `largeur` et `longueur` et un caractère `car` permettant d'afficher un rectangle creux de dimensions `largeur` sur `longueur` dont la bordure est constitué de caractères `car`. Par exemple `rectangle_creux(3,7,'~')` devrait produire l'affichage suivant :
-```
-~~~~~~~
-~     ~
-~~~~~~~
-```
 
-3. De la même façon écrire une fonction `triangle` prenant comme paramètre un entier `hauteur` et un caractère `car` telle que `triangle(6,'*')` produise l'affichage suivant :
-```
-     *
-    ***
-   *****
-  *******
- *********
-***********
-```
+Vérifier votre réponse : {{ check_reponse("4491")}}
 
-{{ exo("Simulation d'un lancer de dé",[])}}
+{{ exo("Nombre de 2 dans la factorielle d'un nombre",[])}}
+On rappelle que la factorielle d'un entier naturelle $n$, notée $n!$, est le produit des entiers *strictement* positifs inférieurs ou égaux à $n$. Par exemple $5! = 5 \times 4 \times 3 \times 2 \times 1 = 120$. Quel est le nombre de 2 dans l'écriture décimale de $100!$ ?
 
-Au jeu des ["petits chevaux"](https://fr.wikipedia.org/wiki/Jeu\_des\_petits\_chevaux){target=_blank}, le joueur doit lancer un dé à six faces pour et obtenir 6 pour "sortir un de ses chevaux de l'écurie". On se demande, en moyenne combien de coups  il faut pour obtenir un 6 sur un lancer de dé.
+Vérifier votre réponse : {{check_reponse("19")}}
 
-1. En utilisant le module `random`,  écrire une fonction `lancer_de` qui ne prend aucun argument et renvoie un nombre choisir au hasard entre 1 et 6.
-2. Ecrire une fonction, `obtenir6` qui ne prend aucun argument et qui renvoie le nombre lancer effectué pour obtenir une première fois 6.
-3. Calculer la moyenne du nombre de coups nécessaire pour obtenir un six pour un grand nombre de parties (par exemple 10000).
 
-{{exo("Pierre, feuille, ciseaux",[])}}
+{{ exo("Nombres premiers",[])}}
 
-Ecrire un programme permettant de jouer à pierre-feuille-ciseaux contre l'ordinateur. On pourra procéder en 
+1. Ecrire une fonction `racine` qui prend en entrée un entier `n` positif et renvoie le plus grand entier `k` tel que `k * k <= n`.
+    Par exemple, `racine(9)` renvoie 3 et `racine(18)` renvoie 4.
 
-1. Ecrivant une fonction `gagnant` qui prend en argument deux entiers représentant les choix de l'ordinateur et celui du joueur (par exemple : 0 = pierre, 1 = feuille, 2 =ciseaux) et renvoie le résultat de la partie sous la forme d'une chaine de caractères comme par exemple ("match nul" ou "joueur gagnant")
-2. Ecrire une fonction `choix_ordi` qui renvoie un choix aléatoire parmi les trois possibilités
+2. Ecrire une fonction qui prend en argument un nombre et renvoie `True` lorsque ce nombre est premier et `False` sinon.
 
     !!! aide
-        On rapelle que la fonction `randint` du module `random` permet de choisir un entier naturel compris entre les deux entiers donnés en argument.
+        On peut se contenter de tester si les entiers $k$ compris entre 2 et la partie entière de $\sqrt{n}$ inclus divisent $n$ et utiliser la question 1.
 
-3. Ecrire une fonction `choix_joueur` sans argument qui renvoie le choix du joueur
+3. Ecrire une fonction `somme_premiers` qui prend en entrée un entier `n` et calcule la somme des nombres premiers inférieurs ou égaux à `n`. Par exemple `somme_premiers(10)` vaut `2 + 3 + 5 + 7 = 17`
 
-4. Utiliser les trois fonctions précédentes 
+4. Tester votre fonction en calculant `somme_premiers(10000)` :  {{check_reponse("5736396")}}
 
-{{exo("Nombre premier",[])}}
 
-Ecrire une fonction `est_premier` qui prend en argument un entier $n$ et renvoie `True` si ce nombre est premier et `False` sinon.
+{{ exo("Parcours de chaine de caractères",[])}}
 
-!!! aide
-    On pourra se contenter de tester si les entiers  $k$ compris entre 2 et $\sqrt{n}$ divisent $n$.
+1. Ecrire une fonction `contient` qui prend en argument une chaine de caractères `chaine` et un caractere `c` et qui renvoie `True` si `c` est dans `chaine` et  `False` sinon.
 
-### Sur les listes
+2. Ecrire une fonction `occurrence` qui prend en argument une chaine de caractères `chaine` et un caractere `c` et qui renvoie le nombre d'apparitions de `c` dans `chaine`.
 
-{{ exo("Génération de listes en Python",[])}}
-
-1. On considère le programme suivant :
-```python
-liste1 = [0]*100
-liste2 = [0 for k in range(100)]
-liste3 = []
-for k in range(100):
-    liste3.append(0)
+3. On considère la chaine `mystere` ci-dessous composée de caractères très semblables difficiles à distinguer à l'oeil nu :
 ```
-
-    1. Quel est le contenu de chacune des listes ?
-    2. Indiquer par quel procédé chacune de ces listes a été crée.
-
-2. Ecrire un programme python permettant de créer les listes suivantes :
-    1. Une liste contenant 12 fois le chiffre 7.
-    2. La liste des nombres entiers de 1 à 100.
-    3. Une liste contenant 1000 nombres tirés au sort entre 1 et 6.
-
-        !!! Aide 
-            On rappelle que la fonction `randint` peut être importer depuis le module `random`, elle permet de tirer un nombre en deux valeurs `a` et `b` données en paramètres.
-
-    4. La liste des cubes des entiers de 1 à 10.
-
-
-{{ exo("Parcours de listes en Python",[])}}
-
-On suppose qu'on dispose d'une liste de notes, on veut écrire une fonction qui renvoie le nombres de notes qui sont en dessous de la moyenne. 
-
-1. On considère une première version de cette fonction :
-```python
-def inferieur_moyenne(liste_notes):
-	nb = 0
-	for note in liste_notes:
-	    if .....:
-	    	nb = .......
-	return ...
+mystere = "O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8O0oQ0OoQD0OQ0o0OQD80oQ0OoQD0OQ0o0OQD8"
 ```
-    1. Recopier et compléter cette fonction
-    2. Tester cette fonction 
-
-2. Voici une deuxième version de cette fonction :
-```python
-def inferieur_moyenne(liste_notes):
-	nb = 0
-	for indice in ........:
-	    if ........... : 
-	    	nb = .......
-	return ...
-```
-    1. Recopier et compléter cette fonction
-    2. Tester cette fonction
-
-3. Quelle est la différence principale entre ces deux versions de la même fonction ?
-4. Ecrire les fonctions suivantes :
-    
-    2. `somme_liste` qui prend comme argument une liste non vide de nombres et renvoie la somme de ces nombres.
-    3. `moyenne_liste` qui prend comme argument une liste non vide de nombres et renvoie la moyenne de ces nombres.
-    4. `max_liste` qui prend comme argument une liste non vide de nombres et renvoie le plus grand de ces nombres.
-    5. `min_liste` qui prend comme argument une liste non vide de nombres et renvoie le plus petit de ces nombres.
-
-{{ exo("Recherche d'occurences",[])}}
-
-1. Ecrire une fonction `present` qui prend en argument un elément `elt` et une liste `liste`   et qui renvoie `True` si `elt` se trouve dans la liste `liste` et `False` sinon. Par exemple `present(3,[1,4,5])` renvoie `False`, par contre `present(4,[1,4,5])` renvoie `True`.
-2. Tester cette fonction
-3. Ecrire une fonction `occurence` qui renvoie le nombre de fois où `elt` apparaît dans `liste`.
-4. Ecrire une fonction `indice` qui renvoie l'indice de la première apparition d'`elt`dans `liste`. On renvoie $-1$ si `elt` ne se trouve pas dans `liste`.
+Combien de `0` contient cette chaine ?  
+Vérifier votre réponse : {{check_reponse("220")}}
 
 
-{{ exo("Chaines de caractères",[]) }}
+{{ exo("Conjecture de syracuse",[])}}
 
-1. Ecrire une fonction `compte_caractere(s,c)` qui prendre en argument une chaîne de caractère `s` et un caractère `c` et retourne le nombre de fois où `c` apparait dans `s`. Par exemple `compte_caractere("informatique","i"")` renvoie 2 puisqu'il y a deux `i` dans le mot `informatique`
-2. Ecrire une fonction `inverse` qui prend en argument une chaîne de caractère et retourne cette chaîne écrite à l'envers. Par exemple, `inverse("Python")` donnera `"nohtyP"`.
-3. Ecrire une fonction `compare` qui prend en argument deux chaînes de caractères et renvoie le nombre de fois où ces deux chaines on la même lettre au même emplacement. Par exemple, `compare("Python","Poterie")` retourne 2 car le "P" et le "t" sont situés aux mêmes emplacements dans les deux mots.
+La [conjecture de syracuse](https://fr.wikipedia.org/wiki/Conjecture_de_Syracuse){target=_blank} est l'hypothèse selon laquelle la suite  $(u_n)_{n \in \mathbb{N}}$ définie par son premier terme $u_0$ et la relation de récurrence :  
+$u_{n+1} = \left\{ \begin{array}{ll} \dfrac{u_n}{2} & \mathrm{\ si\ } u_n \mathrm{\ est \ paire} \\ 3u_n+1 & \mathrm{\ sinon} \\ \end{array} \right.$  
+atteint 1. Dans la suite de cette exercice on supposera cette conjecture vérifiée (bien qu'elle n'ait pas été mathématiquement prouvée, la conjecture a été vérifiée numériquement pour tous les entiers jusqu'à $2^{58}$).
 
-### Manipulations de fichiers
+1. Ecrire la fonction `terme_suivant` qui prend en argument un entier $n$ et renvoie $\dfrac{n}{2}$ si $n$ est paire et $3n+1$ sinon.
+2. Ecrire une fonction `duree_vol` qui prend en argument un entier $u_0$ et renvoie le plus petit entier $n$ appelé *durée de vol* tel que $u_n=1$. Par exemple `duree_vol(7)` doit renvoyer 16, en effet les termes successif de la suite sont `7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4 ,2, 1`.  
+Tester votre fonction en calculant la durée de vol de 123456789 :   
+Vérifier votre réponse : {{check_reponse("177")}}
 
-{{ exo("Nombre de lignes",[])}}
-Ecrire une fonction qui prend en paramètre un nom de fichier et retourne le nombre de lignes de ce fichier.
+3. Quelle est la plus grande durée de vol lorsque $1 \leq u_0 \leq 10000$ ?  
+Vérifier votre réponse : {{check_reponse("261")}}
+
+4. Vérifier que cette durée de vol maximale est atteinte pour une seule valeur de $u_0$, quelle est cette valeur ?  
+Vérifier votre réponse : {{check_reponse("6171")}}
+
+5. L'altitude maximale est la valeur maximale atteinte par la suite de Syracuse. Ecrire une fonction prenant $u_0$ et renvoyant l'altitude maximale atteinte. Par exemple l'altitude maximal de $u_0 = 7$ est $52$ (voir les termes de cette suite à la question 2.).
+
+6. Quelle est l'altitude maximale de $9331$ ?  
+Vérifier votre réponse : {{check_reponse("345544")}}
+
+
+{{exo("Opérations sur les listes",[])}}
+On considère la liste `carres` des $k$ premiers carrés des entiers *strictement* positifs, par exemple si $k=6$, `carres = [1, 4, 9, 16, 25, 36]`. Sur cette liste on effectue les opérations suivantes :
+
+* on enlève les deux derniers éléments
+* s'ils ont même parité on calcule leur somme, sinon leur différence (plus grand moins plus petit)
+* on rajoute la valeur calculée à l'étape précédente (la somme ou la différence) la fin de la liste
+
+Par exemple pour `carres = [1, 4, 9, 16, 25, 36]`
+
+* les deux derniers éléments sont `25` et `36`, ils sont enlevés de la liste qui devient `[1, 4, 9, 16]`
+* ces deux entiers n'ont pas la même parité, on fait la différence `36 - 25 = 11`
+* on ajoute cette valeur à la fin de la liste qui devient `[1, 4, 9, 16, 11]`
+On renouvelle ce processus sur la liste obtenue jusqu'à ce qu'elle contienne un unique élément (dans l'exemple ci-dessous on obtient successivement `[1, 4, 9, 5]` puis `[1, 4, 14]` puis `[1, 18]` et enfin `[17]`).
+
+Quel est l'élément restant dans le cas $k=100$ ?
+
+{{ check_reponse("18910")}}
+
 
 {{ exo("Somme des entiers dans un fichier",[])}}
 
 Le fichier `entiers.txt` téléchargeable ci-dessous contient sur chaque ligne un entier. Ecrire un programme Python qui lit ce fichier et fait la somme de ces entiers.
-{{telecharger("entiers.txt","../itc/files/C0/entiers.txt")}}
+{{telecharger("entiers.txt","../itc/files/C16/entiers.txt")}}
 
 Vérifier la réponse fournie par votre programme ci-dessous :
 {{ check_reponse('-1113')}}
@@ -213,25 +160,13 @@ Vérifier la réponse fournie par votre programme ci-dessous :
 {{ exo("Recherche dans un dictionnaire",[])}}
 
 Pour cette exercice on utilise le dictionnaire téléchargeable ci-dessous:
-{{ telecharger("Dictionnaire","../itc/files/C0/dictionnaire.txt")}}
+{{ telecharger("Dictionnaire","../itc/files/C16/dictionnaire.txt")}}
 
 1. Combien il y a-t-il de mots dans ce dictionnaire ?
 2. Lister tous les mots de 17 lettres de ce dictionnaire.
 3. Quel est le plus grand mot de ce dictionnaire ?
 4. Lister tous les mots de 5 lettres qui ont un *d* en deuxième position et se terminent par un *e*.
 5. Lister tous les mots palindromes de ce dictionnaire (un mot palindrome est un mot pouvant se lire indifféremment dans les deux sens par exemple *kayak* ou *été*)
-
-### Exercices de synthèse
-
-{{ exo("Conjecture de syracuse",[])}}
-
-La [conjecture de syracuse](https://fr.wikipedia.org/wiki/Conjecture_de_Syracuse){target=_blank} est l'hypothèse selon laquelle la suite définie $(u_n)_{n \in \mathbb{N}}$ définie par son premier terme $u_0$ et la relation de récurrence :  
-$u_{n+1} = \left\{ \begin{array}{ll} \dfrac{u_n}{2} & \mathrm{\ si\ } u_n \mathrm{\ est \ paire} \\ 3u_n+1 & \mathrm{\ sinon} \\ \end{array} \right.$  
-atteint 1. Dans la suite de cette exercice on supposera cette conjecture vérifiée.
-
-1. Ecrire la fonction `terme_suivant` qui prend en argument un entier $n$ et renvoie $\dfrac{n}{2}$ si $n$ est paire et $3n+1$ sinon.
-2. Ecrire une fonction `duree_vol` qui prend en argument un entier $u_0$ et renvoie le plus petit entier $n$ appelé *durée de vol* tel que $u_n=1$. Par exemple `duree_vol(7)` doit renvoyer 16, en effet les termes successif de la suite sont `7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4 ,2, 1`.
-3. Quelle est la plus grande durée de vol lorsque $1 \leq u_0 \leq 1000$. Pour quelle(s) valeur(s) de $u_0$ est-elle atteinte ?
 
 
 {{ exo("Problème de Joseph",[]) }}
@@ -248,7 +183,9 @@ Le but de l'activité est d'écrire un programme permettant de résoudre le [pro
 
 3. Programmer une fonction `josephus(n)` qui renvoie le soldat survivant pour un cercle de `n` soldats.
 
-4. Quel sera le survivant dans une cercle de 1000 soldats ?
+4. Quel sera le survivant dans une cercle de 10000 soldats ?  
+
+Vérifier votre réponse : {{check_reponse("3617")}}
 
 {{ exo("Triangle de Pascal",[]) }}
 
@@ -283,76 +220,40 @@ On rappelle qu'un nombre premier est un entier naturel ayant exactement deux div
 
 2. Ecrire une fonction `somme_premiers` qui prend en argument un entier `seuil` et renvoie la somme de tous les nombres premiers inférieurs ou égaux à `seuil`. Par exemple `somme_premiers(100)` renvoie `1060`
 
-{{ exo("Tri par sélection",[] )}}
-
-!!! abstract "Algorithme"
-    L'algorithme du *tri par sélection* consiste à :  
-
-    * rechercher le plus petit élement de la liste à partir de l'indice **0**
-    * échanger cet élément avec celui situé à l'indice **0**
-    * rechercher le plus petit élement de la liste à partir de l'indice **1**
-    * échanger cet élément avec celui situé à l'indice **1**
-    * et ainsi de suite jusqu'à atteindre la fin de la liste
-
-  
-1. Détailler les étapes de cet algorithme lorsqu'on le fait fonctionner sur la liste `[12,10,18,15,14]`
-
-    ??? Question "Corrigé"
-        * Recherche du minimum depuis l'indice 0 : $[12,\textcolor{red}{10},18,15,14]$
-        * Echange avec celui situé à l'indice 0 : $[10, 12, 18, 15, 14]$
-        * Recherche du minimum depuis l'indice 1 : $[10,\textcolor{red}{12}, 18, 15, 14]$
-        * Echange avec celui situé à l'indice 1 : $[10, 12, 18, 15, 14]$
-        * Recherche du minimum depuis l'indice 2 : $[10,12, 18, 15, \textcolor{red}{14}]$
-        * Echange avec celui situé à l'indice 2 : $[10, 12, 14, 15, 18]$
-        * Recherche du minimum depuis l'indice 3 : $[10,12, 18, \textcolor{red}{15}, 18]$
-        * Echange avec celui situé à l'indice 3 : $[10, 12, 14, 15, 18]$
-
-2. Ecrire une fonction `echange` qui prend en argument une liste et deux indices $i$ et $j$ et échange les éléments d'indice $i$ et $j$ de cette liste.
-
-    ??? Question "Corrigé"
-        ```python
-        --8<-- "C0/select_sort.py:1:3"
-        ```
-
-3. Ecrire une fonction `indice_min_depuis` qui prend en argument une liste et un indice $i$ et renvoie l'indice du minimum des éléments de cette liste depuis l'indice $i$.
-
-    ??? Question "Corrigé"
-        ```python
-        --8<-- "C0/select_sort.py:5:13"
-        ```
-
-4. Programmer et tester l'algorithme du tri par sélection
-
-    ??? Question "Corrigé"
-
-        ```python
-        --8<-- "C0/select_sort.py:15:19"
-        ```
-
-        On rappelle que les listes sont mutables en Python, et qu'on effectue ici un tri en place (la liste est modifiée et on en crée pas de nouvelle). Pour tester on peut donc écrire :
-
-        ```python
-        --8<-- "C0/select_sort.py:22:24"
-        ```
-
+3. Calculer la somme des 10000 premiers nombres premiers  
+Vérifier votre réponse : {{check_reponse("5736396")}}
 
 {{ exo("Tri par insertion",[] )}}
 !!! abstract "Algorithme"
     * L'algorithme du *tri par insertion* consiste à considérer qu'une partie de la liste (initialement vide) située au début est déjà triée. On parcourt ensuite le reste de la liste et on insère chaque élément à la bonne position dans la partie déjà triée.  
     * Pour réaliser cette insertion, on pourra echanger l'élement avec son voisin de gauche tant qu'il lui est supérieur et que le début de la liste n'est pas atteint.
 
-Programmer et tester cet algorithme.
+1. Programmer cet algorithme.
 
-{{ exo("Recherche dichotomique",[] )}}
+2. Créer la liste  $u$ telle que le terme d'indice $i$ de $u$ soit  $u_i = i^2 - 564i + 77760$, pour $0\leqslant i <> 5000$, trier cette liste par ordre croissant, et donner la valeur du terme d'indice $2024$  
+Vérifier votre réponse : {{check_reponse("3032800")}}
 
-!!! abstract "Algorithme"
-    Pour rechercher un élement dans une liste **triée**, on peut :
 
-    * partager la liste en deux parties de longueur égale (à une unité près).
-    * comparer l'élément cherché avec celui situé au milieu et en déduire dans quel moitié poursuivre la recherche.
-    * l'algorithme s'arrête lorsque la zone de recherche est vide.
+{{ exo("Evolution d'une chaine de caractères",[]) }}
+On considère une chaine de caractères initialement constituée de $k$ caractères `.` suivie d'un caractère `#` puis de $k$ caractères `#`. Par exemple pour $k=5$ la chaine est `.....#.....` (5 `.` suivi d'un `#` puis de 5 `.`). Cette chaine évolue de la façon suivante :
 
-Programmer et tester cet algorithme
+* si un `.` est entre un `#` et un `.`, il se transforme en `#` sinon il reste un `.`
+* si un `#` est entre deux `#` ou s'il a un `#` à sa gauche et un `.` à sa droite, il se transforme en `.` sinon il reste un `#`
+* le premier et le dernier caractère ayant un seul voisin, ils ne sont pas affectés par ces règles d'évolutions et restent toujours des `.`
+
+Par exemple dans le cas $k=5$ : les étapes successives d'évolution sont :
+
+* `.....#.....` (état initial :)
+* `....###....` (étape 1)
+* `...##..#...` (étape 2)
+* `..##.####..` (étape 3)
+* `.##..#...#.` (étape 4)
+* `.#.####.##.` (étape 5)
+
+Dans le cas $k=256$, et à l'étape 1000, combien de `#` contient la chaine ?
+
+
+Vérifier votre réponse : {{check_reponse("263")}}
 
 {{ exo("Boîte de plus grand volume",[])}}
 
@@ -363,7 +264,7 @@ QBHC 117 70 79
 ZOWK 262 66 31
 ```
 Donc, la boite de référence `NWLR` a comme dimension `283x75x46`.
-{{telecharger("boites.txt","../itc/files/C0/boites.txt")}}
+{{telecharger("boites.txt","../itc/files/C16/boites.txt")}}
 
 Trouver la référence de la plus de plus grand volume, et vérifier votre résultat dans le formulaire suivant :   {{ check_reponse("ZSDW") }}
 

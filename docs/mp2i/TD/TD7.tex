@@ -89,6 +89,34 @@ On donne la fonction suivante :
     
 \end{Exercise}
 
+\begin{Exercise}[title={Recherche dichotomique}]
+\begin{algorithm}[H]
+    \footnotesize
+    \DontPrintSemicolon
+    \caption{Recherche dichotomique}
+    \Entree{$a \in \N$ et un tableau d'entiers $t$ \textbf{trié} de longueur $n$}
+    \Sortie{Booléen indiquant si $a \in t$.}
+    \everypar={\footnotesize \textcolor{gray}{\nl}}
+    $ d \leftarrow 0$ \;
+    $ f \leftarrow n-1$ \;
+    \Tq{$f - d \geqslant 0$}{
+        $ m \leftarrow (f+d)/2$ \;
+    \Si{$t[m]=a$}{
+        \Return Vrai 
+    }
+    \Si{$a<t[m]$}
+    {
+        $f \leftarrow m - 1$
+    }\Sinon
+    {   $d \leftarrow m + 1$}
+    }
+    \Return Faux
+  \end{algorithm} 
+  \Question{Etudier la terminaison de cet algorithme.}
+  \Question{Prouver que cet algorithme est totalement correct.}
+  \Question{Déterminer sa complexité.}
+\end{Exercise}
+
 \begin{Exercise}[title={nombre de chiffres d'un entier}]
     \Question{Ecrire en C, une version itérative d'une fonction donnant le nombre de chiffres d'un entier naturel.}
     \Question{Ecrire une version récursive en OCaml.}

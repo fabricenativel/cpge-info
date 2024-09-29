@@ -7,21 +7,64 @@
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
 
 % Numéro et titre de chapitre
-\setcounter{numchap}{0}
+\setcounter{numchap}{16}
 \newcommand{\Ctitle}{\cnum Un peu de Python}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C\thenumchap}
 
-\makess{Généralités}
+\makess{Types de base et opérateurs associés}
+% Types de bases
 \begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Bonnes pratiques de programmation}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|p{3cm}|>{\footnotesize}X|}
+			\hline
+			Type       & Opérations                                                                                                   & Commentaires                                                                                                                                                                   \\
+			\hline
+			\kw{int}   & \leavevmode\onslide<2->{\kw{+}, \kw{-}, \kw{*}, \kw{/},\newline \kw{**}, \kw{//}, \kw{\%}.}                  & \leavevmode\onslide<2->{Entiers de taille dynamique (limitée par la mémoire)}.                                                                                                 \\
+			\hline
+			\kw{float} & \leavevmode\onslide<3->{\kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{**}.}                                            & \leavevmode\onslide<3->{Représentation des nombres en virgule flottante (norme ieee754 : mantisse sur 53 bits, exposant sur 11 bits). Fonctions élémentaires dans \kw{math}}   \\
+			\hline
+			\kw{bool}  & \leavevmode\onslide<4->{\kw{or},  \kw{and}, \kw{not}, \textcolor{gray}{\tt all}, \textcolor{gray}{\tt any}.} & \leavevmode\onslide<4->{Les deux valeurs possibles sont \kw{True} et \kw{False}. Evaluation séquentielle des expressions.}                                                     \\
+			\hline
+			\kw{str}   & \leavevmode\onslide<5->{\kw{+}, \kw{*}, \kw{len}, \kw{[]}}                                                   & \leavevmode\onslide<5->{Chaines de caractères.\newline {\small \textcolor{BrickRed}{\danger}} La numérotation commence à 0. Extraction de tranches avec {\tt [debut:fin:pas]}} \\
+			\hline
+		\end{tabularx}
+		\onslide<6-> {Des conversions sont possibles entre ces différents types, par exemple \mintinline{python}{int("2024")} est l'entier {\tt 2024}.\leavevmode\onslide<2->}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{enumerate}
+			\item<1-> Quel est le reste dans la division euclidienne de $1970^{54}$ par $1515$ ?
+			\item<2-> Quel est le nombre de chiffres de $2024^{42}$ ?
+			\item<3-> Comment obtenir le dernier caractère d'une chaine de caractère ?
+			\item<4-> On a dissimulé un message dans la chaine de caractères suivante, pour le retrouver il faut lire un caractère sur 2. Quel est le message ?
+				\mintinline{python}{"TArooapV cbbiqernz QlCeC JPEyItUhroknT"}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+% Fonction
+\makess{Fonctions}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définir une fonction en Python}
+		Pour définir une fonction en Python :
 		\begin{itemize}
-			\item<1-> Les \textit{commentaires} s'écrivent en faisant commencer la ligne par le caractères \kw{\#}
-			\item<2-> Les noms de variables et de fonction doivent être explicites.
-			\item<3-> L'instruction \kw{assert <condition>} permet de vérifier que \kw{<condition>} est vérifiée avant de continuer l'exécution du programme. On peut ainsi tester des fonctions ou vérifier des \textit{préconditions} sur  des arguments.
+			\item<2-> qui ne renvoie pas de valeur :
+				\begin{codepython*}{tabsize=0}
+					def <nom_fonction>(<arguments>):
+					<instruction>
+				\end{codepython*}
+			\item<2-> qui renvoie une valeur : \begin{codepython*}{tabsize=0}
+					def <nom_fonction>(<arguments>):
+					<instruction>
+					return <resultat>
+				\end{codepython*}
 		\end{itemize}
 	\end{alertblock}
 \end{frame}
 
+\makess{Importation de librairies}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{Utilisation de librairies}
 		\begin{itemize}
@@ -31,93 +74,17 @@
 		\end{itemize}
 	\end{alertblock}
 	\begin{exampleblock}{Exemple}
-		\onslide<4->\begin{codepython}
+		\onslide<4->\begin{codepython*}{tabsize=0}
 			import randint
 			de = randint(1,6)
-		\end{codepython}
-		\onslide<5->\begin{codepython}
+		\end{codepython*}
+		\onslide<5->\begin{codepython*}{tabsize=0}
 			from random import randint
 			de = randint(1,6)
-		\end{codepython}
+		\end{codepython*}
 	\end{exampleblock}
 \end{frame}
 
-
-% Types de bases
-\makess{Types de base}
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Types de base}
-		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
-			\hline
-			Type     & Opérations                               & Commentaires                                                          \\
-			\hline
-			\kw{int} & \kw{+}, \kw{-}, \kw{*}, \kw{//}, \kw{\%} & Entiers signés ou non signés. Taille dynamique limitée par la mémoire \\
-			\hline
-			         &                                          & \  \newline \ \newline                                                \\
-			\hline
-			         &                                          & \  \newline \                                                         \\
-			\hline
-		\end{tabularx}
-		\vspace{1cm}
-	\end{alertblock}
-\end{frame}
-
-% Types de bases
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Types de base}
-		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
-			\hline
-			Type       & Opérations                               & Commentaires                                                                                                                                          \\
-			\hline
-			\kw{int}   & \kw{+}, \kw{-}, \kw{*}, \kw{//}, \kw{\%} & Entiers signés ou non signés. Taille dynamique  limitée par la mémoire                                                                                \\
-			\hline
-			\kw{float} & \kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{**}  & Représentation des nombres en virgule flottante (norme ieee754 : mantisse sur 53 bits, exposant sur 11 bits). Fonctions élémentaires dans \kw{math.h} \\
-			\hline
-			           &                                          & \  \newline \                                                                                                                                         \\
-			\hline
-		\end{tabularx}
-		\vspace{1cm}
-	\end{alertblock}
-\end{frame}
-
-% Types de bases
-\begin{frame}{\Ctitle}{\stitle}
-	\begin{alertblock}{Types de base}
-		\begin{tabularx}{\linewidth}{|l|c|>{\footnotesize}X|}
-			\hline
-			Type       & Opérations                                                                        & Commentaires                                                                                                                                        \\
-			\hline
-			\kw{int}   & \kw{+}, \kw{-}, \kw{*}, \kw{//}, \kw{\%}                                          & Entiers signés ou non signés. Taille dynamique limitée par la mémoire                                                                               \\
-			\hline
-			\kw{float} & \kw{+}, \kw{-}, \kw{*}, \kw{/}                                                    & Représentation des nombres en virgule flottante (norme ieee754 : mantisse sur 53 bits, exposant sur 11 bits). Fonctions élémentaires dans \kw{math} \\
-			\hline
-			\kw{bool}  & \kw{or}  \kw{and}, \kw{not}, \textcolor{gray}{\tt all}, \textcolor{gray}{\tt any} & Evaluations paresseuses des expressions.                                                                                                            \\
-			\hline
-		\end{tabularx}
-		\vspace{1cm}
-	\end{alertblock}
-\end{frame}
-
-
-
-% Fonction
-\makess{Fonctions}
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{alertblock}{Définir une fonction en Python}
-		Pour définir une fonction en Python :
-		\begin{itemize}
-			\item<2-> qui ne renvoie pas de valeur :\begin{codepython}
-					def <nom_fonction>(<arguments>):
-					<instruction>
-				\end{codepython}
-			\item<2-> qui renvoie une valeur : \begin{codepython}
-					def <nom_fonction>(<arguments>):
-					<instruction>
-					return <resultat>
-				\end{codepython}
-		\end{itemize}
-	\end{alertblock}
-\end{frame}
 
 % Instructions conditionnelles
 \makess{Instructions conditionnelles}
@@ -125,18 +92,18 @@
 	\begin{alertblock}{Instructions conditionnelles}
 		\begin{itemize}
 			\item<1-> Sans clause \kw{else}
-				\begin{codepython}
+				\begin{codepython*}{tabsize=0}
 					if <condition>:
 					<instructions>
-				\end{codepython}
+				\end{codepython*}
 				Exécute les {\tt <instructions>} si la {\tt condition} est vérifiée.
 			\item<2-> Avec clause \kw{else}
-				\begin{codepython}
+				\begin{codepython*}{tabsize = 0}
 					if <condition>:
 					<instructions1>
 					else:
 					<instructions2>
-				\end{codepython}
+				\end{codepython*}
 				Cela permet d'exécuter les {\tt <instructions1>} si la {\tt condition} est vérifiée, sinon on exécute les {\tt <instructions2>}.
 		\end{itemize}
 	\end{alertblock}
@@ -159,10 +126,10 @@
 	\begin{alertblock}{Boucles {\tt while}}
 		\begin{itemize}
 			\item<2-> La syntaxe d'une boucle \textcolor{red}{\tt while}  en Python est :
-				\begin{codepython}
+				\begin{codepython*}{tabsize = 0}
 					while <condition>:
 					<instruction>
-				\end{codepython}
+				\end{codepython*}
 				Cela permet d'exécuter les {\tt <instructions>} tant que la {\tt <condition>} est  vérifiée.
 			\item<3-> L'instruction \kw{break} permet de sortir de la boucle de façon anticipée.
 			\item<4->  On ne sait pas a priori combien de fois cette boucle sera exécutée (et elle peut même être infinie), on dit que c'est une boucle \textcolor{blue}{non bornée}.
@@ -172,13 +139,13 @@
 
 % boucle for
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{alertblock}{Boucles {\tt for}}
+	\begin{alertblock}{Boucles {\tt for} avec {\tt range}}
 		\begin{itemize}
 			\item<2-> Les instructions :
-				\begin{codepython}
+				\begin{codepython*}{tabsize = 0}
 					for <variable> in range(<entier>):
 					<instructions>
-				\end{codepython}
+				\end{codepython*}
 				créent une variable parcourant les entiers de 0 à {\tt <entier>} (exclu).
 			\item<3-> Les {\tt <instructions>} indentées qui suivent seront exécutées pour chaque valeur prise par la variable.
 			\item<4-> L'instruction \kw{break} permet de sortir de la boucle de façon anticipée.
@@ -189,16 +156,32 @@
 
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Boucles {\tt for} pour parcourir un itérable}
+		\begin{itemize}
+			\item<2-> Les instructions :
+				\begin{codepython*}{tabsize = 0}
+					for <variable> in <iterable>:
+					    <instructions>
+				\end{codepython*}
+				permet à {\tt <variable>} de prendre les valeurs présentes dans {\tt <iterable>}.
+			\item<3-> Les {\tt <instructions>} indentées qui suivent seront exécutées pour chaque valeur prise par la variable.
+			\item<4-> Une chaine de ce caractère est un itérable, la variable prend alors comme valeur chacun des caractères de la chaine.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\makess{Quelques exemples}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple 1}
 		Ecrire et tester une fonction {\tt syracuse} qui prend en argument un entier naturel $n$ et renvoie $n/2$ si $n$ est pair et $3n+1$ sinon. \\
-		\onslide<2->\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C0/syracuse.py}{}{}
+		\onslide<2->\inputpython{\SPATH/syracuse.py}{}{}
 	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple 2}
 		Ecrire une fonction {\tt serie\_harmonique} qui prend en argument un entier $n$ et renvoie la somme $\displaystyle{\sum_{k=1}^n \frac{1}{k}}$
-		\onslide<2->\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C0/harmo.py}{}{}
+		\onslide<2->\inputpython{\SPATH/harmo.py}{}{}
 	\end{exampleblock}
 \end{frame}
 
@@ -209,9 +192,9 @@
 		\onslide<2->{\small \textcolor{OliveGreen}{\aide} on rappelle que l'algorithme consiste --tant que $b$ n'est pas nul- à effectuer la division euclidienne de $a$ par $b$. En remplaçant à chaque étape $a$ par $b$ et $b$ par $r$.}
 		\begin{itemize}
 			\item \onslide<3->{Version 1 : }\onslide<5->{\textcolor{BrickRed}{iterative}}
-			      \onslide<3->{\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C0/pgcd.py}{}{\small}}
+			      \onslide<3->{\inputpython{\SPATH/pgcd.py}{}{\small}}
 			\item \onslide<4->{Version 2 : }\onslide<5->{\textcolor{BrickRed}{récursive}}
-			      \onslide<4->{\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C0/pgcd_rec.py}{}{\small}}
+			      \onslide<4->{\inputpython{\SPATH/pgcd_rec.py}{}{\small}}
 		\end{itemize}
 	\end{exampleblock}
 \end{frame}
@@ -250,35 +233,24 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{\textcolor{yellow}{\small \important} Spécificité de Python}
-		Les listes de Python sont \textcolor{blue}{mutables}, c'est-à-dire que les modifications faites sur une liste passée en argument à une fonction sont effectivement réalisées sur la liste. Ce n'est \textcolor{blue}{pas} le cas sur les arguments de type entier ou flottants.
+		En Python, on manipule des \textit{objets}, une variable est l'association entre un nom et l'objet qu'il référence. Certains objets, sont \textit{mutables} et d'autres non et cela à des conséquences importantes :
+		\begin{itemize}
+			\item Cas \textit{non mutable}, l'objet ne peut pas être modifié, c'est le cas des entiers, des chaines de caractères, des flottants, des booléens. Par exemple,
+			      \begin{codepython*}{fontsize=\footnotesize,tabsize=0}
+					x = 5     #x référence l'objet 5
+					y = x	  #y référence aussi l'objet 5
+					x = x + 2 #en faisant x+2 on crée un nouvel objet, x référence ce nouvel objet (mais pas y)
+			      \end{codepython*}
+			\item Cas \textit{mutable}, l'objet peut être modifié et donc dans ce cas, toutes les références à cet objet vont désignés l'objet modifié. Par exemple,
+			      \begin{codepython*}{fontsize=\footnotesize,tabsize=0}
+				    x = [5]  #x référence [5]
+				    y = x    #y référence aussi [5]
+				    x.append(2) #On modifie [5] (on ne crée pas un nouvel objet, donc y contient aussi [5,2])
+			      \end{codepython*}
+		\end{itemize}
 	\end{alertblock}
 \end{frame}
 
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemples}
-		\begin{itemize}
-			\item<1-> Ce programme affiche 42 car {\tt n} étant de type entier  l'opération effectuée sur {\tt n} ne se répercute pas sur l'argument de la fonction.
-				\begin{codepython*}{fontsize=\small}
-					def carre(n):
-					n = n * n
-
-					n = 42
-					carre(n)
-					print(n)
-				\end{codepython*}
-			\item<2-> Ce programme modifie la liste passée en argument et donc affichera {\tt [5,7]}
-				\begin{codepython*}{fontsize=\small}
-					def ajoute(liste,valeur):
-					liste.append(valeur)
-
-					liste = [5]
-					liste.ajoute(7)
-					print(liste)
-				\end{codepython*}
-		\end{itemize}
-	\end{exampleblock}
-\end{frame}
 
 
 % Génération de listes
@@ -316,8 +288,8 @@
 	\begin{alertblock}{Tuples}
 		\begin{itemize}
 			\item<1-> Les \textcolor{blue}{tuples} sont le pendant non mutables des listes. Ils se notent entre parenthèses \kw{(} et \kw{)}, les éléments sont aussi séparés par des virgules.
-			\item<2-> De même que pour les listes, on peut accéder à la longueur avec \kw{len}, aux éléments avec la notation crochet et le parcours avec une boucle \kw{for} est aussi possible.
-			\item<3-> La modification par contre n'est pas possible
+			\item<1-> De même que pour les listes, on peut accéder à la longueur avec \kw{len}, aux éléments avec la notation crochet et le parcours avec une boucle \kw{for} est aussi possible.
+			\item<1-> La modification par contre n'est pas possible
 		\end{itemize}
 	\end{alertblock}
 	\begin{exampleblock}{Exemple}
@@ -336,10 +308,10 @@
 				\onslide<2-> Par exemple si \mintinline{python}{mot = "Génial"} alors \mintinline{python}{mot[2]} contient la lettre \mintinline{python}{"n"}
 			\item<3-> Le parcours par élément peut aussi se faire sur une chaine de caractères. \\
 				\onslide<4-> Pour afficher chaque lettre du mot "Génial", on peut donc écrire :
-				\onslide<5->\begin{codepython}
+				\onslide<5->\begin{codepython*}{tabsize=0}
 					for lettre in mot:
 					print(lettre)
-				\end{codepython}
+				\end{codepython*}
 			\item<6-> Comme les tuples, les chaines de caractères sont non mutables.
 			\item<7-> \textcolor{blue}{\small \important} Les variables lues au clavier (instruction \kw{input}) ou issus de la lecture d'un fichier sont des chaines de caractères. On doit les convertir dans le type approprié pour les utiliser comme nombre.
 			\item<8-> La fonction \kw{split} permet de renvoyer une liste de sous chaines en utilisant le séparateur donné en argument.
@@ -350,7 +322,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple}
 		Ecrire une fonction {\tt check\_date} qui prend en argument une chaine de caractères et renvoie \kw{True} si cette chaine est une date valide au format JJ/MM/AAAA et \kw{False} sinon. Pour simplifier on testera simplement que le jour est entre 1 et 31 et le mois entre 1 et 12.
-		\onslide<2->{\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C0/check_date.py}{}{\small}}
+		\onslide<2->{\inputpython{\SPATH/check_date.py}{}{\small}}
 	\end{exampleblock}
 \end{frame}
 
@@ -382,9 +354,9 @@
 		Ecrire une fonction {\tt est\_dans} qui prend en argument un entier {\tt n}  et une liste d'entiers {\tt l}  et renvoie {\tt True} si {\tt n} est dans {\tt l} et {\tt False} sinon. On écrira une version utilisant un parcours par valeur et une version utilisant un parcours par indice.
 		\begin{itemize}
 			\item<2-> Parcours par élément :
-				\onslide<2->{\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C0/est_dans.py}{}{\small}}
+				\onslide<2->{\inputpython{\SPATH/est_dans.py}{}{\small}}
 			\item<3-> Parcours par indice :
-				\onslide<2->{\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C0/est_dans_ind.py}{}{\small}}
+				\onslide<2->{\inputpython{\SPATH/est_dans_ind.py}{}{\small}}
 		\end{itemize}
 	\end{exampleblock}
 \end{frame}
@@ -392,7 +364,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple 2}
 		Ecrire une fonction {\tt max\_liste} qui prend en argument une liste non vide d'entiers {\tt l}  et renvoie le maximum des éléments de cette liste
-		\onslide<2->{\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C0/max_liste.py}{}{\small}}
+		\onslide<2->{\inputpython{\SPATH/max_liste.py}{}{\small}}
 	\end{exampleblock}
 \end{frame}
 
@@ -435,7 +407,7 @@
 \makess{Rappels d'algorithmique : généralités}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Algorithmique}
-		Dans l'étude des algorithmes (\textcolor{blue}{algorithmique}), on s'intéresse aux trois problèmes suivantes :
+		Dans l'étude des algorithmes (\textcolor{blue}{algorithmique}), on s'intéresse aux trois problèmes suivants :
 		\begin{enumerate}
 			\item<2-> \textcolor{blue}{terminaison} : peut-on garantir que l'algorithme se termine en un temps fini ? (ne concerne que les algorithmes avec des boucles non bornées et les récursions.)
 			\item<3-> \textcolor{blue}{correction} : peut-on garantir que l'algorithme fournit la réponse attendue ?
@@ -551,40 +523,49 @@
 	\end{alertblock}
 \end{frame}
 
+
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple 1}
 		On considère la fonction ci-dessous :
-		\inputpartPython{\SPATH/correction.py}{}{\small}{1}{7}
-		\onslide<2-> En trouvant un invariant de boucle, montrer qu'à la sortie de la boucle, la variable \kw{cpt} contient le nombre de fois où \kw{elt} apparaît dans \kw{liste}
+		\inputpartPython{\SPATH/terminaison.py}{}{\small}{1}{8}
+		\onslide<2-> En trouvant un invariant de boucle, prouver la correction de cette fonction.
 	\end{exampleblock}
 \end{frame}
-
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Correction de l'exemple 1}
-		\textcolor{OliveGreen}{On note  $\{ e_1, e_2, \dots, e_n \}$ les élements de \kw{liste} et  $k$ le nombre de tours de boucle\\}
-		\onslide<2->{\textcolor{OliveGreen}{Montrons que la propriété : \\}   \og{} \textit{\kw{cpt} contient le nombre de de fois où \kw{elt} apparaît dans les $k$ premiers éléments de \kw{liste}} \fg{}  \textcolor{OliveGreen}{est un invariant de boucle.}}
+		\textcolor{OliveGreen}{On note  $a_0$ la valeur initiale de la variable {\tt a}.}
+		\onslide<2->{\textcolor{OliveGreen}{Montrons que la propriété : \\}   \og{} $a_0 = bq + a$ \fg{}  \textcolor{OliveGreen}{est un invariant de boucle.}}
 		\begin{itemize}
-			\item<4-> \textcolor{OliveGreen}{En entrant dans la boucle ($k=0$) la propriété est vraie car \kw{cpt} vaut 0.}
-			\item<5-> \textcolor{OliveGreen}{Supposons la propriété vraie au $k$-ième tour de boucle alors, au tour suivant elle reste vraie puisqu'on ajoute 1 au compteur lorsque \kw{elt}$=e_{k+1}$}
+			\item<4-> \textcolor{OliveGreen}{La propriété est vraie avant d'entrée dans la boucle puisque on alors $q=0$ et $a_a0$ et donc $bq + a = a_0$.}
+			\item<5-> \textcolor{OliveGreen}{Supposons la propriété vraie au début d'une itération de la boucle et montrons qu'elle est conservée à l'itération suivante. En notant $a'$ (resp. $q'$) la valeur de $a$ (resp. $q$) après l'itération, on a : \\
+					$b \times q' + a' = b \times (q+1) + a - b$ \\
+					$b \times q' + a' = b \times q + a $ \\ et puisque la propriété est supposé vraie au début de l'itération
+					$b \times q' + a' = a_0$\\
+				}
 		\end{itemize}
-		\onslide<6->\textcolor{OliveGreen}{Cette propriété est donc bien un invariant de boucle.}
-		\onslide<7->\textcolor{OliveGreen}{L'invariant de boucle reste vraie en sortie de boucle ce qui prouve que l'algorithme est correct.}
+		\onslide<6->\textcolor{OliveGreen}{En sortie de boucle, on on a donc $bq + a = a_0$ avec $a <b$ (condition de sortie), puisqu'on a déja prouvé par ailleurs que $a \geqslant 0$, cela prouve que $q$ est le quotient dans la division euclidienne de $a_0$ par $b$. Donc la fonction est correcte.}
 	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{Correction d'un algorithme récursif}
-		Dans le cas d'un algorithme récursif, la preuve de la correction peut s'obtenir :
+	\begin{block}{Principe}
+		La preuve de correction d'une fonction récursive peut peut s'obtenir par récurrence :
 		\begin{itemize}
-			\item<1-> Directement à partir des identités mathématiques issus du code de la fonction.
-			\item<2-> Par un raisonnement inductif, c'est-à-dire similaire à une récurrence.
+			\item<2-> (initialisation)on vérifie que la fonction est correcte pour le cas de base 
+			\item<3-> (hérédité) on prouve que si la fonction est correcte à un range $n \in \N$ alors elle l'est aussi au range $n+1$.
 		\end{itemize}
 	\end{block}
-	\begin{exampleblock}{Exemple 2 : factoriel récursif}
-		\onslide<3->\inputpartPython{\SPATH/correction.py}{}{\small}{9}{13}
-		\onslide<4-> Les identités {\tt fact 0 = 1} et {\tt fact n =  n * fact (n-1)} si $n>0$, correspondent bien à la définition mathématique de la factorielle c'est-à-dire $0!=1$ et pour tout $n \in \N^*$, $n! = n \times (n-1)!$, donc cette fonction est correcte
-	\end{exampleblock}
+	\onslide<4->
+	{
+		\begin{exampleblock}{Exemple}
+			\inputpartPython{\SPATH/factorielle.py}{}{\footnotesize}{1}{5}
+			\begin{itemize}
+				\item<5-> est correcte pour $n=0$ puisqu'elle renvoie 1 et que $0!=1$.
+				\item<6-> si elle est correcte au rang {\tt n}, alors {\tt fact(n)}=$n!$. Et comme, {\tt fact(n+1) = (n+1) * fact(n)}, on en déduit {\tt fact(n+1) =}$(n+1)!$.
+			\end{itemize}
+		\end{exampleblock}
+	}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -618,7 +599,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple : recherche simple dans un tableau}
 		{\small On considère la fonction ci dessous qui recherche si l'\kw{elt} est ou non dans {\kw{liste}}}
-		\inputpartPython{\SPATH/complexite.py}{}{\small}{1}{7}
+		\inputpartPython{\SPATH/complexite.py}{}{\small}{1}{6}
 		\begin{enumerate}
 			\item<3-> {\small En donnant un exemple, montrer que cette fonction peut renvoyer le résultat en effectuant une seule comparaison.}
 			\item<4-> {\small En donnant un exemple, montrer que cette fonction peut renvoyer le résultat en effectuant $n$ comparaison.}
@@ -651,10 +632,10 @@
 			\item<3-> \textcolor{blue}{complexité dans le pire cas}, le nombre maximal d'operations effectuées par un algorithme sur une entrée de taille $n$.
 			\item<4-> \textcolor{blue}{complexité en moyenne}, le nombre moyen d'operations effectuées par un algorithme sur un ensemble d'entrées de taille $n$.
 		\end{itemize}
-		En général, on s'intéresse à la \textcolor{blue}{complexité dans le pire cas}, car on cherche à \textcolor{blue}{majorer} le nombre d'opérations effectués par l'algorithme.
+		\onslide<5->{En général, on s'intéresse à la \textcolor{blue}{complexité dans le pire cas}, car on cherche à \textcolor{blue}{majorer} le nombre d'opérations effectués par l'algorithme.}
 	\end{alertblock}
 	\begin{block}{Remarque}
-		Dans un calcul de complexité on ne fera pas de différences entres les différentes opérations (additions, soustractions, divisions, \dots) ou tests (\kw{if}) ou autres instructions (affectation, \kw{return}) et on considère que toutes ont le même coût.
+		\small {Dans un calcul de complexité on ne fera pas de différences entres les différentes opérations (additions, soustractions, divisions, \dots) ou tests (\kw{if}) ou autres instructions (affectation, \kw{return}) et on considère que toutes ont le même coût.}
 	\end{block}
 \end{frame}
 
@@ -692,8 +673,8 @@
 				\onslide<4->{$ C = 8n + 2$, et donc $C$ est un grand $O(n)$, c'est-à-dire que le temps d'exécution est majoré par une fonction linéaire quelque soit la taille des entrées}
 		\end{enumerate}
 	\end{exampleblock}
-	\begin{block}{A retenir}
-		le nombre précis d'opérations effectué par l'algorithme n'est pas pertinent. On donnera toujours la complexité sous la forme d'un grand $O$, c'est-à-dire d'une majoration asymptotique du coût de l'algorithme.
+	\onslide<5->{\begin{block}{A retenir}
+		le nombre précis d'opérations effectué par l'algorithme n'est pas pertinent. On donnera toujours la complexité sous la forme d'un grand $O$, c'est-à-dire d'une majoration asymptotique du coût de l'algorithme.}
 	\end{block}
 \end{frame}
 
@@ -725,9 +706,9 @@
 		\begin{enumerate}
 			\addtocounter{enumi}{2}
 			\item<1-> Prouver la correction de cet algorithme.\\
-				\onslide<2->\textcolor{OliveGreen}{\small Montrons que la propriété \og{} après $i$ tour de boucle, les $i$ premiers éléments du tableau sont les $i$ premiers éléments du tableau trié \fg{} est un invariant de boucle.}
+				\onslide<2->\textcolor{OliveGreen}{\small Montrons que l'invariant $I$ \og{} Le sous tableau formé des $i$ premiers éléments de {\tt liste} est trié et contient les $i$ plus petits éléments de {\tt liste} \fg{}}
 				\begin{itemize}
-					\item<3-> \textcolor{OliveGreen}{Cette propriété est vraie à l'entrée dans la boucle}
+					\item<3-> \textcolor{OliveGreen}{Cette propriété est vraie à l'entrée dans la boucle (le sous tableau est alors vide)}
 					\item<4-> \textcolor{OliveGreen}{Si on la suppose vraie au rang $i$ alors au rang $i+1$, on place à l'indice $i+1$ le minimum des éléments d'indice $i+1 \dots n$. Cet élément étant forcément supérieur à ceux d'indice $0,\dots, i-1$, la propriété est vraie au rang $i+1$.}
 				\end{itemize}
 			\item<5-> Donner sa complexité. \\
@@ -777,17 +758,17 @@
 		\renewcommand{\arraystretch}{1.3}
 		\begin{tabular}{|c|c|c|c|c|c|}
 			\hline
-			\textcolor{blue}{Complexité} & $n=10$                      & $n=100$                     & $n=1000$                    & $n=10^6$                    & $n=10^9$                      \\
+			\textcolor{blue}{Complexité} & $n=10$                      & $n=100$                     & $n=1000$                    & $n=10^6$                    & $n=10^9$                    \\
 			\hline
-			$O(\log(n))$   & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} \\
+			$O(\log(n))$                 & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} \\
 			\hline
-			$O(n)$   & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & $\simeq 10$s \\
+			$O(n)$                       & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & $\simeq 10$s                \\
 			\hline
-			$O(n)\log(n)$   & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & $\simeq 1,5$ mn \\
+			$O(n)\log(n)$                & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & $\simeq 1,5$ mn             \\
 			\hline
-			$O(n^2)$   & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & $\simeq 3$ h & $\simeq 300$ ans \\
+			$O(n^2)$                     & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & $\simeq 3$ h                & $\simeq 300$ ans            \\
 			\hline
-			$O(2^n)$   & \textcolor{green}{\faCheck} &  \textcolor{red}{\faTimes} &  \textcolor{red}{\faTimes} &  \textcolor{red}{\faTimes} &  \textcolor{red}{\faTimes} \\
+			$O(2^n)$                     & \textcolor{green}{\faCheck} & \textcolor{red}{\faTimes}   & \textcolor{red}{\faTimes}   & \textcolor{red}{\faTimes}   & \textcolor{red}{\faTimes}   \\
 			\hline
 		\end{tabular}
 	\end{block}
@@ -810,7 +791,7 @@
 	\begin{exampleblock}{Exemple : exponentiation rapide}
 		\begin{enumerate}
 			\item<1->{\small Combien faut-il faire de multiplications pour calculer $a^{13}$ avec la fonction}
-				\inputpartPython{\SPATH/puissance.py}{}{\footnotesize}{1}{6}
+			\inputpartPython{\SPATH/puissance.py}{}{\footnotesize}{1}{6}
 			\item<2-> {\small Combien en faut-il si on procède de la façon suivante :}
 				\begin{itemize}
 					\item<3-> Calculer $a^6$, l'élever au carré et le multiplier par $a$.
@@ -844,7 +825,7 @@
 			\addtocounter{enumi}{3}
 			\item<1-> \textcolor{OliveGreen}{Implémentation en Python:}
 				\inputpartC{\SPATH/puissance.py}{}{\footnotesize}{8}{15}
-			\item<2->\textcolor{OliveGreen}{Le premier algorithme a une complexité linéaire, celui-ci a une complexité logarithmique. En effet, l'exposant est divisé par 2 à chaque appel récursif}
+				\item<2->\textcolor{OliveGreen}{Le premier algorithme a une complexité linéaire, celui-ci a une complexité logarithmique. En effet, l'exposant est divisé par 2 à chaque appel récursif}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}

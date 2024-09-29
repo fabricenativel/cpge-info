@@ -80,31 +80,8 @@ Une tranche peut prendre un troisième paramètre qui indique alors un \textit{p
 
 
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Mutables et non mutables},colbacktitle=cfond]
-    En Python, certains types de données sont \textit{mutables} et d'autres non, cela a des conséquences importantes lorsqu'on les manipule. Les listes de Python sont mutables au contraire de tous les autres rencontrés jusqu'ici ({\tt int}, {\tt float}, {\tt bool}, {\tt str}, {\tt tuple}).
-    \begin{itemize}
-        \item[\textbullet] Un type mutable est modifié lorsqu'on le passe en argument à une fonction pas un type non mutable.
-        \setlength{\multicolsep}{0pt}
-        \begin{multicols}{2}
-            Cas non mutable :
-            \begin{python}
-def incremente(n):
-    n = n + 1
-
-n= 42
-incremente(n)
-# n vaut toujours 42
-\end{python}
-            Cas mutable: 
-            \begin{python} 
-def ajoute(x,l):
-    l.append(x)
-
-l = []
-ajoute(2,l)
-# l vaut [2]
-            \end{python}
-        \end{multicols}
-    \item[\textbullet] Si donne un autre nom à une variable mutable (avec {\tt =}), toute modification de l'une des variables affecte aussi l'autre.
+    En Python, on manipule des objets, certains sont \textit{mutables} et d'autres non. Une variable est l'association entre une étiquette (le nom) et l'objet qu'il référence. Les listes de Python sont mutables au contraire de tous les autres rencontrés jusqu'ici ({\tt int}, {\tt float}, {\tt bool}, {\tt str}, {\tt tuple}). Lorsqu'on modifie un objet mutable, cela modifie toutes ses \textit{références}.
+        
     \setlength{\multicolsep}{0pt}
     \begin{multicols}{2}
         Cas non mutable :
@@ -113,16 +90,18 @@ n = 42
 m = n
 m = m + 1
 # n vaut toujours 42
+# m et n référencent deux objets différents
 \end{python}
         Cas mutable: 
         \begin{python} 
 n = [12, 15]
 m = n
 m.append(17)
-#n vaut maintenant [12, 15, 17]
+#m référence maintenant [12, 15, 17]
+#m et n référencent le même objet
         \end{python}
     \end{multicols}
-    \end{itemize}
+    Les fonctions qui modifient un objet mutable le font généralement sans faire apparaître le signe {\tt =}, par exemple \mintinline{c}{liste.pop()}.
 \end{tcolorbox}
 
 \end{document}

@@ -2,7 +2,7 @@
 
 int main(){
     FILE *fichier = fopen("entiers.txt","r");
-    int n, somme = 0;
+    int n, somme = 0; 
     while (fscanf(fichier,"%d",&n)!=EOF) {
         somme = somme + n;}
     fclose(fichier);

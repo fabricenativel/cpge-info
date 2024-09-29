@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void memory_leak()
+void taille(int tab[])
 {
-    int *tab = malloc(sizeof(int)*100);
-    tab[0] = 42;
-    printf("On quitte sans libérer tab !\n");
+    printf("Taille de  tab dans la fonction : %ld\n",sizeof(tab));
 }
 int main()
 {
-    memory_leak();
-    printf("Il devient ici impossible de libérer tab\n");
+    int tab[5] = {1, 2, 6, 3, 7};
+    printf("Taille de  tab dans le main  : %ld\n",sizeof(tab));
+    taille(tab);
 }
