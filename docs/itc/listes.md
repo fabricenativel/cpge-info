@@ -136,21 +136,6 @@ Reprendre les deux exercices ci-dessous en effectuant obligatoirement un parcour
 
 2. Ecrire une fonction prenant en argument un tuple d'entiers de longueur strictement positive et qui renvoie la moyenne des valeurs de ce tuple.
 
-## Non mutabilité
-
-En Python, certains types de variables sont dits **non mutables**, cela signifie notamment que ces variables ne *seront pas modifiées* dans les fonctions qui les utilisent. Tout se passe comme si une copie de la variable était envoyée à la fonction, les modification sur la copie (dans la fonction) n'affecteront pas l'original (dans le bloc qui appelle la fonction).
- 
- Par exemple :
- {{ IDE("scripts/mutables.py")}}
-
-!!! retenir "A retenir"
-    Les types suivants de Python sont *non mutables* : `int`, `float`, `bool`, `str`, `tuple`, on ne modifie pas une variable de ce type en la passant à une fonction.
-
-A noter que si on souhaite modifier une valeur non mutable, on peut la passer à une fonction et lui affecter la valeur renvoyée par cette fonction. Par exemple, pour incrémenter une variable de type `int` on pourrait écrire :
-
- Par exemple :
- {{ IDE("scripts/mutables2.py")}}
-
 
 ## Les listes de Python
 
@@ -191,18 +176,32 @@ On considère la liste de courses ci-dessous :
 
 ## Mutables
 
-Au contraire des autres types de variables rencontrées auparavant, les listes de Python (type `list`) sont *mutables*, une des conséquences importantes est qu'elles sont modifiées lorsqu'on les passe à une fonction. Par exemple 
 
-{{ IDE("scripts/mutables3.py") }}
-
-Autre conséquence, si `l` est une liste et qu'on écrit `m = l`, toute modification de `l`, modifie `m`. Par exemple :
-```python
-l = [1, 2, 3]
-m = l
-l.append(4)
-# on a modifié l et cette modification affecte aussi m !!!
-print(m)
+En Python, on manipule des objets c'est à dire des associations entre des noms (des *étiquettes*) et des variables (un type, une valeur, un emplacement en mémoire). Certains objets sont dits **non mutables**, cela signifie qu'ils ne *peuvent pas être modifiés*. C'est le cas par exemple des entiers, ainsi lorsqu'on écrit les lignes de code suivantes :
+```python linenums="1"
+n = 7 
+m = n
+n = n + 1
 ```
+Le mécanisme interne de python consiste à :
+
+* ligne 1 : créer un objet entier 7 et lui donner l'étiquette `n`
+* ligne 2 : attribuer une nouvelle étiquette à l'objet précédent : `m`
+* ligne 3 : `n+1` crée un nouvel objet entier de valeur 8, on lui donne l'étiquette `n`
+
+Comme les entiers, les flottants, les tuples et les chaines de caractères sont *non mutables*. Par contre les listes sont mutables, ce qui signifie que l'objet *liste* peut-être modifié, ainsi :
+
+```python linenums="1"
+l = [1, 7]
+m = l
+l.append(12)
+```
+
+le mécanisme interne à Python consiste à :
+
+* ligne 1 : créer un objet liste contenant `[1,7]` et d'étiquette `l` (on dit aussi référence)
+* ligne 2 : attribuer une nouvelle étiquette `m` à ce **même objet**
+* ligne 3 : modifier ce nouvel objet. Et donc `m` référence aussi la liste `[1, 7, 2]`
 
 ## Générations de listes
 

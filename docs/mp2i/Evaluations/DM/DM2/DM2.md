@@ -8,21 +8,61 @@ Le devoir porte sur le [jeu de la vie](https://fr.wikipedia.org/wiki/Jeu_de_la_v
 
 ## Une version en une dimension
 
-On s'intéresse dans un premier temps, à une version à une seule dimension du jeu de la vie, c'est à dire qu'on représente l'état du "jeu" par un tableau a une seule dimension de booléens (`true` correspond à une cellule vivante et `false` à une cellule morte). On représentera l'état du jeu par une chaine de caractère en faisant correpondre `true` à `#` et `false` à `.`.
+On s'intéresse dans un premier temps, à une version à une seule dimension du jeu de la vie, c'est à dire qu'on fait évoluer les cellules dans un tableau unidimensionnel (et pas sur une grille). La règle d'évolution est la suivante : une cellule devient ou reste vivante uniquement lorsqu'elle avait exactement une voisine vivante au tour précédent. D'autre part, on ne fait pas évoluer la première et la dernière cellule du tableau, elles restent mortes.
 
-A chaque nouvelle itération, le nouvel état d'une cellule dépend de son état antérieur et de celui de ses voisines immédiates suivant les règle suivantes :
+Par exemple, dans la configuration suivante, 
+{{make_jeuvie(['...##.#.#.'],[])}} 
+l'évolution suivante sera :
+{{make_jeuvie(['..###.....'],[])}}
+
+!!! note
+    Le jeu se déroule en théorie dans un tableau infini, ici on supposera qu'on se restreint à un tableau de taille donnée `TAILLE` et que cette constante est définie en début de programme à l'aide de, par exemple, `#define TAILLE 100`. Par conséquent, on ne passera pas aux fonctions la taille du tableau de booléens (on utilisera la constante `TAILLE`).
+
+1. Ecrire une fonction de signature `#!c void affiche(bool etat[])` qui prend en argument un état du jeu et l'affiche dans le terminal sous la forme d'une chaine de caractère où `#` indique les cellules vivantes et `.` les cellules vides. Par exemple (avec une taille de 10), si le tableau `etat `contient les valeurs `{false,false,false,true,true,false,true,false,true,false}` , l'affichage produit dans le terminal sera `...##.#.#.`.
+
+2. Ecrire une fonction  `#!c bool* evolution(bool etat[])` qui renvoie le nouvel état du jeu après une application de la règle d'évolution. Par exemple, si le tableau `etat` contient `{false,false,false,true,true,false,true,false,true,false}`, alors la fonction evolution renvoie `false, false, true, true, true, false, false, false, false, false`.
+
+3. Définir la constante `TAILLE` à 100 et définir un état de jeu ou toutes les cellules sont mortes sauf la cellule d'indice 50 qui est vivante et faire afficher l'évolution de l'état du jeu pour les 50 premières étapes. Le début de l'affichage devrait être :
+```
+..................................................#.................................................
+.................................................#.#................................................
+................................................#...#...............................................
+...............................................#.#.#.#..............................................
+..............................................#.......#.............................................
+.............................................#.#.....#.#............................................
+............................................#...#...#...#...........................................
+...........................................#.#.#.#.#.#.#.#..........................................
+..........................................#...............#.........................................
+.........................................#.#.............#.#........................................
+```
+
+4. Ecrire une fonction `compte` qui prend en argument un état du jeu et renvoie le nombre de cellules vivantes.
+
+5. On prend la constante `TAILLE` égale à 1000, et un tableau initialement vide à part la cellule d'indice 500 qui est vivante. Combien de cellules vivantes contient le tableau après 2024 évolutions ?   
+Vérifier votre réponse : {{check_reponse("128")}}
+
+## Généralisation et règles de Wolfram
+
+Comme l'évolution d'une cellule ne dépend que de son état antérieur et de celui de ses voisines immédiates (à droite et à gauche). Ces trois cellules (la centrale et les deux voisines) peuvent être dans **8** configurations différentes, et donc une règle d'évolution possible est la donnée du nouvel état de la cellule centrale pour ces 8 configurations. Par exemple, la règle d'évolution dans la partie précédente correspond à
 
 | Ancien état | Nouvel état de la cellule centrale|
 |-------------|-----------------------------------|
 |    `###`    | `.` |
-|    `##.`    | `.` |
+|    `##.`    | `#` |
 |    `#.#`    | `.` |
 |    `#..`    | `#` |
 |    `.##`    | `#` |
-|    `.#.`    | `#` |
+|    `.#.`    | `.` |
 |    `..#`    | `#` |
 |    `...`    | `.` |
 
+Si on lit de bas en haut la règle on obtient `.#.##.#.` qui interprété comme un entier positif en binaire (avec  `#` correspondant au 1 et `.` au 0) donne $\overline{01011010}^{2} = \overline{90}^{10}$. Pour cette raison, la règle utilisée dans la partie précédente s'appelle [regle 90](https://en.wikipedia.org/wiki/Rule_90){target=_blank}. Et on peut donc associer à tout entier de l'intervalle $[0;255]$ une règle d'évolution.
+
+1. Déterminer la règle de transformation pour l'entier 110
+
+2. Ecrire une fonction de signature `bool* evolution_rule(bool etat[], int rnum)` qui prend en entrée un etat (sous la forme d'un tableau de booléens) et un numéro de règle `rnum` et renvoie l'état du jeu après une évolution. 
+
+## Jeu de la vie sur une grille de taille 4x4
 Le [jeu de la vie](https://fr.wikipedia.org/wiki/Jeu_de_la_vie){target=_blank} permet de faire évoluer un ensemble de cases (appelées cellule) d'une grille (théoriquement infinie mais qui sera limitée pour ce DM) en suivant les règles suivantes :
 
 * une cellule (donc une case de la grille) n'a que deux états possibles : vivante (la case est remplie) ou morte (la case est vide)
@@ -50,8 +90,6 @@ où les cellules mortes sont `false` et les cellules vivantes `true`.
 
 !!! aide 
     On rappelle qu'en faisant cette linéarisation l'élément situé en ligne `i` et colonne `j` a pour indice `i*LARGEUR + j` dans le tableau linéarisé.
-
-## Partie 1 : Grille de taille 4x4
 
 !!! note "Taille de la grille"
     Dans chaque partie du sujet, les dimension de la grille seront deux constantes entières notées `HAUTEUR` et `LARGEUR`. Pour définir ces constantes, deux possibilités s'offrent à vous :
@@ -122,7 +160,7 @@ Par exemple, avec le tableau `etat` donné à la question 1, l'appel `resultat =
 ```
 Ce qui correspond bien aux évolutions du motif vu en introduction.
 
-## Partie 2 : Lecture depuis un fichier
+## Lecture depuis un fichier
 
 Le but de cette partie est de modifier l'état d'un motif connu ; le [*glider gun*](https://conwaylife.com/wiki/Period-33_glider_gun){target=_blank}, téléchargeable ci-dessous sous la forme d'un fichier texte dans lequel les cellules vivantes sont représentées par le caractère `O` et les cellules mortes par `.`
 {{telecharger("Glider gun","glidergun.cells")}}
@@ -138,7 +176,7 @@ Dans cette partie, on travaille sur une grille de dimensions `57x37`. On doit do
 
 3. Donner le nombre de cellules vivantes après 100 évolutions du *Glider gun*. Vous pouvez tester votre réponse dans le formulaire ci-contre : {{check_reponse("237")}}
 
-## Partie 3 : Visualisation sous forme d'image pbm
+##  Visualisation sous forme d'image pbm
 
 Le format d'image {{sc("pbm")}} pour *Portable Bitmap file forMat* est un format d'image élémentaire permettant de représenter des images en noir et blanc. Le fichier est au format texte, 
 
