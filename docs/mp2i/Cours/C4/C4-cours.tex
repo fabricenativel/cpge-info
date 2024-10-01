@@ -214,6 +214,99 @@
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
+
+
+%Algorithme des divisions successives
+\makess{Algorithme des divisions successives}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Algorithme des divisions successives}
+		\begin{itemize}
+			\onslide<1->{\item L'algorithme des \textcolor{blue}{divisions successives}, permet d'écrire un nombre donnée en base 10 dans n'importe quelle base $b$. Le principe est d'effectuer les divisions euclidiennes successives par $b$, les restes de ces divisions sont les chiffres du nombre dans la base $b$.}
+			      \onslide<2->{\item Pour écrire $N$ en base $b$ :}
+			      \begin{enumerate}
+				      \item<3-> Faire la division euclidienne de $N$ par $b$, soit $Q$ le quotient et $R$ le reste. \\
+				            (c'est à dire écrire $N = Q\times b + R$ avec $R<b$)
+				      \item<4-> Ajouter $R$ aux chiffres de $N$ en base $b$
+				      \item<5-> Si $Q=0$ s'arrêter, sinon recommencer à partir de l'étape 1 en remplaçant $N$ par $Q$.
+			      \end{enumerate}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+%Exemple algorithme des divisions successives
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple d'utilisation de l'algorithme des divisions successives}
+		Donner l'écriture en base 16 de $\base{2019}{10}$. \\ \pause
+		\begin{tabular}{lllllll}
+			$2019$                                & $=$               & $\onslide<3->{\textcolor{blue}{126}}$ & $\times$               & $16$               & $+$               & $\onslide<4->{\textcolor{red}{\boxed{3}}} $  \\
+			$\onslide<5->{\textcolor{blue}{126}}$ & \onslide<5->{$=$} & $\onslide<6->{\textcolor{blue}{7}}$   & \onslide<5->{$\times$} & \onslide<5->{$16$} & \onslide<5->{$+$} & $\onslide<7->{\textcolor{red}{\boxed{14}}} $ \\
+			$\onslide<8->{\textcolor{blue}{7}}$   & \onslide<8->{$=$} & $\onslide<9->{\textcolor{blue}{0}}$   & \onslide<8->{$\times$} & \onslide<8->{$16$} & \onslide<8->{$+$} & $\onslide<10->{\textcolor{red}{\boxed{7}}} $ \\
+		\end{tabular} \\
+		\onslide<14->{
+			Le quotient est nul, l'algorithme s'arrête et les chiffres en base 16 sont les restes obtenus à chaque étape donc  $\base{2019}{10}=\base{7E3}{16}$ (car 14 correspond au chiffre E).}
+	\end{exampleblock}
+\end{frame}
+
+%Exemple algorithme des divisions successives
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple d'utilisation de l'algorithme des divisions successives}
+		Donner l'écriture en base 16 de $\base{9787}{10}$. \\ \pause
+		\begin{tabular}{lllllll}
+			$9787$                                & $=$                 & $\onslide<3->{\textcolor{blue}{611}}$ & $\times$                & $16$                & $+$                & $\onslide<4->{\textcolor{red}{\boxed{11}}} $ \\
+			$\onslide<5->{\textcolor{blue}{611}}$ & \onslide<5->{$=$}   & $\onslide<6->{\textcolor{blue}{38}}$  & \onslide<5->{$\times$}  & \onslide<5->{$16$}  & \onslide<5->{$+$}  & $\onslide<7->{\textcolor{red}{\boxed{3}}} $  \\
+			$\onslide<8->{\textcolor{blue}{38}}$  & \onslide<8->{$=$}   & $\onslide<9->{\textcolor{blue}{2}}$   & \onslide<8->{$\times$}  & \onslide<8->{$16$}  & \onslide<8->{$+$}  & $\onslide<10->{\textcolor{red}{\boxed{6}}} $ \\
+			$\onslide<11->{\textcolor{blue}{2}}$  & \onslide<11->{ $=$} & $\onslide<12->{\textcolor{blue}{0}}$  & \onslide<11->{$\times$} & \onslide<11->{$16$} & \onslide<11->{$+$} & $\onslide<13->{\textcolor{red}{\boxed{2}}} $ \\
+		\end{tabular} \\
+		\onslide<14->{
+			Le quotient est nul, l'algorithme s'arrête et les chiffres en base 16 sont les restes obtenus à chaque étape donc  $\base{9781}{10}=\base{263B}{16}$ (car 11 correspond au chiffre B).}
+	\end{exampleblock}
+\end{frame}
+
+
+%Exemple algorithme des divisions successives (base 2)
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple d'utilisation de l'algorithme des divisions successives}
+		Donner l'écriture en base 2 de $\base{786}{10}$. \\ \pause
+		\begin{tabular}{lllllll}
+			$786$                                 & $=$                 & $\onslide<3->{\textcolor{blue}{393}}$ & $\times$                & $2$                & $+$                & $\onslide<4->{\textcolor{red}{\boxed{0}}} $  \\
+			$\onslide<5->{\textcolor{blue}{393}}$ & \onslide<5->{$=$}   & $\onslide<6->{\textcolor{blue}{196}}$ & \onslide<5->{$\times$}  & \onslide<5->{$2$}  & \onslide<5->{$+$}  & $\onslide<7->{\textcolor{red}{\boxed{1}}} $  \\
+			$\onslide<8->{\textcolor{blue}{196}}$ & \onslide<8->{$=$}   & $\onslide<9->{\textcolor{blue}{98}}$  & \onslide<8->{$\times$}  & \onslide<8->{$2$}  & \onslide<8->{$+$}  & $\onslide<10->{\textcolor{red}{\boxed{0}}} $ \\
+			$\onslide<11->{\textcolor{blue}{98}}$ & \onslide<11->{ $=$} & $\onslide<12->{\textcolor{blue}{49}}$ & \onslide<11->{$\times$} & \onslide<11->{$2$} & \onslide<11->{$+$} & $\onslide<13->{\textcolor{red}{\boxed{0}}} $ \\
+			$\onslide<14->{\textcolor{blue}{49}}$ & \onslide<14->{ $=$} & $\onslide<15->{\textcolor{blue}{24}}$ & \onslide<14->{$\times$} & \onslide<14->{$2$} & \onslide<14->{$+$} & $\onslide<16->{\textcolor{red}{\boxed{1}}} $ \\
+			$\onslide<17->{\textcolor{blue}{24}}$ & \onslide<17->{ $=$} & $\onslide<18->{\textcolor{blue}{12}}$ & \onslide<17->{$\times$} & \onslide<17->{$2$} & \onslide<17->{$+$} & $\onslide<19->{\textcolor{red}{\boxed{0}}} $ \\
+			$\onslide<20->{\textcolor{blue}{12}}$ & \onslide<20->{ $=$} & $\onslide<21->{\textcolor{blue}{6}}$  & \onslide<20->{$\times$} & \onslide<20->{$2$} & \onslide<20->{$+$} & $\onslide<22->{\textcolor{red}{\boxed{0}}} $ \\
+			$\onslide<23->{\textcolor{blue}{6}}$  & \onslide<23->{ $=$} & $\onslide<24->{\textcolor{blue}{3}}$  & \onslide<23->{$\times$} & \onslide<23->{$2$} & \onslide<23->{$+$} & $\onslide<25->{\textcolor{red}{\boxed{0}}} $ \\
+			$\onslide<26->{\textcolor{blue}{3}}$  & \onslide<26->{ $=$} & $\onslide<27->{\textcolor{blue}{1}}$  & \onslide<26->{$\times$} & \onslide<26->{$2$} & \onslide<26->{$+$} & $\onslide<28->{\textcolor{red}{\boxed{1}}} $ \\
+			$\onslide<29->{\textcolor{blue}{1}}$  & \onslide<29->{ $=$} & $\onslide<30->{\textcolor{blue}{0}}$  & \onslide<29->{$\times$} & \onslide<29->{$2$} & \onslide<29->{$+$} & $\onslide<31->{\textcolor{red}{\boxed{1}}} $ \\
+		\end{tabular} \\
+		\onslide<32->{
+			Le quotient est nul, l'algorithme s'arrête et $\base{786}{10}=\base{1100010010}{2}$.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Algorithme en pseudo-code}
+		\SetAlFnt{\small}
+	\setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Conversion de la base 10 vers la base b}
+		\Entree{$n \in \N$ (en base 10) et $b \in \N, b\geqslant 2$.}
+		\Sortie{Les chiffres $a_{p-1},\dots a_0$ de $n$ en base $b$ (donc des éléments de $\intN{0}{b-1}$)}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		\Si{$n=0$}{\Return 0}
+		$p \leftarrow$ nombre de chiffres de n en base b\\
+		\Pour{$i \leftarrow 0$ à $p-1$ }{
+			$a_{i} \leftarrow$ reste dans la division euclidienne de $n$ par b\\
+			$n \leftarrow \lfloor \dfrac{n}{b} \rfloor$\\
+		}
+		\Return $a_{p-1},\dots,a_0$
+	  \end{algorithm}
+	  \onslide<2->{Prouver que cet algorithme est correct.}
+	  \onslide<3->{\textcolor{gray}{Une implémentation en C sera vue en TP.}}
+	\end{block}
+\end{frame}
+
 \makess{Nombre en virgule flottante}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Ecriture dyadique}

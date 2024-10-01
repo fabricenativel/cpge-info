@@ -68,6 +68,31 @@ Ecrire une fonction `to_decimal` qui prend en argument un entier `base` (compris
     1. Ecrire en C, une fonction `hexadecimal` qui prend en argument un entier `n` positif compris entre 0 et $2^{32}-1$ et renvoie un tableau de caractères correspondant aux chiffres en base 16 de l'écriture hexadécimal de `n`.
     2. De même que pour le binaire, écrire un programme `hex.exe` qui utilise cette fonction en prenant son argument sur la ligne de commande. Par exemple `./hex.exe 212` affiche `D4`.
 
+{{ exo("Algorithme des divisions succesives",[])}}
+
+Le but de l'exercice est d'écrire une implémentation en langage C de l'algorithme des divisions successives qui permet de convertir un nombre écrit en base 10 dans une base $b$ quelconque ($b \geqslant 2$). Si $b>10$, on utilise comme chiffre les lettres de l'alphabet, on déclare donc en début de programme une chaine de caractères :
+
+```c
+const char* CHIFFRES="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+```
+
+
+1. Ecrire une fonction de signature  `#!c int nb_chiffres(int n, int b)` qui renvoie le nombre de chiffres de `n` en base `b`.
+2. Ecrire une fonction de signature `#!c char* chiffres(int n, int b)` qui renvoie les chiffres de `n` en base `b` sous la forme d'une chaine de caractères. Par exemple `chiffres(42,2)` doit renvoyer le chaine de caractères `"101010"`
+
+    !!! aide
+        On pourra procéder de la façon suivante :
+
+        * déterminer `p` le nombre de chiffres de `n` en base `b` grâce à la fonction de la question **1.**
+        * allouer dans le tas un tableau de `p+1` caractères (on prévoit le caractère sentinelle en fin de chaine).
+        * remplir ce tableau avec les restes successifs des divisions de `n` par `b`
+
+3. Ecrire une fonction main qui accepte en ligne de commande des arguments et utiliser ces arguments (après conversion) dans l'appel à la fonction `chiffres` et écrit le résultat dans le terminal. Par exemple si votre executable s'appelle `baseb.exe`, alors on pourra écrire `./baseb.exe 42 2` pour optenir comme affichage dans le terminal l'écriture en base 2 de 42 c'est à dire `101010`.
+
+4. Tester votre fonction en affichant l'écriture en base `26` de `406342` (on rappelle qu'il y a 26 chiffres en base 26, les premiers sont `0,1, .. ,9` et après on utilise  les lettres `A, B, ...`).  
+Vérfier votre réponse {{check_reponse("MP2I")}}
+
+
 
 {{ exo("Attention aux flottants !",[]) }}
 

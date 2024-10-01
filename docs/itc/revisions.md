@@ -54,7 +54,7 @@ Vérifier votre réponse : {{check_reponse("0.38")}} (valeur arrondie au centiè
 
 {{ exo("Calcul d'une somme",[])}}
 
-Calculer la somme des entiers compris entre 1 et 10000 qui se terminent par 7 ou sont divisibles par 19.
+Calculer la somme des entiers compris entre 1 et 100000 qui se terminent par 7 ou sont divisibles par 19.
 
 Vérifier votre réponse : {{check_reponse("736847875")}}
 
