@@ -1,0 +1,84 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{5}{Récursivité}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C5/}
+
+
+\psset{treesep=0.5cm,levelsep=0.8cm}
+
+\setcounter{Exercise}{0}
+
+\begin{Exercise}[title = {Dessin récursif}] \\
+	On souhaite écrire une fonction qui affiche à l'écran le dessin suivant :
+\begin{verbatim}
+    *
+    **
+    ***
+    ****
+\end{verbatim}
+	Où le nombre de lignes affichées est le paramètre {\tt n} de la fonction.
+	\Question{Ecrire en pseudo langage une version itérative de cette fonction.}
+	\Question{Ecrire en pseudo langage une version récursive de cette fonction.}
+\end{Exercise}
+
+\begin{Exercise}[title={Exponentiation rapide version récursive}]
+	\Question{Ecrire en pseudo langage l'algorithme d"exponentiation rapide récursif vu en cours.}
+	\Question{Prouver que cet algorithme termine.}
+	\Question{Prouver qu'il est totalement correct.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Somme des éléments d'un tableau}]
+	\Question{Ecrire un algorithme récursif permettant de calculer la somme des éléments d'un tableau.}
+	\Question{Prouver que cet algorithme est totalement correcte.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Calcul du \sc{pgcd}}]
+	\Question{Ecrire une version récursive de l'algorithme d'Euclide de calcul du \sc{pgcd}.}
+	\Question{Prouver que cet algorithme termine.}
+	\Question{Prouver qu'il est totalement correcte.}
+\end{Exercise}
+
+
+
+\begin{Exercise}[title = {Palindrome}]
+	\Question{Ecrire une version récursive d'un algorithme permettant de vérifier qu'une chaine de caractère est un palindrome.}
+	\Question{Prouver que cet algorithme termine.}
+	\Question{Prouver qu'il est totalement correcte.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Coefficient du binôme}]
+	\Question{Rappeler la relation de récurrence liant les coefficients du binôme $\binom{n}{k}$.}
+	\Question{Donner les valeurs de $\binom{n}{0}$ et $\binom{n}{n}$.}
+	\Question{En déduire un algorithme récursif permettant de calculer $\binom{n}{k}$.}
+	\Question{Tracer l'arbre des appels récursifs pour le calcul de $\binom{4}{3}$. Que peut-on en déduire ?}
+\end{Exercise}
+
+\begin{Exercise}[title={Correction de l'exponentiation rapide itérative}]\\
+	On rappelle l'algorithme d'exponentiation rapide en version itérative vu en cours :\\
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Version itérative de l'exponentiation rapide}
+		\Entree{$a \in \R^{*+}, n \in \N$}
+		\Sortie{$a^n$}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$p \leftarrow 1$\;
+		\Tq{$n \neq 0$}{
+			\Si{$n$ est impair}
+			{$p \leftarrow p\times a$ \;}
+			$a \leftarrow a*a$ \;
+			$n \leftarrow \lfloor\frac{n}{2}\rfloor$ \;
+		}
+		\Return $p$
+	\end{algorithm}
+	\Question{Prouver que cet algorithme termine.}
+	\Question{Prouver que cet algorithme est totalement correct.\\
+	\aide \; On pourra prouver l'invariant suivant : $p \times a_0^{n_0} = a^n$ où $a_0$ (resp. $n_0$) désigne la valeur initiale de $a$ (resp $n$).}
+\end{Exercise}
+
+
+\end{document}

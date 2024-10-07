@@ -1,0 +1,106 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{16}{Logique}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C14/}
+
+\newcommand{\non}{\neg}
+\newcommand{\et}{\wedge}
+\newcommand{\ou}{\vee}
+\newcommand{\imp}{\to}
+\newcommand{\eq}{\leftrightarrow}
+\newcommand{\lnode}[1]{\TCircle{$#1$}}
+\psset{treesep=0.5cm,levelsep=0.8cm}
+
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise}[title = {formules logiques}] \\
+    Les expressions suivantes sont-elles des fes formules logique sur l'ensemble de propositions $V = \{p, q, r\}$ ? (on ne s'autorise pas dans cet exercice les simplfications d'écriture)
+    \Question{ $(p) \ou \non q$}
+    \Question{ $((p \et q) \ou (\top \et r))$}
+    \Question{ $ ( p \ou r) \et (\non q))$}
+    \Question{ $ (\non (p \ou q)) \et \non r)$}
+    \Question{ $ ((s \et t) \ou (p \et q))$}
+\end{Exercise}
+
+\begin{Exercise}[title = {Représentation arborescente}]
+    \Question{Représenter les arbres syntaxiques des formules logiques suivantes }
+    \subQuestion{ $(p \ou q) \imp (r \et s)$}
+    \subQuestion{ $ (\non p \ou \non q) \eq (r \imp s)$}
+    \Question{Ecrire les formules formules logiques dont les arbres sont syntaxique sont}
+    \subQuestion{ 
+    \pstree{\lnode{\et}}{    
+    \pstree{\lnode{\ou}}{\lnode{p} \pstree{\lnode{\non}}{\lnode{q}}} 
+    \pstree{\lnode{\imp}}{ \pstree{\lnode{\non}}{\lnode{r}} \lnode{s} } }
+    }
+    \subQuestion{
+        \pstree{\lnode{\eq}}{
+            \pstree{\lnode{\et}}{
+                \lnode{r}
+                \pstree{\lnode{\non}}{\lnode{q}}
+            }
+            \pstree{\lnode{\ou}}{
+                \pstree{\lnode{\imp}}{\lnode{p} \lnode{q}}
+                \pstree{\lnode{\eq}}{\lnode{r} \lnode{s}}
+                }
+        }
+    }
+\end{Exercise}
+
+\begin{Exercise}[title = {valeurs de vérité}]
+    \Question{On considère la formule logique $ P = ((p \imp q) \ou (\non p \et q)) \et (p \ou y)$, déterminer la valeur de vérité de $P$ pour la valuation $\varphi(p) = F$ et $\varphi(q) = F$.}
+    \Question{Dresser la table de vérité de $P$.}
+\end{Exercise}
+
+\begin{Exercise}[title = {tautologies}]\\
+Montrer que les formules logiques suivantes sont des tautologies :
+\Question{$(((x \imp y) \et x) \imp y)$}
+\Question{$((x \ou y) \equiv  \neg(\neg x \et \neg y))$}
+\end{Exercise}
+
+\begin{Exercise}[title = {connecteur de Sheffer}]\\
+    On définit le connecteur de Sheffer (ou connecteur d'incompatibilité) par $x \uparrow y = \neg x \ou \neg y$.
+    \Question{Dresser la table de vérité du connecteur de Sheffer}
+    \Question{Donner une equivalence logique de ce connecteur utilisant $\neg$ et $\et$.}
+    \Question{Vérifier que $\neg x \equiv x \uparrow x$}
+    \Question{En déduire une équivalence logique de $x \et y$, $x \ou y$, $x \imp y$ qui n'utilise que le connecteur de Sheffer.}
+    \Question{Démontrer par induction que tout formule logique peut s'écrire en utilisant uniquement le connecteur de Sheffer.}
+    \Question{Donner une équivalence logique de $x \ou (\neg y \et z)$ utilisant uniquement le connecteur de Sheffer.}
+    
+\end{Exercise}
+
+\begin{Exercise}[title = {qui prend un dessert ?}] \\
+    Trois personnes $A$, $B$ et $C$ mangent ensemble. On sait que :
+    \begin{itemize}
+        \item Si $A$ prend un dessert alors $B$ aussi
+        \item $B$ ou $C$ prennent un dessert mais pas les deux
+        \item $A$ ou $C$ prend un dessert
+        \item si $C$ prend un dessert alors $A$ aussi
+    \end{itemize}
+    Déterminer qui prend un dessert en utilisant une table de vérité.
+\end{Exercise}
+
+\begin{Exercise}[title = {footballeur}, origin={\bac {\sc ccinp} sujet zéro}]\\
+    Un footballeur affirme à la presse :
+    \begin{enumerate}
+        \item Le jour où je marque un but, je suis content et je fais la fête.
+        \item Le jour où mon équipe gagne, ou bien je suis content, ou bien je fais la fête ou les deux.
+        \item Le jour où mon équipe perd, ou bien je ne suis pas content, ou bien j'ai marqué un but ou les deux
+        \item Le jour où je ne marque pas et je fais la fête, je suis content
+        \item Aujourd'hui, je ne suis pas content
+    \end{enumerate}
+
+    \Question{Définir les variables propositionnelles nécessaires à la modélisation de ce problème.}
+    \Question{Modéliser chacune des assertions à l'aide de formules propositionnelles.}
+    \Question{Mettre chacune de ces formules en forme normale conjonctive}
+    \Question{On souhaite savoir si le joueur a marqué, si son équipe a gagné et s'il a fait la fête. Donner la formule $P$ permettant de répondre à ces questions. A quel problème classique est-on confronté ?}
+    \Question{En appliquant l'algorithme de Quine, trouver une valuation qui rend $P$ vraie.}
+\end{Exercise}
+    
+
+\end{document}
