@@ -1,3 +1,4 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
 \documentclass[11pt,a4paper]{article}
 
 \usepackage{Act}
@@ -5,17 +6,59 @@
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
 \ModeExercice
 \setboolean{corrige}{false}
-\IC{2}{Spécification -- Tests}
-\setcounter{Exercise}{0}
+\IC{2}{Représentation des entiers}
 
-\begin{Exercise}[title = {tous égaux}]\\
-A la question : \og{} écrire en C une fonction qui prend en argument un tableau d'entiers (et sa taille) et renvoie {\tt true} lorsque tous les éléments de ce tableau sont égaux\fg{}, un  élève a écrit le code suivant :
-\inputpartC{tous_egaux.c}{}{}{4}{17}
-\Question{Donner un test qui prouve que cette fonction n'est pas conforme à sa spécification.}
-\reponse{0}{1}
-\Question{Expliquer l'erreur commise et  les modifications à apporter à cette fonction afin qu'elle réponde à sa spécification.}
-\reponse{4}{4}
+\setcounter{Exercise}{0}
+\begin{Exercise}[title={Conversions}]\\
+	Commpléter le tableau de conversion suivant :
+	\renewcommand{\arraystretch}{1.8}
+	\begin{center}
+		\hspace{1.2cm}\begin{tabularx}{0.8\textwidth}{|Y|Y|Y|}
+			\hline
+			Décimal                  & Binaire                             & Hexadécimal             \\
+			\hline
+			$\base{205}{10}$         & \comp{$\base{1100\,1101}{2}$}       & \comp{$\base{CD}{16}$}  \\
+			\hline
+			\comp{$\base{327}{10}$}  & $\base{1\,0100\,0111}{2}$           & \comp{$\base{147}{16}$} \\
+			\hline
+			\comp{$\base{1068}{10}$} & \comp{$\base{100\,0010\,1100}{2}$}  & $\base{42C}{16}$        \\
+			\hline
+			\comp{$\base{912}{10}$}  & $\base{11\,1001\,0000}{2}$          & \comp{$\base{390}{16}$} \\
+			\hline
+			$\base{2654}{10}$        & \comp{$\base{1010\,0101\,1110}{2}$} & \comp{$\base{A5E}{16}$} \\
+			\hline
+		\end{tabularx} \hfill \renewcommand{\arraystretch}{1.4}\begin{tabular}{|c|} \hline \cellcolor{gray!30}{\small \dots/5} \\\hline \end{tabular}
+	\end{center}
+\end{Exercise}
+
+\begin{Exercise}[title={Complément à deux}]\\
+	Dans cet exercice, on suppose que les nombres entiers sont représentés en complément à deux sur 10 bits.
+	\Question{Quelle est l'ensemble des nombres représentables ?}
+	\reponse{1}{1}
+	\tcor{L'ensemble des nombres représentables est $\intN{-2^{9}}{2^9-1}$, c'est à dire $\intN{-512}{511}$}
+	\Question{Donner la représentation de $\base{-421}{10}$}
+	\reponse{1}{1}
+
+	\tcor{On calcule celle de $421$ \textit{sur 10 bits}, on inverse tous les bits, on ajoute 1, on obtient : $\base{10\,0101\,1011}{2}$}
+	\Question{Donner la représentation de $\base{-59}{10}$}
+	\reponse{1}{1}
+	\tcor{De la même façon, on obtient : $\base{11\,1100\,0101}{2}$}
+\end{Exercise}
+
+\begin{Exercise}[title={Un programme en C}]\\
+    On considère le programme C suivant :
+	\inputpartC{ic2.c}{}{\small}{1}{11}
+    On précise que ce programme compile correctement et ne produit aucun \textit{warning} avec l'option {\tt -Wall}, quel sera le résultat de son exécution ? Expliquer et justifier votre réponse.
+    \reponse{4}{2}
+	\tcor{La variable {\tt i} déclarée dans la boucle est de type {\tt uint8\_t}, par conséquent elle prend ses valeurs dans $\intN{0}{255}$ et un dépassement de capacité n'est pas un comportement indéfini, on effectue simplement les calculs modulo 256.
+	\newline
+	Lorsque la variable {\tt i} atteint zéro, l'opération {\tt i = i - 1} donne {\tt i=255} (puisque $-1 \mod 256 = 255$).
+	La condition de sortie de boucle est {\tt i<0} et elle n'est donc jamais réalisée, par conséquent, ce programme affiche les entiers de 10 à 0 puis boucle indéfiniment en affichant les entiers de 255 à 0.
+	}
 
 \end{Exercise}
+
+
+
 
 \end{document}

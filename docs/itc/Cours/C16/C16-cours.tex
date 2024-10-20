@@ -51,15 +51,9 @@
 		Pour définir une fonction en Python :
 		\begin{itemize}
 			\item<2-> qui ne renvoie pas de valeur :
-				\begin{codepython*}{tabsize=0}
-					def <nom_fonction>(<arguments>):
-					<instruction>
-				\end{codepython*}
-			\item<2-> qui renvoie une valeur : \begin{codepython*}{tabsize=0}
-					def <nom_fonction>(<arguments>):
-					<instruction>
-					return <resultat>
-				\end{codepython*}
+				\inputpartPython{ex_cours.py}{}{}{1}{2}
+			\item<2-> qui renvoie une valeur :
+				\	\inputpartPython{ex_cours.py}{}{}{4}{6}
 		\end{itemize}
 	\end{alertblock}
 \end{frame}
@@ -74,14 +68,8 @@
 		\end{itemize}
 	\end{alertblock}
 	\begin{exampleblock}{Exemple}
-		\onslide<4->\begin{codepython*}{tabsize=0}
-			import randint
-			de = randint(1,6)
-		\end{codepython*}
-		\onslide<5->\begin{codepython*}{tabsize=0}
-			from random import randint
-			de = randint(1,6)
-		\end{codepython*}
+		\onslide<4-> \inputpartPython{ex_cours.py}{}{}{8}{9}
+		\onslide<5-> \inputpartPython{ex_cours.py}{}{}{11}{12}
 	\end{exampleblock}
 \end{frame}
 
@@ -92,18 +80,10 @@
 	\begin{alertblock}{Instructions conditionnelles}
 		\begin{itemize}
 			\item<1-> Sans clause \kw{else}
-				\begin{codepython*}{tabsize=0}
-					if <condition>:
-					<instructions>
-				\end{codepython*}
+				\inputpartPython{ex_cours.py}{}{}{14}{15}
 				Exécute les {\tt <instructions>} si la {\tt condition} est vérifiée.
 			\item<2-> Avec clause \kw{else}
-				\begin{codepython*}{tabsize = 0}
-					if <condition>:
-					<instructions1>
-					else:
-					<instructions2>
-				\end{codepython*}
+				\inputpartPython{ex_cours.py}{}{}{17}{20}
 				Cela permet d'exécuter les {\tt <instructions1>} si la {\tt condition} est vérifiée, sinon on exécute les {\tt <instructions2>}.
 		\end{itemize}
 	\end{alertblock}
@@ -126,10 +106,7 @@
 	\begin{alertblock}{Boucles {\tt while}}
 		\begin{itemize}
 			\item<2-> La syntaxe d'une boucle \textcolor{red}{\tt while}  en Python est :
-				\begin{codepython*}{tabsize = 0}
-					while <condition>:
-					<instruction>
-				\end{codepython*}
+				\inputpartPython{ex_cours.py}{}{}{23}{24}
 				Cela permet d'exécuter les {\tt <instructions>} tant que la {\tt <condition>} est  vérifiée.
 			\item<3-> L'instruction \kw{break} permet de sortir de la boucle de façon anticipée.
 			\item<4->  On ne sait pas a priori combien de fois cette boucle sera exécutée (et elle peut même être infinie), on dit que c'est une boucle \textcolor{blue}{non bornée}.
@@ -142,10 +119,7 @@
 	\begin{alertblock}{Boucles {\tt for} avec {\tt range}}
 		\begin{itemize}
 			\item<2-> Les instructions :
-				\begin{codepython*}{tabsize = 0}
-					for <variable> in range(<entier>):
-					<instructions>
-				\end{codepython*}
+				\inputpartPython{ex_cours.py}{}{}{26}{27}
 				créent une variable parcourant les entiers de 0 à {\tt <entier>} (exclu).
 			\item<3-> Les {\tt <instructions>} indentées qui suivent seront exécutées pour chaque valeur prise par la variable.
 			\item<4-> L'instruction \kw{break} permet de sortir de la boucle de façon anticipée.
@@ -159,10 +133,7 @@
 	\begin{alertblock}{Boucles {\tt for} pour parcourir un itérable}
 		\begin{itemize}
 			\item<2-> Les instructions :
-				\begin{codepython*}{tabsize = 0}
-					for <variable> in <iterable>:
-					    <instructions>
-				\end{codepython*}
+				\inputpartPython{ex_cours.py}{}{}{29}{30}
 				permet à {\tt <variable>} de prendre les valeurs présentes dans {\tt <iterable>}.
 			\item<3-> Les {\tt <instructions>} indentées qui suivent seront exécutées pour chaque valeur prise par la variable.
 			\item<4-> Une chaine de ce caractère est un itérable, la variable prend alors comme valeur chacun des caractères de la chaine.
@@ -237,15 +208,15 @@
 		\begin{itemize}
 			\item Cas \textit{non mutable}, l'objet ne peut pas être modifié, c'est le cas des entiers, des chaines de caractères, des flottants, des booléens. Par exemple,
 			      \begin{codepython*}{fontsize=\footnotesize,tabsize=0}
-					x = 5     #x référence l'objet 5
-					y = x	  #y référence aussi l'objet 5
-					x = x + 2 #en faisant x+2 on crée un nouvel objet, x référence ce nouvel objet (mais pas y)
+				      x = 5     #x référence l'objet 5
+				      y = x	  #y référence aussi l'objet 5
+				      x = x + 2 #en faisant x+2 on crée un nouvel objet, x référence ce nouvel objet (mais pas y)
 			      \end{codepython*}
 			\item Cas \textit{mutable}, l'objet peut être modifié et donc dans ce cas, toutes les références à cet objet vont désignés l'objet modifié. Par exemple,
 			      \begin{codepython*}{fontsize=\footnotesize,tabsize=0}
-				    x = [5]  #x référence [5]
-				    y = x    #y référence aussi [5]
-				    x.append(2) #On modifie [5] (on ne crée pas un nouvel objet, donc y contient aussi [5,2])
+				      x = [5]  #x référence [5]
+				      y = x    #y référence aussi [5]
+				      x.append(2) #On modifie [5] (on ne crée pas un nouvel objet, donc y contient aussi [5,2])
 			      \end{codepython*}
 		\end{itemize}
 	\end{alertblock}
@@ -293,7 +264,7 @@
 		\end{itemize}
 	\end{alertblock}
 	\begin{exampleblock}{Exemple}
-		\begin{codepython*}{fontsize=\small}
+		\begin{codepython*}{fontsize=\small, tabsize=0}
 			anniv = (31,"Janvier",1956)
 			print("Mois de naissance = ",anniv[1])
 			anniv[2] = 1970 #provoque une erreur
@@ -308,12 +279,9 @@
 				\onslide<2-> Par exemple si \mintinline{python}{mot = "Génial"} alors \mintinline{python}{mot[2]} contient la lettre \mintinline{python}{"n"}
 			\item<3-> Le parcours par élément peut aussi se faire sur une chaine de caractères. \\
 				\onslide<4-> Pour afficher chaque lettre du mot "Génial", on peut donc écrire :
-				\onslide<5->\begin{codepython*}{tabsize=0}
-					for lettre in mot:
-					print(lettre)
-				\end{codepython*}
+				\onslide<5->\inputpartPython{ex_cours.py}{}{}{32}{33}
 			\item<6-> Comme les tuples, les chaines de caractères sont non mutables.
-			\item<7-> \textcolor{blue}{\small \important} Les variables lues au clavier (instruction \kw{input}) ou issus de la lecture d'un fichier sont des chaines de caractères. On doit les convertir dans le type approprié pour les utiliser comme nombre.
+			\item<7-> \textcolor{blue}{\small \important} Les variables lues au clavier (instruction \kw{input}) ou issues de la lecture d'un fichier sont des chaines de caractères. On doit les convertir dans le type approprié pour les utiliser comme nombre.
 			\item<8-> La fonction \kw{split} permet de renvoyer une liste de sous chaines en utilisant le séparateur donné en argument.
 		\end{itemize}
 	\end{alertblock}
@@ -321,7 +289,7 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple}
-		Ecrire une fonction {\tt check\_date} qui prend en argument une chaine de caractères et renvoie \kw{True} si cette chaine est une date valide au format JJ/MM/AAAA et \kw{False} sinon. Pour simplifier on testera simplement que le jour est entre 1 et 31 et le mois entre 1 et 12.
+		Ecrire une fonction {\tt check\_date} qui prend en argument une chaine de caractères et renvoie \kw{True} si cette chaine est une date valide au format {\sc jj/mm/aaaa} et \kw{False} sinon. Pour simplifier on testera simplement que le jour est entre 1 et 31 et le mois entre 1 et 12.
 		\onslide<2->{\inputpython{\SPATH/check_date.py}{}{\small}}
 	\end{exampleblock}
 \end{frame}
@@ -537,7 +505,7 @@
 		\textcolor{OliveGreen}{On note  $a_0$ la valeur initiale de la variable {\tt a}.}
 		\onslide<2->{\textcolor{OliveGreen}{Montrons que la propriété : \\}   \og{} $a_0 = bq + a$ \fg{}  \textcolor{OliveGreen}{est un invariant de boucle.}}
 		\begin{itemize}
-			\item<4-> \textcolor{OliveGreen}{La propriété est vraie avant d'entrée dans la boucle puisque on alors $q=0$ et $a_a0$ et donc $bq + a = a_0$.}
+			\item<4-> \textcolor{OliveGreen}{La propriété est vraie avant d'entrer dans la boucle puisqu'on a alors $q=0$ et $a = a_0$ et donc $bq + a = a_0$.}
 			\item<5-> \textcolor{OliveGreen}{Supposons la propriété vraie au début d'une itération de la boucle et montrons qu'elle est conservée à l'itération suivante. En notant $a'$ (resp. $q'$) la valeur de $a$ (resp. $q$) après l'itération, on a : \\
 					$b \times q' + a' = b \times (q+1) + a - b$ \\
 					$b \times q' + a' = b \times q + a $ \\ et puisque la propriété est supposé vraie au début de l'itération
@@ -552,7 +520,7 @@
 	\begin{block}{Principe}
 		La preuve de correction d'une fonction récursive peut peut s'obtenir par récurrence :
 		\begin{itemize}
-			\item<2-> (initialisation)on vérifie que la fonction est correcte pour le cas de base 
+			\item<2-> (initialisation)on vérifie que la fonction est correcte pour le cas de base
 			\item<3-> (hérédité) on prouve que si la fonction est correcte à un range $n \in \N$ alors elle l'est aussi au range $n+1$.
 		\end{itemize}
 	\end{block}

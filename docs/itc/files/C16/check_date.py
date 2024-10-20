@@ -1,8 +1,8 @@
 def check_date(date):
-    ldate = date.split("/")
-    if len(ldate)!=3: 
+    ldate = date.split("/") #date devient une liste
+    if len(ldate)!=3: #qui doit avoir 3 éléments
         return False
-    jour,mois =  int(ldate[0]),int(ldate[1])
-    if jour<1 or jour>31 or mois<1 or mois>12:
+    jour,mois, annee =  ldate #on décompacte
+    if int(jour)<1 or int(jour)>31 or int(mois)<1 or int(mois)>12:
         return False
     return True
