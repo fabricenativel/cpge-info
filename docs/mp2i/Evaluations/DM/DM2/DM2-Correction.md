@@ -16,25 +16,81 @@ L'[algorithme d'Euclide](https://fr.wikipedia.org/wiki/Algorithme_d%27Euclide){t
 Comme $b=0$ l'algorithme s'arrête et le {{sc("pgcd")}} de 120 et 84 est 12.
 
 1. Faire fonctionner cet algorithme avec $a=42$ et $b=98$
+
+    ??? Question "Corrigé"
+        | a | b | q | r |
+        |---|---|---|---|
+        | 42| 98| 0 | 42|
+        | 98| 42| 2 | 14|
+        | 42| 14| 3 |  0|
+
+        Le reste est nul, donc l'algorithme s'arrête et le {{sc("pgcd")}} est 14.
+
 2. Ecrire cet algorithme en pseudo-langage en préciser les entrées, les sorties et les préconditions
+
+    ??? Question "Corrigé"
+        ![algoriothme d'Euclide](euclide.png){width=500px}
+
 3. Donner une implémentation *itérative* de cet algorithme en C.
+
+    ??? Question "Corrigé"
+        ```c linenums="1"
+            --8<-- "DM2/euclide.c:Q3"
+        ```
 4. Prouver que cet algorithme termine
 
     !!! aide
         On pourra utiliser sans le démontrer le théorème de la division euclidienne.
+
+    ??? Question "Corrigé"
+        Montrons que `b` est un variant de boucle.
+
+        * `b` est entier par précondition et reste entier car le reste dans une division euclidienne est un entier.
+        * `b` est strictement positif par condition d'entrée dans la boucle,
+        * Les valeurs prises par `b` sont strictement décroissantes car d'après le théorème de la division euclidienne, le reste `r` d'une division par `b` est strictement inférieur à `b`. La nouvelle valeur de `b` (le reste dans la division de `â` par `b`) est donc strictement inférieur à celle d'entrée dans la boucle.
+
+        Donc `b` est un variant de boucle et l'algorithme termine.
 
 5. Prouver la correction totale de cet algorithme.
 
     !!! aide
         On pourra noter $a_0$ (resp $b_0$) les valeurs initiales de $a$ (resp $b$), et utiliser l'invariant suivant  : {{sc("pgcd")}}$(a_0,b_0)$ = {{sc("pgcd")}}$(a,b)$
 
+    ??? Question "Corrigé"
+        On note $a_0$ (resp $b_0$) les valeurs initiales de $a$ (resp $b$), montrons l'invariant $I$ : {{sc("pgcd")}}$(a_0,b_0)$ = {{sc("pgcd")}}$(a,b)$
+
+        * $I$ est vrai en entrant dans la boucle, car on a alors $a=a_0$ et $b=b_0$.
+        * On supose $I$ vrai, en entrant dans la boucle, c'est à dire {{sc("pgcd")}}$(a_0,b_0)$ = {{sc("pgcd")}}$(a,b)$, les valeurs de `a` (resp `b`) après passage dans la boucle sont `b` (resp `r`). Or {{sc("pgcd")}}$(a,b)$={{sc("pgcd")}}$(b,r)$, donc $I$ est conservé
+
+        Puisqu'en sortie de boucle $b=0$, la conservation de l'invariant donne {{sc("pgcd")}}$(a_0,b_0)$ = {{sc("pgcd")}}$(a,0) = a$, donc l'algorithme est correct.
+
 6. Donner une implémentation récursive en C (et éventuellement en OCaml).
+
+    ??? Question "Corrigé"
+        ```c linenums="1"
+            --8<-- "DM2/euclide.c:Q5"
+        ```
 
 7. Créer un type structuré `fraction` permettant de représenter une fraction (dont avec un deux champs de type entier, l'un pour le numérateur et l'autre pour le dénominateur)
 
+    ??? Question "Corrigé"
+        ```c linenums="1"
+            --8<-- "DM2/euclide.c:Q6"
+        ```
+
 8. Ecrire une fonction simplifie de prototype `#!c void simplifie(fraction *f)` qui ne renvoie rien et modifie la fraction (type `struct` défini à la question précédente) passée en paramètre de façon à la rendre irréductible.
 
+    ??? Question "Corrigé"
+        ```c linenums="1"
+        --8<-- "DM2/euclide.c:Q7"
+        ```
+
 9. Ecrire  une fonction addition de prototype `#!c fraction addition(fraction f, fraction g)` qui renvoie la somme des deux fractions passées en argument.
+
+    ??? Question "Corrigé"
+        ```c linenums="1"
+        --8<-- "DM2/euclide.c:Q8"
+        ```
 
 !!! lien "Pour aller plus loin"
     Pour aller plus loin, on pourra écrire les fonctions correspondantes aux autres opérations de base (différence, multiplication et division), écrire un module `fraction.h` et faire de la compilation séparée.
@@ -62,7 +118,17 @@ En effet :
 
 1. Les cellules n'ayant que deux états possibles on représente un état du jeu par un tableau de booléens. Ecrire une fonction de signature `#!c void affiche(bool etat[])` qui prend en argument un état du jeu et l'affiche dans le terminal sous la forme d'une chaine de caractère où `#` indique les cellules vivantes et `.` les cellules mortes. Par exemple (avec une taille de 10), si le tableau `etat `contient les valeurs `{false,false,false,true,true,false,true,false,true,false}` , l'affichage produit dans le terminal sera `...##.#.#.`.
 
+    ??? Question "Corrigé"
+        ```c linenums="1"
+        --8<-- "DM2/lineaire.c:Q1"
+        ```
+
 2. Ecrire une fonction  `#!c bool* evolution(bool etat[])` qui renvoie le nouvel état du jeu après une application de la règle d'évolution. Par exemple, si le tableau `etat` contient `{false,false,false,true,true,false,true,false,true,false}`, alors la fonction evolution renvoie `false, false, true, true, true, false, false, false, false, false`.
+
+    ??? Question "Corrigé"
+        ```c linenums="1"
+        --8<-- "DM2/lineaire.c:Q2"
+        ```
 
 3. Définir la constante `TAILLE` à 100 et définir un état de jeu ou toutes les cellules sont mortes sauf la cellule d'indice 50 qui est vivante et faire afficher l'évolution de l'état du jeu pour les 50 premières étapes. Le début de l'affichage devrait être :
 ```
@@ -78,10 +144,23 @@ En effet :
 .........................................#.#.............#.#........................................
 ```
 
+    ??? Question "Corrigé"
+        ```c linenums="1"
+        --8<-- "DM2/lineaire.c:Q3"
+        ```
+
 4. Ecrire une fonction `compte` qui prend en argument un état du jeu et renvoie le nombre de cellules vivantes.
+
+    ??? Question "Corrigé"
+        ```c linenums="1"
+        --8<-- "DM2/lineaire.c:Q4"
+        ```
 
 5. On prend la constante `TAILLE` égale à 1000, et un tableau initialement vide à part la cellule d'indice 500 qui est vivante. Combien de cellules vivantes contient le tableau après 2024 évolutions ?   
 Vérifier votre réponse : {{check_reponse("128")}}
+
+??? Question "Corrigé"
+        En prenant les données de l'énoncé et en utilisant la fonction `compte` sur le résultat final, on trouve **128** cellules vivantes
 
 ### Généralisation et règles de Wolfram
 
@@ -102,7 +181,28 @@ Si on lit de haut en bas la règle on obtient `.#.##.#.` qui, interprété comme
 
 1. Déterminer la règle de transformation pour l'entier 110
 
+    ??? Question "Corrigé"
+        $\overline{110}^{10} = \overline{01101110}^{2}$  
+        Et donc la règle est de transformation est :
+
+        | Ancien état | Nouvel état de la cellule centrale|
+        |-------------|-----------------------------------|
+        |    `###`    | `.` |
+        |    `##.`    | `#` |
+        |    `#.#`    | `#` |
+        |    `#..`    | `.` |
+        |    `.##`    | `#` |
+        |    `.#.`    | `#` |
+        |    `..#`    | `#` |
+        |    `...`    | `.` |
+
+
 2. Ecrire une fonction de signature `bool* evolution_rule(bool etat[], int rnum)` qui prend en entrée un etat (sous la forme d'un tableau de booléens) et un numéro de règle `rnum` et renvoie l'état du jeu après une évolution. 
+
+    ??? Question "Corrigé"
+        ```c linenums="1"
+        --8<-- "DM2/lineaire.c:Q5"
+        ```
 
 3. Tester votre fonction en retrouvant  l'évolution visible sur les pages wikipédia dédiées  pour les règles suivantes
 

@@ -114,7 +114,8 @@
 		\begin{itemize}
 			\item<1-> Un programme OCaml consiste en l'évaluation d'une ou plusieurs expressions, \textbf{il n'y a pas d'instructions}.\\
 				\onslide<2->\textcolor{gray}{Une structure \kw{if} \dots \kw{then} \dots \kw{else} est évaluée et renvoie une expression. En impératif, ce sont des instructions conditionnelles.}
-			\item<3-> Les types n'ont pas a être spécifiés, ils sont déterminés automatiquement par le mécanisme d'inférence.
+			\item<3-> Les types n'ont pas a être spécifiés, ils sont déterminés automatiquement par le mécanisme d'inférence.\\
+			\onslide<3->\textcolor{gray}{Les opérateurs sont donc associés à des types précis, par exemple {\tt +} est l'addition sur les entiers, {\tt +.} est l'addition sur les flottants, \mintinline{Ocaml}{@} est l'opérateur de concaténation des listes, \mintinline{OCaml}{^} est l'opérateur de concaténation des chaines de caractères.}
 			\item<4-> Toute expression a une valeur, la détermination de cette valeur s'appelle l'évaluation.
 		\end{itemize}
 	\end{block}
@@ -203,6 +204,9 @@ if expr_bool then expr1 else expr2;;
 				\onslide<2->\inputpartOCaml{\SPATH ex_cours.ml}{}{\small}{25}{26}
 			\item<3-> Ecrire une fonction \kw{abs\_flottant} qui renvoie la valeur absolue du flottant donné en argument .
 				\onslide<4->\inputpartOCaml{\SPATH ex_cours.ml}{}{\small}{28}{29}
+			\item<5-> Evaluer l'expression suivante et donner la valeur de {\tt b} si {\tt a} vaut {\tt -3}\\
+				\mintinline{OCaml}{let b = 3 * if a<0 then 2 else 5;;}\\
+				\onslide<6->\textcolor{OliveGreen}{la valeur de {\tt b} est 6.}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -240,7 +244,10 @@ if expr_bool then expr1 else expr2;;
 						f : & E & \leftarrow & \mathcal{A}{(F,G)} \\
 						    & x & \mapsto    & (y \mapsto z)      \\
 					\end{array}$
-			\item<3-> En conséquence, appeler une fonction sans préciser tous ses arguments, crée une nouvelle fonction !
+			\item<3-> On donne donc la signature d'une fonction en OCaml, en listant les types des arguments séparés par {\tt ->} et ensuite le type du résultat.\\
+			\onslide<4->\textcolor{gray}{Par exemple une fonction {\tt min3} renvoyant le minimum de trois entiers s'écrit {\tt min3 : int -> int -> int -> int}.}
+			\item<5-> L'évaluation d'une fonction sans donner tous ses arguments est une fonction.
+
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -346,11 +353,23 @@ if expr_bool then expr1 else expr2;;
 	\end{exampleblock}
 \end{frame}
 
+
+\makess{Polymorphisme}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\inputpartOCaml{\SPATH ex_polymorphisme.ml}{}{\small}{1}{2}
+		\onslide<2->{Cette fonction peut prendre en entrée trois entiers, trois flottants, trois caractères,~\dots  sa signature est {\tt deux\_egaux : 'a -> 'a -> 'a -> bool}. On dit qu'elle est polymorphe car elle accepte des entrées de types différents, le type des entrées est donc noté par OCaml {\tt 'a}.}
+	\end{exampleblock}
+	\onslide<3->{\begin{block}{Définition}
+		Le \textcolor{BrickRed}{polymorphisme} est un mécanisme permettant d'écrire des fonctions prenant en entrée des valeurs de types différents. Le type des arguments est alors noté {\tt 'a, 'b, \dots}.
+	\end{block}}
+\end{frame}
+
 \makess{Les listes}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{le type \textcolor{yellow}{\tt list}}
 		\begin{itemize}
-			\item<1-> Le type \kw{list} est prédifini en OCaml et permet de représenter des listes de valeurs \textcolor{BrickRed}{de même type} et \textcolor{BrickRed}{non mutables}.
+			\item<1-> Le type \kw{list} est prédifini en OCaml et permet de représenter des listes de valeurs \textcolor{BrickRed}{de même type}. Une liste est \textcolor{BrickRed}{non mutable}.
 			\item<2-> On peut définir une liste en mettant les éléments entre crochets et en les séparant par des points virgules.\\
 			\onslide<3-> \mintinline{ocaml}{let p = [2; 3; 5; 7]} : une liste d'entiers \\
 			\onslide<4-> \mintinline{ocaml}{let lang = ["Python"; "Ada"; "C"]} : une liste de chaines de caractères \\

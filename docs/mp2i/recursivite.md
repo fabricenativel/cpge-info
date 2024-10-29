@@ -80,6 +80,28 @@ On suppose qu'on ne dispose que de deux opérations : ajouter 1 ou retrancher 1.
 3. Donner une implémentation itérative de cet algorithme
 4. Donner une implémentation récursive de cet algorithme
 
+{{ exo("Recherche dichotomique dans un tableau trié",[])}}
+
+L'algorithme de [recherche dichotomique](https://fr.wikipedia.org/wiki/Recherche_dichotomique){target= _blank}, s'applique lorsque le **tableau est trié**, il consiste à comparer l'élément cherché avec celui situé au milieu du tableau. Si la comparaison est infructueuse, on relance la recherche dans la moitié de tableau pertinente, ainsi à chaque étape, la taille de la zone de recherche est divisée par deux. 
+
+Par exemple, si on recherche $\textcolor{red}{28}$ dans $[14, 15, 17, 22, 23, 25, 29, 34, 38]$, le tableau ci-dessous représente les étapes de la méthode :
+
+|Etape | Zone de recherche | Milieu|Comparaison |
+|------|-------|--------------|------------|
+|:one:|$\underbrace{[\overset{\textcolor{red}{_\wedge^{0}}}{14}, 15, 17, 22,}_{ } \underset{_4^\uparrow}{\textcolor{darkblue}{23}} , \overbrace{25, 29, 34, \underset{\textcolor{red}{_8^{\vee}}}{38}]}_{ }$| $(0+8)/2 = 4$ |$\textcolor{darkblue}{23} <\textcolor{red}{28}$ |
+|:two:|$[\colorbox{lightgray}{14, 15, 17, 22,23} , \underbrace{\overset{\textcolor{red}{_\wedge^{5}}}{25}} \underset{_6^\uparrow}{\textcolor{darkblue}{29}}, \overbrace{34, \underset{\textcolor{red}{_8^{\vee}}}{38}]}_{ }$ | $(5+8)/2=6$|$\textcolor{darkblue}{29} \geq \textcolor{red}{28}$.|
+|:three:|$[\colorbox{lightgray}{14, 15, 17, 22,23} , \underset{_5^\uparrow}{\overset{\textcolor{red}{_\wedge^{5}}}{25}}, \underset{\textcolor{red}{_6^{\vee}}}{29} \colorbox{lightgray}{34,38}]$ | $(5+6)/2=5$ |$\textcolor{darkblue}{25} < \textcolor{red}{28}$.|
+|:four:|$[\colorbox{lightgray}{14, 15, 17, 22,23,25} \underset{\textcolor{red}{_6^{\vee}}}{\overset{\textcolor{red}{_\wedge^6}}{29}} \colorbox{lightgray}{34,38}]$ | - | - |
+
+Arrêt de l'algorithme, $28$ n'est pas dans la liste.
+
+1. Ecrire en langage C une implémentation récursive de cet algorithme sous la forme d'une fonction de signature `#!c int dichotomie(int tab[], int v, int debut, int fin)` qui recherche dans le tableau `tab`, la valeur `v` en se limitant à la zone de recherche comprise entre `debut` et `fin` (inclus). Initialement, on a donc `debut=0` et `fin` égale à la taille du tableau -1. Cette fonction renvoie `-1` si l'élément ne se trouve pas dans le tableau et sinon un indice `i` tel que `tab[i]` soit la valeur cherchée.
+
+2. Proposer un jeu de tests pour votre fonction sous la forme d'instructions `assert`.
+
+3. Ecrire une version itérative de la recherche dichotomique.
+
+
 {{ exo("Pair et impair",[]) }}
 
 On définit les fonctions `pair` et `impair` de façon mutuellement récursive de la façon suivante :
@@ -91,7 +113,7 @@ On définit les fonctions `pair` et `impair` de façon mutuellement récursive d
 
 1. Donner une implémentation en OCaml de ces deux fonctions.
 
-{{ exo("Chiffres romaines",[])}}
+{{ exo("Chiffres romains",[])}}
 
 En [numération romaine](https://fr.wikipedia.org/wiki/Num%C3%A9ration_romaine){target=_blank}, les nombres s'écrivent avec les symboles suivants :
 
@@ -223,13 +245,23 @@ On a schématisé le tri du tableau `{10,6,3,9,7,5}` suivant ce principe ci-dess
     end
 ```
 
-Le tri des deux moitiés est lui-même effectué par tri fusion, cet algorithme est donc récursif. Le but de l'exercice est d'implémenter cet algorithme en C.
+Le tri des deux moitiés est lui-même effectué par tri fusion, cet algorithme est donc récursif. Le but de l'exercice est d'implémenter cet algorithme en C *en générant explicitement à chaque étape les deux moitiés de tableau*.
 
 1. Ecrire une affiche `affiche` qui prend en argument un tableau d'entiers et sa taille, ne renvoie rien et affiche les éléments de ce tableau dans le terminal.
 
-2. Ecrire une fonction `partage` qui prend en argument un tableau d'entiers `tab`, deux entiers `size1` et `size2`, et deux tableaux d'entiers `moitie1`, `moitie2` et qui modifie `moitie1` et `moitie2` afin que `moitie1` contienne les éléments de `tab` d'indice `0..size1` et `moitie2` ceux d'indice `size1+1...size1+size2`. Par exemple si `tab` contient `{10,6,3,9,7,5}` alors après l'appel `partage(tab,moitie1,3,moitie2,3)`, `moitie1` contiendra `{10,6,3}` et `moitie2` contiendra `{9,7,5}`.
+2. Ecrire une fonction `fusion` qui prend en argument deux tableaux supposés triés (et leur taille) et renvoie le tableau trié issu de leur fusion. Par exemple si `tab1 ={3,6,10}` et `tab2={5,7,9}` alors `fusion(tab1,3,tab2,3)` renvoie le tableau `{3,5,6,7,9,10}`.
 
-3. Ecrire une fonction `fusion` qui prend en argument deux tableaux supposés triés (et leur taille) et renvoie le tableau trié issu de leur fusion. Par exemple si `tab1 ={3,6,10}` et `tab2={5,7,9}` alors `fusion(tab1,3,tab2,3)` renvoie le tableau `{3,5,6,7,9,10}`.
+    !!! aide
+        On privilégie une solution itérative en utilisant trois indices :
+
+        * `i1` parcourt le premier tableau,
+        * `i2` parcourt le second tableau,
+        * `i` parcourt la fusion de deux.
+
+        A chaque étape, soit `i1` est incrémenté (quand on prend un élément du tableau 1), soit c'est `i2` (quand on prend un élément du tableau 2).
+
+2. Ecrire une fonction `partage` qui prend en argument un tableau d'entiers `tab`, deux entiers `size1` et `size2`, et deux tableaux d'entiers `moitie1`, `moitie2` et qui modifie `moitie1` et `moitie2` afin que `moitie1` contienne les éléments de `tab` d'indice `0..size1-1` et `moitie2` ceux d'indice `size1...size1+size2-1`. Par exemple si `tab` contient `{10,6,3,9,7,5}` alors après l'appel `partage(tab,moitie1,3,moitie2,3)`, `moitie1` contiendra `{10,6,3}` et `moitie2` contiendra `{9,7,5}`.
+
 
 4. Programmer l'algorithme du tri fusion.
 
