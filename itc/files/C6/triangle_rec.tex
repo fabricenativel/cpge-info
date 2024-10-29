@@ -1,0 +1,32 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/fabricenativel.github.io/latex//MacrosCours.tex}}
+\newcommand{\Schema}{\cnum Schéma}
+\pythonmode
+
+
+%Schéma représentatif
+\begin{frame}
+    \mframe{\Schema}
+    \psset{unit=0.5cm}
+    \hspace{2cm}
+    \textcolor{black}{\footnotesize \tt triangle(5)}\\
+    \fbox{
+        \begin{tabular}{>{\tt}l>{\tt}l>{\tt}l>{\tt}l>{\tt}l>{\tt}l>{\tt}l}
+            &\rnode[tl]{A}{\textcolor{blue}{*}} & & & & & \\
+            &\textcolor{blue}{*} & \textcolor{blue}{*}& & & & \\
+            &\textcolor{blue}{*} & \textcolor{blue}{*}& \textcolor{blue}{*}& & & \\
+            &\rnode[bl]{B}{\textcolor{blue}{ *}} & \textcolor{blue}{*}& \textcolor{blue}{*}& \rnode[br]{C}{\textcolor{blue}{*}}& & \\
+            \textcolor{red}{\footnotesize \tt 5 étoiles}  &\textcolor{red}{ *} & \textcolor{red}{*}& \textcolor{red}{*}& \textcolor{red}{* }& \textcolor{red}{*}\\
+        \end{tabular}
+        \ncline[linestyle=dashed,nodesepA=-10pt,linecolor=blue]{A}{B} \nbput{\textcolor{blue}{\footnotesize \tt triangle(4)}}
+        \ncline[linestyle=dashed,nodesepA=-5pt,nodesepB=-12pt,linecolor=blue]{B}{C}
+        \ncline[linestyle=dashed,nodesepA=-7pt,nodesepB=-10pt,offset=4pt,linecolor=blue]{A}{C}}
+\end{frame}
+
+
+\end{document}
