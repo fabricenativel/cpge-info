@@ -43,7 +43,7 @@
 
 {{ exo("Quelques évaluations",[]) }}
 
-1. Prédire le type et la valeur des expressions suivantes, vérifier en les évaluant `utop` :
+1. Prédire le type et la valeur des expressions suivantes, vérifier en les évaluant dans `utop` :
 
     * `(7.-5.)  *. 3.`
     * `14 mod 3`
@@ -90,6 +90,18 @@
 
 2. Donner une écriture de cette fonction en utilisant un filtrage par motif
 
+{{ exo("Quelques fonctions élémentaires",[])}}
+
+1. Ecrire une fonction `perimetre_cercle : float -> float` qui prend en argument un flottant `r` et renvoie le perimètre du cercle de rayon `r`, on utilisera une valeur de `pi` de `3.14` définie *dans un environnement local*.
+
+2. Ecrire une fonction `discriminant : float -> float -> float -> float` qui prend en argument trois flottants $a, b$ et $c$ et renvoie $b^2 - 4ac$.
+
+3. Ecrire une fonction `est_pair : int -> bool` qui renvoie `true` lorsque l'entier donné en argument est pair.
+
+4. Ecrire une fonction `mention : float -> string` qui renvoie la mention au {{sc("bac")}} associée à la moyenne donnée en argument par exemple `mention 12.8` donne "Assez-bien".
+
+5. Ecrire une fonction `fact : int -> int` qui renvoie la factorielle de l'entier donné en argument.
+
 {{ exo("Termes d'une suite",[])}}
 
 Ecrire une fonctions `suite` qui prend en argument un entier `n` et renvoie le  `n`-ième terme de la suite $u$ définie par $u_0=1$ et $u_{n+1} = 2 u_n + 3$
@@ -118,6 +130,22 @@ utop # triangle2 '*' 5;;
 *****
 ```
 
+{{ exo("Type figure",[])}}
+
+On considère le type union suivant permet de représenter des figures géoémtriques :
+
+```ocaml
+type figure = 
+| Cercle of float 
+| Carre of float 
+| Rectangle of float*float;;
+```
+
+1. En utilisant une correspondance de motif, écrire une fonction `perimetre` qui renvoie le perimetre d'une `figure`
+
+2. Définir la variable `rect` représentant un rectangle de dimension $3\times9$  et calculer son aire à l'aide de la fonction précédente.
+
+3. Reprendre les questions précédentes pour l'aire.
 
 {{ exo("Type nombre",[]) }}
 
@@ -135,11 +163,6 @@ utop # triangle2 '*' 5;;
     * `Bleu pur` si la composante bleue est strictement positive et les  deux autres composantes sont nulles,
     * `Mélange` dans les autres cas.
     
-{{ exo("Cercle et carré",[])}}
-
-1. Créer un type `Forme` permettant de représenter les carrés (en donnant leur côté) et les cercles (en donnant leur rayon)
-2. Ecrire à l'aide d'un filtrage par motif la fonction qui calcule le périmètre d'un objet de type `Forme`.
-3. Même question pour la surface
 
 {{ exo("Chaines de caractères",[])}}
 

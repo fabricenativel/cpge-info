@@ -354,6 +354,8 @@ if expr_bool then expr1 else expr2;;
 \end{frame}
 
 
+
+
 \makess{Polymorphisme}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple}
@@ -412,9 +414,16 @@ if expr_bool then expr1 else expr2;;
 	\end{block}
 \end{frame}
 
+\makess{Type option}
 
-
-
-
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Exemple}
+		Supposons qu'on veuille écrire une fonction {\tt premier\_pair int list -> int} qui renvoie le premier élément pair d'une liste d'entier. On peut gérer le cas d'une liste ne contenant pas d'entiers pairs en renvoyant une valeur spéciale, par exemple \kw{Aucun}. On doit donc créer un type somme pour désigner le type renvoyé :
+		\onslide<2->{\inputpartOCaml{\SPATH/type_opt.ml}{}{}{1}{3}}
+		\onslide<3->{Ce type est en réalité \textcolor{blue}{prédéfini} en OCaml et s'appelle un \textcolor{BrickRed}{type option}, c'est à dire qu'il contient une valeur entière (\kw{Some of int}) ou rien (\kw{None}).}
+		\onslide<4->{\inputpartOCaml{\SPATH/type_opt.ml}{}{}{5}{8}}
+		\onslide<5->{La fonction est {\tt premier\_pair int list -> int option}}
+	\end{block}
+\end{frame}
 
 \end{document}
