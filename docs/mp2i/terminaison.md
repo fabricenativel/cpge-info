@@ -36,6 +36,16 @@ On peut définir en OCaml des fonction anonymes, à l'aide de la syntaxe `#!ocam
 
 2. Ecrire en OCaml une fonction `affiche` qui prend en argument une liste d'entiers et l'affiche à la façon de `utop`. Par exemple `affiche [2; 6; 7 ]` doit afficher dans le terminal `[2; 6; 7 ]`
 
+{{ exo("Manipulations de listes",[])}}
+
+1. Ecrire une fonction `pair_impair : int list -> int list * int list` qui prend en argument une liste d'entiers et renvoie la liste des éléments pairs et celle des éléments impairs. Par exemple `pair_impair [2; 7; 5; 4; 11; 8];;` renvoie `([2; 4; 8], [7; 5; 11])`
+
+2. Ecrire une fonction `entrelace : 'a list -> 'a list -> 'a list` qui "entrelace" les deux listes données en argument en piochant alternativement un élément dans chacune des deux listes (jusqu'à ce que l'une des deux soit vide), par exemple `entrelace [1; 2; 3] [2; 6; 5];;` renvoie `[1; 2; 2; 6; 3; 5]`
+
+3. Ecrire une fonction `compression : int list -> int list` qui prend en argument une liste et renvoie cette liste dans laquelle les éléments consécutifs égaux ont été supprimés. Par exemple `compression [2; 2; 2; 1; 1; 2; 2; 2; 2]` renvoie `[2, 1, 2]`.
+
+    
+
 {{ exo("Tri par insertion en OCaml",[])}}
 
 1. Ecrire en OCaml une fonction `insertion` qui prend en argument un entier `n` et une liste *triée* d'entiers `entiers` et renvoie la liste dans laquelle `n` a été inséré à la bonne position dans `entiers`. Par exemple `insertion 3 [2; 7; 8 ]` doit renvoyer `|2; 3; 7; 8]`
@@ -55,6 +65,12 @@ On peut définir en OCaml des fonction anonymes, à l'aide de la syntaxe `#!ocam
 
 3. Tester en utilisant les fonctions de l'exercice **1**.
 
+
+{{ exo("Palindrome",[])}}
+
+En OCaml, `String.sub : string -> int -> int -> sub` renvoie la portion prend en argument une chaine de caractère `s`  et deux entiers `n` et `m` et renvoie la chaine commençant à l'indice `n` et de longueur `m`, par exemple `#!ocaml String.sub "abcdef" 2 3 ;;` renvoie la chaine `"cde"`.
+
+Ecrire une fonction `est_palindrome : string -> bool` qui renvoie `true` ssi la chaine fournie en argument est un palindrome
 
 {{ exo("Code de César en OCaml",[]) }}
 
