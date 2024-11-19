@@ -17,7 +17,22 @@
 !!! danger
     En cas de difficultés sur les exercices de programmation proposés dans ce chapitre, revenir sur ceux du chapitre précédent d'introduction à OCaml.
 
-{{ exo("Fonctions anonymes",[],0)}}
+
+{{ exo("Compilation en OCaml",[],0)}}
+
+1. Ecrire dans  `utop` une fonction récursive `somme_carres : int -> int` qui prend en entrée un entier `n` positif et renvoie la somme des carrés des entiers de 0 à `n` (on calculera récursivement sans utiliser la formule donnant le résultat général). Utiliser cette fonction afin de calculer la somme des carrés entiers de 1 à 2024.
+
+2. On veut maintenant, écrire une version *compilée* de ce programme, recopier dans `VS Code` le code de la fonction `somme_carres`.
+Le compilateur OCaml, est `ocamlopt`, comme avec `gcc`, on peut préciser le nom de l'exécutable crée avec l'option `-o`. 
+
+
+    !!! aide
+        Par exemple, pour compiler le programme `hello.ml` et produire l'exécutable `hello.exe`, on écrira simplement `ocamlopt hello.ml -o hello.exe`. 
+
+    Afin que le programme compilé affiche la somme des carrés entiers de 1 à 2024, on ajoute en fin de programme `#!ocaml let () = print_int (somme_carres 2024); print_newline () ;;`. En effet, la dernière expression ne doit être qu'un simple affichage, écrire `let () = ...` permet de vérifier que l'évaluation de l'expression (un affichage) renvoie bien `()`.
+
+
+{{ exo("Fonctions anonymes",[])}}
 
 On peut définir en OCaml des fonction anonymes, à l'aide de la syntaxe `#!ocaml fun arg1 .. argn -> expr` par exemple l'expression `#!ocaml let c = (fun n -> n*n) 10;;` s'évalue à `100` car on applique la fonction (anonyme) $n \mapsto n^2$ à 10.
 
@@ -35,6 +50,7 @@ On peut définir en OCaml des fonction anonymes, à l'aide de la syntaxe `#!ocam
         En OCaml la fonction `Random.int` renvoie un entier au hasard entre 0 (inclus) et la valeur entière donnée en argument (exclus).
 
 2. Ecrire en OCaml une fonction `affiche` qui prend en argument une liste d'entiers et l'affiche à la façon de `utop`. Par exemple `affiche [2; 6; 7 ]` doit afficher dans le terminal `[2; 6; 7 ]`
+
 
 {{ exo("Manipulations de listes",[])}}
 

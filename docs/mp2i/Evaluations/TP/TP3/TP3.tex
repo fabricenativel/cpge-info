@@ -1,0 +1,39 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\setboolean{corrige}{true}
+\TPnote{3}{Programmation en OCaml}{10}
+%Nom de la première activité
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise}[title={Représentation des ensembles d'entiers}]\\
+En OCaml, on propose de représenter un ensemble d'entiers, par la liste \textit{triée} (dans l'ordre croissant) de ses éléments. Par exemple l'ensemble {\tt \{2; 3; 5; 7\}} sera représenté par la liste {\tt [2; 3; 5; 7]}. Ainsi une liste d'entiers représente correctement un ensemble lorsque :
+\begin{itemize}
+\item  ses éléments sont dans l'ordre croissant,
+\item  et chaque élément figure en un seul exemplaire.
+\end{itemize}
+Par exemple, les listes {\tt [2; 3; 3; 5; 7]} (élément en double) ou {\tt [2; 5; 3; 7]} (non triée) ne représentent pas correctement un ensemble.
+\Question{Ecrire une fonction \mintinline{ocaml}{est_ensemble: int list -> bool} qui renvoie {\tt true} lorsque la liste d'entier fournie en argument représente correctement un ensemble.}
+\reponse{6}{3}
+\ifcorrige
+\corpartOCaml{ensemble.ml}{}{}{1}{5}
+\fi
+\Question{Ecrire une fonction \mintinline{ocaml}{appartient: int -> int list -> bool} qui prend en argument un entier et une liste (représentant un ensemble) et renvoie {\tt true} lorsque l'entier appartient à l'ensemble représenté par la liste. Par exemple {\tt appartient 3 [2; 3; 5; 7]} renvoie {\tt true}}.
+\reponse{6}{3}
+\ifcorrige
+\corpartOCaml{ensemble.ml}{}{}{8}{12}
+\fi
+\Question{Ecrire une fonction \mintinline{ocaml}{union : int list -> int list -> int list} qui prend en argument deux listes d'entiers (en supposant que ces deux listes représentent correctement des ensembles) et renvoie la liste d'entiers représentant l'union de ces deux listes. Par exemple {\tt union [2; 5; 7] [5; 6; 7; 10];;} renvoie {\tt [2; 5; 6; 7; 10]}.}
+\reponse{8}{4}
+\ifcorrige
+\corpartOCaml{ensemble.ml}{}{}{15}{21}
+\fi
+\end{Exercise}
+
+\end{document}

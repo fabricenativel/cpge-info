@@ -1,1 +1,1 @@
-let f n = n * (n-1);;
+let deux_egaux a b c = (a=b) || (b=c) || (a=c);;

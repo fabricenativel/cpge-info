@@ -98,7 +98,10 @@ def resultat(data,nds,eleve,leleves,lexo):
     for exo in lexo:
         cline += 1
         for question in exo:
-            resultat[question]=data[DS+str(nds)][cline][col_eleve]
+            try:
+                resultat[question]=data[DS+str(nds)][cline][col_eleve]
+            except:
+                resultat[question]=0
             cline +=1
     return resultat
 
@@ -220,7 +223,7 @@ else:
     print(f"{nds} devoirs")
     ptitle(f"Liste des DS")
     for i in range(1,nds+1):
-        print(f"{TTITLE} {BULLET} DS{nds} (le {dateds}) : {get_ds_title(nds)} {Fore.WHITE}")
+        print(f"{TTITLE} {BULLET} DS{i} (le {dateds}) : {get_ds_title(i)} {Fore.WHITE}")
     rep = question("Entrez le numéro de DS",1,nds)
     ptitle(f"Liste des exercices du DS{rep}")
     lexos = get_exos(data,rep)
