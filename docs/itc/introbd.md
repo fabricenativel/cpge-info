@@ -111,8 +111,10 @@ Les exemples vu en cours s'appuient sur la base de données suivante :
 
 1. Des exercices en lignes de requêtes sur une seule table crées par **N. Reveret**. Ces exercices peuvent être faits à la maison (aucune installation nécessaire) et les réponses sont fournis.
 
-    1. [Les prénoms en France au XX-ème siècle](https://e-nsi.forge.aeif.fr/exercices_bdd/31_prenoms/prenoms/){target=_blank}
-    2. [Ramens](https://e-nsi.forge.aeif.fr/exercices_bdd/32_ramens/ramens/){target=_blank}
+    1. [Les prénoms en France au XX-ème siècle](https://nreveret.forge.apps.education.fr/exercices_bdd/31_prenoms/prenoms/){target=_blank}
+    2. [Ramens](https://nreveret.forge.apps.education.fr/exercices_bdd/32_ramens/ramens/){target=_blank}
+
+2. Même principe sur ce site de **D. Quenton** : [Requête sur une seule table (livres)](https://dquenton.forge.apps.education.fr/nsi-terminale-specialite/BaseDeDonnees/BaseDeDonnees13/#requete-sur-une-seule-table){target=_blank}
 
 2. Même principe sur ce site de **Q. Fortier** :
 
