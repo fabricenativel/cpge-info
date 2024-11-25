@@ -8,12 +8,12 @@ struct maillon
     struct maillon *suivant;
 };
 typedef struct maillon maillon;
-struct file
+struct file_s
 {
     maillon *tete;
     maillon *queue;
 };
-typedef struct file file;
+typedef struct file_s file;
 
 
 file cree_file()

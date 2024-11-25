@@ -4,12 +4,12 @@
 
 #define SIZE 10000000
 
-struct maillon
+struct maillon_s
 {
     int valeur;
-    struct maillon * suivant;
+    struct maillon_s * suivant;
 };
-typedef struct maillon maillon;
+typedef struct maillon_s maillon;
 typedef maillon* liste;
 
 
