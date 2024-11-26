@@ -84,7 +84,7 @@ On peut définir en OCaml des fonction anonymes, à l'aide de la syntaxe `#!ocam
 
 {{ exo("Palindrome",[])}}
 
-En OCaml, `String.sub : string -> int -> int -> sub` renvoie la portion prend en argument une chaine de caractère `s`  et deux entiers `n` et `m` et renvoie la chaine commençant à l'indice `n` et de longueur `m`, par exemple `#!ocaml String.sub "abcdef" 2 3 ;;` renvoie la chaine `"cde"`.
+En OCaml, `String.sub : string -> int -> int -> sub` prend en argument une chaine de caractère `s`  et deux entiers `n` et `m` et renvoie la renvoie la portion de `s` commençant à l'indice `n` et de longueur `m`, par exemple `#!ocaml String.sub "abcdef" 2 3 ;;` renvoie la chaine `"cde"`.
 
 Ecrire une fonction `est_palindrome : string -> bool` qui renvoie `true` ssi la chaine fournie en argument est un palindrome
 
@@ -97,7 +97,7 @@ Ecrire une fonction `est_palindrome : string -> bool` qui renvoie `true` ssi la 
 
 2. Ecrire une fonction `reste` qui prend en argument une chaine et renvoie cette chaine privée de son premier caractère
 
-3. Ecrire une fonction recursive `cesar` qui prend en argument une chaine et une clé et permet de chiffrer (ou de déchiffre) cette chaine avec le code de César
+3. Ecrire une fonction recursive `cesar` qui prend en argument une chaine et une clé et permet de chiffrer (ou de déchiffrer) cette chaine avec le code de César
 
 4. La fonction `String.map` permet d'appliquer une fonction à chaque caractère d'une chaine à la façon de `List.map`. Proposer une version du chiffrement de César utilisant `String.map`
 
@@ -119,6 +119,57 @@ Ecrire une fonction `est_palindrome : string -> bool` qui renvoie `true` ssi la 
 
 6. Effectuer des mesures de temps de calcul pour ce nouvel algorithme. Commenter
 
+{{ exo("ASCII art et compression",[]) }}
+
+L'[ASCII art](https://en.wikipedia.org/wiki/ASCII_art){target=_blank} consite à réaliser des images uniquement avec des lettres et ces caractères spéciaux contenus dans le code {{sc("ascii")}}. Voici l'exemple d'un *smiley* réalisé en ASCII art (crédit : Wikipédia):
+
+```
+                          oooo$$$$$$$$$$$$oooo
+                      oo$$$$$$$$$$$$$$$$$$$$$$$$o
+                   oo$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o         o$   $$ o$
+   o $ oo        o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o       $$ $$ $$o$
+oo $ $ '$      o$$$$$$$$$    $$$$$$$$$$$$$    $$$$$$$$$o       $$$o$$o$
+'$$$$$$o$     o$$$$$$$$$      $$$$$$$$$$$      $$$$$$$$$$o    $$$$$$$$
+  $$$$$$$    $$$$$$$$$$$      $$$$$$$$$$$      $$$$$$$$$$$$$$$$$$$$$$$
+  $$$$$$$$$$$$$$$$$$$$$$$    $$$$$$$$$$$$$    $$$$$$$$$$$$$$  '''$$$
+   '$$$''''$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     '$$$
+    $$$   o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     '$$$o
+   o$$'   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$o
+   $$$    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' '$$$$$$ooooo$$$$o
+  o$$$oooo$$$$$  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$   o$$$$$$$$$$$$$$$$$
+  $$$$$$$$'$$$$   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     $$$$''''''''
+ ''''       $$$$    '$$$$$$$$$$$$$$$$$$$$$$$$$$$$'      o$$$
+            '$$$o     '''$$$$$$$$$$$$$$$$$$'$$'         $$$
+              $$$o          '$$''$$$$$$''''           o$$$
+               $$$$o                                o$$$'
+                '$$$$o      o$$$$$$o'$$$$o        o$$$$
+                  '$$$$$oo     ''$$$$o$$$$$o   o$$$$''
+                     ''$$$$$oooo  '$$$o$$$$$$$$$'''
+                        ''$$$$$$$oo $$$$$$$$$$
+                                ''''$$$$$$$$$$$
+                                    $$$$$$$$$$$$
+                                     $$$$$$$$$$'
+                                      '$$$'' 
+```
+
+Comme on peut le constater sur cet exemple, on trouve dans ce type d'image, de nombreuses répétitions du *même caractère*, (ici des suites de `$` ou de `"`). Aussi, on cherche à diminuer la taille de ces images en utilisant une compression de type [*RLE*](https://en.wikipedia.org/wiki/Run-length_encoding) qui consiste à remplacer des occurrences multiples d'un caractère par le nombre de répétition suivi du caractère, par exemple la chaine "AAAAABBBBCC" pourrait se compresser en  "5A4B2C". 
+
+1. Afin de travailler sur ces images en OCaml, on propose dans un premier temps de les convertir en liste de caractères. Ecrire une fonction `list_of_string : string -> char list` qui prend en entrée une chaine de caractère et la convertit en une liste de caractère. Par exemple `list_of_string "XXXYY"` donne la liste `['X','X','X','Y','Y']`.
+
+    !!! aide
+        On pourra dans un premier temps ne pas soulever des problèmes de complexité et utiliser `String.sub` mais l'extraction d'une sous chaine est une opération en $\mathcal{O}(m)$ où $m$ est la taille de la sous chaine, aussi répéter l'extraction des sous chaines pour chaque emplacement donnera une complexité quadratique. Une solution de complexité linéaire peut s'obtenir en utilisant une fonction auxiliaire qui extrait entre deux indices.
+
+2. Ecrire une fonction `compression` qui prend en entrée une liste de caractère et renvoie une liste de couples (un entier et un caractère) correspondant à la compression *RLE* décrite ci-dessus par exemple `compression ['E';'E';'E';'C';'A';'A';'A';'A']` renvoie la liste `[(3,'E'),(1,'C'),(4,'A')]`
+
+3. Compresser l'image du smiley ci-dessus, combien de couples `int*char` contient la liste obtenue ? Vérifier votre résultat : {{check_reponse("270")}}
+
+4. Ecrire la fonction `décompression : int*char -> string` qui prend en entrée une liste de couples représentant une compression *RLE* d'une image en ASCII art et renvoie la chaine représentant cette image.
+
+5. Tester votre fonction en décompressant l'image représenté par la liste suivante :
+```
+[(13,'_'); (1,'\n'); (1,'('); (1,' '); (1,'H'); (1,'e'); (2,'l'); (1,'o'); (1,' '); (1,'w'); (1,'o'); (1,'r'); (1,'l'); (1,'d'); (1,' '); (1,')'); (1,'\n'); (1,' '); (13,'-'); (1,'\n'); (8,' '); (1,'o'); (3,' '); (1,'^'); (2,'_'); (1,'^'); (1,'\n'); (9,' '); (1,'o'); (2,' '); (1,'('); (2,'o'); (1,')'); (1,'\\'); (7,'_'); (1,'\n'); (12,' '); (1,'('); (2,'_'); (1,')'); (7,' '); (1,')'); (1,'\\'); (1,'/'); (1,'\\'); (1,'\n'); (16,' '); (2,'|'); (4,'-'); (1,'w'); (1,' '); (1,'|'); (1,'\n'); (16,' '); (2,'|'); (5,' '); (2,'|'); ]
+```
+Que peut-on lire sur cette image (respecter la casse) : {{check_reponse("Hello world")}}
 
 ## Humour d'informaticien
 ![BinarySearch](./Images/C7/search.png){.imgcentre width=500px}
