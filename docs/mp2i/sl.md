@@ -16,7 +16,59 @@
 
 ## Travaux pratiques
 
-{{exo("Une implémentation des listes de Python en C",[],0)}}
+
+{{ exo("Listes chainées en C",[],0)}}
+
+On reprend l'implémentation vue en cours pour les listes simplement chaînées en C :
+```c
+        --8<-- "C8/liste_chainee.c:7:13"
+```
+On définit donc ici une liste comme un pointeur vers le maillon de tête. 
+
+1. Ecrire les fonctions suivante :
+
+    1. `cree_liste` de signature `#!c liste cree_liste()` qui renvoie la liste vide.
+    2. `affiche` de signature `#!c affiche(liste l)` qui affiche les éléments de la liste `l`.
+    3. `ajoute` de signature `#!c void ajoute(liste *l, int val)` qui ajoute en tête de liste la valeur `val`.
+        
+        !!! aide
+            * On notera bien que cela modifie la liste passée en paramètre et que donc on utilise un pointeur vers cette liste.
+            * Comme souvent, lorsqu'on programme en utilisant les listes chainées, le crayon et le papier sont ici des alliés de poids. On recommande vivement de schématiser rapidement les opérations effectuées par `ajoute` (voir cours).
+            
+
+    4. `supprime` de signature `#!c supprime(list *l)` qui supprime l'élément situé en tête de la liste.
+    5. `detruit` qui libère entièrement l'espace mémoire alloué aux maillons d'une liste.
+
+2. Tester vos fonctions en créant puis en affichant la liste des 10 premiers entiers
+
+3. Implémenter d'autres fonctions sur votre structure de données (taille, accès au n-ième élément, somme des éléments, $\dots$).
+
+4. Vérifier l'absence de fuites mémoires.
+
+5. Reprendre cette exercice en créant un type de liste **doublement** chaînées (vers le suivant et vers le précédent) appelé  *deque* (pour *d*ouble *e*nded *que*ue) dans lequel on conserve un accès vers la tête de la liste (afin de pouvoir ajouter ou retirer un élément "à gauche" comme dans une liste chainée "traditionnelle") mais aussi un accès vers le dernier élément de la liste afin de pouvoir ajouter ou retirer un élément "à droite" de la liste en temps constant.
+
+{{exo("Des listes d'entiers en OCaml",[])}}
+
+En OCaml, on considère le type somme suivant afin de représenter  des listes d'entiers :
+
+```ocaml
+    --8<-- "C8/intlist.ml:1:3"
+```
+C'est à dire qu'une liste d'entier est soit vide, soit formé d'un couple `(tete, queue)` où `tete` est un entier et `queue` une liste d'entiers.
+
+1. Ecrire une fonction `ajoute : int -> intlist -> intlist` qui ajoute un entier en tête d'une `intlist`.
+
+2. Ecrire une fonction `aleatoire : int -> int -> int -> intlist` qui prend en argument trois entiers `n`, `vmin` et `vmax` et renvoie une `intlist` de `n` entiers compris entre `vmin` et `vmax`.
+
+3. Ecrire une fonction `affiche : intlist -> unit` qui affiche les éléments d'une `intlist` 
+
+4. Ecrire une fonction `longueur : intlist -> int` qui renvoie le nombre d'élements d'une `intlist`
+
+5. Ecrire une fonction `enleve : intlist -> intlist` qui supprime le premier élément d'une `intlist`, on traitera le cas de la liste vide avec un `failwith`
+
+6. Ecrire une fonction `partitionne : intlist -> (int -> bool) -> int list * intlist` qui partitionne une `intlist` suivant le prédicat fourni en argument.
+
+{{exo("Une implémentation des listes de Python en C",[])}}
 
 Le but de l'exercice est d'écrire une implémentation en C des *list* de Python et des fonctions associés (*append* et *pop*), on utilisera pour cela le type structuré suivant :
 
@@ -94,35 +146,6 @@ Le but est de l'exercice est d'implémenter un type *Vector* de tableaux redimen
 
 2. En revoyant si besoin le [cours sur la compilation séparée](https://fabricenativel.github.io/cpge-info/mp2i/pointeurs/#cours) écrire les fichiers `vector.h` et `vector.c` permettant de compiler séparément les fonctions ci-dessus afin de les utiliser dans un autre programme.
 
-{{ exo("Listes chainées en C",[])}}
-
-On reprend l'implémentation vue en cours pour les listes simplement chaînées en C :
-```c
-        --8<-- "C8/liste_chainee.c:7:13"
-```
-On définit donc ici une liste comme un pointeur vers sa tête.
-
-1. Ecrire les fonctions suivante :
-
-    1. `cree_liste` de signature `#!c liste cree_liste()` qui renvoie la liste vide.
-    2. `affiche` de signature `#!c affiche(liste l)` qui affiche les éléments de la liste `l`.
-    3. `ajoute` de signature `#!c void ajoute(liste *l, int val)` qui ajoute en tête de liste la valeur `val`.
-        
-        !!! aide
-            * On notera bien que cela modifie la liste passée en paramètre et que donc on utilise un pointeur vers cette liste.
-            * Comme souvent, lorsqu'on programme en utilisant les listes chainées, le crayon et le papier sont ici des alliés de poids. On recommande vivement de schématiser rapidement les opérations effectuées par `ajoute` (voir cours).
-            
-
-    4. `supprime` de signature `#!c supprime(list *l)` qui supprime l'élément situé en tête de la liste.
-    5. `detruit` qui libère entièrement l'espace mémoire alloué aux maillons d'une liste.
-
-2. Tester vos fonctions en créant puis en affichant la liste des 10 premiers entiers
-
-3. Implémenter d'autres fonctions sur votre structure de données (taille, accès au n-ième élément, somme des éléments, $\dots$).
-
-4. Vérifier l'absence de fuites mémoires.
-
-5. Reprendre cette exercice en créant un type de liste **doublement** chaînées (vers le suivant et vers le précédent) appelé  *deque* (pour *d*ouble *e*nded *que*ue) dans lequel on conserve un accès vers la tête de la liste (afin de pouvoir ajouter ou retirer un élément "à gauche" comme dans une liste chainée "traditionnelle") mais aussi un accès vers le dernier élément de la liste afin de pouvoir ajouter ou retirer un élément "à droite" de la liste en temps constant.
 
 {{ exo("Implémentations de piles",[])}}
  

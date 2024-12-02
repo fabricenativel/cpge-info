@@ -461,10 +461,61 @@
 
 \makess{Complexité amortie}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{alertblock}{Définition}
-		On considère une structure de données munie d'un ensemble d'opérations $\mathcal{P}$. Sur une instance de cette structure de données on effectue une suite d'opérations $\{p_1, \dots, p_n\}$ où $p_i \in \mathcal{P}$ pour $i \in \intN{1}{n}$.
-		En notant $c_i$ le coût en nombre d'operations élémentaires de $p_i$,la \textcolor{blue}{complexité amortie} de chacune des opérations $p_i$ est  $\displaystyle\dfrac{1}{n}{\sum_{k=1}^n c_i}$.
+	\begin{exampleblock}{Exemple introductif}
+		\begin{itemize}
+		\item<1-> Rappeler les opérations  de l'interface usuelle d'une pile et leur complexité.
+		\item<2-> On suppose qu'on ajoute à cette interface une opération {\tt multipop} qui dépile la totalité des éléments de la pile. En notant $n$ le nombre d'éléments de la pile, donner un grand $\mathcal{O}$ de cette nouvelle opération.
+		\item<3-> On considère une pile initialement vide $S_0$, sur laquelle on effectue une suite d'opérations $p_1,\dots p_m$, donner un $\mathcal{O}$ de cette suite d'opérations. Que penser de cette majoration ?
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définitions}
+		\begin{itemize}
+		\item On considère une structure de données $\mathcal{S}$ munie d'un ensemble d'opérations $\mathcal{P}$. Sur une instance $\mathcal{S}_0$ de cette structure de données on effectue une suite d'opérations $\{p_1, \dots, p_n\}$ où $p_i \in \mathcal{P}$ pour $i \in \intN{1}{n}$ : \\
+		 $\mathcal{S}_0 \xrightarrow{p_1} \mathcal{S}_1 \xrightarrow{p_2} \mathcal{S}_2 \dots \xrightarrow{p_{n}} \mathcal{S}_n$ \\
+		\onslide<2->{En notant $c_i$ le coût  de $p_i$,la \textcolor{blue}{complexité amortie} de chacune des opérations $p_i$ est  la moyenne arithmétique des $\left(c_i\right)_{1\leqslant i \leqslant n}$ : 
+		$$\displaystyle\dfrac{1}{n}{\sum_{k=1}^n c_i}$$.} 
+		\item<3-> Une fonction qui associe à chacune des instances $\mathcal{S}_i$ de la structure de données un nombre réel \textit{positif} et telle que $\Phi({S}_0)=0$ est appelée \textcolor{blue}{fonction de potentiel}.
+		\item<4-> On définit le \textcolor{blue}{coût amorti} $\widehat{c_i}$ d'une opération $p_i$ par : \\
+		$\widehat{c_i} = c_i + \Phi(\mathcal{S}_i) - \Phi(\mathcal{S}_{i-1})$
+		\end{itemize}
 	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Théorème d'amortissement}
+		La somme des coût des opérations $\left(p_i\right)_{1\leqslant i \leqslant n}$ est majoré par la somme de leur coût amorti :
+		$$\displaystyle{\sum_{k=1}^n c_i} \leqslant \displaystyle{\sum_{k=1}^n \widehat{c_i}}$$
+	\end{block}
+	\onslide<2->{\begin{exampleblock}{Exemple de la pile avec {\tt multipop}}
+		On définit la fonction de potentiel $\Phi(S_i) =$ nombre d'éléments dans $S_i$ (noté $n_i$), $\Phi$ est bien à valeur positives et $\Phi(S_0)=0$. Alors, puisque $\widehat{c_i} = \Phi(S_i) - \Phi(S_{i-1})$,
+		\begin{itemize}
+		 \item<3-> Si $c_i = ${\tt push} , $\widehat{c_i} = 1 + (n_i - n_{i-1}) = 2$ 
+		 \item<4-> Si $c_i = ${\tt pop} , $\widehat{c_i} = 1 + (n_i - n_{i-1}) = 0$ 
+		 \item<5-> Si $c_i = ${\tt multipop}, $\widehat{c_i} = n_{i-1} + (0 - n_{i-1}) = 0$  
+		\end{itemize}}
+		\onslide<6-> Par conséquent, la complexité amortie d'une suite de $m$ opérations sur cette structure de données est proportionnel au nombre d'opérations (c'est un $\mathcal{O}(m)$), tout se passe comme si chaque opération avait un coût constant.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : file implémentée par deux piles}
+		On implémente une file à l'aide de deux piles initialement vides, $P_e$ (pile d'entrée) et $P_s$ (pile de sortie) de la façon suivante :
+		\begin{itemize}
+		\item L'opération {\tt enfiler} consiste à empiler un élément dans $P_e$,
+		\item L'opération {\tt défiler} consiste à dépiler un élément de $P_s$, si cette pile est vide alors on dépile la totalité de $P_e$ dans $P_s$.
+		\end{itemize}
+		\begin{enumerate}
+		\item<2-> Executer quelques opérations {\tt enfiler} et {\tt defiler} (illustrer éventuellement par un schéma).
+		\item<3-> Quelle est la complexité dans le pire des cas des opérations ? 
+		\item<4-> Etudier la complexité amortie d'une suite d'opérations sur cette structure de données. \\
+		\textcolor{OliveGreen}{\small \aide} On pourra considérer la fonction $\Phi$ renvoyant le nombre d'éléments de $P_e$.
+		\end{enumerate}
+	\end{exampleblock}
 \end{frame}
 
 \end{document}
