@@ -1,0 +1,116 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\DS{PCSI}{1}{Décembre 2024}
+
+\setboolean{corrige}{false}
+
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+\begin{Exercise}[title={Questions de cours}]
+    \Question{Recopier et compléter le tableau suivant en donnant le type et la valeur de l'expression.  Les  lignes sur fond gris sont des exemples déjà complétées afin de vous aider.\\
+    \begin{tabularx}{\linewidth}{|>{\tt}p{3cm}|>{\tt}p{2cm}|X|}
+        \hline
+        Expression & Type & Valeur \\
+        \hline
+        \rowcolor{gray!20} 5 == 3  & bool & {\tt False} \\
+        \hline
+        \rowcolor{gray!20} 3*8 + 1  & int & 25\\
+        \hline
+        2**5 & & \\
+        \hline
+        72\%9 == 0 & &  \\
+        \hline
+        "ah"*3 &  & \\
+        \hline
+        10/4 & &  \\
+        \hline
+        True or False & & \\
+        \hline
+        len("math")!=3 & & \\
+        \hline
+        7//2 == 3.5 & & \\
+        \hline
+        "20"+"24" & & \\
+        \hline
+        (2+7, 17\%3) & & \\
+        \hline
+        "ab" >= "ac" & & \\
+        \hline
+    \end{tabularx}
+    }
+    \Question{On suppose définie une variable {\tt s} de type {\tt str} contenant {\tt "Extraordinaire"}. On a numéroté ci-dessous à partir de 0 les caractères de cette chaine : \\
+    \newcommand{\ind}[1]{\multicolumn{1}{c}{\textbf{\tt \footnotesize #1}}}
+ \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    E & x & t & r & a & o & r & d& i & n & a & i & r & e \\
+    \hline
+    \ind{0} & \ind{1}& \ind{2}& \ind{3}& \ind{4}& \ind{5}& \ind{6}& \ind{7}& \ind{8}& \ind{9}& \ind{10}& \ind{11}& \ind{12}& \ind{13} \\
+ \end{tabular}\\}
+ \subQuestion{Quel est le contenu des expression suivantes ?
+  \begin{itemize}
+  \item[\textbullet] {\tt s[7]}
+  \item[\textbullet] {\tt s[len(s)-1]}
+  \item[\textbullet] {\tt s[0:3]}
+  \end{itemize}
+ }
+ \subQuestion{Ecrire sous la forme d'une tranche de {\tt s} une expression contenant {\tt "ordi"}}.
+ \subQuestion{Quel est l'effet de l'instruction {\tt s[0]="e"} ? Expliquer}
+\Question{On suppose définie une variable {\tt l} de type {\tt list} contenant {\tt [2, 3, 5, 7, 11, 13, 17]}}
+\subQuestion{Donner la valeur de {\tt n} ainsi que le contenu de {\tt lst} après exécution de l'instruction \mintinline{python}{n = l.pop()}}
+\subQuestion{Ecrire l'instruction permettant d'ajouter {\tt 19} à cette liste.}
+\subQuestion{Quel est l'effet de l'instruction {\tt l[0] = l[0] + l[3]} ? }
+\Question{Ecrire un programme (qui peut se limiter à une seule instruction) permettant de créer les listes suivantes :
+\begin{itemize}
+    \item[\textbullet] {\tt lst1} qui contient 14 fois l'entier 42.
+    \item[\textbullet] {\tt lst2} qui contient les entiers de 1 à 100.
+    \item[\textbullet] {\tt lst3} qui contient les 20 premières puissances positives de 2 (c'est à dire $2^0, 2^1, \dots, 2^{19}$) 
+\end{itemize}
+}
+\end{Exercise}
+
+\begin{Exercise}[title = {Calculs de moyennes}]
+    
+    \Question{Moyenne simple}
+    \subQuestion{Ecrire une fonction {\tt somme} qui prend en argument une liste de nombres et renvoie leur somme. Par exemple {\tt somme([12, 7, 11, 18])} renvoie {\tt 48}.}
+    \subQuestion{Ecrire une fonction {\tt moyenne} qui prend en argument une liste de nombres et renvoie leur moyenne (on pourra utiliser la fonction {\tt somme} de la question précédente.)} 
+    \subQuestion{Quel sera le résultat de l'appel à {\tt moyenne} sur une liste vide ? Quelle instruction permettrait de le vérifier en amont et de déclencher une erreur si ce n'est pas le cas ?}
+    \Question{Moyenne olympique \\
+    La \textit{moyenne olympique} est utilisée pour noter les athlètes lors de certaines compétitions sportives. Pour la calculer, on enlève d'abord de la liste de notes \textit{une} occurrence du maximum et \textit{une} occurrence du minimum. Par exemple si les notes sont {\tt [12; 7; 6; 15; 9; 6]} alors on fera la moyenne en supprimant une occurence du maximum ({\tt 15}) et une du minimum ({\tt 6}) et donc on calculera la moyenne de {\tt [12; 7; 9; 6]}. On supposera dans toute la suite qu'on dispose d'une listes de notes contenant au moins 3 notes et on veut écrire une fonction renvoyant la moyenne olympique de ces notes.}
+    \subQuestion{Ecrire une fonction {\tt maximum} qui renvoie le maximum des éléments d'une liste supposée non vide.}
+    \subQuestion{Ecrire une fonction {\tt minimum} qui renvoie le minimum des éléments d'une liste supposée non vide.}
+    \subQuestion{En déduire une fonction {\tt moyenne\_olympique} qui renvoie la moyenne olympique de la liste de notes données en argument (on suppose que la liste contient au moins 3 notes).}
+    \Question{Moyenne pondérée\\
+    Ecrire une fonction {\tt moyenne\_ponderee} qui prend en argument une liste de tuples de la forme {\tt (note, coefficient)} et renvoie la moyenne pondérée des notes affectés des coefficient correspondants. Par exemple {\tt moyenne\_ponderee([(12,3),(17,1),(11,2)])} renvoie {\tt 12.5} en effet : $(12 \times 3 + 17 \times 1 + 11 \times 2)/6 = 12,5$. On supposera que la liste est non vide.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Nombres narcissiques}]
+    
+Un nombre $a$ ayant $p$ chiffres (noté $a_{p-1}, \dots, a_0$) en base 10, est dit \textit{narcissique}lorsqu'il est égal à la somme des puissance $p$ièmes de ses chiffres, c'est à dire lorsque $a = a_{p-1}^p + \dots + a_1^p + a_0^p$. Par exemples :
+\begin{itemize}
+\item[\textbullet] $153$ est narcissique ($p=3$) car, $1^3 + 5^3 + 3^3 = 153$
+\item[\textbullet] $255$ n'est pas narcissique ($p=3$)  car, $2^3 + 5^3 + 5^5 = 258$
+\item[\textbullet] $1634$ est narcissique ($p=4$) car, $1^4 + 6^4 + 3^4 + 4^4 = 1634$
+\item[\textbullet] $3375$ n'est pas narcissique ($p=4$), car $3^4 + 3^4 + 7^4 + 5^4 = 3188$
+\end{itemize}
+Le but de l'exercice est d'écrire une fonction {\tt est\_narcissique} qui prend en entrée un entier {\tt n} et renvoie {\tt true} si {\tt n} est narcissique et {\tt false} sinon.
+\Question{Détermination du nombre de chiffres de {\tt n}}
+\subQuestion{En convertissant {\tt n} en chaines de caractères, écrire une fonction {\tt nb\_chiffres} qui renvoie le nombre de chiffres de {\tt n}}
+\subQuestion{}
+\end{Exercise}
+
+
+\end{document}
