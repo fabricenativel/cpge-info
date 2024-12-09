@@ -44,21 +44,15 @@
 \end{Exercise}
 
 \begin{Exercise}[title={Un exemple de complexité amortie}]\\
-On prend l'exemple de la structure de données implémentant le type de \textit{list} de Python grâce à un tableau dynamique en C (voir TP). On considère un tableau donc la taille initiale est 1 et sur lequel on effectue $n$ opérations {\tt append}. Le but de l'exercice est de montrer qu'on obtiendra alors un nombre d'opérations en $O(n)$. On dira alors que le {\tt append} a une \textbf{complexité amortie} en $O(1)$.
-
-\Question{Montrer que le coût du redimensionnement d'un tableau de taille $n$ est un $O(n).$} 
-\Question{Montrer que $n$ opérations {\tt append} vont nécessiter $\lfloor\log_2(n)\rfloor$ redimensionnement de tableau}.
-\Question{Donner la taille des tableaux lors de chaque redimensionnement.}
-\Question{En déduire le coût des redimensionnements.}
-\Question{Montrer que le coût total est un $O(n)$.}
+On prend l'exemple de la structure de données implémentant le type de \textit{list} de Python grâce à un tableau dynamique en C (voir TP). On considère une \textit{list} dont la taille initiale est $t_0>0$ et on supposera que la capacité initiale est $c_0=2t_0$. Sur cette structure de données, on souhaite déterminer la complexité amortie de l'opération {\tt append} qui consiste à ajouter un élément en fin de liste, deux cas peuvent se produire :
+\begin{itemize}
+\item[\textbullet] $c>t$ et donc on peut ajouter un nouvel élément sans redimensionner le tableau.
+\item[\textbullet] $c=t$ et on redimensionne le tableau en \textit{doublant} la capacité du tableau afin d'y insérer le nouvel élément
+\end{itemize}
+Montrer que la complexité amortie de {\tt append} est un $\mathcal{O}(1)$. \\
+{\small \aide \;} Indication : on pourra introduire $\Phi(S) = 2t -c$.
 \end{Exercise}
 
-\begin{Exercise}[title={Implémentation d'une file avec deux piles}]\\
-    On reprend l'implémentation d'une file avec deux piles (voir TP), le but de l'exercice est d'établir la complexité de {\tt défiler}
-    \Question{Donner les complexités dans le pire et le meilleur des cas}
-    \Question{On suppose à présent qu'en tout on a enfilé et défilé $n$ éléments. Montrer que le nombre total d'opérations nécessaire est un $O(n)$.}
-\end{Exercise}
-    
 
 
 
