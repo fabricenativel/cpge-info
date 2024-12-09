@@ -1,0 +1,113 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\DS{PC}{1}{Janvier 2025}
+
+\setboolean{corrige}{false}
+
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+\begin{Exercise}[title = {anagrammes}] \\
+	Deux mots \textit{de même longueur} sont anagrammes l'un de l'autre lorsque l'un est formé en réarrangeant les lettres de l'autre. Par exemples :
+	\begin{itemize}
+		\item \textit{niche} et \textit{chien} sont des anagrammes.
+		\item \textit{epele} et \textit{pelle}, ne sont pas des anagrammes, en effet bien qu'ils soient formés avec les mêmes lettres, la lettre \textit{l} ne figure qu'à un seul exemplaire dans \textit{epele} et il en faut deux pour écrire \textit{pelle}.
+	\end{itemize}
+	Le but de l'exercice est d'écrire une fonction {\tt anagrammes} qui prend en argument deux chaines de caractères et qui renvoie {\tt true} si ces deux chaines sont des anagrammes et {\tt false} sinon.
+
+	\ExePart[name = Une approche récursive]\\
+Dans cette partie, on utilise une approche récursive en se ramenant à chaque étape à des mots plus petits.
+\Question{Ecrire une fonction {\tt supprime\_premier} qui prend en argument un caractère {\tt car} et une chaine {\tt chaine} et renvoie la chaine obtenue en supprimant la premier occurrence de {\tt car} dans {\tt chaine}. Si {\tt car} n'est pas dans chaine alors on renvoie {\tt chaine} sans modification. Par exemples :
+\begin{itemize}
+\item {\tt supprime\_premier("c","niche")} renvoie {\tt "nihe"}. 
+\item {\tt supprime\_premier("c","chien")} renvoie {\tt "hien"}. 
+\item {\tt supprime\_premier("l","Python")} renvoie {\tt "Python"} car comme la lettre {\tt l} n'apparaît pas dans {\tt "Python"} la chaine n'est pas modifiée.
+\end{itemize}}
+\Question{En utilisant la fonction précédente, écrire une fonction récursive {\tt anagrammes\_rec} qui prend en argument deux chaines de caractères et renvoie {\tt True} si ce sont des anagrammes l'une de l'autre et {\tt False} sinon.\\ Par exemple, {\tt anagrammes\_rec("niche","chien")} renvoie {\tt True}.}
+\Question{Donner (en la justifiant) la complexité de cette fonction en notant $n$ la taille de la plus longue des deux chaines.}
+
+	\ExePart[name = Une approche itérative]\\
+	Dans cette partie, on utilise une approche itérative en manipulant les dictionnaires de Python.
+\Question{Ecrire une fonction {\tt cree\_dico} qui prend en argument une chaine de caractères et renvoie un dictionnaire dont les clés sont les caractères composant la chaine et les valeurs leur nombre d'apparition.\\ Par exemple, {\tt cree\_dico("epele")} renvoie le dictionnaire {\tt \{'e':3, 'p':1, 'l':1 \}} en effet dans le mot {\tt 'epele'}, {\tt 'e'} apparaît à trois reprises et {\tt 'l'} et {\tt 'p'} chacun une fois.}
+\Question{Ecrire une fontionc {\tt egaux} qui prend en argument deux dictionnaires et renvoie {\tt True} si ces deux dictionnaires sont égaux (c'est-à-dire contiennent exactement les mêmes clés avec les mêmes valeurs) et {\tt False} sinon.\\ Par exemple, {\tt egaux(\{'e':3, 'p':1, 'l':1 \},\{'p':1,'e':2,'l':2\})} renvoie {\tt False}\\
+\danger \; on s'interdit ici d'utiliser le test d'égalité {\tt ==} entre deux dictionnaires et on écrira un parcours de dictionnaire.
+}
+\Question{Ecrire une fonction {\tt anagrammes\_iter} qui prend en argument deux chaines de caractères et renvoie {\tt True} si ce sont des anagrammes et {\tt False} sinon.}
+\Question{Donner (en la justifiant) la complexité de cette fonction en notant $n$ la taille de la plus longue des deux chaines.}
+\end{Exercise}
+
+
+\begin{Exercise}[title={requête {\sc sql} sur une seule table}]\\
+	On considère la base de données {\tt pays\_du\_monde} contenant une seule table {\tt pays} dont le schéma est donné ci-dessous :
+	\begin{center}
+	\begin{tabular}{|lll|}
+		\hline
+		\multicolumn{3}{|c|}{\textbf{pays}} \\
+		\hline
+		{\tt nom} & : & {\sc text} \\
+		\hline
+		{\tt region} & : & {\sc text} \\
+		\hline
+		{\tt population} & : & {\sc int} \\
+		\hline
+		{\tt surface} & : & {\sc int} \\
+		\hline
+		{\tt cotes} & : & {\sc int} \\
+		\hline
+		{\tt pib} & : & {\sc int} \\
+		\hline
+		\end{tabular}
+	\end{center}
+	D'autre part, on précise la signification des champs suivants : 
+	\begin{itemize}
+		\item {\tt population} : le nombre d'habitants du pays.
+		\item {\tt region} : La région du pays (par exemple "europe de l'ouest")
+		\item {\tt area} : la surface du pays (en km carré).
+		\item {\tt coastline} : la surface côtière du pays, cette valeur vaut 0 lorsque le pays n'a pas d'ouverture sur la mer
+		\item {\tt pib} : le produit intérieur brut par habitant, c'est une mesure de la richesse du pays.
+		\end{itemize}
+	Et on indique que la requête \mintinline{sql}{SELECT DISTINCT region FROM pays} a renvoyé le résultat suivant : 
+	\begin{center}
+	\begin{tabular}{|l|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{region}} \\
+		\hline
+		Asie \\
+		Afrique du nord \\
+		Europe de l'est \\
+		Europe de l'ouest \\
+		Oceanie \\
+		Afrique sub saharienne \\
+		Proche orient\\
+		Amérique latine\\
+		Amérique du nord\\
+		\hline
+	\end{tabular}
+\end{center}
+Ecrire les requêtes permettant de :
+\Question{Trouver la population et le produit intérieur brut de la France.}
+\Question{Trouver les pays d'europe n'ayant pas d'ouverture sur la mer.}
+\Question{Classer par ordre alphabétique les pays d'amérique latine.}
+\Question{Lister par ordre décroissant du nombre d'habitants les cinq pays les plus peuplés}
+\Question{Trouver le pays du proche orient le plus riche (ayant le {\tt pib} le plus élevé). }
+\Question{Classer le pays d'afrique du nord par densité décroissante de population (la densité est le rapport entre le nombre d'habitant et la surface)}
+\Question{Classer les régions par somme du pib décroissante des pays qui les composent.}
+
+
+
+\end{Exercise}
+
+\end{document}
