@@ -57,9 +57,13 @@ int *genere(int taille)
 int main()
 {
     srand(time(NULL));
-    int test[6] = {1,3,2,2,3,1};
-    drapeau_hollandais(test, 6);
-    affiche(test,6);
+    int test[100];
+    for (int i=0;i<100;i++)
+    {
+        test[i] = 1 + rand()%3;
+    }
+    drapeau_hollandais(test, 100);
+    affiche(test,100);
     printf("\n");
     //free(test);
 }

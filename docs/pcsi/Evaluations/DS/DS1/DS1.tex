@@ -14,6 +14,7 @@
 
 \alertbox{\danger}{Consignes}{
 	\begin{itemize}
+        \item[\textbullet] La calculatrice n'est \textbf{pas autorisée}.
 		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
 		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
 		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
@@ -30,25 +31,25 @@
         \hline
         \rowcolor{gray!20} 3*8 + 1  & int & 25\\
         \hline
-        2**5 & & \\
+        2**5 & \comp{int} & \comp{32} \\
         \hline
-        72\%9 == 0 & &  \\
+        72\%9 == 0 & \comp{bool} & \comp{True} \\
         \hline
-        "ah"*3 &  & \\
+        "ah"*3 &  \comp{str} & \comp{"ahahah"}\\
         \hline
-        10/4 & &  \\
+        10/4 & \comp{float}& \comp{2.5} \\
         \hline
-        True or False & & \\
+        True or False & \comp{bool} & \comp{True}\\
         \hline
-        len("math")!=3 & & \\
+        len("math")!=3 & \comp{bool}& \comp{True} \\
         \hline
-        7//2 == 3.5 & & \\
+        7//2 == 3.5 & \comp{bool}& \comp{False} \\
         \hline
-        "20"+"24" & & \\
+        "20"+"24" & \comp{str} & \comp{"2024"} \\
         \hline
-        (2+7, 17\%3) & & \\
+        (2+7, 17\%3) & \comp{tuple}& \comp{(9,2)} \\
         \hline
-        "ab" >= "ac" & & \\
+        "ab" >= "ac" & \comp{bool}&  \comp{False}\\
         \hline
     \end{tabularx}
     }
@@ -67,12 +68,24 @@
   \item[\textbullet] {\tt s[0:3]}
   \end{itemize}
  }
+ \tcor{
+    \begin{itemize}
+        \item[\textbullet] {\tt s[7] = "d"}
+        \item[\textbullet] {\tt s[len(s)-1]="e"}
+        \item[\textbullet] {\tt s[0:3]="Ext"}
+        \end{itemize}
+ }
  \subQuestion{Ecrire sous la forme d'une tranche de {\tt s} une expression contenant {\tt "ordi"}}.
+ \tcor{{\tt s[5:9]}}
  \subQuestion{Quel est l'effet de l'instruction {\tt s[0]="e"} ? Expliquer}
+ \tcor{Cette instruction provoque une erreur (\tt TypeError: 'str' object does not support item assignment] car les chaines de caractères ne sont pas mutables, on ne peut pas modifier les caractères qui les composent on doit construire une nouvelle chaine.}
 \Question{On suppose définie une variable {\tt l} de type {\tt list} contenant {\tt [2, 3, 5, 7, 11, 13, 17]}}
-\subQuestion{Donner la valeur de {\tt n} ainsi que le contenu de {\tt lst} après exécution de l'instruction \mintinline{python}{n = l.pop()}}
-\subQuestion{Ecrire l'instruction permettant d'ajouter {\tt 19} à cette liste.}
+\subQuestion{Donner la valeur de {\tt n} ainsi que le contenu de {\tt l} après exécution de l'instruction \mintinline{python}{n = l.pop()}}
+\tcor{{\tt n = 17} et {\tt l = [2, 3, 5, 7, 11, 13]} car {\tt pop} supprime le dernier élément d'une liste et renvoie cet élément.}
+\subQuestion{Ecrire l'instruction permettant d'ajouter la valeur {\tt 19} à la fin de cette liste.}
+\tcor{\tt l.append(19)}
 \subQuestion{Quel est l'effet de l'instruction {\tt l[0] = l[0] + l[3]} ? }
+\tcor{Le premier élément de la liste {\tt l} est modifié, il devient la somme de son ancienne valeur et de {\tt l[3]} c'est à dire {\tt 2+7 = 9}.}
 \Question{Ecrire un programme (qui peut se limiter à une seule instruction) permettant de créer les listes suivantes :
 \begin{itemize}
     \item[\textbullet] {\tt lst1} qui contient 14 fois l'entier 42.
@@ -80,37 +93,115 @@
     \item[\textbullet] {\tt lst3} qui contient les 20 premières puissances positives de 2 (c'est à dire $2^0, 2^1, \dots, 2^{19}$) 
 \end{itemize}
 }
+\tcor{
+    \begin{itemize}
+        \item[\textbullet] {\tt lst1} qui contient 14 fois l'entier 42. \\
+        {\tt lst1 = [14]*42}
+        \item[\textbullet] {\tt lst2} qui contient les entiers de 1 à 100.\\
+        {\tt lst2 = [i for i in range(1,101)]}
+        \item[\textbullet] {\tt lst3} qui contient les 20 premières puissances positives de 2 (c'est à dire $2^0, 2^1, \dots, 2^{19}$) \\
+        {\tt lst3 = [2**i for i in range(0,20)]}
+    \end{itemize}
+    }
+
+\end{Exercise}
+
+\begin{Exercise}[title = {Fonction {\tt mystere}}] \\
+    On considère la fonction {\tt mystere} suivante :
+    \inputpartPython{mystere.py}{}{}{1}{11}
+    \Question{Donner le type attendu pour le paramètre {\tt n} et le type de la valeur renvoyée par cette fonction.}
+    \tcor{Cette fonction prend en argument un entier n et renvoie une liste d'entiers.}
+    \Question{Donner le résultat renvoyé par {\tt mystere} lors des appels suivants :
+    \begin{itemize}
+        \item {\tt mystere(-10)}
+        \item {\tt mystere(0)}
+        \item {\tt mystere(7)}
+    \end{itemize}
+    }
+    \tcor{
+        \begin{itemize}
+            \item {\tt mystere(-10)} : provoque une erreur {\tt AssertionError} et affiche {\tt "L'entier n doit être positif"}
+            \item {\tt mystere(0)} : renvoie {\tt [0]}
+            \item {\tt mystere(7)} : renvoie {\tt [7]}
+        \end{itemize}
+    }
+    \Question{On effectue à présent l'appel {\tt mystere(2024)}, recopier et compléter le tableau suivant qui indique le le contenu des variables, {\tt n, c} et {\tt res} durant l'exécution.\\
+    \begin{tabular}{|l|>{\tt}p{2cm}|>{\tt}p{2cm}|>{\tt}p{3cm}|}
+        \cline{2-4}
+        \multicolumn{1}{l|}{} & n & c & res \\
+        \hline
+        valeurs initiales & 2024 & 0 & [] \\
+        \hline
+        après un tour de la boucle {\tt while} & \comp{\tt 202} & \comp{\tt 4} & \comp{\tt [4]}  \\
+        \hline
+        après deux tour de la boucle {\tt while} & \comp{\tt 20} & \comp{\tt 2} & \comp{\tt [4, 2]} \\
+		\hline
+        après trois tour de la boucle {\tt while} & \comp{\tt 2} & \comp{\tt 0} & \comp{\tt [4, 2, 0]}  \\
+		\hline
+        après quatre tour de la boucle {\tt while} & \comp{\tt 0} & \comp{\tt 2} & \comp{\tt [4, 2, 0, 2]} \\
+		\hline
+      \end{tabular}
+    }
+    \Question{Proposer une spécification pour la fonction {\tt mystere}, en specifiant le type des arguments et du résultat et les éventuelles préconditions.}
+    \tcor{La fonction mystère prend en entrée un entier {\tt n} positif et renvoie la liste des chiffres de ce nombre dans l'ordre inverse. Par exemple {\tt mystere(173)} renvoie {\tt [3, 7, 1]}.}
 \end{Exercise}
 
 \begin{Exercise}[title = {Calculs de moyennes}]
     
     \Question{Moyenne simple}
     \subQuestion{Ecrire une fonction {\tt somme} qui prend en argument une liste de nombres et renvoie leur somme. Par exemple {\tt somme([12, 7, 11, 18])} renvoie {\tt 48}.}
+    \ifcorrige \corpartPython{moyennes.py}{}{}{1}{5} \fi
     \subQuestion{Ecrire une fonction {\tt moyenne} qui prend en argument une liste de nombres et renvoie leur moyenne (on pourra utiliser la fonction {\tt somme} de la question précédente.)} 
-    \subQuestion{Quel sera le résultat de l'appel à {\tt moyenne} sur une liste vide ? Quelle instruction permettrait de le vérifier en amont et de déclencher une erreur si ce n'est pas le cas ?}
+    \ifcorrige \corpartPython{moyennes.py}{}{}{7}{8} \fi
+    \subQuestion{Quel sera le résultat de l'appel à {\tt moyenne} sur une liste vide ? Quelle instruction permettrait de  vérifier en amont que la liste n'est pas vide et de déclencher une erreur si ce n'est pas le cas ?}
+    \tcor{L'appel renverra une erreur (division par zéro), on peut ajouter une instruction {\tt assert len(lst)!=0}.}
     \Question{Moyenne olympique \\
     La \textit{moyenne olympique} est utilisée pour noter les athlètes lors de certaines compétitions sportives. Pour la calculer, on enlève d'abord de la liste de notes \textit{une} occurrence du maximum et \textit{une} occurrence du minimum. Par exemple si les notes sont {\tt [12; 7; 6; 15; 9; 6]} alors on fera la moyenne en supprimant une occurence du maximum ({\tt 15}) et une du minimum ({\tt 6}) et donc on calculera la moyenne de {\tt [12; 7; 9; 6]}. On supposera dans toute la suite qu'on dispose d'une listes de notes contenant au moins 3 notes et on veut écrire une fonction renvoyant la moyenne olympique de ces notes.}
     \subQuestion{Ecrire une fonction {\tt maximum} qui renvoie le maximum des éléments d'une liste supposée non vide.}
+    \ifcorrige \corpartPython{moyennes.py}{}{}{10}{15} \fi
     \subQuestion{Ecrire une fonction {\tt minimum} qui renvoie le minimum des éléments d'une liste supposée non vide.}
+    \ifcorrige \corpartPython{moyennes.py}{}{}{17}{22} \fi
     \subQuestion{En déduire une fonction {\tt moyenne\_olympique} qui renvoie la moyenne olympique de la liste de notes données en argument (on suppose que la liste contient au moins 3 notes).}
+    \ifcorrige \corpartPython{moyennes.py}{}{}{24}{29} \fi
     \Question{Moyenne pondérée\\
-    Ecrire une fonction {\tt moyenne\_ponderee} qui prend en argument une liste de tuples de la forme {\tt (note, coefficient)} et renvoie la moyenne pondérée des notes affectés des coefficient correspondants. Par exemple {\tt moyenne\_ponderee([(12,3),(17,1),(11,2)])} renvoie {\tt 12.5} en effet : $(12 \times 3 + 17 \times 1 + 11 \times 2)/6 = 12,5$. On supposera que la liste est non vide.}
+    Ecrire une fonction {\tt moyenne\_ponderee} qui prend en argument une liste de tuples de la forme {\tt (note, coefficient)} et renvoie la moyenne pondérée des notes affectés des coefficient correspondants. Par exemple {\tt moyenne\_ponderee([(12,3),(17,1),(11,2)])} renvoie {\tt 12.5} en effet : $(12 \times 3 + 17 \times 1 + 11 \times 2)/6 = 12,5$. On supposera que la liste est non vide et que les coefficients sont strictement positifs.}
+    \ifcorrige \corpartPython{moyennes.py}{}{}{31}{39} \fi
+
 \end{Exercise}
 
-\begin{Exercise}[title = {Nombres narcissiques}]
+\begin{Exercise}[title = {Chiffrement de César}]
     
-Un nombre $a$ ayant $p$ chiffres (noté $a_{p-1}, \dots, a_0$) en base 10, est dit \textit{narcissique}lorsqu'il est égal à la somme des puissance $p$ièmes de ses chiffres, c'est à dire lorsque $a = a_{p-1}^p + \dots + a_1^p + a_0^p$. Par exemples :
-\begin{itemize}
-\item[\textbullet] $153$ est narcissique ($p=3$) car, $1^3 + 5^3 + 3^3 = 153$
-\item[\textbullet] $255$ n'est pas narcissique ($p=3$)  car, $2^3 + 5^3 + 5^5 = 258$
-\item[\textbullet] $1634$ est narcissique ($p=4$) car, $1^4 + 6^4 + 3^4 + 4^4 = 1634$
-\item[\textbullet] $3375$ n'est pas narcissique ($p=4$), car $3^4 + 3^4 + 7^4 + 5^4 = 3188$
-\end{itemize}
-Le but de l'exercice est d'écrire une fonction {\tt est\_narcissique} qui prend en entrée un entier {\tt n} et renvoie {\tt true} si {\tt n} est narcissique et {\tt false} sinon.
-\Question{Détermination du nombre de chiffres de {\tt n}}
-\subQuestion{En convertissant {\tt n} en chaines de caractères, écrire une fonction {\tt nb\_chiffres} qui renvoie le nombre de chiffres de {\tt n}}
-\subQuestion{}
-\end{Exercise}
+    \begin{quote}
+        \textit{En cryptographie, le chiffrement par décalage, aussi connu comme le chiffre de César ou le code de César (\dots), est une méthode de chiffrement très simple utilisée par Jules César dans ses correspondances secrètes (ce qui explique le nom « chiffre de César »). }
+        \begin{flushright}
+			(Wikipedia)
+		\end{flushright}
+    \end{quote}
+    
+    Pour coder un texte avec la code de César, on se donne une clé de codage $c$ (un entier entre 1 et 25) puis on décale toutes les lettres de $c$ emplacement dans l'alphabet \textit{en recommençant au début lorsqu'on dépasse le}  Z. Par exemple, si $c=7$, voici la correspondance entre les lettres et leur chiffrement : \medskip
+    \begin{center}
+    \begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|}
+        \hline
+        A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z \\ 
+        \hline
+        H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G \\
+        \hline
+    \end{tabular}
+\end{center} 
+    \medskip
+    On remarquera qu'on a réecrit l'alphabet  à partir du {\sc H} et en revenant au début une fois le {\sc Z} atteint.\\
+    Donc si on décide de chiffrer {\sc "PCSI"} avec une clé de 7, on obtient {\sc "WJZP"}.
+    
+    Le but de l'exercice est d'écrire une fonction {\tt cesar} qui prend en entrée une chaine de caractères et une clé et renvoie la chaine chiffrée avec cette clé. Si les caractères de la chaine ne sont pas des lettres majuscules on les laisse intactes. Par exemple {\tt chiffre("MP2I",1)} renvoie {\tt "NQ2J"} (le {\tt 2} est inchangé).
+    \Question{Ecrire une fonction {\tt numero} qui prend en entrée un caractère, si ce caractère est une lettre majuscule on renvoie son numéro dans l'alphabet (en commençant la numérotation à  zéro) sinon on renvoie {\tt -1}. Par exemple {\tt numero('A')} renvoie {\tt 0}, {\tt numero('B')} renvoie {\tt 1}, \dots et {\tt numero('2')} renvoie {\tt -1}.} 
+    \ifcorrige \corpartPython{cesar.py}{}{}{1}{6} \fi
+    \Question{Ecrire une fonction {\tt decalage} qui prend en entrée un entier  {\tt cle} et renvoie une chaine contenant l'alphabet décalé de {\tt cle} emplacements. Par exemple {\tt decalage(7)} renvoie {\tt "HIJKLMNOPQRSTUVWXYZABCDEFG"}
+    \textit{Indication } : on pourra penser à utiliser les tranches de la chaine contenant les lettres de l'alphabet.
+    \ifcorrige \corpartPython{cesar.py}{}{}{8}{10} \fi
+    \Question{En utilisant les deux fonction précédentes, écrire une fonction {\tt cesar} qui prend en entrée une chaine de caractère {\tt chaine} et un entier {\tt c} et renvoie cette chaine chiffré avec la clé {\tt c}.}
+    }
+    \ifcorrige \corpartPython{cesar.py}{}{}{12}{20} \fi
 
+\end{Exercise}
 
 \end{document}

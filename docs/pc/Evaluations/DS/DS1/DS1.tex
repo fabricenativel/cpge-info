@@ -26,27 +26,60 @@
 		\item \textit{niche} et \textit{chien} sont des anagrammes.
 		\item \textit{epele} et \textit{pelle}, ne sont pas des anagrammes, en effet bien qu'ils soient formés avec les mêmes lettres, la lettre \textit{l} ne figure qu'à un seul exemplaire dans \textit{epele} et il en faut deux pour écrire \textit{pelle}.
 	\end{itemize}
-	Le but de l'exercice est d'écrire une fonction {\tt anagrammes} qui prend en argument deux chaines de caractères et qui renvoie {\tt true} si ces deux chaines sont des anagrammes et {\tt false} sinon.
+	Le but de l'exercice est d'écrire une fonction {\tt anagrammes} qui prend en argument deux chaines de caractères et qui renvoie {\tt True} si ces deux chaines sont des anagrammes et {\tt False} sinon.
 
 	\ExePart[name = Une approche récursive]\\
 Dans cette partie, on utilise une approche récursive en se ramenant à chaque étape à des mots plus petits.
+\Question{Ecrire une fonction {\tt indice\_premier} qui prend en argument un caractère {\tt car} et une chaine {\tt chaine} et renvoie l'indice de la première occurrence de {\tt car} dans {\tt chaine}. Dans le cas où {\tt car} n'est pas dans chaine on renvoie {\tt -1}. Par exemples,
+\begin{itemize}
+	\item {\tt indice\_premier("c","niche")} renvoie {\tt 2} car le premier {\tt c} de {\tt "niche"} se trouve à l'indice {\tt 2}.
+	\item {\tt indice\_premier("e","epele")} renvoie {\tt 0} car le premier {\tt e} de {\tt "epele"} se trouve à l'indice {\tt 0}.
+	\item {\tt indice\_premier("t","chien")} renvoie {\tt -1} car il n'y a pas de {\tt t} dans {\tt "chien"}.
+\end{itemize}
+	}
+\ifcorrige
+\corpartPython{anagrammes.py}{}{}{1}{8}
+\fi
 \Question{Ecrire une fonction {\tt supprime\_premier} qui prend en argument un caractère {\tt car} et une chaine {\tt chaine} et renvoie la chaine obtenue en supprimant la premier occurrence de {\tt car} dans {\tt chaine}. Si {\tt car} n'est pas dans chaine alors on renvoie {\tt chaine} sans modification. Par exemples :
 \begin{itemize}
 \item {\tt supprime\_premier("c","niche")} renvoie {\tt "nihe"}. 
 \item {\tt supprime\_premier("c","chien")} renvoie {\tt "hien"}. 
 \item {\tt supprime\_premier("l","Python")} renvoie {\tt "Python"} car comme la lettre {\tt l} n'apparaît pas dans {\tt "Python"} la chaine n'est pas modifiée.
-\end{itemize}}
-\Question{En utilisant la fonction précédente, écrire une fonction récursive {\tt anagrammes\_rec} qui prend en argument deux chaines de caractères et renvoie {\tt True} si ce sont des anagrammes l'une de l'autre et {\tt False} sinon.\\ Par exemple, {\tt anagrammes\_rec("niche","chien")} renvoie {\tt True}.}
-\Question{Donner (en la justifiant) la complexité de cette fonction en notant $n$ la taille de la plus longue des deux chaines.}
-
-	\ExePart[name = Une approche itérative]\\
+\end{itemize}
+\textit{Indication :} on pourra utiliser la question précédente afin de trouver l'indice {\tt i}  d'apparition de la première occurrence du caractère à supprimer puis reconstruire la chaine en supprimant ce caractère (par exemple en utilisant des tranches).
+}
+\ifcorrige
+\corpartPython{anagrammes.py}{}{}{10}{15}
+\fi
+\Question{En utilisant la fonction précédente, écrire une fonction récursive {\tt anagrammes\_rec} qui prend en argument deux chaines de caractères {\tt chaine1} et {\tt chaine2} et renvoie {\tt True} si ce sont des anagrammes l'une de l'autre et {\tt False} sinon.\\ Par exemple, {\tt anagrammes\_rec("niche","chien")} renvoie {\tt True}. \\
+\textit{Indication :} on pourra par exemple supprimer le premier caractère de {\tt chaine1} dans {\tt chaine2} puis faire un appel récursif sur les chaines restantes.}
+\ifcorrige
+\corpartPython{anagrammes.py}{}{}{17}{24}
+\fi
+\Question{Donner (en la justifiant) la complexité de cette fonction en notant $n$ la taille (commune) des deux chaines.}
+\tcor{
+	A chaque appel de {\tt anagrammes\_rec} la taille des chaines décroît de 1, il y a donc au plus $n$ appels récursifs. Lors de chacun de ces appels récursifs, la boucle de parcourt de la chaine pour y supprimer un élément  fait au plus $n$ tours. La complexité est donc quadratique.
+}
+\ExePart[name = Une approche itérative]\\
 	Dans cette partie, on utilise une approche itérative en manipulant les dictionnaires de Python.
-\Question{Ecrire une fonction {\tt cree\_dico} qui prend en argument une chaine de caractères et renvoie un dictionnaire dont les clés sont les caractères composant la chaine et les valeurs leur nombre d'apparition.\\ Par exemple, {\tt cree\_dico("epele")} renvoie le dictionnaire {\tt \{'e':3, 'p':1, 'l':1 \}} en effet dans le mot {\tt 'epele'}, {\tt 'e'} apparaît à trois reprises et {\tt 'l'} et {\tt 'p'} chacun une fois.}
-\Question{Ecrire une fontionc {\tt egaux} qui prend en argument deux dictionnaires et renvoie {\tt True} si ces deux dictionnaires sont égaux (c'est-à-dire contiennent exactement les mêmes clés avec les mêmes valeurs) et {\tt False} sinon.\\ Par exemple, {\tt egaux(\{'e':3, 'p':1, 'l':1 \},\{'p':1,'e':2,'l':2\})} renvoie {\tt False}\\
+\Question{Ecrire une fonction {\tt cree\_dico} qui prend en argument une chaine de caractères et renvoie un dictionnaire dont les clés sont les caractères composant la chaine et les valeurs leur nombre d'apparitions.\\ Par exemple, {\tt cree\_dico("epele")} renvoie le dictionnaire {\tt \{'e':3, 'p':1, 'l':1 \}} en effet dans le mot {\tt 'epele'}, {\tt 'e'} apparaît à trois reprises et {\tt 'l'} et {\tt 'p'} chacun une fois.}
+\ifcorrige
+\corpartPython{anagrammes.py}{}{}{26}{35}
+\fi
+\Question{Ecrire une fonction {\tt egaux} qui prend en argument deux dictionnaires et renvoie {\tt True} si ces deux dictionnaires sont égaux (c'est-à-dire contiennent exactement les mêmes clés avec les mêmes valeurs) et {\tt False} sinon.\\ Par exemple, {\tt egaux(\{'e':3, 'p':1, 'l':1 \},\{'p':1,'e':2,'l':2\})} renvoie {\tt False}\\
 \danger \; on s'interdit ici d'utiliser le test d'égalité {\tt ==} entre deux dictionnaires et on écrira un parcours de dictionnaire.
 }
+\ifcorrige
+\corpartPython{anagrammes.py}{}{}{37}{43}
+\fi
 \Question{Ecrire une fonction {\tt anagrammes\_iter} qui prend en argument deux chaines de caractères et renvoie {\tt True} si ce sont des anagrammes et {\tt False} sinon.}
-\Question{Donner (en la justifiant) la complexité de cette fonction en notant $n$ la taille de la plus longue des deux chaines.}
+\ifcorrige
+\corpartPython{anagrammes.py}{}{}{45}{48}
+\fi
+\Question{Donner (en la justifiant) la complexité de cette fonction en notant $n$ la taille commune des deux chaines.}
+\tcor{
+	La boucle {\tt for} de la fonction {\tt cree\_dico} s'exécute $n$ fois mais elle ne contient que des opérations élémentaires, en effet le test d'appartenance à un dictionnaire est une opération élémentaire. Donc {\tt cree\_dico} a une complexité en $\mathcal{O}(n)$. Il en est de même pour la fonction testant l'égalité des deux dictionnaires. Donc cette méthode a une complexité linéaire.
+}
 \end{Exercise}
 
 
@@ -74,7 +107,7 @@ Dans cette partie, on utilise une approche récursive en se ramenant à chaque �
 	D'autre part, on précise la signification des champs suivants : 
 	\begin{itemize}
 		\item {\tt population} : le nombre d'habitants du pays.
-		\item {\tt region} : La région du pays (par exemple "europe de l'ouest")
+		\item {\tt region} : la région du pays (par exemple "Europe de l'ouest")
 		\item {\tt area} : la surface du pays (en km carré).
 		\item {\tt coastline} : la surface côtière du pays, cette valeur vaut 0 lorsque le pays n'a pas d'ouverture sur la mer
 		\item {\tt pib} : le produit intérieur brut par habitant, c'est une mesure de la richesse du pays.
@@ -99,13 +132,33 @@ Dans cette partie, on utilise une approche récursive en se ramenant à chaque �
 \end{center}
 Ecrire les requêtes permettant de :
 \Question{Trouver la population et le produit intérieur brut de la France.}
-\Question{Trouver les pays d'europe n'ayant pas d'ouverture sur la mer.}
-\Question{Classer par ordre alphabétique les pays d'amérique latine.}
+\ifcorrige
+\corpartSQL{pays.sql}{}{}{1}{3}
+\fi
+\Question{Trouver les pays d'Europe (région \og{}Europe de l'est\fg{} ou \og{}Europe de l'ouest\fg{}) n'ayant pas d'ouverture sur la mer.}
+\ifcorrige
+\corpartSQL{pays.sql}{}{}{5}{7}
+\fi
+\Question{Classer par ordre alphabétique les pays de la région \og{} Amérique latine\fg{}.}
+\ifcorrige
+\corpartSQL{pays.sql}{}{}{9}{12}
+\fi
 \Question{Lister par ordre décroissant du nombre d'habitants les cinq pays les plus peuplés}
-\Question{Trouver le pays du proche orient le plus riche (ayant le {\tt pib} le plus élevé). }
-\Question{Classer le pays d'afrique du nord par densité décroissante de population (la densité est le rapport entre le nombre d'habitant et la surface)}
+\ifcorrige
+\corpartSQL{pays.sql}{}{}{14}{17}
+\fi
+\Question{Trouver le pays de la région  \og{}Proche orient\fg{} le plus riche (ayant le {\tt pib} le plus élevé). }
+\ifcorrige
+\corpartSQL{pays.sql}{}{}{19}{21}
+\fi
+\Question{Classer le pays de la région \og{}Afrique du nord\fg{} par densité décroissante de population (la densité est le rapport entre le nombre d'habitant et la surface)}
+\ifcorrige
+\corpartSQL{pays.sql}{}{}{23}{26}
+\fi
 \Question{Classer les régions par somme du pib décroissante des pays qui les composent.}
-
+\ifcorrige
+\corpartSQL{pays.sql}{}{}{28}{31}
+\fi
 
 
 \end{Exercise}
