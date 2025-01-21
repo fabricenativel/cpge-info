@@ -16,7 +16,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Nombre d'occurence des mots d'un texte}
 		A partir du texte de l'oeuvre de J. Verne, \textit{\og{} \numprint{20000} lieux sous les mers \fg{}}, on a construit la liste des mots (sans accent, ni majuscules) qui apparaissent dans cet oeuvre. A titre d'exemple voici un extrait du fichier obtenu
-		\begin{langageC*}{fontsize=\footnotesize}
+		\begin{langageC*}{fontsize=\footnotesize,tabsize=0}
 			cetace
 			extraordinaire
 			pouvait
@@ -67,7 +67,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Possibilités d'implémentation}
 		\begin{itemize}
-			\item<1-> Une implémentation naïve à l'aide d'une liste chainée de maillons contenant les couples (clé, valeur) est possible mais clairement inefficace \onslide<2->(le test d'appartenance est alors en $O(n)$)
+			\item<1-> Une implémentation naïve à l'aide d'une liste chainée de maillons contenant les couples (clé, valeur) est possible mais clairement inefficace \onslide<2->(le test d'appartenance est alors en $\mathcal{O}(n)$)
 			\item<3-> Une implémentation utilisant les arbres sera vue ultérieurement.
 			\item<4-> Lorsque l'ensemble des clés est inclus dans $\intN{0}{N-1}$, on peut utiliser un tableau de taille $N$, pour un couple $(c,v)$, on stocke alors la valeur $v$ dans la case d'indice $c$ du tableau.
 			\item<5-> Pour un ensemble de clés quelconque $C$, on se ramène au cas précédent en deux étapes :
@@ -149,15 +149,54 @@
 	\end{block}
 \end{frame}
 
+\makess{Complexité}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Complexité des opérations}
+		\textcolor{BrickRed}{\small \danger} On se place dans le cas d'une \textit{résolution des collisions par chainage}.
 		\begin{itemize}
-			\item<1-> En faisant l'hypothèse que le calcul de la fonction de hachage s'effectue en temps constant, le coût des opérations (appartenance, ajout, suppression, \dots) est proportionnel à la longueur des seaux.
-			\item<2-> Cette longueur dépend de la fonction de hachage et de la longueur de la table de hachage $N$, et est difficile à majorer en pratique.
-			\item<3-> Une évaluation expérimentale sera vue en TP.
-			\item<4-> Si la taille de la table de hachage est de l'ordre du nombre de clés, et que la fonction de hachage permet de répartir uniformément les clés  alors en moyenne, la complexité des opérations (appartenance, ajout, suppression, \dots) est en $O(1)$.
-			\item<5-> On peut éventuellement utiliser un tableau dynamique de façon à augmenter la taille de la table de hachage lorsque son taux de charge devient trop important.	
+			\item<1-> Le nombre de collisions influence directement la complexité des opérations \\
+			\onslide<2->\textcolor{gray}{\small Dans le cas extrême où toutes les valeurs sont en collision, le tableau associatif est représentée par une liste chainée et les opérations sont en $\mathcal{O}(n)$}
+			\item<3-> On s'intéresse donc à la probabilité d'apparitions de collisions dans le cas d'un \textcolor{blue}{hachage uniforme}, c'est à dire dans le cas où les valeurs de hachage ont la même probabilité d'apparition.
 		\end{itemize}
+	\end{block}
+	\onslide<4->{
+	\begin{block}{Probabilité de collision}
+		On considère $n$ clés hachées uniformément sur $N$ valeurs ($N \geqslant n$), alors la probabilité d'absence de collision est :
+		$$ P_0 = \dfrac{N!}{N^n\,(N-n)!}$$
+	\end{block}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Applications numériques}
+		\renewcommand{\arraystretch}{1.4}
+		En notant $P$ la probabilité qu'au moins une collisions survienne :
+		\begin{tabular}{|c|c|c|c|c}
+			\cline{1-4}
+			$n$ & $N$ & $P_0$ & $P = 1 - P_0$ & \\
+			\cline{1-4}
+			$23$ & $365$ & $0.49$ & $0.51$ & \textcolor{gray}{\small (paradoxe des anniversaires)} \\
+			\cline{1-4}
+			$1000$ & $10^6$ & $0.6$  & $0.4$ & \\
+			\cline{1-4}
+			$5000$ & $10^6$ & $0.3\,10^{-6}$ &  $0.999996$ &\\
+			\cline{1-4}
+		\end{tabular} \\
+	Les collisions sont donc difficilement évitables, ceci dit on dispose du résultat suivant (admis)
+	\end{exampleblock}
+	\onslide<2->\begin{alertblock}{Complexité d'une recherche}
+		Si on suppose le hachage uniforme et les collisions résolues par chainage, le temps moyen d'une recherche est $\mathcal{O}(1+\alpha)$, où $\alpha = \frac{n}{N}$ est le taux de charge de la table.
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{A retenir ...}
+			Sous les hypothèses suivantes :
+			\begin{itemize}
+			\item<2-> le calcul de la fonction de hachage  est en $\mathcal{O}(1)$,
+			\item<2-> le hachage est uniforme,
+			\item<2-> le taux de charge de la table est majoré indépendamment de $n$ (par exemple $N$ proportionnel à $n$),
+			\end{itemize}
+			\onslide<3->la complexité moyenne des opérations (appartenance, ajout, suppression, \dots) est en $\mathcal{O}(1)$.
 	\end{block}
 \end{frame}
 
@@ -200,7 +239,7 @@
 		\onslide<2->{Sur les listes, les opérations nécessaires sont les mêmes que celles vu sur l'implémentation en C :}
 		\begin{itemize}
 			\item<3-> Le test d'appartenance :
-			\inputpartOCaml{\SPATH/count2.ml}{}{\small}{14}{17}
+				\inputpartOCaml{\SPATH/count2.ml}{}{\small}{14}{17}
 			\item<4-> La mise à jour de la valeur associée à une clé (on utilise \kw{failwith} en cas d'absence de la clé).
 			\item<5-> La récupération de la valeur associée à une clé.
 		\end{itemize}
@@ -210,20 +249,20 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Implémentation avec le type \textcolor{yellow}{\tt array}}
 		\begin{itemize}
-			\item<1->On se fixe une taille pour la table de hachage se définit comme un tableau de liste de couples \mintinline{ocaml}{string*int} :
-		\inputpartOCaml{\SPATH/count2.ml}{}{\small}{3}{4}
-			\item<2-> La fonction de hachage {\tt string -> unit} transforme une chaine de caractère en un entier compris entre 0 (inclus) et {\tt size} (exclus)
+			\item<1->On se fixe une taille pour la table de hachage et la définit comme un tableau de liste de couples \mintinline{ocaml}{string*int} :
+			\inputpartOCaml{\SPATH/count2.ml}{}{\small}{2}{3}
+			\item<2-> La fonction de hachage {\tt string -> int} transforme une chaine de caractère en un entier compris entre 0 (inclus) et {\tt size} (exclus)
 			\item<3-> On doit alors écrire les fonctions pour :
-			\begin{itemize}
-				\item<4->  test si la clé $c$ est présente ({\tt -> bool}) : \\
-				\mintinline{ocaml}{let is_in_ht (ht:hashtable) c}
-				\item<5-> ajout de ($c$,$v$) dans la table ({\tt -> unit}) : \\
-				\mintinline{ocaml}{let add_ht (ht:hashtable) c v}
-				\item<6-> renvoie la valeur associé à $c$ ({\tt -> int}) : \\
-				\mintinline{ocaml}{let get_value_ht (ht:hashtable) c}   
-				\item<7-> met à jour la valeur associée  à c ({\tt -> unit}) : \\
-				\mintinline{ocaml}{let update_ht (ht:hashtable) c v} 	  
-			\end{itemize}
+				\begin{itemize}
+					\item<4->  test si la clé $c$ est présente ({\tt hashtable -> string -> bool}) : \\
+						\mintinline{ocaml}{let is_in_ht (ht:hashtable) c}
+					\item<5-> ajout de ($c$,$v$) dans la table ({\tt hashtable -> string -> int -> unit}) : \\
+						\mintinline{ocaml}{let add_ht (ht:hashtable) c v}
+					\item<6-> renvoie la valeur associé à $c$ ({\tt hastable -> string -> int}) : \\
+						\mintinline{ocaml}{let get_value_ht (ht:hashtable) c}
+					\item<7-> met à jour la valeur associée  à c ({\tt hashtable -> string -> int -> unit}) : \\
+						\mintinline{ocaml}{let update_ht (ht:hashtable) c v}
+				\end{itemize}
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -257,24 +296,24 @@
 \makess{Une application}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Calcul des coefficients du binôme}
-	\begin{enumerate}
-		\item<1-> Rappeler la définition des coefficients binomiaux à l'aide de factoriel ainsi que la relation de récurrence liant les coefficients binomiaux
-		\item<2-> Ecrire une fonction en OCaml utilisant la définition à base de factoriels permettant de calculer $\binom{n}{k}$ (avec $n$ et $k$ deux entiers naturels $n\geq k$). Donner sa complexité.
-		\item<3-> Proposer une version récursive utilisant la relation de récurrence vue à la question 1.
-		\item<4-> On note $N(n,k)$ le nombre d'appels  nécessaires pour calculer $\binom{n}{k}$. Donner $N(n,0)$, $N(n,n)$ et une relation de récurrence liant $N(n,k), N(n-1,k)$ et $N(n-1,k-1)$.
-		\item<5-> Prouver par récurrence que $N(n,k) = 2\binom{n}{k} -1$. En déduire la complexité de la fonction récursive écrite à la question 3.
-	\end{enumerate}
+		\begin{enumerate}
+			\item<1-> Rappeler la définition des coefficients binomiaux à l'aide de factoriel ainsi que la relation de récurrence liant les coefficients binomiaux
+			\item<2-> Ecrire une fonction en OCaml utilisant la définition à base de factoriels permettant de calculer $\binom{n}{k}$ (avec $n$ et $k$ deux entiers naturels $n\geq k$). Donner sa complexité.
+			\item<3-> Proposer une version récursive utilisant la relation de récurrence vue à la question 1.
+			\item<4-> On note $N(n,k)$ le nombre d'appels  nécessaires pour calculer $\binom{n}{k}$. Donner $N(n,0)$, $N(n,n)$ et une relation de récurrence liant $N(n,k), N(n-1,k)$ et $N(n-1,k-1)$.
+			\item<5-> Prouver par récurrence que $N(n,k) = 2\binom{n}{k} -1$. En déduire la complexité de la fonction récursive écrite à la question 3.
+		\end{enumerate}
 	\end{block}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Mémoïsation avec une table de hachage}
 		\begin{itemize}
-	\item<1-> La complexité exponentielle de la version récursive est lié à l'apparition de nombreux appels récursifs identiques. 
-	\item<2-> L'idée est donc de mémoriser les résultats des appels récursifs déjà effectués afin d'en avoir le résultat sans les relancer. Cette technique de programmation s'appelle la \textcolor{blue}{mémoïsation}
-	\item<3-> Quelle structure de données vous paraît adaptée ?
-	\item<4-> Proposer une implémentation en OCaml
-	\item<5-> Donner la complexité de cette nouvelle implémentation.
+			\item<1-> La complexité exponentielle de la version récursive est lié à l'apparition de nombreux appels récursifs identiques.
+			\item<2-> L'idée est donc de mémoriser les résultats des appels récursifs déjà effectués afin d'en avoir le résultat sans les relancer. Cette technique de programmation s'appelle la \textcolor{blue}{mémoïsation}
+			\item<3-> Quelle structure de données vous paraît adaptée ?
+			\item<4-> Proposer une implémentation en OCaml
+			\item<5-> Donner la complexité de cette nouvelle implémentation.
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -284,7 +323,7 @@
 		\begin{itemize}
 			\item<1-> La \textcolor{blue}{mémoïsation} consiste à stocker dans une structure de données les valeurs renvoyées par une fonction afin de ne pas les recalculer lors des appels identiques suivant.\\
 			\item<2-> Les tableaux associatifs sont alors des structures de données adaptées, les clés sont les paramètres d'appels de la fonction et les valeurs le résultat de l'appel.
-			\item<3-> On peut alors tester si la valeur a déjà été calculée (présence de la clé) en $O(1)$ et suivant le cas de figure calculer la valeur associée puis la stocker ($O(1)$) ou alors la récupérer ($O(1)$).
+			\item<3-> On peut alors tester si la valeur a déjà été calculée (présence de la clé) en $\mathcal{O}(1)$ et suivant le cas de figure calculer la valeur associée puis la stocker ($\mathcal{O}(1)$) ou alors la récupérer ($\mathcal{O}(1)$).
 		\end{itemize}
 	\end{alertblock}
 \end{frame}

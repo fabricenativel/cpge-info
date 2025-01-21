@@ -16,9 +16,32 @@
 
 ## Travaux pratiques
 
-{{ exo("Implémentation en C d'une table de hachage",[],0)}}
+{{ exo("Quelques fonctions de hachage sur les chaines de caractères",[],0)}}
 
-On reprend ici l'exemple vu en cours du calcul du nombre d'occurrence des mots dans un texte. On rappelle qu'unque les maillons des listes chainées utilisées sont définies par :
+On propose de tester dans cet exercice trois fonctions de hachage sur les chaines de caractères, on pourra les coder au choix en C ou en OCaml. On testera ces fonctions sur un ensemble de 5000 chaines de caractères toutes de longueurs 6 et qui ont été générés aléatoirement et contiennent toutes des caractères {{sc("ascii")}} imprimables (ceux de codes 32 à 126) et téléchargeables ci-dessous :
+    {{telecharger("Chaines aléatoires","./files/C10/test5000.txt")}}
+Dans tous les cas, on utilisera une table de hachage de taille 10000.
+
+1. Coder les trois fonctions suivantes :
+
+    1. Somme des codes des caractères {{sc("ascii")}}  
+    Cette fonction fait simplement la somme des codes {{sc("ascii")}} des caractères qui la compose, par exemple, le hash de `"MP2I"` est : `77 + 80 + 50 + 73 = 280` car les codes {{sc("ascii")}} de `M,P,2` et `I` sont respectivement `77, 80, 50` et `73`. La table de hachage ayant une taille de 10000, aucun modulo n'est nécessaire, le plus grand hash possible étant 6*126 = 756.
+
+    2. Produit des codes des caractères  
+    On calcule le produit des codes {{sc("ascii")}} des caractères modulo 10000. Pour `MP2I` on obtient : `77*80*50*73 = 22484000` qui donne `4000` modulo 10000.
+
+    3. Hachage polynomial  
+    On fixe une valeur arbitraire `x=31` puis on calcule la somme modulo 10000 des $c_ix^i$ où les $c_i$ sont les codes {{sc("ascii")}} des caractères de la chaine. Par exemple, pour `MP2I` on obtient : $77 + 80\times31 + 50\times31^2 + 73\times31^3 = 2225350$ qui donne 5350 modulo 10000.
+
+        !!! aide
+            On pourra utiliser dans un premier temps le calcul de puissance puis remarquer que l'expression précédente peut aussi se calculer (plus efficacement) avec : $((((73 \times 31) + 50)\times 31) + 80)\times31 + 77$
+
+2. Sur les 5000 chaines de test données ci-dessus, faire une évaluation empirique de ces fonctions de hachage, par exemple en calculant pour chacune d'elle le nombre maximal de collision et le nombre total de collision.
+
+
+{{ exo("Implémentation en C d'une table de hachage",[])}}
+
+On reprend ici l'exemple vu en cours du calcul du nombre d'occurrence des mots dans un texte. On rappelle que les maillons des listes chainées utilisées sont définies par :
 ```c
     --8<-- "C10/count.c:9:16"
 ```
@@ -62,7 +85,7 @@ Tester votre réponse : {{ check_reponse("644")}}
 
 La table de hachage est un tableau de liste de couples  `#!ocaml string*int` :
 ```ocaml
-    --8<-- "C10/count2.ml:1:4"
+    --8<-- "C10/count2.ml:1:3"
 ```
 
 C'est la traduction en OCaml de l'implémentation en C vue dans l'exercice précédent.
@@ -71,7 +94,7 @@ Reprendre les mêmes questions que ci-dessus.
 {{ exo("Implémentation en OCaml avec le module Hashtbl",[])}}
 On doit utiliser le module `Hashtbl` et créer la table de hachage en lui donnant un taille de départ (elle sera automatiquement redimensionnée si nécessaire) 
 ```ocaml
-    --8<-- "C10/count.ml:1:3"
+    --8<-- "C10/count.ml:1:2"
 ```
 La fonction de hachage est `#!ocaml Hashtbl.hash` est fonctionne sur des données de n'importe quel type.
 Utiliser cette nouvelle implémentation dans le problème du calcul du nombre d'occurrence des mots d'un texte.
