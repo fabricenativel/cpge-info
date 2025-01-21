@@ -36,7 +36,10 @@ Dans tous les cas, on utilisera une table de hachage de taille 10000.
         !!! aide
             On pourra utiliser dans un premier temps le calcul de puissance puis remarquer que l'expression précédente peut aussi se calculer (plus efficacement) avec : $((((73 \times 31) + 50)\times 31) + 80)\times31 + 77$
 
-2. Sur les 5000 chaines de test données ci-dessus, faire une évaluation empirique de ces fonctions de hachage, par exemple en calculant pour chacune d'elle le nombre maximal de collision et le nombre total de collision.
+2. Sur les 5000 chaines de test données ci-dessus, faire une évaluation empirique de ces fonctions de hachage, par exemple en calculant pour chacune d'elle le nombre maximal de collision et le nombre total de collision. Pour cela on pourra créer un tableau de 10000 cases (les 10000 valeurs possibles de *hash*) initialisé à `0` puis calculer successivement les *hash* des 5000 chaines et incrémenter la case correspondante du tableau.
+
+!!! lien "Pour aller plus loin"
+    Pour des exemples de "bonnes" fonction de hachage (code donné en C) sur les chaines de caractères, on pourra consulter [cette page](http://www.cse.yorku.ca/~oz/hash.html){target=_blank}.
 
 
 {{ exo("Implémentation en C d'une table de hachage",[])}}
