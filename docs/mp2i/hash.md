@@ -48,41 +48,67 @@ On reprend ici l'exemple vu en cours du calcul du nombre d'occurrence des mots d
 ```c
     --8<-- "C10/count.c:9:16"
 ```
+Et qu'une table de hachage est alors représenté par un tableau de listes chainées. Une proposition de correction pour les fonctions de manipulations de ces listes est fournie.
 
 1. Ecrire la fonction de prototype `#!c bool is_in_list(list l, char w[26])` qui renvoie `true` ou `false` selon que la chaine de caractère `w` figure ou non dans la liste `l`.
 
     !!! aide
         La fonction `strcmp` disponible après avoir inclus `string.h` compare deux chaines de caractères et renvoie `0` lorsqu'elles sont égales.
 
+    ??? Question "Corrigé"
+        ```c
+            -8<-- "C10/count.c:31:40"
+        ```
+
 2. Ecrire les autres fonctions nécessaires :
 
-    1. Ajouter une nouvelle clé de prototype `#!c void insert(list *l, char w[26])` 
-    2. Récupérer la valeur associée à une clé : `#!c int value(list l, char w[26])`
-    3. Modifier la valeur associée à une clé présente : `#!c void update(list *l, char w[26], int v)`
+    1. Ajouter une nouvelle clé de prototype `#!c void insert_in_list(list *l, char w[26])`. Lorsqu'on ajoute une nouvelle chaine, on la rencontre pour la première fois, par conséquent son nombre d'occurrence est 1.
 
-3. La table de hachage est alors définie comme un tableau de liste chainées de taille `SIZE` (fixée en début de programme). On prend comme fonction de hachage la somme des codes {{sc("ascii")}} contenu dans la chaine :
+        ??? Question "Corrigé"
+            ```c
+                -8<-- "C10/count.c:55:62"
+            ```
+
+    2. Récupérer la valeur associée à une clé : `#!c int get_value_list(list l, char w[26])`
+
+        ??? Question "Corrigé"
+            ```c
+                -8<-- "C10/count.c:42:53"
+            ```
+
+    3. Modifier la valeur associée à une clé présente : `#!c void update_list(list *l, char w[26], int v)`
+
+        ??? Question "Corrigé"
+            ```c
+                -8<-- "C10/count.c:64:72"
+            ```
+
+3. La table de hachage est alors définie comme un tableau de liste chainées de taille `SIZE` (fixée en début de programme). On prend comme fonction de hachage la fonction ci-dessous similaire au hachage polynomial vu dans l'exercice 1 :
 ```c
     --8<-- "C10/count.c:18:29"
 ```
 Pour tester si une clé est présente dans la table de hachage il suffit alors de tester si elle est présente dans le seau correpondant à son *hash* :
 ```c
-    --8<-- "C10/count.c:127:131"
+    --8<-- "C10/count.c:128:132"
 ```
 Ecrire les autres fonctions nécessaires :
 
     a. `#!c void insert_in_hashtable(list ht[SIZE], char w[26])` pour insérer une nouvelle clé.
+
     b. `#!c update_hashtable(list ht[SIZE], char w[26], int n)` pour mettre à jour la valeur associée à une clé.
     
     c. `#!c int get_value_hashtable(list ht[SIZE], char w[26])` pour récupérer la valeur associée à une clé.
 
 4. On donne ci-dessous une fonction permettant de lire une ligne d'un fichier sur un canal de lecture `FILE *` déjà ouvert:
 ```c
-    --8<-- "C10/count.c:196:205"
+    --8<-- "C10/count.c:197:209"
 ```
 Utiliser cette fonction pour lire le fichier de mots extraits de l'oeuvre de J. Verne *20000 lieues sous les mers* disponible ci-dessous :
 {{telecharger("Mots extraits","./files/C10/mots.txt")}}
 Combien de fois le mot "*nautilus*" apparaît-il dans le livre ?  
 Tester votre réponse : {{ check_reponse("644")}}
+
+5. Calculer le nombre total de collision dans la table de hachage.
 
 {{ exo("Implémentation en OCaml avec le type array",[])}}
 
@@ -120,6 +146,46 @@ Etant donné un tableau d'entiers  `T` et un entier `s`, le problème est de d�
 3. Tester ces deux implémentations en mesurant leur performance sur les nombres téléchargeables ci-dessous en recherchant deux nombres de somme 42
 {{telecharger("Liste de nombres","./files/C10/numbers.txt")}} 
 Vous pouvez tester votre réponse : (donner le plus grand des deux nombres) {{check_reponse("1663789")}}
+
+{{ exo("Filtre de Bloom",[])}}
+
+Un [Filtre de Bloom](https://fr.wikipedia.org/wiki/Filtre_de_Bloom){target=_blank} est une structure de données probabilistes pour laquelle le test d'appartenance :
+
+* renvoie toujours vraie si l'élément se trouve dans la structure,
+* renvoie *parfois* vraie si l'élément ne se trouve pas dans la structure.
+
+Un élément $x$, tel que le test d'appartenance renvoie vraie alors que $x$ n'est pas dans la structure s'appelle un *faux positif*. 
+
+Un filtre  de Bloom de taille $m$ sur $k$ fonctions de hachage se compose :
+
+* d'un tableau de booléens $B$ de taille $m$ (ce tableau est initialisé à false)
+* de $k$ fonction de hachage $h_0,\dots, h_{k-1}$ toutes à valeurs dans $[0;m-1]$
+
+Pour insérer un élément $x$, on calcule les $k$ valeurs de hachage de x : $(h_0(x),\dots,h_{k-1}(x))$ et pour tout $i \in 0,\dots k-1$ on affecte $B(h_i(x))$ à vraie. Pour tester si un élément est ou pas dans la structure on teste si tous les $B(h_i(x))$ sont à vraies (on rappelle que ce teste peut produire un faux négatif).
+
+Par exemple, supposons que le filtre soit composé d'un tableau de 8 booléens et de deux fonctions de hachage $h_0$ et $h_1$ sur les chaines de caractères.
+
+* On insère le mot "chat" et on suppose $h_0($"chat"$)=1$ et $h_1($"chat"$)=7$ le filtre devient $[0,1,0,0,0,0,0,1]$
+* On insère le mot "dent" et on suppose $h_0($"dent"$)=2$ et $h_1($"dent"$)=7$ le filtre devient $[0,1,1,0,0,0,0,1]$
+* On teste l'appartenance de "chien" et on suppose $h_0($"chien"$)=1$ et $h_1($"dent"$)=3$ alors le test renvoie faux puisque le bit 3 est à 0.
+* On teste l'appartenance de "poil" et on suppose $h_0($"poil"$)=7$ et $h_1($"poil"$)=2$ le test renvoie 1 puisque ces deux bits sont à 1, c'est donc un *faux positif*.
+
+Le but de l'exercice est d'implémenter un filtre de Bloom sur les chaines de caractères (dans le langage de son choix), puis de le tester sur les mots du dictionnaire français et d'obtenir le taux de faux positifs en fonction de $m$ (le nombre de bits) et de $k$ (le nombre de fonction de hachage).
+
+1. Ecrire une fonction de hachage sur les chaines de caractères prenant en argument un entier `x` et un entier `m`et  renvoyant la somme modulo `m` des $c_ix^i$ où les $c_i$ sont les codes {{sc("ascii")}} des caractères de la chaine. Un filtre de Bloom sera alors un ensemble de $k$ valeur pour le paramètre `x` associé à un tableau de booléens de taille `m`.
+
+2. Ecrire une fonction `ajoute` qui prend en argument une chaine de caractère, ainsi qu'un filtre de bloom et modifie ce filtre afin d'y ajouter la chaine. 
+
+3. Ecrire une fonction `appartient` qui prend en argument une chaine de caractère, ainsi qu'un filtre de bloom et renvoie un booléens indiquant si cette chaine appartient au filtre.
+
+4. Le fichier `"/usr/share/dict/french"` est un dictionnaire français, contenant $346\,200$ mots (un par ligne). Insérer la majorité de ces mots dans un filtre de bloom et en garder une petite partie afin de tester le nombre de faux positifs. Par exemple, on pourra garder $1\,200$ mots en en insérer $345\,000$.
+
+5. Déterminer le pourcentage de faux positifs sur les mots non insérés en faisant varier les paramètres $m$ et $k$.
+
+    !!! note
+        Vous devriez retrouver approximativement les mêmes résultats que sur [cette page](https://hur.st/bloomfilter/){target=_blank} en indiquant pour la valeur $n$ le nombre de mots présents dans le dictionnaire c'est à dire  $345\,000$ (si vous avez conservé $1\,200$ mots pour déterminer le pourcentage de faux négatifs).
+
+
 
 {{ exo("Recherche de cycle dans un jeu de la vie à une dimension",[])}}
 

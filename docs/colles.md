@@ -9,4 +9,4 @@ hide: - navigation  in liens.md
 * Complexité d'un algorithme, notation $\mathcal{O}$. Complexité amortie.
 * Types et opérateurs de base en C, boucles et structures de contrôle en C. 
 * Aspects fonctionnels et impératifs de Ocaml. 
-* Exemples d'études et d'implémentations d'algorithme dans ces deux langages (exponentiation rapide, tri, crible, algorithme d'Euclide)
+* Exemples d'études et d'implémentations d'algorithmes dans ces deux langages (exponentiation rapide, tri, crible, algorithme d'Euclide, \dots)

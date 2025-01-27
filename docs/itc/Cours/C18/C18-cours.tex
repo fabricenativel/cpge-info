@@ -501,6 +501,97 @@ rss
 	\end{exampleblock}
 \end{frame}
 
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Reconstruction de la solution}
+		{\small On peut construire la matrice obtenue pour les mots  : {\sc imperial} et {\sc empire} est : \\}
+		\renewcommand{\arraystretch}{1.2}
+		\quad \quad \begin{tabular}{|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
+
+			\cline{2-8}
+			\multicolumn{1}{c|}{}        & \textcolor{blue}{$\epsilon$} & \textcolor{blue}{E} & \textcolor{blue}{M} & \textcolor{blue}{P} & \textcolor{blue}{I} & \textcolor{blue}{R} & \textcolor{blue}{E} \\
+			\hline
+			\textcolor{blue}{$\epsilon$} &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{I}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{M}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{P}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{E}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{R}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{I}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{A}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{L}          &                              &                     &                     &                     &                     &                     &                     \\
+			\hline
+		\end{tabular}\\
+		Cette matrice permet de reconstruire \textit{une} solution, c'est à dire de déterminer une plus longue sous séquence commune.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Reconstruction de la solution}
+		{\small La matrice obtenue pour les mots : {\sc imperial} et {\sc empire} est : \\}
+		\quad \quad \begin{tabular}{|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
+
+			\cline{2-8}
+			\multicolumn{1}{c|}{}                              & \textcolor{blue}{$\epsilon$} & \textcolor{blue}{E}              & \alt<17->{\textcolor{red}{M}}{\textcolor{blue}{M}} & \alt<15->{\textcolor{red}{P}}{\textcolor{blue}{P}} & \alt<11->{\textcolor{red}{I}}{\textcolor{blue}{I}} & \textcolor{blue}{R}             & \textcolor{blue}{E}             \\
+			\hline
+			\textcolor{blue}{$\epsilon$}                       & 0                            & 0                                & 0                                                  & 0                                                  & 0                                                  & 0                               & 0                               \\
+			\textcolor{blue}{I}                                & 0                            & \alt<18->{\textcolor{red}{0}}{0} & 0                                                  & 0                                                  & 1                                                  & 1                               & 1                               \\
+			\alt<17->{\textcolor{red}{M}}{\textcolor{blue}{M}} & 0                            & 0                                & \alt<16->{\textcolor{red}{\underline 1}}{1}        & 1                                                  & 1                                                  & 1                               & 1                               \\
+			\alt<15->{\textcolor{red}{P}}{\textcolor{blue}{P}} & 0                            & 0                                & 1                                                  & \alt<14->{\textcolor{red}{\underline 2}}{2}        & 2                                                  & 2                               & 2                               \\
+			\textcolor{blue}{E}                                & 0                            & 1                                & 1                                                  & \alt<13->{\textcolor{red}{2}}{2}                   & 2                                                  & 2                               & 3                               \\
+			\textcolor{blue}{R}                                & 0                            & 1                                & 1                                                  & \alt<12->{\textcolor{red}{2}}{2}                   & 2                                                  & 3                               & 3                               \\
+			\alt<11->{\textcolor{red}{I}}{\textcolor{blue}{I}} & 0                            & 1                                & 1                                                  & 2                                                  & \alt<10->{\textcolor{red}{\underline 3}}{3}        & 3                               & 3                               \\
+			\textcolor{blue}{A}                                & 0                            & 1                                & 1                                                  & 2                                                  & \alt<9->{\textcolor{red}{3}}{3}                    & 3                               & 3                               \\
+			\textcolor{blue}{L}                                & 0                            & 1                                & 1                                                  & 2                                                  & \alt<8->{\textcolor{red}{3}}{3}                    & \alt<7->{\textcolor{red}{3}}{3} & \alt<6->{\textcolor{red}{3}}{3} \\
+			\hline
+		\end{tabular}\\
+		\onslide<2->{\small On peut utiliser ce résultat pour construire la {\sc plssc} :}
+		\begin{itemize}
+			\item<3-> {\small on part de la dernière case en bas et à droite}
+			\item<4-> {\small si les lettres sur la ligne et la colonne sont identiques on ajoute à la {\sc plssc} et on remonte en diagonale}
+			\item<5-> {\small sinon on va à gauche ou en haut suivant la case qui a plus grande valeur}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Exemple résolu : chemin de somme maximale dans une pyramide}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Position du problème}
+		Rechercher le chemin de somme maximale partant du haut d'une pyramide d'entiers à sa base :
+		\begin{center}
+				\begin{pspicture}(0,-2.2)(6,0.5) % Ajuster la taille de la figure selon les besoins
+				  % Niveau 1
+				  \rput(3,0){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 5}}{5}}}
+				  % Niveau 2
+				  \rput(2.5,-0.52){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 3}}{3}}}
+				  \rput(3.5,-0.52){\psframebox[framesep=4pt]{4}}
+				  % Niveau 3
+				  \rput(2,-1.04){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 9}}{9}}}
+				  \rput(3,-1.04){\psframebox[framesep=4pt]{2}}
+				  \rput(4,-1.04){\psframebox[framesep=4pt]{6}}
+				  % Niveau 4
+				  \rput(1.5,-1.56){\psframebox[framesep=4pt]{4}}
+				  \rput(2.5,-1.56){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 6}}{6}}}
+				  \rput(3.5,-1.56){\psframebox[framesep=4pt]{8}}
+				  \rput(4.5,-1.56){\psframebox[framesep=4pt]{4}}
+				  % Niveau 5
+				  \rput(1,-2.08){\psframebox[framesep=4pt]{3}}
+				  \rput(2,-2.08){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 9}}{9}}}
+				  \rput(3,-2.08){\psframebox[framesep=4pt]{2}}
+				  \rput(4,-2.08){\psframebox[framesep=4pt]{5}}
+				  \rput(5,-2.08){\psframebox[framesep=4pt]{7}}
+				  \onslide<6->{\rput(5.7,-1.25){\textcolor{BrickRed}{\bf Max = 32}}}
+				\end{pspicture}
+				\end{center}
+			\begin{itemize}
+			\item<2-> {\small déterminer cette somme et un chemin possible sur l'exemple ci-dessus.}
+			\item<3-> {\small que penser d'une solution qui testerait toutes les possibilités ?\\} \onslide<7->\textcolor{OliveGreen}{\small La complexité serait exponentielle en fonction du nombre de niveau.}
+			\item<4-> {\small obtient-on la solution optimale en choisissant l'entier maximal à chaque étape ?}
+			\item<5-> {\small vérifier qu'on retrouve les caractéristiques d'un problème soluble par programmation dynamique.}
+			\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
 \makess{Exemple résolu : rendu de monnaie}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Position du problème}
@@ -611,16 +702,16 @@ rss
 		Remarque : sur cet exemple, les appels récursifs depuis $m(7,0)$ ne construisent pas la totalité de la matrice des valeurs de $m(S,k)$. En effet, le calcul de $m(7,0)$ se fait à partir de celui de $m(7,1)$ et de $m(7-p_0,0)$ et ainsi de suite en remontant dans la matrice : \\
 		\begin{tabular}{|c|c|c|c|c|c|c|}
 			\hline
-			\backslashbox{$S$}{$k$} & $0$                                             & $1$                                             & $2$                 & $3$                 & $4$                        \\
+			\backslashbox{$S$}{$k$} & $0$                                                     & $1$                                                     & $2$                                                     & $3$                                                     & $4$                        \\
 			\hline
-			$0$                     & \textcolor{gray}{0}                             & \textcolor{gray}{0}                             & \textcolor{gray}{0} & \textcolor{gray}{0} & \textcolor{gray}{$\infty$} \\
-			$1$                     &                                                 &                                                 &                    &   \leavevmode\onslide<7->{\textcolor{BrickRed}{\faCheck}}                   & \textcolor{gray}{$\infty$} \\
-			$2$                     & \leavevmode\onslide<2->{\textcolor{BrickRed}{\faCheck}} &  \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}}      & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}}                    &  \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}}                   & \textcolor{gray}{$\infty$} \\
-			$3$                     &                                                 &    \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}}                                             &   \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}}                  &  \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}}                   & \textcolor{gray}{$\infty$} \\
-			$4$                     &                                                 &                                                 &   \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}}                  &  \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}}                   & \textcolor{gray}{$\infty$} \\
-			$5$                     &                                                 &                                                 &                     &     \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}}                 & \textcolor{gray}{$\infty$} \\
-			$6$                     &                                                 &                                                 &                     & \leavevmode\onslide<6->{\textcolor{BrickRed}{\faCheck}}                    & \textcolor{gray}{$\infty$} \\
-			$7$                     & \textcolor{BrickRed}{\faCheck}                          & \leavevmode\onslide<2->{\textcolor{BrickRed}{\faCheck}} &     \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}}                &   \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}}                  & \textcolor{gray}{$\infty$} \\
+			$0$                     & \textcolor{gray}{0}                                     & \textcolor{gray}{0}                                     & \textcolor{gray}{0}                                     & \textcolor{gray}{0}                                     & \textcolor{gray}{$\infty$} \\
+			$1$                     &                                                         &                                                         &                                                         & \leavevmode\onslide<7->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$2$                     & \leavevmode\onslide<2->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$3$                     &                                                         & \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$4$                     &                                                         &                                                         & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$5$                     &                                                         &                                                         &                                                         & \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$6$                     &                                                         &                                                         &                                                         & \leavevmode\onslide<6->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$7$                     & \textcolor{BrickRed}{\faCheck}                          & \leavevmode\onslide<2->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
 			\hline
 		\end{tabular} \quad \textcolor{blue}{$\boxed{p_0=5, p_1=4, p_2=3, p_3 =1}$}
 	\end{exampleblock}

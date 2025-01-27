@@ -21,10 +21,10 @@
 
 Au jeu du Scrabble, chaque lettre a une valeur comme indiqué sur l'image ci-dessous :
 
-![valeurs des lettres](./Images/C2/lettres.jpeg){.imgcentre width=300px}
+![valeurs des lettres](./Images/C18/lettres.jpeg){.imgcentre width=300px}
 
 Le but de l'exercice est d'écrire une fonction `score` qui prend un argument un `mot` et renvoie la somme des valeurs des lettres de ce mot. Par exemple `valeur("GIRAFE")` doit renvoyer 10 en effet :
-![valeurs des lettres](./Images/C2/girafe.png){.imgcentre width=250px}
+![valeurs des lettres](./Images/C18/girafe.png){.imgcentre width=250px}
 et donc la valeur est $2+1+1+1+4+1 = 10$
 
 1. Compléter  une première version de `score` qui parcours les lettres du mots et ajoute la valeur suivant la lettre rencontrée.
@@ -76,7 +76,7 @@ notes = {
 {{ exo("Trouver la chaine qui se répète",[])}}
 
 Vous pouvez télécharger ci-dessous un fichier `chaines.txt` :  
-{{telecharger("chaines.txt","./files/C2/chaines.txt")}}    
+{{telecharger("chaines.txt","./files/C18/chaines.txt")}}    
 Ce fichier contient 5000 chaines de caractères (une par ligne), une seule de ces chaines apparait deux fois dans le fichier. Le but de l'exercice est de trouver laquelle
 
 1. Proposer une solution utilisant une liste `deja_vu` dans laquelle on rangera les chaines de caractères au fur et à mesure de leur apparition. Vous pouvez tester votre réponse dans le formulaire ci dessous   {{check_reponse("PYKKEXW")}}
@@ -84,7 +84,7 @@ Ce fichier contient 5000 chaines de caractères (une par ligne), une seule de ce
     ??? Question "Corrigé"
         
         ```python
-        --8<-- "C2/trouve_double.py:2:20"
+        --8<-- "C18/trouve_double.py:2:20"
         ```
 
 2. Proposer une solution utilisant les dictionnaire de Python
@@ -92,7 +92,7 @@ Ce fichier contient 5000 chaines de caractères (une par ligne), une seule de ce
     ??? Question "Corrigé"
         
         ```python
-        --8<-- "C2/trouve_double.py:22:29"
+        --8<-- "C18/trouve_double.py:22:29"
         ```
 
 3. Discuter l'efficacité de ces deux solutions
@@ -103,7 +103,7 @@ Ce fichier contient 5000 chaines de caractères (une par ligne), une seule de ce
 {{ exo("A la recherche du mot caché",[])}}
 
 Vous pouvez télécharger ci-dessous un fichier `mot_cache.txt` :  
-{{telecharger("mot_cache.txt","./files/C2/mot_cache.txt")}}    
+{{telecharger("mot_cache.txt","./files/C18/mot_cache.txt")}}    
 
 ce fichier contient de nombreux caractères : tous ceux de code {{sc('ascii')}} compris entre 33 (`!`) et 126 (`~`). Tous ces caractères apparaissent au moins à 50 reprises (et jusqu'à 100 fois) *à l'exception de quelques uns* qui apparaissent rarement (moins d'une dizaine de fois).  
 Retrouver les caractères qui apparaissent rarement, ranger les dans l'ordre de leur nombre d'apparition pour obtenir le mot caché. Vous pouvez vérifier votre résultat ci-dessous :
@@ -142,7 +142,7 @@ On rappelle que dans le triangle de Pascal, le coefficient situé ligne $n$ et c
 
 Pour gravir un escalier on peut faire des enjambées d'une ou deux marches. Par exemple pour monter un escalier de 4 marches, on pourrait faire `1+2+1` ou encore `2+2`. On s'intéresse au nombre de façons de monter un escalier de $n$ marches qu'on note $f_n$. 
 
-1. Donner $f_0$ et $f_1$.
+1. Donner $f_1$ et $f_2$.
 
 2. Etablir une relation de récurrence liant $f_{n}$, $f_{n-1}$ et $f_{n-2}$ pour $n \geq 2$.
 
@@ -162,10 +162,10 @@ Pour gravir un escalier on peut faire des enjambées d'une ou deux marches. Par 
     2. Etablir une relation de récurrence liant les éléments de $p_{n}$ à ceux de $p_{n-1}$ et $p_{n-2}$
     3. Ecrire une fonction python permettant de répondre au problème.
 
-6. Dans le fichier `montees.txt` à télécharger ci-dessous, se trouvent des façons de monter un escalier de 14 marches. Sur chaque ligne du fichier, une des possibilités est donnée sous la forme d'une chaine de caractères composée de 1 et de 2.  
-{{telecharger("montees.txt","./files/C2/montees.txt")}}    
+6. Dans le fichier `montees.txt` à télécharger ci-dessous, se trouvent des façons de monter un escalier de 13 marches. Sur chaque ligne du fichier, une des possibilités est donnée sous la forme d'une chaine de caractères composée de 1 et de 2.  
+{{telecharger("montees.txt","./files/C18/montees.txt")}}    
 
-    1. Vérifier (en comptant le nombre de lignes de ce fichier et en comparant avec la valeur de $f_{14}$) qu'une possibilité est manquante.
+    1. Vérifier (en comptant le nombre de lignes de ce fichier et en comparant avec la valeur de $f_{13}$) qu'une possibilité est manquante.
     2. Quelle est la possibilité manquante ?  {{check_reponse("11111112211")}}
 
 
@@ -208,7 +208,7 @@ Le problème de la recherche de la découpe de valeur maximale d'une barre a ét
 
 !!! Python
     ```python
-    --8<-- "C2/decoupe_memo.py"
+    --8<-- "C18/decoupe_memo.py"
     ```
 
 1. Faire fonctionner ce programme avec les données suivantes et donner la valeur de la découpe maximale.
@@ -250,7 +250,7 @@ On dispose d’un sac à dos pouvant contenir un poids maximal $P$ et de $n$ obj
     3. Déterminer un remplissage du sac réalisant la valeur maximale.
     4. Tester votre programme sur les objets ci-dessous avec un poids  maximal de 4 kg.
 
-        ![cb_sac](./Images/C2/pbsac_ex2.png){.imgcentre width=400px}
+        ![cb_sac](./Images/C18/pbsac_ex2.png){.imgcentre width=400px}
 
 {{ exo("Distance d'édition",[]) }}
 
