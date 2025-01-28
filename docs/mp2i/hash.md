@@ -183,7 +183,7 @@ Le but de l'exercice est d'implémenter un filtre de Bloom sur les chaines de ca
 5. Déterminer le pourcentage de faux positifs sur les mots non insérés en faisant varier les paramètres $m$ et $k$.
 
     !!! note
-        Vous devriez retrouver approximativement les mêmes résultats que sur [cette page](https://hur.st/bloomfilter/){target=_blank} en indiquant pour la valeur $n$ le nombre de mots présents dans le dictionnaire c'est à dire  $345\,000$ (si vous avez conservé $1\,200$ mots pour déterminer le pourcentage de faux négatifs).
+        Vous devriez retrouver approximativement les mêmes résultats que sur [cette page](https://hur.st/bloomfilter/){target=_blank} en indiquant pour la valeur $n$ le nombre de mots présents dans le dictionnaire c'est à dire  $345\,000$ (si vous avez conservé $1\,200$ mots pour déterminer le pourcentage de faux négatif).
 
 
 
