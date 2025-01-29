@@ -1,29 +1,21 @@
-from math import log2
 
-DATA = "euler18.txt"
-reader = open(DATA)
-pyr = reader.read().strip().split('\n')
-pyramide=[list(map(int,p.split(' '))) for p in pyr]
+import random
+def somme_max(pyramide,i,j):
+    if i==len(pyramide)-1:
+        return pyramide[i][j]
+    m1 = somme_max(pyramide,i+1,j)
+    m2 = somme_max(pyramide,i+1,j+1)
+    return pyramide[i][j] + max(m1,m2)
 
-def get_child(i,j):
-    return i+1,j,i+1,j+1
+def random_list(n):
+    return [random.randint(1,9) for _ in range (n)]
 
-def max_traverse(pyramide):
-    max_value = {(0,0):pyramide[0][0]}
-    for i in range(0,len(pyramide)-1):
-        for j in range(i+1):
-            i1,j1,i2,j2 = get_child(i,j)
-            if (i1,j1) not in max_value:
-                max_value[(i1,j1)]=0
-            if (i2,j2) not in max_value:
-                max_value[(i2,j2)]=0
-            if pyramide[i1][j1]+max_value[(i,j)]>max_value[(i1,j1)]:
-                max_value[(i1,j1)]=pyramide[i1][j1]+max_value[(i,j)]
-            if pyramide[i2][j2]+max_value[(i,j)]>max_value[(i2,j2)]:
-                max_value[(i2,j2)]=pyramide[i2][j2]+max_value[(i,j)]
-    return max(max_value[(i,j)] for i in range(len(pyramide)) for j in range(i+1))
-
-pyramide =[
+def random_pyramide(n):
+    return [random_list(i) for i in range(1,n+1)]
+pyramide =random_pyramide(24)
+for l in pyramide:
+    print(l)
+test = [
 [5],
 [4, 4],
 [4, 7, 5],
@@ -49,4 +41,4 @@ pyramide =[
 [8, 7, 6, 4, 3, 1, 8, 2, 1, 1, 6, 1, 6, 5, 9, 3, 9, 6, 3, 4, 2, 6, 4],
 [5, 2, 1, 2, 4, 1, 8, 1, 6, 1, 4, 4, 6, 5, 5, 8, 7, 6, 6, 3, 4, 3, 3, 8]
 ]
-print(max_traverse(pyramide))
+print(somme_max(test,0,0))

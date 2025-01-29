@@ -182,6 +182,56 @@ Par exemple si le tableau contient les valeurs $[7, 5, 3, 6]$ alors la somme max
 
 2. Proposer une solution pour reconstruire la liste des valeurs  utilisées dans la solution
 
+{{ exo("Chemin de somme maximale dans une pyramide",[])}}
+
+On reprend l'exemple de la recherche de la somme maximale d'un chemin dans une pyramide (voir [cours](https://fabricenativel.github.io/cpge-info/itc/progdyn/#cours)). 
+
+1. Ecrire la fonction `somme_max` qui prend en argument une pyramide `p` (sous la forme d'une liste de listes) ainsi que deux entiers `i` et `j` et renvoie la somme maximal d'un chemin dans la sous pyramide de sommet `p[i][j]`.
+
+    !!! aide
+        On rappelle les équations de complexité (où `n` est le nombre de niveau de la pyramide):
+
+        * `somme_max(p,i,j) = p[i][j]` si `i=n-1` (c'est le cas de base, on a atteint la base de la pyramide)
+        * `somme_max(p,i,j) = p[i][j] + max(somme_max(p,i+1,j), somme_max(p,i+1,j+1))` sinon
+
+2. Vérifier que votre fonction renvoie bien **32** sur le petit exemple vu en cours : `[[5], [3, 4], [9, 2, 6], [4, 6, 8, 4], [3, 9, 2, 5, 7]]`
+
+3. Sur des exemples de taille plus importantes, on doit mémoïser les résultats des sous pyramides afin de ne pas les recalculer. Le faire à l'aide d'un dictionnaire. Puis tester votre programme sur la pyramide ci-dessous :
+
+    ??? note "Pyramide (à copier pour tester)"
+        ```python
+        [
+        [5],
+        [4, 4],
+        [4, 7, 5],
+        [3, 1, 7, 1],
+        [8, 6, 5, 4, 6],
+        [4, 6, 7, 3, 3, 3],
+        [7, 8, 2, 5, 3, 8, 8],
+        [7, 2, 6, 7, 7, 5, 6, 6],
+        [9, 2, 1, 4, 9, 2, 9, 9, 2],
+        [6, 7, 1, 7, 6, 4, 9, 1, 9, 8],
+        [7, 7, 7, 7, 7, 4, 8, 9, 1, 1, 9],
+        [1, 8, 2, 3, 2, 5, 1, 1, 2, 8, 8, 3],
+        [7, 2, 3, 5, 7, 2, 8, 8, 7, 6, 8, 7, 4],
+        [1, 8, 6, 4, 5, 3, 6, 1, 1, 8, 9, 5, 3, 8],
+        [8, 7, 3, 9, 2, 3, 7, 5, 7, 5, 2, 2, 5, 2, 6],
+        [1, 8, 2, 5, 2, 3, 9, 1, 1, 5, 5, 2, 6, 7, 6, 2],
+        [8, 5, 5, 9, 4, 3, 4, 4, 8, 4, 7, 9, 2, 6, 6, 8, 2],
+        [5, 3, 7, 2, 7, 8, 3, 9, 7, 4, 6, 7, 7, 4, 5, 6, 7, 3],
+        [1, 3, 8, 9, 2, 7, 1, 8, 7, 8, 8, 2, 5, 7, 4, 9, 1, 8, 9],
+        [8, 4, 4, 3, 3, 5, 3, 4, 6, 7, 7, 5, 4, 3, 4, 8, 2, 5, 2, 2],
+        [7, 7, 8, 5, 9, 1, 7, 2, 3, 1, 3, 6, 5, 8, 5, 3, 5, 6, 5, 3, 1],
+        [9, 7, 9, 3, 6, 9, 3, 1, 8, 5, 5, 1, 5, 1, 7, 4, 4, 5, 7, 1, 6, 8],
+        [8, 7, 6, 4, 3, 1, 8, 2, 1, 1, 6, 1, 6, 5, 9, 3, 9, 6, 3, 4, 2, 6, 4],
+        [5, 2, 1, 2, 4, 1, 8, 1, 6, 1, 4, 4, 6, 5, 5, 8, 7, 6, 6, 3, 4, 3, 3, 8]
+        ]
+        ```
+
+        Vérifier votre réponse : {{check_reponse("156")}}
+
+4. Ce problème est l'un du site du [Project Euler](https://projecteuler.net/){target=_blank}, vous y trouverez donc des jeux de données de taille plus importantes pour tester votre programme : voir le [problème 18](https://projecteuler.net/problem=18){target=_blank} ainsi que le [problème 67](https://projecteuler.net/problem=67)
+
 {{ exo("Tranche de somme maximale dans un tableau",[] )}}
 
 Etant donné un tableau d'entiers (positif ou négatif) $[e_0,\dots,e_{n-1}]$ on cherche dans ce tableau la tranche de plus grande somme. Par exemple pour le tableau $[-2, 7, 1, -3, 5, -8, -2, 9]$ c'est la tranche $[7, 1, -3, 5]$ qui a la plus grande somme et cette somme est 10. On n'autorise pas de tranche de longueur nulle et donc par exemple pour le tableau $[-5, -2, -7]$ c'est la tranche $[-2]$ qui a la plus grande somme.

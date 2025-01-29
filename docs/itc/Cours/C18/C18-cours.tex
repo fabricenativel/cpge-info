@@ -583,13 +583,74 @@ rss
 				  \onslide<6->{\rput(5.7,-1.25){\textcolor{BrickRed}{\bf Max = 32}}}
 				\end{pspicture}
 				\end{center}
-			\begin{itemize}
+			\begin{enumerate}
 			\item<2-> {\small déterminer cette somme et un chemin possible sur l'exemple ci-dessus.}
-			\item<3-> {\small que penser d'une solution qui testerait toutes les possibilités ?\\} \onslide<7->\textcolor{OliveGreen}{\small La complexité serait exponentielle en fonction du nombre de niveau.}
-			\item<4-> {\small obtient-on la solution optimale en choisissant l'entier maximal à chaque étape ?}
-			\item<5-> {\small vérifier qu'on retrouve les caractéristiques d'un problème soluble par programmation dynamique.}
-			\end{itemize}
+			\item<3-> {\small que penser d'une solution qui testerait toutes les possibilités ?\\}
+			\item<7-> {\small obtient-on la solution optimale en choisissant l'entier maximal à chaque étape ?}
+			\item<7-> {\small vérifier qu'on retrouve les caractéristiques d'un problème soluble par programmation dynamique.}
+			\end{enumerate}
 	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\addtocounter{enumi}{1}
+		\begin{enumerate}
+			\item<1->\textcolor{OliveGreen}{\small Pour tester chaque possibilité on doit énumérer tous les chemins possibles depuis le sommet vers un point de la base, en notant $n$ le nombre de niveau, on a deux choix à chaque niveau (excepté le premier), le nombre de chemins est donc $2^{n-1}$. La complexité est donc en $\mathcal{O}(2^n)$ c'est à dire \textit{exponentielle}. Cette méthode n'est donc pas utilisable pour des valeurs de $n$ importantes.}
+			\item<2->\textcolor{OliveGreen}{\small Sur l'exemple ci-dessus on constate que prendre le maximum à chaque étape (c'est à dire adopter un \textcolor{blue}{algorithme glouton}) ne conduit pas à la solution optimale.}
+			\item<3->\textcolor{OliveGreen}{\small C'est bien un problème d'\textit{d'optimisation} et résoudre un problème pour une pyramide de $n$ niveau et de sommets $S$, c'est :}
+			\begin{itemize}
+			\item \textcolor{OliveGreen}{\small résoudre le même problème sur  les \textit{deux} pyramides de $n-1$ niveaux et de sommets respectifs $S_g$ et $S_d$ (fils gauche et droit de $S$). Puis prendre le maximum des deux résultats, on trouve la propriété de \textit{sous structure optimale}.}
+			\item \textcolor{OliveGreen}{\small Les sous problèmes se \textit{chevauchent} car on retrouve bien la même pyramide centrale en traitant celle de sommet $S_g$ ou celle de sommet $S_d$ comme illustré ci-dessous.}
+			\end{itemize}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Position du problème}
+		\begin{center}
+				\begin{pspicture}(0,-2.7)(6,0.5) % Ajuster la taille de la figure selon les besoins
+				  % Niveau 1
+				  \rput(3,0){\psframebox[framesep=4pt]{5}}
+				  % Niveau 2
+				  \rput(2.5,-0.52){\psframebox[framesep=4pt]{3}}
+				  \rput(3.5,-0.52){\psframebox[framesep=4pt]{4}}
+				  % Niveau 3
+				  \rput(2,-1.04){\psframebox[framesep=4pt]{9}}
+				  \rput(3,-1.04){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 2}}}
+				  \rput(4,-1.04){\psframebox[framesep=4pt]{6}}
+				  % Niveau 4
+				  \rput(1.5,-1.56){\psframebox[framesep=4pt]{4}}
+				  \rput(2.5,-1.56){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 6}}}
+				  \rput(3.5,-1.56){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 8}}}
+				  \rput(4.5,-1.56){\psframebox[framesep=4pt]{4}}
+				  % Niveau 5
+				  \rput(1,-2.08){\psframebox[framesep=4pt]{3}}
+				  \rput(2,-2.08){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 9}}}
+				  \rput(3,-2.08){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 2}}}
+				  \rput(4,-2.08){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 5}}}
+				  \rput(5,-2.08){\psframebox[framesep=4pt]{7}}
+				  \psline[linecolor=OliveGreen,linewidth=0.7pt](3,-0.5)(1.2,-2.5)(4.8,-2.5)(3,-0.5)
+				\end{pspicture}
+				\end{center}
+				Ce sous problème apparaît dans la résolution du sous problème la pyramide droite \textit{et} celui de la pyramide gauche.
+			\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+\begin{exampleblock}{Eléments de résolution}
+	\begin{itemize}
+		\item<1-> On représente la pyramide de façon matricielle par une liste de liste. Par exemple la pyramide ci-dessous est la liste : \mintinline{python}{[[5], [3, 4], [9, 2, 6], [4, 6, 8, 4], [3, 9, 2, 5, 7]]}. On note $p_{i,j}$ le coefficient de cette matrice situé en ligne $i$ et en colonne $j$. 
+		\item<2-> Toute sous pyramide est alors identifiée par les indices de ligne et de colonne de son sommet dans cette liste. Par exemple le sommet de la pyramide initial est {\tt (0,0)}.
+		\item<3-> D'après l'étude qui précède en notant $M_{i,j}$ la somme d'un chemin maximal pour la pyramide de sommet $(i,j)$, on obtient immédiatement l'équation suivante :
+		\textcolor{blue}{$M_{i,j} = p_{i,j} + \max \left\{M_{i+1,j} \, ; \,  M_{i+1,j+1} \right\}$.}
+		\item<4-> Le cas de base est lorsque $i=n-1$ (on atteint la base de la pyramide).
+		\item<5-> Voir l'exercice de TP pour une résolution complète.
+	\end{itemize}
+	
+\end{exampleblock}
 \end{frame}
 
 \makess{Exemple résolu : rendu de monnaie}
