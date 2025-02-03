@@ -116,3 +116,109 @@ def envers(chaine):
     4. Fonction `occurences`, qui prend en argument une liste d'entiers `l` et un entier `n` et renvoie le nombre d'apparitions de `n` dans `l`.
 
 5. Modifier la fonction `triangle_recursif` de l'[exemple introductif](#exemple-introductif) afin d'afficher le même triangle mais "pointe vers le bas".
+
+
+2. {{exo("Exponentiation rapide",[])}}
+
+Pour calculer $a ^ {13}$ on peut effectuer $13$ multiplications en calculant $1\times a \times a \dots \times a$, une autre méthode consiste à calculer d'abord $a^6$ puis à l'élever au carré et à multiplier par $a$. C'est à dire qu'on utilise l'égalité $a^{13} = \left(a^6\right)^2 \times a$. On obtient donc une nouvelle écriture récursive qui s'avère encore plus simple à mettre en oeuvre lorsque l'exposant est paire, par exemple $a^{20} = \left(a^{10}\right)^2$.
+
+1. Vérifier sur le cas de $a^{13}$ que le nombre de multiplications nécessaires est inférieur à celui de la méthode naïve
+2. Ecrire une fonction Python implémentant ce nouvel algorithme (on fera bien attention à traiter le cas de l'exposant paire et celui de l'exposant impaire)
+
+
+{{ exo("Chateau de cartes",[]) }}
+
+Un [château de cartes](https://fr.wikipedia.org/wiki/Ch%C3%A2teau_de_cartes){target=_blank} est un échafaudage de cartes à jouer. On a représenté ci-dessous des chateaux de cartes à 1, 2 et 3 étages (crédit : [DREAMaths](https://math.univ-lyon1.fr/dream/?page_id=2523){target=_blank}):
+
+![château de cartes](Images/C6/ChateauCartesIllustration.png)
+
+1. On note $c_n$ le nombre de cartes nécessaires pour construire un chateau de cartes à $n$ étages. Etablir une relation de récurrence entre $c_n$ et $c_{n-1}$.
+
+2. Ecrire  une fonction récurrente qui renvoie $c_n$ pour la valeur $n$ fournie en argument .
+
+3. Calculer $c_{100}$ à l'aide de votre programme. Vous pouvez vérifier le résultat fourni par votre programme ci-dessous :  {{ check_reponse("15050") }}
+
+4. Retrouver ce résultat par le calcul
+
+
+{{ exo("Additions et soustractions",[]) }}
+On suppose qu'on ne dispose que de deux opérations : ajouter 1 ou retrancher 1.
+
+1. Écrire à l'aide de ces deux opérations, une version itérative de l'addition de deux entiers.
+2. Même question avec une version récursive.
+
+
+{{ exo("Algorithme d'Euclide de calcul du pgcd",[]) }}
+1. Revoir si besoin [l'algorithme d'Euclide](https://fr.wikipedia.org/wiki/Algorithme_d%27Euclide){target=_blank} permettant de calculer le {{sc("pgcd")}} de deux entiers.
+3. Donner une implémentation itérative de cet algorithme
+4. Donner une implémentation récursive de cet algorithme
+
+
+{{ exo("Chiffres romains",[])}}
+
+En [numération romaine](https://fr.wikipedia.org/wiki/Num%C3%A9ration_romaine){target=_blank}, les nombres s'écrivent avec les symboles suivants :
+
+* I valant 1
+* V valant 5
+* X valant 10
+* L valant 50
+* C valant 100
+* D valant 500
+* M valant 1000
+
+On lit un nombre de la gauche vers la droite, si la valeur d'un symbole est inférieure à celle du suivant alors on retranche sa valeur du total, sinon on l'ajoute. Par exemple, `XIV` vaut `14` car la valeur du `I` doit être retranchée (car inférieure à celle de `V`).
+
+1. Ecrire une fonction de signature `#!c int valeur_symbole(char s)` qui renvoie la valeur du symbole donné en argument.
+
+    !!! note
+        On peut utiliser une suite de `if` imbriqués ou alors [un `switch`](https://fr.wikipedia.org/wiki/Switch_(instruction)){target=_blank} (mais qui n'est pas au programme de MP2I).
+
+2. Ecrire une fonction **récursive** de signature `#!c int valeur(char s[])` qui renvoie la valeur du nombre romains `s` donné sous la forme d'une suite de caractères.
+
+{{ exo("Dessin récursif",[]) }}
+
+!!! warning "Attention"
+    L'exercice suivant utilise le module `turtle`, pour utiliser ce module, on écrira toujours en début de programme :
+    ```python
+    import turtle
+    crayon = turtle.Turtle()
+    papier = turtle.Screen()
+    ```
+    Afin de disposer d'un objet `crayon` et d'un `papier` (ces noms sont à choisir librement). 
+    En fin de programme, on écrira toujours
+    ```python
+    papier.exitonclick()
+    ```
+    De façon à ce que la fenêtre graphique contenant le dessin attende un click pour se refermer.
+
+    Le crayon est initialement situé en $(0,0)$ et orienté vers la droite. Pour manipuler le crayon, on dipose notamment  de :
+
+    * `crayon.forward(l)` pour le faire avancer de `l` pixels
+    * `crayon.left(d)` et `crayon.right(d)` afin de tourner à droite ou à gauche de `d` degrés.
+    * `crayon.penup()` et `crayon.pendown()` pour relever ou abaisser le crayon.
+    * `crayon.goto(x,y)` pour déplacer le crayon au point de coordonnées `(x,y)`
+
+    On pourra consulter [la documentation complète du module](https://docs.python.org/fr/3.9/library/turtle.html){target=_blank}.
+
+
+1. Ecrire une fonction `carre` qui prend en argument un entier `n` et dessiner à partir de la position et de l'orientation courant de la tortue un carré de côté `n` pixels.
+1. Dessiner une suite de carrés imbriqués tel que représenté ci-dessous (le carré initial mesure 300 pixels de côté et la taille diminue ensuite de 30 pixels à chaque carré)  
+![imbrique](Images/C6/imbrique.bmp){.imgcentre width=400px}
+
+2. Si vous aviez donné une version itérative de ce dessin, en faire une version récursive et inversement.
+
+
+
+{{ exo("Dessin du flocon de Von Koch",[]) }}
+
+!!! warning "Attention"
+    L'exercice suivant utilise le module `turtle` déjà rencontré dans l'exercice précédent.
+
+La [courbe de Koch](https://fr.wikipedia.org/wiki/Flocon_de_Koch){target=_blank} est une figure qui se construit de manière récursive. Le cas de base d'ordre 0 et de longueur $l$ s'obtient en traçant un segment de longueur $l$ . Le cas récursif d'ordre $n>0$ s'obtient en traçant successivement quatre courbes d'ordre $n-1$ et de longueur $l/3$ de la façon suivante :
+
+![vonkoch](Images/C6/vonkoch.png){.imgcentre width=400px}
+
+1. A l'aide du module `turtle`, produire une image tel que ci-dessous qui représente la courbe de Koch d'ordre 5. Le résultat produit ci-dessus a été obtenu grâce à l'appel `koch(600,5)` (la largeur de l'image est de 500px et sa hauteur 300)
+![vonkoch](Images/C6/koch.bmp){.imgcentre width=500px}
+
+2. En utilisant cette fonction construire le flocon de Koch, c'est-à-dire la figure obtenu en construisant les courbe de Koch sur les trois côtés d'un triangle équilatéral.

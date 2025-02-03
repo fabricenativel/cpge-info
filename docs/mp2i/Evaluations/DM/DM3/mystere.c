@@ -39,6 +39,7 @@ char  depile(pile *p)
         *p = ls;
         return val;
     }
+    return 0;
 }
 
 char sommet(pile p)

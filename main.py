@@ -77,11 +77,11 @@ def define_env(env):
         3 : [1,"Fichiers","fichiers.md"],
         4 : [6,"Discipline de programmation","discipline.md"],
         5 : [6,"Dictionnaires","dictionnaires.md"],
-        6 : [5,"Récursivité","recursivite.md"],
-        7 : [6,"Algorithmes gloutons","gloutons.md"],
-        8 : [6,"Tris","tris.md"]
+        6 : [5,"Récursivité","recursivite.md"]
     }
     env.variables['progression_itc_s2']={
+        7 : [6,"Algorithmes gloutons","gloutons.md"],
+        8 : [6,"Tris","tris.md"],
         9 : [6,"Spécifications et tests","tests.md"],
         10 : [7,"Représentation des entiers","entiers.md"],
         11 : [6,"Terminaison et corrections","terminaison.md"],

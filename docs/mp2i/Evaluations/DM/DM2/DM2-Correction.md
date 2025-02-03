@@ -29,7 +29,7 @@ Comme $b=0$ l'algorithme s'arrête et le {{sc("pgcd")}} de 120 et 84 est 12.
 2. Ecrire cet algorithme en pseudo-langage en préciser les entrées, les sorties et les préconditions
 
     ??? Question "Corrigé"
-        ![algoriothme d'Euclide](euclide.png){width=500px}
+        ![algorithme d'Euclide](euclide.png){width=500px}
 
 3. Donner une implémentation *itérative* de cet algorithme en C.
 

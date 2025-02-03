@@ -1,0 +1,151 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{7}
+\newcommand{\Ctitle}{\cnum Algorithme glouton}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C\thenumchap}
+
+\makess{Exemple introductif}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Chemin de somme maximale dans une pyramide}
+		On s'intéresse à la recherche de la somme maximale d'un chemin qui part du haut de la pyramide et atteint sa base.
+		\begin{center}
+				\begin{pspicture}(0,-2.2)(6,0.5) % Ajuster la taille de la figure selon les besoins
+				  % Niveau 1
+				  \rput(3,0){\psframebox[framesep=4pt]{\alt<3->{\textcolor{BrickRed}{\bf 5}}{5}}}
+				  % Niveau 2
+				  \rput(2.5,-0.52){\psframebox[framesep=4pt]{\alt<3->{\textcolor{BrickRed}{\bf 3}}{3}}}
+				  \rput(3.5,-0.52){\psframebox[framesep=4pt]{4}}
+				  % Niveau 3
+				  \rput(2,-1.04){\psframebox[framesep=4pt]{\alt<3->{\textcolor{BrickRed}{\bf 9}}{9}}}
+				  \rput(3,-1.04){\psframebox[framesep=4pt]{2}}
+				  \rput(4,-1.04){\psframebox[framesep=4pt]{6}}
+				  % Niveau 4
+				  \rput(1.5,-1.56){\psframebox[framesep=4pt]{4}}
+				  \rput(2.5,-1.56){\psframebox[framesep=4pt]{\alt<3->{\textcolor{BrickRed}{\bf 6}}{6}}}
+				  \rput(3.5,-1.56){\psframebox[framesep=4pt]{8}}
+				  \rput(4.5,-1.56){\psframebox[framesep=4pt]{4}}
+				  % Niveau 5
+				  \rput(1,-2.08){\psframebox[framesep=4pt]{3}}
+				  \rput(2,-2.08){\psframebox[framesep=4pt]{\alt<3->{\textcolor{BrickRed}{\bf 9}}{9}}}
+				  \rput(3,-2.08){\psframebox[framesep=4pt]{2}}
+				  \rput(4,-2.08){\psframebox[framesep=4pt]{5}}
+				  \rput(5,-2.08){\psframebox[framesep=4pt]{7}}
+				  \onslide<3->{\rput(5.7,-1.25){\textcolor{BrickRed}{\bf Max = 32}}}
+				\end{pspicture}
+				\end{center}
+			\begin{enumerate}
+			\item<2-> {\small déterminer cette somme et un chemin possible sur l'exemple ci-dessus.}
+			\item<4-> {\small On suppose qu'on applique la stratégie suivante : \textit{\og{}à chaque niveau on choisit de descendre vers le cube de plus grand valeur\fg{}}. Quel chemin obtient-on et quelle somme à ce chemin ?}\\
+			\onslide<5->\textcolor{OliveGreen}{\small On obtient le chemin {\tt 5-4-6-8-5} de somme {\tt 28}.}
+			\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Chemin de somme maximale dans une pyramide}
+		Même question pour la pyramide suivante :
+		\begin{center}
+				\begin{pspicture}(0,-2.5)(6,0.5) % Ajuster la taille de la figure selon les besoins
+				  % Niveau 1
+				  \rput(3,0){\psframebox[framesep=4pt]{\alt<2->{\textcolor{BrickRed}{\bf 7}}{7}}}
+				  % Niveau 2
+				  \rput(2.5,-0.52){\psframebox[framesep=4pt]{\alt<2->{\textcolor{BrickRed}{\bf 6}}{6}}}
+				  \rput(3.5,-0.52){\psframebox[framesep=4pt]{4}}
+				  % Niveau 3
+				  \rput(2,-1.04){\psframebox[framesep=4pt]{1}}
+				  \rput(3,-1.04){\psframebox[framesep=4pt]{\alt<2->{\textcolor{BrickRed}{\bf 3}}{3}}}
+				  \rput(4,-1.04){\psframebox[framesep=4pt]{4}}
+				  % Niveau 4
+				  \rput(1.5,-1.56){\psframebox[framesep=4pt]{5}}
+				  \rput(2.5,-1.56){\psframebox[framesep=4pt]{\alt<2->{\textcolor{BrickRed}{\bf 7}}{7}}}
+				  \rput(3.5,-1.56){\psframebox[framesep=4pt]{2}}
+				  \rput(4.5,-1.56){\psframebox[framesep=4pt]{9}}
+				  % Niveau 5
+				  \rput(1,-2.08){\psframebox[framesep=4pt]{4}}
+				  \rput(2,-2.08){\psframebox[framesep=4pt]{7}}
+				  \rput(3,-2.08){\psframebox[framesep=4pt]{\alt<2->{\textcolor{BrickRed}{\bf 8}}{8}}}
+				  \rput(4,-2.08){\psframebox[framesep=4pt]{1}}
+				  \rput(5,-2.08){\psframebox[framesep=4pt]{6}}
+				  \onslide<2->{\rput(5.7,-1.25){\textcolor{BrickRed}{\bf Max = 31}}}
+				\end{pspicture}
+				\end{center}
+			\onslide<3->\textcolor{OliveGreen}{Cette fois l'algorithme qui consiste à choisir de descendre vers le cube de plus grand valeur permet d'obtenir la plus grand somme.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+\begin{block}{Implémentation en Python}
+	\begin{itemize}
+		\item<1-> On représente une pyramide par une \textit{liste de listes}, chacune des listes contient les coefficients d'un niveau de la pyramide.\\
+		\textcolor{gray}{\small Par exemple, la pyramide  précédente correspond à la liste \mintinline{python}{[[7], [6,4], [1,3,4], [5,7,2,9], [4,7,8,1,6] ]}}
+		\item<2-> On écrit alors une fonction {\tt glouton} qui prend en argument une liste de liste et renvoie la somme obtenue en suivant la stratégie gloutonne (descendre vers le cube de plus grand valeur). Pour cela, on se donne un variable {\tt colonne} qui contiendra la colonne dans laquelle on se trouve dans la pyramide.
+		\item<3-> Pour chaque niveau {\tt i} de la pyramide, on doit donc comparer les deux cubes se trouvant en dessous c'est à dire les cubes :
+		\begin{itemize}
+		\item<3-> Situé juste en dessous c'est à dire en {\tt (i+1,colonne)} 
+		\item<3-> Situé en dessous et à droite c'est à dire en {\tt (i+1,colonne+1)}
+		\end{itemize}
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Fonction en python}
+		\inputpartPython{pyramide.py}{}{}{12}{21}
+	\end{block}
+\end{frame}
+
+\makess{Notion d'algorithme glouton}
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{block}{Stratégie gloutonne}
+        Afin de résoudre un problème d'optimisation, on peut adopter une stratégie dite \textcolor{blue}{gloutonne} :
+        \begin{itemize}
+            \item<2-> à chaque étape on effectue le choix qui correspond à l'optimal \textcolor{BrickRed}{local} d'une grandeur.
+            \item<3-> Ces choix successifs ne conduisent pas forcément à la solution optimale \textcolor{BrickRed}{globale}.
+            \item<4-> Cette stratégie ne fournit donc pas toujours la \textcolor{red}{meilleure solution}.
+        \end{itemize}
+    \end{block}
+	\onslide<5->
+	{\begin{alertblock}{Définition}
+        Un algorithme est dit \textcolor{blue}{glouton} lorsqu'il procède par choix successifs, en sélectionnant à chaque étape l'option qui correspond à un optimum local sans garantie que cela conduise à l'optimum globale.
+    \end{alertblock}}
+\end{frame}
+
+
+\makess{Exemple résolu : problème du sac à dos}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Position du problème}
+		On dispose d'un sac à dos et d'une liste objet ayant chacun un poids et une valeur. Le problème du sac à dos consiste à remplir ce sac en maximisant la valeur des objets qu'il contient tout en respectant une contrainte sur le poids du sac.
+	\end{block}
+	\newcommand{\Objet}[3]{\begin{tabular}{|P{1.5cm}|} \hline \multicolumn{1}{|l|}{\small #2 \euro{}}   \\  {#1}  \\ \multicolumn{1}{|r|}{#3 kg} \\ \hline \end{tabular}}
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\begin{tabular}{cccc}
+			\Objet{\faHamburger}{180}{0.3} & \Objet{\faHammer}{2050}{4.1} & \Objet{\faUmbrella}{280}{0.6} &  \Objet{\faFootballBall}{810}{1.7} \\
+			& & &  \\
+			\Objet{\faKey}{990}{2} & \Objet{\faTree}{1275}{2.9}  & \Objet{\faHatCowboy}{2570}{5.7}  & \Objet{\faGuitar}{920}{2.1}  \\
+			\end{tabular}
+			\end{center}
+		Quels objets doit-on prendre pour maximiser la valeur contenu si le poids doit rester inférieur à \textbf{8 kg} ?
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Mise en place d'une stratégie gloutonne}
+		On propose de résoudre ce problème en adoptant la stratégie gloutonne suivante :
+		\begin{enumerate}
+			\item<1-> On classe les objets selon un critère pertinent\\
+			\onslide<2->{\textcolor{gray}{\small Ici la valeur par unité de poids semble un critère intéressant}}
+			\item<3-> On parcourt dans l'ordre la liste \textit{triée} des objets
+			\item<4-> Si l'objet considéré rentre dans le sac en respectant la contrainte de poids on l'ajoute (en diminuant le poids restant), sinon on passe à l'objet suivant.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\end{document}
