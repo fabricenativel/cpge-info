@@ -30,7 +30,6 @@ int taille(ab a)
         return 0;
     }
     return 1 + taille(a->sag) + taille(a->sad);
-    ;
 }
 
 bool est_vide(ab a)
@@ -104,7 +103,6 @@ void prefixe(ab a)
         prefixe(a->sad);
     }
 }
-
 
 void libere(ab *a)
 {

@@ -1,5 +1,6 @@
-
-type ab = Vide | Noeud of ab * int * ab ;;
+type ab = 
+  |Vide 
+  | Noeud of ab * int * ab ;;
 
 let ninv = ref 0;;
 

@@ -237,15 +237,16 @@
 \makess{Représentation  en machine}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Type structuré en C}
-		En C, on représente un arbre binaire par un pointeur vers un type structuré contenant trois champs : l'étiquette (un {\tt int}) de la racine, et les pointeurs vers les deux sous arbres (gauche et droit). L'arbre vide est le pointeur {\sc null}.
-		\onslide<2->{\inputpartC{\SPATH/arbres_binaires.c}{}{}{4}{11}}
+		En C, on représente un arbre binaire par un pointeur vers un type structuré contenant trois champs : l'étiquette (un {\tt int}) de la racine, et les pointeurs vers les deux sous arbres (gauche et droit).\\
+		\onslide<2->{\textcolor{blue}{L'arbre vide est alors représenté par  le pointeur {\sc null}}.}
+		\onslide<3->{\inputpartC{\SPATH/arbres_binaires.c}{}{}{6}{13}}
 	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Création d'un arbre}
 		\onslide<2->On écrit alors une fonction \mintinline{c}{ab cree_arbre(ab g, int v, ab d)}  qui renvoie un arbre donne on donne l'étiquette de la racine et les deux sous arbres :
-		\onslide<3>{\inputpartC{\SPATH/arbres_binaires.c}{}{}{15}{22}}
+		\onslide<3>{\inputpartC{\SPATH/arbres_binaires.c}{}{}{17}{24}}
 	\end{block}
 \end{frame}
 
@@ -266,8 +267,8 @@
 						}
 					}
 				\end{center}
-			\item<2-> Ecrire la fonction permettant de calculer le nombre de noeuds d'un arbre binaire.
-				\onslide<3->{\inputpartC{\SPATH/arbres_binaires.c}{}{}{24}{29}}
+			\item<2-> Ecrire la fonction qui calcule le nombre de noeuds d'un arbre binaire.
+				\onslide<3->{\inputpartC{\SPATH/arbres_binaires.c}{}{}{26}{33}}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -275,10 +276,10 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Type structuré en OCaml}
-		Un arbre binaire étant soit vide soit constituée d'une étiquette ({\tt int} pour simplifier), on le définit en OCaml en envisageant les 2 cas :
+		Un arbre binaire étant soit vide soit constituée d'une étiquette (qu'on suppose de type {\tt int}), on le définit en OCaml en envisageant les 2 cas :
 		\onslide<2->{\inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{1}{3}}
-		On a choisit ici un arbre binaire ayant des étiquettes entières, on aurait pu utiliser un type paramétré {\tt 'a} :
-		\onslide<2->{\inputpartOCaml{\SPATH/arbres_binaires.ml}{}{}{1}{3}}
+		\onslide<3-> Pour un type quelconque d'étiquette, on utilise un type paramétré {\tt 'a} :
+		\onslide<4->{\inputpartOCaml{\SPATH/arbres_binaires.ml}{}{}{1}{3}}
 	\end{block}
 
 \end{frame}
@@ -337,7 +338,7 @@
 			\end{tabular}}
 		\begin{itemize}
 			\item<8-> Le fils gauche (resp. droit) du noeud $i$ se trouve à l'indice $2i+1$ (resp.) $2i+2$.
-			\item<9-> Le père du noeud d'indice i se trouve à l'indice $\pe{\dfrac{i-1}{2}}$.
+			\item<9-> Le père du noeud d'indice i se trouve à l'indice $\PE{\dfrac{i-1}{2}}$.
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -402,12 +403,12 @@
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{Exemple d'implémentation}
+	\begin{block}{Exemples d'implémentation}
 		\begin{itemize}
 			\item<1-> Parcours préfixe en C (affichage des étiquettes)
-				\onslide<2->{\inputpartC{\SPATH/arbres_binaires.c}{}{\footnotesize}{98}{106}}
+				\onslide<2->{\inputpartC{\SPATH/arbres_binaires.c}{}{\footnotesize}{97}{105}}
 			\item<3-> Parcours infixe en OCaml (affichage des étiquettes)
-				\onslide<2->{\inputpartOCaml{\SPATH/arbres_binaires.ml}{}{\footnotesize}{56}{59}}
+				\onslide<4->{\inputpartOCaml{\SPATH/arbres_binaires.ml}{}{\footnotesize}{56}{59}}
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -419,7 +420,7 @@
 		\begin{itemize}
 			\item<2-> Les étiquettes des noeuds, appelées \textcolor{blue}{clés} sont toutes comparables entre elles. \\
 				\onslide<4->{\textcolor{gray}{Par exemple, les étiquettes sont toutes des nombres ou encore des chaines de caractères (comparées par ordre alphabétique).}}
-			\item<5-> Pour tous les noeuds $N(g,v,d)$ l'ensemble des clés présentes dans le sous arbre gauche $g$ (resp. droit $d$) sont strictement inférieures (resp. supérieures) à $v$.\\
+			\item<5-> Pour \textcolor{blue}{tous} les noeuds $N(g,v,d)$ l'ensemble des clés présentes dans le sous arbre gauche $g$ (resp. droit $d$) sont strictement inférieures (resp. supérieures) à $v$.\\
 				\item<6->{Les clés sont \textcolor{blue}{uniques}.}
 		\end{itemize}
 	\end{alertblock}
@@ -794,7 +795,7 @@
 		On rappelle qu'alors :
 		\begin{itemize}
 			\item<2-> Le fils gauche (resp. droit) du noeud $i$ se trouve à l'indice $2i+1$ (resp. $2i+2$)
-			\item<3-> Le père du noeud d'indice $i$ se trouve à l'indice $\pe{\dfrac{i-1}{2}}$.
+			\item<3-> Le père du noeud d'indice $i$ se trouve à l'indice $\PE{\dfrac{i-1}{2}}$.
 		\end{itemize}
 	\end{block}
 	\onslide<4->{

@@ -148,4 +148,30 @@
 	\end{block}
 \end{frame}
 
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Utilisation de {\tt sorted} pour classer les objets}
+		\begin{itemize}
+		\item<1->La fonction \mintinline{python}{sorted} de Python prend en argument une liste et renvoie cette liste triée dans l'ordre croissant\\
+		\onslide<2->{\textcolor{gray}{\small Par exemple \mintinline{python}{sorted([2, 1, 6, 4])} renvoie la liste \mintinline{python}{[1, 2, 4, 6]}}}
+		\item<3->Le paramètre optionnel \mintinline{python}{reverse} classe dans l'ordre \textit{décroissant} lorsqu'il vaut \mintinline{python}{True}
+		\onslide<4->{}\textcolor{gray}{\small Par exemple \mintinline{python}{sorted([2, 1, 6, 4], reverse=True)} renvoie la liste \mintinline{python}{[6, 4, 2, 1]}}
+		\item<5->On peut préciser une \textcolor{blue}{clé de tri}  avec le paramètre \mintinline{python}{reverse}.\\
+		\onslide<6->\textcolor{gray}{\small Par exemple si on souhaite trier une liste de points (représentés par des tuples) par ordonnée croissante, on crée une fonction renvoyant l'ordonnée d'un point:
+		\inputpartPython{tri.py}{}{\footnotesize}{1}{3}
+		Puis on l'utilise comme clé de tri :
+		\mintinline{python}{res = sorted([(2,2), (1,5), (6,2), (4,7)], key = ordonnee)}
+		}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Application}
+		En supposant que les objets d'un problème de sac à dos soient représentés par des tuples {\tt (nom, valeur, poids)} :
+		\mintinline{python}{sac = [("Hamburger",180,0.3),("Marteau",2050,4.1),...}\\Utiliser \mintinline{python}{sorted} pour	classer ces objets par rapport valeur/poids décroissant.
+	\end{block}
+	\begin{exampleblock}{Exercice}
+		En supposant les objets déjà triés, écrire une fonction {\tt glouton} qui prend en argument une liste d'objets ainsi qu'un poids maximal et renvoie la valeur maximale du sac en utilisant la stratégie gloutonne.
+	\end{exampleblock}
+\end{frame}
 \end{document}

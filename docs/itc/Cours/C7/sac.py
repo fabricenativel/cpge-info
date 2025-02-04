@@ -26,8 +26,22 @@ def objets(p):
             p = p - poids
     print(l)
 
+def glouton(sac, poids):
+    sac_trie = sorted(sac, key= lambda x :  x[1]/x[2])
+    poids_restant = poids
+    contenu = []
+    vmax = 0
+    for objet in sac_trie:
+        nom, valeur, poids = objet
+        if poids<=poids_restant:
+            contenu.append(nom)
+            vmax += valeur
+            poids_restant -= poids
+    return contenu, vmax
+
 sac = [("Hamburger",180,3),("Marteau",2050,41),("Parapluie",280,6),("Ballon",810,17),("Clé",990,20),("Sapin",1275,29),("Chapeau",2570,57),("Guitare",920,21)]
 sac.sort(key = lambda x : x[2])
 p = 80
 print(optimal(0,p))
 objets(p)
+print(glouton(sac,80))
