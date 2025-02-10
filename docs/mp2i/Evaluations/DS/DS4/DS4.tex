@@ -1,0 +1,283 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\DS{MP2I}{4}{Février 2025}
+
+\setboolean{corrige}{false}
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$e_0$}} \\
+		\hline
+	\end{tabular}
+}
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] Les programmes demandés doivent être écrits en C ou en OCaml. Dans le cas du C, on suppose que les librairies standards usuelles ({\tt <stdio.h>}, {\tt <stdlib.h>}, {\tt <stdbool.h>}, {\tt <stdassert.h>}, \dots) sont déjà importées.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+\psset{arrows=->,treesep=0.8cm,levelsep=0.8cm, radius=0.3cm}
+\begin{Exercise}[title={Questions de cours}]
+	\Question{Donner la définition d'un arbre binaire.}
+	\Question{Donner les définitions de la hauteur et de la taille d'un arbre binaire.}
+	\Question{Donner la définition d'un arbre binaire de recherche.}
+	\Question{Prouver qu'un arbre binaire est un arbre binaire de recherche si et seulement si son parcours infixe fournit les clés dans l'ordre croissant.}
+	\Question{Donner l'ordre des noeuds lors des parcours prefixe, infixe et suffixe de l'arbre suivant :
+		\begin{center}
+			\pstree{\TCircle{42}}
+			{\pstree{\TCircle{28}}
+				{\pstree{\TCircle{10}}
+					{ \Tn{}
+						\TCircle{17}
+					}\TCircle{31}
+				}\pstree{\TCircle{31}}
+				{ \Tn{}
+					\pstree{\TCircle{24}}
+					{
+						\TCircle{27}
+						\Tn{}
+					}
+					\Tn{} \Tn{} }}
+		\end{center}}
+	\Question{On considère l'arbre binaire suivant :
+		\begin{center}
+			\pstree{\TCircle{26}}
+			{\pstree{\TCircle{16}}
+				{\pstree{\TCircle{12}}
+					{ \Tn{}
+						\TCircle{15}
+					}\pstree{\TCircle{21}}
+					{\TCircle{$x$}
+						\TCircle{24}
+					}}{\pstree{\TCircle{30}}{\Tn{} \TCircle{32}}}
+			}
+		\end{center}
+		Donner les valeurs de l'étiquette $x$ pour lesquelles cet arbre est un arbre binaire de recherche.
+	}
+	\Question{On implémente les arbres binaires de recherche en OCaml à l'aide du type suivant :
+	\inputpartOCaml{abr.ml}{}{}{1}{3}
+	Ecrire une fonction {\tt insere : int -> abr -> abr} qui prend en argument un entier $x$ et un arbre binaire de recherche $a$ et renvoie un arbre binaire de recherche contenant $x$ et tous les éléments de $a$.}
+	
+\end{Exercise}
+
+\begin{Exercise}[title = {Valeur plus petite la plus proche}]\\
+On considère un tableau d'entiers \textit{positifs} et on s'intéresse au problème de la recherche pour chacun de ces entiers de la valeur plus petite la plus proche  située à gauche dans le tableau. Dans le cas où aucune valeur située à gauche dans le tableau n'est plus petite que la valeur considérée alors on  renverra $-1$.\\
+Par exemple dans le tableau $\{2, 1, 7, 9, 8, 3\}$ :
+\begin{itemize}
+	\item Il n'y a aucune valeur à gauche de 2, donc la valeur plus petite la plus proche est $-1$,
+	\item Pour 1, aucune valeur située à gauche n'est plus petite, donc on renvoie aussi $-1$,
+	\item Pour 7, la valeur plus petite la plus proche est 1.
+	\item Pour 9, c'est 7.
+	\item Pour 8 c'est 7.
+	\item Pour 3, c'est 1.
+\end{itemize}
+Et donc le tableau des valeurs plus petites les plus proches dans cet exemple est $\{-1, -1, 1, 7, 7, 1\}$
+\Question{Donner le tableau des valeurs plus petites les plus proches pour le tableau $\{5, 7, 11, 6, 9, 2 \}$}
+\Question{On propose l'algorithme suivant pour résoudre ce problème : pour chaque élément {\tt tab[i]} du tableau on parcourt  les valeurs {\tt tab[i-1], \dots, tab[0]} \textit{dans cet ordre}, si on trouve un élément strictement inférieur à {\tt tab[i]} alors c'est la valeur plus petite la plus proche, sinon le valeur plus petite la plus proche est {\tt -1}. Ecrire une implémentation de cet algorithme en C sous la forme d'une fonction de signature \mintinline{c}{int *vpp_naif(int tab[], int size)} qui prend en argument un tableau d'entiers {\tt tab} ainsi que sa taille {\tt size} et un renvoie un tableau de taille {\tt size} contenant à l'indice {\tt i} la valeur strictement inférieure la plus proche de {\tt tab[i]}.}
+\Question{Justifier rapidement que l'algorithme précédent a une complexité quadratique} \medskip \\
+On considère maintenant l'algorithme suivant qui utilise une pile dotée de son interface usuelle ({\tt est\_vide, empiler, depiler}) et de la fonction {\tt sommet} qui renvoie la valeur située au sommet de la pile sans la dépiler. \\
+\SetAlFnt{\small}
+\setlength{\algomargin}{8pt}
+\begin{algorithm}[H]
+	\DontPrintSemicolon
+	\caption{Valeurs plus petites les plus proches}
+	\Entree{Un tableau $t$ d'entiers positifs de taille $n$}
+	\Sortie{Un tableau $s$ d'entiers positifs de taille $n$ tel que $s[i]$ soit la valeur plus petite la plus proche de $t[i]$}
+	\everypar={\footnotesize \textcolor{gray}{\nl}}
+	$s \leftarrow$ tableau de taille n\\
+	$p \leftarrow$ pile de taille maximale n\\
+	\Pour{$i \leftarrow 0$ à $p-1$ }{
+		\Tq{$p$ n'est pas vide et sommet($p) \geqslant t[i]$}{
+			depiler($p$);
+		}
+		\Si{$p$ est vide}{
+			$s[i] \leftarrow -1$
+		}
+		\Sinon
+		{
+			$s[i] \leftarrow sommet(p)$
+		}
+		empiler $t[i]$ dans $p$
+	}
+	\Return $s$
+\end{algorithm}
+\Question{On fait fonctionncer cet algorithme sur le tableau $\{2, 7, 5, 8, 6, 3\}$. Recopier et compléter le tableau suivant qui indique pour chaque valeur de l'indice {\tt i} de la boucle {\tt for} l'état de la pile et du tableau $s$ après l'exécution de la boucle pour les valeurs de {\tt i} de 0 à 5 (on note une pile avec les extrémités {\tt |} et {\tt >} pour indiquer le sommet de la pile)
+\begin{center}
+	\begin{tabular}{|c|l|c|}
+		\hline
+		$i$          & État de la pile & État du tableau $s$      \\
+		\hline
+		Initialement & {\tt |>}              & $\{-1, -1, -1, -1, -1, -1\}$ \\
+		\hline
+		0            & {\tt |2>}             & $\{-1, -1, -1, -1, -1, -1\}$ \\
+		\hline
+		1            & {\tt |2, 7>}          & $\{-1, 2, -1, -1, -1, -1\}$  \\
+		\hline
+		2            & \comp{\tt |1, 3>}          & \comp{[-1, 1, 1, -1, -1, -1]}   \\
+		\hline
+		3            & \comp{[1, 3, 9]}       & \comp{[-1, 1, 1, 3, -1, -1]}    \\
+		\hline
+		4            & \comp{[1, 3, 8]}       & \comp{[-1, 1, 1, 3, 3, -1]}     \\
+		\hline
+		5            & \comp{[1, 4]}          & \comp{[-1, 1, 1, 3, 3, 1]}      \\
+		\hline
+	\end{tabular}
+\end{center}}
+
+\Question{On suppose qu'on a \textit{déjà implémentée} en C une structure de donnée de pile qu'on manipule à l'aide des fonctions suivantes :
+	\begin{itemize}
+		\item {\tt est\_vide} de signature \mintinline{c}{bool est_vide(pile p)},
+		\item {\tt empiler} de signature \mintinline{c}{void empiler(pile *p, int v)},
+		\item {\tt depiler} de signature \mintinline{c}{int depiler(pile *p)}.
+	\end{itemize}
+	Ecrire en utilisant ces fonctions une fonction {\tt sommet} de signature \mintinline{c}{int sommet(pile *p)} qui renvoie le sommet de la pile sans le depiler si la pile n'est pas vide et $-1$ sinon.
+}
+\Question{Ecrire une implémentation en C de l'algorithme des valeurs plus petites les plus proches donné ci-dessus et utilisant une pile}
+\Question{Prouver que cet algorithme est de complexité linéaire, on pourra vérifier que chaque élément du tableau $t$ est empilé une fois et dépilé au plus une fois.}
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Base de données de publications scientifiques}] \\
+	On utilise le schéma relationnel suivant afin de modéliser une base de données de publications scientifiques. Chaque article publié ayant un ou plusieurs auteurs.
+	\begin{itemize}
+		\item[\textbullet] \textbf{Article} (\underline{IdArticle}, titre, revue, volume, annee)
+		\item[\textbullet] \textbf{Auteur} (\underline{IdAuteur}, nom, prenom)
+		\item[\textbullet] \textbf{Publie} (\underline{\#Article,\#Auteur})
+	\end{itemize}
+	La clé étrangère \#Article de la table \textbf{Publie} fait référence à la clé primaire de la table \textbf{Article} et la clé étrangère \#Auteur de la table \textbf{Publie} fait référence à la clé primaire de la table \textbf{Auteur}. Les attributs titre, revue, nom et prénom sont des chaines de caractères, les autres sont des entiers.
+	\Question{Justifier que l'attribut \#Article de la table \textbf{Publie} seul, ne peut pas servir de clé primaire pour cette table.}
+    \tcor{L'énonce indique qu'un article peut avoir plusieurs auteurs, par conséquent dans la table publie, plusieurs enregistrements peuvent avoir la même valeur pour le champ Article. Donc cette valeur n'est pas unique pour chaque enregistrement et donc ne peut pas servir de clé primaire.}
+	\Question{Expliquer ce qu'affiche la requête suivante :
+		\begin{minted}{sql}
+SELECT nom, prenom
+FROM Auteur
+JOIN Publie ON Auteur.IdAuteur = Publie.Auteur
+WHERE Publie.Article = 42
+\end{minted}
+	}
+    \tcor{Cet requête affiche les noms et prénoms des auteurs de l'article ayant l'IdArticle 42.}
+	\Question{Ecrire les requêtes permettant d'afficher les informations suivante :}
+	\subQuestion{La liste des titres des articles parus en 2022 listé par ordre alphabétique.}
+	\ifcorrige
+    \begin{minted}{sql}
+SELECT titre
+FROM Article
+WHERE annee = 2022
+ORDER BY titre ASC ;
+        \end{minted}
+	\fi
+	\subQuestion{Les noms des revues listé par ordre alphabétique, sans répetition.}
+	\ifcorrige
+    \begin{minted}{sql}
+SELECT DISTINCT revue 
+FROM Article
+ORDER BY titre ASC ;
+    \end{minted}
+	\fi
+	\subQuestion{Les noms et prénoms des auteurs qui ont publié dans la revue "Nature" en 2000.}
+	\ifcorrige
+    \begin{minted}{sql}
+SELECT nom, prenom FROM Auteur 
+JOIN Publie ON Publie.Article = Auteur.IdAuteur
+JOIN Article ON Article.IdArticle = Publie.Article
+WHERE Article.revue = "Nature" AND Article.annee = 2000
+    \end{minted}
+	\fi
+	\subQuestion{Les titres et revues des articles écrits (ou co-écrit) par Donald {\sc Knuth} en 2010.}
+	\ifcorrige
+    \begin{minted}{sql}
+SELECT titre, revues FROM Article 
+JOIN Publie ON Publie.Article = Auteur.IdAuteur
+JOIN Article ON Article.IdArticle = Publie.Article
+WHERE Auteur.prenom = "Donald" AND Auteur.nom= "Knuth" AND Article.annee = 2010
+    \end{minted}
+	\fi
+	\subQuestion{La liste des volumes de la revue "Nature" en 2020 avec le nombre d'article qu'il contient.}
+	\ifcorrige
+    \begin{minted}{sql}
+SELECT volume, COUNT(*) FROM Article 
+GROUPE BY volume
+WHERE Article.annee = 2020 and Article.revue = "Nature"
+    \end{minted}
+	\fi
+	\subQuestion{Pour chaque revue, son nom et l'année de publication de son article le plus ancien.}
+	\ifcorrige
+    \begin{minted}{sql}
+SELECT revue, MIN(annee) FROM Article 
+GROUPE BY revue
+    \end{minted}
+	\fi
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Représentations classiques d'ensembles}, origin={\bac \; d'après {\sc CCSE 2021 - MP} (Partie 2)}]\\
+	\textit{Les programmes de cet exercice doivent être écrits en OCaml.}
+
+
+	On s'intéresse dans cet exercice à des structures de données représentant des ensembles d'entiers naturels.
+	On implémente dans cet exercice des ensembles par des structures connues et, on notera $|E|$ le cardinal d'un ensemble $E$.
+
+
+	\ExePart[name = {Avec une liste d'entiers triés}]
+
+	Dans cette partie uniquement, on implémente un ensemble d'entiers positifs par la liste des ses éléments rangés \emph{dans l'ordre croissant.}
+	\Question{Ecrire une fonction {\tt succ\_list} de signature {\tt int list -> int -> int} prenant en arguments une liste d'entiers \textit{distincts} dans l'ordre croissant et un entier $x$ et renvoyant le successeur de $x$ dans la liste, c'est à dire le plus petit entier strictement supérieur à $x$ de la liste ($-1$ si cela n'existe pas.).}
+    \inputpartOCaml{entiers.ml}{}{}{1}{4}
+	\Question{Donner la complexité de cette fonction dans le pire des cas.}
+    \tcor{Les appels récursif sont en temps constant et la taille de la liste diminue de 1 à chaque appel donc la complexité est linéaire en fonction de la taille de la liste.}
+	\medskip
+	\ExePart[name = {Avec un tableau trié}]
+
+	Soit $N$ un entier naturel strictement positif, fixé pour toute cette partie. On choisit de représenter un ensemble d'entiers $E$ de cardinal $n \leq N$ par un tableau de taille $N+1$ dont la case d'indice 0 indique le nombre $n$ d'éléments de $E$ et les cases d'indices 1 à $n$ contiennent les éléments de $E$ \emph{rangés dans l'ordre croissant}, les autres cases étant non significatives. Par exemple, le tableau {\tt [| 3; 2; 5; 7; 9; 1; 14 |]} représente l'ensemble $\{2, 5, 7\}$.
+	\Question{Pour une telle implémentation d'un ensemble $E$, décrire brièvement des méthodes permettant de réaliser chacune des opérations ci-dessous (on ne demande pas d'écrire des programmes) et donner leurs complexités dans le pire cas :
+		\begin{itemize}
+			\item déterminer le maximum de $E$,
+			\item tester l'appartenance d'un élément $x$ à $E$
+			\item ajouter un élément $x$ dans $E$ (on suppose que $x \notin E$ et que la taille du tableau est suffisante)
+		\end{itemize} }
+    \tcor{On note {\tt tab} le tableau représentant l'ensemble d'entiers
+        \begin{itemize}
+        \item Pour déterminer le maximum de $E$, il suffit de renvoyer {\tt tab[tab[0]]} car les éléments sont dans l'ordre croissant et leur indice vont de 1 à {\tt tab[0]}. C'est donc une opération en temps constant.
+        \item On doit parcourir le tableau entre les éléments d'indice 1 et {\tt tab[0]} (complexité linéaire), ou alors (puisque le tableau est trié) effectuer une recherche dichotomique (complexité logarithmique).
+        \item On incrémente {\tt tab[0]} et on place l'élément {\tt x} à l'indice {\tt tab[0]}, ensuite, pour que le tableau reste trié, on peut par exemple échanger cet élément avec son voisin tant qu'il lui est inférieur (et qu'on a pas atteint l'indice 1). L'insertion est alors en complexité linéaire.
+    \end{itemize}
+    }
+	\Question{Par une méthode dichotomique, écrire une fonction {\tt succ\_vect} de signature {\tt int array -> int -> int} prenant en arguments un tableau {\tt t} codant un ensemble $E$ comme ci-dessus et un entier $x$ et renvoyant le successeur de $x$ dans $E$ ($-1$ si cela n'existe pas.)}
+    \inputpartOCaml{entiers.ml}{}{}{6}{18}
+	\Question{Calculer la complexité dans le pire cas de la fonction {\tt succ\_vect} en fonction de $n$.}
+    \tcor{A chaque passage dans la boucle {\tt while} la taille de l'intervalle $\intN{imin}{imax}$ est divisée par 2. Cet intervalle étant de taille $|E|$, il faut au plus $\log(|E|)$ division avant de quitter la boucle, la fonction est donc de complexité logarithmique en la taille de l'ensemble.}
+	\Question{Ecrire une fonction {\tt union\_vect} de signature {\tt int array -> int array -> int array} prenant en arguments deux tableaux {\tt t\_1} et {\tt t\_2}, de taille N, codant deux ensembles $E_1$ et $E_2$ et renvoyant le tableau correspondant à $E_1 \cup E_2$. On supposera que $| E_1 \cup E_2 | \leq N$.}
+    \inputpartOCaml{entiers.ml}{}{}{22}{50}
+	\medskip
+	\ExePart[name = {Avec une table de hachage}]
+
+	Soit $K$ un entier naturel strictement positif. On choisit de représenter un ensemble d'entiers $E$ de cardinal $n$ par une table de hachage de taille $K$ avec résolution des collisions par chainage. La fonction de hachage est $h(i) = i \mod K$.
+
+	\Question{Dans le cas où $K=10$, représenter la table de hachage qui correspond à l'ensemble $\{2, 5, 7, 15 \}$.}
+    \tcor{
+        \begin{tabular}{|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
+            \hline
+            & & 2 -> null & & & 5 -> 15 -> null & & 7 -> null & &  \\
+            \hline
+        \end{tabular}}
+	\Question{A quelle condition, portant sur $K$ et sur $n$, la fonction $h$ génère-t-elle forcément des collisions ?}
+    \tcor{Il y a $K$ alveoles donc dès que $n>K$, on a forcément des collisions (principe des tiroirs)}
+	\Question{Décrire brièvement (on ne demande pas d'écrire un programme) une fonction permettant de renvoyer le maximum d'un ensemble $E$ représenté par une table de hachage. Donner sa complexité. }
+    \tcor{On parcourt les listes chainées contenues dans chaque alvéole, en mettant à jour une variable contenant le maximum. On a donc une complexité en $O(|E|)$. }
+	\Question{Peut-on améliorer la complexité de la fonction précédente si on suppose que les listes chainées contenues dans chacune des alvéoles de la table de hachage sont maintenues triées par ordre décroissant ?}
+    \tcor{Dans ce cas, on doit simplement regarder la tête de chaque liste, on a donc une complexité en $O(K)$.}
+\end{Exercise}
+
+\end{document}

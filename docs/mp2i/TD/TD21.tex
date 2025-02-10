@@ -1,0 +1,100 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{21}{Compléments sur les arbres}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C21/}
+\newcommand{\CR}[1]{\TCircle[radius=0.25]{#1}}
+\newcommand{\CN}[1]{\Tdia[fillstyle=solid,fillcolor=gray!20]{#1}}
+\newcommand{\Tri}[1]{\Ttri[linestyle=dashed]{#1}}
+\setcounter{Exercise}{0}
+\psset{arrows=->,treesep=0.8cm,levelsep=0.8cm, radius=0.3cm}
+
+\begin{Exercise}[title = {Equilibrage d'un arbre rouge-noir}]
+
+\Question{Pour insérer un noeud dans un arbre rouge-noir, on commence par utiliser l'algorithme d'insertion usuel dans un {\sc abr} et on attribut au nouveau noeud la couleur \textit{rouge}. Quel est alors le seul conflit possible ? (on appellera un tel conflit un \textit{conflit rouge-rouge}).}
+\Question{Si le conflit rouge-rouge se situe à la racine, donner une méthode simple pour le résoudre.}
+\Question{Si le conflit n'est pas situé à la racine, justifier qu'on se trouve dans l'un des quatres cas suivants où les noeuds rouges sont représentés dans un cercle et les noeuds noirs dans un losange grisé:}
+\begin{center}
+\begin{tabularx}{0.8\textwidth}{Y|Y}
+    \pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$z$}}{
+				\pstree{\CR{$y$}}{
+					\pstree{\CR{$x$}}
+					{
+						\Tri{$t_1$}
+						\Tri{$t_2$}
+					}
+                    \Tri{$t_3$}
+				}
+				\Tri{$t_4$}
+			} 
+    
+    & 
+    \pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$x$}}{
+        \Tri{$t_1$}			
+    \pstree{\CR{$y$}}{
+                    \Tri{$t_2$}
+					\pstree{\CR{$z$}}
+					{
+						\Tri{$t_3$}
+						\Tri{$t_4$}
+					}
+				}
+				
+			} 
+    \\
+    \hline 
+    & \\
+    \pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$z$}}{
+				\pstree{\CR{$x$}}{
+					\Tri{$t_1$}
+					\pstree{\CR{$y$}}
+					{
+						\Tri{$t_2$}
+						\Tri{$t_3$}
+					}
+				}
+				\Tri{$t_4$}
+			} & 
+            \pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$x$}}{
+                \Tri{$t_1$}	
+            \pstree{\CR{$z$}}{
+                \pstree{\CR{$y$}}
+                {
+                    \Tri{$t_2$}
+                    \Tri{$t_3$}
+                }		
+            \Tri{$t_4$}
+					
+				}
+				
+			}
+            \\
+   
+\end{tabularx}
+\end{center}
+\Question{Montrer qu'en effectuant une ou plusieurs rotations, ces arbres se ramènent à }
+\begin{center}
+\pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$y$}}{
+            \pstree{\CR{$x$}}{
+                {
+                    \Tri{$t_1$}
+                    \Tri{$t_2$}
+                }}	
+                \pstree{\CR{$z$}}{
+                    {
+                        \Tri{$t_3$}
+                        \Tri{$t_4$}
+                    }		
+					
+				}
+				
+			}
+\end{center}
+\end{Exercise}
+
+
+\end{document}

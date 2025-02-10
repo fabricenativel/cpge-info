@@ -115,8 +115,8 @@
 
 1. Des exercices en lignes de requêtes sur une seule table crées par **N. Reveret**. Ces exercices peuvent être faits à la maison (aucune installation nécessaire) et les réponses sont fournis.
 
-    1. [Les prénoms en France au XX-ème siècle](https://e-nsi.forge.aeif.fr/exercices_bdd/31_prenoms/prenoms/){target=_blank}
-    2. [Ramens](https://e-nsi.forge.aeif.fr/exercices_bdd/32_ramens/ramens/){target=_blank}
+    1. [Les prénoms en France au XX-ème siècle](https://nreveret.forge.apps.education.fr/exercices_bdd/31_prenoms/prenoms/){target=_blank}
+    2. [Ramens](https://nreveret.forge.apps.education.fr/exercices_bdd/32_ramens/ramens/){target=_blank}
 
 2. Même principe sur ce site de **Q. Fortier** :
 
@@ -147,10 +147,10 @@ Cliquer sur l'image ci-dessous pour accéder à l'enquête et trouver le coupabl
 
 1. Des exercices en lignes de requêtes sur plusieurs tables crées par **N. Reveret**. Ces exercices peuvent être faits à la maison (aucune installation nécessaire) et les réponses sont fournies.
 
-    1. [Autour des films](https://e-nsi.forge.aeif.fr/exercices_bdd/41_films/films/){target=_blank}
-    2. [Voitures](https://e-nsi.forge.aeif.fr/exercices_bdd/42_cars/cars/){target=_blank}
-    3. [World](https://e-nsi.forge.aeif.fr/exercices_bdd/51_world/world/){target=_blank}
-    4. [Netflix](https://e-nsi.forge.aeif.fr/exercices_bdd/52_netflix/netflix/){target=_blank}
+    1. [Autour des films](https://nreveret.forge.apps.education.fr/exercices_bdd/41_films/films/){target=_blank}
+    2. [Voitures](https://nreveret.forge.apps.education.fr/exercices_bdd/42_cars/cars/){target=_blank}
+    3. [World](https://nreveret.forge.apps.education.fr/exercices_bdd/51_world/world/){target=_blank}
+    4. [Netflix](https://nreveret.forge.apps.education.fr/exercices_bdd/52_netflix/netflix/){target=_blank}
 
 2. Même principe sur [ce site](https://sql-exercices.github.io/){target=_blank} de **Q. Fortier** avec  bases de données sur :
 

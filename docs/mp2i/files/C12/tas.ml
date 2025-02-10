@@ -1,9 +1,13 @@
 type heap_int = {mutable size : int; data : int array};;
 
+(* --8<-- [start:def_tas] *)
 type 'a heap = {mutable size : int; data : 'a array};;
+(* --8<-- [end:def_tas] *)
 
+(* --8<-- [start:cree_tas] *)
 let heap_of_int = {size = 0; data = Array.make 1000 0}
 let heap_of_char = {size = 0; data = Array.make 1000 ' '}
+(* --8<-- [end:cree_tas] *)
 
 let leftchild i n = let s = 2*i+1 in if s<n then s else -1
 
@@ -30,6 +34,7 @@ let affiche heap =
   done;
   print_newline();;
 
+(* --8<-- [start:sift_down] *)
   let extract_min theap =
     let minv = theap.data.(0) in
     theap.data.(0) <- theap.data.(theap.size-1);
@@ -46,6 +51,7 @@ let affiche heap =
     done;
     theap.size <- theap.size -1;
     minv;;
+(* --8<-- [end:sift_down] *)
 
   
 let () = 

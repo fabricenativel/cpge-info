@@ -15,16 +15,16 @@
 
 
 ## Travaux pratiques
-
+ 
 {{exo("Implémentation des arbres binaires en C",[],0)}}
 
 On rappelle la structure de données vue en cours et permettant de représenter une arbre binaire en C :
 ```c
-    --8<-- "C12/arbres_binaires.c:6:13"
+    --8<-- "C12/arbres_binaires.c:struct"
 ```
 On donne aussi, la fonction permettant de créer un arbre binaire en donnant ses deux sous arbres et son étiquette :
 ```c
-    --8<-- "C12/arbres_binaires.c:17:24"
+    --8<-- "C12/arbres_binaires.c:cree"
 ```
 
 1. En utilisant cette représentation, créer une variable `t` de type arbre binaire représentant l'arbre suivant ;  
@@ -41,10 +41,10 @@ On donne aussi, la fonction permettant de créer un arbre binaire en donnant ses
 ```
 
     ??? aide "Visualisation de l'arbre"
-        On donne ci-dessous une fonction permettant de visualiser l'arbre. **Attention**, cette fonction utiliser une variable globale `#!c int ninv = 0` que vous devrez déclarer en début de programme.
+        On donne ci-dessous une fonction permettant de visualiser l'arbre.
 
         ```c
-            --8<-- "C12/arbres_binaires.c:41:96"
+            --8<-- "C12/arbres_binaires.c:voir"
         ```
 
 2. Ecrire une fonction `est_vide` de signature `#!c bool est_vide(ab a)` permettant de tester si l'arbre donné en paramètre est vide.
@@ -54,29 +54,33 @@ On donne aussi, la fonction permettant de créer un arbre binaire en donnant ses
 3. Ecrire et tester la fonction `hauteur`  de signature `#!c int hauteur(ab a)` et qui renvoie la hauteur de l'arbre binaire donné en argument.
 
 4. Ecrire une fonction permettant `detruit` de signature `#!c void detruit(ab *a)` qui permet de détruire un arbre binaire en *libérant l'espace mémoire* occupé par ses noeuds. Après l'appel à cette fonction, `a` est le pointeur `NULL`.
-
-5. Ecrire une fonction `arbre_aleatoire` de signature `#!c ab ab arbre_aleatoire(int n)` qui génère un arbre binaire aléatoire de `n` noeuds portant comme étiquette les entiers $0, \dots, n-1$. Cette fonction procédera en choisissant un entier $k$ au hasard entre $0$ et $n-1$ et en créant  deux sous arbres aléatoire, l'un de taille $k$ et l'autre de taille  $n-k-1$.
-
-    !!! aide
-        * On pourra utiliser une fonction auxilaire `#!c ab arbre_aleatoire(int n, int val)` qui génère un arbre aléatoire dont l'étiquette de la racine est  `val`.
-        * On rappelle qu'en C, `rand()` génère un entier aléatoire entre 0 et le plus grand entier représentable
-        * Une méthode possible d'initialisation du générateur aléatoire de nombre est d'utiliser le temps : `#!c srand(time(NULL));` disponible après `#!c #include <time.h>`
-
-
-6. Ecrire une fonction `insere_noeud` de signature `#!c void insere_noeud(ab *t, int v)` qui insère à un emplacement aléatoire un noeud portant l'étiquette `v` dans l'abre `*t`. En déduire une nouvelle version de la fonction générant un arbre aléatoire.
+    
+6. Ecrire une fonction `insere_noeud` de signature `#!c void insere_noeud(ab *t, int v)` qui insère à un emplacement aléatoire un noeud portant l'étiquette `v` dans l'abre `*t`. 
 
     !!! aide
         Pour insérer un noeud de façon aléatoire, on pourra procéder de la façon suivante :
 
         * Si l'arbre est vide il devient l'arbre `(NULL,v,NULL)`
         * Sinon on descend aléatoirement à gauche ou à droit pour y faire l'insertion.
+        * On rappelle qu'en C, `rand()` génère un entier aléatoire entre 0 et le plus grand entier représentable
+        * Une méthode possible d'initialisation du générateur aléatoire de nombre est d'utiliser le temps : `#!c srand(time(NULL));` disponible après `#!c #include <time.h>`
+
+5. Ecrire une fonction `arbre_aleatoire` de signature `#!c ab arbre_aleatoire(int n)` qui génère un arbre binaire aléatoire de `n` noeuds portant comme étiquette les entiers $0, \dots, n-1$. 
+
+    !!! aide
+        On pourra procéder de la façon suivante :
+        
+        * générer une permutation aléatoire de $\{0,\dots,n-1\}$ en utilisant par exemple le [mélange de Fischer-Yates](https://fr.wikipedia.org/wiki/M%C3%A9lange_de_Fisher-Yates){target=_blank},
+        * insérer les entiers dans l'ordre de la permutation en utilisant la fonction `insere_noeud` de la question précédente.
+
+        
 
 
 {{exo("Implémentation des arbres binaires en OCaml",[])}}
 
-On rappelle l'implémentation des arbres binaires en OCaml vu en cours :
+On rappelle l'implémentation des arbres binaires avec des étiquettes entières  en OCaml vu en cours :
 ```OCaml
-    --8<-- "C12/arbres_binaires_int.ml:2:2"
+    --8<-- "C12/arbres_binaires_int.ml:type_int"
 ```
 
 1. En utilisant cette représentation, créer une variable `t` de type `ab` représentant l'arbre suivant ;  
@@ -95,10 +99,10 @@ On rappelle l'implémentation des arbres binaires en OCaml vu en cours :
 ```
 
     ??? aide "Visualisation de l'arbre"
-        On donne ci-dessous une fonction permettant de visualiser l'arbre. **Attention**, cette fonction utiliser une variable globale mutable `#!ocaml let ninv = ref 0;;` que vous devrez déclarer en début de programme.
+        On donne ci-dessous une fonction permettant de visualiser l'arbre.
 
         ```OCaml
-            --8<-- "C12/arbres_binaires_int.ml:6:42"
+            --8<-- "C12/arbres_binaires_int.ml:voir"
         ```
 
 2. Ecrire une fonction `est_vide` de signature `ab -> bool` permettant de tester si l'arbre donné en paramètre est vide.

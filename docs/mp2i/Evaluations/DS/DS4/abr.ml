@@ -1,11 +1,15 @@
-(* --8<-- [start:type_int] *)
-type ab = 
-  |Vide 
-  | Noeud of ab * int * ab ;;
-(* --8<-- [end:type_int] *)
+type abr = 
+  | Vide 
+  | Noeud of  abr * int * abr;;
 
+let rec insere valeur arbre = 
+  match arbre with
+  | Vide -> Noeud(Vide, valeur, Vide)
+  | Noeud( g, v, d) -> 
+    if valeur < v then Noeud(insere valeur g, v, d)
+    else if valeur > v then Noeud(g, v, insere valeur d)
+    else failwith "Element déjà présent";;
 
-(* --8<-- [start:voir] *)
 let rec write_edge a writer ninv=
   match a with
   | Vide -> ()
@@ -43,30 +47,12 @@ let view a =
   output_string outc "}\n";
   close_out outc;
   ignore (Sys.command "xdot temp.gv");;
-(* --8<-- [end:voir] *)
-
-let rec mystere ab = 
-  match ab with
-  | Vide -> []
-  | Noeud(g,v,d) ->   v::mystere g @ mystere d;;
-
-let infixe ab = 
-  let rec aux ab acc =
-    match ab with
-    | Vide -> acc
-    | Noeud(g,v,d) -> v :: (aux g (aux d acc))
-  in aux ab [];;
 
 let () = 
-  let t = Noeud(
-      Noeud(
-        Noeud(Noeud(Vide,2,Noeud(Vide,3,Vide)),8,Vide),
-        9,
-        Noeud(Vide,12,Vide)),
-      11,
-      Noeud(Noeud(Vide,13,Vide),
-            15,
-            Vide)) 
-  in
-  view t;;
-
+  let arbre = Vide in
+  let arbre = insere 5 arbre in
+  let arbre = insere 7 arbre in
+  let arbre = insere 2 arbre in
+  let arbre = insere 1 arbre in
+  let arbre = insere 8 arbre in
+  view arbre;;

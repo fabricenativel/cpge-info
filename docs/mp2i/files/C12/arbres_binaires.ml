@@ -1,12 +1,18 @@
+(* --8<-- [start:type_param] *)
 type 'a ab = 
   |Vide 
   |Noeud of 'a ab *  'a * 'a ab;;
+(* --8<-- [end:type_param] *)
+
 let ninv = ref 0;;
 
+(* --8<-- [start:taille_param] *)
 let rec taille ab =
   match ab with
   | Vide -> 0
   | Noeud (sag, _, sad) -> 1 + taille sag + taille sad;;
+(* --8<-- [end:taille_param] *)
+
 
 let rec write_edge a writer =
   match a with
@@ -53,10 +59,13 @@ let rec prefixe a =
   | Noeud (g,e,d) -> Printf.printf "%c " e; prefixe g; prefixe d;;
 
 
+
+(* --8<-- [start:infixeml] *)
 let rec infixe a =
   match a with
   | Vide -> ()
   | Noeud (g,e,d) ->  infixe g; Printf.printf "%c " e; infixe d;;
+(* --8<-- [end:infixeml] *)
 
 let rec postfixe a =
   match a with

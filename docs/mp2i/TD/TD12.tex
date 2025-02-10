@@ -21,7 +21,7 @@
 
 \begin{Exercise}[title = {Représentation en C}]\\
     On rappelle qu'on a défini en C, un arbre binaire (avec des étiquettes entières) par :
-    \inputpartOCaml{\SPATH/arbres_binaires.c}{}{}{4}{11}
+    \inputpartOCaml{\SPATH/arbres_binaires.c}{}{}{6}{13}
 \Question{Rappeler la définition de la hauteur d'un arbre binaire et écrire une fonction de prototype \\
 \mintinline{c}{int hauteur(ab arbrebinaire)}} qui renvoie la hauteur de l'arbre donné en argument.
 \Question{On rappelle que dans cette implémentation, l'espace nécessaire au stockage des noeuds est alloué dynamiquement à l'aide d'instructions {\tt malloc}. Ecrire une fonction de prototype \\
@@ -34,7 +34,7 @@
     On rappelle qu'on a défini en OCaml un arbre binaire (avec des étiquettes entières) par :
     \inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{1}{3}
   \Question{Dessiner l'arbre représenté par :
-  \inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{57}{65}
+  \inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{58}{66}
   }
   \Question{Donner sa taille et sa hauteur}
   \Question{S'agit-il d'un arbre binaire de recherche ? Justifier}
@@ -76,8 +76,9 @@
         \TCircle{\tt 20} 
         }}\TCircle{\tt 28} 
         }\pstree{\TCircle{\tt 31}}
-        { \Tn{} 
+        { 
         \TCircle{\tt 30} 
+        \Tn{} 
          
           }} &
           \pstree{\TCircle{22}}
@@ -87,13 +88,13 @@
 \TCircle{18} 
 }\TCircle{21} 
 }\pstree{\TCircle{31}}
-{ \Tn{} 
+{ \Tn{}
 \pstree{\TCircle{24}}
 { 
 \TCircle{27} 
 \Tn{} 
 } 
- \Tn{} }}
+ \Tn{} \Tn{} }}
           & 
           \pstree{\TCircle{26}}
 {\pstree{\TCircle{16}}
@@ -109,12 +110,12 @@
           $T_1$ & $T_2$ & $T_3$ \\
     \end{tabularx}
 \Question{Pour chacun des trois arbres binaires ci-dessus, donner l'ordre des noeuds lors d'un parcours prefixe, infixe et suffixe.}
-\Question{Lequel de ces arbres binaires est un {\sc abr} ? Justifier}
+\Question{L'un de ces arbres binaires est-il un {\sc abr} ? Justifier}
 \end{Exercise}
 
 \begin{Exercise}[title = {Un peu de complexité}]\\
 On considère la fonction OCaml suivante qui prend en argument un arbre binaire tel que défini par le type de l'exercice \ref{abcaml}
-\inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{45}{47}
+\inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{45}{48}
 \Question{Ecrire une spécification et donner un nom plus approprié à la fonction {\tt mystère}.}
 \Question{Rappeler la complexité de l'opérateur {\tt @} et en déduire celle de la fonction {\tt mystere}}
 \Question{Proposer une version de cette fonction ayant une complexité linéaire en fonction du nombre de noeuds de l'arbre.\\
@@ -179,89 +180,6 @@ Selon vous, quel est le rôle des fonctions {\tt plus\_petit} et {\tt plus\_gran
 }} 
     }
     \Question{Donner une implémentation en OCaml sous la forme d'une fonction {\tt supprime} de signature {\tt abr -> int -> abr}}
-\end{Exercise}
-
-\begin{Exercise}[title = {Equilibrage d'un arbre rouge-noir}]
-
-\Question{Pour insérer un noeud dans un arbre rouge-noir, on commence par utiliser l'algorithme d'insertion usuel dans un {\sc abr} et on attribut au nouveau noeud la couleur \textit{rouge}. Quel est alors le seul conflit possible ? (on appellera un tel conflit un \textit{conflit rouge-rouge}).}
-\Question{Si le conflit rouge-rouge se situe à la racine, donner une méthode simple pour le résoudre.}
-\Question{Si le conflit n'est pas situé à la racine, justifier qu'on se trouve dans l'un des quatres cas suivants où les noeuds rouges sont représentés dans un cercle et les noeuds noirs dans un losange grisé:}
-\begin{center}
-\begin{tabularx}{0.8\textwidth}{Y|Y}
-    \pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$z$}}{
-				\pstree{\CR{$y$}}{
-					\pstree{\CR{$x$}}
-					{
-						\Tri{$t_1$}
-						\Tri{$t_2$}
-					}
-                    \Tri{$t_3$}
-				}
-				\Tri{$t_4$}
-			} 
-    
-    & 
-    \pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$x$}}{
-        \Tri{$t_1$}			
-    \pstree{\CR{$y$}}{
-                    \Tri{$t_2$}
-					\pstree{\CR{$z$}}
-					{
-						\Tri{$t_3$}
-						\Tri{$t_4$}
-					}
-				}
-				
-			} 
-    \\
-    \hline 
-    & \\
-    \pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$z$}}{
-				\pstree{\CR{$x$}}{
-					\Tri{$t_1$}
-					\pstree{\CR{$y$}}
-					{
-						\Tri{$t_2$}
-						\Tri{$t_3$}
-					}
-				}
-				\Tri{$t_4$}
-			} & 
-            \pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$x$}}{
-                \Tri{$t_1$}	
-            \pstree{\CR{$z$}}{
-                \pstree{\CR{$y$}}
-                {
-                    \Tri{$t_2$}
-                    \Tri{$t_3$}
-                }		
-            \Tri{$t_4$}
-					
-				}
-				
-			}
-            \\
-   
-\end{tabularx}
-\end{center}
-\Question{Montrer qu'en effectuant une ou plusieurs rotations, ces arbres se ramènent à }
-\begin{center}
-\pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$y$}}{
-            \pstree{\CR{$x$}}{
-                {
-                    \Tri{$t_1$}
-                    \Tri{$t_2$}
-                }}	
-                \pstree{\CR{$z$}}{
-                    {
-                        \Tri{$t_3$}
-                        \Tri{$t_4$}
-                    }		
-					
-				}
-				
-			}
-\end{center}
 \end{Exercise}
 
 \begin{Exercise}[title = {Tri par tas}]
