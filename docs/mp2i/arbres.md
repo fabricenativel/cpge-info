@@ -174,6 +174,10 @@ Pour l'implémentation des arbres binaires de recherche en C, on reprend la stru
 
 3. Ecrire une fonction `present` de signature `#!c bool present(abr t, int v)` qui teste l'appartenance de la valeur `v` à l'arbre `t`.
 
+!!! note
+    
+    Pour écrire l'implémentation de la suppression d'une clé dans un {{sc("abr")}} on recommande de commencer par l’implémentation en OCaml ci-dessous.
+
 {{ exo("Arbre binaire de recherche en OCaml",[])}}
 
 Pour l'implémentation des arbres binaires de recherche en OCaml, on reprend la structure utilisée pour les arbres binaires :
@@ -186,6 +190,18 @@ Pour l'implémentation des arbres binaires de recherche en OCaml, on reprend la 
 2. Construire et visualiser l'arbre binaire obtenu en insérant successivement les valeurs $7, 5, 9, 2$ et $11$.
 
 3. Ecrire une fonction `present` de signature `abr -> int -> bool` qui teste si une valeur appartient ou non à un `abr`.
+
+4. Ecrire une fonction `min_arb : abr -> int` qui renvoie la plus petite clé présente dans un {{sc("abr")}} non vide. 
+
+5. Ecrire une fonction `max_arb : abr -> int` qui renvoie la plus grande clé présente dans un {{sc("abr")}} non vide. 
+
+6. Ecrire une fonction `supprime : abr -> int -> abr` qui supprime une clé dans un {{sc("abr")}}.
+
+    !!! aide
+        On rappelle que l'algorithme de suppression distingue plusieurs cas :
+
+        * si l'arbre est vide ou que la clé n'est pas présente alors on renvoie l'arbre.
+        * sinon on descend récursivement dans l'arbre jusqu'à trouver la clé $x$, dans un noeud $(g, x, d)$ si ce noeud est une feuille on le supprime sinon on peut soit remplacer $x$ par le maximum de $g$ (si $g$ est non vide) soit remplacer $d$ par le minimum de $d$ (si $d$ est non vide).
 
 {{ exo("Hauteur moyenne d'un ABR aléatoire",[])}}
 

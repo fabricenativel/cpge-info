@@ -107,7 +107,7 @@ bool search(solution *s)
 }
 
 
-int main()
+int main(int argc, char* argv[])
 {
     solution s;
     for (int r=0;r<SIZE;r++)
@@ -117,10 +117,15 @@ int main()
             s.path[r][c]=0;
         }
     }
-    s.start.row = 0;
-    s.start.col=0;
+    if (argc ==3){
+    s.start.row = atoi(argv[1]);
+    s.start.col= atoi(argv[2]);
     s.path[s.start.row][s.start.col] = 1;
     s.pathlen = 1;
     if (search(&s))
-    {view(s);};
+    {view(s);};}
+    else
+    {
+        printf("Entrer la ligne et la position de départ du cavalier !\n");
+    }
 }

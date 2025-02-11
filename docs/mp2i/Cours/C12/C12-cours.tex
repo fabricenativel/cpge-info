@@ -308,7 +308,7 @@
 				\onslide<3->{\inputOCaml{\SPATH/taille_param.ml}{}{}}
 		\end{enumerate}
 	\end{exampleblock}
-\end{frame} 
+\end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Cas particulier d'un arbre binaire complet}
@@ -515,6 +515,48 @@
 		\end{exampleblock}}
 \end{frame}
 
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Suppression d'une clé dans un {\sc abr}}
+		Pour supprimer une clé $x$ dans un {\sc abr} $A$ :
+		\begin{itemize}
+			\item<3-> Si $A$ est vide, on renvoie $A$.
+			\item<4-> Sinon, en notant $A=(g, v, d)$ :
+				\begin{itemize}
+					\item<4->si $x<v$ on supprime $x$ de $g$.
+					\item<5-> Si $x>v$ on supprime $x$ de $d$.
+					\item<6-> Si $x=v$, dans le cas où $g$ et $d$ sont tous les deux vides on renvoie l'arbre vide. Sinon,  l'un au moins des deux arbres $g$ ou $d$ est non vide et on peut soit remplacer $v$ par la clé minimale de $d$ et on supprime cette clé de $d$ soit remplacer $v$ par la clé maximale de $g$ et on supprime cette clé de $g$.
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\psset{arrows=->,treesep=0.8cm,levelsep=0.8cm, radius=0.3cm}
+		On considère l'arbre binaire de recherche suivant :
+		\begin{center}
+			\pstree{\TCircle{\tt 29}}
+			{\pstree{\TCircle{\tt 24}}
+				{\pstree{\TCircle{\tt 14}}
+					{ \TCircle{11}
+						\pstree{\TCircle{\tt 16}}
+						{ \Tn{}
+							\TCircle{\tt 20}
+						}}\TCircle{\tt 26}
+				}\pstree{\TCircle{\tt 37}}
+				{
+					\TCircle{\tt 34}
+					\Tn{}
+				}}
+		\end{center}
+		\begin{itemize}
+		\item Quel est l'arbre binaire obtenu si on supprime la clé 34 ?
+		\item Même question pour la clé 16
+		\item Même question pour la clé 14
+		\end{itemize}
+	\textcolor{gray}{Les implémentations (C ou OCaml) seront vus en TP.}
+	\end{exampleblock}
+\end{frame}
 
 
 \makess{Tas et files de priorité}

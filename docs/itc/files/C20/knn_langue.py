@@ -3,8 +3,8 @@
 
 import random
 
-LABELED = {"EN":"olivertwist.txt","FR":"ble_en_herbe.txt"}
-TEST = {"EN":"scarlet.txt","FR":"miserables.txt"}
+TEST = {"EN":"olivertwist.txt","FR":"ble_en_herbe.txt"}
+LABELED = {"EN":"scarlet.txt","FR":"miserables.txt"}
 
 LETTERS = "abcdefghijklmnopqrstuvwxyz"
 
@@ -64,7 +64,7 @@ for l in LABELED:
 confusion = {(x,y):0 for x in LABELED for y in LABELED}
 test = random.sample(test_data,100)
 for s,l in test:   
-    confusion[(l,knn(s,labeled_data,7))]+=1
+    confusion[(l,knn(s,labeled_data,1))]+=1
 
 print(confusion)
 

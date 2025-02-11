@@ -1,7 +1,8 @@
+#!/usr/bin/env python3
 import os
 from colorama import Fore
 
-START_TAG = {"c" :"// --8<-- [start:", "ml" : "(* --8<-- [start:"}
+START_TAG = {"c" :"// --8<-- [start:", "ml" : "(* --8<-- [start:", "py" : "# --8<-- [start:"}
 END_TAG = {x : START_TAG[x].replace("start:","end:") for x in START_TAG}
 
 
@@ -34,6 +35,6 @@ print("Ecriture des morceaux de code via les tag dans les fichiers ")
 filiere = input("Entrer la filière : ")
 chapitre = input("Entrer le numéro de chapitre : ")
 dirname = f"/home/fenarius/Travail/Cours/cpge-info/docs/{filiere}/files/C{chapitre}"
-source = [x for x in os.listdir(dirname) if x.endswith("c") or x.endswith("ml")]
+source = [x for x in os.listdir(dirname) if x.endswith("c") or x.endswith("ml") or x.endswith("py")]
 for x in source:
     write_tag(x)
