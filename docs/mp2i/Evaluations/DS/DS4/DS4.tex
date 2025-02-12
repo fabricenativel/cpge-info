@@ -33,7 +33,8 @@
 	\Question{Donner la définition d'un arbre binaire.}
 	\Question{Donner les définitions de la hauteur et de la taille d'un arbre binaire.}
 	\Question{Donner la définition d'un arbre binaire de recherche.}
-	\Question{Prouver qu'un arbre binaire est un arbre binaire de recherche si et seulement si son parcours infixe fournit les clés dans l'ordre croissant.}
+	\Question{Prouver le parcours infixe d'un arbre binaire de recherche fournit les clés dans l'ordre croissant. \\
+	{\small \aide \;} Indication : on pourra raisonner par récurrence sur la taille de l'arbre.}
 	\Question{Donner l'ordre des noeuds lors des parcours prefixe, infixe et suffixe de l'arbre suivant :
 		\begin{center}
 			\pstree{\TCircle{42}}
@@ -85,7 +86,7 @@ Par exemple dans le tableau $\{2, 1, 7, 9, 8, 3\}$ :
 \end{itemize}
 Et donc le tableau des valeurs plus petites les plus proches dans cet exemple est $\{-1, -1, 1, 7, 7, 1\}$
 \Question{Donner le tableau des valeurs plus petites les plus proches pour le tableau $\{5, 7, 11, 6, 9, 2 \}$}
-\Question{On propose l'algorithme suivant pour résoudre ce problème : pour chaque élément {\tt tab[i]} du tableau on parcourt  les valeurs {\tt tab[i-1], \dots, tab[0]} \textit{dans cet ordre}, si on trouve un élément strictement inférieur à {\tt tab[i]} alors c'est la valeur plus petite la plus proche, sinon le valeur plus petite la plus proche est {\tt -1}. Ecrire une implémentation de cet algorithme en C sous la forme d'une fonction de signature \mintinline{c}{int *vpp_naif(int tab[], int size)} qui prend en argument un tableau d'entiers {\tt tab} ainsi que sa taille {\tt size} et un renvoie un tableau de taille {\tt size} contenant à l'indice {\tt i} la valeur strictement inférieure la plus proche de {\tt tab[i]}.}
+\Question{On propose l'algorithme suivant pour résoudre ce problème : pour chaque élément {\tt tab[i]} du tableau on parcourt  les valeurs {\tt tab[i-1], \dots, tab[0]} \textit{dans cet ordre}, si on trouve un élément strictement inférieur à {\tt tab[i]} alors c'est la valeur plus petite la plus proche, sinon la valeur plus petite la plus proche est $-1$. Ecrire une implémentation de cet algorithme en C sous la forme d'une fonction de signature \mintinline{c}{int *vpp_naif(int tab[], int size)} qui prend en argument un tableau d'entiers {\tt tab} ainsi que sa taille {\tt size} et un renvoie un tableau de taille {\tt size} contenant à l'indice {\tt i} la valeur strictement inférieure la plus proche de {\tt tab[i]}.}
 \Question{Justifier rapidement que l'algorithme précédent a une complexité quadratique} \medskip \\
 On considère maintenant l'algorithme suivant qui utilise une pile dotée de son interface usuelle ({\tt est\_vide, empiler, depiler}) et de la fonction {\tt sommet} qui renvoie la valeur située au sommet de la pile sans la dépiler. \\
 \SetAlFnt{\small}
@@ -144,7 +145,7 @@ On considère maintenant l'algorithme suivant qui utilise une pile dotée de son
 	\end{itemize}
 	Ecrire en utilisant ces fonctions une fonction {\tt sommet} de signature \mintinline{c}{int sommet(pile *p)} qui renvoie le sommet de la pile sans le depiler si la pile n'est pas vide et $-1$ sinon.
 }
-\Question{Ecrire une implémentation en C de l'algorithme des valeurs plus petites les plus proches donné ci-dessus et utilisant une pile}
+\Question{Ecrire une implémentation en C de l'algorithme des valeurs plus petites les plus proches donné ci-dessus et utilisant une pile sous la forme d'une fonction de signature \mintinline{c}{int *vpp_pile(int tab[], int size)} qui renvoie le tableau des valeurs plus petites les plus proches.} 
 \Question{Prouver que cet algorithme est de complexité linéaire, on pourra vérifier que chaque élément du tableau $t$ est empilé une fois et dépilé au plus une fois.}
 \end{Exercise}
 
@@ -227,20 +228,20 @@ GROUPE BY revue
 
 
 	On s'intéresse dans cet exercice à des structures de données représentant des ensembles d'entiers naturels.
-	On implémente dans cet exercice des ensembles par des structures connues et, on notera $|E|$ le cardinal d'un ensemble $E$.
+	On notera $|E|$ le cardinal d'un ensemble $E$.
 
 
 	\ExePart[name = {Avec une liste d'entiers triés}]
 
-	Dans cette partie uniquement, on implémente un ensemble d'entiers positifs par la liste des ses éléments rangés \emph{dans l'ordre croissant.}
-	\Question{Ecrire une fonction {\tt succ\_list} de signature {\tt int list -> int -> int} prenant en arguments une liste d'entiers \textit{distincts} dans l'ordre croissant et un entier $x$ et renvoyant le successeur de $x$ dans la liste, c'est à dire le plus petit entier strictement supérieur à $x$ de la liste ($-1$ si cela n'existe pas.).}
-    \inputpartOCaml{entiers.ml}{}{}{1}{4}
+	Dans cette partie uniquement, on implémente un ensemble d'entiers positifs par la liste des ses éléments rangés \emph{dans l'ordre croissant.}. Par exemple la liste {\tt [2; 7; 11]} représente l'ensemble $\{2, 7, 11\}$.
+	\Question{Ecrire la fonction {\tt intersection : int list -> int list -> int list} qui prend en argument deux listes d'entiers triés représentant des ensembles et renvoyant leur intersection sous la forme d'une liste triée d'entiers.}
+	\Question{Ecrire une fonction {\tt succ\_list} de signature {\tt int list -> int -> int} prenant en arguments une liste d'entiers \textit{distincts} dans l'ordre croissant et un entier $x$ et renvoyant le successeur de $x$ dans la liste, c'est à dire le plus petit entier strictement supérieur à $x$ de la liste ($-1$ si cela n'existe pas). Par {\tt succ\_list [2; 7; 11] 5} doit renvoyer 7.}
 	\Question{Donner la complexité de cette fonction dans le pire des cas.}
     \tcor{Les appels récursif sont en temps constant et la taille de la liste diminue de 1 à chaque appel donc la complexité est linéaire en fonction de la taille de la liste.}
 	\medskip
 	\ExePart[name = {Avec un tableau trié}]
 
-	Soit $N$ un entier naturel strictement positif, fixé pour toute cette partie. On choisit de représenter un ensemble d'entiers $E$ de cardinal $n \leq N$ par un tableau de taille $N+1$ dont la case d'indice 0 indique le nombre $n$ d'éléments de $E$ et les cases d'indices 1 à $n$ contiennent les éléments de $E$ \emph{rangés dans l'ordre croissant}, les autres cases étant non significatives. Par exemple, le tableau {\tt [| 3; 2; 5; 7; 9; 1; 14 |]} représente l'ensemble $\{2, 5, 7\}$.
+	Soit $N$ un entier naturel strictement positif, fixé pour toute cette partie. On choisit de représenter un ensemble d'entiers $E$ de cardinal $n \leq N$ par un tableau de taille $N+1$ dont la case d'indice 0 indique le nombre $n$ d'éléments de $E$ et les cases d'indices 1 à $n$ contiennent les éléments de $E$ \emph{rangés dans l'ordre croissant}, les autres cases étant non significatives. Par exemple, le tableau {\tt [| 3; 2; 5; 7; 9; 1; 14 |]} représente l'ensemble $\{2, 5, 7\}$. En effet, cet ensemble contient 3 éléments car la case d'indice 0 du tableau contient 3 et ces 3 éléments sont 2, 5, 7 (cases d'indice 1 à 3).
 	\Question{Pour une telle implémentation d'un ensemble $E$, décrire brièvement des méthodes permettant de réaliser chacune des opérations ci-dessous (on ne demande pas d'écrire des programmes) et donner leurs complexités dans le pire cas :
 		\begin{itemize}
 			\item déterminer le maximum de $E$,
@@ -255,11 +256,9 @@ GROUPE BY revue
     \end{itemize}
     }
 	\Question{Par une méthode dichotomique, écrire une fonction {\tt succ\_vect} de signature {\tt int array -> int -> int} prenant en arguments un tableau {\tt t} codant un ensemble $E$ comme ci-dessus et un entier $x$ et renvoyant le successeur de $x$ dans $E$ ($-1$ si cela n'existe pas.)}
-    \inputpartOCaml{entiers.ml}{}{}{6}{18}
 	\Question{Calculer la complexité dans le pire cas de la fonction {\tt succ\_vect} en fonction de $n$.}
     \tcor{A chaque passage dans la boucle {\tt while} la taille de l'intervalle $\intN{imin}{imax}$ est divisée par 2. Cet intervalle étant de taille $|E|$, il faut au plus $\log(|E|)$ division avant de quitter la boucle, la fonction est donc de complexité logarithmique en la taille de l'ensemble.}
 	\Question{Ecrire une fonction {\tt union\_vect} de signature {\tt int array -> int array -> int array} prenant en arguments deux tableaux {\tt t\_1} et {\tt t\_2}, de taille N, codant deux ensembles $E_1$ et $E_2$ et renvoyant le tableau correspondant à $E_1 \cup E_2$. On supposera que $| E_1 \cup E_2 | \leq N$.}
-    \inputpartOCaml{entiers.ml}{}{}{22}{50}
 	\medskip
 	\ExePart[name = {Avec une table de hachage}]
 
@@ -276,7 +275,7 @@ GROUPE BY revue
     \tcor{Il y a $K$ alveoles donc dès que $n>K$, on a forcément des collisions (principe des tiroirs)}
 	\Question{Décrire brièvement (on ne demande pas d'écrire un programme) une fonction permettant de renvoyer le maximum d'un ensemble $E$ représenté par une table de hachage. Donner sa complexité. }
     \tcor{On parcourt les listes chainées contenues dans chaque alvéole, en mettant à jour une variable contenant le maximum. On a donc une complexité en $O(|E|)$. }
-	\Question{Peut-on améliorer la complexité de la fonction précédente si on suppose que les listes chainées contenues dans chacune des alvéoles de la table de hachage sont maintenues triées par ordre décroissant ?}
+	\Question{En OCaml, un ensemble est donc représenté par un tableau (de taille $K$) de listes d'entiers c'est à dire par le type {\tt array int list}. Ecrire la fonction {\tt appartient : int -> int array list -> bool} qui prend en arguments un entier et un ensemble représenté par une table de hachage et renvoie un booléen indiquant si cet élément appartient ou non à l'ensemble.}
     \tcor{Dans ce cas, on doit simplement regarder la tête de chaque liste, on a donc une complexité en $O(K)$.}
 \end{Exercise}
 

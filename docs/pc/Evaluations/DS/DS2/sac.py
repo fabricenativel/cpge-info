@@ -1,34 +1,42 @@
-
-
-def valeur(objet,i):
-    return objet[i][1]
-
-def poids(objet,i):
-    return objet[i][0]
-
-def enleve(liste,ind):
-    return [liste[i] for i in range(len(liste)) if ind!=i]
-
-def vmax(objets,psac):
-    eligible = [objets[i] for i in range(len(objets)) if poids(objets,i)<=psac]
-    if len(eligible)==0 : return 0
-    return max(vmax(enleve(eligible,k),psac-poids(eligible,k))+valeur(eligible,k) for k in range(len(eligible)))
-
+def valeur_poids(objets, choix):
+    v = 0
+    p = 0
+    for i in range(len(choix)):
+        if choix[i] == 1:
+            pobj, vobj = objets[i]
+            v = v + vobj
+            p = p + pobj
+    return v, p
 
 
 def glouton(objets, pmax):
-    objets.sort(key=lambda x: x[1]/x[0], reverse=True)
     poids = 0
-    contenu = []
+    valeur = 0
     for obj in objets:
-        if poids + obj[0] <= pmax:
-            poids += obj[0]
-            contenu.append(obj)
-    return contenu
+        p, v = obj
+        if poids + p <= pmax:
+            poids += p
+            valeur = valeur + v
+    return valeur
+
+
+def dynamique(objets, pmax, i):
+    if i >= len(objets) or pmax == 0:
+        return 0
+    p, v = objets[i]
+    sans = dynamique(objets, pmax, i+1)
+    if (p > pmax):
+        return sans
+    else:
+        avec = v + dynamique(objets, pmax-p, i+1)
+        return max(sans, avec)
+
+
+objs = [(4, 20), (5, 28), (6, 36), (7, 50)]
+assert valeur_poids(objs, [1, 0, 1, 0]) == (56, 10)
 
 objets = [(4, 30), (5, 34), (6, 36), (7, 49), (10, 74)]
-print([x[1]/x[0] for x in objets])
+objets.sort(key=lambda x: x[1]/x[0], reverse=True)
 pmax = 10
 print(glouton(objets, pmax))
-print(vmax(objets, pmax))
-
+print(dynamique(objets, pmax, 0))
