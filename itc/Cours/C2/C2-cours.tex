@@ -1,0 +1,106 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+
+% Entête de la fiche (à modifier avec la macro correspondante dans le fichier macros)
+\Fiche{Les listes de Python}{\sc pcsi}
+
+\pythonmode
+
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Tranches},colbacktitle=cfond]
+\begin{enumerate}
+ \item[\ding{182}] Accès à un caractère par son indice \\
+ La notation {\tt [i]} déjà rencontrée sur les chaines de caractères permet d'accéder au {\tt i}-ème caractère d'une chaine où les caractères sont numérotés \textit{à partir de 0}. Par exemple,
+ si \mintinline{python}{exemple = "Un petit exemple"} : \\
+ \newcommand{\ind}[1]{\multicolumn{1}{c}{\textbf{\tt \footnotesize #1}}}
+ \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    U & n & & p & e & t & i & t&  & e & x & e & m & p & l & e \\
+    \hline
+    \ind{0} & \ind{1}& \ind{2}& \ind{3}& \ind{4}& \ind{5}& \ind{6}& \ind{7}& \ind{8}& \ind{9}& \ind{10}& \ind{11}& \ind{12}& \ind{13}& \ind{14} & \ind{15}
+ \end{tabular}\\
+ alors : \mintinline{python}{exemple[0]} est {\tt 'U'}, \mintinline{python}{exemple[1]} est {\tt 'n'}, \dots \\
+ {\small \important} \; On remarquera que l'indice du dernier élément est  \textit{la longueur de la chaine moins 1}. La longueur s'obtenant avec {\tt len}, ici on a par exemple \mintinline{python}{exemple[len(exemple)-1]} qui vaut {\tt 'e'}.
+ \item[\ding{183}] Tranches \\
+ On peut aussi prendre une tranche en précisant dans les {\tt []} le début de la tranche (inclus) et sa fin (exclue) séparé par le caractère {\tt :} si le début ou la fin sont absents alors ils correspondent respectivement au premier et au dernier indice. Par exemples :
+ \begin{itemize}
+  \item[\textbullet] \mintinline{python}{exemple[3:8]} est {\tt "petit"}
+  \item[\textbullet] \mintinline{python}{exemple[:2]} est {\tt "Un"} (le début étant absent, on commence au premier caractère)
+  \item[\textbullet] \mintinline{python}{exemple[13:]} est {\tt "ple"} (la fin étant absente, on termine au dernier caractère)
+ \end{itemize}	
+\item[\ding{184}] Pas de progression \\
+Une tranche peut prendre un troisième paramètre qui indique alors un \textit{pas de progression}, par exemple si ce pas vaut 2, on ne prend qu'un caractère sur 2. D'autre part si le pas est négatif alors on progresse de la fin de la chaine vers le début. Par exemples :
+\begin{itemize}
+    \item[\textbullet] \mintinline{python}{exemple[4:10:2]} est {\tt "ei "}
+    \item[\textbullet] \mintinline{python}{exemple[15:8:-1]} est {\tt "elpmexe"} 
+    \item[\textbullet] \mintinline{python}{exemple[::-1]} est {\tt "elpmexe titep nU"} le pas étant négatif on progresse de la fin (absente donc dernier caractère) jusqu'au début (absent donc premier caractère).
+\end{itemize}	
+\end{enumerate}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Tuples},colbacktitle=cfond]
+    \begin{enumerate}
+        \item[\ding{182}] Un tuple est une suite de valeurs repérées par leur indice (à la façon des caractères d'une chaine). Un tuple se note entre {\tt ()} et les valeurs sont séparées par des virgules. Par exemple \mintinline{python}{date = (2, "décembre", 1815)} est un tuple constituées de trois valeurs.
+        \item[\ding{183}] On retrouve pour les tuples, la fonction {\tt len}, l'accès au  ième élément avec {\tt [i]} et les tranches déjà vues sur les chaines de caractères.
+        \item[\ding{184}] Les valeurs d'un tuple ne sont \textit{pas modifiables} (comme les caractères d'une chaines), une tentative en ce sens produit un {\tt TypeError}
+        \item[\ding{185}] Un tuple peut être décompacté afin d'affecter chacune de ses valeurs à une variable. Par exemple \mintinline{python}{jour, mois, annee = date}.
+    \end{enumerate}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Importation de fonctions},colbacktitle=cfond]
+    En Python, on peut importer des fonctions se trouvant dans d'autres modules, deux syntaxes sont possibles :
+    \begin{itemize}
+        \item[\textbullet] {\tt from <module> import <fonction>}, cela rend directement utilisable {\tt <fonction>} dans la suite du programme. Par exemple la fonction racine carrée s'appelle \mintinline{python}{sqrt} et doit être importé depuis le module \mintinline{python}{math} avec \mintinline{python}{from math import sqrt} pour être utilisable.
+        \item[\textbullet] {\tt import <module>}, dans ce cas, toutes les fonctions du module sont utilisables mais on doit préfixer leur nom par celui du module. Par exemple après un \mintinline{python}{import math} pour utiliser la fonction racine carrée, on doit écrire \mintinline{python}{math.sqrt}.
+    \end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Listes},colbacktitle=cfond]
+    \begin{enumerate}
+        \item[\ding{182}] Une liste est une suite de valeurs repérées par leur indice. Une liste se note entre {\tt [} et {\tt]} et les valeurs sont séparées par des virgules. Par exemple \mintinline{python}{premiers = [2, 3, 5, 7, 11, 13, 15]} est une liste. La liste vide est {\tt []}.
+        \item[\ding{183}] On retrouve pour les listes, la fonction {\tt len}, l'accès au  ième élément avec {\tt [i]} et les tranches déjà vues sur les chaines de caractères et les tuples.
+        \item[\ding{184}] Les valeurs d'une liste, à la différence de celles d'un tuple,sont \textit{modifiables}, on peut donc écrire \mintinline{python}{premiers[6]=17} afin que la liste ci-dessus devienne \mintinline{python}{premiers = [2, 3, 5, 7, 11, 13, 17]}.
+        \item[\ding{185}] On peut ajouter un élément à une liste avec {\tt append}, la syntaxe est {\tt <liste>.append(<element>)}. Par exemple, après exécution de \mintinline{python}{premiers.append(19)} la liste ci-dessus devient \mintinline{python}{premiers = [2, 3, 5, 7, 11, 13, 17, 19]}.
+        \item[\ding{186}] On peut retirer le dernier élément d'une liste avec {\tt pop}, la syntaxe est {\tt <liste>.pop()}. L'élément retiré est renvoyé par cette instruction et peut-être récupéré, ainsi \mintinline{python}{n = premiers.pop()} aura deux effets : supprimer 19 de la liste {\tt premiers} et affecter cette valeur à {\tt n}.
+        \item[\ding{187}] Création de listes :
+        \begin{itemize}
+            \item[\textbullet] en donnant explicitement ses éléments (comme la liste {\tt premiers} ci-dessus).
+            \item[\textbullet] par répétition avec {\tt *}, par exemple {\tt [77]*10} est la liste constitué de 10 fois le nombre {\tt 77}.
+            \item[\textbullet] par ajout successif, on part d'une liste vide et on ajoute (généralement à l'aide d'une boucle {\tt for}) successivement avec {\tt append} les éléments à la liste.
+            \item[\textbullet] par compréhension, à la façon dont on définit parfois les ensembles en mathématiques. Par exemple,
+            \mintinline{python}{[i for i in range(50) if i%10==7]} est la liste {\tt [7, 17, 27, 37, 47]} (les nombres entre 0 et 49 dont le reste dans la division euclidienne par 10 est 7).
+        \end{itemize}
+    \end{enumerate}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Mutables et non mutables},colbacktitle=cfond]
+    En Python, on manipule des objets, certains sont \textit{mutables} et d'autres non. Une variable est l'association entre une étiquette (le nom) et l'objet qu'il référence. Les listes de Python sont mutables au contraire de tous les autres rencontrés jusqu'ici ({\tt int}, {\tt float}, {\tt bool}, {\tt str}, {\tt tuple}). Lorsqu'on modifie un objet mutable, cela modifie toutes ses \textit{références}.
+        
+    \setlength{\multicolsep}{0pt}
+    \begin{multicols}{2}
+        Cas non mutable :
+        \begin{python}
+n = 42
+m = n
+m = m + 1
+# n vaut toujours 42
+# m et n référencent deux objets différents
+\end{python}
+        Cas mutable: 
+        \begin{python} 
+n = [12, 15]
+m = n
+m.append(17)
+#m référence maintenant [12, 15, 17]
+#m et n référencent le même objet
+        \end{python}
+    \end{multicols}
+    Les fonctions qui modifient un objet mutable le font généralement sans faire apparaître le signe {\tt =}, par exemple \mintinline{c}{liste.pop()}.
+\end{tcolorbox}
+
+\end{document}
