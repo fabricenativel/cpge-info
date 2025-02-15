@@ -140,12 +140,14 @@ Cet exercice concerne la représentation d'un arbre binaire complet de taille $n
 
 {{ exo("Parcours récursif en OCaml",[])}}
 
-1. Ecrire les parcours récursif en OCaml de façon à renvoyer une liste contenant les noeuds dans l'ordre de chacun des parcours. Dans un premier temps on utilisera l'opérateur `@` afin de concaténer deux listes sans se soucier des problèmes de complexité que cela implique.
+1. Ecrire en OCaml, en utilisant l'opérateur de concaténation `@` une fonction `prefixe : 'a ab -> 'a list` qui renvoie le parcours préfixe de l'arbre binaire donné en argument.
 
-2. Ecrire une version de ces parcours de complexité linéaire
+2. Comme cela a été vu en {{sc("td")}}, on rappelle que le parcours précédent est de compléxité quadratique (car l'opérateur `@` est de complexité linéaire par rapport à la longueur de la première liste). On cherche donc maintenant à écrire une version de complexité linéaire du parcours préfixe. d'un arbre binaire. Pour cela on propose d'écrire une fonction auxilaire `prefixe_aux : 'a ab -> 'a list -> 'a list` qui prend en argument un arbre binaire *et une liste* `acc` et renvoie le parcours prefixe de l'arbre suivi du contenu de `acc`.
 
     !!! aide
-        Utiliser une fonction auxiliaire dotée d'un accumulateur (voir TD).
+        Utiliser la fonction auxiliaire pour traduire le fait que le parcours préfixe de l'arbre `(g, v, d)` est `v` suivi du parcours préfixe de `g` suivi du parcours préfixe de `d`.
+
+3. Réprendre le question précédentes pour le parcours infixe et pour le parcours postfixe.
 
 {{ exo("Parcours en largeur en C",[])}}
 
@@ -156,16 +158,16 @@ Ecrire une fonction de signature `#!c void largeur(ab a)` qui affiche les noeuds
 
 Ecrire une fonction de signature `ab -> unit` qui affiche les noeuds dans l'ordre d'un parcours en largeur. Comme expliqué en cours, on peut utiliser une *file* qu'on pourra implémenter à l'aide du module `Queue` de Caml dont on rappelle ci-dessous quelques fonctions :
 
-* `Queue.create` de signature `unit -> 'a t` qui crée une file d'attente vide, par exemple `#!ocaml let ma_file = Queue.create ()`
-* `Queue.is_empty` de signature (`'a t -> bool`) qui teste si la file est vide ou non
-* `Queue.push` de signature (`'a -> 'a t -> unit`) qui enfile un élément, par exemple `#!ocaml Queue.push ma_file 10`
-* `Queue.pop` de signature (`'a t -> 'a`) qui défile un élément, par exemple `#!ocaml let elt = Queue.pop ma_file`
+* `Queue.create` de signature `unit -> 'a Queue.t` qui crée une file d'attente vide, par exemple `#!ocaml let ma_file = Queue.create ()`
+* `Queue.is_empty` de signature (`'a Queue.t -> bool`) qui teste si la file est vide ou non
+* `Queue.push` de signature (`'a -> 'a Queue.t -> unit`) qui enfile un élément, par exemple `#!ocaml Queue.push 10 ma_file`
+* `Queue.pop` de signature (`'a Queue.t -> 'a`) qui défile un élément, par exemple `#!ocaml let elt = Queue.pop ma_file`
 
 {{ exo("Arbre binaire de recherche en C",[])}}
 
 Pour l'implémentation des arbres binaires de recherche en C, on reprend la structure utilisée pour les arbres binaires :
 ```c
-    --8<-- "C12/abr.c:4:11"
+    --8<-- "C12/abr.c:struct"
 ```
 
 1. Ecrire une fonction `insere` de signature `#!c void insere(abr *t, int v)` qui insère la valeur `v` dans l'arbre binaire `t`. 
@@ -174,15 +176,16 @@ Pour l'implémentation des arbres binaires de recherche en C, on reprend la stru
 
 3. Ecrire une fonction `present` de signature `#!c bool present(abr t, int v)` qui teste l'appartenance de la valeur `v` à l'arbre `t`.
 
+
 !!! note
     
-    Pour écrire l'implémentation de la suppression d'une clé dans un {{sc("abr")}} on recommande de commencer par l’implémentation en OCaml ci-dessous.
+    Pour écrire l'implémentation de la suppression d'une clé dans un {{sc("abr")}} en C, on recommande de commencer par l’implémentation en OCaml ci-dessous.
 
 {{ exo("Arbre binaire de recherche en OCaml",[])}}
 
 Pour l'implémentation des arbres binaires de recherche en OCaml, on reprend la structure utilisée pour les arbres binaires :
 ```OCaml
-    --8<-- "C12/abr.ml:5:7"
+    --8<-- "C12/abr.ml:type"
 ```
 
 1. Ecrire une fonction `insere` de signature `abr -> int -> abr` qui insère une valeur dans un  {{sc("abr")}} et renvoie l'{{sc("abr")}} obtenu. 
@@ -218,51 +221,41 @@ Le but de cet exercice est de faire des statistiques sur la hauteur de l'arbre b
 
 5. Donner la moyenne, le minimum, le maximum de la série statistique des hauteurs obtenues en utilisant 1000 fois la fonction précédente.
 
+{{ exo("Implémentation de la structure de tas en C",[])}}
 
-{{ exo("Sur les arbres rouge-noir",[])}}
-
-Pour réprésenter un arbre rouge noir en OCaml, on définit un type somme `Rouge | Noir` pour la couleur puis on ajoute cette information de couleur dans les noeuds :
-
-```OCaml
-    --8<-- "C12/rougenoir.ml:1:3"
+On rappelle qu'un tas est un arbre binaire *complet* et que par conséquent, on peut le représenter à l'aide d'un tableau. En C, on propose la structure de données suivantes :
+```C
+    --8<-- "C12/tas.c:struct_tas"
 ```
 
-1. Généralités
+* `size` est la taille courant du tas
+* `capacity` est la capacité maximale du tas
+* `array` est le pointeur vers les éléments du tas, la zone mémoire correspondante est allouée de taille `capacity` à la création du tas.
 
-    1. On rappelle (voir cours) que dans un arbre rouge-noir, le nombre de noeuds noirs le long d'un chemin menant de la racine à une feuille est toujours le même, cette quantité est  *la hauteur noire*. Ecrire une fonction `arn -> int` qui calcule la hauteur noire d'un arbre rouge noir.
+Le but de l'exercice est d'écrire les fonctions d'insertion (percolation vers le haut) et de suppression du minimum  (percolation vers le bas) d'un élément dans ce tas puis de les utiliser afin d'implémenter l'algorithme du tri par tas.
 
-    2. Tester votre fonction sur les deux arbres suivants :
-    ```ocaml
-    let t1 = Noeud(Noeud(Vide,(Noir,0),Vide),(Noir,1),Noeud(Noeud(Vide,(Noir,2),Vide),(Rouge,3),Noeud(Vide,(Noir,4),Noeud(Vide,(Rouge,5),Vide))))
-    let t2 = Noeud(Noeud(Vide,(Noir,0),Vide),(Noir,1),Noeud(Noeud(Vide,(Noir,2),Vide),(Rouge,3),Noeud(Vide,(Noir,4),Noeud(Vide,(Rouge,5),Noeud(Vide,(Noir,6),Vide)))))
-    ```
-    Vous pouvez visualiser ces arbres grâce à la fonction de visualisation :
+1. Rappeler les indices des fils éventuels d'un élément dont l'indice dans le tableau est `i` puis écrire une fonction de signature `#!c int son(int i)` qui renvoie l'indice du fils *gauche* du noeud d'indice `i`.
 
-        ??? aide "Visualisation d'un arbre rouge noir en Caml"
-            **Attention**, cette fonction utiliser une variable globale `#!c int ninv = 0` que vous devrez déclarer en début de programme.
-            ```ocaml
-                --8<-- "C12/rougenoir.ml:12:49"
-            ```
+2. Rappeler l'indices du parent  d'un élément dont l'indice dans le tableau est `i>0` puis écrire une fonction de signature `#!c int father(int i)` qui renvoie l'indice du parent du noeud d'indice `i`.
 
-    3. Ecrire une fonction `verifie_abr` de signature `arn -> bool` qui vérifie que l'arbre donné en argument est un arbre binaire de recherche.
+3. Ecrire la fonction `#!c heap make_heap(int cap)` qui renvoie un tas binaire de capacité maximale `cap`, on rappelle qu'il faut allouer le pointeur vers les éléments du tas.
 
-    4. Ecrire une fonction `verifier_couleurs` de signature `arn->bool` qui vérifie que dans un `arn`, le père d'un noeud rouge est noir
+4. Ecrire la fonction `#!c bool insert_heap(int nv, heap *mh)` qui modifie le tas donné en argument en y insérant la valeur `nv`. 
 
-    5. Déduire des questions précédentes une fonction permettant de vérifier qu'un arbre est bien un arbre rouge-noir.
+5. Tester ces fonctions sur un exemple simple et afficher le tas binaire crée en utilisant la fonction de visualisation des arbres.
 
-2. Insertion dans un arbre rouge-noir  
-On rappelle (voir TD), que pour insérer un nouveau noeud dans un arbre rouge-noir, on commence par insérer comme dans un {{sc("abr")}} en coloriant le nouveau noeud en rouge. Puis lorsqu'un conflit rouge-rouge intervient, on le résout en coloriant la racine en noire si le conflit se situe à la racine, sinon on effectue une des transformations vues en TD.
+6. Ecrire et tester la fonction `#c int getmin(heap *mh)` qui extrait le minimum du tas binaire donné en argument.
 
-    1. Ecrire une fonction `noicir_racine` de signature `arn -> arn` qui colorie la racine en noire
+7. Ecrire une implémentation du tri par tas de signature `#c void heapsort(int *array, int size)` qui trie le tableau donné en argument.
 
-    2. Ecrire une fonction `correction_rouge` qui permet de corriger un conflit rouge-rouge lorsque celui ci ne se trouve pas à la racine. On utilisera un filtrage par motif et on rappelle qu'on se trouve dans l'un des quatre cas ci-dessous :  
-    ![4cas](./Images/C12/cas.png){.imgcentre width=700px} 
-    qui se ramène tous à :
-    ![4cas](./Images/C12/eq.png){.imgcentre width=350px}
 
-    3. Ecrire une fonction qui insère une nouvelle valeur dans un arbre rouge-noir
+{{ exo("Implémentation de la structure de tas en Ocaml",[])}}
 
-    4. Créer un arbre rouge noir et y insérer tous les entiers compris entre 1 et $1\,000\,000$. Quelle est la hauteur de l'arbre obtenu ? {{check_reponse("25")}}
+Reprendre l'exercice précédent en utilisant OCaml, avec le type suivant pour représenter un tas :
+
+```OCaml
+    --8<-- "C12/tas.ml:def_tas"
+```
 
 ## Humour d'informaticien
 

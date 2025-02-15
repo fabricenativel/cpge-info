@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
-
+#include <assert.h>
 // --8<-- [start:struct_tas]
 struct heap_s
 {
     int size;
     int capacity;
-    int *tab;
+    int *array;
 };
 typedef struct heap_s heap;
 // --8<-- [end:struct_tas]
@@ -31,11 +31,11 @@ int father(int i)
     };
 }
 
-void swap(int *tab, int i, int j)
+void swap(int *array, int i, int j)
 {
-    int temp = tab[i];
-    tab[i] = tab[j];
-    tab[j] = temp;
+    int temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
 }
 
 heap make_heap(int cap)
@@ -44,7 +44,7 @@ heap make_heap(int cap)
     heap mh;
     mh.size = 0;
     mh.capacity = cap;
-    mh.tab = t;
+    mh.array = t;
     return mh;
 }
 
@@ -58,13 +58,14 @@ bool insert_heap(int nv, heap *mh)
     }
     else
     {
-        mh->tab[cp] = nv;
-        while (father(cp) != -1 && mh->tab[cp] < mh->tab[father(cp)])
+        mh->array[cp] = nv;
+        while (father(cp) != -1 && mh->array[cp] < mh->array[father(cp)])
         {
-            swap(mh->tab, cp, father(cp));
+            swap(mh->array, cp, father(cp));
             cp = father(cp);
         }
         mh->size = mh->size + 1;
+        return true;
     }
 }
 // --8<-- [end:sift_up]
@@ -73,27 +74,28 @@ int getmin(heap *mh)
 {
     if (mh->size > 0)
     {
-        int mv = mh->tab[0];
+        int mv = mh->array[0];
         int cp = 0;
         int leftson = 1;
-        mh->tab[0] = mh->tab[mh->size - 1];
-        while (leftson < mh->size)
+        mh->array[0] = mh->array[mh->size - 1];
+        mh->size = mh->size - 1;
+        while ((leftson < mh->size && mh->array[leftson]<mh->array[cp]) || (leftson+1<mh->size && mh->array[leftson+1]<mh->array[cp]))
         {
-            if (leftson + 1 == mh->size || mh->tab[leftson] < mh->tab[leftson + 1])
+            if (leftson + 1 == mh->size || mh->array[leftson] < mh->array[leftson + 1])
             {
-                swap(mh->tab, cp, leftson);
+                swap(mh->array, cp, leftson);
                 cp = leftson;
             }
             else
             {
-                swap(mh->tab, cp, leftson + 1);
+                swap(mh->array, cp, leftson + 1);
                 cp = leftson + 1;
             }
             leftson = son(cp);
         }
-        mh->size = mh->size - 1;
         return mv;
     }
+    return -1;
 }
 
 void display_heap(heap mh)
@@ -101,7 +103,7 @@ void display_heap(heap mh)
     int newline = 1;
     for (int i = 0; i < mh.size; i++)
     {
-        printf("%d ", mh.tab[i]);
+        printf("%d ", mh.array[i]);
         if (i == newline - 1)
         {
             printf("\n");
@@ -111,17 +113,39 @@ void display_heap(heap mh)
     printf("\n");
 }
 
-void shuffle(int tab[], int size)
+void shuffle(int array[], int size)
 {
-    for (int i = 1; i < size; i++)
+    for (int i = size-1; i > 0; i--)
     {
-        swap(tab, rand() % i, i);
+        swap(array, rand() % (i+1), i);
     }
+}
+
+bool check(heap mh)
+{
+    for (int i = 0; i < mh.size; i++)
+    {
+        if (son(i) < mh.size)
+        {
+            if (mh.array[i] > mh.array[son(i)])
+            {
+                return false;
+            }
+            if (son(i) + 1 < mh.size)
+            {
+                if (mh.array[i] > mh.array[son(i) + 1])
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 int main()
 {
-    int s = 100000000;
+    int s = 20000;
     int *v = malloc(sizeof(int) * s);
     int *sorted = malloc(sizeof(int) * s);
     float st, et;
@@ -140,6 +164,10 @@ int main()
     for (int i = 0; i < s; i++)
     {
         sorted[i] = getmin(&mh);
+    }
+    for (int i=0; i<s-1; i++)
+    {
+        assert (sorted[i]<=sorted[i+1]);
     }
     et = (float)clock() / CLOCKS_PER_SEC;
     printf("Terminé en %f !\n", et - st);

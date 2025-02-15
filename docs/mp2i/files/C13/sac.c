@@ -68,6 +68,6 @@ int main()
 {
     objet obj[SIZE];
     lire_objets("sac.txt",obj,SIZE);
-    int res = brute_force(obj,SIZE,67);
+    int res = brute_force(obj,SIZE,8);
     printf("Valeur maximale = %d\n", res);
 }

@@ -1,8 +1,10 @@
 open Hashtbl
 
+(*//--8<-- [start:type]*)
 type abr = 
   |Vide 
   |Noeud of abr *  int * abr;;
+(*//--8<-- [end:type]*)
 
 let rec taille ab =
   match ab with

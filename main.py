@@ -66,7 +66,8 @@ def define_env(env):
         17 : [3,"Graphes","graphes.md"],
         18 : [7,"Modèle entité-association","mea.md"],
         19 : [4,"Algorithmes des textes","textes.md"],
-        20 : [4,"Algorithmes des graphes","algographes.md"]
+        20 : [4,"Algorithmes des graphes","algographes.md"],
+        21 : [4,"Complement sur les arbres","complement.md"]
     }
 
     # Progression : Thème, Titre, durée, fichiers

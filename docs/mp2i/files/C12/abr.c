@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//--8<-- [start:struct]
 struct noeud
 {
     struct noeud *sag;
@@ -9,7 +10,7 @@ struct noeud
 };
 typedef struct noeud noeud;
 typedef noeud *abr;
-
+//--8<-- [end:struct]
 
 void insere(abr *g, int v)
 {

@@ -22,15 +22,26 @@ Dans l'exemple représenté ci-dessus ([credit : wikipedia](https://en.wikipedia
 
 ![sac](./Images/C13/Knapsack_Problem_Illustration.svg){.imgcentre width=500px}
 
-Le poids maximal du sac est de 15kg, la combinaison d'objet ne dépassant pas ce poids et de valeur maximale est celle constituée de tous les livres sauf le vert. Le but de l'exercice est de résoudre un problème du sac à dos par *force brute* (un algorithme bien plus efficace sera vu plus tard dans l'année.)
+Le poids maximal du sac est de 15kg, la combinaison d'objet ne dépassant pas ce poids et de valeur maximale est celle constituée de tous les livres sauf le vert. 
+
+Le but de l'exercice est de tester sur cet exemple :
+
+* l'approche par *force brute*,
+* la stratégie gloutonne
+
+Nous utiliserons un sac de poids maximal **8kg** avec les objets suivants: 
+![pb_sac](./Images/C13/pbsac.png){.imgcentre width=500px}
 
 1. Créer un type adapté permettant de représenter un objet. Dans la suite, on suppose que les $n$ objets sont rangés dans un tableau de taille $n$.
 2. On décide de représenter un choix d'objets par un tableau  $c$ de $n$ booléens, tel que $c_i$ vaut `true` si l'objet $i$ fait partie du choix et `false` dans le cas contraire. Par exemple si $n=5$ la combinaison `{false, false, true, false, true}` signifie qu'on a pris les objets 2 et 4. Ecrire une fonction `poids_valeur` qui prend en entrée un tableau d'objets et un tableau de booléens représentant un choix d'objets et qui renvoie le poids et la valeur de ce choix.
 3. Avec $n$ objets, combien de combinaisons faudra-t-il tester ? Justifier
-4. Ecrire une fonction qui résoud le problème par force brute.
+4. Ecrire une fonction qui résoud le problème par force brute, vérifier votre réponse {{check_reponse("3850")}}
 
     !!! aide
-        Pour énumérer les choix possibles on peut  utiliser un compteur binaire
+        Pour énumérer les choix possibles on peut  utiliser :
+
+        * un compteur binaire
+        * les [codes de gray](https://fr.wikipedia.org/wiki/Code_de_Gray){target=_blank}
 
 5. Résoudre le problème avec un sac de poids maximal **67** et la liste de 24 objets suivantes :
 ```
@@ -67,7 +78,32 @@ Le poids maximal du sac est de 15kg, la combinaison d'objet ne dépassant pas ce
 
 6. Mesurer le temps d'exécution de votre programme avec la commande `time` des sytèmes Linux (ou directement avec le module `time.h` du C ou `Sys.time` en OCaml)
 
-7. Prédire le temps d'exécution pour un problème avec 50 objets.
+7. Prédire le temps d'exécution pour un problème avec 50 objets résolu par force brute.
+
+8. Pour ce problème, la stratégie gloutonne consiste à classer les objets un utilisant un *critère pertinent*, par exemple le rapport `valeur/poids` de l'objet puis à parcourir la liste ordonnée des objets et à les prendre s'ils rentrent encore dans le sac. Mettre en oeuvre cette stratégie et comparer les résultats obtenus avec ceux de la force brute, que peut-on en conclure sur la stratégie gloutonne sur cet exemple ?
+
+
+{{exo("Stratégie gloutonne pour le rendu de monnaie",[])}}
+
+On dispose d'un *système monétaire* c'est-à-dire d'un ensemble de valeurs possibles pour les pièces et les billets. Le problème du rendu de monnaie consiste à déterminer le nombre minimal de pièces à utiliser pour former une somme donnée. Par exemples :
+
+* Si on se place dans le système monétaire des euros c'est à dire $\{500, 200, 100, 50, 20, 10, 5, 2, 1\}$, alors
+    * pour former 17 euros le nombre minimal de pièces et de billets est  $3$ ($10+5+2$)
+    * pour 38 euros, c'est $5$ $(20+10+5+2+1)$
+* Si on place dans le système monétaire $\{5, 4, 3, 1\}$ alors
+    * pour former 19 le nombre minimal est de $4$ ($5+5+5+4$)
+    * pour former 7 le nombre minimal est de $2$ ($4+3$)
+
+Le but de l'exercice est d'implémenter et de tester une stratégie gloutonne sur ce problème.
+
+1. Implémenter la stratégie gloutonne qui consiste à rendre la pièce de plus forte valeur possible à chaque étape
+
+2. Tester sur les exemples donnés en introduction, que peut-on en déduire ?
+
+!!! note
+    
+    * On montre que si le système monétaire possède certaines propriétés alors l'algorithme glouton est optimal (le système monétaire est alors dit *canonique*), c'est le cas des euros (voir [la page wikipedia](https://fr.wikipedia.org/wiki/Probl%C3%A8me_du_rendu_de_monnaie){target=_blank}) pour plus de détails.
+    * De même que pour le problème du sac à dos, la programmation dynamique fournira une solution efficace à ce problème.
 
 {{exo("Retour sur le problème des n reines",[])}}
 
