@@ -62,6 +62,7 @@ let rec aleatoire n =
   !ab;;
 
 let () = let n=14 in
+          Random.self_init ();
           let ab = aleatoire n in
           let l1=prefixe_quadratique ab in
           List.iter (fun x -> Printf.printf "%d " x) l1;

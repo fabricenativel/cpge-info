@@ -220,6 +220,59 @@ Ecrire un programme permettant de résoudre un cryptarithme par retour sur trace
 !!! aide
     Comme toujours pour une résolution par *backtracking* on devra commencer par écrire une fonction permettant de valider une solution partielle. c'est-à-dire une solution dans laquelle certaines lettres ont déjà des valeurs. On prendra garde à traiter le cas d'une retenue éventuelle. Ainsi pour chaque "colonne" de l'addition **lorsque les lettres présentes sur la colonne ont déjà une valeur** en notant $c_1$ le chiffre de la première opérande, $c_2$ le chiffre de la seconde opérante, $c_r$ la retenue éventuelle (initialisée à 0) et $r$ le chiffre du résultat on doit vérifier que $(c_1 + c_2 + c_r) \mod 10 = r$
 
+
+{{exo("Somme maximale dans une matrice carrée",[])}}
+
+On considère une matrice carrée de taille $n\times n$, $M_{i,j}$ ($0 \leqslant i \leqslant n-1$ et $0 \leqslant j \leqslant n-1$) à coefficients entiers et on s'intéresse aux chemins depuis la première valeur en haut à gauche ($M_{0,0}$) jusqu'à la dernière en bas et à droite ($M_{n-1,n-1}$) qui n'utilisent que les déplacements vers la droite ($\rightarrow$) ou vers le bas ($\downarrow$). Et on cherche à déterminer la somme obtenue si on se déplace avec  une stratégie gloutonne. Par exemple,
+dans la matrice suivante :
+
+$\left(\begin{matrix}
+1 & 3 & 2 & 4 \\
+5 & 6 & 1 & 2 \\
+7 & 8 & 9 & 1 \\
+4 & 2 & 3 & 5
+\end{matrix}\right)$
+
+La stratégie gloutonne donnera le chemin suivant en rouge et une somme de **38**.
+
+$\left(\begin{matrix}
+\textcolor{red}{1} & 3 & 2 & 4 \\
+\textcolor{red}{5} & 6 & 1 & 2 \\
+\textcolor{red}{7} & \textcolor{red}{8} & \textcolor{red}{9} & 1 \\
+4 & 2 & \textcolor{red}{3} & \textcolor{red}{5}
+\end{matrix}\right)$
+
+1. En donnant un exemple montrer que la stratégie gloutonne ne donne pas toujours la somme optimale.
+
+2. Ecrire en OCaml, une fonction `glouton` qui renvoie la somme obtenue la stratégie gloutonne
+
+3. Tester votre fonction sur l'exemple suivant et vérifier votre résultat : {{check_reponse("261")}}
+    ```OCaml
+     exemple = [|
+        [|11; 19; 12;  2; 18; 18;  2;  9; 12; 17|];
+        [|17; 14; 12; 10;  7; 18; 12;  5; 11;  7|];
+        [| 4;  8;  2; 12;  2; 17; 16; 13;  1;  6|];
+        [|13;  8; 20; 10;  3; 12; 17; 12; 12;  9|];
+        [| 8;  3; 14; 17; 16; 10; 13; 10;  5; 20|];
+        [| 9; 13; 17;  9; 10;  1; 11; 19; 20; 19|];
+        [| 1;  6; 18; 15; 10;  2;  7;  9;  4; 20|];
+        [| 3;  8; 17; 18; 20; 19; 16;  8;  2; 14|];
+        [|19; 17; 18;  9; 20; 15;  6;  5; 16;  3|];
+        [|13; 14; 14;  9; 16;  8; 17; 15;  9; 11|];
+            |]
+    ```
+
+4. Un chemin valide dans une matrice de taille $n\times n$ est de longueur $2n-2$ et est nécessairement constitué de $n-1$ directions bas et de $n-1$ directions droite. Donc, choisir un chemin c'est choisir l'emplacement des directions droites, par conséquent, énumérer les chemins revient à énumérer les combinaisons possibles de $n-1$ éléments choisis parmi les entiers de $0$ à $2n-3$. Ecrire une fonction `#!ocaml combinaisons : int -> int -> int list list` qui prend en argument deux entiers `k` et `n` et renvoie les combinaisons de `k` entiers choisis parmis les entiers de `0` à `n-1`.
+
+    !!! aide
+        * on pourra commencer par écrire une fonction `#!ocaml entiers n` qui renvoie la liste des entiers de `0` à `n-1`
+        * pour générer les combinaisons, on pourra penser récursivement et considérer que choisir `k` éléments parmi `n` revient soit à prendre `n` et donc ensuite à en choisir `k-1` éléments parmi `n-1` soit à ne pas prendre `n` et donc à choisir `k` éléments parmi `n-1`.
+
+5. Ecrire une fonction qui prend en argument un chemin (donné sous la forme des indices des emplacements de l'une des deux directions) et renvoie la valeur de ce chemin
+
+6. Résoudre le problème par force brute et donner la valeur maximale de la somme dans l'exemple ci-dessus. Vérifier votre résultat : {{check_reponse("280")}}.
+
+
 ## Humour d'informaticien
 
 ![tree](./Images/C13/geekandpoke_bruteforce.png){.imgcentre width=500px}
