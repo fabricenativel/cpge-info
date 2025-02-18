@@ -50,6 +50,31 @@ let rec mystere ab =
   | Vide -> []
   | Noeud(g,v,d) ->   v::mystere g @ mystere d;;
 
+let prefixe ab =
+  let rec aux_prefixe ab acc =
+    match ab with
+    | Vide -> acc
+    | Noeud(g, v, d) -> v::aux_prefixe d (aux_prefixe g acc) in
+  aux_prefixe ab [];;
+
+let parcours_infixe ab = [];;
+
+let est_abr ab =
+  let pi = parcours_infixe ab in
+  let rec est_croissant l =
+    match l with
+    | [] -> true
+    | h::[] -> true
+    | h1::h2::t -> h1<h2 && est_croissant (h2::t) in
+  est_croissant pi;;
+
+  let rec plus_petit ab v =
+    (*Vérifie que toutes les valeurs dans ab sont inférieures à v*)
+    match ab with
+    | Vide -> true
+    | Noeud(g, r, d) -> r<v && plus_petit g v && plus_petit d v;;
+
+
 let infixe ab = 
   let rec aux ab acc =
     match ab with

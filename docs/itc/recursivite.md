@@ -1,6 +1,11 @@
-{% set num = 6%}
-{% set niveau = "itc_s1"%}
+{% set num = 6 %}
+{% set niveau = "itc_s1"%} 
 {{ titre_chapitre(num,niveau)}}
+
+## Cours
+
+{{ affiche_cours(num) }}
+
 
 ## Exemple introductif
 

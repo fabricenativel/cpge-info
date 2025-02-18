@@ -45,6 +45,36 @@
 
 {{notebook("3015-2167155","Notebook : Algorithme knn","./Notebook/k-moyennes.ipynb")}}
 
+
+{{ exo("Reconnaissance de langues",[])}}
+
+Le but de l'exercice est d'utiliser l'algorithme des $k$ plus proches voisins afin de reconnaître une langue. On donne ci-dessous 3 fichiers contenant chacun 1100 phrases, ces phrases sont extraites d'oeuvres littéraires célèbres qui sont dans le domaine public et gratuitement téléchargeable par exemple sur [Gutenberg](https://www.gutenberg.org/){target = _blank}.
+
+* Un fichier contenant  des phrases extraites du roman *Les Misérables* (V. Hugo) {{telecharger("Phrases en français","./files/C20/phrases_FR.txt")}}
+* Un fichier contenant  des phrases extraites du roman *Oliver Twist* (C. Dickens) {{telecharger("Phrases en anglais","./files/C20/phrases_EN.txt")}}
+* Un fichier contenant  des phrases extraites du roman *Faust* (J. Goethe) {{telecharger("Phrases en allemand","./files/C20/phrases_DE.txt")}}
+
+!!! Attention
+    Le texte original a été pré traité :
+
+    * Les majuscules ont été remplacées par les minusucules correspondantes
+    * on a supprimé les accents et les lettres ont été transformées en leur équivalent non accentuées par exemple les "$é$" sont des "$e$".
+    * les lettres ne figurant pas dans l'alphabet latin ont été remplacées par un "équivalent" ainsi le "$ç$" a été remplacé par "$c$" ou le "$\beta$ de l'allemand par un $s$.
+
+Le but de l'exercice est de mettre en oeuvre puis de tester une méthode des $k$ plus proches voisins afin de déterminer la langue dans laquelle une phrase est écrite. 
+
+1. Afin de mesurer la proximité entre deux phrases, on propose d'utiliser les *digrammes* c'est à dire les couples de deux lettres qui se suivent dans une phrase. Par exemple dans la phrase *"un petit test"*, on trouve les digrammes : *"un", "pe", "et", "ti", "it", "te", "es", "st"*. Et chacun de ces digrammes apparaît une seule fois. Dans la phrase *"C'est ma maman !"* la bigramme "ma" apparaît trois fois.  
+Ecrire une fonction `cree_digramme` qui prend en argument une phrase et renvoie un dictionnaire dont les clés sont les digrammes que la phrase contient et les valeurs leur nombre d'apparition. Par exemple `cree_digramme("C'est ma maman !")` va renvoyer le dictionnaire `#!python {'es': 1, 'st': 1, 'ma': 3, 'am': 1, 'an': 1}`.
+
+2. Afin de mesurer la distance entre deux phrases, on mesure la distance entre leurs dictionnaires de digrammes (en faisant simplement la somme des valeurs absolus des différences entre les nombres de digrammes). Par exemple, la distance entre `#!python {'es': 1, 'st': 1, 'ma': 2}` et `#!python {'et': 1, 'ti': 3, 'ma':2}` est 1 (`es`) + 1(`st`) + 1 (`et`) + 3 (`ti`) = 6.  
+Ecrire la fonction `distance` qui prend en argument deux dictionnaires de digrammes et renvoie la distance entre ces deux dictionnaires.
+
+3. Les fichiers donnés en introduction contiennent une phrase par ligne, écrire une fonction `lit_phrases` qui prend en argument un nom de fichier et une langue (`"FR","EN", "DE"`) et renvoie une liste de phrases étiquetées avec leur langue. C'est à dire une liste de tuples de la forme `("Un exemple de phrase", "FR")`.
+
+4. Ecrire une fonction `knn` qui prend en argument une liste de phrases déjà étiquetées, une phrase `p` et un entier `k` et renvoie la langue majoritaire des `k` phrases les plus proches de `p`. Tester votre fonction sur quelques phrases de votre choix.
+
+5. Séparer les données lues à la question 3 de façon à garder 100 phrases à des fin de test. Et construire la matrice de confusion sur ces 100 tests.
+
 {{ exo("Les passagers du titanic",[])}}
 
 Le but de l'exercice est d'utiliser un algorithme de classification pour prédire la survie des passagers du Titanic. Les données sont à récupérer sur le site [Kaggle](https://www.kaggle.com/c/titanic/data){target=_blank} et sont déjà séparées en deux parties :
