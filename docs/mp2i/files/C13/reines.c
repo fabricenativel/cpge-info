@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define SIZE 14
+#define SIZE 12
 #define WHITE "white"
 #define BLACK "black!30"
 #define QUEEN "\\queen"

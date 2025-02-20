@@ -130,7 +130,7 @@ Dans toute la suite on supposera définie une variable globale `size` contenant 
 2. Par force brute  
 On peut aussi utiliser la force brute pour résoudre ce problème, au lieu de valider des solutions partielles de façon incrémentale comme dans le retour sur trace, on génère les solutions complètes puis on les teste une à une. Une solution est forcément une permutation de $0, \dots n-1$ car toutes les reines sont sur des lignes différentes et on peut se contenter de vérifier les diagonales pour valider une solution car par construction les reines sont déjà sur des lignes et colonnes différentes.
 
-    a. Ecrire en OCaml une fonction `permutation int -> int list list` qui prend en argument un entier `n` et génère la liste de toutes les permutations de l'ensemble $0,\dots n-1$.
+    a. Afin de générer les permutations possibles de $0, \dots n-1$, on propose d'utiliser l'[algorithme de Heap](https://en.wikipedia.org/wiki/Heap%27s_algorithm){target = _blank}. 
 
     b. En déduire une résolution par force brute.
 

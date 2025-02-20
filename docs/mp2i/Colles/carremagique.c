@@ -96,7 +96,7 @@ bool resolution(int carre[], int index, int n, int values[], bool utilise[], int
 
 int main()
 {
-    int n = 5;
+    int n = 3;
     int size = n*n;
     int valeurs[size];
     int carre[size];
@@ -107,6 +107,7 @@ int main()
         utilise[i] = false;
     }
     int somme = calcule_somme(n);
+    printf("Carré de côté %d, somme = %d\n",n,somme);
     resolution(carre,0,n,valeurs,utilise,somme, size);
     for (int i=0;i<size;i++)
     {
