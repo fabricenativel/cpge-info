@@ -31,6 +31,23 @@ def dynamique(objets, pmax, i):
         avec = v + dynamique(objets, pmax-p, i+1)
         return max(sans, avec)
 
+def dynamique_memo(objets, pmax, i, memo):
+    if (pmax,i) in memo:
+        return memo[(pmax,i)]
+    if i >= len(objets) or pmax == 0:
+        memo[(pmax,i)]=0
+        return 0
+    p, v = objets[i]
+    sans = dynamique_memo(objets, pmax, i+1, memo)
+    if (p > pmax):
+        memo[(pmax,i)] = sans
+        return sans
+    else:
+        avec = v + dynamique_memo(objets, pmax-p, i+1, memo)
+        memo[(pmax,i)] = max(sans, avec)
+        return max(sans, avec)
+
+
 
 objs = [(4, 20), (5, 28), (6, 36), (7, 50)]
 assert valeur_poids(objs, [1, 0, 1, 0]) == (56, 10)
@@ -40,3 +57,6 @@ objets.sort(key=lambda x: x[1]/x[0], reverse=True)
 pmax = 10
 print(glouton(objets, pmax))
 print(dynamique(objets, pmax, 0))
+memo = {}
+print(dynamique_memo(objets, pmax, 0,memo))
+print(memo)

@@ -250,6 +250,10 @@ def define_env(env):
         FNAME = f"./{type}{niveau}.csv"
         utype = type.upper()
         today = datetime.date.today()
+        if niveau=="pc" or niveau=="pcsi":
+            tniv = "themes_"+"itc"
+        else:
+            tniv = "themes_"+niveau
         with open(FNAME,"r",encoding="utf-8") as f:
             nums=1
             for s in f:
@@ -258,7 +262,7 @@ def define_env(env):
                 y,m,d = tuple(map(int,lf[3].split("/")))
                 publish_date = datetime.date(y,m,d)
                 for theme in lf[2]:
-                    ico = ico + env.variables["themes_"+niveau][int(theme)][1]
+                    ico = ico + env.variables[tniv][int(theme)][1]
                 if publish_date <= today:
                     aff+=f"|**{nums}**|{ico}|{lf[1]}|[:fontawesome-solid-file-pen:](./{niveau}/Evaluations/{utype}/{utype}{lf[0]}/{utype}{lf[0]}.pdf) | [:fontawesome-solid-file-circle-check:](./{niveau}/Evaluations/{utype}/{utype}{lf[0]}/{utype}{lf[0]}-Correction.pdf)  |\n"
                 nums+=1
@@ -273,6 +277,10 @@ def define_env(env):
         listes = {k : f"###{noms[k]}\n"+entete for k in ttypes}
         FNAME = f"./eval{niveau}.csv"
         today = datetime.date.today()
+        if niveau=="pc" or niveau=="pcsi":
+            tniv = "themes_"+"itc"
+        else:
+            tniv = "themes_"+niveau
         with open(FNAME,"r",encoding="utf-8") as f:
             for s in f:
                 ico = ""
@@ -280,7 +288,7 @@ def define_env(env):
                 d,m,y = date.strip().split("/")
                 publish_date = datetime.date(*tuple(map(int,(y,m,d))))
                 for theme in themes:
-                    ico = ico + env.variables["themes_"+niveau][int(theme)][1]
+                    ico = ico + env.variables[tniv][int(theme)][1]
                 if publish_date <= today:
                     listes[utype]+=f"|**{numero}**|{d}/{m}/{y}|{ico}|{titre}|[:fontawesome-solid-file-pen:](./{niveau}/Evaluations/{utype}/{utype}{numero}/{utype}{numero}.pdf) | [:fontawesome-solid-file-circle-check:](./{niveau}/Evaluations/{utype}/{utype}{numero}/{utype}{numero}-Correction.pdf)  |\n"      
                 elif utype=="DS":

@@ -10,6 +10,7 @@
 \DS{MP2I}{4}{Février 2025}
 
 \setboolean{corrige}{false}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C12}
 
 \newcommand{\maillon}[3]{
 	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
@@ -31,10 +32,55 @@
 \psset{arrows=->,treesep=0.8cm,levelsep=0.8cm, radius=0.3cm}
 \begin{Exercise}[title={Questions de cours}]
 	\Question{Donner la définition d'un arbre binaire.}
+	\tcor{Un arbre binaire est une structure de données hiérarchique composée de noeuds définie récursivement, en effet un arbre binaire est :
+		\begin{itemize}
+			\item soit vide, on le note alors $\varnothing$
+			\item soit un noeud c'est à dire un triplet $(g, v, d)$ où $g$ et $d$ sont deux arbres binaires et $v$ l'étiquette.
+		\end{itemize}
+	}
 	\Question{Donner les définitions de la hauteur et de la taille d'un arbre binaire.}
+	\tcor{
+		\begin{itemize}
+			\item[\textbullet] Le nombre de noeuds d'un arbre binaire $A$, noté $n(A)$, se définit récursivement par :\\
+				$ \left\{
+					\begin{array}{llll}
+						n(A) & = & 0               & \text{si $A$ est vide}  \\
+						n(A) & = & 1 + n(g) + n(d) & \text{si $A = (g,a,d)$} \\
+					\end{array}
+					\right.
+				$
+			\item[\textbullet] La hauteur d'un arbre binaire $A$, noté $h(A)$, se définit récursivement par : \\
+				$\left\{
+					\begin{array}{llll}
+						h(A) & = & -1                  & \text{si $A$ est vide}  \\
+						h(A) & = & 1 + \max(h(g),h(d)) & \text{si $A = (g,a,d)$} \\
+					\end{array}
+					\right.
+				$
+		\end{itemize}}
 	\Question{Donner la définition d'un arbre binaire de recherche.}
+	\tcor{Un arbre binaire de recherche (noté {\sc abr}), est un arbre binaire tel que :
+	\begin{itemize}
+		\item Les étiquettes des noeuds, appelées clés sont toutes comparables entre elles.
+		\item Pour tous les noeuds $(g,v,d)$ l'ensemble des clés présentes dans le sous arbre gauche $g$ (resp. droit $d$) sont strictement inférieures (resp. supérieures) à $v$.
+		\item Les clés sont uniques.
+	\end{itemize}}
 	\Question{Prouver le parcours infixe d'un arbre binaire de recherche fournit les clés dans l'ordre croissant. \\
 	{\small \aide \;} Indication : on pourra raisonner par récurrence sur la taille de l'arbre.}
+	\tcor{
+		Pour tout $n \in \N$, on note $\mathcal{P}(n)$ la propriété : \og{} le parcours infixe d'un {\sc abr} de taille $n$ fournit les clés dans l'ordre croissant \fg.\\
+		\textbullet Initialisation : $\mathcal{P}(0)$ est vraie puisque le parcours infixe d'un arbre vide est vide et donc rangé dans l'ordre croissant.\\
+		\textbullet Hérédité : soit $n \in \N$, tel que pour tout $k \leqslant n$, $\mathcal{P}(k)$ est vrai, montrons alors que $\mathcal{P}(n+1)$ est vraie. Soit un arbre binaire de taille $n+1$, alors cet arbre n'est pas vide et donc c'est un triplet $(g, e, d)$ où $g$ et $d$ sont des arbres binaires de taille inférieure ou égale à $n$. En notant $p(a)$ le parcours prefixe d'un arbre $a$, on a par définition du parcours infixe :
+		$p((g,e,d)) = (p(g), e, p(d))$, on considère maintenant $x,y$ deux éléments apparaissant \textit{dans cet ordre} dans $(p(g), e, p(d))$ et on raisonne par disjonction de cas :
+		\begin{itemize}
+		\item $x \in p(g)$ et $y \in p(g)$, par hypothèse de récurrence le parcours infixe de $g$ est rangé dans l'ordre croissant et donc $x < y$.
+		\item $x \in p(g)$ et $y = e$, par la propriété des {\sc abr} les clés du sous arbres gauche sont strictement inférieur à la racine donc $x < y$.
+		\item $x \in p(g)$ et $y \in p(d)$, par la propriété des {\sc abr}, $x < e$ et $e <y$, donc $x < y$.
+		\item $x = e$ et $y \in p(d)$, par la propriété des {\sc abr}, $y > e$  donc $x < y$.
+		\item $x \in p(d)$ et $y \in p(d)$, par hypothèse de récurrence le parcours infixe de $d$ est rangé dans l'ordre croissant et donc $x < y$.
+		\end{itemize}
+		Donc $P(n+1)$ est vraie.
+		}
 	\Question{Donner l'ordre des noeuds lors des parcours prefixe, infixe et suffixe de l'arbre suivant :
 		\begin{center}
 			\pstree{\TCircle{42}}
@@ -52,6 +98,14 @@
 					}
 					\Tn{} \Tn{} }}
 		\end{center}}
+	\tcor{
+		Voici l'ordre des noeuds dans chacun des parcours :
+		\begin{itemize}
+		\item Prefixe : $42, 28, 10, 17, 31, 31, 24, 27$
+		\item Infixe : $10, 17, 28, 31, 42, 27, 24, 31$ 
+		\item Suffixe : $17, 10, 31, 28, 27, 24, 31, 42$ 
+		\end{itemize}
+	}
 	\Question{On considère l'arbre binaire suivant :
 		\begin{center}
 			\pstree{\TCircle{26}}
@@ -67,10 +121,14 @@
 		\end{center}
 		Donner les valeurs de l'étiquette $x$ pour lesquelles cet arbre est un arbre binaire de recherche.
 	}
+	\tcor{On peut écrire le parcours infixe de cet arbre : $12, 15, 16, x, 21, 24, 26, 30, 32$ et donc les valeurs de $x$ pour lesquelles cet arbre est un {\sc abr} sont celles de l'intervalle $]16,21[$ en supposant $x$ entier, les valeurs possibles de $x$ sont donc $17, 18, 29$ et $20$.
+	}
 	\Question{On implémente les arbres binaires de recherche en OCaml à l'aide du type suivant :
 	\inputpartOCaml{abr.ml}{}{}{1}{3}
 	Ecrire une fonction {\tt insere : int -> abr -> abr} qui prend en argument un entier $x$ et un arbre binaire de recherche $a$ et renvoie un arbre binaire de recherche contenant $x$ et tous les éléments de $a$.}
-	
+	\ifcorrige
+	\corOCaml{\SPATH/insereml.ml}{}{}
+	\fi
 \end{Exercise}
 
 \begin{Exercise}[title = {Valeur plus petite la plus proche}]\\
@@ -86,8 +144,13 @@ Par exemple dans le tableau $\{2, 1, 7, 9, 8, 3\}$ :
 \end{itemize}
 Et donc le tableau des valeurs plus petites les plus proches dans cet exemple est $\{-1, -1, 1, 7, 7, 1\}$
 \Question{Donner le tableau des valeurs plus petites les plus proches pour le tableau $\{5, 7, 11, 6, 9, 2 \}$}
+\tcor{On obtient : $\{-1, 5, 7, 5, 6, -1\}$}
 \Question{On propose l'algorithme suivant pour résoudre ce problème : pour chaque élément {\tt tab[i]} du tableau on parcourt  les valeurs {\tt tab[i-1], \dots, tab[0]} \textit{dans cet ordre}, si on trouve un élément strictement inférieur à {\tt tab[i]} alors c'est la valeur plus petite la plus proche, sinon la valeur plus petite la plus proche est $-1$. Ecrire une implémentation de cet algorithme en C sous la forme d'une fonction de signature \mintinline{c}{int *vpp_naif(int tab[], int size)} qui prend en argument un tableau d'entiers {\tt tab} ainsi que sa taille {\tt size} et un renvoie un tableau de taille {\tt size} contenant à l'indice {\tt i} la valeur strictement inférieure la plus proche de {\tt tab[i]}.}
-\Question{Justifier rapidement que l'algorithme précédent a une complexité quadratique} \medskip \\
+\ifcorrige
+\corpartC{nsv.c}{}{}{59}{82}
+\fi
+\Question{Justifier rapidement que l'algorithme précédent a une complexité quadratique}
+\tcor{Pour chaque indice {\tt i} du tableau, on parcourt dans le pire cas, le sous tableau {\tt i-1, \dots, 0} en effectuant des opérations élémentaires. On effectue donc au plus $1 + 2 + \dots (n-1)$ opérations élémentaires. Et donc la complexité est quadratique.} 
 On considère maintenant l'algorithme suivant qui utilise une pile dotée de son interface usuelle ({\tt est\_vide, empiler, depiler}) et de la fonction {\tt sommet} qui renvoie la valeur située au sommet de la pile sans la dépiler. \\
 \SetAlFnt{\small}
 \setlength{\algomargin}{8pt}
@@ -145,8 +208,17 @@ On considère maintenant l'algorithme suivant qui utilise une pile dotée de son
 	\end{itemize}
 	Ecrire en utilisant ces fonctions une fonction {\tt sommet} de signature \mintinline{c}{int sommet(pile *p)} qui renvoie le sommet de la pile sans le depiler si la pile n'est pas vide et $-1$ sinon.
 }
+\ifcorrige
+\corpartC{nsv.c}{}{}{43}{52}
+\fi
 \Question{Ecrire une implémentation en C de l'algorithme des valeurs plus petites les plus proches donné ci-dessus et utilisant une pile sous la forme d'une fonction de signature \mintinline{c}{int *vpp_pile(int tab[], int size)} qui renvoie le tableau des valeurs plus petites les plus proches.} 
+\ifcorrige
+\corpartC{nsv.c}{}{}{84}{98}
+\fi
 \Question{Prouver que cet algorithme est de complexité linéaire, on pourra vérifier que chaque élément du tableau $t$ est empilé une fois et dépilé au plus une fois.}
+\tcor{
+	La boucle {\tt for} ne contient que des instructions depiler, empiler et d'affectation dans le tableau {\tt nsv}, chaque élément n'est empilé qu'une seule fois il y en donc {\tt n} opérations {\tt empiler} en tout, on ne peut donc pas dépiler plus de {\tt n} fois et donc l'algorithme est de complexité linéaire. 
+}
 \end{Exercise}
 
 
@@ -235,7 +307,13 @@ GROUPE BY revue
 
 	Dans cette partie uniquement, on implémente un ensemble d'entiers positifs par la liste des ses éléments rangés \emph{dans l'ordre croissant.}. Par exemple la liste {\tt [2; 7; 11]} représente l'ensemble $\{2, 7, 11\}$.
 	\Question{Ecrire la fonction {\tt intersection : int list -> int list -> int list} qui prend en argument deux listes d'entiers triés représentant des ensembles et renvoyant leur intersection sous la forme d'une liste triée d'entiers.}
+	\ifcorrige
+	\corpartOCaml{entiers.ml}{}{}{6}{11}
+	\fi
 	\Question{Ecrire une fonction {\tt succ\_list} de signature {\tt int list -> int -> int} prenant en arguments une liste d'entiers \textit{distincts} dans l'ordre croissant et un entier $x$ et renvoyant le successeur de $x$ dans la liste, c'est à dire le plus petit entier strictement supérieur à $x$ de la liste ($-1$ si cela n'existe pas). Par {\tt succ\_list [2; 7; 11] 5} doit renvoyer 7.}
+	\ifcorrige
+	\corpartOCaml{entiers.ml}{}{}{1}{4}
+	\fi
 	\Question{Donner la complexité de cette fonction dans le pire des cas.}
     \tcor{Les appels récursif sont en temps constant et la taille de la liste diminue de 1 à chaque appel donc la complexité est linéaire en fonction de la taille de la liste.}
 	\medskip
@@ -256,10 +334,15 @@ GROUPE BY revue
     \end{itemize}
     }
 	\Question{Par une méthode dichotomique, écrire une fonction {\tt succ\_vect} de signature {\tt int array -> int -> int} prenant en arguments un tableau {\tt t} codant un ensemble $E$ comme ci-dessus et un entier $x$ et renvoyant le successeur de $x$ dans $E$ ($-1$ si cela n'existe pas.)}
+	\ifcorrige
+	\corpartOCaml{entiers.ml}{}{}{13}{22}
+	\fi
 	\Question{Calculer la complexité dans le pire cas de la fonction {\tt succ\_vect} en fonction de $n$.}
-    \tcor{A chaque passage dans la boucle {\tt while} la taille de l'intervalle $\intN{imin}{imax}$ est divisée par 2. Cet intervalle étant de taille $|E|$, il faut au plus $\log(|E|)$ division avant de quitter la boucle, la fonction est donc de complexité logarithmique en la taille de l'ensemble.}
+    \tcor{A chaque appel récursif  la taille de l'intervalle $\intN{\tt deb}{fin}$ est divisée par 2. Cet intervalle étant de taille $|E|$, il faut au plus $\log(|E|)$ division avant de quitter la boucle, la fonction est donc de complexité logarithmique en la taille de l'ensemble.}
 	\Question{Ecrire une fonction {\tt union\_vect} de signature {\tt int array -> int array -> int array} prenant en arguments deux tableaux {\tt t\_1} et {\tt t\_2}, de taille N, codant deux ensembles $E_1$ et $E_2$ et renvoyant le tableau correspondant à $E_1 \cup E_2$. On supposera que $| E_1 \cup E_2 | \leq N$.}
-	\medskip
+	\ifcorrige
+	\corpartOCaml{entiers.ml}{}{}{24}{39}
+	\fi
 	\ExePart[name = {Avec une table de hachage}]
 
 	Soit $K$ un entier naturel strictement positif. On choisit de représenter un ensemble d'entiers $E$ de cardinal $n$ par une table de hachage de taille $K$ avec résolution des collisions par chainage. La fonction de hachage est $h(i) = i \mod K$.

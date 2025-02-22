@@ -10,6 +10,10 @@
 {{ affiche_cours(num) }}
 
 
+## Travaux dirigés
+
+{{ td(num) }}
+
 ## Travaux pratiques
 
 !!! note

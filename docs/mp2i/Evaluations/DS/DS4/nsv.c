@@ -40,9 +40,15 @@ int depiler(pile *p)
     return p->contenu[p->indice_sommet + 1];
 }
 
-int sommet(pile p)
+int sommet(pile *p)
 {
-    return p.contenu[p.indice_sommet];
+    if (est_vide(*p))
+    {
+        return -1;
+    }
+    int temp = depiler(p);
+    empiler(p, temp);
+    return temp;
 }
 
 void libere(pile *p)
@@ -63,10 +69,14 @@ int *vpp_naif(int tab[], int size)
         {
             idx--;
         }
-        if (idx<0)
-        {nsv[i]=-1;}
+        if (idx < 0)
+        {
+            nsv[i] = -1;
+        }
         else
-        {nsv[i] = tab[idx];}
+        {
+            nsv[i] = tab[idx];
+        }
     }
     return nsv;
 }
@@ -77,21 +87,13 @@ int *vpp_pile(int tab[], int size)
     int *nsv = malloc(sizeof(int) * size);
     for (int i = 0; i < size; i++)
     {
-        while (!est_vide(p) && sommet(p) >= tab[i])
+        while (!est_vide(p) && sommet(&p) >= tab[i])
         {
             depiler(&p);
         }
-        if (est_vide(p))
-        {
-            nsv[i] = -1;
-        }
-        else
-        {
-            nsv[i] = sommet(p);
-        }
+        nsv[i] = sommet(&p);
         empiler(&p, tab[i]);
     }
-    libere(&p);
     return nsv;
 }
 
@@ -106,12 +108,12 @@ void view(int *tab, int size)
 
 int main()
 {
-    int test[] = {2, 1, 7, 9, 8, 3};
+    int test[] = {5, 7, 11, 6, 9, 2};
     int size = 6;
     int *res1 = vpp_naif(test, size);
     int *res2 = vpp_pile(test, size);
-    view(res1,size);
-    view(res2,size);
+    view(res1, size);
+    view(res2, size);
     free(res1);
     free(res2);
 }

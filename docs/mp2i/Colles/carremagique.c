@@ -96,7 +96,7 @@ bool resolution(int carre[], int index, int n, int values[], bool utilise[], int
 
 int main()
 {
-    int n = 3;
+    int n = 5;
     int size = n*n;
     int valeurs[size];
     int carre[size];

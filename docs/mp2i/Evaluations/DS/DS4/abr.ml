@@ -46,13 +46,37 @@ let view a =
   write_edge a outc ninv;
   output_string outc "}\n";
   close_out outc;
-  ignore (Sys.command "xdot temp.gv");;
+  ignore (Sys.command "xdot temp.gv &");;
+
+let rec view_prefixe ab =
+  match ab with
+  | Vide -> ()
+  | Noeud(g, e, d) -> print_int e; print_string " "; view_prefixe g; view_prefixe d;;
+
+let rec view_infixe ab =
+  match ab with
+  | Vide -> ()
+  | Noeud(g, e, d) ->  view_infixe g; print_int e; print_string " "; view_infixe d;;
+
+let rec view_suffixe ab =
+  match ab with
+  | Vide -> ()
+  | Noeud(g, e, d) ->  view_suffixe g; view_suffixe d; print_int e; print_string " ";;
+
 
 let () = 
-  let arbre = Vide in
-  let arbre = insere 5 arbre in
-  let arbre = insere 7 arbre in
-  let arbre = insere 2 arbre in
-  let arbre = insere 1 arbre in
-  let arbre = insere 8 arbre in
+  let arbre = Noeud (
+      Noeud(Noeud(Vide, 10, Noeud(Vide, 17, Vide)),28,Noeud(Vide,31,Vide)),
+      42,
+      Noeud(Noeud(Noeud(Vide,27,Vide),24,Vide),32,Vide)
+  ) in
+  print_string "Prefixe = ";
+  view_prefixe arbre;
+  print_newline ();
+  print_string "Infixe = ";
+  view_infixe arbre;
+  print_newline ();
+  print_string "Suffixe = ";
+  view_suffixe arbre;
+  print_newline ();
   view arbre;;
