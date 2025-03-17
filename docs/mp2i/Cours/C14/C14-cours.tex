@@ -210,13 +210,13 @@
 			\item<2-> Compléter le tableau de valeurs suivant  de la fonction $a$ :
 				\begin{tabular}{|l|l|l|l|l|l|l|l|}
 					\hline
- & 0     & 1     & 2     & 3        & 4        & 5        & 6        \\
+					\backslashbox{$n$}{$m$} & 0     & 1     & 2     & 3                    & 4     & 5     & 6                    \\
 					\hline
-					0                       & \dots & \dots & \dots & \dots    & \dots    & \dots    & \dots    \\
+					0 & \dots & \dots & \dots & \dots                & \dots & \dots & \dots                \\
 					\hline
-					1                       & \dots & \dots & \dots & \dots    & \dots    & \dots    & \multicolumn{1}{c}{} \\
+					1 & \dots & \dots & \dots & \dots                & \dots & \dots & \multicolumn{1}{c}{} \\
 					\cline{1-7}
-					2                       & \dots & \dots & \dots & \multicolumn{4}{c}{} \\
+					2 & \dots & \dots & \dots & \multicolumn{4}{c}{}                                        \\
 					\cline{1-4}
 				\end{tabular}
 			\item<3-> Ecrire la fonction {\tt ack int -> int -> int} qui permet de calculer $a(n,m)$
@@ -232,17 +232,17 @@
 			\item<2-> Tableau de valeurs :\\
 				\begin{tabular}{|l|l|l|l|l|l|l|l|}
 					\hline
-					& 0     & 1     & 2     & 3        & 4        & 5        & 6        \\
+					\backslashbox{$n$}{$m$}  & 0 & 1 & 2 & 3                    & 4 & 5 & 6                    \\
 					\hline
-					0                       & 1 & 2 & 3 & 4    & 5    & 6    & 7    \\
+					0 & 1 & 2 & 3 & 4                    & 5 & 6 & 7                    \\
 					\hline
-					1                       & 2 & 3 & 4 & 5    & 6    & 7    & \multicolumn{1}{c}{} \\
+					1 & 2 & 3 & 4 & 5                    & 6 & 7 & \multicolumn{1}{c}{} \\
 					\cline{1-7}
-					2                       & 2 & 3 & 5 & \multicolumn{4}{c}{} \\
+					2 & 3 & 5 & 7 & \multicolumn{4}{c}{}                                \\
 					\cline{1-4}
 				\end{tabular}
 			\item<3-> Fonction {\tt ack} :
-			\inputpartOCaml{\SPATH/fusion.ml}{}{\small}{7}{11}
+				\inputpartOCaml{\SPATH/fusion.ml}{}{\small}{7}{11}
 			\item<4-> On note $(n,m)$ (resp. $(n',m')$) les valeurs des paramètres avant (resp. après un appel récursif) alors, soit $n' <n$ et donc $(n',m') \prec (n,m)$ soit $n'=n$ et $m' \leq m$ et on a encore $(n',m') \prec (n,m)$.
 		\end{enumerate}
 	\end{exampleblock}
@@ -250,106 +250,106 @@
 
 \makess{Ensembles inductifs}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{block}{Rappel : arbre binaire}
-        On rappelle qu'on a défini un arbre binaire (sur un ensemble d'étiquettes $E$) comme étant :
-        \begin{itemize}
-            \item soit l'arbre vide noté $\varnothing$
-            \item soit la donnée d'un triplet $(g, e, d)$ où $e \in E$ et $g$ et $d$ sont des arbres binaires.
-        \end{itemize}
-    \onslide<2->{On a donc donné un objet de base (l'arbre vide) et une règle permettant de construire un arbre \og{} plus grand \fg{} en donnant deux sous arbres.\\ C'est ce mécanisme (la donnée d'un ou plusieurs objets de base et d'une ou plusieurs règles permettant d'en construire d'autres) qui permet de définir des ensembles dits \textcolor{blue}{inductifs}.}
-    \end{block}
+	\begin{block}{Rappel : arbre binaire}
+		On rappelle qu'on a défini un arbre binaire (sur un ensemble d'étiquettes $E$) comme étant :
+		\begin{itemize}
+			\item soit l'arbre vide noté $\varnothing$
+			\item soit la donnée d'un triplet $(g, e, d)$ où $e \in E$ et $g$ et $d$ sont des arbres binaires.
+		\end{itemize}
+		\onslide<2->{On a donc donné un objet de base (l'arbre vide) et une règle permettant de construire un arbre \og{} plus grand \fg{} en donnant deux sous arbres.\\ C'est ce mécanisme (la donnée d'un ou plusieurs objets de base et d'une ou plusieurs règles permettant d'en construire d'autres) qui permet de définir des ensembles dits \textcolor{blue}{inductifs}.}
+	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{Définition}
-        Soit $E$ un ensemble, on peut définir par \textcolor{blue}{induction} une partie $X$ de $E$ en se donnant :
-        \begin{itemize}
-            \item<2-> Un ensemble $X_0 \subset E$, appelé \textcolor{blue}{axiomes}
-            \item<3-> Un ensemble fini de \textcolor{blue}{règles d'inférences}.
-        \end{itemize}
-        \onslide<4->Une règle d'inférence $R$ est une fonction de $E^n$ dans $E$, $n$ est appelé \textcolor{blue}{arité} de $R$.\\
-        
-        \onslide<5->{\medskip $X$ est alors la \textit{plus petite partie} (au sens de l'inclusion) de $E$ qui :}
-        \begin{itemize}
-            \item<6-> contient $X_0$ 
-            \item<7-> est stable par l'application des règles d'inférence c'est-à-dire que $\forall f \in R \text{ d'arité } $n$, \forall (x_1, \dots x_n) \in X^n$ appartenant au domaine de définition de $f$, $f(x_1,\dots,x_n) \in X$.
-        \end{itemize}
-    \end{alertblock}
+		Soit $E$ un ensemble, on peut définir par \textcolor{blue}{induction} une partie $X$ de $E$ en se donnant :
+		\begin{itemize}
+			\item<2-> Un ensemble $X_0 \subset E$, appelé \textcolor{blue}{axiomes}
+			\item<3-> Un ensemble fini de \textcolor{blue}{règles d'inférences}.
+		\end{itemize}
+		\onslide<4->Une règle d'inférence $R$ est une fonction de $E^n$ dans $E$, $n$ est appelé \textcolor{blue}{arité} de $R$.\\
+
+		\onslide<5->{\medskip $X$ est alors la \textit{plus petite partie} (au sens de l'inclusion) de $E$ qui :}
+		\begin{itemize}
+			\item<6-> contient $X_0$
+			\item<7-> est stable par l'application des règles d'inférence c'est-à-dire que $\forall f \in R \text{ d'arité } $n$, \forall (x_1, \dots x_n) \in X^n$ appartenant au domaine de définition de $f$, $f(x_1,\dots,x_n) \in X$.
+		\end{itemize}
+	\end{alertblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exemples}
-        \begin{itemize}
-            \item L'ensemble $\N$ peut-être défini de façon inductive par $X_0 = \{0\}$ et la règle d'inférence d'arité 1 : $n \mapsto n+1$.
-            \item<2-> Les listes  d'entiers de OCaml peuvent être définies de façon inductive par $X_0 = [\;]$ et la règle d'inférence d'arité 1 : $ l \mapsto n::l$ où $n \in \N$. \\
-                \onslide<3->{Le \textcolor{blue}{filtrage par motif} permet alors de raisonner sur les listes de façon globale en envisageant à chaque fois le cas de base (la liste vide) et le cas d'un liste produite par la règle d'inférence.}
-            \item<4-> Etant donné un ensemble $A$ appelé \textcolor{blue}{alphabet} dont les éléments sont appelés \textcolor{blue}{lettres}, on peut définir de façon inductive l'ensemble $A^*$ des mots sur $A$ par la donnée de $X_0 = \{\epsilon\}$ où $\epsilon$ est le mot vide et la règle d'inférence d'arité 1 : $ u \mapsto ua$ pour tout $a$ dans $A$
-        \end{itemize}
-     \end{exampleblock}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item L'ensemble $\N$ peut-être défini de façon inductive par $X_0 = \{0\}$ et la règle d'inférence d'arité 1 : $n \mapsto n+1$.
+			\item<2-> Les listes  d'entiers de OCaml peuvent être définies de façon inductive par $X_0 = [\;]$ et la règle d'inférence d'arité 1 : $ l \mapsto n::l$ où $n \in \N$. \\
+				\onslide<3->{Le \textcolor{blue}{filtrage par motif} permet alors de raisonner sur les listes de façon globale en envisageant à chaque fois le cas de base (la liste vide) et le cas d'un liste produite par la règle d'inférence.}
+			\item<4-> Etant donné un ensemble $A$ appelé \textcolor{blue}{alphabet} dont les éléments sont appelés \textcolor{blue}{lettres}, on peut définir de façon inductive l'ensemble $A^*$ des mots sur $A$ par la donnée de $X_0 = \{\epsilon\}$ où $\epsilon$ est le mot vide et la règle d'inférence d'arité 1 : $ u \mapsto ua$ pour tout $a$ dans $A$
+		\end{itemize}
+	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exercices}
-        \begin{enumerate}
-            \item<1-> Donner l'ensemble $X_0$, et la règle d'inférence pour la définition des arbres binaires rappelées en début de chapitre.
-            \item<2-> Donner une définition inductive des entiers pairs.
-            \item<3-> Sur $\N \cup \{+, -, \times, /\}$ on définit par induction l'ensemble $E$ par $X_0 = \N$ et les règles d'inférences d'arité 2 : 
-                $(u,v) \mapsto u + v, (u,v) \mapsto u - v, (u,v) \mapsto u \times v$ et $(u,v) \mapsto u / v$ \\
-                Montrer que $8 \times 4 + 10 \in E$ et donner deux suites différentes d'application des règles d'inférence permettant de l'obtenir.
-        \end{enumerate}
-    \end{exampleblock}
-    \onslide<4->{
-    \begin{block}{Ambigüité d'une définition inductive}
-        Une définition inductive d'un ensemble $X$ est dite \textcolor{blue}{non ambigüe}  si pour tout $x \in X$, il n'existe qu'une seule façon de construire $x$ à partir des axiomes et des règles d'inférence. Cela permet notamment de construire des fonctions sur les objets inductifs.
-    \end{block}}
+	\begin{exampleblock}{Exercices}
+		\begin{enumerate}
+			\item<1-> Donner l'ensemble $X_0$, et la règle d'inférence pour la définition des arbres binaires rappelées en début de chapitre.
+			\item<2-> Donner une définition inductive des entiers pairs.
+			\item<3-> Sur $\N \cup \{+, -, \times, /\}$ on définit par induction l'ensemble $E$ par $X_0 = \N$ et les règles d'inférences d'arité 2 :
+				$(u,v) \mapsto u + v, (u,v) \mapsto u - v, (u,v) \mapsto u \times v$ et $(u,v) \mapsto u / v$ \\
+				Montrer que $8 \times 4 + 10 \in E$ et donner deux suites différentes d'application des règles d'inférence permettant de l'obtenir.
+		\end{enumerate}
+	\end{exampleblock}
+	\onslide<4->{
+		\begin{block}{Ambigüité d'une définition inductive}
+			Une définition inductive d'un ensemble $X$ est dite \textcolor{blue}{non ambigüe}  si pour tout $x \in X$, il n'existe qu'une seule façon de construire $x$ à partir des axiomes et des règles d'inférence. Cela permet notamment de construire des fonctions sur les objets inductifs.
+		\end{block}}
 \end{frame}
 
 \makess{Preuve par induction structurelle}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{alertblock}{Principe d'induction structurelle}
-        Soit $X$ un ensemble défini inductivement, et $P$ une propriété sur $X$.
-        \begin{itemize}
-            \item<2-> (\textit{initialisation}) Si $P(x)$ est vraie pour tous les éléments de $X_0$.
-            \item<3-> (\textit{hérédité}) Et si pour toute règle $R$ d'arité $n$, et tout $(x_1,\dots,x_n) \in X$, $P(x1), \dots P(x_n)$ vraies $\implies P(x_1,\dots,x_n)$ vraie.
-        \end{itemize}
-        \onslide<4->{alors pour tout $x \in X$, $P(x)$ est vraie.}
-    \end{alertblock}
-    \onslide<5->
-    {\begin{block}{Remarque}
-        Dans le cas où $X$ est l'ensemble des entiers naturels défini de façon inductive, on retrouve le principe du raisonnement par récurrence.
-    \end{block}}
+	\begin{alertblock}{Principe d'induction structurelle}
+		Soit $X$ un ensemble défini inductivement, et $P$ une propriété sur $X$.
+		\begin{itemize}
+			\item<2-> (\textit{initialisation}) Si $P(x)$ est vraie pour tous les éléments de $X_0$.
+			\item<3-> (\textit{hérédité}) Et si pour toute règle $R$ d'arité $n$, et tout $(x_1,\dots,x_n) \in X$, $P(x1), \dots P(x_n)$ vraies $\implies P(x_1,\dots,x_n)$ vraie.
+		\end{itemize}
+		\onslide<4->{alors pour tout $x \in X$, $P(x)$ est vraie.}
+	\end{alertblock}
+	\onslide<5->
+	{\begin{block}{Remarque}
+			Dans le cas où $X$ est l'ensemble des entiers naturels défini de façon inductive, on retrouve le principe du raisonnement par récurrence.
+		\end{block}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{exampleblock}{Exemple}
-        On définit inductivement (et de façon non ambigüe) l'ensemble $D$ des mots de Dyck (ou parenthésages bien formés) par : $X_0 = \{\epsilon\}$ et la règle d'inférence d'arité~2 $(x,y) \mapsto \boldsymbol{\langle}x\boldsymbol{\rangle}y$.\\
-        \smallskip
-        Pour $d \in D$, on note $n_o(d)$ (resp. $n_f(d)$) le nombre de symboles $\boldsymbol{\langle}$ (resp. $\boldsymbol{\rangle}$) apparaissant dans $d$. Montrer par induction structurelle que $n_o(d) = n_f(d)$ pour tout $d \in D$.
-        \begin{itemize}
-        \item<2-> \textcolor{OliveGreen}{On note $P(d)$ la propriété $n_o(d) = n_f(d)$}
-        \item<3-> \textcolor{OliveGreen}{Initialisation : on vérifie la propriété pour les éléments de $X_0$, comme $X_0 = {\epsilon}$ et $n_o(\epsilon)=0$ et $n_f(\epsilon)=0$. $P$ est vraie pour tous les éléments de $X_0$.}
-        \item<4-> \textcolor{OliveGreen}{Hérédité : on vérifie la conservation de la propriété par application de chacune des règles d'inférence. Si $x$ et $y$ sont deux mots de Dyck vérifiant $P$ alors $n_o(\boldsymbol{\langle}x\boldsymbol{\rangle}y) = 1 + n_o(x) + n_o(y)$ et $n_f(\boldsymbol{\langle}x\boldsymbol{\rangle}y) = 1 + n_f(x) + n_f(y)$ et puisque $x$ et $y$ vérifient $P$, $n_o(\boldsymbol{\langle}x\boldsymbol{\rangle}y) = n_f(\boldsymbol{\langle}x\boldsymbol{\rangle}y)$ }
-        \end{itemize}
-        \onslide<5->\textcolor{OliveGreen}{Par induction structurelle on conclut que $P$ est vraie pour tout $x \in D$.}
-    \end{exampleblock}
+	\begin{exampleblock}{Exemple}
+		On définit inductivement (et de façon non ambigüe) l'ensemble $D$ des mots de Dyck (ou parenthésages bien formés) par : $X_0 = \{\epsilon\}$ et la règle d'inférence d'arité~2 $(x,y) \mapsto \boldsymbol{\langle}x\boldsymbol{\rangle}y$.\\
+		\smallskip
+		Pour $d \in D$, on note $n_o(d)$ (resp. $n_f(d)$) le nombre de symboles $\boldsymbol{\langle}$ (resp. $\boldsymbol{\rangle}$) apparaissant dans $d$. Montrer par induction structurelle que $n_o(d) = n_f(d)$ pour tout $d \in D$.
+		\begin{itemize}
+			\item<2-> \textcolor{OliveGreen}{On note $P(d)$ la propriété $n_o(d) = n_f(d)$}
+			\item<3-> \textcolor{OliveGreen}{Initialisation : on vérifie la propriété pour les éléments de $X_0$, comme $X_0 = {\epsilon}$ et $n_o(\epsilon)=0$ et $n_f(\epsilon)=0$. $P$ est vraie pour tous les éléments de $X_0$.}
+			\item<4-> \textcolor{OliveGreen}{Hérédité : on vérifie la conservation de la propriété par application de chacune des règles d'inférence. Si $x$ et $y$ sont deux mots de Dyck vérifiant $P$ alors $n_o(\boldsymbol{\langle}x\boldsymbol{\rangle}y) = 1 + n_o(x) + n_o(y)$ et $n_f(\boldsymbol{\langle}x\boldsymbol{\rangle}y) = 1 + n_f(x) + n_f(y)$ et puisque $x$ et $y$ vérifient $P$, $n_o(\boldsymbol{\langle}x\boldsymbol{\rangle}y) = n_f(\boldsymbol{\langle}x\boldsymbol{\rangle}y)$ }
+		\end{itemize}
+		\onslide<5->\textcolor{OliveGreen}{Par induction structurelle on conclut que $P$ est vraie pour tout $x \in D$.}
+	\end{exampleblock}
 \end{frame}
 
 \makess{Ordre induit}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-    \begin{alertblock}{Définition - Théorème}
-        Soit $X$ un ensemble inductif défini de manière non ambigüe on définit la relation $\mathcal{R}$  par $x_i \mathcal{R} f(x_1, \dots, x_n)$ pour toute règle d'inférence $f$ d'arité $n$ et tout n-uplet $(x_1,\dots, x_n)$.\\
-        \medskip
-        \onslide<2->{La fermeture reflexive-transitive de $\mathcal{R}$, notée $\preccurlyeq$ est une relation d'ordre bien fondé sur $X$ appelé \textcolor{blue}{ordre induit}.}
-    \end{alertblock}
-    \onslide<3->{\begin{alertblock}{Principe d'induction bien fondé}
-        Soient $(X,\preccurlyeq)$ un ensemble bien ordonné et $P$ une propriété sur $X$, si
-        \begin{itemize}
-            \item<2-> $P$ est vraie pour tous les éléments minimaux de $X$.
-            \item<3-> Et si pour $z \preccurlyeq x$ $P(z) $ vraies $\implies P(x)$
-        \end{itemize}
-        Alors $P$ est vraie pour tout $x \in X$.
-    \end{alertblock}
-    }
+	\begin{alertblock}{Définition - Théorème}
+		Soit $X$ un ensemble inductif défini de manière non ambigüe on définit la relation $\mathcal{R}$  par $x_i \mathcal{R} f(x_1, \dots, x_n)$ pour toute règle d'inférence $f$ d'arité $n$ et tout n-uplet $(x_1,\dots, x_n)$.\\
+		\medskip
+		\onslide<2->{La fermeture reflexive-transitive de $\mathcal{R}$, notée $\preccurlyeq$ est une relation d'ordre bien fondé sur $X$ appelé \textcolor{blue}{ordre induit}.}
+	\end{alertblock}
+	\onslide<3->{\begin{alertblock}{Principe d'induction bien fondé}
+			Soient $(X,\preccurlyeq)$ un ensemble bien ordonné et $P$ une propriété sur $X$, si
+			\begin{itemize}
+				\item<2-> $P$ est vraie pour tous les éléments minimaux de $X$.
+				\item<3-> Et si pour $z \preccurlyeq x$ $P(z) $ vraies $\implies P(x)$
+			\end{itemize}
+			Alors $P$ est vraie pour tout $x \in X$.
+		\end{alertblock}
+	}
 \end{frame}
 
 \end{document}
