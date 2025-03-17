@@ -83,13 +83,13 @@ def define_env(env):
     env.variables['progression_itc_s2']={
         7 : [6,"Algorithmes gloutons","gloutons.md"],
         8 : [6,"Tris","tris.md"],
-        9 : [6,"Spécifications et tests","tests.md"],
-        10 : [7,"Représentation des entiers","entiers.md"],
-        11 : [6,"Terminaison et corrections","terminaison.md"],
-        12 : [8,"Graphes","graphes.md"],
-        13 : [6,"Complexité","complexite.md"],
-        14 : [7,"Représentation des flottants","flottants.md"],
-        15 : [8,"Plus courts chemins dans un graphe","parcours.md"]
+        9 : [7,"Représentation des entiers","entiers.md"],
+        10 : [6,"Terminaison et corrections","terminaison.md"],
+        11 : [8,"Graphes","graphes.md"],
+        12 : [6,"Complexité","complexite.md"],
+        13 : [7,"Représentation des flottants","flottants.md"],
+        14 : [8,"Plus courts chemins dans un graphe","parcours.md"],
+        15 : [1,"Manipulation d'images","images.md"]
     }
     env.variables['progression_itc_s3']={
         16 : [1,"Un peu de Python","revisions.md"],
@@ -454,3 +454,26 @@ def define_env(env):
             qcmc+=affiche_question(num,index)
             index+=1
         return qcmc
+    
+    @env.macro
+    def binaire(nombre):
+        to_disp = '$'
+        m = len(nombre)-1
+        for c in nombre:
+            to_disp += "\overset{\displaystyle{_{2^"+str(m)+"}}}{\\boxed{\\strut"+c+"}}"
+            m -= 1
+        to_disp += '$'
+        return to_disp
+
+    @env.macro
+    def decimal(binaire):
+        return "$"+str(int("0b"+binaire,2))+"$"
+    
+    @env.macro
+    def binaire_dec(b):
+        return binaire(b)+" = "+decimal(b)
+    
+    @env.macro
+    def dec_bin(n,chiffres=8):
+        to_bin = bin(n)[2:]
+        return f"${n} =$" +" "+ binaire(to_bin.zfill(chiffres))

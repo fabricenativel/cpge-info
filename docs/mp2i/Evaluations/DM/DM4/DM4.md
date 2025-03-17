@@ -62,7 +62,7 @@ void qsort(void *tab, size_t dim, size_t size, int (*compar)(const void *, const
 --8<-- "DM4/radix.c:cmp"
 ```
 
-
+Afin de tester cette fonction, 
 
 1. Ecrire en C une fonction `#!c uint32_t *tab_aleatoire(int n)` qui prend en argument un entier `n` et renvoie un "tableau"  d'entiers *positifs* aléatoire tous compris entre 0 et $2^{30} - 1$.
 
@@ -107,7 +107,7 @@ Dans cette partie, on implémente en OCaml, le tri radix pour des entiers en bas
 
 4. A présent on veut tester cet algorithme sur des entiers positifs aléatoires compris entre $0$ et $2^{30}-1$, vérifier rapidement que $10^{9} \leqslant 2^{30} < 10^{10}$ et en déduire le nombre de chiffres maximal en base 10 d'un entiers compris entre $0$ et $2^{30}$. Tester alors la fonction `tri_radix` sur un tableau de $10^{7}$ entiers aléatoires et comparer avec le temps de calcul obtenu avec l'algorithme de tri intégré à OCaml.
 
-## Implémentation en base $2^l$ en C
+## Implémentation en base 2 puissance l en C
 
 L'implémentation précédente utilise la base 10, alors que les entiers sont représentés en base 2 en machine, comme nous testons sur des entiers compris entre $0$ et $2^{30}-1$, ils ont au plus 30 chiffres en base 2. Si on trie en base 2, l'algorithme fera donc 30 passes, l'idée est donc de *regrouper les chiffres en base 2 en bloc de longueur l* afin de trier en base $2^l$. Par exemple, si $l=4$ cela revient à trier en base 16 (donc avec 16 valeurs possibles pour chaque chiffre). Et on ne doit plus faire que $\left\lceil\frac{30}{4}\right\rceil=8$ passes. 
 

@@ -89,7 +89,7 @@ const char* CHIFFRES="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 3. Ecrire une fonction main qui accepte en ligne de commande des arguments et utiliser ces arguments (après conversion) dans l'appel à la fonction `chiffres` et écrit le résultat dans le terminal. Par exemple si votre executable s'appelle `baseb.exe`, alors on pourra écrire `./baseb.exe 42 2` pour optenir comme affichage dans le terminal l'écriture en base 2 de 42 c'est à dire `101010`.
 
-4. Tester votre fonction en affichant l'écriture en base `26` de `406342` (on rappelle qu'il y a 26 chiffres en base 26, les premiers sont `0,1, .. ,9` et après on utilise  les lettres `A, B, ...`).  
+4. Tester votre fonction en affichant l'écriture en base `26` de `403642` (on rappelle qu'il y a 26 chiffres en base 26, les premiers sont `0,1, .. ,9` et après on utilise  les lettres `A, B, ...`).  
 Vérfier votre réponse {{check_reponse("MP2I")}}
 
 

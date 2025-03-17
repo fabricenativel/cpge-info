@@ -9,7 +9,7 @@
 \ModeExercice
 \DS{MP2I}{4}{Février 2025}
 
-\setboolean{corrige}{false}
+\setboolean{corrige}{true}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C12}
 
 \newcommand{\maillon}[3]{
@@ -189,13 +189,13 @@ On considère maintenant l'algorithme suivant qui utilise une pile dotée de son
 		\hline
 		1            & {\tt |2, 7>}          & $\{-1, 2, -1, -1, -1, -1\}$  \\
 		\hline
-		2            & \comp{\tt |1, 3>}          & \comp{[-1, 1, 1, -1, -1, -1]}   \\
+		2            & \comp{\tt |2, 5>}          & \comp{[-1, 2, 2, -1, -1, -1]}   \\
 		\hline
-		3            & \comp{[1, 3, 9]}       & \comp{[-1, 1, 1, 3, -1, -1]}    \\
+		3            & \comp{\tt |2, 5, 8>}       & \comp{[-1, 2, 2, 5, -1, -1]}    \\
 		\hline
-		4            & \comp{[1, 3, 8]}       & \comp{[-1, 1, 1, 3, 3, -1]}     \\
+		4            & \comp{|2, 5, 6>}       & \comp{[-1, 2, 2, 5, 5, -1]}     \\
 		\hline
-		5            & \comp{[1, 4]}          & \comp{[-1, 1, 1, 3, 3, 1]}      \\
+		5            & \comp{|2, 3>}          & \comp{[-1, 2, 2, 5, 5, 2]}      \\
 		\hline
 	\end{tabular}
 \end{center}}
@@ -359,7 +359,9 @@ GROUPE BY revue
 	\Question{Décrire brièvement (on ne demande pas d'écrire un programme) une fonction permettant de renvoyer le maximum d'un ensemble $E$ représenté par une table de hachage. Donner sa complexité. }
     \tcor{On parcourt les listes chainées contenues dans chaque alvéole, en mettant à jour une variable contenant le maximum. On a donc une complexité en $O(|E|)$. }
 	\Question{En OCaml, un ensemble est donc représenté par un tableau (de taille $K$) de listes d'entiers c'est à dire par le type {\tt array int list}. Ecrire la fonction {\tt appartient : int -> int array list -> bool} qui prend en arguments un entier et un ensemble représenté par une table de hachage et renvoie un booléen indiquant si cet élément appartient ou non à l'ensemble.}
-    \tcor{Dans ce cas, on doit simplement regarder la tête de chaque liste, on a donc une complexité en $O(K)$.}
+    \ifcorrige
+	\corpartOCaml{hash_int.ml}{}{}{1}{13}
+	\fi
 \end{Exercise}
 
 \end{document}

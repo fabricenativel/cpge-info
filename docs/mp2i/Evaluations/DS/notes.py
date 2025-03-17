@@ -1,3 +1,4 @@
+#!/bin/python3
 import pyexcel_ods3 as ods
 import os
 from colorama import Fore

@@ -134,7 +134,7 @@ Dans toute la suite on supposera définie une variable globale `size` contenant 
 2. Par force brute  
 On peut aussi utiliser la force brute pour résoudre ce problème, au lieu de valider des solutions partielles de façon incrémentale comme dans le retour sur trace, on génère les solutions complètes puis on les teste une à une. Une solution est forcément une permutation de $0, \dots n-1$ car toutes les reines sont sur des lignes différentes et on peut se contenter de vérifier les diagonales pour valider une solution car par construction les reines sont déjà sur des lignes et colonnes différentes.
 
-    a. Afin de générer les permutations possibles de $0, \dots n-1$, on propose d'utiliser l'[algorithme de Heap](https://en.wikipedia.org/wiki/Heap%27s_algorithm){target = _blank}. 
+    a. Ecrire une fonction `int -> int list list` en Ocaml qui prend en entrée un entier `n` et renvoie la liste des permutations possibles de $\{0,...,n-1\}$.
 
     b. En déduire une résolution par force brute.
 
@@ -239,6 +239,9 @@ $\left(\begin{matrix}
 
 La stratégie gloutonne donnera le chemin suivant en rouge et une somme de **38**.
 
+!!! note
+    Dans le cas où les deux valeurs situés en bas et à droite sont égales, on supposera dans la suite qu'on fait le choix d'aller à droite.
+
 $\left(\begin{matrix}
 \textcolor{red}{1} & 3 & 2 & 4 \\
 \textcolor{red}{5} & 6 & 1 & 2 \\
@@ -275,6 +278,26 @@ $\left(\begin{matrix}
 5. Ecrire une fonction qui prend en argument un chemin (donné sous la forme des indices des emplacements de l'une des deux directions) et renvoie la valeur de ce chemin
 
 6. Résoudre le problème par force brute et donner la valeur maximale de la somme dans l'exemple ci-dessus. Vérifier votre résultat : {{check_reponse("280")}}.
+
+{{exo("Choix d'activités",[])}}
+
+On considère $n$ activités représentée chacune par un couple $(d_i,f_i)_{0\leqslant i \leqslant n-1}$ représentant leur heure de début et de fin. Deux activités sont incompatibles lorsqu'elles se chevauchent. Par exemple si on considère les activités suivantes : $\{(1, 3), (2, 5), (4, 5), (3, 7), (5, 7) \}$ alors $(1,3)$ et $(2, 5)$ sont incompatibles, mais pas $(1, 3)$ et $(4, 5)$. On cherche à déterminer un choix d'activités compatibles qui maximise le nombre  d'activités effectuées. Dans l'exemple précédent, un tel choix serait $\{(1, 3), (4, 5), (5, 7) \}$.
+
+
+On propose de résoudre ce problème en utilisant une stratégie gloutonne : on classe les activités suivant un critère donnée puis on choisit les activités dans l'ordre où elles se présentent du moment où elles sont compatibles avec choisie à l'étape précédente.
+
+1. Mettre en oeuvre cette stratégie en utilisant comme critère la durée de l'activité. Montrer sur un exemple bien choisi que cette stratégie ne donne pas toujours la solution optimale.
+
+2. Mettre en oeuvre cette stratégie en utilisant comme critère la date de début de l'activité. Cette stratégie est-elle optimale ?
+
+3. Mettre en oeuvre cette stratégie en utilisant comme critère la date de fin de l'activité.
+
+    !!! note
+        Voici quelques éléments de preuve pour montrer que cette stratégie est optimale. On suppose les activités triées par date de fin c'est à dire qu'on renumérote les activités de façon à ce que  $f_0 \leqslant f_1 \leqslant \dots \leqslant f_{n-1}$, alors
+
+        * il existe une solution optimale qui commence par $(d_0,f_0)$ en effet si on considère un choix optimale $S = \{(d_{s_0},f_{s_0}), \dots , (d_{s_k},f_{s_k})\}$ avec $(d_{s_0},f_{s_0}) \neq (d_0,f_0)$ alors, comme $f_0 \leq f_{s_0}$, $S = \{(d_{0},f_{0}), \dots , (d_{s_k},f_{s_k})\}$ est aussi une solution optimale.
+
+        * on suppose que les $m$ premieres activités choisis par l'algorithme glouton font partie d'une solution optimale, et de la même façon que précédemment on montre que le choix glouton fait partie d'une solution optimale.
 
 
 ## Humour d'informaticien

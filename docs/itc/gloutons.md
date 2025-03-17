@@ -97,6 +97,8 @@ $\left(\begin{matrix}
 4 & 2 & \textcolor{red}{3} & \textcolor{red}{5}
 \end{matrix}\right)$
 
+En cas d'égalité entre les choix, on choisit (arbitrairement) d'aller vers la droite ($\rightarrow$).
+
 1. En donnant un exemple montrer que la stratégie gloutonne ne donne pas toujours la somme optimale.
 
 2. Ecrire une fonction `glouton` qui renvoie la somme obtenue la stratégie gloutonne

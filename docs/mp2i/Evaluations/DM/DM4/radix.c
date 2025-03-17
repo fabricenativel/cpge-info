@@ -115,8 +115,12 @@ int cmp(const void *a, const void *b)
 
 int main(int argc, char *argv[])
 {
-    int size = 1000000;
-    uint32_t l = (uint32_t)atoi(argv[1]);
+    if (argc!=3){
+        printf("Usage : %s <nb elts> <taille bloc> \n", argv[0]);
+        exit(1);
+    }
+    int size = atoi(argv[1]);
+    uint32_t l = (uint32_t)atoi(argv[2]);
     srand(time(NULL));
     printf("Génération du tableau aléatoire %ld \n", sizeof(uint32_t));
     uint32_t *test = tab_aleatoire(size);
@@ -132,7 +136,6 @@ int main(int argc, char *argv[])
     free(test);
     printf("Génération du tableau aléatoire \n");
     uint32_t *test2 = tab_aleatoire(size);
-    uint32_t a, b, c;
     printf("Début du tri : avec ds bloc de taille %d (%d chiffres) donc %d passes \n", l, nombre_chiffres(l), nombre_passes(l));
     clock_t deb2 = clock();
     uint32_t *temp = malloc(sizeof(uint32_t) * size);
