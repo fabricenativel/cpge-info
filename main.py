@@ -477,3 +477,16 @@ def define_env(env):
     def dec_bin(n,chiffres=8):
         to_bin = bin(n)[2:]
         return f"${n} =$" +" "+ binaire(to_bin.zfill(chiffres))
+    
+    @env.macro
+    def awale(nseed):
+        up = nseed[11:5:-1]
+        down = nseed[0:6]
+        res = f'<table class="awale-board"><tr>'
+        for i in range(6):
+            res += f'<td class="awale-cell"><div class="seed-count">{up[i]}</div></td>'
+        res +='</tr> <tr>'
+        for i in range(6):
+            res += f'<td class="awale-cell"><div class="seed-count">{down[i]}</div></td>'
+        res += f'</tr></table>'
+        return res
