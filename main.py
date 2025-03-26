@@ -133,6 +133,12 @@ def define_env(env):
         ligne=f"# <span class='numchapitre'>C{numero}</span> {titre} "
         ligne+=f"<span style='float:right;'>{icone}</span>"
         return ligne
+    
+    @env.macro
+    def titre_concours(concours, annee):
+        return f"# <span class='numchapitre'>{env.variables['icones_exo']['concours']}</span> {concours}  {annee}"
+    
+
 
     # Affichage du titre TP noté
     @env.macro
