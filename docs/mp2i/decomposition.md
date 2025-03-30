@@ -194,6 +194,105 @@ Etant donné un tableau d'entiers (positif ou négatif) $[e_0,\dots,e_{n-1}]$ on
     3. Proposer une version qui donne aussi les index de début et de fin de la tranche de somme maximale.
 
 
+{{ exo("Parenthésage optimal d'un produit matriciel",[]) }}
+
+
+Etant donnée $n$ matrices $A_0,\dots,A_{n-1}$, on note $(l_i,c_i)$ les dimensions de $A_i$ ($0 \leqslant i < n$) et $m(i,j)$ le nombre minimal de multiplication pour effectuer le produit $A_i \times \dots \times A_j$ avec ($0\leqslant i \leqslant j < n$), les relations suivantes ont été établies en TD:  
+
+$\left\{
+\begin{array}{lll}
+m(i,j) &=& 0 \text{ si } i=j \\
+m(i,j) &=&\min \left\{ m(i,k) + m(k,j) +l_{i}c_{k}c_{j}, i \leqslant k < j\right\}  \\
+\end{array}
+\right.$
+
+En effet, si le produit ne contient qu'un terme alors aucune multiplication n'est nécessaire. Sinon pour tout $i\leqslant k <j$, on sépare le produit $A_i\times \dots \times A_j$ en deux sous produits $A_i\times \dots \times A_k$ et $A_{k+1}\times \dots \times A_j$ , on calcule le nombre minimal de multiplications pour ces deux sous produits et on ajoute le nombre de multiplication de la multiplication finale. Et on prend le minimum des valeurs obtenues.
+
+On suppose que les dimensions des $n$ matrices sont données sous la forme d'un tableau de couple d'entiers en OCaml (type `int *int Array`)
+
+1. Ecrire une fonction `int*int Array -> int -> int -> int -> int` qui prend en argument un tableau de dimensions ainsi que 3 indices `i,j` et `k` et renvoie le nombre de multiplications effectués lors du produit entre les matrices $A_i\times \dots \times A_k$ et $A_{k+1}\times \dots \times A_j$
+
+2. Ecrire une fonction `get_min int list -> int` qui renvoie le minimum des éléments d'une liste, on pourra traiter le cas de la liste vide avec un `failwith`
+
+3. Ecrire une fonction `opti int*int Array` qui prend en argument le tableau de dimensions des matrices et renvoie le nombre minimal de multiplications à effectuer.
+
+    !!! aide
+        On pourra utiliser `List.init` pour générer la liste du nombre de multiplications pour chaque valeur de $k$ puis récupérer le minimum à l'aide de la fonction `get_min`
+
+4. Tester votre fonction sur le tableau `[|(2, 4); (4, 6); (6, 5); (5, 4); (4, 2); (2, 8)|]` et vérifier que le résultat est $196$.
+
+5. On considère maintenant le tableau suivant représentant les dimensions de 25 matrices :
+```ocaml
+[|(15, 8); (8, 13); (13, 11); (11, 6); (6, 2); (2, 17); (17, 17); (17, 12);
+  (12, 3); (3, 10); (10, 7); (7, 10); (10, 11); (11, 8); (8, 7); (7, 8);
+  (8, 9); (9, 8); (8, 12); (12, 10); (10, 3); (3, 4); (4, 19); (19, 12);
+  (12, 1)|]
+```
+    Obtient-on la réponse en un temps raisonnable avec la fonction de la question 3 ? Pourquoi ? Mettre en oeuvre la stratégie de mémoïsation afin de palier le problème puis tester votre réponse {{check_reponse("2194")}}
+
+
+{{ exo("Chemin de somme maximale dans une pyramide",[])}}
+
+On reprend l'exemple de la recherche de la somme maximale d'un chemin dans une pyramide déjà vu en cours. L'exercice est à traiter en OCaml et on suppose dans toute la suite que la pyramide est représenté par un tableau de tableau, par exemple la pyramide suivante :
+![exemple de pyramide](Images/C15/expyramide.png){width=400px .imgcentre}
+est représenté par le tableau de tableau :
+
+```ocaml
+[|
+    [|5|];
+    [|3; 4|];
+    [|9; 2; 6|];
+    [|4; 6; 8; 4|];
+    [|3; 9; 2; 5; 7|]
+|]
+```
+
+1. Ecrire la fonction `somme_max` qui prend en argument une pyramide `p` (sous la forme d'une liste de listes) ainsi que deux entiers `i` et `j` et renvoie la somme maximal d'un chemin dans la sous pyramide de sommet `p[i][j]`.
+
+    !!! aide
+        On rappelle les équations de complexité (où `n` est le nombre de niveau de la pyramide):
+
+        * `somme_max(p,i,j) = p[i][j]` si `i=n-1` (c'est le cas de base, on a atteint la base de la pyramide)
+        * `somme_max(p,i,j) = p[i][j] + max(somme_max(p,i+1,j), somme_max(p,i+1,j+1))` sinon
+
+2. Vérifier que votre fonction renvoie bien **32** sur l'exemple de la pyramide donnée en introduction.
+
+3. Sur des exemples de taille plus importantes, on doit mémoïser les résultats des sous pyramides afin de ne pas les recalculer. Le faire à l'aide d'une table de hachage. Puis tester votre programme sur la pyramide ci-dessous :
+
+    ??? note "Pyramide (à copier pour tester)"
+        ```ocaml
+        [|
+          [|5|];
+          [|4; 4|];
+          [|4; 7; 5|];
+          [|3; 1; 7; 1|];
+          [|8; 6; 5; 4; 6|];
+          [|4; 6; 7; 3; 3; 3|];
+          [|7; 8; 2; 5; 3; 8; 8|];
+          [|7; 2; 6; 7; 7; 5; 6; 6|];
+          [|9; 2; 1; 4; 9; 2; 9; 9; 2|];
+          [|6; 7; 1; 7; 6; 4; 9; 1; 9; 8|];
+          [|7; 7; 7; 7; 7; 4; 8; 9; 1; 1; 9|];
+          [|1; 8; 2; 3; 2; 5; 1; 1; 2; 8; 8; 3|];
+          [|7; 2; 3; 5; 7; 2; 8; 8; 7; 6; 8; 7; 4|];
+          [|1; 8; 6; 4; 5; 3; 6; 1; 1; 8; 9; 5; 3; 8|];
+          [|8; 7; 3; 9; 2; 3; 7; 5; 7; 5; 2; 2; 5; 2; 6|];
+          [|1; 8; 2; 5; 2; 3; 9; 1; 1; 5; 5; 2; 6; 7; 6; 2|];
+          [|8; 5; 5; 9; 4; 3; 4; 4; 8; 4; 7; 9; 2; 6; 6; 8; 2|];
+          [|5; 3; 7; 2; 7; 8; 3; 9; 7; 4; 6; 7; 7; 4; 5; 6; 7; 3|];
+          [|1; 3; 8; 9; 2; 7; 1; 8; 7; 8; 8; 2; 5; 7; 4; 9; 1; 8; 9|];
+          [|8; 4; 4; 3; 3; 5; 3; 4; 6; 7; 7; 5; 4; 3; 4; 8; 2; 5; 2; 2|];
+          [|7; 7; 8; 5; 9; 1; 7; 2; 3; 1; 3; 6; 5; 8; 5; 3; 5; 6; 5; 3; 1|];
+          [|9; 7; 9; 3; 6; 9; 3; 1; 8; 5; 5; 1; 5; 1; 7; 4; 4; 5; 7; 1; 6; 8|];
+          [|8; 7; 6; 4; 3; 1; 8; 2; 1; 1; 6; 1; 6; 5; 9; 3; 9; 6; 3; 4; 2; 6; 4|];
+          [|5; 2; 1; 2; 4; 1; 8; 1; 6; 1; 4; 4; 6; 5; 5; 8; 7; 6; 6; 3; 4; 3; 3; 8|];
+        |]
+        ```
+
+        Vérifier votre réponse : {{check_reponse("156")}}
+
+4. Ce problème est l'un du site du [Project Euler](https://projecteuler.net/){target=_blank}, vous y trouverez donc des jeux de données de taille plus importantes pour tester votre programme : voir le [problème 18](https://projecteuler.net/problem=18){target=_blank} ainsi que le [problème 67](https://projecteuler.net/problem=67){target=_blank}
+
 {{ exo("Problème du sac à dos",[]) }}
 On dispose d’un sac à dos pouvant contenir un poids maximal $P$ et de $n$ objets ayant chacun un poids $(p_i)_{1\leq i \leq n}$ et une valeur $(v_i)_{1\leq i \leq n}$. Le problème du sac à dos consiste à remplir ce sac en maximisant la valeur des objets qu’il contient tout en respectant la contrainte de poids total du sac qui doit resté inférieur à $P$. Dans toute la suite, on considère que les poids et les valeurs sont des *entiers*. On veut résoudre ce problème par programmation dynamique.
 
@@ -238,7 +337,7 @@ On dispose d’un sac à dos pouvant contenir un poids maximal $P$ et de $n$ obj
 
 3. Déterminer un remplissage du sac réalisant la valeur maximale.
 Tester votre réponse ici en donnant par ordre croissant les numéros des objets utilisés séparé par des virgules. Par exemple si les objets à prendre portent les numéros 2, 7 et 20 vous devez taper `2,7,20` : {{check_reponse("1,2,8,9,10,13,14,17,18,20,21,22,23")}}   
-attention** : les objets sont numérotés à partir de 1.)
+**Attention** : les objets sont numérotés à partir de 1.
 
 {{ exo("Distance d'édition",[]) }}
 
