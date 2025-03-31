@@ -1,0 +1,107 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeConcours
+\DS{MP2I}{5}{Avril 2025}
+
+\setboolean{corrige}{false}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C12}
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$e_0$}} \\
+		\hline
+	\end{tabular}
+}
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] Les programmes demandés doivent être écrits en C ou en OCaml. Dans le cas du C, on suppose que les librairies standards usuelles ({\tt <stdio.h>}, {\tt <stdlib.h>}, {\tt <stdbool.h>}, {\tt <stdassert.h>}, \dots) sont déjà importées.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+\psset{arrows=->,treesep=0.8cm,levelsep=0.8cm, radius=0.3cm}
+\begin{Exercise}[title={Questions de cours}]\\
+	On considère la fonction d'Ackerman $a : \N \times \N \mapsto \N$ définie par par : \\
+		$\left\{
+			\begin{array}{lll}
+				a(0, m) & = & m + 1                                             \\
+				a(n, 0) & = & a(n-1,1) \text{ si } n>0                          \\
+				a(n,m)  & = & a(n-1, a(n, m-1)) \text{ si } n>0 \text{ et } m>0 \\
+			\end{array}
+			\right.$
+    \Question{Calculer $a(1,2)$}
+    \Question{Ecrire en OCaml une fonction {\tt ack: int -> int -> int} qui prend en argument deux entiers positifs $n$ et $m$ et renvoie $a(n,m)$.}
+    \Question{Prouver la terminaison de la fonction {\tt ack} on précisera soigneusement le variant et la relation d'ordre bien fondée utilisée.}
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Recherche des $k$ premiers maximums d'une liste}] \\
+    Les fonctions demandées dans cet exercice doivent être écrites en langage OCaml.\smallskip \\
+    On s'intéresse au problème de la recherche des $k$ premiers maximums d'une liste de $n$ entiers. Dans toute la suite de l'exercice on supposera que la liste est \textit{non vide} : $n>0$ et qu'on extrait moins de maximums qu'il n'y a d'éléments dans la liste c'est à dire que $k \leqslant n$. On cherche donc à écrire une fonction {\tt kmax : 'int list -> int -> 'int list}  qui renvoie la liste des {\tt k} premiers maximums de la liste donnée en argument. Par exemples :
+    \begin{itemize}
+    \item {\tt kmax [2; 5; 1; 8; 3; 0; 4] 2} renvoie {\tt [8, 5]}
+    \item {\tt kmax [7; 8; 8; 1; 6; 3; 2; 9] 3;;} renvoie {\tt [9; 8; 8]}
+    \item {\tt kmax [1; 0; 1; 2; 4]} 4 renvoie {\tt [4; 2; 1; 1]}
+    \end{itemize}
+    \ExePart[name = {Résolution par recherche successive des maximums}]
+    \Question{Ecrire une fonction {\tt extrait\_max : int list -> int * int list} qui prend en argument une liste et renvoie le couple composé du maximum de cette liste et de cette liste privée d'un de ses maximums. Par exemple {\tt extrait\_max [2; 6; 4; 6; 5]} renvoie {\tt (6, [2; 4; 6; 5])}. On pourra procéder par correspondance de motif et traiter le cas de la liste vide par un {\tt failwith}}.
+    \Question{Donner en la justifiant brièvement la complexité de la fonction {\tt extrait\_max}.}
+    \Question{On suppose qu'on extrait les {\tt k} premiers maximums d'une liste à l'aide de {\tt k} applications de la fonction {\tt extrait\_max}. Quelle est la complexité de cet algorithme ? (on ne demande \textit{pas} de le programmer)}
+    \ExePart[name = {Résolution par un tri}]
+    \Question{Ecrire une fonction {\tt kpremiers int list -> int -> int list} qui prend en argument une liste et un entier {\tt k} et renvoie la liste composée des {\tt k} premiers éléments de {\tt lst}.}
+    \Question{On propose d'écrire la fonction {\tt kmax} en triant la liste  par ordre décroissant puis en prenant ses $k$ premiers éléments. En supposant que l'algorithme de tri utilisé a une complexité en $\mathcal{O}(n\log n)$. Donner la complexité de ce nouvel algorithme (on ne demande \textit{pas} de le programmer).}
+    \ExePart[name = {Résolution en utilisant un tas}]\\
+    Dans la suite on suppose que la structure de données de tas d'entiers (type {\tt int}), est \textit{déjà implémentée} par un type {\tt int tas} sur lequel on dispose des fonctions suivantes :
+    \begin{itemize}
+        \item {\tt cree\_tas : int -> tas} qui prend en argument un entier {\tt cap} et renvoie un tas binaire vide de capacité {\tt cap}.
+        \item {\tt donne\_taille : tas -> int} qui prend en argument un tas et renvoie sa taille (le nombre d'éléments actuellement stocké dans le tas).
+        \item {\tt insere : int -> tas -> unit} qui insère une nouvelle valeur dans le tas. Cette fonction échoue lorsque le tas est plein.
+        \item {\tt donne\_min : tas -> int} qui renvoie la valeur minimale contenu dans le tas  \textit{sans modifier le tas}. 
+        \item {\tt extrait\_min : tas -> int} qui renvoie (en le supprimant du tas) le minimum du tas.
+    \end{itemize}
+    \Question{Rappeler en les justifiant rapidement les complexités des opérations {\tt insere} et {\tt extrait\_min} si on suppose que l'implémentation de la structure de tas est réalisée grâce à un tableau.}
+    \tcor{Un tas est un arbre binaire complet et à chaque étape on remonte (ou on descend) d'un niveau dans cet arbre, la complexité de ces opérations est donc en $O(h)$ où $h$ est la  hauteur de l'arbre or l'arbre étant complet $O(h)=O(\log n)$ où $n$ est la taille de l'arbre.}
+    \Question{Afin d'extraire les {\tt k} premiers éléments d'une liste de taille {\tt n}, on propose créer un tas de taille {\tt k} puis  de parcourir récursivement la liste, pour chaque élément rencontré :
+    \begin{itemize}
+        \item si le tas n'est pas plein  on y insère l'élément
+        \item sinon,  on compare l'élément avec le minimum du tas, s'il est plus grand on supprime le minimum du tas et on insère l'élément dans le tas.
+    \end{itemize}}
+    Par exemple, si on veut extraire les 3 premiers maximums de la liste {\tt [4; 6; 2; 8; 3; 7; 1; 9; 5]}, après l'insertion des trois premiers éléments, le tas est : \\
+    \pstree[arrows=->,treesep=0.8cm,levelsep=1cm]{\Tcircle{2}}{\Tcircle{6} \Tcircle{4}} \\
+    A l'étape suivante, 8 étant plus grand que 2 (le minimum du tas), on extrait 2 du tas et on y insère 8 ce qui donne : \\
+    \pstree[arrows=->,treesep=0.8cm,levelsep=1cm]{\Tcircle{4}}{\Tcircle{6} \Tn{}} \quad \pstree[arrows=->,treesep=0.8cm,levelsep=1cm]{\Tcircle{4}}{\Tcircle{6} \Tcircle{8}}  \\
+    \psset{arrows=->,treesep=0.8cm,levelsep=1cm}
+    \Question{Poursuivre le déroulement de cet algorithme en faisant figurer comme ci-dessus les étapes de l'évolution du tas.}
+    \tcor{
+    \begin{itemize}
+      \item On traite 3, comme $3<4$ pas de modification \pstree{\Tcircle{4}}{\Tcircle{6} \Tcircle{8}}
+      \item On traite 7, comme $7>4$, on extrait 4 et on insère 7 \pstree{\Tcircle{6}}{\Tcircle{8} \Tcircle{7}}
+      \item On traite 1, comme $1<6$, pas de modification \pstree{\Tcircle{6}}{\Tcircle{8} \Tcircle{7}}
+      \item On traite 9, comme $9>6$, on extrait 6 et on insère 9 \pstree{\Tcircle{7}}{\Tcircle{8} \Tcircle{9}}
+      \item On traite 5, comme $5<7$, pas de modification \pstree{\Tcircle{7}}{\Tcircle{8} \Tcircle{9}}
+    \end{itemize}}
+    
+    Question{Prouver que cet algorithme est correct (on pourra utiliser prouver l'invariant valable pour tout {\tt i>=k} : \og{} le tas contient les {\tt k} premiers maximums du sous tableau compris entre les indices {\tt 0} et {\tt i-1} \fg{}).}
+    \tcor{On note $P(i)$ la propriété : \og{} le tas contient les {\tt k} premiers maximums du sous tableau compris entre les indices {\tt 0} et {\tt i-1} \fg{} alors :
+    \begin{itemize}
+      \item $P(k)$ est vraie car avant d'entrer la boucle  le tas  contient la tranche de tableau comprise entre les indices $0$ et $k-1$ qui sont bien les $k$ premiers maximums de cette tranche.
+      \item En supposant $P(i)$ vraie, montrons $P(i+1)$, l'algorithme compare $t[i+1]$ au minimum du tas qui par hypothèse de récurrence est le plus petit des $k$ premiers maximums de la tranche $0 \dots i$. S'il est plus grand, cela signifie qu'il fait partie des $k$ premiers maximum de la tranche $0 \dots i+1$ et le minimum est extrait et on insère $t[i+1]$. Sinon le tas n'est pas modifié dans les deux cas $P(i+1)$ est vérifiée.
+    \end{itemize}
+    }
+    \subQuestion{Ecrire une fonction \mintinline{c}{int* kmax_heap(int t[], int n, int k)} qui extrait les {\tt k} premiers maximum du tableau {\tt t} de taille {\tt n} et les renvoie dans un tableau de taille {\tt k} en utilisant cet algorithme. Afin de manipuler le tas, on utilisera les fonctions déjà disponibles sur la structure de tas et dont les signatures sont données en début de partie.}
+    \inputpartC{kpmax.c}{}{}{95}{117}
+    \subQuestion{Donner en la justifiant la complexité de ce nouvel algorithme en fonction de $k$ et $n$.}
+    \tcor{Les opérations d'insertion et d'extraction dans le tas sont toutes en $O(\log k)$ car le tas est de taille $k$. On effectue ces opérations au plus $n$  fois (une fois pour chaque élément du tableau) et donc la complexité de ce nouvel algorithme est $O(n \log k)$}
+\end{Exercise}
+
+\end{document}
