@@ -24,3 +24,14 @@ Définition, hauteur, taille, relation entre hauteur et taille (*preuve*). Impl�
 
 * Stratégie algorithmiques : force brute, retour sur trace, algo glouton
     
+## Semaines du 07/04, du 14/04 et du 21/04
+
+* Terminaison de programmes  
+Relation d'ordre, ordre lexicographique et ordre produit sur un produit cartésien. Ensemble bien ordonnée définition par *il n'existe pas de suite strictement décroissante*, équivalence avec *l'existence d'un élément minimal pour toute partie non vide*.
+ Application à la preuve de terminaison d'un programme. Exemples : fonction d'Ackermann , tri par épuisement des inversion.
+
+* Ensembles inductifs  
+Définition inductive d'un ensemble, exemples. Preuve par induction structurelle.
+
+* Décomposition en sous problèmes  
+Méthode diviser pour régner, résolution d'équation de complexité de la méthode diviser pour régner. Programmation dynamique : découpe maximale d'une barre, somme maximale d'un chemin dans une pyramide, rendu de monnaie, longueur de la plus longue sous séquence commune.
