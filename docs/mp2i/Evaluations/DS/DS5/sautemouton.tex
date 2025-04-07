@@ -1,0 +1,56 @@
+
+\begin{Exercise}[title={Casse tête du saute-mouton}]
+    
+    Le jeu du casse tête du saute mouton se déroule sur un tableau de $p$ cases. Dans la position du départ, les $b$ premières cases sont occupées par des moutons blancs ( représenté par des cercles blancs \ding{109}) et les $n$ dernières cases par des moutons noirs (représenté par des cercles noirs \ding{108}). Une seule case libre sépare les deux groupes de mouton, par exemple avec  $b=3$ et $n=2$ la situation de départ est : \\
+    \begin{center}
+    \begin{tabular}{|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|}
+      \hline
+      \centering \ding{109} & \centering \ding{109} & \centering \ding{109} & \centering & \centering \ding{108} & \centering \ding{108} \tabularnewline
+      \hline
+      \multicolumn{1}{c}{\small 0} & \multicolumn{1}{c}{\small 1}& \multicolumn{1}{c}{\small 2} & \multicolumn{1}{c}{\small 3}& \multicolumn{1}{c}{\small 4} & \multicolumn{1}{c}{\small 5}\\
+    \end{tabular}
+  \end{center}
+    Un mouton blanc peut se déplacer vers la droite si la case située à sa droite  est libre ou alors sauter par dessus un mouton noir situé à sa droite  si la case sur laquelle il atterrit est libre. De même un mouton noir peut se déplacer vers la gauche (si la case est libre) ou sauter par dessus un mouton blanc situé à sa gauche si la case sur laquelle il atterrit est libre.
+    Donc en partant de la position de départ représentée ci-dessus, les seules possibilités de déplacements sont :
+    \begin{itemize}
+    \item Le mouton blanc en 2 se déplace en 3 : \begin{tabular}{|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|}
+      \hline
+      \centering \ding{109} & \centering \ding{109} & \centering  & \centering  \ding{109} & \centering \ding{108} & \centering \ding{108} \tabularnewline
+      \hline
+    \end{tabular}
+    \item Le mouton noir en 4 se déplace en 3 \begin{tabular}{|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|}
+      \hline
+      \centering \ding{109} & \centering \ding{109} & \centering  \ding{109}& \centering   \ding{108}& \centering  & \centering \ding{108} \tabularnewline
+      \hline
+    \end{tabular}
+  \end{itemize}
+    Prenons d'autres exemples :
+    \begin{itemize}
+      \item dans la situation suivante : \begin{tabular}{|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|}
+      \hline
+      \centering \ding{109} & \centering \ding{109} & \centering \ding{109} & \centering  \ding{108} & \centering \ding{108} & \centering  \tabularnewline
+      \hline
+    \end{tabular} le jeu est bloqué, plus aucun mouvement n'est possible.
+    \item dans la situation suivante : \begin{tabular}{|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|}
+      \hline
+      \centering \ding{109} & \centering \ding{109} & \centering  \ding{109}& \centering   \ding{108}& \centering  & \centering \ding{108} \tabularnewline
+      \hline
+    \end{tabular}, le mouton noir le plus à droite pourrait se déplacer vers la gauche ou alors on peut faire sauter le mouton blanc le plus à droite par dessus le mouton noir situé à sa droite, ce qui conduit à \begin{tabular}{|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|}
+      \hline
+      \centering \ding{109} & \centering \ding{109} & \centering  & \centering   \ding{108}& \centering  \ding{109}& \centering \ding{108} \tabularnewline
+      \hline
+    \end{tabular}
+  \end{itemize}
+    Le but du jeu est d'arriver à placer les $n$ moutons noirs sur les $n$ premières cases du tableau et les $b$ moutons blancs sur les $b$ dernières. Dans l'exemple ci-dessus, on gagne donc en arrivant à la position suivante :
+    \begin{center}
+      \begin{tabular}{|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|m{0.8cm}|}
+        \hline
+        \centering \ding{108} & \centering \ding{108} & \centering  & \centering \ding{109} & \centering \ding{109} & \centering \ding{109} \tabularnewline
+        \hline
+        \multicolumn{1}{c}{\small 0} & \multicolumn{1}{c}{\small 1}& \multicolumn{1}{c}{\small 2} & \multicolumn{1}{c}{\small 3}& \multicolumn{1}{c}{\small 4} & \multicolumn{1}{c}{\small 5}\\
+      \end{tabular}
+    \end{center}
+    Le but de l'exercice est d'écrire une résolution de ce casse tête par retour sur trace en C. On convient de représenter un état du jeu par un tableau de $b+n+1$ cases dans lequel les cases occupées par les moutons blancs contiennent des 1, celles par des moutons noirs des 2 et la case vide un 0.
+    \Question{Ecrire une fonction de signature \mintinline{c}{int* initialisation(int b, int n)}}  qui renvoie un tableau de $b+n+1$ représentant la situation intiale du casse tête avec {\tt b} moutons blancs et {\tt n} moutons noirs. Par exemple \mintinline{c}{initialisation(3, 2)} renvoie (un pointeur vers) le tableau {\tt \{1, 1, 1, 0, 2, 2\}}.
+    \end{Exercise}
+  

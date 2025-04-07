@@ -8,11 +8,10 @@ let rec max_reste lst =
 
 let rec kmax1 lst k =
   (*Renvoie les k premiers maximums de la liste lst ainsi que la liste lst privée de ces k premiers maximums*)
-  if k=0 then [],lst else
-    (
-      let pm, reste = max_reste lst in
-      let rmax, rl = kmax1 reste (k-1) in
-      pm::rmax, rl);;
+  if k=0 then [],lst else(
+    let max, reste = max_reste lst in
+    let rmax, rlst = kmax1 reste (k-1) in
+    max::rmax, rlst);;
 
 let rec kpremiers lst k =
   match lst,k with 
@@ -81,12 +80,16 @@ let get_size theap =
 let cree_tas s =  {size = 0; data = Array.make s 0 };;
 
 let kmax3 lst k=
-let th = cree_tas k in
-let rec aux lst =
-  match lst with
-  | [] -> List.init k (fun n-> extract_min th)
-  | h::t -> if get_size th <k then (insert h th; aux t) else 
-            (let mt = get_min th in 
-            if h>mt then (ignore (extract_min th); insert h th; aux t) else (aux t))
+  let th = cree_tas k in
+  let rec aux lst =
+    match lst with
+    (* Si la liste est vide, tous les éléments ont été traités, les k maximums sont les k éléments du tas*)
+    | [] -> List.init k (fun n-> extract_min th)
+    (* Sinon si le tas n'est pas plein on insère l'élément rencontré*)
+    | h::t -> if get_size th <k then (insert h th; aux t) else 
+      (* Sinon on compare l'élément rencontré avec le minimum du tas, si l'élément est plus grand on remplace le minimum par l'élément rencontré*)
+      (* Sinon on ne fait rien et on continue à traiter la liste*)
+        (let mt = get_min th in 
+         if h>mt then (ignore (extract_min th); insert h th; aux t) else (aux t))
   in
   aux lst;;

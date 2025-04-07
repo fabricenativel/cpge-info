@@ -1,4 +1,3 @@
-
 type fl =
 | Top | Bot 
 | Var of int (*les variables propositionnelles*)
@@ -24,12 +23,13 @@ let rec taille fl =
   | Et (sf1, sf2) -> 1 + taille sf1 + taille sf2
   | Imp (sf1, sf2) -> 1 + taille sf1 + taille sf2
   | Equ (sf1, sf2) -> 1 + taille sf1 + taille sf2;;
-
+ 
 
 let rec print_formule f = match f with
   | Bot -> print_string "⊥"
   | Top -> print_string "⊤"
-  | Var(n) -> (print_string "p"; print_int n; print_string "")
+  (*| Var(n) -> (print_string "p"; print_int n; print_string "")*)
+  | Var(n) -> (print_char (char_of_int (int_of_char 'o'+n));)
   | Non(g) -> (print_string "¬"; print_formule g)
   | Et(g, h) -> print_string "("; print_formule g; print_string " ∧ "; print_formule h; print_string ")";
   | Ou(g, h) -> print_string "("; print_formule g; print_string " ∨ "; print_formule h; print_string ")";
