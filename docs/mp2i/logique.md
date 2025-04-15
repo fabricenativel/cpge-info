@@ -126,14 +126,21 @@ On donne ci-dessous une fonction `entete` permettant d'afficher l'entête d'une 
 
 3. Tester votre programme sur des formules connues ou sur celles vues en cours ou en TD.
 
-4. Applications
 
-    1. Proposer une fonction `sat_solve : fl -> bool * valuation` qui utilise la table de vérité afin de tester si une formule est satisfiable et renvoie `true` et la valuation correspondante si la formule est satisfiable et `false` accompagné de la valuation fausse pour toutes les variables dans le cas contraire.
+{{exo("Satisfiabilité d'une formule",[])}}
 
-    2. Ecrire une fonction `sont_equiv fl -> formule -> bool` qui teste l'équivalence de deux formules logiques.
+On considère qu'une valuation est donnée sous la forme d'une tableau de booléens `bool array`. Par exemple  `[| false; true; false |]` correspond à la valuation $\varphi(p_1)=\mathbb{0}$, $\varphi(p_2)=\mathbb{1}$ et $\varphi(p_3)=\mathbb{0}$.
 
-    
+1. Ecrire une fonction `sat_solve : fl -> bool * bool array` qui utilise la table de vérité afin de tester si une formule est satisfiable et renvoie `true` et la valuation correspondante si la formule est satisfiable et `false` accompagné de la valuation fausse pour toutes les variables dans le cas contraire. Par exemple, pour la formule `p ∨ q` le fonction renvoie `true` et (par exemple) la valuation `[|false; true|]`.
 
+{{exo("Equivalence de deux formules logiques",[])}}
+
+Ecrire une fonction `sont_equiv fl -> fl -> bool` qui teste l'équivalence de deux formules logiques.
+
+{{exo("Mise sous forme normale",[])}}
+
+1. Ecrire une fonction `convertit: bool array -> fl` qui prend en argument un tableau de booléens représentant une valuation et la convertit en clause normale conjonctive sur ces variables par exemple `convertit [|true; false; false |]` renvoie `Et (Et (p, Non q), Non r)` (c'est à dire $p ∧ ¬q ∧ ¬r$).
+2. Ecrire une fonction `fnd: fl -> fl` qui renvoie la formule logique donnée en argument sous forme normale disjonctive en utilisant la méthode "de la table de vérité"
 
 {{exo("Implémentation de l'algorithme de quine",[])}}
 

@@ -29,13 +29,13 @@
     \tcor{En l'absence de condition d'arrêt la fonction s'appelle elle-même à l'infini et donc ne s'arrête jamais.}
 	\subQuestion{Ecrire une fonction \textit{iterative} {\tt occurrences} qui prend en argument une chaine de caractères {\tt s} et un caractère {\tt c} et qui renvoie le nombre d'apparitions du caractère {\tt c} dans la chaine {\tt s}. Par exemples, {\tt occurrences("un exemple",'e')} renvoie {\tt 3} et {\tt occurrences("un exemple",'a')}} renvoie {\tt 0}. 
     \ifcorrige
-    \inputpartPython{occ.py}{}{}{1}{7}
+    \corpartPython{occ.py}{}{}{1}{7}
     \fi
 	\subQuestion{Ecrire une version \textit{récursive} de cette fonction. \\
 	{\small \aide \;} Indication : on rappelle que si {\tt s} une chaine de caractères alors {\tt s[1:]} est la chaine {\tt s} privée de son premier caractère. Par exemple {\tt "Python"[1:]} est la chaine {\tt "ython"}.
 	}
     \ifcorrige
-    \inputpartPython{occ.py}{}{}{10}{17}
+    \corpartPython{occ.py}{}{}{10}{17}
     \fi
 	\Question{Sur le tri par sélection}
 	\subQuestion{Expliquer brièvement le principe de l'algorithme du \textit{tri par sélection} et donner l'évolution du contenu de la liste \mintinline{python}{[42, 28, 11, 9, 33]}  lorsqu'elle est triée en utilisant cet algorithme.}
@@ -49,15 +49,15 @@
     }
 	\subQuestion{Ecrire en Python une fonction {\tt echange} qui prend en argument une liste {\tt lst} ainsi que deux entiers {\tt i} et {\tt j} ne renvoie rien et échange les éléments d'indice {\tt i} et {\tt j} de cette liste. Par exemple, si {\tt lst = [25, 17, 34, 22, 37]} alors {\tt echange(lst, 1, 3)} doit modifier la liste {\tt lst} en {\tt [25, 22, 34, 17, 37]}. On vérifiera les préconditions sur {\tt i} et {\tt j} à l'aide d'instructions {\tt assert}.}
     \ifcorrige
-    \inputpartPython{tri_selection.py}{}{}{3}{6}
+    \corpartPython{tri_selection.py}{}{}{3}{6}
     \fi
 	\subQuestion{Ecrire en Python une fonction {\tt indice\_min\_depuis} qui prend en argument une liste {\tt lst} et un entier {\tt i} et renvoie l'indice du plus petit élément de la liste {\tt lst} à partir de l'indice {\tt i}. Par exemple, si {\tt lst = [25, 17, 34, 22, 37]} alors {\tt indice\_min\_depuis(lst, 2)} doit renvoyer {\tt 3} (c'est à dire l'indice de {\tt 22} qui est l'élément minimal à partir de celui d'indice 2).}
     \ifcorrige
-    \inputpartPython{tri_selection.py}{}{}{8}{14}
+    \corpartPython{tri_selection.py}{}{}{8}{14}
     \fi
 	\subQuestion{Ecrire en Python une fonction {\tt tri\_selection} qui prend en argument une liste {\tt lst} et modifie cette liste de façon à la trier par ordre croissant en utilisant l'algorithme du tri par sélection. On utilisera les fonctions {\tt echange} et {\tt indice\_min\_depuis} écrites aux questions précédentes.}
     \ifcorrige
-    \inputpartPython{tri_selection.py}{}{}{16}{20}
+    \corpartPython{tri_selection.py}{}{}{16}{20}
     \fi
 	\subQuestion{Un ordinateur a pris 3 secondes pour trier une liste de \numprint{250000} éléments en utilisant un tri par sélection. Donner une estimation (aucune justification n'est demandée) du temps que prendrait cet ordinateur pour trier une liste de \numprint{1000000} éléments en utilisant le même algorithme.}
     \ifcorrige
@@ -101,27 +101,33 @@
     }
 	\subQuestion{Afin de générer une entier aléatoire on veut utiliser la fonction {\tt randint} du module {\tt math}. Que faut-il écrire en début de programme pour que cette fonction soit utilisable ?}
     \ifcorrige
-    \inputpartPython{melange.py}{}{}{1}{1}
+    \corpartPython{melange.py}{}{}{1}{1}
     \fi
 	\subQuestion{Ecrire en Python une fonction \textit{itérative}, {\tt melange\_iteratif} qui prend en argument une liste {\tt lst} ne renvoie rien et mélange aléatoirement les éléments de la liste en utilisant l'algorithme de Fischer-Yates. On supposera déjà écrite une fonction {\tt echange} qui prend en argument une liste ainsi que deux indices et échange les éléments situés à ces indices.}
     \ifcorrige
-    \inputpartPython{melange.py}{}{}{7}{10}
+    \corpartPython{melange.py}{}{}{7}{10}
     \fi
 	\subQuestion{Ecrire en Python une fonction \textit{récursive},
 		{\tt melange\_recursif} qui prend en argument une liste {\tt lst} ne renvoie rien et mélange aléatoirement les éléments de la liste en utilisant l'algorithme de Fischer-Yates.\\
          {\small \aide \;} Indication : on pourra fournir à cette fonction un paramètre entier {\tt i} indiquant l'indice de l'élément qui sera potentiellement échangé avec l'un de ceux qui le précède.}
     \ifcorrige
-    \inputpartPython{melange.py}{}{}{12}{16}
+    \corpartPython{melange.py}{}{}{12}{16}
     \fi
 	\Question{Le but de cette partie est de générer la liste de \textit{toutes} les permutations d'une liste.}\\
 	On souhaite écrire une fonction {\tt permutation} qui prend en argument une liste et renvoie la liste de toutes les permutations de cette liste. Par exemple {\tt \small permutation(['I','T','C'])} doit renvoyer la liste : \\
 	{\tt \small [['I','T','C'], ['I','C','T'], ['T','I','C'], ['T','C','I'], ['C','T','I'], ['C','I','T']]}. \\
 	Pour cela on propose l'algorithme \textit{récursif} suivant : on commence par générer la permutation de la sous liste commençant à l'indice 1 puis on insère le premier élément à toutes les positions possibles dans les listes obtenues. Sur l'exemple de la liste {\tt ['I','T','C']}, on génère donc les permutations de {\tt ['T','C']} c'est à dire {\tt [['T','C'], ['C','T']]}. Puis on insère {\tt 'I'} à toutes les positions possibles dans ces listes ce qui donne : \\
 	{\tt \small [['I','T','C'], ['T','I','C'], ['T','C','I'], ['I','C','T'], ['C','I','T'], ['C','T','I']]}.
-	\Question{Ecrire la fonction {\tt insere} qui prend en argument un élément {\tt elt} une liste {\tt lst} et renvoie la liste de listes obtenues en insérant {\tt elt} à toutes les positions possibles dans {\tt lst}. Par exemple, si {\tt lst = ['T','C']} et {\tt elt = 'I'} alors {\tt insere(elt, lst)} doit renvoyer {\tt [['I','T','C'], ['T','I','C'], ['T','C','I']]}.}
-	\Question{Ecrire en Python une fonction \textit{récursive}, {\tt permutation} qui prend en argument une liste {\tt lst} et renvoie la liste des permutations de la liste {\tt lst}.\\
+	\subQuestion{Ecrire la fonction {\tt insere} qui prend en argument un élément {\tt elt} une liste {\tt lst} et renvoie la liste de listes obtenues en insérant {\tt elt} à toutes les positions possibles dans {\tt lst}. Par exemple, si {\tt lst = ['T','C']} et {\tt elt = 'I'} alors {\tt insere(elt, lst)} doit renvoyer {\tt [['I','T','C'], ['T','I','C'], ['T','C','I']]}.}
+	\ifcorrige
+	\corpartPython{permutation.py}{}{}{1}{2}
+	\fi
+	\subQuestion{Ecrire en Python une fonction \textit{récursive}, {\tt permutation} qui prend en argument une liste {\tt lst} et renvoie la liste des permutations de la liste {\tt lst}.\\
     {\small \aide \;} Indication : on pourra générer \textit{récursivement} les permutations de {\tt lst} privé de son premier élément puis insérer cet élément à tous les emplacements possibles grâce à la fonction précédente.     
     }
+	\ifcorrige
+	\corpartPython{permutation.py}{}{}{4}{11}
+	\fi
 \end{Exercise}
 
 
@@ -169,6 +175,9 @@ objets = [(4, 20), (5, 28), (6, 36), (7, 50)]
 
 	\subQuestion{Afin de générer tous les choix possibles on propose de parcourir les entiers de $0$ à $2^n - 1$ et de convertir chaque entier en son écriture binaire. Ecrire une fonction {\tt choix} qui prend en argument un entier {\tt n} et un entier {\tt k} tel que $0 \leqslant k \leqslant 2^n -1$ et renvoie la liste des chiffres de $k$ en base 2 sur $n$ bits. Par exemples {\tt choix(8,17) renvoie {\tt [0,0,0,1,0,0,0,1]}} (car on utilise {\tt 8} bits et $(00010001)_2=17$), et {\tt choix(8,121) renvoie {\tt [0,1, 1, 1, 1, 0, 0, 1]}}\\
     {\small \aide \;} Indication : on pourra utiliser la fonction {\tt bin} de Python qui prend en argument un nombre entier et renvoie son écriture en base 2 précédée de {\tt 0b} sous la forme d'une chaine de caractère, par exemple {\tt bin(17)} renvoie {\tt "0b10001"}.}
+	\ifcorrige
+	\corpartPython{sac.py}{}{}{22}{28}
+	\fi
     \subQuestion{Ecrire une fonction {\tt valeur\_poids} qui prend en arguments, une liste d'objets ainsi qu'un choix d'objet (sous la forme indiquée ci-dessus) et qui renvoie le poids et la valeur du sac correspondant à ce choix. Par exemple avec la liste {\tt objets} donnée en exemple plus haut,  {\tt valeur\_poids(objets, [1, 0, 1, 0])} doit renvoyer $(56, 10)$.}
 	\ifcorrige
 		\corpartPython{sac.py}{}{}{1}{9}

@@ -4,17 +4,17 @@
 #include <assert.h>
 #include <time.h>
 
-int valeur(int tab[], int i, int j, int n)
+double valeur(double tab[], int i, int j, int n)
 {
     assert(0 <= i && i <= j && j < n);
     return tab[j] - tab[i];
 }
 
-int sautmax_naif(int tab[], int n)
+double sautmax_naif(double tab[], int n)
 {
     // Renvoie le saut maximal en testant tous les sauts possibles
-    int smax = 0;
-    int sij;
+    double smax = 0;
+    double sij;
     for (int i = 0; i < n; i++)
     {
         for (int j = i; j < n; j++)
@@ -29,7 +29,26 @@ int sautmax_naif(int tab[], int n)
     return smax;
 }
 
-int max3(int a, int b, int c)
+void indices_sautmax(double tab[], int n, int *im, int *jm)
+{
+    double smax = 0;
+    double sij = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i; j < n; j++)
+        {
+            sij = valeur(tab, i, j, n);
+            if (sij > smax)
+            {
+                *im =i;
+                *jm =j;
+                smax = sij;
+            }
+        }
+    }
+}
+
+double max3(double a, double b, double c)
 {
     if (a > b && a > c)
     {
@@ -42,10 +61,10 @@ int max3(int a, int b, int c)
     return c;
 }
 
-int min(int tab[], int a, int b)
+double min(double tab[], int a, int b)
 {
     assert(a < b);
-    int minv = tab[a];
+    double minv = tab[a];
     for (int i = a + 1; i < b; i++)
     {
         if (tab[i] < minv)
@@ -56,10 +75,10 @@ int min(int tab[], int a, int b)
     return minv;
 }
 
-int max(int tab[], int a, int b)
+double max(double tab[], int a, int b)
 {
     assert(a < b);
-    int maxv = tab[a];
+    double maxv = tab[a];
     for (int i = a + 1; i < b; i++)
     {
         if (tab[i] > maxv)
@@ -70,7 +89,7 @@ int max(int tab[], int a, int b)
     return maxv;
 }
 
-int sautmax_dpr(int tab[], int a, int b)
+double sautmax_dpr(double tab[], int a, int b)
 {
     // Renvoie le saut maximal du sous tableau t[a],...t[b-1]
     // en utilisant une stratégie diviser pour régner
@@ -79,15 +98,15 @@ int sautmax_dpr(int tab[], int a, int b)
         return 0;
     }
     int p = (b - a) / 2;
-    int smg = sautmax_dpr(tab, a, a + p);
-    int smd = sautmax_dpr(tab, a + p, b);
-    int ming = min(tab, a, a + p);
-    int maxd = max(tab, a + p, b);
-    int smax = max3(smg, smd, maxd - ming);
+    double smg = sautmax_dpr(tab, a, a + p);
+    double smd = sautmax_dpr(tab, a + p, b);
+    double ming = min(tab, a, a + p);
+    double maxd = max(tab, a + p, b);
+    double smax = max3(smg, smd, maxd - ming);
     return smax;
 }
 
-int sautmax_dyn(int tab[], int n)
+double sautmax_dyn(double tab[], int n)
 {
     int i, j, m;
     i = 0;
@@ -95,16 +114,16 @@ int sautmax_dyn(int tab[], int n)
     m = 0;
     for (int k = 1; k < n; k++)
     {
-        // Mettre à jour l'indice du minimum
-        if (tab[k] < tab[m])
-        {
-            m = k;
-        }
         // Mettre à jour la valeur maximale du saut
         if (tab[k] - tab[m] >= valeur(tab, i, j, n))
         {
             i = m;
             j = k;
+        }
+        // Mettre à jour l'indice du minimum
+        if (tab[k] < tab[m])
+        {
+            m = k;
         }
     }
     return valeur(tab, i, j, n);
@@ -120,21 +139,26 @@ int main(int argc, char *argv[])
     int n = atoi(argv[1]);
     double deb, fin;
     srand(time(NULL));
-    int *tab = malloc(sizeof(int) * n);
+    double *tab = malloc(sizeof(double) * n);
     for (int i = 0; i < n; i++)
     {
-        tab[i] = rand() % (2 * n);
+        tab[i] =  rand() % (n * n);
     }
     deb = (double)clock() / CLOCKS_PER_SEC;
-    int smnaif = sautmax_naif(tab, n);
+    double smnaif = sautmax_naif(tab, n);
     fin = (double)clock() / CLOCKS_PER_SEC;
-    printf("Saut maximal (naif) : %d en %lf\n", smnaif, (fin - deb));
+    printf("Saut maximal (naif) : %lf en %lf\n", smnaif, (fin - deb));
     deb = (double)clock() / CLOCKS_PER_SEC;
-    int smdpr = sautmax_dpr(tab, 0, n);
+    double smdpr = sautmax_dpr(tab, 0, n);
     fin = (double)clock() / CLOCKS_PER_SEC;
-    printf("Saut maximal (dpr) : %d en %lf \n", smdpr, (fin - deb));
+    printf("Saut maximal (dpr) : %lf en %lf \n", smdpr, (fin - deb));
     deb = (double)clock() / CLOCKS_PER_SEC;
-    int smdyn = sautmax_dyn(tab, n);
+    double smdyn = sautmax_dyn(tab, n);
     fin = (double)clock() / CLOCKS_PER_SEC;
-    printf("Saut maximal (dpr) : %d en %lf \n", smdyn, (fin - deb));
+    printf("Saut maximal (dpr) : %lf en %lf \n", smdyn, (fin - deb));
+    int im;
+    int jm;
+    indices_sautmax(tab, n, &im, &jm);
+    printf("Indices du saut maximal : %d %d - Check : %lf\n", im, jm, valeur(tab, im, jm, n));
+    free(tab);
 }

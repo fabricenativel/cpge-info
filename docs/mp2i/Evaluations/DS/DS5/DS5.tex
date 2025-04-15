@@ -31,7 +31,7 @@
 
 \psset{arrows=->,treesep=0.8cm,levelsep=0.8cm, radius=0.3cm}
 \begin{Exercise}[title={Questions de cours : terminaison}]\\
-	On considère la fonction d'Ackerman $a : \N \times \N \mapsto \N$ définie par par : \\
+	On considère la fonction d'Ackerman $a : \N \times \N \mapsto \N$ définie par : \\
 	$\left\{
 		\begin{array}{lll}
 			a(0, m) & = & m + 1                                             \\
@@ -116,13 +116,13 @@
 
 \begin{Exercise}[title = {Recherche des $k$ premiers maximums d'une liste}] \\
 	Les fonctions demandées dans cet exercice doivent être écrites en langage OCaml.\smallskip \\
-	On s'intéresse au problème de la recherche des $k$ premiers maximums d'une liste de $n$ entiers. Dans toute la suite de l'exercice on supposera que la liste est \textit{non vide} : $n>0$ et qu'on extrait moins de maximums qu'il n'y a d'éléments dans la liste c'est à dire que $k \leqslant n$. On cherche donc à écrire une fonction {\tt kmax : int list -> int -> int list}  qui renvoie la liste des {\tt k} premiers maximums de la liste donnée en argument. Par exemples :
+	On s'intéresse au problème de la recherche des $k$ premiers maximums d'une liste de $n$ entiers. Dans toute la suite de l'exercice on supposera que la liste est \textit{non vide} : $n>0$ et qu'on extrait moins de maximums qu'il n'y a d'éléments dans la liste c'est à dire que $k \leqslant n$. On cherche donc à écrire une fonction {\tt kmax : int list -> int -> int list}  qui renvoie la liste --\textit{triée dans l'ordre décroissant}-- des {\tt k} premiers maximums de la liste donnée en argument . Par exemples :
 	\begin{itemize}
 		\item {\tt kmax [2; 5; 1; 8; 3; 0; 4] 2} renvoie {\tt [8, 5]}
 		\item {\tt kmax [7; 8; 8; 1; 6; 3; 2; 9] 3} renvoie {\tt [9; 8; 8]}
 		\item {\tt kmax [1; 0; 1; 2; 4]} 4 renvoie {\tt [4; 2; 1; 1]}
 	\end{itemize}
-	Les trois parties sont indépendantes et dans chacune d'elle on propose un algorithme différent afin d'écrire la fonction {\tt kmax}.\medskip
+	Les trois parties sont indépendantes et dans chacune d'elle on propose un algorithme différent afin d'écrire la fonction {\tt kmax}. \medskip
 
 	\ExePart[name = {Résolution par recherche successive des maximums}]
 	\Question{Ecrire une fonction {\tt max\_reste : int list -> int * int list} qui prend en argument une liste  et renvoie le couple composé du maximum de cette liste et de cette liste privée d'un de ses maximums. Par exemple {\tt max\_reste [2; 6; 4; 6; 5]} renvoie {\tt (6, [2; 4; 6; 5])}. On pourra procéder par correspondance de motif et traiter le cas de la liste vide par un {\tt failwith}}.
@@ -135,14 +135,14 @@
   \ifcorrige
   \corpartOCaml{kmax.ml}{}{}{9}{14}
   \fi
-	\Question{Quelle est la complexité de cette version de la fonction {\tt kmax} en fonction du nombre $k$ de maximums à extraire et de la longueur $n$ de la liste?}\medskip 
+	\Question{Quelle est la complexité de cette version de la fonction {\tt kmax} en fonction du nombre $k$ de maximums à extraire et de la longueur $n$ de la liste ?}\medskip 
   \tcor{La fonction {\tt kmax} effectue un appel récursif à {\tt max\_reste} pour chacun des $k$ maximums à extraire et comme {\tt max\_reste} a une complexité en $\mathcal{O}(n)$, cette version de {\tt kmax} a une complexité en $\mathcal{O}(kn)$.}
 	\ExePart[name = {Résolution par un tri}]
 	\Question{Ecrire une fonction {\tt kpremiers int list -> int -> int list} qui prend en argument une liste {\tt lst} et un entier {\tt k} et renvoie la liste composée des {\tt k} premiers éléments de {\tt lst}. Par exemple {\tt kpremiers [2; 7; 1; 8; 5] 3} renvoie la liste {\tt [2; 7; 1]}. On procédera de façon récursive sans utiliser les apsects impératifs de OCaml.}
   \ifcorrige
   \corpartOCaml{kmax.ml}{}{}{16}{20}
   \fi
-	\Question{On propose d'écrire la fonction {\tt kmax} en triant la liste  par ordre décroissant puis en prenant ses $k$ premiers éléments. En supposant que l'algorithme de tri utilisé a une complexité en $\mathcal{O}(n\log n)$, donner la complexité de ce nouvel algorithme (on ne demande \textit{pas} de le programmer).}\medskip
+	\Question{On propose d'écrire la fonction {\tt kmax} en triant la liste  par ordre décroissant puis en prenant ses $k$ premiers éléments. En supposant que l'algorithme de tri utilisé a une complexité en $\mathcal{O}(n\log n)$, donner la complexité de ce nouvel algorithme en fonction du nombre $k$ de maximums à extraire et de la longueur $n$ de la liste (on ne demande \textit{pas} de le programmer).}\medskip
   \tcor{La fonction {\tt kmax} effectue un appel à la fonction de tri qui a une complexité en $\mathcal{O}(n\log n)$ et ensuite elle effectue un appel à la fonction {\tt kpremiers} qui a une complexité en $\mathcal{O}(k)$. Donc la complexité de cette version de {\tt kmax} est en $\mathcal{O}(n\log n + k)$ et comme $k <n$ la complexité est en $\mathcal{O}(n\log n)$.}
 	\ExePart[name = {Résolution en utilisant un tas}]\\
 	Dans la suite on suppose que la structure de données de tas d'entiers (type {\tt int}), est \textit{déjà implémentée} par un type {\tt tas} sur lequel on dispose des fonctions suivantes :
@@ -154,7 +154,7 @@
 		\item {\tt extrait\_min : tas -> int} qui renvoie, \textit{en le supprimant du tas} le minimum du tas. Cette fonction échoue lorsque le tas est vide.
 	\end{itemize}
 	\Question{Rappeler en les justifiant, les complexités des opérations {\tt insere} et {\tt extrait\_min} en fonction de la taille du tas notée {\tt k} si on suppose que l'implémentation de la structure de tas est réalisée grâce à un tableau.}\medskip
-	\tcor{Un tas est un arbre binaire complet et à chaque étape d'une insertion ou d'une extraction, on remonte (ou on descend) d'un niveau dans cet arbre, la complexité de ces opérations est donc en $O(h)$ où $h$ est la  hauteur de l'arbre or l'arbre étant complet $\mathcal{O}(h)=\mathcal{O}(\log k)$ où $k$ est la taille de l'arbre. En conclusion, {\tt insere} et {\tt extrait\_min} ont une complexité en $\mathcal{O}(k)$}
+	\tcor{Un tas est un arbre binaire complet et à chaque étape d'une insertion ou d'une extraction, on remonte (ou on descend) d'un niveau dans cet arbre, la complexité de ces opérations est donc en $O(h)$ où $h$ est la  hauteur de l'arbre or l'arbre étant complet $\mathcal{O}(h)=\mathcal{O}(\log k)$ où $k$ est la taille de l'arbre. En conclusion, {\tt insere} et {\tt extrait\_min} ont une complexité en $\mathcal{O}(\log k)$}
 
 	Afin d'extraire les {\tt k} premiers éléments d'une liste de taille {\tt n}, on propose créer un tas de taille {\tt k} puis  de parcourir récursivement la liste, pour chaque élément rencontré :
 	\begin{itemize}
@@ -189,7 +189,8 @@
 	Dans un tableau de flottants (type {\tt double} du langage C) {\tt tab} de taille {\tt n}, on appelle \textit{saut} un couple $(i,j)$ avec $0 \leq i \leq j <$ {\tt n  } et la \textit{valeur} d'un saut est la valeur {\tt tab[j]-tab[i]}. Le but de l'exercice est de rechercher la valeur maximale d'un saut dans un tableau. Par exemple, dans le tableau {\tt \{ 2.0, 0.2, 3.0, 5.3, 2.0\}}, la valeur maximale d'un saut est {\tt 5.3 - 0.2 = 5.1}, cette valeur est obtenue en considérant le saut {\tt (1,3)}.\medskip
 
   \ExePart[name = {Questions préliminaires et résolution naïve}]
-	\Question{Ecrire une fonction de signature \mintinline{c}{int valeur(int tab[], int i, int j, int n)} qui prend en argument un tableau {\tt tab} de taile {\tt n} ainsi que deux indices {\tt i} et {\tt j} et renvoie la valeur du saut {\tt (i,j)}. On vérifiera les préconditions sur {\tt i} et {\tt j} à l'aide d'instructions {\tt assert}. Par exemple  si le tableau {\tt tab} est {\tt \{2.0; 0.2; 3.0; 5.3; 2.0\}} alors {\tt valeur(tab, 2, 0, 5)} renvoie {\tt 1.0} (car {\tt tab[2]-tab[0] = 1.0}).}
+	\Question{Ecrire une fonction de signature \mintinline{c}{double valeur(double tab[], int i, int j, int n)
+  } qui prend en argument un tableau (de {\tt double}) {\tt tab} de taile {\tt n} ainsi que deux indices {\tt i} et {\tt j} et renvoie la valeur du saut {\tt (i,j)}. On vérifiera les préconditions sur {\tt i} et {\tt j} à l'aide d'instructions {\tt assert}. Par exemple  si le tableau {\tt tab} est {\tt \{2.0; 0.2; 3.0; 5.3; 2.0\}} alors {\tt valeur(tab, 2, 0, 5)} renvoie {\tt 1.0} (car {\tt tab[2]-tab[0] = 1.0}).}
   \ifcorrige
   \corpartC{sautmax.c}{}{}{7}{11}
   \fi
@@ -203,6 +204,7 @@
   \fi
 	\Question{Quelle est la complexité de la fonction {\tt sautmax\_naif} en fonction de la taille $n$ du tableau ?}\medskip
   \tcor{Il y a deux boucles {\tt for} imbriquées et les deux sont exécutés au plus {\tt n fois}, les opérations à l'intérieur de ces boucles sont toutes des opérations élémentaires, donc la complexité est en $\mathcal{O}(n^2)$}
+  \Question{Au lieu de rechercher la valeur maximale d'un saut noté $v_m$, on peut vouloir récupérer deux indices $(i_m,j_m)$ tels que le saut $(i_m,j_m)$ soit de valeur $v_m$. Pour cela, on propose d'écrire une fonction {\tt indices\_sautmax} qui prendra en plus du tableau et de sa taille  deux pointeurs vers des entiers {\tt im} et {\tt jm} qui seront modifiés par la fonction afin qu'ils contienne après appel les indices d'un saut de valeur maximale. La signature de la fonction est alors :\\ \mintinline{c}{void indices_sautmax(double tab[], int n, int *im, int *jm)}, c'est à dire qu'elle ne renvoie rien mais modifiera le contenu des pointeurs {\tt im} et {\tt jm}. Ecrire cette fonction.}
   \ExePart[name = {Résolution avec une méthode diviser pour régner}]\\
 	On propose maintenant d'utiliser une méthode diviser pour régner afin de calculer la valeur maximale d'un saut. On note $n$ la taille du tableau {\tt t} et $p = \lfloor \frac{n}{2} \rfloor$ (où $\lfloor \; \rfloor$ désigne la partie entière). On souhaite calculer :
 	\begin{itemize}
@@ -252,11 +254,11 @@
 	}
 	\Question{Justifier que $i_m$ est nécessairement l'indice d'une valeur minimale dans la moitié gauche de {\tt t} (on admettra que de même $j_m$ est nécessairement l'indice d'une valeur maximale dans la moitié droite de {\tt t}).}
 	\tcor{On raisonne par l'absurde, si tel n'était pas le cas, on aurait une valeur d'indice $q$ dans la moitié gauche strictement inférieur à $t[i_m]$ et donc le saut $(q,j_m)$ aurait une valeur supérieure au saut $(i_m,j_m)$ ce qui contredit que $(i_m,j_m)$ est un saut de valeur maximale.}
-  \Question{Ecrire une fonction de signature \mintinline{c}{int min(int tab[], int a, int b)} qui prend en argument un tableau {\tt tab}, ainsi que deux entiers {\tt a} et {\tt b} (avec {\tt a<=b}) et renvoie l'indice d'un minimum de {\tt tab} entre les deux indices {\tt a} (inclus) et {\tt b} (exclu).\\On supposera dans la suite \textit{déjà écrite} une fonction qui {\tt max} qui prend les mêmes arguments et renvoie l'indice d'un maximum du sous tableau {\tt \{tab[a],...,tab[b-1]\}} }
+  \Question{Ecrire une fonction de signature \mintinline{c}{double min(double tab[], int a, int b)} qui prend en argument un tableau {\tt tab}, ainsi que deux entiers {\tt a} et {\tt b} (avec {\tt a<=b}) et renvoie l'indice d'un minimum de {\tt tab} entre les deux indices {\tt a} (inclus) et {\tt b} (exclu).\\On supposera dans la suite \textit{déjà écrite} une fonction qui {\tt max} qui prend les mêmes arguments et renvoie l'indice d'un maximum du sous tableau {\tt \{tab[a],...,tab[b-1]\}} }
   \ifcorrige
   \corpartC{sautmax.c}{}{}{45}{57}
   \fi
-	\Question{Ecrire une fonction de signature \mintinline{c}{int sautmax_dpr(int tab[], int a, int b)} qui prend en argument un tableau {\tt tab} ainsi que deux entiers {\tt a} et {\tt b} (avec {\tt a<=b}) et renvoie la valeur d'un saut maximale dans {\tt tab} entre les deux indices {\tt a} (inclus) et {\tt b} (exclu).\textit{Cette fonction doit être récursive et utiliser la méthode diviser pour régner}. On pourra supposer déjà écrite une fonction {\tt max3} qui renvoie le maximum des trois {\tt double} donnés en argument.
+	\Question{Ecrire une fonction de signature \mintinline{c}{double sautmax_dyn(double tab[], int n)} qui prend en argument un tableau {\tt tab} ainsi que deux entiers {\tt a} et {\tt b} (avec {\tt a<=b}) et renvoie la valeur d'un saut maximale dans {\tt tab} entre les deux indices {\tt a} (inclus) et {\tt b} (exclu).\textit{Cette fonction doit être récursive et utiliser la méthode diviser pour régner}. On pourra supposer déjà écrite une fonction {\tt max3} qui renvoie le maximum des trois {\tt double} donnés en argument.
 	}
   \ifcorrige
   \corpartC{sautmax.c}{}{}{73}{88}
@@ -287,7 +289,7 @@
     $(i_{k+1},j_{k+1}) = \left\{ \begin{array}{ll} (i_k,j_k) \text{ si } t[k]-t[m_k]<t[j_k]-t[i_k] \\ (m_k,k) \text{ sinon} \end{array}\right.$
     }
     \tcor{Le saut de valeur maximal ayant $k$ comme second indice est $(m_k, k)$ et vaut $t[k]-t[m_k]$. En effet le second indice étant fixé on l'obtient en prenant le miminum du sous tableau $t_k$. On doit donc comparer ce nouveau saut avec le le saut maximal du sous tableau $t_k$. Soit il est plus petit c'est à dire $t[k]-t[m_k] < t[j_k] - t[i_k]$ et donc $(i_{k+1},j_{k+1}) = (i_k,j_k)$ ou bien il est plus grand et donc $(i_{k+1},j_{k+1}) = (m_k,k)$.}
-    \Question{Ecrire une fonction de signature \mintinline{c}{int sautmax_dyn(int tab[], int n)} qui prend en argument un tableau et sa taille et renvoie la valeur maximale d'un saut de ce tableau. On procèdera \textit{de façon ascendante} en utilisant les relations de récurrences de la question précédente et en calculant successivement les valeurs maximales de saut dans les sous tableaux $t_1$ puis $t_2$,  $\dots$ jusqu'à $t_n$.}
+    \Question{Ecrire une fonction de signature \mintinline{c}{double sautmax_dyn(double tab[], int n)} qui prend en argument un tableau et sa taille et renvoie la valeur maximale d'un saut de ce tableau. On procèdera \textit{de façon ascendante} en utilisant les relations de récurrences de la question précédente et en calculant successivement les valeurs maximales de saut dans les sous tableaux $t_1$ puis $t_2$,  $\dots$ jusqu'à $t_n$.}
     \ifcorrige
     \corpartC{sautmax.c}{}{}{90}{111}
     \fi

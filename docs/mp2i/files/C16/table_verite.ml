@@ -108,9 +108,15 @@ let clauses fl =
       cl := (Array.copy valuation)::!cl;
     ignore (incremente valuation);
   done;
-  !cl;
+  !cl, (list_var fl);
 ;;
 
+  
 
-
-let ex = Equ (Imp (Var 1, Var 2), (Non (Var 3)));;
+let a = Var 1;;
+let b = Var 2;;
+let c = Var 3;;
+let d = Var 4;;
+let e = Var 5;;
+let f = Var 6;;
+let ex = Et (Equ (Et (a, Non b),Ou(Non c, d)),Et( Imp (a,c), Ou (e,f ))) ;;
