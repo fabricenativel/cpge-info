@@ -23,7 +23,7 @@ Dans cet exercice, on s'intéresse à la représentation par matrice d'adjacence
 
 !!! langageC "Définition de la structure de données"
     ```c
-    --8<-- "C17/madj_stat.c:5:6"
+    --8<-- "C17/madj_stat.c:struct"
     ```
 
 1. Ecrire une fonction d’initialisation de prototype `#!c void init_graphe(graphe g, int size)` qui initialise un graphe de taille `size` en remplissant la matrice avec des valeurs `false`
@@ -34,7 +34,7 @@ Dans cet exercice, on s'intéresse à la représentation par matrice d'adjacence
 
     ??? langageC "Fonction de visualisation"
         ```c
-        --8<-- "C17/madj_stat.c:42:74"
+        --8<-- "C17/madj_stat.c:visualise"
         ```
     Créer et visualiser le graphe suivant :
     ```mermaid
@@ -72,7 +72,7 @@ Dans cet exercice, on s'intéresse à la représentation par matrice d'adjacence
 Reprendre l'exercice précédent en OCaml en utilisant la structure de données vue en cours et rappelée ci-dessous :
 !!! ocaml "Définition de la structure de données"
     ```ocaml
-    --8<-- "C17/madj.ml:2:4"
+    --8<-- "C17/madj.ml:struct"
     ```
 
 La fonction de visualisation pour OCaml est donnée ci-dessous :
@@ -88,7 +88,7 @@ Pour la question **5.**, on pourra renvoyer la liste des sommets et pas un table
 Reprendre l'exercice 1 en C en utilisant la structure de données d'une matrice linéarisée allouée en mémoire lorsque la taille est connue :
 !!! langageC "Définition de la structure de données"
     ```c
-    --8<-- "C17/madj_dyn.c:5:10"
+    --8<-- "C17/madj_dyn.c:struct"
     ```
 On rappelle qu'avec cette structure, il devient inutile de passer la taille du graphe en argument puisqu'on y accède directement via le champe `taille`.
 
@@ -101,7 +101,7 @@ On rappelle qu'avec cette structure, il devient inutile de passer la taille du g
 On donne la fonction de visualisation adaptée à cette nouvelle structure
 ??? langageC "Fonction de visualisation"
     ```c
-    --8<-- "C17/madj_dyn.c:46:77"
+    --8<-- "C17/madj_dyn.c:visualise"
     ```
 
 {{ exo("Listes d'adjacence en C",[])}}
@@ -109,7 +109,7 @@ On donne la fonction de visualisation adaptée à cette nouvelle structure
 On rappelle la structure de données vues en cours permettant de représenter un graphe par ses listes d'adjacence en C :
 !!! langageC "Définition de la structure de données"
     ```c
-    --8<-- "C17/ladj_stat.c:5:8"
+    --8<-- "C17/ladj_stat.c:struct"
     ```
 
 !!! warning "Attention"
@@ -141,7 +141,7 @@ On rappelle la structure de données vues en cours permettant de représenter un
 
     ??? langageC "Fonction de visualisation"
         ```c
-        --8<-- "C17/ladj_stat.c:37:65"
+        --8<-- "C17/ladj_stat.c:visualise"
         ```
     Créer et visualiser le graphe suivant :
     ```mermaid
@@ -177,7 +177,7 @@ On rappelle la structure de données vues en cours permettant de représenter un
 On rapelle la structure de données vue en cours permettant de représenter un graphe par liste d'adjacence en OCaml :
 !!! ocaml "Définition de la structure de données"
     ```ocaml
-    --8<-- "C17/ladj.ml:2:4"
+    --8<-- "C17/ladj.ml:struct"
     ```
 
 1. Ecrire une fonction d'initialisation `int -> graphe` qui renvoie un graphe d'ordre `n` n'ayant aucune arête
@@ -188,7 +188,7 @@ On rapelle la structure de données vue en cours permettant de représenter un g
 
     ??? ocaml "Fonction de visualisation"
         ```ocaml
-            --8<-- "C17/ladj.ml:14:30"
+            --8<-- "C17/ladj.ml:visualise"
         ```
     
     Créer et visualiser le graphe suivant :
@@ -225,7 +225,7 @@ On rapelle la structure de données vue en cours permettant de représenter un g
 Comme indiqué en cours, on peut représenté les listes d'adjacence en C à l'aide d'un tableau de liste chainées. Reprendre les questions de l'exercice précédent à l'aide de cette nouvelle représentation.
 
 ```c
---8<-- "C17/ladj_dyn.c:4:13"
+--8<-- "C17/ladj_dyn.c:struct"
 ```
 
 Pour réviser la structure de liste chainées, on pourra revenir si besoin sur cet [exercice](https://fabricenativel.github.io/cpge-info/mp2i/sl/#exercice-3-listes-chainees-en-c)
@@ -233,10 +233,16 @@ Pour réviser la structure de liste chainées, on pourra revenir si besoin sur c
 On donne aussi pour cette représentation une fonction de visualisation !
 ??? langageC Fonction de visualisation
     ```c
-    --8<-- "C17/ladj_dyn.c:89:120"
+    --8<-- "C17/ladj_dyn.c:visualise"
     ```
 
 {{ exo("Graphes orientés",[])}}
+
+!!! note
+    Afin d'adapter les fonctions de visualisations  au cas des graphes orientés, il suffit d'apporter les modifications suivantes :
+
+    * modifier la ligne écrivant l'entête `graph mygraph` dans le fichier *dot* en `digraph mygraph`
+    * modifier les arcs entre les sommets en `->` (au lieu de `--`)
 
 Dans le langage (C ou Ocaml) et avec la représentation de votre choix (matrice ou listes d'adjacence), représenter un graphe orienté et écrire sur le type `graphe`  les fonctions suivantes :
 

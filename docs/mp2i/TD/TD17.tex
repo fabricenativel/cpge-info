@@ -1,3 +1,4 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
 \documentclass[11pt,a4paper]{article}
 
 \usepackage{Act}
@@ -12,7 +13,7 @@
 \psset{treesep=0.5cm,levelsep=0.8cm}
 
 \setcounter{Exercise}{0}
-
+\setboolean{corrige}{false}
 
 \begin{Exercise}[title = {Définition et représentation d'un graphe non orienté}] \\
     On note :
@@ -88,34 +89,84 @@
 \begin{Exercise}[title = {Graphe régulier, graphe complet}]\\
     Les graphes considérés dans cet exercice sont non orientés. On dit qu'un graphe  $G = (S,A)$ est \textit{régulier} lorsque tous ses sommets ont le même degré. Et on dit qu'un graphe est \textit{complet} lorsque qu'il y a une arête entre tous les paires de sommets
     \Question{Dessiner un graphe non orienté régulier de taille 6 dont les sommets sont de degré 3}
+    \tcor{\begin{pspicture}(0,-2.2)(5,2.2)
+    
+		\rput(3,2){\circlenode{x0}{$x_0$}}
+		\rput(0,-2){\circlenode{x1}{$x_1$}}
+		\rput(6,-2){\circlenode{x2}{$x_2$}}
+		\rput(2,0){\circlenode{x3}{$x_3$}}
+		\rput(4,0){\circlenode{x4}{$x_4$}}
+	   \rput(3,-1){\circlenode{x5}{$x_5$}}
+       \ncarc{-}{x1}{x0}
+       \ncarc{-}{x2}{x1}
+       \ncarc{-}{x0}{x2}
+       \ncarc{-}{x3}{x4}
+       \ncarc{-}{x4}{x5}
+       \ncarc{-}{x5}{x3}
+       \ncarc{-}{x0}{x3}
+       \ncarc{-}{x2}{x4}
+        \ncarc{-}{x1}{x5}
+    \end{pspicture}}
     \Question{Dessiner un graphe complet de taille 5}
+    \tcor{\begin{pspicture}(0,-2.2)(5,2.2)
+    
+		\rput(1,2){\circlenode{x0}{$x_0$}}
+        \rput(5,2){\circlenode{x1}{$x_1$}}
+		\rput(0,0){\circlenode{x4}{$x_4$}}
+		\rput(6,0){\circlenode{x2}{$x_2$}}
+		\rput(3,-2){\circlenode{x3}{$x_3$}}
+       \ncarc{-}{x0}{x1}
+       \ncarc{-}{x0}{x2}
+       \ncarc{-}{x4}{x0}
+       \ncarc{-}{x0}{x3}
+       \ncarc{-}{x1}{x2}
+       \ncarc{-}{x1}{x3}
+       \ncarc{-}{x1}{x4}
+       \ncarc{-}{x2}{x3}
+       \ncarc{-}{x2}{x4}
+        \ncarc{-}{x3}{x4}
+    \end{pspicture}}
     \Question{Déterminer le nombre d'arêtes du graphe complet à $n$ sommets}
+    \tcor{Le nombre d'arêtes du graphe complet à $n$ sommets est $\frac{n(n-1)}{2}$}
     \Question{Un graphe complet est-il régulier ?}
+    \tcor{Oui, tous les sommets ont le même degré $n-1$}
     \Question{Peut-on construire un graphe régulier de taille 5 dont tous les sommets sont de degré 3 ?}
+    \tcor{Si tous les sommets sont de degrés 3 alors il y a $\frac{3n}{2}$ arêtes. Or $n=5$ donc $\frac{3n}{2} = \frac{15}{2}$ n'est pas un entier. Donc un tel graphe n'existe pas.}
     \Question{A quelle condition portant sur $n$ et $k$ peut-on construire un graphe régulier de taille $n$ dont tous les sommets sont de degré $k$ ?}
+    \tcor{Il faut que $n$ et $k$ soient de même parité. En effet, le nombre d'arêtes est $\frac{nk}{2}$ et il faut que ce soit un entier. De plus comme le degré maximal est $n-1$, il faut que $k \leq n-1$.}
 \end{Exercise}
 
 \begin{Exercise}[title = {Sommet isolé}]\\
     On dit qu'un sommet d'un graphe non orienté $G=(S,A)$ est \textit{isolé} lorsque son degré est nul.
     \Question{Montrer qu'un graphe ne peut avoir simultanément un sommet isolé et un sommet de degré $|S|-1$}
+    \tcor{Supposons que $G$ ait  un sommet isolé $x$ et un sommet de degré $|S|-1$ noté $y$. Comme $y$ est de degré $|S|-1$, il est adjacent à tous les autres sommets du graphe. En particulier, il est adjacent à $x$. Donc $x$ n'est pas isolé.}
     \Question{En déduire qu'un graphe a au moins deux sommets de même degré.}
+    \tcor{Soit $G$ un graphe non orienté de taille $n$. Soit $d_0, d_1, \ldots, d_{n-1}$ les degrés des sommets de $G$. On a $d_i \leq n-1$ pour tout $i$. Donc les $d_i$ sont dans l'ensemble $\{0, 1, \ldots, n-1\}$. D'après la question précédente, cette ensemble ne peut contenir simultanément $0$ et $n-1$, donc il a au plus $n-1$ élements. Donc il y a au moins deux sommets de même degré.}
 \end{Exercise}
 
 \begin{Exercise}[title = {Parité}]\\
-    Soit $G = (S,A)$ un graphe non orienté, on note $d(x)$ le degré d'un sommet $x \in A$.
-    \Question{Montrer que $\displaystyle{\sum_{x \in A} d(x) = 2|A|}$}
+    Soit $G = (S,A)$ un graphe non orienté, on note $d(x)$ le degré d'un sommet $x \in S$.
+    \Question{Montrer que $\displaystyle{\sum_{x \in S} d(x) = 2|A|}$}
+    \tcor{On peut raisonner par récurrence sur le nombre d'arêtes. Soi $|A|=0$ alors tous les degrés sont nuls et la propriété est vraie. On suppose la propriété vraie pour un graphe ayant $n$ arêtes et on considère un graphe $G$ ayant $n+1$ arêtes. On supprime une arête $\{y,z\}$ de $G$, on obtient un graphe $G'=(S,A')$ ayant $n$ arêtes. On a donc $\sum_{x \in S} d_{G'}(x) = \sum_{x \in S} d(x) + 1 + 1 = 2|A'| + 2 = 2|A|$.}
     \Question{En déduire que $G$ a forcément un nombre pair de sommets de degré impair}
+    \tcor{En effet, on a $\sum_{x \in S} d(x) = 2|A|$ est un nombre pair. Or la somme des degrés des sommets de degré impair est un nombre impair. Donc il y a un nombre pair de sommets de degré impair.}
 \end{Exercise}
 
 \begin{Exercise}[title = {Un peu de dénombrement}]
 \Question{Montrer qu'il y a $2^{\frac{n(n-1)}{2}}$ graphes non orientés à $n$ sommets.}
+\tcor{On a $n$ sommets et $\frac{n(n-1)}{2}$ arêtes possibles. Chaque arête peut être présente ou non dans le graphe. Donc il y a $2^{\frac{n(n-1)}{2}}$ graphes non orientés à $n$ sommets.}
 \Question{Déterminer le nombre de graphes orientés à $n$ sommets.}
+\tcor{On a $n$ sommets et $n(n-1)$ arêtes possibles. Chaque arête peut être présente ou non dans le graphe. Donc il y a $2^{n(n-1)}$ graphes orientés à $n$ sommets.}
 \end{Exercise}
 
 \begin{Exercise}[title = {Matrice d'adjacence et nombre de chemins}] \\
 Soit $G=(S,A)$ et $M$ sa matrice d'adjacence, le but de l'exercice est de calculer le nombre de chemins de longueur $k$ entre deux sommets $i$ et $j$ d'un graphe qu'on notera $c_{i,j,k}$.
 \Question{Montrer que $c_{i,j,1} = M_{i,j}$}
+\tcor{En effet, $c_{i,j,1}$ est le nombre de chemins de longueur 1 entre $i$ et $j$. Or il y a une arête entre $i$ et $j$ si et seulement si $M_{i,j} = 1$. Donc $c_{i,j,1} = M_{i,j}$.}
 \Question{Montrer que pour tout $k \in \N$, $c_{i,j,k} = M^k_{i,j}$} (on pourra raisonner par récurrence)
+\tcor{On suppose la propriété vraie pour $k$ et on montre qu'elle est vraie pour $k+1$. On a :
+$$c_{i,j,k+1} = \sum_{x \in S} c_{i,x,k} c_{x,j,1} = \sum_{x \in S} M^k_{i,x} M_{x,j} = \sum_{x \in S} M^k_{i,x} M^1_{x,j} = (M^k M^1)_{i,j} = (M^{k+1})_{i,j}$$
+Donc la propriété est vraie pour $k+1$. Par récurrence, elle est vraie pour tout $k \in \N$.}
 \Question{En supposant qu'on calcule $M^k$ avec l'algorithme d'exponentiation rapide, donner la complexité de cette méthode pour calculer les $c_{i,j,k}$}
 \end{Exercise}
 

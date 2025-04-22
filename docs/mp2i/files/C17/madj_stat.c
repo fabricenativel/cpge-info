@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define NMAX 100 // nombre maximal de sommets
+//--8<-- [start:struct]
+#define NMAX 100                 // nombre maximal de sommets
 typedef bool graphe[NMAX][NMAX]; // La matrice d'adjacence
+//--8<-- [end:struct]
 
 void init_graphe(graphe g, int size)
 {
@@ -16,9 +18,11 @@ void init_graphe(graphe g, int size)
     }
 }
 
-void cree_arete(graphe g, int i, int j){
+void cree_arete(graphe g, int i, int j)
+{
     g[i][j] = true;
-    g[j][i] = true;}
+    g[j][i] = true;
+}
 
 void affiche_graphe(graphe g, int size)
 {
@@ -39,49 +43,38 @@ void affiche_graphe(graphe g, int size)
     }
 }
 
+
+//--8<-- [start:visualise]
 // Visualisation du graphe g de taille n
 void visualise(graphe g, int n)
 {
-    char buf[256];
     FILE *writer = fopen("temp.gv", "w");
-    FILE *imgwriter = fopen("temp.jpg", "wb");
     fprintf(writer, "graph mygraph {\n");
-    for (int i=0; i<n; i++)
+    for (int i = 0; i < n; i++)
     {
-        fprintf(writer,"%d\n",i);
-        for (int j=i+1; j<n; j++)
+        fprintf(writer, "%d\n", i);
+        for (int j = i + 1; j < n; j++)
         {
             if (g[i][j])
             {
-                fprintf(writer,"%d -- %d\n",i,j);
+                fprintf(writer, "%d -- %d\n", i, j);
             }
         }
     }
     fprintf(writer, "}\n");
     fclose(writer);
-    FILE *dotresult = popen("dot temp.gv -Tjpg", "r");
-    if (dotresult == NULL)
-    {
-        printf("Bug !\n");
-    }
-    while ((n = fread(buf, 1, 256, dotresult)) != 0)
-    {
-        fwrite(buf, 1, n, imgwriter);
-    }
-    pclose(dotresult);
-    fclose(imgwriter);
-    system("eog temp.jpg &");
+    system("xdot temp.gv &");
 }
-
+//--8<-- [end:visualise]
 
 void complet(graphe g, int n)
 {
-    for (int i=0; i<n; i++)
+    for (int i = 0; i < n; i++)
     {
-        for (int j=i+1; j<n+1;j++)
+        for (int j = i + 1; j < n + 1; j++)
         {
 
-            cree_arete(g,i,j);
+            cree_arete(g, i, j);
         }
     }
 }
@@ -89,6 +82,6 @@ void complet(graphe g, int n)
 int main()
 {
     graphe g;
-    complet(g,5);
-    visualise(g,5);
+    complet(g, 5);
+    visualise(g, 5);
 }

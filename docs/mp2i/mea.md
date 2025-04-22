@@ -37,6 +37,10 @@ Pour revoir les bases de {{sc("sql")}}, utiliser les tutoriels du site [SQL Zoo]
 3. Pour reviser les fonctions d'agrégations
     * Sur une base de données d'[étudiants](https://sqlzoo.net/wiki/NSS_Tutorial){target=_blank}
 
+{{exo("SQL Noir",[])}}
+
+Le site [SQL Noir](https://www.sqlnoir.com/) propose de s'entrainer au SQL à travers la résolution d'enquêtes policières.
+
 ## Humour d'informaticien
 
 ![tree](./Images/C18/ERM.jpg){.imgcentre width=500px}

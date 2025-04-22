@@ -10,6 +10,10 @@
 \setcounter{numchap}{11}
 \newcommand{\Ctitle}{\cnum {Graphes}}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C\thenumchap/}
+\newcommand{\ar}[1]{\{#1\}}
+\newcommand{\normal}[1]{\circlenode{#1}{#1}}
+\newcommand{\todo}[1]{\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{#1}{#1}}
+\newcommand{\visited}[1]{\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{#1}{#1}}
 
 \makess{Introduction}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -268,187 +272,103 @@
 	\end{block}
 \end{frame}
 
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-		\begin{exampleblock}{Exemple de parcours en largeur}
-			\begin{center}
-					\begin{pspicture}(5,2)
-						\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-						\rput(1,0.5){\circlenode{E}{E}}
-						\rput(2,1){\circlenode{B}{B}}
-						\rput(4,0.7){\circlenode{D}{D}}
-						\rput(6,1.5){\circlenode{C}{C}}
-						\ncarc{->}{A}{E}
-						\ncarc{->}{A}{B}
-						\ncarc{->}{A}{C}
-						\ncarc[arcangle=-10]{->}{B}{D}
-						\ncarc{->}{C}{B}
-						\ncarc[arcangle=-10]{->}{D}{C}
-						\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-						\ncline{->}{E}{B}
-					\end{pspicture}
-				\end{center}
-		Sommets explorés : \fbox{A}
-		\end{exampleblock}
-\end{frame}
-
+% Parcours en largeur
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple de parcours en largeur}
 		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode{D}{D}}
-					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : \fbox{A}, \fbox{B,C,E}
+			\begin{pspicture}(5,2)
+				\alt<2->{\rput(0,1.8){\visited{A}}}{\rput(0,1.8){\normal{A}}}
+				\alt<3->{\rput(1,0.5){\visited{E}}}{\rput(1,0.5){\normal{E}}}
+				\alt<3->{\rput(2,1){\visited{B}}}{\rput(2,1){\normal{B}}}
+				\alt<3->{\rput(6,1.5){\visited{C}}}{\rput(6,1.5){\normal{C}}}
+				\alt<5->{\rput(6,0){\visited{F}}}{\rput(6,0){\normal{F}}}
+				\alt<7->{\rput(7,0.7){\visited{G}}}{\rput(7,0.7){\normal{G}}}
+				\alt<5->{\rput(4,0.7){\visited{D}}}{\rput(4,0.7){\normal{D}}}
+				\ncarc{->}{A}{E}
+				\ncarc{->}{A}{B}
+				\ncarc{->}{A}{C}
+				\ncarc[arcangle=-10]{->}{B}{D}
+				\ncarc{->}{C}{B}
+				\ncarc[arcangle=-10]{->}{C}{F}
+				\ncarc[arcangle=-10]{->}{F}{G}
+				\ncarc[arcangle=-10]{->}{D}{C}
+				\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+				\ncline{->}{E}{B}
+			\end{pspicture}
+		\end{center} \vspace{0.2cm}
+		Sommets explorés  : \onslide<2->{\fbox{A,}} \onslide<4->{\fbox{B, C, E}} \onslide<6->{\fbox{D, F,}} \onslide<8->{\fbox{G\phantom{,}}} \\
+		\onslide<9->{Ecrire le parcours en largeur du graphe suivant (on part du sommet $S_1$)
+			\begin{pspicture}(0,-1.6)(5,1.6)
+				\rput(1,1.3){\circlenode{R1}{$S_1$}}
+				\rput(3,1.3){\circlenode{R2}{$S_2$}}
+				\rput(1,0){\circlenode{R3}{$S_3$}}
+				\rput(3,0){\circlenode{R4}{$S_4$}}
+				\rput(5,0){\circlenode{R5}{$S_5$}}
+				\rput(1,-1.3){\circlenode{R6}{$S_6$}}
+				\rput(3,-1.3){\circlenode{R7}{$S_7$}}
+				\rput(5,-1.3){\circlenode{R8}{$S_8$}}
+				\ncline{->}{R1}{R2}
+				\ncline{->}{R2}{R4}
+				\ncline{->}{R2}{R5}
+				\ncline{->}{R4}{R6}
+				\ncline{->}{R4}{R7}
+				\ncline{->}{R6}{R3}
+				\ncline{->}{R4}{R1}
+				\ncline{->}{R4}{R5}
+				\ncline{->}{R7}{R8}
+				\ncline{->}{R8}{R5}
+				\ncline{->}{R3}{R1}
+			\end{pspicture}}
 	\end{exampleblock}
 \end{frame}
 
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en largeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
-					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : \fbox{A}, \fbox{B,C,E}, \fbox{D}.
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode{B}{B}}
-					\rput(4,0.7){\circlenode{D}{D}}
-					\rput(6,1.5){\circlenode{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : \fbox{A}
-	\end{exampleblock}
-\end{frame}
-
+% Ex parcours en profondeur
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple de parcours en profondeur}
 		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode{D}{D}}
-					\rput(6,1.5){\circlenode{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : A, B
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
-					\rput(6,1.5){\circlenode{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : A, B, D
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
-					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : A, B, D, C
-	\end{exampleblock}
-\end{frame}
-
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple de parcours en profondeur}
-		\begin{center}
-				\begin{pspicture}(5,2)
-					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
-					\rput(1,0.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}
-					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
-					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
-					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
-					\ncarc{->}{A}{E}
-					\ncarc{->}{A}{B}
-					\ncarc{->}{A}{C}
-					\ncarc[arcangle=-10]{->}{B}{D}
-					\ncarc{->}{C}{B}
-					\ncarc[arcangle=-10]{->}{D}{C}
-					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
-					\ncline{->}{E}{B}
-				\end{pspicture}
-			\end{center}
-	Sommets explorés : A, B, D, C, E
+			\begin{pspicture}(5,2)
+				\alt<2->{\rput(0,1.8){\visited{A}}}{\rput(0,1.8){\normal{A}}}
+				\alt<3->{\rput(2,1){\visited{B}}}{\rput(2,1){\normal{B}}}
+				\alt<5->{\rput(6,1.5){\visited{C}}}{\rput(6,1.5){\normal{C}}}
+				\alt<4->{\rput(4,0.7){\visited{D}}}{\rput(4,0.7){\normal{D}}}
+				\alt<8->{\rput(1,0.5){\visited{E}}}{\rput(1,0.5){\normal{E}}}
+				\alt<6->{\rput(6,0){\visited{F}}}{\rput(6,0){\normal{F}}}
+				\alt<7->{\rput(7,0.7){\visited{G}}}{\rput(7,0.7){\normal{G}}}
+				\ncarc{->}{A}{E}
+				\ncarc{->}{A}{B}
+				\ncarc{->}{A}{C}
+				\ncarc[arcangle=-10]{->}{B}{D}
+				\ncarc{->}{C}{B}
+				\ncarc[arcangle=-10]{->}{C}{F}
+				\ncarc[arcangle=-10]{->}{F}{G}
+				\ncarc[arcangle=-10]{->}{D}{C}
+				\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+				\ncline{->}{E}{B}
+			\end{pspicture}
+		\end{center} \vspace{0.2cm}
+		Sommets explorés  : \onslide<2->{A,} \onslide<3->{B,} \onslide<4->{D,} \onslide<5->{C,} \onslide<6->{F,} \onslide<7->{G,} \onslide<8->{E} \\
+		\onslide<9->{Ecrire le parcours en profondeur du graphe suivant (on part du sommet $S_1$)
+			\begin{pspicture}(0,-1.6)(5,1.6)
+				\rput(1,1.3){\circlenode{R1}{$S_1$}}
+				\rput(3,1.3){\circlenode{R2}{$S_2$}}
+				\rput(1,0){\circlenode{R3}{$S_3$}}
+				\rput(3,0){\circlenode{R4}{$S_4$}}
+				\rput(5,0){\circlenode{R5}{$S_5$}}
+				\rput(1,-1.3){\circlenode{R6}{$S_6$}}
+				\rput(3,-1.3){\circlenode{R7}{$S_7$}}
+				\rput(5,-1.3){\circlenode{R8}{$S_8$}}
+				\ncline{->}{R1}{R2}
+				\ncline{->}{R2}{R4}
+				\ncline{->}{R2}{R5}
+				\ncline{->}{R4}{R6}
+				\ncline{->}{R4}{R7}
+				\ncline{->}{R6}{R3}
+				\ncline{->}{R4}{R1}
+				\ncline{->}{R4}{R5}
+				\ncline{->}{R7}{R8}
+				\ncline{->}{R8}{R5}
+				\ncline{->}{R3}{R1}
+			\end{pspicture}}
 	\end{exampleblock}
 \end{frame}
 
@@ -456,9 +376,9 @@
 	\begin{block}{File et parcours en largeur}
 		\begin{itemize}
 			\item<1-> Pour un parcours en largeur, on doit stocker dans une structure de données les sommets en attente d'être explorés. c'est-à-dire les voisins du sommet de départ, puis les voisins des voisins \dots 
-			Ces sommets doivent être retirés pour exploration, dans leur ordre d'insertion, la structure de données utilisée est donc du type \textcolor{blue}{premier entré, premier sorti} (\textcolor{gray}{first in first out (\textit{FIFO})}).
+			Ces sommets doivent être retirés pour exploration, \textit{dans leur ordre d'insertion}, la structure de données utilisée est donc du type \textcolor{blue}{premier entré, premier sorti} (\textcolor{gray}{first in first out : \textit{\sc fifo}}).
 			\item<2-> Ce type de structure de données s'appelle une \textcolor{blue}{file}.
-			\item<3-> Pour l'implémentation on doit pouvoir \textcolor{blue}{enfiler} (ajouter un sommet dans la file) et \textcolor{blue}{défiler} (retirer une sommet) de façon efficace donc en $O(1)$. 
+			\item<3-> Pour l'implémentation on doit pouvoir \textcolor{blue}{enfiler} (ajouter un sommet dans la file) et \textcolor{blue}{défiler} (retirer un sommet) de façon efficace donc en $\mathcal{O}(1)$. 
 			\item<4-> Les listes de Python ne sont pas adaptées, on utilisera le module \kw{deque} de Python, enfiler correspond alors à \kw{appendleft} et défiler à \kw{pop}.\vspace{0.4cm} \\
 			\onslide<5->{\rnode{enf}{\framebox[1cm]{$F$}}}  \hspace{2cm}
 			\begin{tabular}{|p{0.5cm}|p{0.5cm}|p{0.5cm}|p{0.5cm}|}
@@ -479,7 +399,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{File et parcours en profondeur}
 		\begin{itemize}
-			\item<1-> Pour un parcours en profondeur, on stocker aussi dans une structure de données les sommets en attente d'être explorés. Mais cette fois, la structure de données utilisée est donc du type \textcolor{blue}{dernier entré, premier sorti} (\textcolor{gray}{last in first out (\textit{LIFO})}).
+			\item<1-> Pour un parcours en profondeur, on stocker aussi dans une structure de données les sommets en attente d'être explorés. Mais cette fois, la structure de données utilisée est donc du type \textcolor{blue}{dernier entré, premier sorti} (\textcolor{gray}{last in first out (\textit{\sc lifo})}).
 			\item<2-> Ce type de structure de données s'appelle une \textcolor{blue}{pile}.
 			\item<3-> Pour l'implémentation, on se contente d'utiliser la récursivité de façon à ce que la pile des sommets en attente d'être exploré soit gérée de façon automatique par les appels récursifs.
 		\end{itemize}

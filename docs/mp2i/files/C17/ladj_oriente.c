@@ -76,7 +76,6 @@ graphe init_graphe(int size)
 void cree_arete(graphe g, int i, int j)
 {
     ajout(&(g.ladj[i]),j);
-    ajout(&(g.ladj[j]),i);
 }
 
 void affiche_graphe(graphe g)
@@ -93,7 +92,7 @@ void affiche_graphe(graphe g)
 void visualise(graphe g)
 {
     FILE *writer = fopen("temp.gv", "w");
-    fprintf(writer, "graph mygraph {\n");
+    fprintf(writer, "digraph mygraph {\n");
     maillon * mc;
     int n = g.taille;
     for (int i=0; i<n; i++)
@@ -101,7 +100,7 @@ void visualise(graphe g)
         mc = g.ladj[i];
         while (mc!=NULL)
         {
-            if (i>mc->valeur) {fprintf(writer,"%d -- %d\n",i,mc->valeur);}
+           {fprintf(writer,"%d -> %d\n",i,mc->valeur);}
             mc=mc->suivant;
         }
     }
