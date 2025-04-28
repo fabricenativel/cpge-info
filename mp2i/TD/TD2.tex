@@ -1,0 +1,164 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{2}{Validation et tests}
+
+\begin{Exercise}[title={Spécifications}]\\
+Proposer un nom, une spécification, des préconditions et un jeu de tests pour les fonctions suivantes :
+\Question{\
+\begin{langageC}
+bool fonction1(int a, int b, int c)
+	{return (a==b) || (b==c) || (a==c);}
+\end{langageC}
+}
+\Question{\ 
+\begin{langageC}
+float fonction2(float x, float y)
+	{return 1/(x*x+y*y);}
+\end{langageC}
+}
+\Question{\
+\begin{langageC}
+float fonction3(float a, float b) {
+	if (a<b)
+	{return a;}
+	else 
+	{return b;}
+	}
+\end{langageC}
+}
+\end{Exercise}
+
+\begin{Exercise}[title={Fonction mystère}]\\
+On considère la fonction {\tt mystere} suivante :
+	\begin{langageC}
+bool mystere(int n) {
+	int d=2;
+	while (d*d<=n)
+	{	if (n%d==0)
+			{return false;}
+		d=d+1;}
+	return true;
+}
+\end{langageC}
+\Question{Nommer cette fonction et en donner une spécification.}
+\Question{Tracer son graphe de flot de contrôle.}
+\Question{Proposer un jeu de tests permettant de couvrir tous les arcs.}
+\end{Exercise}
+
+\begin{Exercise}[title={nombre de jours dans un mois}]
+	\Question{Ecrire une fonction {\tt nb\_jours} qui prend en argument un entier {\tt mois} et un entier {\tt annee} et qui renvoie le nombre de jours de ce mois. Par exemple, {\tt nb\_jours(5,1970)} doit renvoyer le nombres de jours du mois de mai 1970. On pourra utiliser sans la réécrire la fonction {\tt bissextile} vue en cours.}
+	\Question{Proposer des préconditions pour cette fonction.}
+	\Question{Proposer un jeu de tests pour cette fonction.}
+\end{Exercise}
+
+\begin{Exercise}[title={Triangles}]
+\Question{Ecrire une fonction {\tt triangle} qui prend en argument trois entiers et renvoie :
+\begin{itemize}
+	\item 0 si les trois entiers ne sont pas les côtés d'un triangle
+	\item 1 si les trois entiers sont les côtés d'un triangle scalène
+	\item 2 si les trois entiers sont les côtés d'un triangle isocèle non rectangle
+	\item 3 si les trois entiers sont les côtés d'un triangle équilatéral
+	\item 4 si les trois entiers sont les côtés d'un triangle rectangle
+\end{itemize}
+\Question{Tracer le graphe de flot de contrôle de cette fonction.}
+\Question{Proposer un jeu de tests pour cette fonction.}
+}
+\end{Exercise}
+
+\begin{Exercise}[title = {Compte à rebours}]\\
+	On considère la fonction C suivante :
+	\inputpartC{rebours.c}{}{}{4}{13}
+	\Question{Cette fonction est-elle conforme à sa spécification ?}
+	\Question{$n$ est-il un variant de boucle ? Sinon quelle propriété est manquante ?}
+\end{Exercise}
+
+\begin{Exercise}[title = {Maximum des éléments d'un tableauœ}]
+	\Question{Ecrire en C une fonction qui renvoie le maximum des éléments d'un tableau non vide d'entiers. Par exemple pour le tableau {\tt \{2, 5, 4, 9, 7, 6\}}, la fonction renvoie {\tt 9}.}
+	\Question{Prouver la correction de cette fonction.}
+\end{Exercise}
+
+
+
+\begin{Exercise}[title = {Somme des éléments pairs}]
+	\Question{Ecrire en C une fonction qui renvoie la somme des éléments pairs d'un tableau. Par exemple pour le tableau {\tt \{2, 5, 4, 9, 7, 6\}}, la fonction renvoie {\tt 2 + 4 + 6 = 12}.}
+	\Question{Prouver la correction de cette fonction.}
+\end{Exercise}
+
+
+
+
+\begin{Exercise}[title = {Etude d'un algorithme}]\\
+	On considère l'algorithme suivant : \\
+	\SetAlFnt{\small}
+	\setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Quotient dans la division euclidienne}
+		\Entree{$a \in \N, b \in \N^*$}
+		\Sortie{$q \in \N$, quotient de $a$ par $b$}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$q \leftarrow 0$\;
+		$r \leftarrow a$\;
+		\Tq{$r \geqslant 0$}{
+		$q \leftarrow q+1$ \;
+		$r \leftarrow r-b$ \;
+		}
+		\Return $q - 1$
+	  \end{algorithm}
+
+\Question{Proposer une implémentation de cet algorithme en langage C, sous la forme d'une fonction dont on précisera soigneusement la spécification.}
+\Question{Etudier la terminaison de cet algorithme.}
+\Question{Etudier la correction de cet algorithme.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Multiplication à la russe}]\\
+	On considère l'algorithme suivant : \\
+	\SetAlFnt{\small}
+	\setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Multiplication à la russe}
+		\Entree{$a \in \N, b \in \N$}
+		\Sortie{$ab$}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$m \leftarrow 0$\;
+		\Tq{$a >0 $ }{
+			\Si{$a \mod 2 =1$}
+			{ $m \leftarrow m + b$ \;
+			  $a \leftarrow a - 1$\;
+			}
+			\Sinon
+			{$a \leftarrow a / 2$\;
+			 $b \leftarrow b + b$ \;
+			}
+		}
+		\Return $m$
+	  \end{algorithm}
+	  \Question{Faire fonctionner cet algorithme à la main pour $a = 7$ et $b=5$.}
+	  \Question{Donner une implémentation en C de cette algorithme sous la forme d'une fonction dont on précisera soigneusement la spécification}
+	  \Question{Prouver la terminaison de cet algorithme. \\
+	 	{\small \aide \;} $a$ est un variant de boucle. 
+	  }
+	  \Question{Prouver la correction de cet algorithme. \\
+	 	{\small \aide\;} $m + ab$ vaut toujours le produit des valeurs initales de $a$ et de $b$.} 
+
+\end{Exercise}
+
+\begin{Exercise}[title = {Tri par sélection}] \\
+	L'algorithme du tri par sélection d'un tableau $t$ de longueur $n$, consiste, pour chaque entier $i$ de $0$ à $n-1$ à :
+	\begin{itemize}
+	\item rechercher le plus petit élément du sous tableau $\{t[i], \dots, t[n-1]\}$.
+	\item l'échanger avec celui situé à l'indice $i$.
+	\end{itemize}
+	\Question{Ecrire cet algorithme en pseudo langage}
+	\Question{En donner une implémentation en langage C en spécifiant soigneusement les fonctions utilisées.}
+	\Question{Proposer un jeu de tests}
+	\Question{Prouver la correction totale de cet algorithme.}
+\end{Exercise}
+
+\end{document}
