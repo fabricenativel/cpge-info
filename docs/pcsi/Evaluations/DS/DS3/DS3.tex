@@ -1,0 +1,67 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeConcours
+\CB{PCSI}{Mai 2025}
+
+\setboolean{corrige}{false}
+
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] La calculatrice n'est \textbf{pas autorisée}.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+\begin{Exercise}[title={Somme maximale de k termes consécutifs}]\\
+	On s'intéresse dans cet exercice au calcul de la somme maximale de $k$ termes consécutifs d'une liste d'entiers. Par exemple, si $k=3$ et que la liste est $[2, 7, -1, 3, 8, -5]$, la somme maximale de $3$ termes consécutifs est $10$ (correspondant à la somme  $(-1)+3+8$). Dans tout l'exercice, on notera {\tt lst} la liste d'entiers et {\tt n}  sa taille, et on supposera que {\tt n>0} (la liste est non vide) et {\tt k} est inférieur ou égal à {\tt n}.
+    \Question{Ecrire une fonction {\tt sommek\_iter} \textit{itérative} qui prend en paramètre une liste {\tt lst}, un entier {\tt k} et un entier {\tt i} et renvoie la somme des {\tt k} termes consécutifs de {\tt lst} à partir de l'indice {\tt i}. C'est à dire que {\tt sommek(lst, k, i)} renvoie {\tt lst[i] + lst[i+1] + \ldots + lst[i+k-1]}. On supposera que cette somme est définie, c'est à dire que {\tt i>=0} et {\tt i+k-1} est inférieur strictement à la longueur de {\tt lst}.}
+    \Question{Ecrire une version \textit{récursive} de la fonction {\tt sommek\_iter} .}
+    \Question{En utilisant la fonction {\tt sommek} (dans sa version itérative ou récursive), écrire une fonction {\tt sommek\_max} qui prend en paramètre une liste {\tt lst} et un entier {\tt k} et renvoie la somme maximale de {\tt k} termes consécutifs de {\tt lst}. On procédera en testant toutes les valeurs possibles de l'indice de départ {\tt i} pour calculer la somme de {\tt k} termes consécutifs.}
+    \Question{On veut maintenant exprimer la complexité de {\tt max\_sommek} en nombre d'additions. Donner le nombre d'additions lors d'un appel à {\tt sommek} et en déduire en fonction de {\tt k} et {\tt n} le nombre d'additions effectuées par {\tt sommek\_max}.}
+    \Question{En observant que la somme des k premiers termes à partir de l'indice {\tt i+1} s'obtient  à partir de celle à l'indice {\tt i} en effectuant seulement deux additions, proposer et écrire une nouvelle version plus efficace de la fonction {\tt max\_sommek}.}
+    \Question{Quelle est la complexité en nombre d'additions de cette nouvelle version en fonction de {\tt n} et de {\tt k} ?}
+\end{Exercise}
+
+\begin{Exercise}[title={Coloration d'un graphe}]\\
+	Dans toute la suite de l'exercice, on considère un graphe non orienté $G = (S,A)$ qu'on supposera représenté en Python par un dictionnaire dont les clés sont les sommets et les valeurs les listes d'adjacence. Par exemple, le graphe $G$ suivant :
+	\begin{center}
+	\begin{pspicture}(0,-2.5)(5,2.5)
+    
+		\rput(3,2){\circlenode{x0}{$x_0$}}
+		\rput(1,0){\circlenode{x1}{$x_1$}}
+		\rput(3,0){\circlenode{x2}{$x_2$}}
+		\rput(5,0){\circlenode{x3}{$x_3$}}
+		\rput(7,0){\circlenode{x4}{$x_4$}}
+	   \rput(3,-2){\circlenode{x5}{$x_5$}}
+       \ncarc{-}{x1}{x0}
+       \ncarc{-}{x0}{x4}
+       \ncarc{-}{x5}{x1}
+       \ncarc{-}{x4}{x5}
+       \ncline{-}{x1}{x2}
+       \ncline{-}{x0}{x2}
+       \ncline{-}{x5}{x2}
+       \ncline{-}{x3}{x2}
+       \ncline{-}{x3}{x4}
+    \end{pspicture}
+\end{center}
+	est représenté par le dictionnaire suivant :
+	\begin{minted}{python}
+		{'x0': ['x1', 'x2', 'x4'],
+		 'x1': ['x0', 'x2', 'x5'],
+		 'x2': ['x0', 'x1', 'x3', 'x5'],
+		 'x3': ['x2', 'x4'],
+		 'x4': ['x0', 'x3', 'x5'],
+		 'x5': ['x1', 'x2', 'x4']}
+	\end{minted}
+	Le but de l'exercice est de colorer les sommets du graphe $G$ de sorte que deux sommets adjacents n'aient pas la même couleur. On représente une coloration par un dictionnaire dont les clés sont les sommets et les valeurs sont des entiers représentant la couleur du sommet. Par exemple, la coloration suivante est valide :
+\end{Exercise}
+\end{document}

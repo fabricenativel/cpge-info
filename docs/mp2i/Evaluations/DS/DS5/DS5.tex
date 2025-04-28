@@ -190,7 +190,7 @@
 
   \ExePart[name = {Questions préliminaires et résolution naïve}]
 	\Question{Ecrire une fonction de signature \mintinline{c}{double valeur(double tab[], int i, int j, int n)
-  } qui prend en argument un tableau (de {\tt double}) {\tt tab} de taile {\tt n} ainsi que deux indices {\tt i} et {\tt j} et renvoie la valeur du saut {\tt (i,j)}. On vérifiera les préconditions sur {\tt i} et {\tt j} à l'aide d'instructions {\tt assert}. Par exemple  si le tableau {\tt tab} est {\tt \{2.0; 0.2; 3.0; 5.3; 2.0\}} alors {\tt valeur(tab, 2, 0, 5)} renvoie {\tt 1.0} (car {\tt tab[2]-tab[0] = 1.0}).}
+  } qui prend en argument un tableau (de {\tt double}) {\tt tab} de taile {\tt n} ainsi que deux indices {\tt i} et {\tt j} et renvoie la valeur du saut {\tt (i,j)}. On vérifiera les préconditions sur {\tt i} et {\tt j} à l'aide d'instructions {\tt assert}. Par exemple  si le tableau {\tt tab} est {\tt \{2.0; 0.2; 3.0; 5.3; 2.0\}} alors {\tt valeur(tab, 0, 2, 5)} renvoie {\tt 1.0} (car {\tt tab[2]-tab[0] = 1.0}).}
   \ifcorrige
   \corpartC{sautmax.c}{}{}{7}{11}
   \fi
@@ -205,6 +205,9 @@
 	\Question{Quelle est la complexité de la fonction {\tt sautmax\_naif} en fonction de la taille $n$ du tableau ?}\medskip
   \tcor{Il y a deux boucles {\tt for} imbriquées et les deux sont exécutés au plus {\tt n fois}, les opérations à l'intérieur de ces boucles sont toutes des opérations élémentaires, donc la complexité est en $\mathcal{O}(n^2)$}
   \Question{Au lieu de rechercher la valeur maximale d'un saut noté $v_m$, on peut vouloir récupérer deux indices $(i_m,j_m)$ tels que le saut $(i_m,j_m)$ soit de valeur $v_m$. Pour cela, on propose d'écrire une fonction {\tt indices\_sautmax} qui prendra en plus du tableau et de sa taille  deux pointeurs vers des entiers {\tt im} et {\tt jm} qui seront modifiés par la fonction afin qu'ils contienne après appel les indices d'un saut de valeur maximale. La signature de la fonction est alors :\\ \mintinline{c}{void indices_sautmax(double tab[], int n, int *im, int *jm)}, c'est à dire qu'elle ne renvoie rien mais modifiera le contenu des pointeurs {\tt im} et {\tt jm}. Ecrire cette fonction.}
+  \ifcorrige
+  \corpartC{sautmax.c}{}{}{32}{49}
+  \fi
   \ExePart[name = {Résolution avec une méthode diviser pour régner}]\\
 	On propose maintenant d'utiliser une méthode diviser pour régner afin de calculer la valeur maximale d'un saut. On note $n$ la taille du tableau {\tt t} et $p = \lfloor \frac{n}{2} \rfloor$ (où $\lfloor \; \rfloor$ désigne la partie entière). On souhaite calculer :
 	\begin{itemize}
@@ -256,12 +259,12 @@
 	\tcor{On raisonne par l'absurde, si tel n'était pas le cas, on aurait une valeur d'indice $q$ dans la moitié gauche strictement inférieur à $t[i_m]$ et donc le saut $(q,j_m)$ aurait une valeur supérieure au saut $(i_m,j_m)$ ce qui contredit que $(i_m,j_m)$ est un saut de valeur maximale.}
   \Question{Ecrire une fonction de signature \mintinline{c}{double min(double tab[], int a, int b)} qui prend en argument un tableau {\tt tab}, ainsi que deux entiers {\tt a} et {\tt b} (avec {\tt a<=b}) et renvoie l'indice d'un minimum de {\tt tab} entre les deux indices {\tt a} (inclus) et {\tt b} (exclu).\\On supposera dans la suite \textit{déjà écrite} une fonction qui {\tt max} qui prend les mêmes arguments et renvoie l'indice d'un maximum du sous tableau {\tt \{tab[a],...,tab[b-1]\}} }
   \ifcorrige
-  \corpartC{sautmax.c}{}{}{45}{57}
+  \corpartC{sautmax.c}{}{}{64}{76}
   \fi
-	\Question{Ecrire une fonction de signature \mintinline{c}{double sautmax_dyn(double tab[], int n)} qui prend en argument un tableau {\tt tab} ainsi que deux entiers {\tt a} et {\tt b} (avec {\tt a<=b}) et renvoie la valeur d'un saut maximale dans {\tt tab} entre les deux indices {\tt a} (inclus) et {\tt b} (exclu).\textit{Cette fonction doit être récursive et utiliser la méthode diviser pour régner}. On pourra supposer déjà écrite une fonction {\tt max3} qui renvoie le maximum des trois {\tt double} donnés en argument.
+	\Question{Ecrire une fonction de signature \mintinline{c}{double sautmax_dpr(double tab[], int a, int b)} qui prend en argument un tableau {\tt tab},  ainsi que deux entiers {\tt a} et {\tt b} (avec {\tt a<=b}) et renvoie la valeur d'un saut maximale dans {\tt tab} entre les deux indices {\tt a} (inclus) et {\tt b} (exclu).\textit{Cette fonction doit être récursive et utiliser la méthode diviser pour régner}. On pourra supposer déjà écrite une fonction {\tt max3} qui renvoie le maximum des trois {\tt double} donnés en argument.
 	}
   \ifcorrige
-  \corpartC{sautmax.c}{}{}{73}{88}
+  \corpartC{sautmax.c}{}{}{92}{107}
   \fi
   \Question{Déterminer la complexité de la fonction {\tt sautmax\_dpr}.}
   \tcor{
@@ -291,7 +294,7 @@
     \tcor{Le saut de valeur maximal ayant $k$ comme second indice est $(m_k, k)$ et vaut $t[k]-t[m_k]$. En effet le second indice étant fixé on l'obtient en prenant le miminum du sous tableau $t_k$. On doit donc comparer ce nouveau saut avec le le saut maximal du sous tableau $t_k$. Soit il est plus petit c'est à dire $t[k]-t[m_k] < t[j_k] - t[i_k]$ et donc $(i_{k+1},j_{k+1}) = (i_k,j_k)$ ou bien il est plus grand et donc $(i_{k+1},j_{k+1}) = (m_k,k)$.}
     \Question{Ecrire une fonction de signature \mintinline{c}{double sautmax_dyn(double tab[], int n)} qui prend en argument un tableau et sa taille et renvoie la valeur maximale d'un saut de ce tableau. On procèdera \textit{de façon ascendante} en utilisant les relations de récurrences de la question précédente et en calculant successivement les valeurs maximales de saut dans les sous tableaux $t_1$ puis $t_2$,  $\dots$ jusqu'à $t_n$.}
     \ifcorrige
-    \corpartC{sautmax.c}{}{}{90}{111}
+    \corpartC{sautmax.c}{}{}{109}{130}
     \fi
     \Question{Déterminer la complexité de la fonction {\tt sautmax\_dyn}}
     \tcor{La fonction parcourt le tableau à l'aide d'une boucle {\tt for} qui ne contient que des opérations élémentaires, la complexité est donc linéaire en fonction de la taille du tableau.}
