@@ -4,7 +4,8 @@ window.MathJax = {
     displayMath: [ ["\\[","\\]"] ],
     processEscapes: true,
     processEnvironments: true,
-    packages: {'[+]': ['color']}
+    loader: {load: ['[tex]/color']},
+    tex: {packages: {'[+]': ['color']}}
   },
   options: {
     ignoreHtmlClass: ".*",
