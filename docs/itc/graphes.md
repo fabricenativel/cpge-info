@@ -88,7 +88,7 @@
 
 1. Ecrire une fonction `matrice_vers_liste` qui prend en entrée un graphe représenté par une matrice d'adjacence (tel que dans l'exercice 1) et renvoie ce même graphe représenté par liste d'adjacence (tel que dans l'exercice 2).
 
-1. Ecrire une fonction `liste_ver_matrice` qui prend en entrée un graphe représenté par liste d'adjacence (tel que dans l'exercice 2) et renvoie ce même graphe représenté par matrice d'adjacence (tel que dans l'exercice 1).
+1. Ecrire une fonction `liste_vers_matrice` qui prend en entrée un graphe représenté par liste d'adjacence (tel que dans l'exercice 2) et renvoie ce même graphe représenté par matrice d'adjacence (tel que dans l'exercice 1).
 
 
 

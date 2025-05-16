@@ -3,10 +3,19 @@ window.MathJax = {
     inlineMath: [ ["\\(","\\)"] ],
     displayMath: [ ["\\[","\\]"] ],
     processEscapes: true,
-    processEnvironments: true
+    processEnvironments: true,
+    packages: {'[+]': ['color']}
   },
   options: {
     ignoreHtmlClass: ".*",
     processHtmlClass: "arithmatex"
   }
 };
+
+document$.subscribe(() => { 
+  MathJax.startup.output.clearCache()
+  MathJax.typesetClear()
+  MathJax.texReset()
+  MathJax.typesetPromise()
+})
+
