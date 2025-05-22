@@ -17,7 +17,6 @@
 \newcommand{\dn}[1]{\TCircle{\textcolor{blue}{\tt #1}}}
 \newcommand{\tn}[1]{\Tdot \nput[labelsep=1 pt]{45}{\pssucc}{\textcolor{BrickRed}{\scriptsize #1}}}
 
-\
 \psset{arrows=->,treesep=0.8cm,levelsep=0.6cm}
 
 \makess{Problème de la recherche textuelle}
@@ -68,17 +67,26 @@
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{Implémentation en OCaml}
-		On renvoie la \textit{liste} de toutes les occurrences : {\tt naive : string -> string -> int list}
-		\onslide<2->{\inputpartOCaml{\SPATH/naive.ml}{}{}{3}{14}}
+	\begin{block}{Implémentation}
+		\begin{itemize}
+			\item En C, on rappelle que les chaines de caractères sont des tableaux équipés d'une sentinelle \mintinline{c}{'\0'} qui en indique la fin. \onslide<2->{En supposant qu'on recherche simplement l'indice de la première occurence et qu'on renvoie $-1$ si le motif ne se trouve pas dans la  chaine, la signature de la fonction est \mintinline{c}{int naive(char* motif, char *texte)}}.
+			\item<3-> En OCaml, les chaines de caractères sont des tableaux non mutables de caractères, et on rappelle qu'on accède au caractère d'indice {\tt i} de la chaine {\tt s} avec la syntaxe \mintinline{ocaml}{s.[i]}. \onslide<4->{En utilisant les aspects impératifs du langage, on peut travailler directement sur les chaines à l'aide de boucles et d'indices de parcours}. \onslide<5->{Sinon on pourra les transformer en liste de caractères}.
+		\end{itemize}
 	\end{block}
 \end{frame}
 
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{block}{Implémentation en OCaml}
-		Dans le cas où on teste simplement la présence, on peut provoquer une sortie anticipée de la boucle \mintinline{ocaml}{for} à l'aide d'une exception.
-		\onslide<2->{\inputpartOCaml{\SPATH/naive.ml}{}{\small}{16}{28}}
-	\end{block}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercices}
+		\begin{enumerate}
+		\item En C, donner une implémentation de la fonction \mintinline{c}{int naive(char* motif, char *texte)} qui renvoie l'indice de la première occurence de {\tt motif} dans {\tt texte}  (-1 si absent).
+		\item En OCaml
+			\begin{enumerate}
+			\item Même question avec une fonction {\tt naive : string -> string -> int}, on pourra éventuellement gérer la sortie anticipée de boucle à l'aide d'une exception.
+			\item Ecrire une fonction {\tt str\_to\_list : string -> char list} qui transforme une chaine de caractères en la liste de caractères correspondante.
+			\item Ecrire une version récursive de la recherche naive sans utiliser les aspects impératifs du langage. On pourra éventuellement écrire une fonction annexe {\tt est\_prefixe 'a list -> 'a list -> bool} qui renvoie {\tt true} si la première liste est le début de la seconde.
+			\end{enumerate}
+		\end{enumerate}
+	\end{exampleblock}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
