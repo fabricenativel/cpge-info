@@ -42,6 +42,7 @@
 	Deux mots \textit{de même longueur} sont anagrammes l'un de l'autre lorsque l'un est formé en réarrangeant les lettres de l'autre. Par exemple :
 	\begin{itemize}
 		\item \textit{chien} et \textit{niche} sont des anagrammes.
+		\item \textit{epele} et \textit{pelle}, ne sont pas des anagrammes, en effet bien qu'ils soient formés avec les mêmes lettres, la lettre \textit{l} ne figure qu'à un seul exemplaire dans \textit{epele} et il en faut deux pour écrire \textit{pelle}.
 	\end{itemize}
 	Le but de l'exercice est d'écrire une fonction {\tt anagrammes} qui prend en argument deux chaines de caractères et qui renvoie {\tt True} si ces deux chaines sont des anagrammes et {\tt False} sinon.
 
@@ -98,6 +99,7 @@ Dans cette partie, on utilise un algorithme récursif afin de tester si deux cha
 	\ExePart[name = Coloration d'un graphe] \\
 	La coloration de graphe consiste à attribuer une couleur à chacun de ses sommets de manière que deux sommets reliés par une arête soient de couleur différente. On s'intéresse généralement une coloration utilisant un \textit{minimum} de couleurs.
 		\Question{Montrer que le graphe $G$ ci-dessus peut être colorer avec seulement 3 couleurs en dessinant ce graphe et en faisant figurer à côté de chaque sommet un chiffre indiquant sa couleur.}	
+		\Question{Donner un exemple de graphe à $n$ sommets dont la coloration nécessite au moins $n$ couleurs.}
 		\Question{On représente une coloration d'un graphe à $n$ sommet par une liste de $n$ entiers. L'élément d'indice $i$ de cette liste est la couleur du sommet $i$. Par exemple, pour le graphe $G$ donné en exemple la coloration suivante : $[1, 3, 3, 1, 2, 3]$ indique que les sommets 0 et 3 sont de couleur 1,  les sommets 1, 2 et 5 sont de couleur 3 et le sommet 4 est de couleur 2. Ecrire une fonction {\tt est\_valide} qui prend en argument un graphe et une coloration et renvoie {\tt True} si la coloration est valide (c'est-à-dire si deux sommets adjacents n'ont pas la même couleur) et {\tt False} sinon.}
 	\ExePart[name = Coloration gloutonne d'un graphe] \\
 	On propose la méthode gloutonne suivante afin de colorier un graphe : on parcourt les sommets \textit{dans leur ordre de numérotation} et on leur attribue la plus petite couleur disponible. Sur le graphe $G$ donné en exemple, le sommet $0$ reçoit la couleur $1$, puis le sommet $1$ la couleur $2$, le sommet $2$ la couleur $3$. Ensuite le sommet $3$ reçoit la couleur $1$ (car comme il n'est pas adjacent au sommet $0$ cette couleur est disponible), puis le sommet $4$ reçoit la couleur $1$ et enfin le sommet 5 reçoit la couleur $1$. La coloration finale obtenue est donc $[1,2,3,1,2,1]$.
@@ -120,6 +122,7 @@ Dans cette partie, on utilise un algorithme récursif afin de tester si deux cha
 	\end{center}
 	Montrer que $H$ peut-être coloré avec seulement deux couleurs, puis donner le résultat de la coloration avec la méthode gloutonne, que peut-on en conclure ?
 	}
+	\Question{Montrer qu'on peut renuméroter les sommets de $H$ de façon à ce que l'algorithme glouton fournisse une coloration n'utilisant que deux couleurs.}
 	\Question{Ecrire une fonction {\tt colorie} qui prend en argument un graphe et renvoie une coloration valide de ce graphe en utilisant la méthode gloutonne décrite ci-dessus.}
 \end{Exercise}
 \end{document}

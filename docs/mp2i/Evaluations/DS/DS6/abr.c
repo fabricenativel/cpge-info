@@ -5,10 +5,10 @@
 
 struct abrNoeud_s
 {
-    char* cle;
+    char *cle;
     int valeur;
-    struct abrNoeud_s* fils_gauche;
-    struct abrNoeud_s* fils_droit;
+    struct abrNoeud_s *fils_gauche;
+    struct abrNoeud_s *fils_droit;
 };
 typedef struct abrNoeud_s abrNoeud;
 
@@ -16,16 +16,20 @@ char *copie_chaine(char *s)
 {
     int l = 0;
     while (s[l] != '\0')
-        {l++;}
+    {
+        l++;
+    }
     char *s2 = malloc((l + 1) * sizeof(char));
-    for (int i=0;i<=l;i++)
-        {s2[i] = s[i];}
+    for (int i = 0; i <= l; i++)
+    {
+        s2[i] = s[i];
+    }
     return s2;
 }
 
-abrNoeud* creer_noeud(char *cle, int valeur, abrNoeud* fg, abrNoeud* fd)
+abrNoeud *creer_noeud(char *cle, int valeur, abrNoeud *fg, abrNoeud *fd)
 {
-    abrNoeud* noeud = malloc(sizeof(abrNoeud));
+    abrNoeud *noeud = malloc(sizeof(abrNoeud));
     noeud->cle = copie_chaine(cle);
     noeud->valeur = valeur;
     noeud->fils_gauche = fg;
@@ -33,11 +37,28 @@ abrNoeud* creer_noeud(char *cle, int valeur, abrNoeud* fg, abrNoeud* fd)
     return noeud;
 }
 
+int hauteur(abrNoeud *ab)
+{
+    if (ab == NULL)
+    {
+        return -1;
+    }
+    int hg = hauteur((*ab).fils_gauche);
+    int hd = hauteur((*ab).fils_droit);
+    if (hg > hd)
+    {
+        return 1 + hg;
+    }
+    else
+    {
+        return 1 + hd;
+    }
+}
 
 int abr_equilibre(abrNoeud ab)
 {
-    int h_g = hauteur(g->fils_gauche);
-    int h_d = hauteur(g->fils_droit);
+    int h_g = hauteur(ab.fils_gauche);
+    int h_d = hauteur(ab.fils_droit);
     return (h_g - h_d);
 }
 
@@ -45,9 +66,9 @@ void write_edge(FILE *writer, abrNoeud g, int *ninv)
 {
     if (g.fils_gauche != NULL)
     {
-        fprintf(writer, "\"(%s,%d)\"", g.cle,g.valeur);
+        fprintf(writer, "\"(%s,%d)\"", g.cle, g.valeur);
         fprintf(writer, " -> ");
-        fprintf(writer, "\"(%s,%d)\"\n", g.fils_gauche->cle,g.fils_gauche->valeur);
+        fprintf(writer, "\"(%s,%d)\"\n", g.fils_gauche->cle, g.fils_gauche->valeur);
         write_edge(writer, *(g.fils_gauche), ninv);
     }
     else
@@ -61,9 +82,9 @@ void write_edge(FILE *writer, abrNoeud g, int *ninv)
     (*ninv)++;
     if (g.fils_droit != NULL)
     {
-        fprintf(writer, "\"(%s,%d)\"", g.cle,g.valeur);
+        fprintf(writer, "\"(%s,%d)\"", g.cle, g.valeur);
         fprintf(writer, " -> ");
-        fprintf(writer, "\"(%s,%d)\"\n", g.fils_droit->cle,g.fils_droit->valeur);
+        fprintf(writer, "\"(%s,%d)\"\n", g.fils_droit->cle, g.fils_droit->valeur);
         write_edge(writer, *(g.fils_droit), ninv);
     }
     else
@@ -87,8 +108,8 @@ void view(abrNoeud g)
 
 int main()
 {
-    abrNoeud* g1 = creer_noeud("a", 1, NULL, NULL);
-    abrNoeud* g2 = creer_noeud("b", 2, NULL, NULL);
-    abrNoeud* g3 = creer_noeud("c", 3, g1, g2);
-    view(*g3);
+    abrNoeud *g1 = creer_noeud("a", 1, NULL, NULL);
+    abrNoeud *g2 = creer_noeud("b", 2, NULL, NULL);
+    abrNoeud *g3 = creer_noeud("c", 3, NULL, NULL);
+    printf("Hauteur = %d\n",hauteur(g3));
 }

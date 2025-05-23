@@ -35,3 +35,13 @@ Définition inductive d'un ensemble, exemples. Preuve par induction structurelle
 
 * Décomposition en sous problèmes  
 Méthode diviser pour régner, résolution d'équation de complexité de la méthode diviser pour régner. Programmation dynamique : découpe maximale d'une barre, somme maximale d'un chemin dans une pyramide, rendu de monnaie, longueur de la plus longue sous séquence commune.
+
+## Semaines du 26/05, du 02/06 et du 09/06
+
+* Logique : syntaxe et sémantique des formules logiques, tables de vérités, équivalence logique. Formes normales, algorithme de Quine.
+
+* Graphes : définition et vocabulaire, représentation par matrice ou liste d'adjacence. Implémentation en C et en OCaml. Graphes orientés, graphes pondérés, composantes connexes.
+
+* Bases de données : modèle entité-association, requête dans une base de données.
+
+* **A partir de la semaine du 02/06** : Recherche textuelle : méthode naïve, algorithme de Boyer-Moore-Hoorspool, algorithme de Rabin Karp.
