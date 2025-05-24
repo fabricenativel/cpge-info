@@ -7,7 +7,7 @@ type pbsac =
   let ex = 
     {
       pmax = 10;
-      objets = [(4, 20); (5, 28); (6, 36); (7, 50)]
+      objets = [(7, 35); (4, 18); (5, 20);]
     }
 
 let pb =
@@ -56,7 +56,9 @@ let rec poids_valeur objets choix =
     if pris then v+vr, p+pr else vr, pr;;
 
 let rec tri objets =
-  List.sort (fun (p1, v1) (p2, v2) -> if (float_of_int v1 /. float_of_int p1) > (float_of_int v2 /. float_of_int p2) then -1 else 1) objets;;
+  List.sort (fun (p1, v1) (p2, v2) -> if 
+    (float_of_int v1 /. float_of_int p1) > (float_of_int v2 /. float_of_int p2) 
+  then -1 else 1) objets;;
 
 let glouton pbsac =
   let objets_tries = tri pbsac.objets in

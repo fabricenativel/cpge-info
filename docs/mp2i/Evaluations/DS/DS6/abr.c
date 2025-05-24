@@ -14,12 +14,15 @@ typedef struct abrNoeud_s abrNoeud;
 
 char *copie_chaine(char *s)
 {
+    // On calcule la longueur l de la chaine
     int l = 0;
     while (s[l] != '\0')
     {
         l++;
     }
+    // On alloue l'espace pour la nouvelle chaine
     char *s2 = malloc((l + 1) * sizeof(char));
+    // On recopie caractère par caractère
     for (int i = 0; i <= l; i++)
     {
         s2[i] = s[i];
@@ -43,8 +46,8 @@ int hauteur(abrNoeud *ab)
     {
         return -1;
     }
-    int hg = hauteur((*ab).fils_gauche);
-    int hd = hauteur((*ab).fils_droit);
+    int hg = hauteur(ab->fils_gauche);
+    int hd = hauteur(ab->fils_droit);
     if (hg > hd)
     {
         return 1 + hg;
@@ -55,10 +58,10 @@ int hauteur(abrNoeud *ab)
     }
 }
 
-int abr_equilibre(abrNoeud ab)
+int equilibre(abrNoeud *ab)
 {
-    int h_g = hauteur(ab.fils_gauche);
-    int h_d = hauteur(ab.fils_droit);
+    int h_g = hauteur(ab->fils_gauche);
+    int h_d = hauteur(ab->fils_droit);
     return (h_g - h_d);
 }
 
@@ -106,10 +109,75 @@ void view(abrNoeud g)
     system("xdot temp.gv &");
 }
 
+int compare_chaine(char *s1, char *s2)
+{
+    int i = 0;
+    while (s1[i] != '\0' && s2[i] != '\0')
+    {
+        if (s1[i] < s2[i])
+        {
+            return -1;
+        }
+        else if (s1[i] > s2[i])
+        {
+            return 1;
+        }
+        i++;
+    }
+    if (s1[i] == '\0' && s2[i] == '\0')
+    {
+        return 0;
+    }
+    else if (s1[i] == '\0')
+    {
+        return -1;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+int abr_rechercher(abrNoeud *a, char *clef)
+{
+    // Ce cas ne devrait jamais se produire car on suppose la clé présente
+    if (a == NULL)
+    {
+        return -1;
+    }
+    int cmp = compare_chaine(clef, a->cle);
+    if (cmp == 0)
+    {
+        return a->valeur;
+    }
+    else if (cmp < 0)
+    {
+        return abr_rechercher(a->fils_gauche, clef);
+    }
+    else
+    {
+        return abr_rechercher(a->fils_droit, clef);
+    }
+}
+
+int hachage(char *s)
+{
+    int h = 0;
+    int i = 0;
+    while (s[i] != '\0')
+    {
+        h += (i + 1) * (int)s[i];
+        i += 1;
+    }
+    return h;
+}
+
 int main()
 {
     abrNoeud *g1 = creer_noeud("a", 1, NULL, NULL);
-    abrNoeud *g2 = creer_noeud("b", 2, NULL, NULL);
-    abrNoeud *g3 = creer_noeud("c", 3, NULL, NULL);
-    printf("Hauteur = %d\n",hauteur(g3));
+    abrNoeud *g2 = creer_noeud("c", 3, NULL, NULL);
+    abrNoeud *g3 = creer_noeud("b", 2, g1, g2);
+    printf("Equilibre = %d\n", equilibre(g3));
+    printf("Valeur trouvée = %d\n", abr_rechercher(g3, "c"));
+    printf("Hache de \"abc\" = %d\n", hachage("abc"));
 }

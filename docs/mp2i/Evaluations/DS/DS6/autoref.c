@@ -4,7 +4,6 @@
 
 bool valide(int tab[], int n, int i)
 {
-    // Validation partielle d'un tableau autoréférent jusqu'à l'indice i
     int s = 0;
     for (int k = 0; k < i; k++)
     {
@@ -14,24 +13,42 @@ bool valide(int tab[], int n, int i)
     {
         return false;
     }
+    int occ[i]; 
+    for (int k = 0; k < i; k++)
+    {
+        occ[k] = 0;
+    }
+    for (int k = 0; k < i; k++)
+    {
+        occ[tab[k]]++;
+    }
+    for (int k = 0; k < i; k++)
+    {
+        if (occ[k] > tab[k])
+        {
+            return false;
+        }
+    }
     return true;
 }
 
 bool est_autoreferent(int tab[], int n)
 {
-    // Validation complète d'un tableau autoréférent
-    int c[n];
+    // On initialise les occurrences de toutes les valeurs à 0
+    int occ[n];
+    for (int k = 0; k < n; k++)
+    {
+        occ[k] = 0;
+    } 
+    // On parcourt en incrémentant les occurrences
     for (int i = 0; i < n; i++)
     {
-        c[i] =0;
+        occ[tab[i]]++;
     }
+    // On teste si le tableau est autoréférent
     for (int i = 0; i < n; i++)
     {
-        c[tab[i]]++;
-    }
-    for (int i = 0; i < n; i++)
-    {
-        if (c[i] != tab[i])
+        if (occ[i] != tab[i])
         {
             return false;
         }
