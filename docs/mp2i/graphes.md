@@ -253,7 +253,65 @@ Dans le langage (C ou Ocaml) et avec la représentation de votre choix (matrice 
 5. Calcul du degré entrant d'un sommet.
 6. Obtention de la liste des prédécesseurs d'un sommet.
 
+{{exo("Triangles dans un graphe",[])}}
 
+On considère un graphe non orienté $G=(S,A)$ et on supposera que les sommets sont indexés par les entiers à partir de 0. On dit que $\{i,j,k \}$ est un triangle de $G$ si $ij$, $jk$ et $kj$ sont dans $A$. Les fonctions demandées sont à écrire en OCaml et on supposera dans toute la suite de l'exercice, qu'on représente les graphes par listes d'adjacence :
+```ocaml
+type graphe = {
+  taille : int;
+  ladj : int list array};;
+```
+
+
+1. Donner le nombre de triangles d'un graphe complet à $n$ sommets.
+
+2. Ecrire une fonction `complet : int -> graphe` qui renvoie le graphe complet à `n` sommets.
+
+3. En utilisant les aspects impératifs du langage (boucles et références), écrire une fonction `triangles : graphe -> (int*int*int) list` qui renvoie la liste des triangles du graphe, en utilisant l'algorithme qui consiste pour chaque triplet $(i,j,k)  \in \{0,\dots,|S|-1\}^3$ à tester s'il s'agit ou non d'un triangle.
+
+4. On souhaite maintenant écrire une version de la fonction `triangles` sans utiliser les aspects impératifs du langage.
+
+    1. Ecrire une fonction `sous_liste : 'a list -> int -> 'a list list` qui prend en argument une liste `lst` et un entier `n` et renvoie toutes les sous listes de longueur `n` de `lst`. Par exemple `#!ocaml sousliste [0; 1; 2; 3] 3` renvoie  `#!ocaml [[0; 1; 2]; [0; 1; 3]; [0; 2; 3]; [1; 2; 3]]`
+
+        !!! aide
+            On pourra procédér par correspondance de motif sur `lst` et `n` et utiliser le fait qu'une sous liste de longueur `n` de `lst` est soit une sous liste de longueur `n` de la queue de `lst`, soit la tête de `lst` suivie d'une sous liste de longueur `n-1` de la queue de `lst`.
+
+    2. En utilisant la question précédente et `List.filter` écrire une version de `triangles` qui n'utilise ni boucles ni références.
+
+5. Tester vos fonctions sur le graphe à **1000** sommets représenté par le fichier ci-dessous (sur chaque ligne, se trouve un arc donné sous la forme de ses deux extémités séparé par un caractère espace.)
+
+    {{telecharger("graphe.txt","./files/C17/graphe.txt")}}
+    Vérifier votre réponse : {{check_reponse("1373")}}
+
+6. Une autre possibilité pour déterminer les triangles d'un graphe et de parcourir l'ensemble $A$ des arêtes, pour chaque arête $ij$ on cherche alors l'intersection des listes d'adjacences de $i$ et de $j$. Comparer les complexités des deux méthodes si on suppose que l'intersection est calculée en temps linéaire du nombre de sommets.
+
+7. Ecrire une fonction `#!ocaml intersection int list -> int list -> int list` qui calcule en temps linéaire l'intersection de deux listes *en les supposants triées*.
+
+8. Ecrire une nouvelle version de la fonction `triangles` qui utilise le parcours des arêtes.
+
+{{exo("Coloration gloutonne",[])}}
+
+Dans toute la suite de l'exercice, on considère un graphe $G=(S,A)$ où chaque sommet est identifié par un entier de $\{0, \dots, |S|-1 \}$. Les fonctions sont à écrire en OCaml et et on supposera ce graphe représenté par liste d'adjacence :
+```ocaml
+type graphe = {
+  taille : int;
+  ladj : int list array};;
+```
+
+La coloration d'un graphe consiste à attribuer une couleur à chacun des sommets de ce graphe de façon à ce que deux sommets adjacents soient de deux couleurs différentes. On s'intéresse généralement à une coloration utilisant un *minimum* de couleurs.
+
+1. En donnant un exemple montrer que la coloration d'un graphe à $n$ sommets peut nécessiter $n$ couleurs.
+
+2. Ecrire une fonction `adjacent : graphe -> int -> int -> bool` qui prend en argument un graphe ainsi que deux sommets et renvoie `true` si ces deux sommets sont adjacents et `false` sinon.
+
+3. On propose de représenter la coloration d'un graphe à $n$ sommets par une un tableau de longueur $n$. Par exemple, si $n=3$, le tableau `#!ocaml [| 1; 2; 1 |]` signifie que les sommets 0 et 2 sont de la couleur 1 et le sommet 1 de la couleur 2. Ecrire une fonction `valide : graphe -> 'a array -> bool` qui prend en argument un graphe et une liste d'entiers et renvoie `true` si cette coloration est valide.
+
+4. On propose un algorithme glouton pour colorier un graphe : on parcourt les sommets *dans leur ordre de numérotation* et on leur attribue la plus petite couleur disponible. Ecrire la fonction `glouton : graphe -> int array` qui renvoie la coloration gloutonne d'un graphe.
+
+5. La coloration gloutonne utilise-t-elle toujours un nombre minimal de couleurs ?
+
+    !!! aide
+        On pourra considérer un graphe cycle et tester différentes  numérotation des sommets.
 
 
 
