@@ -10,7 +10,7 @@
 
 {{exo("Constante de Kaprekar",[],0)}}
 
-Etant donné un nombre $n$ à 4 chiffres, on calcule le nombre $k(n)$ en faisant la différence entre les nombres obtenus en faisant la différence entre le nombre formé par les chiffres de $n$ dans l'ordre décroissant et celui formé par les chiffres de $n$ dans l'ordre croissant. Par exemple, $k(2025) = 5220 - 0225 = 4995$.  
+Etant donné un nombre $n$ à 4 chiffres, on calcule le nombre $k(n)$ en faisant la différence entre le nombre formé par les chiffres de $n$ dans l'ordre décroissant et celui formé par les chiffres de $n$ dans l'ordre croissant. Par exemple, $k(2025) = 5220 - 0225 = 4995$.  
 **Attention** : si le nombre ne possède pas 4 chiffres alors on complète la liste de ses chiffres par des 0 pour en avoir 4. Par exemple $k(113) = 3110 - 113 = 2997$ (on complété la liste des chiffres avec un 0)
 
 
