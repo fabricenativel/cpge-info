@@ -95,6 +95,8 @@ let () =  let texte = lire (Sys.argv.(1)) in
           let tc = compresse texte in
           let pre = (List.length texte)*8 in
           let post = (List.length tc)*16 in
+          List.iter (fun c -> Printf.printf "%d " c) tc;
+          Printf.printf "\n";
           Printf.printf "Taille avant = %d\n" pre ;
           Printf.printf "Taille après = %d\n" post;
           ecrire (Sys.argv.(1)^".lzw") tc;
