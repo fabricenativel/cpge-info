@@ -1,0 +1,69 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/}
+
+\ModeExercice
+
+\lhead{{\sc mpi --} {\bf Préparation aux oraux}}
+\rhead{2024}
+\setboolean{corrige}{true}
+
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise*}[title = {Matériel informatique}, origin = {\bac \; Oraux {\sc ccinp}}]\\
+    On considère le schéma de base de données suivant, qui décrit un ensemble de fabricants de matériel informatique, les matériels qu'ils vendent, leurs clients et ce qu'achètent leurs clients. Les attributs des clés primaires des six premières relations sont soulignés.
+    \begin{itemize}
+        \item {\tt Production(\underline{NomFabricant}, \underline{Modele})}
+        \item {\tt Ordinateur(\underline{Modele}, Frequence, Ram, Dd, Prix)}
+        \item {\tt Portable(\underline{Modele}, Frequence, Ram, Dd, Ecran, Prix)}
+        \item {\tt Imprimante(\underline{Modele}, Couleur, Type, Prix)}
+        \item {\tt Fabricant(\underline{Nom}, Adresse, NomPatron)}
+        \item {\tt Client(\underline{Num}, Nom, Prenom)}
+        \item {\tt Achat(NumClient, NomFabricant, Modele, Quantite)}
+    \end{itemize}
+Chaque client possède un numéro unique connu de tous les fabricants. La relation {\tt Production} donne pour chaque fabricant l'ensemble des modèles fabriquées par ce fabricant. Deux fabricants différents peuvent proposer le même matériel. La relation {\tt Ordinateur} donne pour chaque modèle d'ordinateur la vitesse du processeur (en Hz), les tailles de la Ram et du disque dur (en GO) et le prix de l'ordinateur (en \euro{}). La relation {\tt Portable}, en plus des attributs précédents, comporte la taille de l'écran (en pouces). La relation {\tt Imprimante} indique pour chaque modèle d'imprimante si elle imprime en couleur (vrai/faux), le type d'impression (laser ou jet d'encre) et le prix (en \euro{}). La relation {\tt Fabricant} stocke les noms et adresses de chaque fabricant, ainsi que le nom de son patron. La relation {\tt Client} stocke les noms et prénoms de tous les clients de tous les fabricants. Enfin, la relation {\tt Achat} regroupe les quadruplets (client $c$, fabricant $f$, modèle $m$ et quantité $q$) tel que le client de numéro $c$ a acheté $q$ fois le modèle $m$ au fabricant de nom $f$. On suppose que l'attribut {\tt Quantite} est toujours strictement positif.
+\Question{Proposer une clé primaire pour la relation {\tt Achat}, quelles sont les conséquences en terme de modélisation ?}
+\tcor{On propose (\underline{\tt NumClient}, (\underline{\tt NomFabricant}, \underline{\tt Modele})) comme clé primaire de la relation {\tt Achat}, {\tt NumClient} est une clé étrangère associée à la clé primaire {\tt \underline{Num}} de la relation {\tt Client}, {\tt (NomFabricant,Modele)} est une clé étrangère associée à la clé primaire {\tt (\underline{NomFabricant}, \underline{Modele})} de la relation {\tt Production}. \\Lors de l'ajout d'un nouvel enregistrement dans la table {\tt Achat}, on doit vérifier que le client n'a pas déjà acheté ce modèle au même fabricant auquel cas, on mettra à jour le champ quantité afin de préserver l'unicité de la clé primaire.}
+\Question{Identifier l'ensemble des clés étrangères éventuelles de chaque table.}
+\tcor{
+    Dans la relation {\tt Production}, {\tt NomFabricant} est une clé étrangère qui fait référence à la clé primaire {\tt \underline{Nom}} de la relation {\tt Fabricant}    
+}
+\Question{Donner en {\sc sql} des requêtes répondant aux questions suivantes :}
+\subQuestion{Quels sont les numéros de modèles des matériels (ordinateur, portable ou imprimante) fabriqués par  l’entreprise de nom Durand ?}
+\begin{minted}{sql}
+ SELECT Modele 
+ FROM Production
+ WHERE NomFabricant = "Durand";
+\end{minted}
+\subQuestion{Quels sont les noms et adresses des fabricants produisant des portables dont le disque dur a une capacité d’au moins 500 Go ?}
+\begin{minted}{sql}
+SELECT Nom, Adresse 
+FROM Fabricant
+JOIN Production ON NomFabricant = Nom
+JOIN Portable ON Production.Modele = Ordinateur.Modele
+WHERE Portable.Dd >= 500;
+\end{minted}
+\subQuestion{Quels sont les noms des fabricants qui produisent au moins 10 modèles différents d’imprimantes ?}
+\begin{minted}{sql}
+SELECT NomFabricant, COUNT(*) AS nb
+FROM Production
+JOIN Imprimante ON Imprimante.Modele = Production.modele
+GROUP BY NomFabricant WHERE nb>10;
+\end{minted}
+\subQuestion{Quels sont les numéros des clients n’ayant acheté aucune imprimante ?}
+\begin{minted}{sql}
+SELECT NumClient FROM Client 
+EXCEPT
+SELECT NumClient From Achat
+JOIN Imprimante ON Imprimante.Modele = Achat.Modele
+\end{minted}
+\end{Exercise*}
+
+
+\end{document}

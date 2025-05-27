@@ -1,0 +1,175 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/}
+
+\ModeExercice
+
+\lhead{{\sc mpi --} {\bf Préparation aux oraux}}
+\rhead{2024}
+\setboolean{corrige}{false}
+
+\begin{center}
+    \textbf{\Large Sujet A}
+\end{center}
+
+
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise*}[title = type A]\\
+    On considère le schéma de base de données suivant, qui décrit un ensemble de fabricants de matériel informatique, les matériels qu'ils vendent, leurs clients et ce qu'achètent leurs clients. Les attributs des clés primaires des six premières relations sont soulignés.
+    \begin{itemize}
+        \item {\tt Production(\underline{NomFabricant}, \underline{Modele})}
+        \item {\tt Ordinateur(\underline{Modele}, Frequence, Ram, Dd, Prix)}
+        \item {\tt Portable(\underline{Modele}, Frequence, Ram, Dd, Ecran, Prix)}
+        \item {\tt Imprimante(\underline{Modele}, Couleur, Type, Prix)}
+        \item {\tt Fabricant(\underline{Nom}, Adresse, NomPatron)}
+        \item {\tt Client(\underline{Num}, Nom, Prenom)}
+        \item {\tt Achat(NumClient, NomFabricant, Modele, Quantite)}
+    \end{itemize}
+Chaque client possède un numéro unique connu de tous les fabricants. La relation {\tt Production} donne pour chaque fabricant l'ensemble des modèles fabriquées par ce fabricant. Deux fabricants différents peuvent proposer le même matériel. La relation {\tt Ordinateur} donne pour chaque modèle d'ordinateur la vitesse du processeur (en Hz), les tailles de la Ram et du disque dur (en GO) et le prix de l'ordinateur (en \euro{}). La relation {\tt Portable}, en plus des attributs précédents, comporte la taille de l'écran (en pouces). La relation {\tt Imprimante} indique pour chaque modèle d'imprimante si elle imprime en couleur (vrai/faux), le type d'impression (laser ou jet d'encre) et le prix (en \euro{}). La relation {\tt Fabricant} stocke les noms et adresses de chaque fabricant, ainsi que le nom de son patron. La relation {\tt Client} stocke les noms et prénoms de tous les clients de tous les fabricants. Enfin, la relation {\tt Achat} regroupe les quadruplets (client $c$, fabricant $f$, modèle $m$ et quantité $q$) tel que le client de numéro $c$ a acheté $q$ fois le modèle $m$ au fabricant de nom $f$. On suppose que l'attribut {\tt Quantite} est toujours strictement positif.
+\Question{Proposer une clé primaire pour la relation {\tt Achat}, quelles sont les conséquences en terme de modélisation ?}
+\tcor{On propose (\underline{\tt NumClient}, (\underline{\tt NomFabricant}, \underline{\tt Modele})) comme clé primaire de la relation {\tt Achat}, {\tt NumClient} est une clé étrangère associée à la clé primaire {\tt \underline{Num}} de la relation {\tt Client}, {\tt (NomFabricant,Modele)} est une clé étrangère associée à la clé primaire {\tt (\underline{NomFabricant}, \underline{Modele})} de la relation {\tt Production}. \\Lors de l'ajout d'un nouvel enregistrement dans la table {\tt Achat}, on doit vérifier que le client n'a pas déjà acheté ce modèle au même fabricant auquel cas, on mettra à jour le champ quantité afin de préserver l'unicité de la clé primaire.}
+\Question{Identifier l'ensemble des clés étrangères éventuelles de chaque table.}
+\tcor{
+    Dans la relation {\tt Production}, {\tt NomFabricant} est une clé étrangère qui fait référence à la clé primaire {\tt \underline{Nom}} de la relation {\tt Fabricant}    
+}
+\Question{Donner en {\sc sql} des requêtes répondant aux questions suivantes :}
+\subQuestion{Quels sont les numéros de modèles des matériels (ordinateur, portable ou imprimante) fabriqués par  l’entreprise de nom Durand ?}
+\ifcorrige
+\begin{minted}{sql}
+SELECT Modele 
+FROM Production
+WHERE NomFabricant = "Durand";
+\end{minted}
+\fi
+
+\subQuestion{Quels sont les noms et adresses des fabricants produisant des portables dont le disque dur a une capacité d’au moins 500 Go ?}
+\ifcorrige
+\begin{minted}{sql}
+SELECT Nom, Adresse 
+FROM Fabricant
+JOIN Production ON NomFabricant = Nom
+JOIN Portable ON Production.Modele = Ordinateur.Modele
+WHERE Portable.Dd >= 500;
+\end{minted}
+\fi
+\subQuestion{Quels sont les noms des fabricants qui produisent au moins 10 modèles différents d’imprimantes ?}
+\ifcorrige
+\begin{minted}{sql}
+SELECT NomFabricant, COUNT(*) AS nb
+FROM Production
+JOIN Imprimante ON Imprimante.Modele = Ordinateur.modele
+GROUP BY NomFabricant HAVING nb>10;
+\end{minted}
+\fi
+\subQuestion{Quels sont les numéros des clients n’ayant acheté aucune imprimante ?}
+\ifcorrige
+\begin{minted}{sql}
+SELECT NumClient FROM Client 
+EXCEPT
+SELECT NumClient From Achat
+JOIN Imprimante ON Imprimante.Modele = Achat.Modele
+\end{minted}
+\fi
+\end{Exercise*}
+
+
+\begin{Exercise*}[title = {type B}]\\
+	Les fonctions demandées dans cet exercice doivent être écrites en langage C. Un fichier contenant le code compagnon de cet exercice est à télécharger à l'adresse {\tt https://fabricenativel.github.io/cpge-info/oraux/}
+
+	On dit qu'un tableau {\tt tab} de taille $n$ est \textit{autoréférent} si pour tout entier {\tt i} $\in \intN{0}{n-1}$,  {\tt tab[i]} est le nombre d'occurences de {\tt i} dans {\tt tab}. Par exemple, le tableau {\tt ex=\{ 1, 2, 1, 0 \}} est autoréférent, en effet :
+	\begin{itemize}
+		\item {\tt ex[0] = 1} et {\tt 0} apparaît bien une fois dans le tableau
+		\item {\tt ex[1] = 2} et {\tt 1} apparaît bien deux fois dans le tableau
+		\item {\tt ex[2] = 1} et {\tt 2} apparaît bien une fois dans le tableau
+		\item {\tt ex[3] = 0} et {\tt 3} n'apparaît pas dans le tableau
+	\end{itemize}
+	L'exercice traite de la recherche par retour sur trace d'un tableau autoréférent de taille donnée.
+	\Question{Justifier rapidement que dans un tableau autoréférent de taille $n$, chaque valeur doit être comprise entre $0$ et $n$ et que la somme des éléments du tableau doit être égale à $n$.}
+	\tcor{Si on considère un tableau autoréférent de taille $n$, alors on a $t[i] = $ nombre d'occurrences de $i$ dans $t$, comme une valeur peut apparaître au maximum $n$ fois, on a $t[i] \leq n$. De plus, $t$ de taille $n$, il y a en tout $n$ occurrences de valeurs dans $t$, c'est à dire que la somme des $t[i]$ vaut $n$.}
+	\Question{Montrer que pour $n \in \intN{1}{3}$, il n'existe aucun tableau auto référent de taille $n$.}
+	\tcor{
+		Il suffit de tester les possibilités, en utilisant la question précédente.
+		\begin{itemize}
+		\item taille 1 : le seul tableau possible est $\{ 1 \}$  et il n'est pas autoréférent.
+		\item taille 2 : Comme $t[0]$ ne peut pas valoir 0, le seul tableau possible est $\{ 1, 1 \}$ et il n'est pas autoréférent.
+		\item taille 3 : $t[0]$ ne peut pas valoir $0$. Si $t[0] = 1$, alors soit $t[1]=0$ et donc $t[2]=2$ soit $t[2]=0$ et $t[1]=2$ or aucun de ces tableaux n'est autoréférent. Si $t[0]=2$ alors $t[1]=0$ et $t[2]=0$ et ce ne tableau n'est pas autoréférent.
+		\end{itemize}
+	}
+	\Question{Déterminer un autre tableau autoréférent de taille 4 que celui donné en exemple.}
+	\tcor{
+		\begin{itemize}
+		\item si $t[0] =1$ alors $0$ apparait et une seule fois, $1$ apparait au moins une fois et la somme faisant 4, les possibilités sont $\{1, 1, 0, 2\}$, $\{1, 1, 2, 0\}$, $\{1, 2, 0, 1\}$ et $\{1, 2, 1, 0$\}. Seul le dernier tableau est autoréférent et c'est celui donné dans l'énoncé.
+		\item si $t[0] =2$ alors $0$ apparait deux fois, donc les possibilités sont $\{2, 2, 0, 0\}$ , $\{2, 0, 2, 0\}$ et $\{2, 0, 0, 2\}$. Seul le  tableau $\{2, 0, 2, 0\}$ est autoréférent.
+		\item si $t[0] =3$ alors $0$ apparait trois fois, impossible.
+		\end{itemize}
+		En conclusion, il n'y a qu'une seule autre possibilité que celle donnée dans l'enoncé, c'est le tableau $\{2, 0, 2, 0\}$.
+	}
+	\Question{\label{auto} Soit {\tt n}$\geq 7$, on définit le tableau {\tt tab} de taille {\tt n} par :
+		\begin{itemize}
+			\item {\tt tab.(0) = n-4}
+			\item {\tt tab.(1) = 2}
+			\item {\tt tab.(2) = 1}
+			\item {\tt tab.(n-4) = 1}
+			\item {\tt tab.(i) = 0} si {\tt i} $\notin \{0,1,2,n-4\}$
+		\end{itemize}
+		Prouver que {\tt tab} est autoréférent
+	}
+	\tcor{
+		On vérifie :
+		\begin{itemize}
+			\item {\tt tab.(0) = n-4} et toutes les cases du tableau valent {\tt 0} sauf 4 cases, celles d'indices $0$ (car $n-4 \neq 0), 1, 2$ et $n-4$.
+			\item {\tt tab.(1) = 2} et {\tt 1} apparaît bien deux fois dans le tableau aux indices 2 et $n-4$. (car $n-4 \neq 1$)
+			\item {\tt tab.(2) = 1} et {\tt 2} apparaît bien une fois dans le tableau (à l'indice 1)
+			\item {\tt tab.(n-4) = 1} et {\tt n-4} apparaît bien une seule fois dans le tableau car comme $n \leqslant 7$, $n-4 \leqslant 3$.
+			\item {\tt tab.(i) = 0} si {\tt i} $\notin \{0,1,2,n-4\}$ et aucune de ces valeurs n'apparaît dans le tableau
+		\end{itemize}
+		Donc ce tableau est bien autoréférent.
+	}
+	\Question{Ecrire une fonction {\tt est\_autoreferent} qui prend en argument un tableau d'entiers (et sa taille) et renvoie {\tt true} si ce tableau est autoréférent et {\tt false} sinon. On attend une complexité en $\mathcal{O}(n)$ où $n$ est la taille du tableau c'est à dire qu'on veut parcourir une seule fois le tableau.}
+	\ifcorrige
+	\corpartC{autoref.c}{}{}{35}{57}
+	\fi
+
+	\NRet
+	On cherche maintenant à construire un tableau autoréférent de taille {\tt n} en utilisant un algorithme de recherche par retour sur trace (\textit{backtracking}) qui valide une solution partielle construite jusqu'à un index {\tt i} donné, on propose pour cela la fonction récursive suivante qui utilise la fonction de validation partielle {\tt valide} qui sera écrite plus loin et qui essaye d'affecter une valeur valide à l'indice {\tt i} puis de poursuivre la construction du tableau: \\
+	\begin{minted}[linenos=true]{c}
+bool autoreferent(int tab[], int n, int i)
+{
+    if (i == n)
+    {
+        return est_autoreferent(tab,n);
+    }
+    for (int k = .......)
+    {
+        tab[i] = k;
+        if (valide(tab, n, i))
+        {
+            if (autoreferent(........))
+            {
+                return .....;
+            }
+        }
+    }
+    return ......;
+}
+\end{minted}
+	\Ret
+	\Question{Compléter les lignes 7, 12, 14, et 18 de la fonction précédente.}
+	\ifcorrige
+	\corpartC{autoref.c}{7,12,14,18}{}{59}{77}
+	\fi
+	\Question{On sait que la somme des éléments d'un tableau autoréférent de taille {\tt n} est {\tt n}. D'autre part, si après avoir affecté la case d'indice {\tt i}, il y déjà strictement plus d'occurrences d'une valeur {\tt k} comprise entre 0 et {\tt i} que la valeur de {\tt t[k]} alors la solution partielle n'est pas valide. En déduire une fonction {\tt valide} de signature \mintinline{c}{bool valide(int tab[], int n, int i)} qui prend en argument un tableau d'entiers, sa taille et un indice {\tt i} et qui renvoie {\tt true} si la ce tableau peut-être complété en un tableau autoréférent.}
+	\ifcorrige
+	\corpartC{autoref.c}{}{}{5}{33}
+	\fi
+    \Question{Proposer et tester une nouvelle vérification permettant d'écarter plus rapidement les solutions non valides. On pourra s'intéresser au nombre de valeurs à compléter contenant une valeur non nulle.}
+\end{Exercise*}
+\end{document}

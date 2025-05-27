@@ -1,0 +1,75 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/}
+
+\ModeExercice
+
+\lhead{{\sc mpi --} {\bf Préparation aux oraux}}
+\rhead{2024}
+\setboolean{corrige}{false}
+\begin{center}
+    \textbf{\Large Sujet D}
+\end{center}
+
+
+\setcounter{Exercise}{0}
+
+\newcommand{\cn}[1]{\TCircle{\tt #1}}
+\psset{arrows=->,treesep=1cm,levelsep=1cm}
+
+\begin{Exercise*}[title = type A]\\
+    On rappelle que le principe de la compression {\sc lzw} est d'attribuer un code aux préfixes rencontrés lors de la lecture du texte à compresser de façon à disposer d'un code compact si ce code se présente à nouveau. Initialement, seuls les codes de l'alphabet (usuellement les caractères {\sc ascii}) sont présents dans la table de codage. \\
+    Ici, on veut compresser le texte {\tt saisissais} sur l'alphabet {\tt \{a,i,s\}}, par souci de simplicité on attribue initialement les codes {\tt a} $\rightarrow 0$, {\tt i} $\rightarrow 1$ et {\tt s} $\rightarrow 2$.
+    Le début de l'algorithme va donc consister à attribuer un nouveau code au premier préfixe non encore codé qui apparaît lors de la lecture du texte. Et donc, ici, on attribue le code {\tt 3} au prefixe {\tt sa} et on emmettra le code de {\tt s}.
+    \Question{Poursuivre le déroulement de cet algorithme en complétant le tableau suivant : \\
+    \begin{tabular}{|l|l|l|}
+        \hline
+        Position dans le texte & Code émis & Nouveau préfixe ajouté \\
+        \hline
+        {\tt \underline{s}aisissais} & 2 & {\tt sa } $\rightarrow 3$ \\
+    \end{tabular}
+    }
+    \tcor{On obtient la suite de code : {\tt [2; 0; 1; 2; 5; 3; 5]}}
+    \Question{Quel est le taux de compression obtenu en supposant qu'un octet permet de représenter chaque code ?}
+    \tcor{10 sur 7}
+    \Question{Décompresser le texte $T$ codé par suite de codes {\tt [0; 1; 4; 6; 5; 2; 3; 2; ]} sur l'alphabet  {\tt \{l, a, e, r\}} avec les codes {\tt l} $\rightarrow 0$, {\tt a} $\rightarrow 1$, {\tt e} $\rightarrow 2$ et {\tt r} $\rightarrow 3$ en expliquant comment est reconstruit le dictionnaire de décompression.}
+    \tcor{$T = $ {\tt lalalalalere}}
+    \Question{Rappeler rapidement le principe  de l'algorithme de compression de Huffman et compresser le texte $T$ à l'aide de cet algorithme.}
+\end{Exercise*}
+
+
+\begin{Exercise*}[title = {type B}]
+    \Question{Rappeler la défintion d'un tas binaire (min)}
+	\Question{On suppose qu'un tas est représenté par un tableau $t = (t_0,\dots t_{n-1})$. Lorsqu'ils existent quels sont les indices des fils de $t_i$ ?}
+	\Question{Quel est l'indice (lorsqu'il existe) du père de $t_i$ ?}
+	\Question{Vérifier que l'arbre binaire suivant possède bien la structure de tas et donner sa représentation sous forme de tableau: \label{tas}
+		\begin{center}
+			\pstree[arrows=->,treesep=1cm,levelsep=1cm]{\TCircle{3}}
+			{\pstree{\TCircle{6}}
+				{\pstree{\TCircle{10}}
+					{\TCircle{17} \TCircle{11}}
+					\pstree{\TCircle{9}}
+					{\TCircle{15}
+						\TCircle{18}
+					}}\pstree{\TCircle{5}}
+				{\TCircle{7}
+					\TCircle{13}
+				}}
+		\end{center}
+	}
+    \Question{Rappeler le principe d'insertion d'un nouvel élément dans un tas binaire puis détailler les étapes de l'insertion de 4 dans le tas représenté à la question \ref{tas}.}
+    \Question{Rappeler le principe d'extraction du minimum d'un tas binaire, puis détailler les étapes de l'extraction du minimum du tas représenté à la question \ref{tas}.}
+    \Question{Dans la suite, on utilisera la structure de données suivante permettant de représenter un tas en OCaml :
+        \inputpartOCaml{tas.ml}{}{}{3}{3}
+    Quel est le rôle du champ {\tt size} ? Pourquoi est-il déclaré en {\tt mutable} ? 
+    }
+    \Question{Ecrire une fonction qui renvoie un tas de taille maximale {\tt 1000} et qui contient des valeurs entières.}
+    \Question{Ecrire la fonction d'insertion d'un élément dans un tas binaire contenant des entiers. On renvoie {\tt true} si l'insertion est possible (c'est-à-dire que le tas n'est pas plein) et {\tt false} sinon. La signature de cette fonction est donc {\tt insertion: 'a -> 'a heap -> bool}}
+\end{Exercise*}
+
+\end{document}
