@@ -27,21 +27,45 @@
 
 \begin{Exercise*}[title = type A]\\
     On rappelle que le principe de la compression {\sc lzw} est d'attribuer un code aux préfixes rencontrés lors de la lecture du texte à compresser de façon à disposer d'un code compact si ce code se présente à nouveau. Initialement, seuls les codes de l'alphabet (usuellement les caractères {\sc ascii}) sont présents dans la table de codage. \\
-    Ici, on veut compresser le texte {\tt saisissais} sur l'alphabet {\tt \{a,i,s\}}, par souci de simplicité on attribue initialement les codes {\tt a} $\rightarrow 0$, {\tt i} $\rightarrow 1$ et {\tt s} $\rightarrow 2$.
-    Le début de l'algorithme va donc consister à attribuer un nouveau code au premier préfixe non encore codé qui apparaît lors de la lecture du texte. Et donc, ici, on attribue le code {\tt 3} au prefixe {\tt sa} et on emmettra le code de {\tt s}.
+    Ici, on s'intéresse à des chaines de caractères représentant des séquences génétique codés sur l'alphabet {\tt \{A, C, G, T\}}, par souci de simplicité on attribue initialement les codes {\tt A} $\rightarrow 0$, {\tt C} $\rightarrow 1$, {\tt G} $\rightarrow 2$  et {\tt T} $\rightarrow 3$. Et on souhaite compresser la séquence {\tt ATGTGATGTCCT}.
+    Le début de l'algorithme va donc consister à attribuer un nouveau code au premier préfixe non encore codé qui apparaît lors de la lecture du texte. Et donc, ici, on attribue le code {\tt 4} au prefixe {\tt AT} et on emmettra le code de {\tt A} c'est à dire 0.
     \Question{Poursuivre le déroulement de cet algorithme en complétant le tableau suivant : \\
     \begin{tabular}{|l|l|l|}
         \hline
         Position dans le texte & Code émis & Nouveau préfixe ajouté \\
         \hline
-        {\tt \underline{s}aisissais} & 2 & {\tt sa } $\rightarrow 3$ \\
-    \end{tabular}
+        {\tt \underline{A}TGTGATGTCCT} & 0 & {\tt AT } $\rightarrow 4$ \\
+    \end{tabular}\\
     }
-    \tcor{On obtient la suite de code : {\tt [2; 0; 1; 2; 5; 3; 5]}}
+    \tcor{
+        \begin{tabular}{|l|l|l|}
+        \hline
+        Position dans le texte & Code émis & Nouveau préfixe ajouté \\
+        \hline
+        {\tt \underline{A}TGTGATGTCCT} & 0 & {\tt AT } $\rightarrow 4$ \\
+        \hline
+        {\tt A\underline{T}GTGATGTCCT} & 3 & {\tt TG } $\rightarrow 5$ \\
+        \hline
+        {\tt AT\underline{G}TGATGTCCT} & 2 & {\tt GT } $\rightarrow 6$ \\
+         \hline
+        {\tt ATG\underline{TG}ATGTCCT} & 5 & {\tt TGA } $\rightarrow 7$ \\
+         \hline
+        {\tt ATGTG\underline{AT}GTCCT} & 4 & {\tt ATT } $\rightarrow 8$ \\
+        \hline
+        {\tt ATGTGAT\underline{GT}CCT} & 6 & {\tt GTT } $\rightarrow 9$ \\
+        \hline
+        {\tt ATGTGATGT\underline{C}CT} & 1 & {\tt CC } $\rightarrow 10$ \\
+        \hline
+        {\tt ATGTGATGTC\underline{C}T} & 1 & {\tt CT } $\rightarrow 11$ \\
+        \hline
+        {\tt ATGTGATGTCC\underline{T}} & 3 &   \\
+        \hline
+    \end{tabular}\\
+    On obtient donc la suite de code : {\tt [0; 3; 2; 5; 4; 6; 1; 1; 3]}}
     \Question{Quel est le taux de compression obtenu en supposant qu'un octet permet de représenter chaque code ?}
-    \tcor{10 sur 7}
-    \Question{Décompresser le texte $T$ codé par suite de codes {\tt [0; 1; 4; 6; 5; 2; 3; 2; ]} sur l'alphabet  {\tt \{l, a, e, r\}} avec les codes {\tt l} $\rightarrow 0$, {\tt a} $\rightarrow 1$, {\tt e} $\rightarrow 2$ et {\tt r} $\rightarrow 3$ en expliquant comment est reconstruit le dictionnaire de décompression.}
-    \tcor{$T = $ {\tt lalalalalere}}
+    \tcor{12 sur 9}
+    \Question{Décompresser le texte $T$ codé par suite de codes {\tt [3; 1; 4; 6; 5; 2; 0; 2 ]} sur ce même alphabet en expliquant comment est reconstruit le dictionnaire de décompression.}
+    \tcor{$T = $ {\tt TCTCTCTCTGAG}}
     \Question{Rappeler rapidement le principe  de l'algorithme de compression de Huffman et compresser le texte $T$ à l'aide de cet algorithme.}
 \end{Exercise*}
 

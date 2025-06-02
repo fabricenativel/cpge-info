@@ -68,6 +68,7 @@ def get_exos(data,nds):
     end = False
     while not end:
         content = data[DS+str(nds)][cl]
+        print(content)
         if content==[]:
             end=True
         elif isinstance(content[COL_EXO],str) and content[0].startswith(SEXO):

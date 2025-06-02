@@ -37,6 +37,14 @@ Dans tout cet exercice, on exprime la complexité en nombre de comparaisons effe
 \Question{Proposer une nouvelle modification si les motifs sont de taille différentes.}
 \end{Exercise}
 
+\begin{Exercise}[title = dérouler l'algorithme de Huffman]\\
+On considère la phrase : \textit{\og{} comprendre cet algorithme \fg{}}.
+\Question{Faire une tableau indiquant pour chaque caractère son nombre d'occurrence dans la phrase.}
+\Question{Dérouler l'algorithme de Huffman afin de construire l'arbre de codage préfixe.}
+\Question{Donner les codes de chaque caractère.}
+\Question{Déterminer le taux de compression de l'algorithme sur cet exemple.}
+\end{Exercise}
+
 \newcommand{\tv}{\textvisiblespace}
 \newcommand{\dn}[1]{\TCircle{\textcolor{blue}{\tt #1}}}
 \begin{Exercise}[title = Quelques arbres de Huffmann]
@@ -54,11 +62,57 @@ Dans tout cet exercice, on exprime la complexité en nombre de comparaisons effe
     \Question{Donner le texte dont la compression est : \\{\tt 11101001111011101111010111101110110101011000010100011001100010000001010111010}}
     \Question{Calculer la taille initiale du texte et la taille du texte compressé.}
 \end{Exercise}
-\pagebreak
+
+\begin{Exercise}[title = Séquence génétique]\\
+    On rappelle que le principe de la compression {\sc lzw} est d'attribuer un code aux préfixes rencontrés lors de la lecture du texte à compresser de façon à disposer d'un code compact si ce code se présente à nouveau. Initialement, seuls les codes de l'alphabet (usuellement les caractères {\sc ascii}) sont présents dans la table de codage. \\
+    Ici, on s'intéresse à des chaines de caractères représentant des séquences génétique codés sur l'alphabet {\tt \{A, C, G, T\}}, par souci de simplicité on attribue initialement les codes {\tt A} $\rightarrow 0$, {\tt C} $\rightarrow 1$, {\tt G} $\rightarrow 2$  et {\tt T} $\rightarrow 3$. Et on souhaite compresser la séquence {\tt ATGTGATGTCCT}.
+    Le début de l'algorithme va donc consister à attribuer un nouveau code au premier préfixe non encore codé qui apparaît lors de la lecture du texte. Et donc, ici, on attribue le code {\tt 4} au prefixe {\tt AT} et on emmettra le code de {\tt A} c'est à dire 0.
+    \Question{Poursuivre le déroulement de cet algorithme en complétant le tableau suivant : \\
+    \begin{tabular}{|l|l|l|}
+        \hline
+        Position dans le texte & Code émis & Nouveau préfixe ajouté \\
+        \hline
+        {\tt \underline{A}TGTGATGTCCT} & 0 & {\tt AT } $\rightarrow 4$ \\
+    \end{tabular}\\
+    }
+    \tcor{
+        \begin{tabular}{|l|l|l|}
+        \hline
+        Position dans le texte & Code émis & Nouveau préfixe ajouté \\
+        \hline
+        {\tt \underline{A}TGTGATGTCCT} & 0 & {\tt AT } $\rightarrow 4$ \\
+        \hline
+        {\tt A\underline{T}GTGATGTCCT} & 3 & {\tt TG } $\rightarrow 5$ \\
+        \hline
+        {\tt AT\underline{G}TGATGTCCT} & 2 & {\tt GT } $\rightarrow 6$ \\
+         \hline
+        {\tt ATG\underline{TG}ATGTCCT} & 5 & {\tt TGA } $\rightarrow 7$ \\
+         \hline
+        {\tt ATGTG\underline{AT}GTCCT} & 4 & {\tt ATT } $\rightarrow 8$ \\
+        \hline
+        {\tt ATGTGAT\underline{GT}CCT} & 6 & {\tt GTT } $\rightarrow 9$ \\
+        \hline
+        {\tt ATGTGATGT\underline{C}CT} & 1 & {\tt CC } $\rightarrow 10$ \\
+        \hline
+        {\tt ATGTGATGTC\underline{C}T} & 1 & {\tt CT } $\rightarrow 11$ \\
+        \hline
+        {\tt ATGTGATGTCC\underline{T}} & 3 &   \\
+        \hline
+    \end{tabular}\\
+    On obtient donc la suite de code : {\tt [0; 3; 2; 5; 4; 6; 1; 1; 3]}}
+    \Question{Quel est le taux de compression obtenu (la taille d'un code est un octet) ?}
+    \tcor{12 sur 9}
+    \Question{Décompresser le texte $T$ codé par suite de codes {\tt [3; 1; 4; 6; 5; 2; 0; 2 ]} sur ce même alphabet en expliquant comment est reconstruit le dictionnaire de décompression.}
+    \tcor{$T = $ {\tt TCTCTCTCTGAG}}
+\end{Exercise}
+
 \begin{Exercise}[title = Algorithme {\sc lzw}]
     \Question{Décrire le fonction de l'algorithme {\sc lzw} sur une chaine qui contient $n$ caractères identiques.}
     \Question{On considère la compression d'un texte contenant $5$ caractères différents. Donner une chaîne de caractères de longueur 20 pour laquelle l'algorithme {\sc lzw} ne réduit pas la taille du résultat par rapport à l'entrée.}
 \end{Exercise}
 
+\begin{Exercise}[title = diminution de la taille]\\
+    Peut-on écrire un proramme qui prend en entrée un fichier et renvoie une version compressée (sans perte d'information) de taille \textit{strictement} inférieure de ce fichier ?
+\end{Exercise}
 
 \end{document}
