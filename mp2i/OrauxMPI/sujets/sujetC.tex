@@ -1,0 +1,190 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/}
+
+\ModeExercice
+
+\lhead{{\sc mpi --} {\bf Préparation aux oraux}}
+\rhead{2024}
+\setboolean{corrige}{false}
+
+\begin{center}
+	\textbf{\Large Sujet C}
+\end{center}
+
+
+\setcounter{Exercise}{0}
+
+
+\newcommand{\cn}[1]{\TCircle{\tt #1}}
+\psset{arrows=->,treesep=1cm,levelsep=1cm}
+
+\begin{Exercise*}[title = {Exercice A}]\\
+	De nombreux travaux sont réalisés en Intelligence Artificielle pour construire un programme qui imite le raisonnement humain et soit capable de réussir le test de Turing, c’est-à-dire qu’il ne puisse pas être distingué d’un être humain dans une conversation à l’aveugle. Vous êtes chargé(e)s de vérifier la correction des réponses données par un tel programme lors des tests de bon fonctionnement. Dans le scénario de test considéré, le comportement attendu est le respect de la règle suivante : pour chaque question, le programme répondra par trois affirmations et parmi ces affirmations une seule sera correcte (et donc les deux autres fausses). \\
+	Nous noterons $A_1$ , $A_2$ et $A_2$ les propositions associées aux affirmations effectuées par le programme.
+
+	\Question{Représenter le comportement attendu sous la forme d'une formule du calcul des propositions qui dépend de $A_1$, $A_2$ et $A_3$.}
+	\tcor{Le comportement attendu est que parmi les trois affirmations, une seule est vraie. On peut donc écrire la formule suivante :\\
+		$ (A_1 \et \non A_2 \et \non A_3) \ou (\non A_1 \et A_2 \et \non A_3) \ou (\non A_1 \et \non A_2 \et A_3)$.
+	}
+
+	\NRet
+	\textbf{Premier cas} : Vous demandez au programme : \og {} \textit{Quels éléments doivent contenir les aliments que je dois consommer pour préserver ma santé ?}\fg{}\\
+	Il répond les affirmations suivantes :
+	\begin{itemize}
+		\item[] $A_1$ : Consommez au moins des aliments qui contiennent des glucides mais pas de lipides !
+		\item[] $A_2$ : Si vous consommez des aliments qui contiennent des glucides, alors ne consommez pas d'aliments qui contiennent des lipides !
+		\item[] $A_3$ : Ne consommez aucun aliment qui contient des lipides
+	\end{itemize}
+	Nous noterons $G$, respectivement $L$, les variables propositionnelles qui correspondent au fait de consommer des aliments qui contiennent des glucides, respectivement des lipides.
+
+	\Ret
+	\Question{Exprimer $A_1, A_2$ et $A_3$ sous la forme de formules du calul des propositions. Ces formules peuvent dépendre des variables $G$ et $L$.}
+	\tcor{
+		\begin{itemize}
+			\item[\textbullet] $A_1$ : $G \et \non L$
+			\item[\textbullet] $A_2$ : $G \imp \non L$
+			\item[\textbullet] $A_3$ : $\non L$
+		\end{itemize}
+	}
+	\Question{En utilisant le calcul des propositions (résolution avec les formules de De Morgan), déterminer ce que doivent contenir les aliments que vous devrez consommer pour préserver votre santé.}
+	\tcor{
+		Comme
+		\begin{itemize}
+			\item[\textbullet] $\non A_1 = \non G \ou L$
+			\item[\textbullet] $A_2 \equiv \non G \ou \non L$ et donc $\non A_2 = G \et L$
+			\item[\textbullet] $\non A_3 = L$
+		\end{itemize}
+		La règle énoncée conduit à :\\
+		$(G \et \non L \et G \et L \et L) \ou ((\non G \ou L) \et (\non G \ou \non L) \et L) \ou ((\non G \ou L) \et G \et L \et \non L)$\\
+		La première et la troisième parenthèsent valant \textit{Faux}, cette formule devient donc : \\
+		$((\non G \ou L) \et (\non G \et L))$\\
+		$\non G \et L$\\
+		Donc on  doit  consommer des lipides et pas de glucides.
+	}
+
+	\NRet
+	\textbf{Deuxième cas } : Vous demandez au programme : \textit{\og{} Quelles activités dois-je pratiquer si je veux préserver ma santé ?\fg{}}\\
+	Suite à une coupure de courant, la dernière information est interrompue.
+	\begin{itemize}
+		\item[] $A_1$ : Si vous faites des activités sportives alors prenez du repos !
+		\item[] $A_2$ : Si vous ne faites pas d'activités intellectuelles, alors ne prenez pas de repos !
+		\item[] $A_3$ : Prenez du repos ou faites des activités ... !
+	\end{itemize}
+	Nous noterons $S$,  $I$ et $R$ les variables propositionnelles qui correspondent au fait de faire des activités sportives, des activités intellectuelles, et de prendre du repos.
+
+	\Ret
+	\Question{Exprimer $A_1, A_2$ et $A_3$ sous la forme de formules du calul des propositions. Ces formules peuvent dépendre des variables $S$, $I$ et $R$. Pour $A_3$, on indiquera des pointillés pour signifier que la réponse a été interrompue.}
+	\tcor{
+		\begin{itemize}
+			\item[\textbullet] $A_1$ : $S \imp R$ c'est à dire $A_1 = \non S \ou R$
+			\item[\textbullet] $A_2$ : $\non I \imp \non R$ c'est à dire $A_2 = I \ou \non R$
+			\item[\textbullet] $A_3$ : $R \ou ...$
+		\end{itemize}
+	}
+	\Question{En utilisant le calcul des propositions (résolution avec les tables de vérité), déterminer quelle(s) activités vous devez pratiquer pour préserver votre santé. L'information $A_3$ étant incomplète ou pourra envisager les deux cas suivants : elle se termine par "sportives" ou "intellectuelles" et réaliser la table de vérité dans chacun des cas.}
+	\tcor{
+		\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+			\hline
+			S & I & R & $A_1$ & $A_2$ & $A_3$ si $\dots = S$ & Règle si $\dots = S$ & $A_3$ si $\dots = I$ & Règle si $\dots = I$ \\
+			\hline
+			0 & 0 & 0 & 1     & 1     & 0                    & 0                    & 0                    & 0                    \\
+			\hline
+			0 & 0 & 1 & 1     & 0     & 1                    & 0                    & 1                    & 0                    \\
+			\hline
+			0 & 1 & 0 & 1     & 1     & 0                    & 0                    & 1                    & 0                    \\
+			\hline
+			0 & 1 & 1 & 1     & 1     & 1                    & 0                    & 1                    & 0                    \\
+			\hline
+			1 & 0 & 0 & 0     & 1     & 1                    & 0                    & 0                    & 1                    \\
+			\hline
+			1 & 0 & 1 & 1     & 0     & 1                    & 0                    & 1                    & 0                    \\
+			\hline
+			1 & 1 & 0 & 0     & 1     & 1                    & 0                    & 1                    & 0                    \\
+			\hline
+			1 & 1 & 1 & 1     & 1     & 1                    & 0                    & 1                    & 0                    \\
+			\hline
+		\end{tabular}
+		On constate donc que si $A_3$ est $R \ou S$ alors la règle qui veut qu'une seule des 3 affirmations soit vraie n'est pas respectée.\\
+		Par contre si $A_3$ est $R \ou I$ alors la règle est vérifiée avec $S$ vraie et $I$ et $R$ fausses. Donc, on doit faire des activités sportives et ne pas prendre du repos ni faire d'activités intellectuelles.
+	}
+\end{Exercise*}
+
+
+
+
+\begin{Exercise*}[title={Exercice B}]\\
+	Les fonctions demandées dans cet exercice doivent être écrites en OCaml et on \textit{s'interdit} dans cet exercice l'utilisation des aspects impératifs du langage (boucles et références notamment).
+	On dispose d'un sac à dos pouvant contenir un poids maximal noté $P$ et de $n$ objets ayant chacun un poids $\left(p_i\right)_{0\leqslant i \leqslant n-1}$ et une valeur $\left(v_i\right)_{0\leqslant i \leqslant n-1}$. On cherche à remplir le sac à dos de manière à maximiser la valeur totale des objets contenus dans le sac sans dépasser le poids maximal $P$.
+	Par exemple, si on dispose des objets suivants :
+	\begin{itemize}
+		\item un objet de poids $p_0 = 4$ et de valeur $v_0 = 20$,
+		\item un objet de poids $p_1 = 5$ et de valeur $v_1 = 28$,
+		\item un objet de poids $p_2 = 6$ et de valeur $v_2 = 36$,
+		\item un objet de poids $p_3 = 7$ et de valeur $v_3 = 50$,
+	\end{itemize}
+	et qu'on suppose que le poids maximal du sac est $10$ alors un choix possible serait de prendre l'objet 3, aucun autre objet ne rentre alors dans le sac et la valeur du sac est  de $50$ avec un poids de 7. Une autre possibilité plus intéressante serait de choisir les objets 0  et 2, la valeur totale serait alors de $56$ et le poids du sac de $10$.\smallskip
+
+	Dans toute la suite de l'exercice on supposera que les poids et les valeurs des objets ainsi que le poids maximal du sac sont des entiers (type {\tt int}), et que donc un objet  être représenté par un couple (poids, valeurs) {\tt int*int} et une liste d'objets par le type {\tt (int*int) list} de OCaml. Et on définit le type suivant afin de représenter un problème du sac à dos :
+	\inputpartOCaml{sac.ml}{}{}{1}{5}
+	Ainsi, le problème donné en exemple ci-dessus correspond à
+	\inputpartOCaml{sac.ml}{}{}{7}{11}
+	Le fichier contenant cette définition de type et l'exemple de problème peut-être télécharger à l'adresse : {\tt https://fabricenativel.github.io/cpge-info/oraux/}
+
+	On propose de représenter un choix d'objets par une liste de booléens. Si le $i$-ème élément de la liste vaut {\tt true} alors l'objet $i$ est choisi, sinon l'objet $i$ n'est pas choisi. Par exemple, pour les objets précédents, le choix de prendre uniquement l'objet 3 serait représenté par la liste \mintinline{ocaml}{[false; false; false; true]} et le choix de prendre les objets 0 et 2 serait représenté par la liste \mintinline{ocaml}{[true; false; true; false]}.
+
+	\Question{Déterminer la complexité d'une méthode résolvant le problème du sac à dos par \textit{recherche exhaustive}, que peut-on en conclure ?}
+
+	\Question{On considère la stratégie gloutonne suivante : on trie les objets par ordre décroissant de leur rapport valeur/poids et on les choisit dans cet ordre. Montrer à l'aide d'un contre exemple que cette stratégie ne permet pas toujours d'obtenir la valeur maximale.}
+	\tcor{On peut utiliser la liste d'objets suivantes (déjà triée par rapport valeur/poids croissante : )
+		\begin{itemize}
+			\item (7; 35) (rapport = 5)
+			\item (4; 18) (rapport = 4.5)
+			\item (5; 20) (rapport = 4)
+		\end{itemize}
+		Si on suppose que le poids maximal du sac est 10, alors l'algorithme glouton prendra seulement l'objet 0 (pour une valeur de sac de 35) alors que la valeur maximale est de 38 en prenant les objets 1 et 2.}
+	\Question{La documentation de la fonction {\tt List.sort : ('a -> 'a -> int) -> 'a list -> 'a list} de la librairie standard d'OCaml indique que cette fonction trie une liste d'éléments en utilisant l'ordre défini par la fonction de comparaison passée en paramètre. Cette dernière renvoie 0 lorsque les deux éléments sont égaux, un entier positif lorsque le premier élément est plus grand et un entier négatif sinon. Cette documentation indique aussi que l'algorithme utilisé est le \textit{tri fusion}. En déduire une fonction {\tt tri : (int*int) list -> (int*int) list} qui trie une liste d'objets par ordre décroissant de leur rapport valeur/poids.}
+	\ifcorrige
+		\corpartOCaml{sac.ml}{}{}{58}{61}
+	\fi
+	\Question{Ecrire une fonction {\tt glouton : pbsac -> int}, qui prend en arguments un problème du sac à dos et qui renvoie la valeur maximale que l'on peut obtenir en appliquant la stratégie gloutonne.}
+	\ifcorrige
+		\corpartOCaml{sac.ml}{}{}{63}{73}
+	\fi
+	\Question{Donner la complexité de la foncton {\tt glouton} en fonction du nombre d'objets $n$.}
+    
+	\tcor{Comme la fonction de tri utilisée est le tri fusion, sa complexité est en $\mathcal{O}(n \log n)$. Ensuite, la fonction {\tt glouton} parcourt la liste triée une fois pour calculer la valeur du sac, donc sa complexité est en $\mathcal{O}(n)$. La complexité de la fonction {\tt glouton} est donc en $\mathcal{O}(n \log n)$.}
+
+    \par
+    \NRet
+	On propose de résoudre le problème du sac à dos par programmation dynamique. Pour tout $i \in \intN{0}{n}$, on note $V(i, p)$ la valeur maximale que l'on peut obtenir avec les objets à partir de celui d'indice $i$ et un poids maximal $p$. Par exemple s'il y a 5 objets (numérotés de 0 à 4), $v(2,10)$ est le poids maximal atteint pour un sac de poids maximal 10 en ne considérant que les objets 2, 3 et 4.
+    
+    \Ret
+	\Question{Donner $V(i, 0)$ pour $i \in \intN{0}{n-1}$ et $V(n, p)$ pour $p \in \intN{0}{P}$.}
+	\tcor{
+		$V(i,0)$ est la valeur maximal d'un sac de poids maximal nul c'est donc $0$.
+		$V(n,p)$ vaut 0 aussi car on n'utilise aucun objet (les numéros des objets vont de $0$ à $n-1$)
+	}
+
+	\Question{Donner les relations de récurrence liant $v(i, p)$ à $v(i+1, p)$ et $v(i+1, p-p_i)$.}
+	\tcor{Pour déterminer $v(i,p)$, si $p\geqslant p_i$, on choisit la valeur maximale entre les deux possiblités suivantes :
+		\begin{itemize}
+			\item ne pas prendre l'objet $i$, la valeur du sac est alors $v(i+1, p)$,
+			\item prendre l'objet $i$, la valeur du sac est alors $v_i + v(i+1, p-p_i)$.
+		\end{itemize}
+		Sinon, on ne peut pas prendre l'objet $i$ et donc la valeur du sac est $v(i,p) = v(i+1, p)$.
+		On a donc la relation de récurrence suivante : $v(i,p) = \max(v(i+1, p), v_i + v(i+1, p-p_i))$ si $p \geqslant pi$ et $v(i,p) = v(i+1, p)$ sinon.}
+	\Question{Écrire une fonction récursive {\tt dynamique : pbsac -> int} qui prend en arguments un problème du sac à dos et qui renvoie la valeur maximale que l'on peut obtenir en appliquant la stratégie de programmation dynamique.}
+	\ifcorrige
+		\corpartOCaml{sac.ml}{}{}{75}{86}
+	\fi
+\end{Exercise*}
+
+
+\end{document}
