@@ -65,7 +65,7 @@ let rec affiche  il =
       | h::n::t ->  if (n<idx) then
                     (icode.(idx) <- icode.(h)^(String.sub icode.(n) 0 1); aux_dec (n::t)  (acc^icode.(h)) (idx+1))
                     else
-                      (icode.(idx) <- icode.(h)^(String.sub icode.(h) 0 1); aux_dec (n::t)  (acc^icode.(h)) (idx+1))
+                      (print_endline "Cas limite !";   icode.(idx) <- icode.(h)^(String.sub icode.(h) 0 1); aux_dec (n::t)  (acc^icode.(h)) (idx+1))
     in
     aux_dec lcode "" (String.length chaine);;
 

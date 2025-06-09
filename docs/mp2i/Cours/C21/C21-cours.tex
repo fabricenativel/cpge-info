@@ -8,19 +8,47 @@
 
 % Numéro et titre de chapitre
 \setcounter{numchap}{21}
-\newcommand{\Ctitle}{\cnum {Complément sur les arbres}}
+\newcommand{\Ctitle}{\cnum {Compléments sur les arbres}}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
 \newcommand{\NR}[1]{\TCircle[fillstyle=solid,fillcolor=red!20!white,linecolor=red,radius=0.25cm]{#1}}
 \newcommand{\NN}[1]{\TCircle[fillstyle=solid,fillcolor=black!20!white,linecolor=black,radius=0.25cm]{#1}}
+\psset{arrows=->,treesep=0.8cm,levelsep=0.8cm, radius=0.3cm}
+\makess{Rappel}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{\textcolor{lightgray}{\small \rappel} Arbres binaires de recherche}
+	\begin{enumerate}
+	\item<1-> Rappeler les relations entre la hauteur $h$ et la taille $n$ d'un arbre binaire.
+	\item<2-> Rappeler la définition d'un arbre binaire de recherche ({\sc abr}).
+	\item<3-> L'arbre ci-dessous est-il un {\sc abr} ?
+	\begin{center}
+			\pstree{\TCircle{\tt 28}}
+			{\pstree{\TCircle{\tt 16}}
+				{\pstree{\TCircle{\tt 9}}
+					{ \TCircle{7}
+						\pstree{\TCircle{\tt 11}}
+						{ \Tn{}
+							\TCircle{\tt 13}
+						}}\TCircle{\tt 21}
+				}\pstree{\TCircle{\tt 37}}
+				{
+					\TCircle{\tt 34}
+					\Tn{}
+				}}
+		\end{center}
+	\item<4-> Quelle est le nombre maximal de comparaison lors de la recherche d'un élément dans cet arbre ?
+	\item<5-> Construire un {\sc abr} contenant les valeurs $2, 9, 10, 17$ et $21$ et de hauteur minimale. Même question avec la hauteur maximale.
+	\end{enumerate}
+	\end{block}
+\end{frame}
 
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Complexité}
-		La complexité des opérations d'insertion et de recherche dans un {\sc abr} est majorée par la hauteur $h$ de l'arbre. \onslide<2->\textcolor{gray}{ On descend d'un niveau dans l'arbre à chaque appel récursif et la profondeur d'un noeud est inférieure à $h$.}\\
+		La complexité des opérations d'insertion et de recherche dans un {\sc abr} est majorée par la hauteur $h$ de l'arbre. \onslide<2->\textcolor{gray}{ On descend d'un niveau dans l'arbre à chaque comparaison et la profondeur d'un noeud est inférieure à $h$.}\\
 		\onslide<3->{Or on sait que $ h+1 \leqslant n \leqslant 2^{h+1}-1$, et les deux bornes sont atteintes}
 		\begin{itemize}
-			\item<4-> Dans le cas d'un peigne ($n=h+1$) les opérations seront en $O(n)$.
-			\item<5-> Dans le cas d'un arbre complet ($n=2^{h+1}-1$), les opérations seront en $O(\log(n))$.
+			\item<4-> Dans le cas d'un peigne ($n=h+1$) les opérations seront en $\mathcal{O}(n)$.
+			\item<5-> Dans le cas d'un arbre complet ($n=2^{h+1}-1$), les opérations seront en $\mathcal{O}(\log(n))$.
 		\end{itemize}
 	\end{block}
 	\onslide<6->{

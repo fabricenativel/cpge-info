@@ -1,4 +1,3 @@
-
 def degre(g, s):
     return len(g[s])
 

@@ -14,3 +14,11 @@ hide: - navigation  in liens.md
 ### Sujet C : Problème du sac à dos
 
 {{telecharger("Fichier","./mp2i/files/Oraux/sac.ml")}}
+
+### Sujet D : Carré magique
+
+{{telecharger("Fichier","./mp2i/files/Oraux/carremagique.c")}}
+
+### Sujet E : Carré magique
+
+{{telecharger("Fichier","./mp2i/files/Oraux/tranchemax.c")}}

@@ -10,7 +10,9 @@ def indice_premier(car, chaine):
 def supprime_premier(car, chaine):
     resultat = ""
     idx = 0
+    # On parcourt la chaine en la recopiant
     while (idx<len(chaine)):
+        # Si on rencontre le caractère on renvoit le reste sans le recopier
         if chaine[idx]==car:
             return resultat+chaine[idx+1]
         else:
