@@ -19,6 +19,6 @@ hide: - navigation  in liens.md
 
 {{telecharger("Fichier","./mp2i/files/Oraux/carremagique.c")}}
 
-### Sujet E : Carré magique
+### Sujet E : Tranche maximale dans un tableau
 
 {{telecharger("Fichier","./mp2i/files/Oraux/tranchemax.c")}}
