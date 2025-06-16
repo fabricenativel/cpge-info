@@ -22,3 +22,7 @@ hide: - navigation  in liens.md
 ### Sujet E : Tranche maximale dans un tableau
 
 {{telecharger("Fichier","./mp2i/files/Oraux/tranchemax.c")}}
+
+### Sujet G : Liste chainée circulaire
+
+{{telecharger("Fichier","./mp2i/files/Oraux/comptine.c")}}

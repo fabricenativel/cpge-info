@@ -50,8 +50,8 @@ match lar with
   | (d,a)::t -> graphe.ladj.(d) <- a::graphe.ladj.(d); ajoute_aretes graphe t ;;
 
 let () = 
-  let test = cree_graphe 8 in
-  ajoute_aretes test [(0,2);(0,7);(1,0);(1,2);(1,5);(2,7);(2,3);(2,5);(3,7);(3,4);(3,6);(5,3);(6,4);(7,4)];
+  let test = cree_graphe 6 in
+  ajoute_aretes test [(0,1); (1,2); (1,5); (1,4); (5,2); (4,2); (3,0); (3,2)];
   let pp = tri_topologique test  in
   List.iter (fun d -> Printf.printf "%d " d) pp ;
   print_newline ();;

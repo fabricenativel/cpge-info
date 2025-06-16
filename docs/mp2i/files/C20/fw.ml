@@ -20,7 +20,7 @@ let rec ajoute_aretes graphe lar =
     let n = Array.length res in
     for i=1 to n-1 do
       for j=1 to n-1 do
-        if res.(i).(j)<>infinity then (Printf.printf " %f " res.(i).(j);) else (Printf.printf " * ";)
+        if res.(i).(j)<>infinity then (Printf.printf " %f " res.(i).(j);) else (Printf.printf " *        ";)
       done;
       print_newline();
     done;
@@ -37,7 +37,6 @@ let fw wg =
     done;
   done;
    for k = 1 to n do
-    affiche m;
     for i=1 to n do
       for j=1 to n do
         let x = m.(i).(k) +. m.(k).(j) in
