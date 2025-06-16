@@ -123,7 +123,8 @@ SELECT owner FROM ressources
 \end{Exercise*}
 
 \begin{Exercise*}[title = {type B}]\\
-	On considère un tableau d'entiers $t$ de taille $n \neq  0$ et on s'intéresse au problème de la recherche de la somme maximale d'une tranche de  $t$ (c'est à dire d'éléments contigus de $t$). Par exemple, si $t = \{2, -7, -5, 4, -1, 10, -4, 9, -2\}$ alors la somme maximale d'une tranche est $18$ (obtenue en prenant la tranche $\{4, -1, 10, -4, 9\}$). On notera $(t_i)_{0  \leqslant i \leqslant n-1}$ les éléments de $t$ et $S_{i,j} = t_i+ \dots +t_j$ ($0 \leqslant i \leqslant j \leqslant n-1$) la somme de la tranche comprises entre les indices $i$ (inclus) et $j$ (inclus).\\
+	On considère un tableau d'entiers $t$ de taille $n \neq  0$ et on s'intéresse au problème de la recherche de la somme maximale d'une tranche de  $t$ (c'est à dire d'éléments contigus de $t$).\\
+	Par exemple, si $t = \{2, -7, -5, 4, -1, 10, -4, 9, -2\}$ alors la somme maximale d'une tranche est $18$ (obtenue en prenant la tranche $\{4, -1, 10, -4, 9\}$). On notera $(t_i)_{0  \leqslant i \leqslant n-1}$ les éléments de $t$ et $S_{i,j} = t_i+ \dots +t_j$ ($0 \leqslant i \leqslant j \leqslant n-1$) la somme de la tranche comprises entre les indices $i$ (inclus) et $j$ (inclus).\\
 	Les fonctions demandées dans cet exercice doivent être écrites en langage C. Un fichier contenant le code compagnon de cet exercice est à télécharger à l'adresse {\tt https://fabricenativel.github.io/cpge-info/oraux/}, il contient une fonction de prototype \mintinline{c}{int max3(int a, int b, int c)} qui renvoie le maximum des trois entiers {\tt a}, {\tt b} et {\tt c} ainsi qu'une fonction {\tt main} dans laquelle est définie le tableau donné en exemple ci-dessus.
 	\Question{Ecrire une fonction de signature \mintinline{c}{int tranchemax_naif(int tab[], int taille)} qui résoud ce problème en calculant de proche en proche les  $S_{i,j}$ grâce aux relations $S_{i,i} =t_i$ et $S_{i,j} = S_{i,j-1}+ t_j$ et en renvoyant leur maximum.}
 	\ifcorrige
@@ -131,6 +132,7 @@ SELECT owner FROM ressources
 	\fi
 	\Question{Quelle est la complexité de cette fonction ?}
 	\tcor{On utilise donc deux boucles imbriquées dans laquelle on effectue uniquement des opérations élémentaires, la complexité est donc  $\mathcal{O}(n^2)$.}
+	
 	\NRet \smallskip
 	On veut maintenant implémenter une méthode \textit{diviser pour régner}, pour cela, on note $k = \PE{\dfrac{n}{2}}$ et :
 	\begin{itemize}

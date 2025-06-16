@@ -241,7 +241,7 @@ heap init_heap(char *texte)
 {
     int *freq = frequence(texte);
     heap mh = make_heap();
-    for (int i = 0; i < CODESIZE; i++)
+    for (int i = 32; i < CODESIZE; i++)
     {
         if (freq[i] != 0)
         {
