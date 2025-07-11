@@ -16,28 +16,28 @@
 \makess{Rappel}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{\textcolor{lightgray}{\small \rappel} Arbres binaires de recherche}
-	\begin{enumerate}
-	\item<1-> Rappeler les relations entre la hauteur $h$ et la taille $n$ d'un arbre binaire.
-	\item<2-> Rappeler la définition d'un arbre binaire de recherche ({\sc abr}).
-	\item<3-> L'arbre ci-dessous est-il un {\sc abr} ?
-	\begin{center}
-			\pstree{\TCircle{\tt 28}}
-			{\pstree{\TCircle{\tt 16}}
-				{\pstree{\TCircle{\tt 9}}
-					{ \TCircle{7}
-						\pstree{\TCircle{\tt 11}}
-						{ \Tn{}
-							\TCircle{\tt 13}
-						}}\TCircle{\tt 21}
-				}\pstree{\TCircle{\tt 37}}
-				{
-					\TCircle{\tt 34}
-					\Tn{}
-				}}
-		\end{center}
-	\item<4-> Quelle est le nombre maximal de comparaison lors de la recherche d'un élément dans cet arbre ?
-	\item<5-> Construire un {\sc abr} contenant les valeurs $2, 9, 10, 17$ et $21$ et de hauteur minimale. Même question avec la hauteur maximale.
-	\end{enumerate}
+		\begin{enumerate}
+			\item<1-> Rappeler les relations entre la hauteur $h$ et la taille $n$ d'un arbre binaire.
+			\item<2-> Rappeler la définition d'un arbre binaire de recherche ({\sc abr}).
+			\item<3-> L'arbre ci-dessous est-il un {\sc abr} ?
+				\begin{center}
+					\pstree{\TCircle{\tt 28}}
+					{\pstree{\TCircle{\tt 16}}
+						{\pstree{\TCircle{\tt 9}}
+							{ \TCircle{7}
+								\pstree{\TCircle{\tt 11}}
+								{ \Tn{}
+									\TCircle{\tt 13}
+								}}\TCircle{\tt 21}
+						}\pstree{\TCircle{\tt 37}}
+						{
+							\TCircle{\tt 34}
+							\Tn{}
+						}}
+				\end{center}
+			\item<4-> Quelle est le nombre maximal de comparaison lors de la recherche d'un élément dans cet arbre ?
+			\item<5-> Construire un {\sc abr} contenant les valeurs $2, 9, 10, 17$ et $21$ et de hauteur minimale. Même question avec la hauteur maximale.
+		\end{enumerate}
 	\end{block}
 \end{frame}
 
@@ -270,5 +270,490 @@
 		\end{block}}
 \end{frame}
 
+\makess{Arbres binaires stricts}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définition}
+		Un arbre binaire est \textcolor{blue}{strict} si tous ses noeuds ont soit 0, soit 2 fils.
+		Un noeud est donc soit une feuille (pas de fils), soit un noeud interne (deux fils).
+	\end{block}
+	\onslide<2->{
+		\begin{exampleblock}{Exemples}
+			Les arbres de codage de Huffman sont des arbres binaires stricts. Qu'on peut représenter en OCaml par le type :
+			\inputpartOCaml{\SPATH/abs.ml}{}{}{1}{3}
+			Ici les noeuds internes ne portent pas d'information.
+		\end{exampleblock}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		\begin{enumerate}
+			\item Donner une définition inductive des arbres binaires stricts.
+			\item Ecrire en OCaml la fonction renvoyant la taille d'un arbre binaire strict.
+			\item On note $n$ le nombre de noeuds internes d'un arbres binaire strict et $f$ son nombre de feuilles. Montrer que $f = n +1$. \\
+			      \textcolor{OliveGreen}{\small \aide \;} On pourra raisonner par récurrence sur la taille de l'arbre ou dénombrer de deux façon différentes les noeuds ayant un père.
+
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Arbres}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		Un \textcolor{blue}{arbre} est un ensemble de $n \geqslant 1$ noeuds structurés de la manière suivante :
+		\begin{itemize}
+			\item un noeud particulier $r$ est appelé la \textit{racine} de l'arbre,
+			\item les $n-1$ autres noeuds sont partitionnés en $k \geqslant 0$ sous ensembles disjoints qui forment autant d'arbres, appelés \textit{sous-arbres} de $r$,
+			\item la racine $r$ est relié à la racine de chacun de ces sous-arbres par une arête.
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\pstree{\TCircle{A}}{
+				\TCircle{B}
+				\pstree{\TCircle{C}}{
+					\TCircle{E}
+					\TCircle{F}
+				}
+				\pstree{\TCircle{D}}{
+					\TCircle{G}
+					\TCircle{H}
+					\TCircle{I}
+				}
+				\pstree{\TCircle{J}}{
+					\TCircle{K}
+				}
+			}
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		\begin{itemize}
+		\item La séquence des sous arbres d'un noeud est appelée \textcolor{blue}{forêt}.
+		\item Un arbre réduit à un seul noeud est appelé \textcolor{blue}{feuille}.
+		\item \textcolor{BrickRed}{\small \danger \;} Un arbre binaire n'est \textcolor{BrickRed}{\textit{pas}} un arbre. En effet :
+		\begin{itemize}
+		\item  un arbre binaire peut être vide (et pas un arbre);
+		\item dans un arbre binaire on distingue le fils gauche du fils droit, c'est à dire que les deux arbres binaires ci-dessous sont différents :
+			\begin{center}
+				\pstree{\TCircle{A}}{\pstree{\TCircle{B}}{\Tr{$\varnothing$} \Tr{$\varnothing$}} \Tr{$\varnothing$}} \qquad \pstree{\TCircle{A}}{\Tr{$\varnothing$} \pstree{\TCircle{B}}{\Tr{$\varnothing$} \Tr{$\varnothing$}}}
+			\end{center}
+			Alors que le seul \textit{arbre} ayant deux noeuds est :
+			\begin{center}\pstree{\TCircle{A}}{\TCircle{B}}\end{center}
+		\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Représentation en machine}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Représentation en OCaml}
+		\inputpartOCaml{\SPATH/arbres.ml}{}{}{1}{2}
+	\end{block}
+	\begin{exampleblock}{Exercice}
+		Ecrire une fonction {\tt size : 'a tree -> int} qui renvoie le nombre de noeuds d'un arbre. \\
+		\textcolor{OliveGreen}{\small \aide \;} On pourra utiliser deux fonctions \textit{mutuellement récursive} qui renvoient respectivement la taille d'un arbre et celle d'une forêt.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Représentation en C}
+		\begin{pspicture}(-5,2.8)(5,6.2)
+				\rput(0,6){\Circlenode{A}{A}}
+				\rput(-1,5){\Circlenode{B}{B}}
+				\rput(1,5){\Circlenode{C}{C}}
+				\rput(-1,4){\Circlenode{D}{D}}
+				\rput(0,4){\Circlenode{E}{E}}
+				\rput(1,4){\Circlenode{F}{F}}
+				\rput(2,4){\Circlenode{G}{G}}
+				\rput(1,3){\Circlenode{J}{J}}
+				\rput(-1.5,3){\Circlenode{H}{H}}
+				\rput(-0.5,3){\Circlenode{I}{I}}
+				\ncline{-}{A}{B}
+				\ncline{-}{A}{C}
+				\ncline{-}{B}{D}
+				\ncline{-}{C}{E}
+				\ncline{-}{C}{F}
+				\ncline{-}{C}{G}
+				\ncline{-}{D}{H}
+				\ncline{-}{D}{I}
+				\ncline{-}{F}{J}
+		\end{pspicture}\\
+		\onslide<2->{Principe : utiliser un pointeur vers le premier fils et un pointeur vers le frère suivant. En anglais, \textcolor{blue}{\sc lcrs} : \textit{left child right sibling}.}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Représentation en C}
+		En notant en :
+		\begin{itemize}
+		\item  \textcolor{BrickRed}{$\longrightarrow$} le pointeur vers le  fils gauche,
+		\item  \textcolor{blue}{$\longrightarrow$} le pointeur vers le frère suivant,
+		\item $\bot$ le pointeur {\sc null}.
+		\end{itemize}
+		\begin{center}
+		\begin{pspicture}(-5,2)(5,6.2)
+				\rput(0,6){\Circlenode{A}{A}} \rput(0.7,6){\rnode{NA}{$\bot$}}
+				\rput(-1.5,5){\Circlenode{B}{B}}
+				\rput(1,5){\Circlenode{C}{C}} \rput(1.7,5){\rnode{NC}{$\bot$}}
+				\rput(-1.5,4){\Circlenode{D}{D}} \rput(-0.8,4){\rnode{ND}{$\bot$}}
+				\rput(0,4){\Circlenode{E}{E}} \rput(0,3.3){\rnode{VE}{$\bot$}}
+				\rput(1,4){\Circlenode{F}{F}} 
+				\rput(2,4){\Circlenode{G}{G}} \rput(2.7,4){\rnode{NG}{$\bot$}} \rput(2,3.3){\rnode{VG}{$\bot$}}
+				\rput(1,3){\Circlenode{J}{J}} \rput(1.7,3){\rnode{NJ}{$\bot$}} \rput(1,2.3){\rnode{VJ}{$\bot$}}
+				\rput(-2,3){\Circlenode{H}{H}}
+				\rput(-2,2.3){\rnode{VH}{$\bot$}} 
+				\rput(-1,3){\Circlenode{I}{I}} \rput(-0.3,3){\rnode{NI}{$\bot$}} \rput(-1,2.3){\rnode{VI}{$\bot$}} 
+				\ncline[linecolor=BrickRed,linewidth=0.03]{->}{A}{B}
+				\ncline[linecolor=blue, linewidth=0.03]{->}{A}{NA}
+				\ncline[linecolor=blue, linewidth=0.03]{->}{C}{NC}
+				\ncline[linecolor=blue, linewidth=0.03]{->}{D}{ND}
+				\ncline[linecolor=blue, linewidth=0.03]{->}{G}{NG}
+				\ncline[linecolor=blue, linewidth=0.03]{->}{J}{NJ}
+				\ncline[linecolor=BrickRed, linewidth=0.03]{->}{H}{VH}
+				\ncline[linecolor=BrickRed, linewidth=0.03]{->}{I}{VI}
+				\ncline[linecolor=BrickRed, linewidth=0.03]{->}{J}{VJ}
+				\ncline[linecolor=BrickRed, linewidth=0.03]{->}{E}{VE}
+				\ncline[linecolor=BrickRed, linewidth=0.03]{->}{G}{VG}
+				\ncline[linecolor=blue, linewidth=0.03]{->}{I}{NI}
+				\ncline[linecolor=blue, linewidth=0.03]{->}{B}{C}
+				\ncline[linecolor=blue, linewidth=0.03]{->}{H}{I}
+				\ncline[linecolor=blue, linewidth=0.03]{->}{E}{F}
+				\ncline[linecolor=blue, linewidth=0.03]{->}{F}{G}
+				\ncline[linecolor=BrickRed,linewidth=0.03]{->}{B}{D}
+				\ncline[linecolor=BrickRed,linewidth=0.03]{->}{C}{E}
+				\ncline[linecolor=BrickRed,linewidth=0.03]{->}{D}{H}
+				\ncline[linecolor=BrickRed,linewidth=0.03]{->}{F}{J}
+		\end{pspicture}
+	\end{center}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Représentation en C}
+	\inputpartC{\SPATH/arbres.c}{}{\small}{6}{13}	
+	\end{block}
+	\onslide<2->{
+	\begin{exampleblock}{Exercice}
+		\begin{enumerate}
+		\item Ecrire une fonction de signature \mintinline{c}{tree create_tree(int value)} qui renvoie un arbre réduit à un noeud de valeur {\tt value}.
+		\item Ecrire une fonction de signature \mintinline{c}{int size(tree t)} qui renvoie le nombre de noeuds d'un arbre. 
+		\end{enumerate}
+	\end{exampleblock}}
+\end{frame}
+
+\makess{Conversion entre arbre et arbre binaire}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Remarque}
+		\begin{tabularx}{\textwidth}{X|X}
+			Arbres & Arbres binaires \\
+		\inputpartC{\SPATH/arbres.c}{}{\footnotesize}{6}{13} &  \inputpartC{\SPATH/abr.c}{}{\footnotesize}{4}{11} \\
+		\end{tabularx}
+		\onslide<2->{On constate que les types représentant les arbres et les arbres binaires sont identiques, il y a un \textit{isomorphisme naturel} entre les arbres et les arbres binaires. On peut convertir un arbre en arbre binaire et inversement}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Donner la représentation \textit{\sc lcrs} de l'arbre binaire suivant (on n'a pas fait figuré les sous arbres vides) puis sa représentation sous la forme d'arbre généralisé :\smallskip\\
+		\begin{center}
+			\begin{pspicture}(-5,1.3)(5,6.2)
+			\rput(0,6){\Circlenode{A}{A}}
+			\rput(-1,5){\Circlenode{B}{B}}
+			\rput(-4,4){\Circlenode{C}{C}}
+			\rput(2,4){\Circlenode{D}{D}}
+			\rput(1,3){\Circlenode{G}{G}}
+			\rput(0,2){\Circlenode{L}{L}}
+			\rput(3,3){\Circlenode{H}{H}}
+			\rput(4,2){\Circlenode{M}{M}}
+			\rput(-5,3){\Circlenode{E}{E}}
+			\rput(-4,2){\Circlenode{I}{I}}
+			\rput(-2,3){\Circlenode{F}{F}}
+			\rput(-3,2){\Circlenode{J}{J}}
+			\rput(-1,2){\Circlenode{K}{K}}
+			\ncline{->}{A}{B}
+			\ncline{->}{B}{C}
+			\ncline{->}{B}{D}
+			\ncline{->}{C}{E}
+			\ncline{->}{C}{F}
+			\ncline{->}{E}{I}
+			\ncline{->}{F}{J}
+			\ncline{->}{F}{K}
+			\ncline{->}{D}{G}
+			\ncline{->}{D}{H}
+			\ncline{->}{G}{L}
+			\ncline{->}{H}{M}
+			\end{pspicture}
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Représentation \textit{\sc lcrs}  :\smallskip\\
+		\begin{center}
+			\begin{pspicture}(-5,1.3)(5,6.2)
+			\rput(0,6){\Circlenode{A}{A}}
+			\rput(-1,5){\Circlenode{B}{B}}
+			\rput(-4,4){\Circlenode{C}{C}}
+			\rput(2,4){\Circlenode{D}{D}}
+			\rput(1,3){\Circlenode{G}{G}}
+			\rput(0,2){\Circlenode{L}{L}}
+			\rput(3,3){\Circlenode{H}{H}}
+			\rput(4,2){\Circlenode{M}{M}}
+			\rput(-5,3){\Circlenode{E}{E}}
+			\rput(-4,2){\Circlenode{I}{I}}
+			\rput(-2,3){\Circlenode{F}{F}}
+			\rput(-3,2){\Circlenode{J}{J}}
+			\rput(-1,2){\Circlenode{K}{K}}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{A}{B}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{B}{C}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{B}{D}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{C}{E}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{C}{F}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{E}{I}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{F}{J}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{F}{K}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{D}{G}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{D}{H}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{G}{L}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{H}{M}
+			\end{pspicture}
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Conversion en arbre généralisé  :\smallskip\\
+		\begin{center}
+			\begin{pspicture}(-5,1.3)(5,6.2)
+			\rput(0,6){\Circlenode{A}{A}}
+			\rput(-1,4.5){\Circlenode{B}{B}}
+			\rput(-4,3.5){\Circlenode{C}{C}}
+			\rput(2,4.5){\Circlenode{D}{D}}
+			\rput(2,3.5){\Circlenode{G}{G}}
+			\rput(2,2.5){\Circlenode{L}{L}}
+			\rput(3,4.5){\Circlenode{H}{H}}
+			\rput(4,4.5){\Circlenode{M}{M}}
+			\rput(-5,2.5){\Circlenode{E}{E}}
+			\rput(-4,2.5){\Circlenode{I}{I}}
+			\rput(-2,3.5){\Circlenode{F}{F}}
+			\rput(-2,2.5){\Circlenode{J}{J}}
+			\rput(-1,3.5){\Circlenode{K}{K}}
+			\ncline{->}{A}{B}
+			\ncline{->}{A}{D}
+			\ncline{->}{A}{H}
+			\ncline{->}{A}{M}
+			\ncline{->}{B}{C}
+			\ncline{->}{B}{F}
+			\ncline{->}{B}{K}
+			\ncline{->}{C}{E}
+			\ncline{->}{C}{I}
+			\ncline{->}{F}{J}
+			\ncline{->}{D}{G}
+			\ncline{->}{G}{L}
+			\end{pspicture}
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Donner la représentation \textit{\sc lcrs} de l'arbre  suivant  puis sa représentation sous la forme d'arbre binaire :\smallskip\\
+		\begin{center}
+			\begin{pspicture}(-5,1.3)(5,6.2)
+			\rput(0,6){\Circlenode{A}{A}}
+			\rput(-2,5){\Circlenode{B}{B}}
+			\rput(2,5){\Circlenode{C}{C}}
+			\rput(-1,4){\Circlenode{E}{E}}
+			\rput(2,4){\Circlenode{F}{F}}
+			\rput(1,3){\Circlenode{J}{J}}
+			\rput(3,3){\Circlenode{K}{K}}
+			\rput(-3,4){\Circlenode{D}{D}}
+			\rput(-2,3){\Circlenode{G}{G}}
+			\rput(-1,3){\Circlenode{H}{H}}
+			\rput(-0,3){\Circlenode{I}{I}}
+			\ncline{->}{A}{B}
+			\ncline{->}{A}{C}
+			\ncline{->}{B}{D}
+			\ncline{->}{C}{F}
+			\ncline{->}{E}{G}
+			\ncline{->}{E}{H}
+			\ncline{->}{E}{I}
+			\ncline{->}{B}{E}
+			\ncline{->}{F}{J}
+			\ncline{->}{F}{K}
+			\end{pspicture}
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Représentation \textit{\sc lcrs}  :\smallskip\\
+		\begin{center}
+			\begin{pspicture}(-5,1.3)(5,6.2)
+			\rput(0,6){\Circlenode{A}{A}}
+			\rput(-2,5){\Circlenode{B}{B}}
+			\rput(2,5){\Circlenode{C}{C}}
+			\rput(-1,4){\Circlenode{E}{E}}
+			\rput(2,4){\Circlenode{F}{F}}
+			\rput(1,3){\Circlenode{J}{J}}
+			\rput(3,3){\Circlenode{K}{K}}
+			\rput(-3,4){\Circlenode{D}{D}}
+			\rput(-2,3){\Circlenode{G}{G}}
+			\rput(-1,3){\Circlenode{H}{H}}
+			\rput(-0,3){\Circlenode{I}{I}}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{A}{B}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{B}{C}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{B}{D}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{C}{F}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{E}{G}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{D}{E}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{G}{H}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{H}{I}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{F}{J}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{J}{K}
+			\end{pspicture}
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Conversion en arbre binaire :\smallskip\\
+		\begin{center}
+			\begin{pspicture}(-5,-0.2)(5,6.2)
+			\rput(0,6){\Circlenode{A}{A}}
+			\rput(-2,5){\Circlenode{B}{B}}
+			\rput(1,4){\Circlenode{C}{C}}
+			\rput(-4,4){\Circlenode{D}{D}}
+			\rput(-3,3){\Circlenode{E}{E}}
+			\rput(0,3){\Circlenode{F}{F}}
+			\rput(-1,2){\Circlenode{J}{J}}
+			\rput(0,1){\Circlenode{K}{K}}
+			\rput(-4,2){\Circlenode{G}{G}}
+			\rput(-3,1){\Circlenode{H}{H}}
+			\rput(-2,0){\Circlenode{I}{I}}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{A}{B}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{B}{C}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{B}{D}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{C}{F}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{E}{G}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{D}{E}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{G}{H}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{H}{I}
+			\ncline[linecolor=BrickRed, linewidth=0.03]{->}{F}{J}
+			\ncline[linecolor=blue, linewidth=0.03]{->}{J}{K}
+			\end{pspicture}
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Parcours d'un arbre généralisé}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Parcours}
+	La notion de parcours \textit{infixe} n'a plus de sens cependant, pour un arbre généralisé, on peut définir les parcours suivants :
+		\begin{itemize}
+			\item<2-> \textcolor{blue}{prefixe} : on visite le noeud avant ses fils,
+			\item<2-> \textcolor{blue}{suffixe} : on visite le noeud après ses fils,
+			\item<2-> \textcolor{blue}{en largeur} : on visite les noeuds par niveau.
+		\end{itemize}	
+	\end{block}
+	\begin{exampleblock}{Exemples}
+	Donner les parcours prefixe, suffixe et en largeur de l'arbre généralisé 
+		\begin{center}
+			\begin{pspicture}(-5,2.8)(5,6.2)
+			\rput(0,6){\Circlenode{A}{A}}
+			\rput(-2,5.2){\Circlenode{B}{B}}
+			\rput(2,5.2){\Circlenode{C}{C}}
+			\rput(-1,4.4){\Circlenode{E}{E}}
+			\rput(2,4.4){\Circlenode{F}{F}}
+			\rput(1,3.6){\Circlenode{J}{J}}
+			\rput(3,3.6){\Circlenode{K}{K}}
+			\rput(-3,4.4){\Circlenode{D}{D}}
+			\rput(-2,3.6){\Circlenode{G}{G}}
+			\rput(-1,3.6){\Circlenode{H}{H}}
+			\rput(-0,3.6){\Circlenode{I}{I}}
+			\ncline{->}{A}{B}
+			\ncline{->}{A}{C}
+			\ncline{->}{B}{D}
+			\ncline{->}{C}{F}
+			\ncline{->}{E}{G}
+			\ncline{->}{E}{H}
+			\ncline{->}{E}{I}
+			\ncline{->}{B}{E}
+			\ncline{->}{F}{J}
+			\ncline{->}{F}{K}
+			\end{pspicture}
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Point de vue des graphes}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+	Un arbre généralisé est un graphe $(S,A)$ non orienté, connexe sans cycle.
+	\begin{itemize}
+		\item<2-> $S$ est l'ensemble des noeuds de l'arbre,
+		\item<3-> $A$ est l'ensemble des arêtes de l'arbre, chaque arête est de la forme $(x,y)$ où $x$ est le père de $y$.
+		\item<4-> \textcolor{blue}{Connexité} : il existe un chemin entre deux noeuds quelconques de l'arbre., $\forall (x,y) \in S^2, x \neq y$, il existe $x_1, \dots x_n$ tels que $\{x,x_1\}, \{x_1,x_2\}, \dots, \{x_{n-1},y\} \in A$.
+		\item \textcolor{blue}{Acyclique}: il n'existe pas de cycle dans l'arbre, c'est à dire qu'il n'existe pas de suite de noeuds $x_1, \dots, x_n$ tels que $\{x_1,x_2\}, \{x_2,x_3\}, \dots, \{x_{n-1},x_n\}, \{x_n,x_1\} \in A$.
+	\end{itemize}
+	\textcolor{BrickRed}{\small \danger \;} On peut choisir n'importe quel noeud comme racine.
+	\end{block}
+\end{frame}
+
+
+\makess{Sérialisation d'un arbre}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définition}
+		La \textcolor{blue}{sérialisation} d'un arbre est une représentation de l'arbre sous forme de chaîne de caractères (à des fins de sauvegarde, transmission, reconstruction \dots). \\
+		\onslide<2->{Un unique parcours (prefixe, infixe, suffixe ou en largeur) \textit{ne permet pas} de sérialiser un arbre, en effet des arbres différents peuvent avoir le même parcours.} \\
+		\onslide<3->{Les solutions suivantes sont envisageables dans le cas d'un \textcolor{BrickRed}{un arbre binaire} :}
+		\begin{itemize}
+			\item<4-> stocker les parcours infixe et préfixe (mais cela impose de stocker les étiquettes en double);
+			\item<5-> utiliser un parcours en largeur avec un marqueur spécial indiquant un fils absent;
+			\item<6-> utiliser un parcours prefixe avec un marquer pour les fils absents
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{center}		
+			\pstree{\TCircle{9}}
+		{\pstree{\TCircle{2}}
+			{\TCircle{0}
+				\pstree{\TCircle{6}}
+				{\TCircle{5}
+					\pstree{\TCircle{8}}
+					{ 
+						\TCircle{7}
+
+						\Tn{} }}}\pstree{\TCircle{12}}
+			{\TCircle{10}
+				\TCircle{13}
+			}}
+		\end{center}
+	\begin{itemize}
+		\item Parcours préfixe et infixe :\\ \onslide<2->{\textcolor{OliveGreen}{{\tt 9 2 0 6 5 8 7 12 10 13 }} et \textcolor{OliveGreen}{\tt 0 2 5 6 7 8 9 10 12 13}}
+		\item Parcours en largeur avec le marqueur {\tt \#} pour fils absent :\\ \onslide<3->{\textcolor{OliveGreen}{9 2 12 0 6 10 13 \# \# 5 8 \# \# \# \# \# \# 7}}
+		\item Parcours préfixe avec le marqueur {\tt \#} pour fils absent : \\ \onslide<4->{\textcolor{OliveGreen}{9 2 0 \# \# 6 5 \# \# 8 7 \# 12 10 \# \# 13 \# \#}}
+	\end{itemize}
+	\end{exampleblock}
+
+\end{frame}
 
 \end{document}
