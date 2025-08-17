@@ -2,12 +2,14 @@
 
 int fonction(int a)
 {
-    int b = a + 1;
-    printf("Valeur de b = %d\n", b);
+    a = a + 1;
+    printf("Valeur de a = %d\n", a);
 }
 
 int main()
 {
-    int c = fonction(2);
+    int c = 2;
+    int d = fonction(c);
     printf("valeur de c = %d \n", c);
+    printf("valeur de d = %d \n", d);
 }

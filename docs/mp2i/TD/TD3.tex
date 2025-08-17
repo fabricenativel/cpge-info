@@ -4,8 +4,13 @@
 
 \begin{document}
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+
+
 \ModeExercice
-\TD{1}{Langage C}
+\newcounter{numtd}
+\setcounter{numtd}{3}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumtd}
+\TD{\thenumtd}{Pointeurs}
 
 \setcounter{Exercise}{0}
 \begin{Exercise}[title={Pointeurs}]\\
@@ -86,6 +91,14 @@ Ecrire en C une fonction {\tt inverse} qui prend en argument un pointeur vers un
     \Question{Proposer une solution utilisant un type structuré que l'on définira et donner alors la signature de la fonction.}
     \Question{Proposer une solution avec une fonction ne renvoyant rien mais modifiant deux paramètres passés par adresse. Donner la signature de la fonction dans ce cas.}
     \Question{Ecrire les deux implémentations.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Passer un pointeur}] \\
+	On considère le programme suivant :
+	\inputpartC{\SPATH/ppointeur.c}{}{}{1}{16}
+	Ce programme produit un \textit{warning} à la compilation : \textit{ parameter ‘p’ set but not used} et une erreur de segmentation à l'exécution.
+	\Question{Expliquer ces deux résultats}
+	\Question{Proposer une correction afin que {\tt init\_pointer} soit conforme à sa spécification.}
 \end{Exercise}
 
 \end{document}

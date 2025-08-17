@@ -21,7 +21,7 @@
 					\renewcommand{\arraystretch}{1.1}
 					\begin{tabular}{ccccccccc}
 						\textcolor{blue}{variable}   &       &                                      & \rnode{ax}{\kw{x}}                                                                    &                                      &       &       & \rnode{ap}{\kw{p}}                                                            &       \\
-						\textcolor{OliveGreen}{type} &       &                                      & \textcolor{OliveGreen}{\tt int}                                                      &                                      &       &       & \textcolor{OliveGreen}{\tt pointeur}                                          &       \\
+						\textcolor{OliveGreen}{type} &       &                                      & \textcolor{OliveGreen}{\tt int}                                                      &                                      &       &       & \textcolor{OliveGreen}{\tt int *}                                          &       \\
 						\cline{3-5} \cline{8-8}
 						\cdashline{2-2} \cdashline{6-7} \cdashline{9-9}
 						valeur                       &       & \multicolumn{1}{|c|}{\phantom{4242}} & \multicolumn{1}{|c|}{\rnode{x}{42}}                                                   & \multicolumn{1}{|c|}{\phantom{4242}} &       &       & \multicolumn{1}{|c|}{\ovalnode[linecolor=BrickRed,linewidth=0.7pt]{pp}{2741}} &       \\
@@ -194,26 +194,29 @@
 	\begin{block}{Conséquences}
 		Cette organisation de la mémoire a des conséquences importantes
 		\begin{itemize}
-			\item<1-> La taille de la pile est limitée (bien plus que celle du tas), donc une variable locale de taille importante risque de provoquer un débordement de pile (\textit{stackoverflow}). Il est nettement préférable de l'allouer dans le tas.
-			\item<2-> Lors de l'appel à une fonction, les variables locales (et autres informations) sont stockées dans la pile. A la fin de l'exécution, ces informations sont supprimées de la pile. Conserver des pointeurs vers des adresses de variables locales est donc problématique.
-			\item<3-> De la mémoire alloué par le programmeur dans le tas et non libérée est considérée comme non disponible, créant des fuites mémoires (\textit{memory leak}).
+			\item<1-> \textcolor{blue}{La taille de la pile est limitée} (bien plus que celle du tas), donc une variable locale de taille importante risque de provoquer un débordement de pile (\textit{stackoverflow}). Il est nettement préférable de l'allouer dans le tas.
+			\item<2-> Lors de l'appel à une fonction, les variables locales (et autres informations) sont stockées dans la pile. A la fin de l'exécution, ces informations sont supprimées de la pile. On ne doit donc \textcolor{blue}{pas conserver des adresses vers des variables locales}.
+			\item<3-> De la mémoire alloué par le programmeur dans le tas et non libérée est considérée \textcolor{blue}{comme non disponible}, créant des fuites mémoires (\textit{memory leak}).
 		\end{itemize}
 	\end{block}
 \end{frame}
 
+
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Un premier exemple}
+	\begin{exampleblock}{Un  exemple}
+		\inputpartC{\SPATH/varlocation.c}{}{\small}{3}{17}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Un second exemple}
 		\inputpartC{\SPATH/bigarray.c}{}{}{3}{7}
 		{\small
 		\begin{enumerate}
-			\item<1-> Rappeler la taille d'un \kw{double}, en déduire la taille du tableau {\tt big\_array} \\
-				\onslide<5-> {\textcolor{OliveGreen}{Un double occupe 8 octets, donc ce tableau $8 \times 1,5 = 12$ Mo.}}
-			\item<2-> Comment expliquer que programme a provoqué une {\tt erreur de segmentation}, alors qu'il a été exécuté sur une machine possédant 8 Go de mémoire vive ?\\
-				\onslide<6-> {\textcolor{OliveGreen}{La taille du tableau dépasse celle de la pile, or le tableau étant une variable locale est alloué dans la pile.}}
-			\item<3-> En déduire une information sur la taille de la pile d'appel sur cet ordinateur. \\
-				\onslide<7-> {\textcolor{OliveGreen}{La pile fait moins de 12Mo (sa taille est de l'ordre de 8Mo sur l'ordinateur utilisé)}}
-			\item<4-> Comment résoudre ce problème ? \\
-				\onslide<8-> {\textcolor{OliveGreen}{La mémoire occupée par le tableau doit être alloué sur le tas.}}
+			\item<1-> Rappeler la taille d'un \kw{double}, en déduire la taille du tableau {\tt big\_array}
+			\item<2-> Comment expliquer que programme a provoqué une {\tt erreur de segmentation}, alors qu'il a été exécuté sur une machine possédant 8 Go de mémoire vive ?
+			\item<3-> En déduire une information sur la taille de la pile sur cet ordinateur. 
+			\item<4-> Comment résoudre ce problème ? 
 		\end{enumerate}}
 	\end{exampleblock}
 \end{frame}
@@ -243,6 +246,22 @@
 	\end{alertblock}
 \end{frame}
 
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Remarque}
+		Lorsqu'on déclare un pointeur vers un entier par exemple avec \mintinline{c}{int * p;}, on peut considérer que :
+		\begin{itemize}
+		\item<2-> \kw{p} est une variable de type \kw{int*} qui contient l'adresse d'un entier :\\
+		\rnode{A}{\boxed{{\tt \textcolor{BrickRed}{int}{\tt *}}}} \ \ \ \rnode{B}{\tt p} \ncbar[angleA=270]{->}{B}{A}  : \textcolor{blue}{\textit{{\tt p} est l'adresse d'un {\tt int}}} \medskip
+		\item<2-> \kw{*p} est une variable de type \kw{int} qui contient la valeur de l'entier pointé par \kw{p} :\\
+		\rnode{C}{\boxed{{\tt \textcolor{BrickRed}{int}}}} \ \ \ \rnode{D}{\tt *p} \ncbar[angleA=270]{->}{D}{C}  : \textcolor{blue}{\textit{{\tt *p} est un {\tt int}}} \medskip
+		\end{itemize}
+	\onslide<3->{On peut donc manipuler {\tt p} :
+	\begin{itemize}
+	\item En lui attribuant l'adresse d'un entier, par exemple avec \mintinline{c}{p = &n} où \kw{n} est un entier.
+	\item En affectant un {\tt int} à {\tt *p}, \textcolor{BrickRed}{\textit{à condition que l'espace mémoire pointé par p soit alloué}}. Par exemple avec \mintinline{c}{*p = n;} où \kw{n} est un entier.
+	\end{itemize}}
+	\end{block}
+\end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple 1}
@@ -258,28 +277,50 @@
 	\end{exampleblock}
 \end{frame}
 
-\begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Correction de l'exemple}
-		\textcolor{OliveGreen}{\aide} Echanger les valeurs stockées aux adresses \kw{p1} et \kw{p2}.\\
-		\onslide<4->{\phantom{\aide} Pour l'appel, récupérer les adresses de {\tt a} et {\tt b}	afin de les passer en paramètres.}
-		\onslide<5->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/echange.c}{}{\small}{3}{14}
-	\end{exampleblock}
-\end{frame}
-
 \makess{Fonctions {\tt malloc} et {\tt free}}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{{\tt malloc}}
 		\begin{itemize}
-			\item<1-> La fonction \kw{malloc} (disponible, comme {\tt free}, après \mintinline{c}{#include <stdlib.h>}) permet d'allouer sur le tas, un bloc mémoire dont on donne la taille
+			\item<1-> La fonction \kw{malloc} (disponible, comme {\tt free}, après \mintinline{c}{#include <stdlib.h>}) permet d'allouer sur le tas, un bloc mémoire dont on donne la taille.
 			\item<2-> Elle s'utilise donc souvent conjointement à \kw{sizeof} qui donne la taille d'un objet en C.
-			\item<3-> Comme pour les tableaux, accéder en dehors des limites du bloc alloué est un comportement indéfini.
+			\item<3-> On peut allouer un bloc mémoire faisant {\tt n} fois la taille d'un entier, et dans ce cas on accède aux différentes cases de ce bloc \textit{de la même façon que pour un tableau}. \\
+			\mintinline{c}{int *t =  malloc(sizeof(int)*n); //n entier positif}:\\
+			\rnode{A}{\tt t} \quad \renewcommand{\arraystretch}{0.9} \begin{tabular}{|c|c|c|c|c|c|}
+				\hline
+				\rnode{B}{\textcolor{blue}{\tt t[0]}} & \textcolor{blue}{\tt t[1]} & \dots & \textcolor{blue}{\tt t[i]} & \dots & \textcolor{blue}{\tt t[n-1]} \\
+				\hline
+				\multicolumn{3}{c}{} & \multicolumn{1}{c}{\rnode{C}{}\ \rnode{D}{}} & \multicolumn{2}{c}{} \\
+			\end{tabular} \\ \medskip
+			\ncline[linewidth=0.04, linecolor=BrickRed,nodesepB=0.1]{->}{A}{B}
+			\ncline{<->,nodesep=-0.5}{C}{D} \nbput[labelsep=0.05]{\scriptsize{\tt sizeof(int)}}
+			\textcolor{gray}{\quad \small \important \ Une syntaxe équivalente pour accéder à \kw{t[i]} est \kw{*(t+i)}.}
+			\item<4-> Comme pour les tableaux, accéder en dehors des limites du bloc alloué est un comportement indéfini.
 		\end{itemize}
 	\end{alertblock}
-	\begin{exampleblock}{Exemples}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Quelques exemples}
 		\begin{itemize}
-		\item<4->\mintinline{c}{int *t =  malloc(sizeof(int)*100); //alloue le bloc mémoire}
-		\item<5->\mintinline{c}{t[5] = 12; // affecte la valeur 12 au 6eme élément du bloc}
-		\item<6->\mintinline{c}{t[113] = 27; // Comportement indéfini}
+		\item<1-> Pointeur non initialisé
+		\inputpartC{\SPATH/exmalloc.c}{}{\footnotesize}{6}{6}
+		Le pointeur \kw{ptr1}, est \textit{non itinialisé}, le déréfencer, par exemple pour lui attribuer une valeur (avec \mintinline{c}{*ptr1=42;}) est un comportement indéfini.
+		\item<2-> Pointeur initialisé à {\sc null}
+		\inputpartC{\SPATH/exmalloc.c}{}{\footnotesize}{7}{7}
+		Le pointeur \kw{ptr2}, est itinialisé à {\sc null}, son déréférencement est un comportement indéfini. 
+		\item<3-> Pointeur initialisé avec l'adresse d'une variable locale.
+		\inputpartC{\SPATH/exmalloc.c}{}{\footnotesize}{8}{9}
+		Le pointeur \kw{ptr3}, est initialisé avec l'adresse de {\tt n} (situé dans la pile). Le déréférencement de \kw{ptr3} donne la valeur de {\tt n} (ici 42).
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Quelques exemples}
+		\begin{itemize}
+			\item<1-> Pointeur initialisé avec l'adresse d'un bloc mémoire alloué dynamiquement.
+			\inputpartC{\SPATH/exmalloc.c}{}{\small}{10}{13}
+			Le pointeur \kw{ptr4}, est initialisé avec l'adresse d'un bloc mémoire alloué dynamiquement. Ce bloc mémoire est situé dans le \textcolor{BrickRed}{tas}, cet espace mémoire est disponible pour y stocker un entier.
 		\end{itemize}
 	\end{exampleblock}
 \end{frame}
@@ -289,7 +330,7 @@
 		\begin{itemize}
 			\item<1-> La fonction \kw{free} permet de libérer un bloc mémoire alloué grâce à {\tt malloc}
 			\item<2-> On appelle donc \kw{free} sur un pointeur \kw{p} crée  par \kw{malloc}. \\
-			\textcolor{BrickRed}{\small \danger \;}{Il est donc \textit{impératif} de \textit{toujours} disposer d'une référence vers un bloc mémoire qu'on a alloué. Sinon, on ne peut pas libérer ce bloc ce qui conduit à une fuite mémoire.}
+			\textcolor{BrickRed}{\small \danger \;}{Il est donc \textit{impératif} de \textit{toujours} disposer d'une référence vers un bloc mémoire qu'on a alloué.}
 			\inputpartC{\SPATH/memleak.c}{}{\footnotesize}{4}{14}
 			\item<4-> On utilisera toujours l'option \kw{fsanitize = address} du compilateur pour détecter ces fuites mémoires.
 		\end{itemize}
@@ -298,19 +339,34 @@
 
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Exemple : fonction renvoyant un \og{}tableau\fg{}}
-		Ecrire une fonction \mintinline{c}{int* make_tab(int size, int init)} qui renvoie un pointeur vers un bloc mémoire de {\tt size} entiers tous initialisés à la valeur {\tt init}.
+	\begin{block}{Conséquences}
+		En C, on n'écrira pas \textit{à proprement parlé} de fonctions renvoyant un tableau, mais plutôt des fonctions renvoyant un pointeur vers un bloc mémoire alloué dynamiquement que l'on traitera \textit{comme un tableau}. \\
+		\onslide<2->{Il faut cependant respecter certaines règles :}
 		\begin{itemize}
-			\item[\textcolor{BrickRed}{\small \danger}]<2->  L'allocation \textcolor{BrickRed}{doit} se faire avec \kw{malloc}, sinon le bloc mémoire est alloué sur la pile, dans la zone de contexte d'appel de la fonction, cette zone est dépilé dès qu'on quitte la fonction et donc la zone mémoire du tableau n'est plus accessible.
-			\item[\textcolor{BrickRed}{\small \danger}]<3-> La fonction appelante doit libérer la mémoire allouée avec \kw{free} (sous peine de fuites mémoires.)
+			\item<3->[\textcolor{BrickRed}{\small \danger}]  L'allocation \textcolor{BrickRed}{doit} se faire avec \kw{malloc}, sinon le bloc mémoire est alloué sur la pile, dans la zone de contexte d'appel de la fonction, cette zone est dépilé dès qu'on quitte la fonction et donc la zone mémoire du tableau n'est plus accessible.
+			\item<4->[\textcolor{BrickRed}{\small \danger}] La fonction appelante doit libérer la mémoire allouée avec \kw{free} (sous peine de fuites mémoires.)
 		\end{itemize}
+		\onslide<5->{D'autre part, on s'autorisera dans les exercices et à l'oral l'abus de langage \og{}\textit{renvoyer un tableau}\fg{}. Il faudra garder à l'esprit qu'on renvoie en fait un pointeur !}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Ecrire une fonction \mintinline{c}{int* make_tab(int size, int init)} qui renvoie un pointeur vers un bloc mémoire de {\tt size} entiers tous initialisés à la valeur {\tt init}.
+		\onslide<2->{\inputpartC{\SPATH/renvoie_tab.c}{}{\footnotesize}{3}{18}}
 	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Correction}
-		\inputpartC{\SPATH/renvoie_tab.c}{}{\footnotesize}{3}{20}
-	\end{exampleblock}
+	\begin{block}{Tableaux et pointeurs}
+		\textcolor{BrickRed}{\small \danger \;} En C, la confusion entre tableaux et pointeurs est fréquente et on a tendance à considérer que des écritures comme \mintinline{c}{int t[10];} et \mintinline{c}{int *t = malloc(sizeof(int)*10);} sont équivalentes. Bien qu'on puisse utiliser dans les deux cas la syntaxe \mintinline{c}{t[i]} (avec $0\leqslant i < 10$), c'est \textcolor{BrickRed}{faux} ! Notamment   :
+		\begin{itemize}
+			\item<2-> Dans un cas \kw{t} est alloué sur la pile, dans l'autre sur le tas.
+			\item<3-> La fonction \mintinline{c}{sizeof} ne renvoie pas la même valeur dans les deux cas. En particulier il est possible d'obtenir la taille du tableau, pas celle du bloc mémoire.
+			\item<4-> On ne peut pas avec un tableau utiliser directement l'opérateur d'assignation \kw{=}, alors que cela est possible avec un pointeur. 
+		\end{itemize}
+		\onslide<5->{Cependant, un tableau passé en argument à une fonction est traité comme un pointeur (par un mécanisme appelé \textit{pointer decay}).}
+	\end{block}
 \end{frame}
 
 \makess{Argument en ligne de commande}

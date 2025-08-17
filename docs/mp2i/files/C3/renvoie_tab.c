@@ -1,7 +1,5 @@
 #include <stdlib.h>
 
-// Fonction renvoyant un tableau d'entiers de
-// taille size initialisé avec la valeur init
 int *make_tab(int size, int init)
 {
     int *tab = malloc(sizeof(int) * size);

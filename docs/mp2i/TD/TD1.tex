@@ -21,14 +21,33 @@
 		\subQuestion{Déclarer une variable de type {\tt char} contenant le caractère \$.}
 	\Question{Ecrire les signatures des fonctions suivantes :}
 		\subQuestion{{\tt divisible\_par} qui prend en argument deux entiers $n$ et $p$ et renvoie un booléen.}
-		\subQuestion{{\tt somme} qui prend en argument un tableau de flottant et renvoie un flottant.}
+		\subQuestion{{\tt somme} qui prend en argument un tableau de flottant et un entier et renvoie un flottant.}
 		\subQuestion{{\tt carre} qui prend en argument un entier  renvoie un entier.}
 		\subQuestion{{\tt affiche} qui prend en argument un booléen  et ne renvoie rien.}
+\end{Exercise}
+
+\begin{Exercise}[title = {boucles {\tt}}]\\
+	Indiquer si les boucles {\tt for} suivantes sont correctes ou non et si elles le sont, donner les valeurs prises par la variable d'itération.
+	\Question{\mintinline{c}{for (int m = 1; m < 10; m=m+1)}}
+	\Question{\mintinline{c}{for (int i = 12; i < 10; i++)}}
+	\Question{\mintinline{c}{for (int k = 0; k < 10; i--)}}
+	\Question{\mintinline{c}{for (j = 0; j < 10; j++)}}
+	\Question{\mintinline{c}{for (int i = 42; i > 21; i--)}}
 \end{Exercise}
 
 \begin{Exercise}[title={Comportements indéfinis}]
 	\Question{Rappeler ce qu'est un \textit{comportement indéfini} en C.}
 	\Question{Donner au moins un exemple de programme ayant un comportement indéfini.}
+	\Question{On considère la fonction suivante en C :
+	\inputpartC{\SPATH/indefini.c}{}{\small}{3}{13}
+	et on précise que le standard du langage C indique que : 
+	\begin{quote}
+		\og{}\textit{If control reaches the closing curly brace (\}) of a non-void function without evaluating a return statement, using the return value of the function call is undefined behavior.} \fg{}
+	\end{quote}
+	En déduire un cas où l'utilisation de cette fonction produit un comportement indéfini et écrire une fonction {\tt main} appelant la fonction {\tt signe} et produisant un comportement indéfini. \\
+	Remarque : lors de la compilation, on obtient l'avertissement suivant : \og{}\textit{control reaches end of non-void function} \fg{}
+	}
+
 \end{Exercise}
 
 
@@ -86,45 +105,16 @@ On considère le programme suivant :
 \end{Exercise}
 
 \begin{Exercise}[title={Programmes à commenter}]\\
-Que penser des programmes suivants (erreurs, avertissements, comportements indéfinis, \dots ?)
+Commenter les programmes suivants en précisant les résultats obtenus (si le programme compile) ou les erreurs ou avertissements éventuels et les comportements indéfinis.
 \begin{itemize}
 	\item[\textbullet] Programme A :
-	\begin{langageC}
-#include <stdio.h>
-int main()
-int tab[5] = {42}
-for (i=0;i<=5;i++){
-	printf("%d \n",tab[i]);
-		}
-	\end{langageC}
+	\inputpartC{\SPATH/com1.c}{}{\small}{1}{11}
 	\item[\textbullet] Programme B :
-	\begin{langageC}
-#include <stdio.h>
-int main(){
-int tab[5] = {42}
-int i = 0;
-while (true)
-	{
-		printf("%d \n",tab[i]);
-		i = i + 1
-		if (i==5) {break;}
-	}
-}
-	\end{langageC}
+	\inputpartC{\SPATH/com2.c}{}{\small}{1}{11}
 	\item[\textbullet] Programme C :
-	\begin{langageC}
-#include <stdio.h>
-int programme() {
-	float s=0;
-	for int (i=0;i<10000;i++)
-	{
-		s = s + 1/i;
-	}
-	print("somme =%f\n",%s);
-}
-	\end{langageC}
+	\inputpartC{\SPATH/com3.c}{}{\small}{1}{11}
 	\item[\textbullet] Programme D :
-	\inputpartC{\SPATH/no_return.c}{}{}{1}{13}
+	\inputpartC{\SPATH/no_return.c}{}{}{1}{15}
 \end{itemize}
 \end{Exercise}
 

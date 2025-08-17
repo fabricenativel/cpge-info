@@ -702,12 +702,13 @@ Nom :  \textbf{\textbf{\nom{}}} \qquad \qquad Prénom :  \textbf{\prenom{}}  \hf
 \def\gaddtotok#1{\global\tabtok\expandafter{\the\tabtok#1}}
 \newtoks\tabtok
 \newcommand*\reponse[2]{%
-   \ifthenelse{\boolean{corrige}}{}{
-	\global\tabtok{\\ \renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{|X|p{1cm}|}\hline \dotfill & \cellcolor{gray!30}{\small \dots/#2} \\ \cline{2-2}}%
-	\multido{}{#1}{\gaddtotok{ \multicolumn{2}{|>{\hsize=\dimexpr1\hsize+2\tabcolsep+\arrayrulewidth+1cm\relax}X|}{\dotfill}\\ }}%
-	\gaddtotok{\hline \end{tabularx}}%
-	\the\tabtok
+   \ifthenelse{\boolean{corrige}}{}{\newline
+   \global\tabtok{\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{|X|p{1cm}|}\hline \dotfill & \cellcolor{gray!30}{\small \dots/#2} \\ \cline{2-2}}%
+   \multido{}{#1}{\gaddtotok{ \multicolumn{2}{|>{\hsize=\dimexpr1\hsize+2\tabcolsep+\arrayrulewidth+1cm\relax}X|}{\dotfill}\leavevmode\\}}%
+   \gaddtotok{\hline \end{tabularx}}%
+   \the\tabtok
    }}
+\newcommand{\points}[1]{\ifthenelse{\boolean{corrige}}{}{\hfill \renewcommand{\arraystretch}{1.4} \begin{tabular}{|l|} \hline \cellcolor{gray!30}{\small \dots/#1} \\ \hline \end{tabular}}}
 
 \newcommand{\PE}[1]{\left \lfloor #1 \right \rfloor}
 

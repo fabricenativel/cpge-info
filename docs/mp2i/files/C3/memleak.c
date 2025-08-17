@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void taille(int tab[])
-{
-    printf("Taille de  tab dans la fonction : %ld\n",sizeof(tab));
-}
-int main()
-{
-    int tab[5] = {1, 2, 6, 3, 7};
-    printf("Taille de  tab dans le main  : %ld\n",sizeof(tab));
-    taille(tab);
-}
+int memleak(int a){
+    int* b = malloc(sizeof(int)); //b pointe vers le tas
+    *b = a*a; 
+    return *b; //on renvoie la VALEUR de b
+} //L'adresse de b est dépilée donc perdue
+
+int main(){
+    int x = 42;
+    int y = memleak(x); //y récupère la valeur de b
+    printf("Valeur de y = %d\n", y);
+}// On n'a pas de référence vers b, on ne peut pas free
