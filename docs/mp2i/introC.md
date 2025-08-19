@@ -273,6 +273,18 @@ Ecrire une fonction `est_trie` qui prend en argument un tableau d'entiers (et sa
 2. Ecrire une fonction similaire `compte_caractere` qui prend en argument une chaine de caractères `chaine` et un caractère `car`
 et compte le nombre d'apparitions de `car` dans `chaine`. A-t-on besoin cette fois de passer en argument la taille de la chaine ? Pourquoi ?
 
+{{exo("Affichage en zigzag",[])}}
+
+Ecrire en C une fonction de signature  `#!c void zigzag(char s[], int n)` qui prend en argument une chaine de caractères `s` et un entier `n` et affiche en *zigzag* et sur *n* lignes la chaine de caractères `s` par exemple l'affichage de la `BONNE RENTREE AUX MP2I !"` sur 4 lignes doit produire l'affichage suivant dans le terminal :
+```
+B     R     E     M     
+ O     E   E       P   !
+  N E   N R   A X   2   
+   N     T     U     I 
+```
+
+!!! aide
+    On pourra définir dans la fonction une matrice de caractères qu'on remplira correctement avec les lettres de la chaine de caractères avant de l'afficher.
 
 
 {{ exo("Tri par insertion",[]) }}
@@ -280,7 +292,7 @@ et compte le nombre d'apparitions de `car` dans `chaine`. A-t-on besoin cette fo
 L'algorithme du *tri par insertion* permet de trier en place un tableau de taille $n$. Le principe est de considérer qu'à l'étape $i$,  la partie du tableau située avant l'indice $i$ est **déjà triée** et on insère l'élément situé à la position d'indice $i$ à la bonne position dans cette partie. Pour réaliser cette insertion, on échange l'élément d'indice $i$ avec son voisin de gauche tant qu'il lui est supérieur et que le début de liste n'est pas atteint.  
 Par exemple sur la tableau $\{12, 10, 18, 11, 14\}$ et en délimitant la partie triée par le symbole $\color{red}{|}$:
 
-* Etape 0 : la partie situé avant l'indice 0 est vide (donc déjà triée), on y insère le 12 : $\require{color} \{\color{green}{12}, \textcolor{red}{|} 10, 18, 11, 14\}$ 
+* Etape 0 : la partie situé avant l'indice 0 est vide (donc déjà triée), on y insère le 12 : $\{\textcolor{green}{12}, \textcolor{red}{|} 10, 18, 11, 14\}$ 
 * Etape 1 : on insère l'élément d'indice 1 dans la partie trié, pour cela on l'échange avec son voisin tant qu'il lui est inférieur (et que le début de la liste n'est pas atteint) :
     * $\{12,  \textcolor{green}{10} \textcolor{red}{|} , 18, 11, 14\}$ échange car $10<12$
     * $\{\textcolor{green}{10},  12 \textcolor{red}{|} , 18, 11, 14\}$ on s'arrête car le début de liste est atteint
@@ -322,6 +334,7 @@ On rappelle qu'un nombre premier est un entier naturel ayant exactement deux div
 
 ??? lien "Pour aller plus loin"
     Les élèves ayant fait la spécialité {{sc("nsi")}} ou connaissant un minimum le langage Python peuvent coder ce même algorithme en Python et comparer les temps de calcul dans les deux langages sur par exemple `somme_premiers(5000000)`. 
+
 
 ## Humour d'informaticien
 
