@@ -134,7 +134,7 @@ Pour gravir un escalier on peut faire des enjambées d'une ou deux marches. Par 
 
 3. En déduire une fonction `Ocaml`  de complexité linéaire permettant de répondre au problème
 
-5. On s'intéresse maintenant à la construction effective de toutes les possibilités et on notera $p_n$ la liste des façons possibles de gravir un escalier de $n$ marches. Les possibilités sont données sous forme de chaine de caractères composées de 1 et de 2. Par exemple, $p_5$=`["11111"; "1112"; "1121"; "1211"; "122"; "2111"; "212"; "221"]`
+5. On s'intéresse maintenant à la construction effective de toutes les possibilités et on notera $p_n$ la liste des façons possibles de gravir un escalier de $n$ marches. Les possibilités sont données sous forme de chaîne de caractères composées de 1 et de 2. Par exemple, $p_5$=`["11111"; "1112"; "1121"; "1211"; "122"; "2111"; "212"; "221"]`
 
     1. Donner $p_1$ et $p_2$.
     2. Etablir une relation de récurrence liant les éléments de $p_{n}$ à ceux de $p_{n-1}$ et $p_{n-2}$
@@ -230,6 +230,17 @@ On suppose que les dimensions des $n$ matrices sont données sous la forme d'un 
 ```
     Obtient-on la réponse en un temps raisonnable avec la fonction de la question 3 ? Pourquoi ? Mettre en oeuvre la stratégie de mémoïsation afin de palier le problème puis tester votre réponse {{check_reponse("2194")}}
 
+
+{{exo("Plus longue sous chaîne palindrome",[])}}
+
+Etant donné une chaîne de caractères `str`, on chercher à déterminer une des plus longue sous chaîne de  `str` qui soit un palindrome. Par exemple, pour le mot `banane`, une des plus longue sous chaîne palindrome est `ana`, ce n'est pas la seule, `nan` est aussi une sous chaîne palindrome de `banane` de longueur 3. Pour le mot `ananas` la plus longue sous chaîne palindrome est `anana` et c'est la seule.
+
+On souhaite mettre en place une méthode de programmation dynamique afin de résoudre ce problème, pour cela on va construire progressivement un tableau de booleens `palindrome[i][j]` avec `0<i<n` et `i<=j<n` tel que `palindrome[i][j]` soit égal à `true` si et seulement si la sous chaîne `str[i]...str[j]` est un palindrome (les deux extrémités sont comprises)
+
+1. Avec quelles valeurs faut-il initialiser la diagonale principale de la matrice palindrome ?
+2. A quelles conditions `str[i]str[i+1]` est-elle une sous chaîne palindrome ? En déduire l'initialisation des `palindrome[i][i+1]` pour `0<i<n-1` 
+3. En utilisant le fait que `str[i]...str[j]` est un palindrome ssi `str[i]==str[j]` et que `str[i-1]...str[j-1]` est un palindrome, détermine une méthode de remplissage du reste de la matrice `palindrome`.
+4. Mettre en oeuvre l'algorithme sous la forme d'une fonction de signature `#!c void lps(char *str, int* deb, int *fin)` qui prend en entrée une chaine de caractère et deux pointeurs vers des entiers et modifie ces entiers de sorte que la sous chaine `str[deb]...str[fin]` soit l'une des plus longues sous chaines palindrome de la chaine `str`.
 
 {{ exo("Chemin de somme maximale dans une pyramide",[])}}
 
@@ -341,9 +352,9 @@ Tester votre réponse ici en donnant par ordre croissant les numéros des objets
 
 {{ exo("Distance d'édition",[]) }}
 
-La distance d'édition (ou [distance de Levenshtein](https://fr.m.wikipedia.org/wiki/Distance_de_Levenshtein){target=_blank}) entre deux chaines de caractères $M$ et $N$ est le nombre de caractères qu'il faut supprimer, insérer ou remplacer pour passer d'une chaine à l'autre, on la note $D(M,N)$.
+La distance d'édition (ou [distance de Levenshtein](https://fr.m.wikipedia.org/wiki/Distance_de_Levenshtein){target=_blank}) entre deux chaînes de caractères $M$ et $N$ est le nombre de caractères qu'il faut supprimer, insérer ou remplacer pour passer d'une chaîne à l'autre, on la note $D(M,N)$.
 
-Par exemple, la distance d'édition entre "TEST" et "VESTE" est de deux (une insertion et une substitution). On note $l_m$ la longueur de $M$ et $l_n$ celle de $M$, $M_i$ les $i$ ($0 \leq i < l_M$) premiers caractères  de la chaine $M$ et $N_j$ les $j$ ($0 \leq j < l_N$) premiers caractères de la chaine $N$ et $d(i,j) = D(M_i,N_j)$
+Par exemple, la distance d'édition entre "TEST" et "VESTE" est de deux (une insertion et une substitution). On note $l_m$ la longueur de $M$ et $l_n$ celle de $M$, $M_i$ les $i$ ($0 \leq i < l_M$) premiers caractères  de la chaîne $M$ et $N_j$ les $j$ ($0 \leq j < l_N$) premiers caractères de la chaîne $N$ et $d(i,j) = D(M_i,N_j)$
 
 1. Donner les cas de base suivantes :  $d(i,0)$ et $d(0,j)$
 2. Exprimer $d(i,j)$ en fonction de $d(i,j-1)$, $d(i-1,j)$ et $d(i-1,j-1)$, en distinguant le cas où le $i$ème caractère de $M$ conïncide avec le $j$ième de $N$ ou non.

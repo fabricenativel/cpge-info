@@ -269,3 +269,118 @@ Donc, la boite de référence `NWLR` a comme dimension `283x75x46`.
 Trouver la référence de la plus de plus grand volume, et vérifier votre résultat dans le formulaire suivant :   {{ check_reponse("ZSDW") }}
 
 
+{{ exo("Suite lock and say",[])}}
+
+La [suite *lock and say*](https://en.wikipedia.org/wiki/Look-and-say_sequence){target=_blank} a pour premiers termes : `1, 11, 21, 1211, 111221, 312211, ...` en effet chaque terme s'obtient en *regardant* puis en *disant* le terme précédent. Le premier terme `1` se lit "un un" et donc le second terme est `11` qui se lit `deux un` et donc le troisième terme est `21` qui se lit `un deux un un` et donc le quatrième terme est `1211` et ainsi de suite. Le but de l'exercice est de générer à l'aide de Python les termes de cette  suite.
+
+1. Ecrire une fonction `suivant` qui prend en argument une chaine de caractères `terme` représentant un terme de la suite et renvoie le terme suivant.
+
+    !!! aide
+        On pourra procéder en parcourant la chaine `s` tout en mettant à jour deux variables :
+
+        * l'une contenant le caractère courant
+        * l'autre son nombre d'apparition
+
+        Lorsque le caractère suivant n'est pas le caractère courant on remet à 1 nombre d'apparition.
+
+    Tester votre fonction en calculant le **15e** terme de la suite : {{check_reponse("311311222113111231131112132112311321322112111312211312111322212311322113212221")}}
+
+2. Faire une conjecture sur les chiffres pouvant apparaitre dans les termes de cette suite. Puis prouver cette conjecture (on pourra raisonner par récurrence).
+
+3. On souhaite maintenant utiliser le fait que les seuls chiffres apparaissant dans la suite *lock and say* sont 1, 2 et 3 afin d'écrire une version récursive du calcul du terme suivant. Pour cela, le cas récursif consiste à considérer les trois premiers chiffres du terme précédent et le cas de base est celui d'un terme contenant moins de 3 chiffres. Ecrire cette version récursive.
+
+{{exo("Conversion de base - Opérateurs bit à bit",[])}}
+
+
+On rappelle que 'algorithme des divisions successives  permet de convertir un nombre écrit en base 10 dans une base $b$ quelconque ($b \geqslant 2$).
+
+Il consiste tant que $n$ n'est pas nul à :
+
+* Ajouter le reste dans la division euclidienne de $n$ par $b$ à l'écriture en base $b$
+* remplacer $n$ par le quotient de $n$ dans la division euclidienne par $b$
+
+ Si $b>10$, on utilise comme chiffre les lettres de l'alphabet, on déclare donc en début de programme une chaine de caractères :
+
+```python
+CHIFFRES="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+```
+
+1. Ecrire une fonction `dec_to` qui prend en argument un entier `n` (type `int`) écrit en base 10 et une base `b` (supérieur ou égale à 2) et renvoie l'écriture de `n` dans la base `b`
+
+2. Tester votre programme en convertissant `816203` en hexadécimal : {{check_reponse("C744B")}}
+
+Dans le cas particulier de la base 2, on peut aussi utiliser les *opérations bit à bit* qui consistent à effectuer des opérations logiques usuelles (`not`, `and`, `or`, ...) bit par bit sur la représentation binaire des entiers. Les opérateurs associés en Python sont :
+
+* `&` pour le `and`
+* `|` pour le `or`
+* `~` pour le `not`
+* `^` pour le `xor`
+
+Prenons un exemple, si on effectue un `&` entre les entiers :
+
+* {{binaire_dec("10110011")}} et 
+* {{binaire_dec("00110101")}}
+
+alors, le résultat obtenu sera {{binaire_dec("00110001")}} car on effectue le et logique entre les bits de poids $2^7, 2^6, \dots, 2^0$. 
+
+D'autre part, les opérateurs `>>` (resp. `<<`) permettent de décaler à droite (resp. à gauche) une représentation binaire du nombre de rang donné. Par exemple `25 << 2` donne {{binaire_dec("1100100")}} car on décale de deux rang à droites la représentation.
+
+En utilisant ces opérateurs, ecrire une fonction qui renvoie la représentation binaire (sous forme d'une chaine de caractères) de l'entier positif donné en argument.
+
+{{exo("Chiffrement XOR",[])}}
+
+On rappelle que l'opérateur `^` correspond en Python à une opération bit à bit entre les représentations binaires. Par exemple, puisque
+
+* {{binaire_dec("1010101")}}  et 
+* {{binaire_dec("1110011")}} alors
+
+`85^115 = 38` ({{binaire_dec("0100110")}})car on effectue un *ou exclusif* entre les bits correspondant des deux représentations.
+
+Le chiffrement XOR ([https://en.wikipedia.org/wiki/XOR_cipher](xor cipher){target=_blank}) est un algorithme de chiffrement qui consiste à effectuer l'opération bit à bit XOR entre les caractères du texte à chiffrer et une clé donnée.  Prenons un exemple en supposant qu'un caractère est représenté par son code ASCII, on veut coder le texte "PYTHON" avec la clé "ab". On transforme "PYTHON" en la suite de ces codes ascii : PYTHON devient `80 89 84 72 79 78` et de même la clé "ab" devient `97 98` on effectue maintenant l'opération XOR entre les codes du texte et de la clé en la répétant autant de fois que nécessaire :
+
+* `80 ^ 97 = 49`
+* `89 ^ 98 = 59`
+* `84 ^ 97 = 53`
+* `72 ^ 98 = 42`
+* `79 ^ 97 = 46`
+* `78 ^ 98 = 44`
+
+Le chiffrement donne donc les valeurs `49 59 53 42 46 44` qui retranscris en caractère donne `1;5*.,`.
+
+1. Ecrire la fonction `chiffrexor` qui prend en argument deux chaines de caractères (le texte et la clé) et renvoie le résultat du chiffrement XOR.
+
+    !!! aide
+        On rappelle que  
+
+        * la fonction `ord` prend en argument un caractère et renvoie son code
+        * la fonction `chr` prend en argument un code et renvoie le caractère associé
+
+        On notera bien que certains caractères ASCII ne sont pas imprimables et que donc le résultat du chiffrement XOR peut parfois ne peut s'afficher correctement.
+
+2. Tester votre fonction en chiffrant le message `BRAVO VOUS AVEZ REUSSI` avec la clé `python` (l'exemple est construit de façon à avoir un résultat constitué de caractères imprimables) {{check_reponse("2+5> N&6!;O/&<.H=+%*'!")}}
+
+3. Déterminer pour un entier `n` le résultat de `n ^ n` et celui de `n ^ 0` en déduire une méthode permettant de déchiffrer un codage XOR.
+
+{{exo("Mediane",[])}}
+
+1. Ecrire une fonction `mediane` qui prend en argument une liste d'entiers *supposée déjà trié* et renvoie sa [médiane](https://fr.wikipedia.org/wiki/M%C3%A9diane_(statistiques)){target=_blank}.
+
+    !!! aide
+        On prendra la valeur centrale dans le cas d'un tableau contenant un nombre impair d'éléments et la moyenne arithmétique entre les deux valeurs centrales dans le cas contraires.
+
+2. On s'intéresse dans la suite de l'exercice à la recherche de la médiane de la fusion de deux tableaux triées, on veut donc écrire une fonction `mediane_fusion` qui prend en entrée *deux listes d'entiers* `lst1` (de longueur `n1`) et `lst2` (de longueur `n2`) et renvoie la médiane de la fusion.
+
+    a. **Concaténation et tri**  
+        On propose ici d'utiliser la méthode consistant à concaténer les deux tableaux `lst1` et `lst2`, à trier le résultat  (avec une fonction de tri intégrée à Python) puis à calculer la médiane en utilisant la fonction écrite à la question 1.Donner la complexité de cette méthode puis en proposer une implémentation sous la forme d'une fonction `med_fusion_tri`.
+
+    b. **Parcours des deux listes**  
+        On propose maintenant d'utiliser deux indices `i1` et `i2` afin de parcourir en alternance chacune des deux listes jusqu'à obtenir au moins la moitié des éléments. Pour cela, on initialise ces deux indices `i1` et `i2` à 0, puis à chaque étape après comparaison entre les éléments `lst1[i1]` et `lst2[i2]` on incrémente `i1` ou `i2`. Lorsque la somme des deux indices vaut la moitié de `n1+n2` cela signifie qu'on a atteint la médiane. Donner la complexité de cette méthode et en proposer une implémentation sous la forme d'une fonction `med_fusion_parcours`
+
+    c. **Recherche dichotomique**
+    
+    1. On suppose qu'on a partitionné les éléments des deux listes `lst1` et `lst2` en prenant les `k` premiers éléments de `lst1` et les `l` premiers éléments de `lst2`. Donner les conditions portants sur `k` et `l` pour que cette partition représente la moitié gauche de la liste triée issue de la fusion de `lst1` et `lst2` (on pourra s'aider d'un schéma).
+
+    2. En déduire une stratégie de recherche par dichotomie afin de déterminer la valeur correcte de `k`, nombre d'éléments à prendre dans `lst1`, la mettre en place en écrivant une fonction `med_dicho`. Quelle est la complexité de cette nouvelle méthode ?
+
+        !!! aide
+            On fera attention aux cas limites dans les indices.
