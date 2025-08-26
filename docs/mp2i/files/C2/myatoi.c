@@ -44,11 +44,13 @@ int myAtoi(char *s)
     }
     while (idx < ls && is_digit(s[idx]))
     {
-        //printf("Num = %d -- Remaining = %d\n",num,remaining);
+        // printf("Num = %d -- Remaining = %d\n",num,remaining);
         num = num * 10 + value(s[idx]);
-        if (!sign && num>INT_MAX)
-        {return INT_MAX;}
-        if (sign && -num<INT_MIN)
+        if (!sign && num > INT_MAX)
+        {
+            return INT_MAX;
+        }
+        if (sign && -num < INT_MIN)
         {
             return INT_MIN;
         }

@@ -92,6 +92,14 @@ const char* CHIFFRES="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 4. Tester votre fonction en affichant l'écriture en base `26` de `403642` (on rappelle qu'il y a 26 chiffres en base 26, les premiers sont `0,1, .. ,9` et après on utilise  les lettres `A, B, ...`).  
 Vérfier votre réponse {{check_reponse("MP2I")}}
 
+{{ exo("Fonction atoi",[])}}
+
+On rappelle que la fonction `atoi` (disponible sans `stblib.h`) permet de convertir une chaine de caractère en un entier. Par exemple `atoi("42")` renvoie l'entier (`int`) `42`. Le but de l'exercice est d'écrire votre propre version de cette fonction qu'on appellera `myatoi`, pour simplifier, cette fonction *ne gèrera pas les problèmes de dépassements de capacité*, ainsi lorsque la chaine de caractère en entrée correspond à l'écriture décimale d'un entier supérieur à `INT_MAX` ou inférieur à `INT_MIN` alors le résultat est indéfini. D'autre part, la fonction traitera le *début de la chaîne* jusqu'à rencontrer un caractère autre qu'un chiffre, si aucun chiffre n'est fourni la fonction renverra `0` . Voici des exemples de comportements attendus :
+
+* `myatoi("78")` renvoie l'entier `78`
+* `myatoi("-212")` renvoie l'entier `-212`
+* `myatoi("77trucs212")` renvoie l'entier `77` (on a arrêté le traitement de la chaine au `t`)
+* `myatoi("MPI")` renvoie `0` (aucun chiffre)
 
 
 {{ exo("Attention aux flottants !",[]) }}
