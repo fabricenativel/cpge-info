@@ -4,6 +4,7 @@ hide: - navigation  in liens.md
 
 ## Semaines du 01/09, du 08/09 et du 15/09
 
+* Commandes de base d'un système Linux (`cd`, `mkdir`, `ls`, ...)
 * Traits généraux du langage C (passage par valeur, portée, typage, comportement indéfini)
 * Types de bases (`int`, `float`, `double`, `char`) et opérateurs associés
 * Opérateurs de comparaison
