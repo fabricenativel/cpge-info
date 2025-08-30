@@ -2,46 +2,14 @@ hide: - navigation  in liens.md
 
 # Programme de colles
 
-## Semaines du 27/01, du 03/02 et du 10/02
+## Semaines du 01/09, du 08/09 et du 15/09
 
-* Terminaison d'un algorithme, variant.
-* Correction d'un algorithme, invariant.
-* Complexité d'un algorithme, notation $\mathcal{O}$. Complexité amortie.
-* Types et opérateurs de base en C, boucles et structures de contrôle en C. 
-* Aspects fonctionnels et impératifs de Ocaml. 
-* Exemples d'études et d'implémentations d'algorithmes dans ces deux langages (exponentiation rapide, tri, crible, algorithme d'Euclide, \dots)
+* Traits généraux du langage C (passage par valeur, portée, typage, comportement indéfini)
+* Types de bases (`int`, `float`, `double`, `char`) et opérateurs associés
+* Opérateurs de comparaison
+* Tableaux statique, lecture et écriture d'un terme avec `tab[i]`
+* Instructions conditionnelles, boucle `for` et `while`
+* *A partir du 08/09* : validation, jeu de tests, graphe de flot de contrôle
+* *A partir du 15/09* : terminaison d'un algorithme, variant
 
-## Semaines du 24/02, du 17/03 et du 24/03
 
-* Tableaux associatifs et hachage  
-Fonction de hachage, résolution des collisions par chaînage. Applications
-
-* Bases de données  
-Langage {{sc("sql")}} requêtes sur une ou plusieurs tables.
-
-* Arbres binaires  
-Définition, hauteur, taille, relation entre hauteur et taille (*preuve*). Implémentation en C et en OCaml. Parcours préfixe, infixe, suffixe et en largeur. Arbres binaires de recherche, caractérisation par le parcours infixe (*preuve*). File de priorité, tas binaire, ajout et de suppression d’un élément dans un tas, tri par tas.
-
-* Stratégie algorithmiques : force brute, retour sur trace, algo glouton
-    
-## Semaines du 07/04, du 14/04 et du 21/04
-
-* Terminaison de programmes  
-Relation d'ordre, ordre lexicographique et ordre produit sur un produit cartésien. Ensemble bien ordonnée définition par *il n'existe pas de suite strictement décroissante*, équivalence avec *l'existence d'un élément minimal pour toute partie non vide*.
- Application à la preuve de terminaison d'un programme. Exemples : fonction d'Ackermann , tri par épuisement des inversion.
-
-* Ensembles inductifs  
-Définition inductive d'un ensemble, exemples. Preuve par induction structurelle.
-
-* Décomposition en sous problèmes  
-Méthode diviser pour régner, résolution d'équation de complexité de la méthode diviser pour régner. Programmation dynamique : découpe maximale d'une barre, somme maximale d'un chemin dans une pyramide, rendu de monnaie, longueur de la plus longue sous séquence commune.
-
-## Semaines du 26/05, du 02/06 et du 09/06
-
-* Logique : syntaxe et sémantique des formules logiques, tables de vérités, équivalence logique. Formes normales, algorithme de Quine.
-
-* Graphes : définition et vocabulaire, représentation par matrice ou liste d'adjacence. Implémentation en C et en OCaml. Graphes orientés, graphes pondérés, composantes connexes.
-
-* Bases de données : modèle entité-association, requête dans une base de données.
-
-* **A partir de la semaine du 02/06** : Recherche textuelle : méthode naïve, algorithme de Boyer-Moore-Hoorspool, algorithme de Rabin Karp.
