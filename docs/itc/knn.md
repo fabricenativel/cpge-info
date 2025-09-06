@@ -95,7 +95,7 @@ Les données sont au format `csv` et le détail des champs est donné sur [Kaggl
 Une des plus [célèbres bases de données de chiffres manuscrits](https://en.wikipedia.org/wiki/MNIST_database){target=_blank} utilisée pour tester les algorithmes de classification est celle du {{sc("mnist")}}. Cette base de donnée est disponible sur le site de [Yann LeCun](http://yann.lecun.com/exdb/mnist/){target=_blank} et se compose d'un ensemble de 60000 images déjà classés et d'un ensemble de 10000 images pour les tests. 
 
 Etant donnée sa taille importante, les images et leur classification sont dans un format binaire appelé `idx` non directement exploitable. Cependant vous trouverez ci-dessous un **extrait** de cette base constitué de 5000 images :
-{{telecharger("Chiffres","./files/C4/minst/chiffres.zip")}}
+{{telecharger("Chiffres","./files/C20/minst/chiffres.zip")}}
 Les images du fichier précédent sont au format [`PGM`](https://fr.wikipedia.org/wiki/Portable_pixmap){target=_blank} bien plus facilement lisible et exploitable à notre niveau. En effet, chaque image est un fichier texte contenant :
 
 * sur la première ligne on trouve on code ("magic number") qui indique le format de l'image PGM ici c'est `P2`
@@ -111,9 +111,9 @@ Le but de l'exercice est de tester les deux algorithmes de classification vus en
 
     | Numéro | Image | Chiffre |
     |--------|-------|---------|
-    | 42     | ![ex8](./files/C4/minst/img42.png)|  8 |
-    | 1515   | ![ex7](./files/C4/minst/img1515.png)| 7  |
-    | 2023   | ![ex1](./files/C4/minst/img2023.png)| 1 |
+    | 42     | ![ex8](./files/C20/minst/img42.png)|  8 |
+    | 1515   | ![ex7](./files/C20/minst/img1515.png)| 7  |
+    | 2023   | ![ex1](./files/C20/minst/img2023.png)| 1 |
 
 2. Ecrire une fonction `lire_image` qui prend en argument le numéro d'une image et renvoie un tuple composé du chiffre de l'image et d'une liste représentant les niveaux de gris des pixels de l'image (cette liste sera donc constitué de `28x28` nombres entiers compris entre 0 et 255). 
 

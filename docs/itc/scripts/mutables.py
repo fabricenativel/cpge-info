@@ -1,4 +1,4 @@
-
+# --------- PYODIDE:code --------- #
 # fonction qui ajoute 1 à son argument puis l'affiche (ne renvoie rien)
 def incremente(n):
     n = n + 1

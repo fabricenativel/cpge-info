@@ -203,6 +203,15 @@ LIMIT 3 ;
 
 ### Question 25
 
+```sql
+SELECT nom , prenom , COUNT (*) AS nbVic
+FROM Joueur
+JOIN Partie ON id_Joueur = id_joueur1
+WHERE resultat = 1.0
+GROUP BY id_Joueur
+HAVING nbVic > 100
+ORDER BY nbVic DESC ;
+```
 
 ## Totalité du programme Awalé
 

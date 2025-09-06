@@ -7,7 +7,7 @@
 
 {{ affiche_cours(num) }}
 
-{{ telecharger("Memento de Python","../Cours/C16/memo.pdf")}}
+{{ telecharger("Memento de Python","Cours/C16/memo.pdf")}}
 
 Les exemples vu en cours
 
@@ -336,7 +336,7 @@ On rappelle que l'opérateur `^` correspond en Python à une opération bit à b
 
 `85^115 = 38` ({{binaire_dec("0100110")}})car on effectue un *ou exclusif* entre les bits correspondant des deux représentations.
 
-Le chiffrement XOR ([https://en.wikipedia.org/wiki/XOR_cipher](xor cipher){target=_blank}) est un algorithme de chiffrement qui consiste à effectuer l'opération bit à bit XOR entre les caractères du texte à chiffrer et une clé donnée.  Prenons un exemple en supposant qu'un caractère est représenté par son code ASCII, on veut coder le texte "PYTHON" avec la clé "ab". On transforme "PYTHON" en la suite de ces codes ascii : PYTHON devient `80 89 84 72 79 78` et de même la clé "ab" devient `97 98` on effectue maintenant l'opération XOR entre les codes du texte et de la clé en la répétant autant de fois que nécessaire :
+Le chiffrement XOR ([xor cipher](https://en.wikipedia.org/wiki/XOR_cipher){target=_blank}) est un algorithme de chiffrement qui consiste à effectuer l'opération bit à bit XOR entre les caractères du texte à chiffrer et une clé donnée.  Prenons un exemple en supposant qu'un caractère est représenté par son code ASCII, on veut coder le texte "PYTHON" avec la clé "ab". On transforme "PYTHON" en la suite de ces codes ascii : PYTHON devient `80 89 84 72 79 78` et de même la clé "ab" devient `97 98` on effectue maintenant l'opération XOR entre les codes du texte et de la clé en la répétant autant de fois que nécessaire :
 
 * `80 ^ 97 = 49`
 * `89 ^ 98 = 59`

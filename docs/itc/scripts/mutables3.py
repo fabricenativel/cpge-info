@@ -1,4 +1,4 @@
-
+# --------- PYODIDE:code --------- #
 # fonction qui ajoute l'élément x à la liste l
 def ajoute(l,x):
     l.append(x)

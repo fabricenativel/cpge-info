@@ -44,7 +44,7 @@ c'est-à-dire :
 * Supprimer une valeur :
     Pour supprimer une paire d'un dictionnaire on utilise l'instruction `del`. Par exemple pour supprimer `#!python del adresses['Marie']` supprimera la paire `'Marie' : 'marie@toto.com'` du dictionnaires `adresses`
 
-{{ IDE("scripts/ex_dico.py")}}
+{{ IDE("scripts/ex_dico.py",ID=1)}}
 
 !!! retenir "A retenir"
     * Un **dictionnaire** permet de stocker des données sous la forme d'associations clés/valeurs
@@ -121,13 +121,13 @@ Les dictionnaires sont des structures de données *mutables* de Python, on retro
 
 * lorsqu'on on crée un dictionnaire avec l'opérateur `=` à partir d'un dictionnaire existant, toute modification de l'un entraine une modification de l'autre :
 
-    {{IDE("scripts/dict_mut1.py")}}
+    {{IDE("scripts/dict_mut1.py",ID=2)}}
 
     Pour crée une "vraie" copie d'un dictionnaire `dico`, on peut utiliser `dico.copy()`. Par exemple, ci-dessus, on écrira ligne 2 `#!python dico2 = dico1.copy()`. Les modifications apportées à la copie ne se répèteront pas sur l'original (et inversement)
 
 * lorsqu'on passe un dictionnaire à une fonction, tout modification effectuée dans la fonction modifie effectivement le dictionnaire
 
-    {{IDE("scripts/dict_mut2.py")}}
+    {{IDE("scripts/dict_mut2.py",ID=3)}}
 
 D'autre part, les clés d'un dictionnaires doivent nécessairement être *non mutables*, donc les listes par exemple ne peuvent pas être clés d'un dictionnaire, une tentative en ce sens, déclenche un `TypeError`.
 

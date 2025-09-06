@@ -46,5 +46,5 @@ Trois options sont possibles :
 
 
 2. Utiliser une [machine virtuelle](https://www.virtualbox.org/)
-3. Utiliser [https://learn.microsoft.com/fr-fr/windows/wsl/install](WSL)
+3. Utiliser [WSL](https://learn.microsoft.com/fr-fr/windows/wsl/install)
 

@@ -17,13 +17,13 @@
 {{ exo("Une enquête policière avec SQL",[],0) }}
 
 Le but de cette activité, proposé sur le site de l'université américaine  [Northwerstern University](https://knightlab.northwestern.edu/){target=_blank} est de résoudre un crime en utilisant des requêtes SQL dans une base de données dont voici le schéma relationnel :
-![schemabase](./Images/C3/sqlmm.png){: .imgcentre}
+![schemabase](./Images/C19/sqlmm.png){: .imgcentre}
 
 Toutes les requêtes peuvent être exécutées directement sur le site, cependant vous pouvez télécharger ci-dessous la base afin d'exécuter vos requêtes en local :
-{{ telecharger("SQL Murder Mystery","files/C3/sql-murder-mystery.db")}}
+{{ telecharger("SQL Murder Mystery","files/C19/sql-murder-mystery.db")}}
 
 Cliquer sur l'image ci-dessous pour accéder à l'enquête et trouver le coupable.
-[![illustration](./Images/C3/mm.png){: .imgcentre}](https://mystery.knightlab.com/walkthrough.html){target=_blank}
+[![illustration](./Images/C19/mm.png){: .imgcentre}](https://mystery.knightlab.com/walkthrough.html){target=_blank}
 
 {{ exo("Exercices en ligne de SQL",[])}}
 

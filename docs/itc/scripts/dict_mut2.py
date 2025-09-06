@@ -1,3 +1,4 @@
+# --------- PYODIDE:code --------- #
 def incremente_valeurs(dictionnaire):
     """
     prend un dictionnaire en argument et ajoute 1

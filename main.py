@@ -496,3 +496,24 @@ def define_env(env):
             res += f'<td class="awale-cell"><div class="seed-count">{down[i]}</div></td>'
         res += f'</tr></table>'
         return res
+
+    @env.macro
+    def sujets(a):
+        FNAME = "./annales.csv"
+        corrige = {"0" : ":fontawesome-solid-square-xmark:{.rouge} non disponible",
+                   "1": "[:white_check_mark: (F. Nativel)]",
+                   "2": "[:white_check_mark: (V. Picard)]"
+                   }
+        res =  "|Banque|Sujet|Rapport|Corrigé|\n"
+        res += "|------|-----|-------|-------|\n"
+        with open(FNAME,"r",encoding="utf-8") as f:
+            for s in f:
+                banque,annee,titre,cor=s.strip().split(";")
+                if annee==a:
+                    res += f"|**{banque}**|[{titre}](./{banque}{a}/{banque}{a}.pdf)|[:fontawesome-solid-file:](./{banque}{a}/Rapport{a}.pdf)|"
+                    res += f"{corrige[cor]}"
+                    if cor!="0":
+                        res+=f"(./{banque}{a}/{banque}{a}.md)"
+                    res += "\n"
+        return res
+
