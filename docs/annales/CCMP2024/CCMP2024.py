@@ -106,6 +106,16 @@ def glouton(Obs: [int], P: [[float]], E: [[float]], K: int, N: int) -> [int]:
     return chemin
 # --8<-- [end:Q19b]
 
+# --8<-- [start:Q23]
+def construireTableauViterbi(Obs:[int], P:[[float]], E:[[float]], K:int, N:int) -> ([[float]],[[int]]):
+    T, argT = initialiserViterbi(E, Obs[0], K, N)
+    for j in range(1, N):
+        for i in range(K):
+            temp = [T[k][j-1]*P[k][i]*E[Obs[j][i] for k in range(K)]]
+            T[i][j], argT[i][j] = maximumListe(temp)
+    return T, argT
+# --8<-- [end:Q23]
+
 
 print(codage("adccb#"))
 print(decodage(0.132969))
