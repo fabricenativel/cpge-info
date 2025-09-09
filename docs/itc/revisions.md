@@ -252,8 +252,58 @@ Par exemple dans le cas $k=5$ : les étapes successives d'évolution sont :
 
 Dans le cas $k=256$, et à l'étape 1000, combien de `#` contient la chaine ?
 
+??? Question "Corrigé"
+    L'évolution d'une case ne dépend que de son état et de celle de ses voisines immédiates, on commence donc par écrire une fonction `evolution_case` qui prend en argument l'état de la case elle-même (`centrale`), celle de la case précédente -(`precedente`) et celle de la case suivante (`suivante`) et on respecte scrupuleusement les informations de l'énoncé pour renvoyer l'état de case centrale après évolution.
+
+    ```python
+    --8<-- "C16/wolfram.py:1:11"
+    ```
+
+    Il reste ensuite à utiliser cette fonction pour faire évoluer une liste de cases représentée par une chaine de caractères(`cases`) et construire le nouvel état après évolution (chaine de caractère `netat`).
+
+    ```python
+    --8<-- "C16/wolfram.py:13:18"
+    ```
+
+    Pour terminer l'exercice, il reste alors à créer la chaine de départ (par exemple en utilisant `#!python "."*256+"#"+"."*256), à la faire évoluer 100 fois puis à compter le nombre de `#` qu'on y trouve.
 
 Vérifier votre réponse : {{check_reponse("263")}}
+
+
+{{ exo("Le tri fusion",[])}}
+
+L'algorithme du **tri fusion** consiste à :  
+
+* *(diviser)* partager le tableau à trier en deux moitiés (à une unité près), 
+* *(régner)* trier chacune des deux moitiés, 
+* *(combiner)* les fusionner pour obtenir la liste triée. 
+
+On a schématisé le tri du tableau `[| 10; 6; 3; 9; 7; 5 |]` suivant ce principe ci-dessous :
+```mermaid
+    graph TD
+    subgraph Partager en deux
+    S["{10,6,3,9,7,5}"] --> S1["{10,6,3}"]
+    S --> S2["{9,7,5}"]
+    end
+    subgraph Fusionner
+    S1 -.Trier.-> T1["{3,6,10}"]
+    S2 -.Trier.-> T2["{5,7,9}"]
+    T1 --> T["{3,5,6,7,9,10}"]
+    T2 --> T
+    end
+```
+
+1. Ecrire  une fonction `separe` qui sépare une liste en deux listes de même longueur (à une unité près). On pourra utiliser les tranches, ou écrire (par exemple) une fonction renvoyant deux listes : celles des termes de rang pair et celle des termes de rang impair.
+
+2. Ecrire une fonction `fusion` qui prend en argument deux listes supposées *déjà triées* et les fusionne.
+
+3. Si vous avez utilisé un algorithme itératif à la question précédente (en manipulant des indices dans chacune des deux listes), écrire une version récursive de la fusion, à l'inverse si vous avez utilisé une version récursive, proposez une version récursive.
+
+3. Donner une implémentation du tri fusion en Python.
+
+4. Ecrire une fonction `liste_aleatoire` qui prend en argument un nombre d'éléments `n`, deux bornes `vmin` et `vmax` et renvoie `n` une liste de `n` entiers tirés au sort dans l'intervalle `[vmin;vmax]` (les bornes sont comprises). On rappelle que pour générer un entier aléatoire on peut utiliser la fonction `randint` du module `random`.
+
+5. Les nombres aléatoires générées par un ordinateur dépendent d'une valeur appelée *graine* (ou *seed* en anglais). Ainsi en fixant la valeur de la graine, la liste de nombres générés est toujours la même. Importer la fonction `seed` depuis le module `random` et fixer la valeur de la graine a 42, puis générer une liste de 500 nombre aléatoire entre 1 et 10000. Trier cette liste, quelle valeur se trouve à l'indice 250 de cette liste ? {{check_reponse("4650")}}
 
 {{ exo("Boîte de plus grand volume",[])}}
 
@@ -269,9 +319,9 @@ Donc, la boite de référence `NWLR` a comme dimension `283x75x46`.
 Trouver la référence de la plus de plus grand volume, et vérifier votre résultat dans le formulaire suivant :   {{ check_reponse("ZSDW") }}
 
 
-{{ exo("Suite lock and say",[])}}
+{{ exo("Suite look and say",[])}}
 
-La [suite *lock and say*](https://en.wikipedia.org/wiki/Look-and-say_sequence){target=_blank} a pour premiers termes : `1, 11, 21, 1211, 111221, 312211, ...` en effet chaque terme s'obtient en *regardant* puis en *disant* le terme précédent. Le premier terme `1` se lit "un un" et donc le second terme est `11` qui se lit `deux un` et donc le troisième terme est `21` qui se lit `un deux un un` et donc le quatrième terme est `1211` et ainsi de suite. Le but de l'exercice est de générer à l'aide de Python les termes de cette  suite.
+La [suite *look and say*](https://en.wikipedia.org/wiki/Look-and-say_sequence){target=_blank} a pour premiers termes : `1, 11, 21, 1211, 111221, 312211, ...` en effet chaque terme s'obtient en *regardant* puis en *disant* le terme précédent. Le premier terme `1` se lit "un un" et donc le second terme est `11` qui se lit `deux un` et donc le troisième terme est `21` qui se lit `un deux un un` et donc le quatrième terme est `1211` et ainsi de suite. Le but de l'exercice est de générer à l'aide de Python les termes de cette  suite.
 
 1. Ecrire une fonction `suivant` qui prend en argument une chaine de caractères `terme` représentant un terme de la suite et renvoie le terme suivant.
 
@@ -287,7 +337,7 @@ La [suite *lock and say*](https://en.wikipedia.org/wiki/Look-and-say_sequence){t
 
 2. Faire une conjecture sur les chiffres pouvant apparaitre dans les termes de cette suite. Puis prouver cette conjecture (on pourra raisonner par récurrence).
 
-3. On souhaite maintenant utiliser le fait que les seuls chiffres apparaissant dans la suite *lock and say* sont 1, 2 et 3 afin d'écrire une version récursive du calcul du terme suivant. Pour cela, le cas récursif consiste à considérer les trois premiers chiffres du terme précédent et le cas de base est celui d'un terme contenant moins de 3 chiffres. Ecrire cette version récursive.
+3. On souhaite maintenant utiliser le fait que les seuls chiffres apparaissant dans la suite *look and say* sont 1, 2 et 3 afin d'écrire une version récursive du calcul du terme suivant. Pour cela, le cas récursif consiste à considérer les trois premiers chiffres du terme précédent et le cas de base est celui d'un terme contenant moins de 3 chiffres. Ecrire cette version récursive.
 
 {{exo("Conversion de base - Opérateurs bit à bit",[])}}
 
