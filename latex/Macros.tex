@@ -702,7 +702,7 @@ Nom :  \textbf{\textbf{\nom{}}} \qquad \qquad Prénom :  \textbf{\prenom{}}  \hf
 \def\gaddtotok#1{\global\tabtok\expandafter{\the\tabtok#1}}
 \newtoks\tabtok
 \newcommand*\reponse[2]{%
-   \ifthenelse{\boolean{corrige}}{}{\newline
+   \ifthenelse{\boolean{corrige}}{}{\leavevmode \newline
    \global\tabtok{\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{|X|p{1cm}|}\hline \dotfill & \cellcolor{gray!30}{\small \dots/#2} \\ \cline{2-2}}%
    \multido{}{#1}{\gaddtotok{ \multicolumn{2}{|>{\hsize=\dimexpr1\hsize+2\tabcolsep+\arrayrulewidth+1cm\relax}X|}{\dotfill}\leavevmode\\}}%
    \gaddtotok{\hline \end{tabularx}}%

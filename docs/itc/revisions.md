@@ -297,11 +297,11 @@ On a schématisé le tri du tableau `[| 10; 6; 3; 9; 7; 5 |]` suivant ce princip
 
 2. Ecrire une fonction `fusion` qui prend en argument deux listes supposées *déjà triées* et les fusionne.
 
-3. Si vous avez utilisé un algorithme itératif à la question précédente (en manipulant des indices dans chacune des deux listes), écrire une version récursive de la fusion, à l'inverse si vous avez utilisé une version récursive, proposez une version récursive.
+3. Si vous avez utilisé un algorithme itératif à la question précédente (en manipulant des indices dans chacune des deux listes), écrire une version récursive de la fusion, à l'inverse si vous avez utilisé une version récursive, proposez une version itérative.
 
 3. Donner une implémentation du tri fusion en Python.
 
-4. Ecrire une fonction `liste_aleatoire` qui prend en argument un nombre d'éléments `n`, deux bornes `vmin` et `vmax` et renvoie `n` une liste de `n` entiers tirés au sort dans l'intervalle `[vmin;vmax]` (les bornes sont comprises). On rappelle que pour générer un entier aléatoire on peut utiliser la fonction `randint` du module `random`.
+4. Ecrire une fonction `liste_aleatoire` qui prend en argument un nombre d'éléments `n`, deux bornes `vmin` et `vmax` et renvoie une liste de `n` entiers tirés au sort dans l'intervalle `[vmin;vmax]` (les bornes sont comprises). On rappelle que pour générer un entier aléatoire on peut utiliser la fonction `randint` du module `random`.
 
 5. Les nombres aléatoires générées par un ordinateur dépendent d'une valeur appelée *graine* (ou *seed* en anglais). Ainsi en fixant la valeur de la graine, la liste de nombres générés est toujours la même. Importer la fonction `seed` depuis le module `random` et fixer la valeur de la graine a 42, puis générer une liste de 500 nombre aléatoire entre 1 et 10000. Trier cette liste, quelle valeur se trouve à l'indice 250 de cette liste ? {{check_reponse("4650")}}
 

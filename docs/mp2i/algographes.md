@@ -164,6 +164,115 @@ On rappelle que les puissances de la matrice d'adjacence d'un graphe donnent le 
     S0 --- S6
     ```
 
+{{ exo("Résolution de labyrinthe par un parcours en largeur",[])}}
+
+On considère un labyrinthe de dimensions données et fourni sous la forme d'un fichier {{sc("ascii")}} où les caractères `.` indiquent les cases où il est possible de se déplacer et les caractères `@` indiquent un mur infranchissable. On donne les coordonnées d'une case en fournissant *d'abord le numéro de ligne puis le numéro de colonne* et la case de située en haut et à gauche est de coordonnées `(0,0)`. Dans l'exemple suivant, les dimensions sont de 10 sur 10 et les coordonnées de la case contenant un D sont `(6,4)` et celles de la case contenant un `A` sont `(1,6)`:
+
+```
+@@@@@@@@@@
+@....@A@.@
+@.@@.@...@
+@.@@.@@.@@
+@.@...@..@
+@......@.@
+@@@@D....@
+@..@...@.@
+@.....@@.@
+@@@@@@@@@@
+```
+
+Les seuls déplacements autorisés dans le labyrinthe sont droite, haut, gauche et bas. Le but de l'exercice est de déterminer, le nombre minimal de déplacements entre deux cases données (lorsqu'un chemin entre ces deux cases existe). Dans l'exemple précédent, le nombre minimal de déplacements pour aller de `D` vers `A` est **11** et on a fléché ci-dessus un chemin possible :
+```
+@@@@@@@@@@
+@....@A@.@
+@.@@.@^<.@
+@.@@.@@^@@
+@.@...@^<@
+@......@^@
+@@@@x>>>^@
+@..@...@.@
+@.....@@.@
+@@@@@@@@@@
+```
+
+Pour cela, l'idée est d'effectuer le **parcours en largeur** d'un graphe :
+
+* chaque sommet du graphe est un état du labyrinthe indiquant les cases non encore visitées
+* un arc va d'un sommet $s$ vers un sommet $t$ lorsqu'il est possible à partir de $s$ d'atteindre une case non encore parcourue qui sera alors marquée comme tel dans $t$.
+
+Par exemple, sur le labyrinthe ci-dessus, en supposant qu'on se trouve initialement sur la case marquée d'un `D`, trois nouveaux états qu'on a indiqué en les marquants d'un `1` sont accessibles (en un déplacement):
+
+```
+@@@@@@@@@@
+@....@A@.@
+@.@@.@...@
+@.@@.@@.@@
+@.@...@..@
+@...1..@.@
+@@@@D1...@
+@..@1..@.@
+@.....@@.@
+@@@@@@@@@@
+```
+
+A partir de ces nouveaux états, on peut accéder en deux déplacements aux cases indiquées ci-dessous avec un 2 :
+```
+@@@@@@@@@@
+@....@A@.@
+@.@@.@...@
+@.@@.@@.@@
+@.@.2.@..@
+@..212.@.@
+@@@@D12..@
+@..@12.@.@
+@...2.@@.@
+@@@@@@@@@@
+```
+
+On donnera les fichiers représentant un labyrinthe sous le format suivant :
+
+* La première ligne donne le nombre de lignes 
+* La seconde ligne le nombre de colonnes
+* La troisième ligne contient les coordonnées du points de départ (deux entiers : la ligne et la colonne)
+* La quatrième ligne contient les coordonnées du point d'arrivée 
+
+Ainsi, le problème de trouvé le plus court chemin depuis le point `D` jusqu'au point `A` donné dans le labyrinthe en exemple sera représenté par le fichier {{sc("ascii")}} suivant :
+```
+10
+10
+6 4
+1 1
+@@@@@@@@@@
+@....@.@.@
+@.@@.@...@
+@.@@.@@.@@
+@.@...@..@
+@......@.@
+@@@@.....@
+@..@...@.@
+@.....@@.@
+@@@@@@@@@@
+```
+
+1. On décide dans la suite de représenter la carte de taille `heightxwidth` par un tableau linéarisée c'est à dire que le point de coordonnées `l,c` dans la carte sera à l'indice `l*width+c` dans un tableau à une dimension. Ecrire les fonction suivantes :
+
+    * `#!c int get_index(int l, int c, int width)` qui renvoie l'index dans le tableau linéarisé du point de coordonnées `l,c`
+    * `#!c void get_lc(int index, int* l, int *c, int width)` qui modifie `*l` et `*c` afin qu'ils contiennent la ligne et la colonne correspondantes à l'index `index` dans le tableau linéarisé.
+
+    ??? aide "Correction"
+        ```c
+        --8<-- "C20/laby.c:Q1"
+        ```
+
+1. Ecrire une fonction de signature `#!c int *read_map(char filename[], int* height, int* width, int* start, int* arrival)` qui prend en entrée un nom de fichier `filename`, modifie les entiers `height`, `width`, `start` et  `arrival` afin qu'ils contiennent le nombre de lignes du labyrinthe, le nombre de colonne, l'index dans le tableau linéarisé des points de départ et d'arrivée. Cette fonction renvoie un pointeur vers une matrice linéarisée d'entiers, dans lequel on représentant les cases vides par `0` et les murs par `1`.
+
+!!! note "Jeu de données"
+    Les données utilisées dans cet exercice sont issus du [2D Pathfinding Benchmark](https://www.movingai.com/benchmarks/grids.html){target=_blank}
+
+Le fichier à télécharger ci-dessous contient un labyrinthe de dimension *512x512* sous la forme d'un fichier {{sc("ascii")}}, les caractères `.` indiquent les cases où il est possible de se déplacer et les caractères `@` indiquent un mur infranchissable. La case située en haut et à gauche est de coordonnées `(0,0)`. Le but de l'exercice est, étant données un point de départ et un autre d'arrivée de trouver le *plus court chemin* (lorsqu'il existe) dans le labyrinthe pour les relier. 
+
+
+
 ## Humour d'informaticien
 
 ![goto](./Images/C20/goto.png){.imgcentre width=500px}
