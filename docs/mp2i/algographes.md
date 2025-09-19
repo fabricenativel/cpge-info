@@ -166,7 +166,7 @@ On rappelle que les puissances de la matrice d'adjacence d'un graphe donnent le 
 
 {{ exo("Résolution de labyrinthe par un parcours en largeur",[])}}
 
-On considère un labyrinthe de dimensions données et fourni sous la forme d'un fichier {{sc("ascii")}} où les caractères `.` indiquent les cases où il est possible de se déplacer et les caractères `@` indiquent un mur infranchissable. On donne les coordonnées d'une case en fournissant *d'abord le numéro de ligne puis le numéro de colonne* et la case de située en haut et à gauche est de coordonnées `(0,0)`. Dans l'exemple suivant, les dimensions sont de 10 sur 10 et les coordonnées de la case contenant un D sont `(6,4)` et celles de la case contenant un `A` sont `(1,6)`:
+On considère un labyrinthe de dimensions données et fourni sous la forme d'un fichier {{sc("ascii")}} où les caractères `.` indiquent les cases où il est possible de se déplacer et les caractères `@` indiquent un mur infranchissable. On donne les coordonnées d'une case en fournissant *d'abord le numéro de ligne puis le numéro de colonne* et la case  située en haut et à gauche est de coordonnées `(0,0)`. Dans l'exemple suivant, les dimensions sont de 10 sur 10 et les coordonnées de la case contenant un D sont `(6,4)` et celles de la case contenant un `A` sont `(1,6)`:
 
 ```
 @@@@@@@@@@
@@ -236,12 +236,12 @@ On donnera les fichiers représentant un labyrinthe sous le format suivant :
 * La troisième ligne contient les coordonnées du points de départ (deux entiers : la ligne et la colonne)
 * La quatrième ligne contient les coordonnées du point d'arrivée 
 
-Ainsi, le problème de trouvé le plus court chemin depuis le point `D` jusqu'au point `A` donné dans le labyrinthe en exemple sera représenté par le fichier {{sc("ascii")}} suivant :
+Ainsi, le problème de trouver le plus court chemin depuis le point `D` jusqu'au point `A` donné dans le labyrinthe en exemple sera représenté par le fichier {{sc("ascii")}} suivant :
 ```
 10
 10
 6 4
-1 1
+1 6
 @@@@@@@@@@
 @....@.@.@
 @.@@.@...@
@@ -259,17 +259,95 @@ Ainsi, le problème de trouvé le plus court chemin depuis le point `D` jusqu'au
     * `#!c int get_index(int l, int c, int width)` qui renvoie l'index dans le tableau linéarisé du point de coordonnées `l,c`
     * `#!c void get_lc(int index, int* l, int *c, int width)` qui modifie `*l` et `*c` afin qu'ils contiennent la ligne et la colonne correspondantes à l'index `index` dans le tableau linéarisé.
 
-    ??? aide "Correction"
+    ??? Question "Correction"
         ```c
         --8<-- "C20/laby.c:Q1"
         ```
 
-1. Ecrire une fonction de signature `#!c int *read_map(char filename[], int* height, int* width, int* start, int* arrival)` qui prend en entrée un nom de fichier `filename`, modifie les entiers `height`, `width`, `start` et  `arrival` afin qu'ils contiennent le nombre de lignes du labyrinthe, le nombre de colonne, l'index dans le tableau linéarisé des points de départ et d'arrivée. Cette fonction renvoie un pointeur vers une matrice linéarisée d'entiers, dans lequel on représentant les cases vides par `0` et les murs par `1`.
+2. Ecrire une fonction de signature `#!c int *read_map(char filename[], int* height, int* width, int* start, int* arrival)` qui prend en entrée un nom de fichier `filename`, modifie les entiers `height`, `width`, `start` et  `arrival` afin qu'ils contiennent le nombre de lignes du labyrinthe, le nombre de colonne, l'index dans le tableau linéarisé des points de départ et d'arrivée. Cette fonction renvoie un pointeur vers une matrice linéarisée d'entiers, dans lequel on représentant les cases vides par `0` et les murs par `1`. Ces deux constantes peuvent êtres définies (par exemple avec une directive de précompiliation en début de programme de façon explicite : `#!c #define EMPTY 0` et `#!c #define WALL 1`)
 
-!!! note "Jeu de données"
-    Les données utilisées dans cet exercice sont issus du [2D Pathfinding Benchmark](https://www.movingai.com/benchmarks/grids.html){target=_blank}
+    ??? Question "Correction"
+        ```c
+        --8<-- "C20/laby.c:Q2"
+        ```
 
-Le fichier à télécharger ci-dessous contient un labyrinthe de dimension *512x512* sous la forme d'un fichier {{sc("ascii")}}, les caractères `.` indiquent les cases où il est possible de se déplacer et les caractères `@` indiquent un mur infranchissable. La case située en haut et à gauche est de coordonnées `(0,0)`. Le but de l'exercice est, étant données un point de départ et un autre d'arrivée de trouver le *plus court chemin* (lorsqu'il existe) dans le labyrinthe pour les relier. 
+ 
+3. On doit maintenant écrire la structure de données de file dans laquelle seront enfiler les états successifs lors du parcours en largeur du graphe. Pour cela on propose le type structuré suivant :
+
+    ```c
+        --8<-- "C20/laby.c:sd"
+    ```
+
+    C'est à dire qu'on représente une file d'attente par une liste chainée avec un pointeur sur le premier élément et un pointeur sur le dernier élément de la liste. Dans cette structure, il est bien important de comprendre que l'ajout d'un élément se fait **après le pointeur de queue** et que le retrait d'un élément se fait **depuis le pointeur de tête**.
+
+    ```mermaid
+    flowchart LR
+    subgraph "Pointeurs d'accès"
+        direction RL
+        T[Start]
+        Q[End]
+    end
+    subgraph "Liste chainée"
+        direction RL 
+        A(("A")) 
+        B(("B"))
+        C(("C"))
+        D(("D"))
+        E(("E"))
+        N["NULL"]
+        A -->  B --> C--> D --> E --> N
+    end
+    T --> A
+    Q --> E
+    ```
+
+    Dans l'exemple ci-dessus, l'élément défilé serait A et on enfilerais un nouvel élément après E.
+
+    Ecrire les fonctions suivantes qui permettront de manipuler cette structure de données :
+
+    1. `#!c queue create()` qui renvoie une file vide (les deux pointeurs `start` et `end` sont `NULL`).
+    2. `#!c bool is_empty(queue q)` qui renvoie `true` si la file est vide.
+    3. `#!void insert(queue *q, int nodenum, int nodedist)` qui enfile un nouveau nom dont on donne l'indice `nodenum` et la distance par rapport au point de départ `nodedist`
+    4. `#! node extract(queue *q)` qui défile un noeud.
+    5. `#! void destroy(queue *q)` qui défile tous les éléments et libère l'espace mémoire alloué.
+
+    ??? Question "Correction"
+        ```c
+        --8<-- "C20/laby.c:Q3"
+        ```
+
+4. Maintenant que nous disposons de la structure de données adéquate il nous reste à appliquer l'algorithme de parcours en largeur afin de déterminer la longueur minimale d'un chemin liant le point de départ à celui d'arriver. On commencer par initialiser une file avec pour seul élément le point de départ (représenté par son index dans le tableau linéarisé) associée à une distance de 0. Puis tant que cette file vide n'est pas vide et que l'arrivée n'a pas été atteinte, on défile un noeud et on enfile les cases adjacentes non encore parcourues (qu'on pourra marquer dans la carte à l'aide d'une constante `VISITED`). Ecrire une fonction `#!c int solve(char* fname)` qui prend en argument un nom de fichier contenant un labyrinthe (au format décrit en introduction) et renvoie la longueur d'un plus court chemin ou `-1` si aucun chemin n'existe.
+
+    ??? Question "Correction"
+        ```c
+        --8<-- "C20/laby.c:Q3"
+        ```
+
+5. On peut à présent tester notre programme en lui donnant en entrée un fichier contenant un problème de labyrinthe. Par exemple pour le labyrinthe donné en exemple :
+    ```
+    10
+    10
+    6 4
+    1 6
+    @@@@@@@@@@
+    @....@.@.@
+    @.@@.@...@
+    @.@@.@@.@@
+    @.@...@..@
+    @......@.@
+    @@@@.....@
+    @..@...@.@
+    @.....@@.@
+    @@@@@@@@@@
+    ```
+    Le programme doit renvoyer **11**.
+    On propose ci-dessous un autre jeu de données avec un labyrinthe bien plus grands, il est extrait du site 
+    [2D Pathfinding Benchmark](https://www.movingai.com/benchmarks/grids.html){target=_blank}. Et vous pouvez le télécharger ci-dessous :  
+    {{telecharger("Labyrinthe","./files/C20/labyrinthe.txt")}}
+    Et vous pouvez vérifier la réponse du programme : {{check_reponse("4847")}}
+
+6. Pour le moment on dispose de la longueur minimale d'un chemin, mais pas du chemin lui-même. Afin de reconstruire le chemin parcouru, on propose d'enregistrer dans un tableau `parent` la case d'origine d'une case nouvellement atteinte. Ainsi à l'origine le point de départ n'a pas de parent, puis chaque case atteinte en un déplacement a pour parent la case de départ. Une fois la case d'arrivée atteinte, on remonte de proche en proche dans ce tableau afin de reconstruire le chemin parcouru. Ecrire une fonction de signature `#!c int* solve_path(char* fname)` qui renvoie un pointeur vers le tableau des cases parcourues si un chemin est trouvé et un pointeur {{sc("null")}} sinon. On pourra retrouver la taille de ce tableau car un chemin se termine forcément sur la case d'arrivée.
+
 
 
 

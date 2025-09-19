@@ -196,7 +196,7 @@ int *solve(int *map, int sl, int sc, int el, int ec)
         return NULL;
     }
     map[sn] = VISITED;
-    parent[sn] = ROOT;
+    parent[sn] = -1; //La case d'origine n'a pas de parent
     insert(&q, sn, 0);
     bool exitfound = false;
     node cn;

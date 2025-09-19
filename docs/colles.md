@@ -14,3 +14,12 @@ hide: - navigation  in liens.md
 * *A partir du 15/09* : terminaison d'un algorithme, variant
 
 
+## Semaines du 22/09, du 29/06 et du 06/09
+
+* Terminaison et correction d'algorithme simples. Les variants et invariants peuvent être suggérés aux élèves. Exemples traités en cours/TD : multiplication par addition successives, quotient et reste dans la division euclidienne, recherche de max/min dans un tableau, multiplication à la russe.
+* Modèle mémoire du langage C, pile, allocation dynamique dans le tas. Utilisation des opérateurs `*` afin d'obtenir le contenu d'une adresse et de `&` pour l'adresse d'une variable. Instructions `malloc` et `free`.
+* Ecriture en C de fonctions renvoyant un pointeur vers une zone mémoire allouée sur le tas qui sera traité comme un tableau, on pourra dire par abus de langage "*fonction renvoyant un tableau*"
+* Types structurés en C, définition et utilisation. Pointeur vers un type structurée, la notation raccourcie `s->champ` pour `(*s).champ` doit être connue.
+* Arguments en ligne de commande en C. Fonction `atoi` et `atof`.
+* *A partir du 29/06* : représentation des entiers. Formats disponibles en OCaml et en C. Cas de dépassement de capacité.
+* *A partir du 06/09* : représentation des flottants, exemples simples de conversion du type simple précision en décimal ou inversemment. Problème de fiabilité des calculs en arithmétique à virgule flottante.

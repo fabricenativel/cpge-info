@@ -7,14 +7,13 @@
 #define WALL 1
 #define VISITED 2
 
-const int DL[4] = {0, -1, 0, 1};
-const int DC[4] = {1, 0, -1, 0};
 
+// --8<-- [start:sd]
 struct node_s
 {
-    int num;
-    int dist;
-    struct node_s *next;
+    int num; //l'index de la case dans le tableau linéarisé
+    int dist;//le nombre de déplacements pour l'atteindre
+    struct node_s *next;//pointeur vers le noeud suivant
 };
 typedef struct node_s node;
 typedef node *lnode;
@@ -24,7 +23,9 @@ struct queue_s
     lnode end;
 };
 typedef struct queue_s queue;
+// --8<-- [end:sd]
 
+// --8<-- [start:Q3]
 queue create()
 {
     queue q = {.start = NULL, .end = NULL};
@@ -86,6 +87,7 @@ void destroy(queue *q)
         free(temp);
     }
 }
+// --8<-- [end:Q3]
 
 // --8<-- [start:Q1]
 int get_index(int l, int c, int width)
@@ -145,6 +147,7 @@ void view_map(int *map, int height, int width)
     }
 }
 
+// --8<-- [start:Q2]
 int *read_map(char filename[], int *height, int *width, int *start, int *arrival)
 {
     FILE *inputstream = fopen(filename, "r");
@@ -157,7 +160,6 @@ int *read_map(char filename[], int *height, int *width, int *start, int *arrival
     // Les dimensions sont sur les deux premieres lignes
     fscanf(inputstream, "%d", height);
     fscanf(inputstream, "%d", width);
-    printf("(%d,%d)\n",*height,*width);
     // Puis on lit les coordonnées du point de départ et d'arrivée
     fscanf(inputstream, "%d", &l);
     fscanf(inputstream, "%d", &c);
@@ -166,11 +168,6 @@ int *read_map(char filename[], int *height, int *width, int *start, int *arrival
     fscanf(inputstream, "%d", &c);
     *arrival = get_index(l, c, *width);
     int *map = malloc(sizeof(int) * *height * *width);
-    if (!map)
-    {
-        printf("Impossible d'allouer un espace mémoire suffisant \n");
-        exit(-2);
-    }
     char cc;
     fgetc(inputstream);
     for (int l = 0; l < *height; l++)
@@ -196,17 +193,23 @@ int *read_map(char filename[], int *height, int *width, int *start, int *arrival
     fclose(inputstream);
     return map;
 }
+// --8<-- [end:Q2]
 
-int solve(int *map, int sl, int sc, int el, int ec, int height, int width)
+// --8<-- [start:Q4]
+int solve(char* fname)
 {
+    const int DL[4] = {0, -1, 0, 1}; //Les 4 mouvements possibles
+    const int DC[4] = {1, 0, -1, 0};
+    int* map;
+    int height, width, start, arrival;
+    map = read_map(fname,&height, &width, &start, &arrival);
     queue q = create();
-    int sn = get_index(sl, sc, width);
-    if (map[sn] != EMPTY)
+    if (map[start] != EMPTY)
     {
         return -1;
     }
-    map[sn] = VISITED;
-    insert(&q, sn, 0);
+    map[start] = VISITED;
+    insert(&q, start, 0);
     bool exitfound = false;
     node cn;
     int cl, cc;
@@ -224,13 +227,14 @@ int solve(int *map, int sl, int sc, int el, int ec, int height, int width)
             {
                 map[tn] = VISITED;
                 insert(&q, tn, cn.dist + 1);
-                if (tl == el && tc == ec)
+                if (tn==arrival)
                 {
                     exitfound = true;
                 }
             }
         }
     }
+    free(map);
     destroy(&q);
     if (exitfound)
     {
@@ -241,11 +245,81 @@ int solve(int *map, int sl, int sc, int el, int ec, int height, int width)
         return -1;
     }
 }
+// --8<-- [end:Q4]
 
-int main()
+
+// --8<-- [start:Q4]
+int* solve_path(char* fname, int *size)
 {
-    int h, w, d, a;
-    int *map = read_map("minilaby.txt", &h, &w, &d, &a);
-    // int r = solve(map,107,485,33,32);
+    const int DL[4] = {0, -1, 0, 1}; //Les 4 mouvements possibles
+    const int DC[4] = {1, 0, -1, 0};
+    int* map;
+    int height, width, start, arrival;
+    map = read_map(fname,&height, &width, &start, &arrival);
+    int *parent = malloc(sizeof(int)*width*height);
+    queue q = create();
+    if (map[start] != EMPTY)
+    {
+        *size = 0;
+        return NULL;
+    }
+    map[start] = VISITED;
+    insert(&q, start, 0);
+    bool exitfound = false;
+    node cn;
+    int cl, cc;
+    int tl, tc, tn;
+    while (!is_empty(q) && !exitfound)
+    {
+        cn = extract(&q);
+        get_lc(cn.num, &cl, &cc,width);
+        for (int i = 0; i < 4; i++)
+        {
+            tl = cl + DL[i];
+            tc = cc + DC[i];
+            tn = get_index(tl, tc, width);
+            if (in_grid(tl, tc, height, width) && map[tn] == EMPTY)
+            {
+                map[tn] = VISITED;
+                parent[tn] = cn.num;
+                insert(&q, tn, cn.dist + 1);
+                if (tn==arrival)
+                {
+                    exitfound = true;
+                }
+            }
+        }
+    }
     free(map);
+    destroy(&q);
+    if (exitfound)
+    {
+        *size = cn.dist+1;
+        int *path = malloc(sizeof(int) * *size);
+        int cnum = arrival;
+        for (int i = cn.dist; i >= 0; i--)
+        {
+            path[i] = parent[cnum];
+            cnum = parent[cnum];
+        }
+        free(parent);
+        return path;
+    }
+    else
+    {
+        *size = 0;
+        return NULL;
+    }
+}
+// --8<-- [end:Q4]
+
+int main(int argc, char* argv[])
+{
+    if (argc!=2)
+    {
+        printf("Utilisation : %s <fichier> \n",argv[0]);
+        exit(1);
+    }
+    int r = solve(argv[1]);
+    printf("Réponse = %d\n",r);
 }
