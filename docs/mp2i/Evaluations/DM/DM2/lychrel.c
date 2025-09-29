@@ -4,12 +4,14 @@
 #include <stdlib.h>
 #include <time.h>
 
+// --8<-- [start:struct]
 struct number_s
 {
-    uint8_t *digits;
-    uint64_t size;
+    uint8_t *digits; // pointeur vers le tableau des chiffres
+    uint64_t size;   // nombre de chiffres
 };
 typedef struct number_s number;
+// --8<-- [end:struct]
 
 number create(int n)
 {
@@ -40,18 +42,16 @@ void view(number dn)
     printf("\n");
 }
 
-number next(number dn)
+void next(number *dn)
 {
-    number nn;
-    nn.size = dn.size + 1;
-    nn.digits = malloc(sizeof(uint8_t) * nn.size);
+    uint8_t *newdigits = malloc(sizeof(uint8_t) * (dn->size+1));
     uint8_t carry = 0;
-    for (uint64_t i = 0; i < dn.size; i++)
+    for (uint64_t i = 0; i < dn->size; i++)
     {
-        nn.digits[i] = dn.digits[i] + dn.digits[dn.size - 1 - i] + carry;
-        if (nn.digits[i] >= 10)
+        newdigits[i] = dn->digits[i] + dn->digits[dn->size - 1 - i] + carry;
+        if (newdigits[i] >= 10)
         {
-            nn.digits[i] -= 10;
+            newdigits[i] -= 10;
             carry = 1;
         }
         else
@@ -61,13 +61,11 @@ number next(number dn)
     }
     if (carry == 1)
     {
-        nn.digits[nn.size - 1] = carry;
+        newdigits[dn->size] = 1;
+        dn->size ++;
     }
-    else
-    {
-        nn.size--;
-    }
-    return nn;
+    free(dn->digits);
+    dn->digits = newdigits;
 }
 
 bool palindrome(number dn)
@@ -87,47 +85,38 @@ void destroy(number dn)
     free(dn.digits);
 }
 
-uint64_t lychrel(number dn)
+int lychrel(number *dn, int limit)
 {
-    number nn;
-    uint64_t niter = 0;
-    clock_t start = clock();
-    while (!palindrome(dn))
+    int niter = 0;
+    while (!palindrome(*dn) && niter < limit)
     {
-
-        if (niter % 100000 == 0)
-        {
-            printf("%ld itérations - nombre a %ld chiffres en %lf sec \n", niter, dn.size,(double)(clock()-start)/CLOCKS_PER_SEC);
-
-            start = clock();
-        }
-        nn = next(dn);
-        destroy(dn);
-        dn = nn;
+        next(dn);
         niter++;
     }
-    destroy(nn);
+    if (!palindrome(*dn))
+    {
+        return -1;
+    }
     return niter;
 }
 
-
-uint64_t reach(number dn, uint64_t limit, uint64_t step)
+bool walker(number *dn, uint64_t limit, int* nb_iter)
 {
-    uint64_t niter = 0;
-    clock_t start = clock();
-    uint8_t *old;
-    while (dn.size != limit)
+    *nb_iter = 0;
+    while (!palindrome(*dn) && dn->size < limit)
     {
-        if (dn.size%step == 0)
+        next(dn);
+        *nb_iter = *nb_iter + 1;
+        if (dn->size%50000==0)
         {
-            printf("Nombre à %ld chiffres atteint après %ld itérations en %lf sec \n", dn.size, niter,(double)(clock()-start)/CLOCKS_PER_SEC);
+            printf("%ld chiffres\n",dn->size);
         }
-        old = dn.digits;
-        dn = next(dn);
-        free(old);
-        niter++;
     }
-    return niter;
+    if (!palindrome(*dn))
+    {
+        return false;
+    }
+    return true;
 }
 
 int main(int argc, char *argv[])
@@ -138,6 +127,17 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     number dn = create(atoi(argv[1]));
-    uint64_t niter = reach(dn, 1000000, 10000);
-    printf("Terminé après %ld itérations !\n",niter);
+    int limit = 1000000;
+    int nb_iter;
+    bool res = walker(&dn, limit, &nb_iter);
+    if (res)
+    {
+        printf("Palindrome atteint ! Le nombre a %lu chiffres \n",dn.size);
+    }
+    else
+    {
+        printf("Palindrome non atteint après %d itétations \n",nb_iter);
+        printf("Le nombre a %lu chiffres \n",dn.size);
+    }
+    destroy(dn);
 }
