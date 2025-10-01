@@ -1,0 +1,40 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\setboolean{corrige}{false}
+\TPnote{1}{Langage C}{10}
+%Nom de la première activité
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise}[title={Nombre  harshad}]
+
+    Les questions sont \textit{indépendantes}, et on pourra toujours utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée. On supposera toujours déjà incluses les librairies usuelles du langage C.
+
+	On dit qu'un entier strictement positif est un \textit{nombre harshad} (ou nombre de Niven) lorsqu'il est divisible par la somme de ses chiffres dans une base donnée. Dans cet exercice, on s'intéresse aux nombres harshad en base 10. Par exemples, {\tt $48$} est un nombre harshad puisque 48 est divisible par $12$, de même $63$ (divisible par 9) ou encore $190$ (divisible par 10) sont aussi des nombres harshad. Par contre $28$, ou encore $104$ ne sont pas des nombres harshad.
+
+    \Question{Ecrire une fonction de signature \mintinline{c}{bool est_harshad(int n)} qui renvoie {\tt true} si et seulement si {\tt n} est un nombre harshad.}
+    \reponse{11}{3}
+    \Question{Ecrire une fonction {\tt main} qui prend un argument en ligne de commande une chaine de caractère, la convertit en entier (avec la fonction {\tt atoi}) puis affiche {\tt true} si cet entier est harshad et {\tt false} sinon. Si aucune argument n'est donné, on affiche un message d'erreur. Par exemple, voici des comportements attendus en supposant que l'exécutable s'appelle {\tt harshad.exe}
+    \begin{minted}[gobble=8]{bash}
+        ./harshad.exe 42
+        true
+        ./harsahd.exe 53
+        false
+        ./harshad.exe
+        Utilisation : ./harshad.exe <entier positif>
+    \end{minted}
+    }
+    \reponse{8}{2}
+    
+    \Question{Ecrire une fonction \mintinline{c}{int* get_harshad(int limit, int *nb)} qui prend en argument un entier {\tt limit}, et renvoie un tableau contenant les nombres de harshad inférieurs ou égaux à {\tt limit}. De plus {\tt *nb} doit contenir après appel le nombre de nombres harshad inférieurs ou égaux à {\tt limit}. Par exemple comme les nombres harshad inférieurs ou égaux à 20 sont {\tt \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 18, 20\}} l'appel {\tt get\_harshad(20, \&n)} renvoie un tableau contenant ces entiers et après l'appel {\tt n} contient la taille de ce tableau donc {\tt 13}.}
+    \reponse{12}{4}
+    \Question{On recherche à présent des suites de nombres consécutifs qui sont tous harshad, par exemple les nombres $110, 111$ et $112$ sont 3 nombres harshad consécutifs. En écrivant un programme, déterminer le plus petit entiers $h$ tel que $h, h+1, h+2, h+3$ et $h+4$ soient tous des nombres de harshad.}
+\end{Exercise}
+
+\end{document}

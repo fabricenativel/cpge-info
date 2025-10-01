@@ -28,7 +28,7 @@ On utilise ici le type `uint64_t` du C (disponible dans `<stdint.h>`) afin de re
 
     * Nombre maximal d'itérations avant d'atteindre un palindrome {{check_reponse("24")}}
     * Plus petit entier pour lequel le nombre d'itération est maximal {{check_reponse("89")}}
-    * Plus grand nombre palindrome obtenu {{check_reponse("=8813200023188")}}
+    * Plus grand nombre palindrome obtenu {{check_reponse("8813200023188")}}
 
 6. Modifier le code de la fonction `terme_suivant` (écrite à la question 3) en ajoutant une instruction `assert` permettant de vérifier que l'addition de `n` et de `n` écrit à l'envers ne provoque pas de dépassement de capacité. On pourra utiliser la constante `UINT64_MAX`. Tester alors la fonction `lychrel`  pour l'entier 196. Conclure quant à l'approche utilisant les entiers `uint64_t`.
 

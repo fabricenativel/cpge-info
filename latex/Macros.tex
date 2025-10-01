@@ -39,6 +39,7 @@
 \newcommand{\inputOCaml}[3]{\begin{mdframed}[backgroundcolor=codebg] \inputminted[breaklines=true,fontsize=#3,linenos=true,highlightcolor=fluo,tabsize=2,highlightlines={#2}]{ocaml}{#1} \end{mdframed}}
 \newcommand{\inputpartOCaml}[5]{\begin{mdframed}[backgroundcolor=codebg] \inputminted[breaklines=true,fontsize=#3,linenos=true,highlightcolor=fluo,tabsize=2,highlightlines={#2},firstline=#4,lastline=#5,firstnumber=1]{OCaml}{#1} \end{mdframed}}
 \newcommand{\inputpartPython}[5]{\begin{mdframed}[backgroundcolor=codebg] \inputminted[breaklines=true,fontsize=#3,linenos=true,highlightcolor=fluo,tabsize=2,highlightlines={#2},firstline=#4,lastline=#5,firstnumber=1]{python}{#1} \end{mdframed}}
+\newcommand{\ipp}[3]{\begin{mdframed}[backgroundcolor=codebg] \inputminted[breaklines=true,linenos=false,firstline=#2,lastline=#3,firstnumber=1]{python}{#1} \end{mdframed}}
 \newcommand{\inputpartC}[5]{\begin{mdframed}[backgroundcolor=codebg] \inputminted[breaklines=true,fontsize=#3,linenos=true,highlightcolor=fluo,tabsize=2,highlightlines={#2},firstline=#4,lastline=#5,firstnumber=1]{c}{#1} \end{mdframed}}
 \newcommand{\corC}[3]{\begin{mdframed}[backgroundcolor=white,linecolor=OliveGreen,linewidth=1pt] \inputminted[breaklines=true,fontsize=#3,linenos=true,highlightcolor=fluo,tabsize=2,highlightlines={#2}firstnumber=1]{c}{#1} \end{mdframed}}
 \newcommand{\corOCaml}[3]{\begin{mdframed}[backgroundcolor=white,linecolor=OliveGreen,linewidth=1pt] \inputminted[breaklines=true,fontsize=#3,linenos=true,highlightcolor=fluo,tabsize=2,highlightlines={#2},firstnumber=1]{OCaml}{#1} \end{mdframed}}
@@ -58,17 +59,24 @@
 \newcommand{\ttm}[1]{\ttfamily \fontseries{m}\selectfont #1}
 \newcommand{\ttb}[1]{\ttfamily \fontseries{b}\selectfont #1}
 
-%QCM de NSI \QNSI{Question}{R1}{R2}{R3}{R4}
-\newcommand{\QNSI}[5]{
+% Case choix qcm
+\newcommand{\ch}{\ding{109}}
+\newcommand{\gc}{\ifthenelse{\boolean{corrige}}{\textcolor{OliveGreen}{\faCheckCircle\,}}{\faCircle[regular]\,}}
+\newcommand{\bc}{\ifthenelse{\boolean{corrige}}{\textcolor{BrickRed}{\faCircle[regular]\,}}{\faCircle[regular]\,}}
 
-\begin{enumerate}[label=\alph{enumi})]
-\item #2
-\item #3
-\item #4
-\item #5
-\end{enumerate}
-}
+%Macro d'affichage d'une question à choix multiple
+\NewDocumentCommand{\qcm}{ m m }
+ {
+   % affichage de l'énoncé
+   \textbf{Question :}~#1
 
+   % création de la liste à cocher
+   \begin{itemize}[label=$\square$] % cases vides devant chaque choix
+     \clist_map_inline:nn { #2 }
+       { \item ##1 }
+   \end{itemize}
+ }
+\ExplSyntaxOff
 
 
 \definecolor{grispale}{gray}{0.95}
@@ -580,6 +588,15 @@
 \fbox{\parbox[b][1cm][t]{0.3\textwidth}{Nom : \hfill \po{3} \par \vfill Prénom : \hfill \po{3}} } \hfill 
 \fbox{\parbox[b][1cm][t]{0.6\textwidth}{Note : \po{1} / 10} }
 \end{center}}\cfoot{}}
+% ICX{Type}{Numéro}{Filière}{Thème}{Barème}
+\newcommand{\ICX}[5]{\lhead{\textbf{#1 n° #2}}
+\rhead{{\sc #3 --} \textbf{#4}} \setlength{\fboxsep}{8pt}
+\ifthenelse{\boolean{corrige}}{}
+{\begin{center}
+%Titre de la fiche
+\fbox{\parbox[b][1cm][t]{0.3\textwidth}{Nom : \hfill \po{3} \par \vfill Prénom : \hfill \po{3}} } \hfill 
+\fbox{\parbox[b][1cm][t]{0.6\textwidth}{Note : \po{1} / #5} }
+\end{center}}\cfoot{}}
 \newcommand{\ICP}[3]{\lhead{\textbf{Interro de cours n° #1}}
 \rhead{{\sc #3 --} \textbf{#2}} \setlength{\fboxsep}{8pt}
 \ifthenelse{\boolean{corrige}}{}
@@ -705,6 +722,13 @@ Nom :  \textbf{\textbf{\nom{}}} \qquad \qquad Prénom :  \textbf{\prenom{}}  \hf
    \ifthenelse{\boolean{corrige}}{}{\leavevmode \newline
    \global\tabtok{\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{|X|p{1cm}|}\hline \dotfill & \cellcolor{gray!30}{\small \dots/#2} \\ \cline{2-2}}%
    \multido{}{#1}{\gaddtotok{ \multicolumn{2}{|>{\hsize=\dimexpr1\hsize+2\tabcolsep+\arrayrulewidth+1cm\relax}X|}{\dotfill}\leavevmode\\}}%
+   \gaddtotok{\hline \end{tabularx}}%
+   \the\tabtok
+   }}
+\newcommand*\rep[1]{%
+   \ifthenelse{\boolean{corrige}}{}{\leavevmode \newline
+   \global\tabtok{\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{|X|}\hline \dotfill \\}%
+   \multido{}{#1}{\gaddtotok{{\dotfill}\leavevmode\\}}%
    \gaddtotok{\hline \end{tabularx}}%
    \the\tabtok
    }}
