@@ -1,0 +1,43 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\setboolean{corrige}{false}
+\IC{2}{Validation et tests}
+\setcounter{Exercise}{0}
+
+\begin{Exercise}[title = nombre de chiffres d'un entier positif]
+    \Question{Écrire une fonction \mintinline{c}{int nb_chiffres(int n)} qui prend en paramètre un entier positif et renvoie le nombre de chiffres de cet entier. Par exemple, pour l'entier 1942, la fonction renvoie 4. Cette fonction \textit{doit} procéder de la façon suivante :
+    \begin{itemize}
+        \item si {\tt n} vaut 0 alors on renvoie 1
+        \item sinon on divise {\tt n} par 10 jusqu'à ce que {\tt n} soit égal à 0, en incrémentant un compteur à chaque division. On renvoie la valeur de ce compteur lorsque le processus se termine.
+    \end{itemize}}
+    \reponse{14}{6}
+    \ifcorrige
+    \inputpartC{nbc.c}{}{}{4}{15}
+    \fi
+    \Question{Proposer un jeu de tests sous forme d'instructions \mintinline{c}{assert} permettant de valider le comportement de cette fonction.}\\
+    \reponse{4}{1}
+    \ifcorrige
+    \inputpartC{nbc.c}{}{}{19}{23}
+    \fi
+    \Question{Prouver la terminaison de la fonction \mintinline{c}{nb_chiffres}.}\\
+    \reponse{7}{3}
+    \tcor{
+        Si {\tt n} vaut 0 la fonction termine immédiatement en renvoyant 1. Sinon, montrons que {\tt n} est un variant de la boucle \mintinline{c}{while (n > 0)} :
+        \begin{itemize}
+        \item {\tt n} est un entier par précondition et strictement positif par condition d'entrée dans la boucle
+        \item à chaque itération, {\tt n} est divisé par 10 et comme il est strictement positif, il diminue strictement.
+        \end{itemize}
+       Donc cette fonction termine toujours.
+    }
+
+
+\end{Exercise}
+
+
+
+\end{document}
