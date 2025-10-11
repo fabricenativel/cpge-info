@@ -23,7 +23,7 @@ On reprend l'implémentation vue en cours pour les listes simplement chaînées 
 ```c
         --8<-- "C8/liste_chainee.c:7:13"
 ```
-On définit donc ici une liste comme un pointeur vers le maillon de tête. 
+On définit donc ici une liste comme un pointeur vers le maillon de tête, ainsi une liste vide correspond au pointeur `NULL`.
 
 1. Ecrire les fonctions suivante :
 
@@ -46,6 +46,42 @@ On définit donc ici une liste comme un pointeur vers le maillon de tête.
 4. Vérifier l'absence de fuites mémoires.
 
 5. Reprendre cette exercice en créant un type de liste **doublement** chaînées (vers le suivant et vers le précédent) appelé  *deque* (pour *d*ouble *e*nded *que*ue) dans lequel on conserve un accès vers la tête de la liste (afin de pouvoir ajouter ou retirer un élément "à gauche" comme dans une liste chainée "traditionnelle") mais aussi un accès vers le dernier élément de la liste afin de pouvoir ajouter ou retirer un élément "à droite" de la liste en temps constant.
+
+{{exo("Implémentation avec maillon fantôme",[])}}
+
+Une implémentation alternative des listes chainées consiste à utiliser un maillon de tête *toujours vide*, on parle alors de *maillon fantôme* ou *maillon sentinelle* (*dummy head* en anglais). Par rapport à l'implémentation vue en cours (et traité dans l'exercice précédent), on n'a plus besoin de traiter le cas particulier de la liste vide dans les fonctions (une liste n'est jamais `NULL`, elle possède au moins le *maillon fantôme*). Le passage d'un pointeur sur un pointeur de maillon (même si cela a été masqué avec le type `list` dans l'implémentation précédente) n'est plus utilisé, cette implémentation est donc parfois considérée comme plus facile.
+
+On a représenté ci-dessous la liste contenant les valeurs `5, 7, 4` avec cette implémentation, la valeur du maillon fantôme n'étant pas utilisée, on l'a représenté avec `@`.
+
+<div class="centre">
+```mermaid
+    graph LR
+    classDef dashed stroke-dasharray:5 5,stroke:#333,fill:#eef,rx:5px,ry:5px;
+    classDef null stroke:#FFFFFF, fill:#FFFFFF
+    A["@"] --> B["5"] --> C["7"] --> D["4"] --> E["NULL"]
+    class A dashed;
+    class E null;
+```
+</div>
+
+Pour mettre en oeuvre cette implémentation, on propose le type structuré suivant :
+```c
+--8<-- "C8/fantome.c:struct"
+```
+
+!!! note
+    Remarquez bien la différence avec l'implémentation précédente, une liste est maintenant *un maillon* et non plus *un pointeur vers un maillon*.
+
+1. Ecrire la fonction de signature `list make_list()` qui renvoie une liste vide.
+
+2. Ecrire la fonction de signature `void add(list *l, int v)` qui ajoute une valeur `v` en tête de liste (donc *après* le maillon fantome)
+
+3. Ecrire la fonction de signature `void view(list l)` permettant d'afficher une liste puis tester votre implémentation.
+
+4. Ecrire la fonction de signature `int del(list *l)` qui supprime le maillon suivant le maillon fantome et renvoie sa valeur.
+
+5. On propose maintenant d'utiliser le maillon de tête afin d'y stocker la taille de la liste. Modifier en conséquence les fonctions précédentes et écrire la fonction de signature `int size(list l)` qui renvoie le nombre d'éléments de la liste.
+
 
 {{exo("Des listes d'entiers en OCaml",[])}}
 
@@ -161,6 +197,54 @@ Le but est de l'exercice est d'implémenter un type *Vector* de tableaux redimen
         On fera bien attention aux cas particuliers des files contenant moins de deux éléments dans lesquels les deux pointeurs sont identiques
 
 2. Réaliser en C l'implémentation d'une file de taille maximale connue $n$ à l'aide d'un tableau circulaire de taille $n$ (voir cours)
+
+
+{{exo("File de priorité",[])}}
+
+Une file de priorité est une structure de données dans laquelle chaque élément est enfilé *avec une priorité*, lorsqu'on veut défiler un élément c'est celui ayant la plus faible priorité qui est extrait. Une implémentation efficace de cette structure de données sera vu plus loin dans le cours, on propose ici de réaliser une implémentation utilisant une liste chainée d'entiers (représentant les priorités) que l'on garde *triée* ainsi le prochain élément à défiler se trouve toujours en tête de la liste. L'insertion doit maintenir la liste triée. 
+
+Par exemple, après insertion des valeurs `12, 7, 13, 8 , 10`, la liste sera :
+
+<div class="centre">
+```mermaid
+    graph LR
+    classDef null stroke:#FFFFFF, fill:#FFFFFF
+    A["7"] --> B["8"] --> C["10"] --> D["12"] --> E["13"] --> F["NULL"]
+    class F null
+```
+</div>
+Si on défile un élément c'est celui figurant en tête de liste (donc `7` dans l'exemple) qui sera extrait.
+
+On utilisera le type structuré déjà rencontré en cours :
+```c
+    --8<-- "C8/fprio.c:struct"
+```
+
+1. Quelle sera la complexité des opérations enfiler et défiler ?
+
+2. Ecrire la fonction de signature `enfiler(list* l, int p)` qui enfile l'élément de priorité `p` dans la liste `l`.
+
+    !!! aide
+        On rappelle que cette se fait *en supposant la liste triée* et qu'elle doit la maintenir triée. Comme toujours lorsqu'on utilise une liste chainée, on recommande vivement de schématiser avant de passer à la programmation. Pour l'opération `enfiler` on pourra distinguer les deux cas suivants :
+
+        * l'insertion s'effectue en tête de liste, cela se produit dans les deux cas suivants : la liste est vide ou alors la priorité du maillon de tête est supéreure à celle de l'élément à inséser,
+        * l'insertion s'effectue après le maillon de tête.
+
+3. Ecrire la fonction permettant de défiler un élément et tester votre implémentation.
+
+4. Ecrire la fonction de signature `void detruit(fprio *f)` qui supprime une file de priorité en libérant l'espace mémoire allouée lors de sa construction.
+
+5. On donne ci-dessous un fichier simulant l'arrivée et la prise en charge de patients dans un hopital, chaque patient a une priorité de traitement unique permettant de l'identifier. L'arrivée du patient de priorité `x` est indiqué dans le fichier par la ligne `+ x`. La prise en charge d'un patient est indiqué par une ligne `-`. Par exemple les lignes :
+```
++ 42
++ 12
+-
++ 7
+```
+Signifient que les patients 42, 12 et 7 sont arrivés dans cet ordre, une seule prise en charge à eu lieu : celle du patient de priorité 12 (il était au moment de la prise en charge le plus prioritaire). On précise que ce fichier contient un total de **1000** opérations (arrivées et prise en charge).
+{{telecharger("Patients","./files/C8/patients.txt")}}
+En utilisant la file de priorité implémentée aux questions précédentes, déterminer au terme des 1000 opérations indiquées dans le fichier la liste des patients qui a été prise en charge. Vérifier votre réponse en entrant la liste des priorités des patients (dans leur ordre de prise en charge et séparé par des virgules) dans le cadre suivant : {{check_reponse("2,5,8,0,3,7,9,10,11,1")}}
+
 
 {{ exo("Implémentation d'une file avec deux piles",[]) }}
 On considère la file suivante  :
