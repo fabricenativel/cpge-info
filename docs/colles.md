@@ -23,3 +23,10 @@ hide: - navigation  in liens.md
 * Arguments en ligne de commande en C. Fonction `atoi` et `atof`.
 * *A partir du 29/06* : représentation des entiers. Formats disponibles en OCaml et en C. Cas de dépassement de capacité.
 * *A partir du 06/09* : représentation des flottants, exemples simples de conversion du type simple précision en décimal ou inversemment. Problème de fiabilité des calculs en arithmétique à virgule flottante.
+
+## Semaines du 27/10, du 03/11 et du 10/11
+
+* Types structurés en C, utilisation de pointeurs vers de tels types.
+* Représentation des entiers et des flottants
+* *A partir du 03/11* : Récursivité. Preuve de terminaison et correction d'algorithmes récursifs. Ecriture de fonctions simples en versions récursives (somme, minimum, puissance, dessins à l'aide d'instructions `print`). Récursivité croisée.
+* *A partir du 10/11* : Aspects fonctionnels de OCaml. Ecriture et évaluation d'expressions en OCaml. Définition de fonctions, expressions conditionnelles. Type `list`, correspondance de motifs.
