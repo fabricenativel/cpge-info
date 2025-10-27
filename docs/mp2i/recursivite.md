@@ -268,6 +268,33 @@ Le tri des deux moitiés est lui-même effectué par tri fusion, cet algorithme 
     !!! warning "Attention"
         Penser à vérifier l'absence de fuites mémoires.
 
+
+
+{{ exo("Suite look and say",[])}}
+
+La [suite *look and say*](https://en.wikipedia.org/wiki/Look-and-say_sequence){target=_blank} a pour premiers termes : `1, 11, 21, 1211, 111221, 312211, ...` en effet chaque terme s'obtient en *regardant* puis en *disant* le terme précédent. Le premier terme `1` se lit "un un" et donc le second terme est `11` qui se lit `deux un` et donc le troisième terme est `21` qui se lit `un deux un un` et donc le quatrième terme est `1211` et ainsi de suite. Le but de l'exercice est de générer les termes de cette  suite de façon impérative en C puis de façon récursive en OCaml.
+
+1. Ecrire une fonction `#!c int chiffre(char c)` qui prend en entrée un caractère `c` appartenant à `'0', '1', '2', ..., '9'` et renvoie le chiffre correspondant. Par exemple `chiffre('7')` renvoie l'entier `7`. 
+
+2. Ecrire en C une fonction `#!c char* suivant(char *terme)` qui prend en argument une chaine de caractères `terme` représentant un terme de la suite et renvoie le terme suivant. Afin d'allouer l'espace mémoire pour le terme suivant on pourra utiliser un majorant de sa longueur en fonction de celle de `terme`.
+
+    !!! aide
+        On pourra procéder en parcourant la chaine `s` tout en mettant à jour deux variables :
+
+        * l'une contenant le caractère courant
+        * l'autre son nombre d'apparition
+
+        Lorsque le caractère suivant n'est pas le caractère courant on remet à 1 nombre d'apparition.
+        On fera bien attention qu'à la fin du parcours, il restera à ajouter le terme en cours de construction.
+
+    Tester votre fonction en calculant le **15e** terme de la suite : {{check_reponse("311311222113111231131112132112311321322112111312211312111322212311322113212221")}}
+
+2. Faire une conjecture sur les chiffres pouvant apparaitre dans les termes de cette suite. Puis prouver cette conjecture (on pourra raisonner par récurrence).
+
+3. On souhaite maintenant utiliser le fait que les seuls chiffres apparaissant dans la suite *look and say* sont 1, 2 et 3 afin d'écrire une version récursive du calcul du terme suivant. Pour cela, le cas récursif consiste à considérer les trois premiers chiffres du terme précédent et le cas de base est celui d'un terme contenant moins de 3 chiffres. Ecrire cette version récursive en OCaml sous la forme d'une fonction `suivant : string -> string` qui prend un terme sous la forme d'une chaine de caractères et renvoie ce terme (toujours sous la forme d'une chaine de caractères).
+
+4. En utilisant un programme en OCaml, retrouver la valeur du 15e terme de la suite.
+
 ## Humour d'informaticien
 Le moteur de recherche [Google](https://www.google.com/){target=_blank} est connu pour abriter de nombreux *easter eggs*. Si vous taper comme recherche le mot **recursion**, on vous enverra vers la recherche de **recursion** ...
 
