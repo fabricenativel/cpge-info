@@ -196,8 +196,50 @@ On rappelle qu'en [TD](./TD/TD4.pdf) (exercice 10), on a établi que cette suite
     On pourra consulter les travaux de [Jean-Michel Muller et Vicent Lefèvre](https://images.math.cnrs.fr/Erreurs-en-arithmetique-des.html){target=_blank} dont cet exemple s'inspire.
 
 
+{{exo("Exercice de synthèse : constante de Kaprekar",[])}}
+
+Etant donné un nombre $n$, on considère le processus suivant appelé [Algorithme de Kaprekar](https://fr.wikipedia.org/wiki/Algorithme_de_Kaprekar){target=_blank} d'après le nom de son inventeur le mathématicien indien [D. R. Kaprekar](https://fr.wikipedia.org/wiki/Dattatreya_Ramachandra_Kaprekar){target=_blnak} :
+
+* former le nombre $m$ écrit avec les chiffres de $n$ dans l'ordre décroissant
+* former le nombre $p$ écrit avec les chiffres de $n$ dans l'ordre croissant
+* calculer la différence  $m-p$ qu'on note $k(n)$.
+
+Par exemple en base 10, avec $n=7182$, on obtient successivement : $m=8721$, $p=1278$ et donc $k(n) = 7443$. On peut recommencer le processus avec ce nouveau nombre on trouve alors $k(7443) = 7443 - 3447 = 3996$, en itérant encore le processus on obtient $6264$ puis $4176$ et enfin $6174$ qui s'avère être un point fixe c'est à dire que $k(6174) = 6174$. Le nombre $6174$ s'appelle la constante de Kaprekar et dans cet exercice nous allons montrer que le processus aboutit toujours à cette valeur pour n'importe quel entier de 4 chiffres de départ (avec ces chiffres non tous égaux). 
+
+Comme nous devons travailler sur les chiffres de l'entier $n$ (les extraire, les trier), on propose de représenter un nombre par le tableau de ses chiffres, il sera aussi utile de disposer du nombre de chiffres du nombre aussi on propose le type structuré suivant permettant de représenter un nombre :
+
+```c
+--8<-- "C4/kaprekar.c:8:14"
+```
+
+!!! note
+    On prendra soin au fil des questions de tester les fonctions déjà écrites.
+
+1. Ecrire une fonction de signature `#!c nombre cree_nombre(int n)` qui prend en entrée un nombre positif `n` et renvoie un struct contenant son nombre de chiffres et le tableau de ses chiffres. Par exemple `cree_nombre(1492)` doit renvoyer une variable de type `nombre` dont le champ `nb_chiffres` vaut 4 et dont le champ `chiffres` pointe sur une zone mémoire contenant les entiers `{2, 9, 4, 1}`.
+
+2. Ecrire une fonction `#!c int valeur(nombre n)` qui effectue l'opération inverse, elle prend une variable de type `nombre` en entrée et renvoie l'entier correspondant.
+
+3. Ecrire une fonction `#!c void libere(nombre n)` qui libère l'espace mémoire occupé par les chiffres de `n` et mets son nombre de chiffres à 0.
+
+3. Ecrire une fonction de signature `#!c nombre copie(nombre n)` qui renvoie une copie du struct nombre donné en argument.
+
+2. Ecrire en utilisant l'algorithme de tri de votre choix (parmi le tri par sélection, par insertion ou à bulles) une fonction `tri` de signature `void tri(uint8_t tab[], int size)` qui tri *en place* le tableau `tab` dans l'ordre croissant. On pourra s'aider d'une fonction annexe qui échange dans un tableau deux éléments dont on donne les indices.
+
+3. Ecrire une fonction de signature `#!c nombre decroissant(nombre n)` qui prend en entrée un nombre `n` et renvoie le nombre formé par les chiffres de `n` pris dans l'ordre décroissant.
+
+4. Ecrire une fonction de signature `#!c void retourne(uint8_t tab[], int size)` qui retourne en place les éléments du tableau `tab`.
+
+5. En utilisant les fonctions précédentes, écrire une fonction `#!c nombre kaprekar(nombre n)` qui renvoie le nombre obtenu à partir de `n` en effectuant une itération du processus de Kaprekar. 
+
+6. Vérifier que pour tous les entiers à 4 chiffres (non tous égaux), la répétition du processus de Kaprekar aboutit toujours au point fixe $6174$. Quel est le nombre maximal d'itérations nécessaire pour obtenir $6174$ ?
+
+7. Parmi les nombres à 5 chiffres existe-t-il des nombres qui sont des points fixes ? 
+
+8. Vérifier qu'il y a deux nombres qui sont des points fixes dans le cas de nombres à 6 chiffres, quel est le plus petit d'entre eux ? {{check_reponse("549945")}}
 
 
+!!! note
+    On peut utiliser ce processus pour des nombres écris dans n'importe quel base, par exemple en base 16 et chercher s'il existe des points fixes.
 
 ## Humour d'informaticien
-![punition](./Images/C4/binaire.png){.imgcentre width=500px}
+![punition](./Images/C4/cpp.webp){.imgcentre width=800px}
