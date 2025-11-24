@@ -1,0 +1,57 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\IC{5}{Récursivité}
+\setboolean{corrige}{false}
+
+
+\setcounter{Exercise}{0}
+
+\begin{Exercise}[title={Compte à rebours}]
+	\Question{Rappeler la définition d'une fonction récursive}
+    \reponse{1}{1}
+    \tcor{Une fonction récursive est une fonction qui s'appelle elle-même.}
+    \Question{Ecrire en C, une fonction itérative {\tt compte\_rebours} qui prend en argument un entier {\tt n} ne renvoie rien et affiche les entiers de {\tt n} à {\tt 0} puis {\tt "Partez !"}}
+    \reponse{5}{2}
+    \ifcorrige
+    \inputpartC{rebours.c}{}{\small}{3}{10}
+    \fi
+    \Question{Ecrire une version récursive de cette fonction qu'on appelera {\tt compte\_rebours\_rec}}
+	\reponse{5}{3}
+    \ifcorrige
+    \inputpartC{rebours.c}{}{\small}{12}{23}
+    \fi
+\end{Exercise}
+
+\begin{Exercise}[title = {un peu de OCaml}]\\
+	On donne la définition de la fonction {\tt mystere} en OCaml :
+	\inputpartOCaml{ex2.ml}{}{}{1}{2}
+	\Question{Quel type est automatiquement inféré pour {\tt n} ? Pourquoi ?}
+	\reponse{1}{1}
+    \tcor{Le type de {\tt n} est {\tt int} car il est utilisé avec l'opérateur de comparaison {\tt <} avec un entier puis avec l'addition {\tt +}.}
+	\Question{Donner les résultat des appels suivants : {\tt mystere 7}, {\tt mystere 42}, {\tt mystere 666}, {\tt mystere 2023} en complétant le tableau ci-dessous} \points{2}\\
+	\begin{tabularx}{\linewidth}{|X|}
+		\hline
+		\renewcommand{\arraystretch}{2}
+		\begin{tabular}{c|p{1cm}|p{1cm}|p{1cm}|p{1cm}}
+			\hline
+			{\tt n} & 7 & 42 & 666 & 2025 \\
+			\hline
+			{\tt mystere n} & \comp{1} & \comp{2} & \comp{3} & \comp{4}  \\
+			\hline
+		\end{tabular} \\
+		\hline
+	\end{tabularx}
+	\Question{Proposer une spécification et un nom plus adapté pour cette fonction.}
+	\reponse{1}{1}
+    \tcor{Cette fonction calcule le nombre de chiffres d'un entier positif, on pourrait l'appeler {\tt nb\_chiffres} ou {\tt nombre\_de\_chiffres}.}
+\end{Exercise}
+
+\end{document}
+
+\end{document}
