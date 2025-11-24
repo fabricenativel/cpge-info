@@ -84,3 +84,5 @@ On peut visualiser le fonctionnement de cet [algorithme en ligne ](https://boyer
 1. Ecrire une implémentation de cet algorithme en Python
 2. Modifier votre fonction afin qu'elle renvoie l'indice de la première apparition du motif `m` s'il est présent (ou `-1` sinon)
 3. Modifier de nouveau cette fonction afin qu'elle renvoie la liste des indices des occurrences du motif dans la chaine. Par exemple `recherche("ici","ici, ou encore ici ou même là")` renvoie la liste [0,15].
+
+

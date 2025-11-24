@@ -119,7 +119,100 @@ Ecrire une fonction `est_palindrome : string -> bool` qui renvoie `true` ssi la 
 
 6. Effectuer des mesures de temps de calcul pour ce nouvel algorithme. Commenter
 
+{{exo("Mediane",[])}}
 
+Cet exercice est à traité en langage C.
+
+1. Ecrire une fonction `mediane` qui prend en argument un tableau d'entiers *supposée déjà trié* et renvoie sa [médiane](https://fr.wikipedia.org/wiki/M%C3%A9diane_(statistiques)){target=_blank}.
+
+    !!! aide
+        On prendra la valeur centrale dans le cas d'un tableau contenant un nombre impair d'éléments et la moyenne arithmétique entre les deux valeurs centrales dans le cas contraires.
+
+2. On s'intéresse dans la suite de l'exercice à la recherche de la médiane de la fusion de deux tableaux triées, on veut donc écrire une fonction `mediane_fusion` qui prend en entrée *deux tableaux d'entiers* `tab1` (de longueur `n1`) et `tab2` (de longueur `n2`) et renvoie la médiane de la fusion.
+
+    a. **Concaténation et tri**  
+        On propose ici d'utiliser la méthode consistant à concaténer les deux tableaux `lst1` et `lst2`, à trier le résultat  puis à calculer la médiane en utilisant la fonction écrite à la question 1.Donner la complexité de cette méthode puis en proposer une implémentation sous la forme d'une fonction `med_fusion_tri`.
+
+    b. **Parcours des deux listes**  
+        On propose maintenant d'utiliser deux indices `i1` et `i2` afin de parcourir en alternance chacune des deux tableaux jusqu'à obtenir au moins la moitié des éléments. Pour cela, on initialise ces deux indices `i1` et `i2` à 0, puis à chaque étape après comparaison entre les éléments `tab1[i1]` et `tab2[i2]` on incrémente `i1` ou `i2`. Lorsque la somme des deux indices vaut la moitié de `n1+n2` cela signifie qu'on a atteint la médiane. Donner la complexité de cette méthode et en proposer une implémentation sous la forme d'une fonction `med_fusion_parcours`
+
+    c. **Recherche dichotomique**
+    
+    1. On suppose qu'on a partitionné les éléments des deux listes `lst1` et `lst2` en prenant les `k` premiers éléments de `lst1` et les `l` premiers éléments de `lst2`. Donner les conditions portants sur `k` et `l` pour que cette partition représente la moitié gauche de la liste triée issue de la fusion de `lst1` et `lst2` (on pourra s'aider d'un schéma).
+
+    2. En déduire une stratégie de recherche par dichotomie afin de déterminer la valeur correcte de `k`, nombre d'éléments à prendre dans `lst1`, la mettre en place en écrivant une fonction `med_dicho`. Quelle est la complexité de cette nouvelle méthode ?
+
+        !!! aide
+            On fera attention aux cas limites dans les indices.
+
+
+{{ exo("Règle de Wolfram",[])}}
+
+On considère une variante du [jeu de la vie](https://fr.wikipedia.org/wiki/Jeu_de_la_vie){target = _blank} se déroulant dans un tableau à une dimension. L'évolution de la case d'indice $i$ de ce tableau ne dépend que de l'état de la case d'indice $i$ et de ses voisins immédiats (donc les cases d'indices $i-1$ et $i+1$.). On donne ci-dessous l'évolution de la case centrale en fonction de l'état de ces 3 cases en notant "`#`" une case vivante et "`.`" une case morte 
+
+* `...` $\rightarrow$ `.` (si les 3 cases sont vides, la case centrale reste vide)
+* `..#` $\rightarrow$ `#`
+* `.#.` $\rightarrow$ `.`
+* `.##` $\rightarrow$ `#`
+* `#..` $\rightarrow$ `#`
+* `#.#` $\rightarrow$ `.`
+* `##.` $\rightarrow$ `#`
+* `###` $\rightarrow$ `.`
+
+
+D'autre part on considère ici un tableau *fini* de $N$ cases et on considère que la voisine de gauche de la case d'indice 0 ainsi que la voisine de droite de la case d'indice $N-1$ sont toujours des cellules mortes.
+On donne ci-dessous un exemple d'évolution avec $N=10$
+{{make_jeuvie(["...##.####"],[])}} evolue en {{make_jeuvie(["..###.#..#"],[])}}
+
+1. Implémentation en langage C
+
+    Afin de représenter une configuration d'un jeu de la vie, on propose le type structuré suivant :
+
+    ```c
+        --8<-- "C7/wolfram.c:5:10"
+    ```
+
+    où le champ `size` correspond au nombre de cellules présentes dans la configuration et le champ `cells` est un pointeur qui sera initialisé vers une zone mémoire de `size` booléens.
+
+1. Ecrire les fonctions `config init(int size, bool state)` et `void display(config c)` qui permettent respectivement de créer une configuration de `size` avec la valeur `state` pour toutes ces cellules et d'afficher une configuration (on utilisera `.` pour une cellule morte et `#` pour une cellule vivante)
+
+2. Ecrire la fonction `void evolution(config *c)` qui modifie une configuration en la faisant évoluer une fois avec les règles données en introduction. On pourra s'aider d'une fonction annexe `bool rule90(bool prev, bool current, bool next)` qui renvoie l'état de la cellule centrale pour le triplet de cellule `prev,current,next`. 
+
+3. Pour $N=30$ et pour le tableau initial représenté par "...............#.............." (toutes les cases sont mortes sauf la case d'indice 15) faire afficher les 100 premières évolutions successives.
+
+    !!! aide
+        Les premières lignes sont :
+        ```
+        ...............#..............
+        ..............#.#.............
+        .............#...#............
+        ............#.#.#.#...........
+        ...........#.......#..........
+        ..........#.#.....#.#.........
+        .........#...#...#...#........
+        ........#.#.#.#.#.#.#.#.......
+        .......#...............#......
+        ......#.#.............#.#.....
+        .....#...#...........#...#....
+        ....#.#.#.#.........#.#.#.#...
+        ```
+
+3. La règle d'évolution donnée en introduction est un cas particulier des [règles de Wolfram](https://en.wikipedia.org/wiki/Elementary_cellular_automaton){target=_blank} et puisque l'évolution d'une case ne dépend que de l'état de ses voisines immédiates, il existe en réalité **256** règles possibles. Par exemple, puisque $177 = (10110001)_2$, la règle 177 correspond aux évolutions suivantes :
+    * `...` $\rightarrow$ `#` 
+    * `..#` $\rightarrow$ `.`
+    * `.#.` $\rightarrow$ `.`
+    * `.##` $\rightarrow$ `.`
+    * `#..` $\rightarrow$ `#`
+    * `#.#` $\rightarrow$ `#`
+    * `##.` $\rightarrow$ `.`
+    * `###` $\rightarrow$ `#`
+
+    C'est à dire que le bit de rang k ($1 \leqslant k \leqslant 8$ ) de l'écriture binaire de 177 correspond à l'évolution de la configuration de l'écriture de $k$ en base 2.
+    Ecrire une fonction `bool rule(bool prev, bool current, bool next, int rnumber)` qui pour un numéro de règle `rnumber` renvoie l'évolution de la case centrale du triplet de cellule `prev, current, next`.
+
+4. Tester votre programme en faisant évoluer une configuration initiale de 500 cellules toutes mortes sauf celle d'indice 1 qui est vivante en utilisant la règle 60. Quel est le nombre de cellule vivantes après 500 évolutions  ? {{check_reponse("63")}} 
+
+5. Reprendre entièrement l'exercice précédent en OCaml en représentant une configuration par le type `bool list`.
 
 ## Humour d'informaticien
 ![BinarySearch](./Images/C7/search.png){.imgcentre width=500px}
