@@ -7,13 +7,16 @@ from colorama import Fore
 ODS_FILE = "Notes.ods"
 CTITLE = Fore.RED+chr(0x25CF)+Fore.LIGHTCYAN_EX
 TTITLE = Fore.LIGHTYELLOW_EX
+COL_STAT_DS = 2
 BULLET = chr(0x2022)
 DS = "DS"
 SEXO = "Exercice"
 COL_EXO  = 0
 LIG_ELEVE = 1
 TEX = "Modele.tex"
+OFFSET_NOTE = 1
 OFFSET_APPRECIATION = 2
+OFFSET_STAT = 4
 ENTETE = r'''
 \documentclass[11pt,a4paper]{article}
 \usepackage{Act}
@@ -34,8 +37,8 @@ TOP = r'''
 		\end{itemize}
 	} &
 	\alertbox{\faChartLine}{Statistiques des notes}{
+        \psset{xunit=1cm, yunit=1cm,fillstyle=solid}
 		\begin{pspicture}(0,-0.1)(16,1.45)
-			\psset{xunit=1,fillstyle=solid}
 		   \savedata{\data}[!!SERIE!!]
 		   \rput{-90}(0,0.9){\psBoxplot[barwidth=1.1cm,yunit=0.5,fillcolor=gray,linewidth=1pt]{\data}}
 		   \psaxes[yAxis=false,dx=1cm,Dx=2,labelsep=1pt,linecolor=gray,xlabelFontSize=\scriptstyle](0,0)(10.1,4)
@@ -51,6 +54,43 @@ TOP = r'''
 	!!APRECIATION!!
 }
 \end{tabularx}
+'''
+BOTTOM = r'''
+    \vspace{0.5cm}\\
+    \ding{113} \textbf{\sffamily{Historique des notes}} \medskip \\
+    \psset{xunit=1.4cm, yunit=0.2cm}
+    \begin{pspicture}(-1,-1)(12,22)
+
+% --- Axe X : numéros de devoir ---
+\psaxes[
+    Dx=1,
+    Dy=2,
+    Ox=0,
+    Oy=0,
+    labels=all,
+    ticks=all,
+](0,0)(0,0)(7,20)
+
+
+\listplot[plotstyle=line,showpoints=true,linecolor=black,linewidth=0.7pt, dotstyle=diamond*, dotsize=0.2]{%
+    !!NOT!!
+}
+
+% Minimum de la classe
+\listplot[plotstyle=line,showpoints=true,linecolor=gray,linewidth=0.7pt, dotstyle=|, dotangle=90, dotsize=0.15, linestyle=dotted]{%
+    !!MIN!!
+}
+
+% Maximum de la classe
+\listplot[plotstyle=line,showpoints=true,linecolor=gray,linewidth=0.7pt, dotstyle=|, dotangle=90, dotsize=0.15, linestyle=dotted]{%
+    !!MAX!!
+}
+
+% Moyenne de la classe
+\listplot[plotstyle=line,showpoints=true,linecolor=gray,linewidth=0.7pt, dotstyle=x, dotsize = 0.15, linestyle=dashed]{%
+    !!MOY!!
+}
+\end{pspicture}
 '''
 FIN = r'''\end{document}'''
 
@@ -76,7 +116,6 @@ def get_exos(data,nds):
     end = False
     while not end:
         content = data[DS+str(nds)][cl]
-        print(content)
         if content==[]:
             end=True
         elif isinstance(content[COL_EXO],str) and content[0].startswith(SEXO):
@@ -119,8 +158,24 @@ def get_appreciation(data, nds, leleves, apline):
     appreciation = {}
     for e in leleves:
         col_eleve = get_col_eleve(e,leleves)
-        appreciation[e] = data[DS+str(nds)][apline][col_eleve]
+        try:
+            appreciation[e] = data[DS+str(nds)][apline][col_eleve]
+        except:
+            appreciation[e] = ""
     return appreciation
+
+def get_all_notes(data, leleves, nds):
+    all_notes = {}
+    print(leleves)
+    for e in leleves:
+        all_notes[e] = []
+        col_eleve = get_col_eleve(e,leleves)
+        for ds in range(nds):
+           _, lig_eleve =  get_exos(data,ds+1)
+           lig_eleve += OFFSET_NOTE
+           all_notes[e].append(data["DS"+str(ds+1)][lig_eleve][col_eleve])
+    return all_notes
+
 
 
 def get_note(resultat):
@@ -191,7 +246,7 @@ def format_nom(eleve):
     nom, prenom = eleve.split(",")
     return "{\\sc \\large "+nom+"}"+prenom
 
-def make_tex_eleve(eleve,notes,rthemes,rexos, appreciation):
+def make_tex_eleve(eleve,notes,rthemes,rexos, appreciation, allnote, statds):
     snotes = " ".join([str(notes[e][0]) for  e in notes])
     top = TOP.replace("!!NOM!!",format_nom(eleve))
     top = top.replace("!!NOTE!!",str(notes[eleve][0]))
@@ -223,16 +278,38 @@ def make_tex_eleve(eleve,notes,rthemes,rexos, appreciation):
     for nex in rexos[eleve]:
         exo_part += f"Exercice {{{nex}}} & {pdisplay(rexos[eleve][nex][0],rexos[eleve][nex][1],2)} & {pdisplay(rexos[eleve][nex][2],rexos[eleve][nex][3],1)} \\\\ \\hline "
     exo_part = exo_part + r"\end{tabular} \\\\"
-    return top+theme_part+exo_part
+    mnotes = "\n".join([f"{i+1} {allnote[eleve][i]}" for i in range(nds)])
+    bottom = BOTTOM.replace("!!NOT!!",mnotes)
+    mmoy = "\n".join([f"{i+1} {statds[i][0]}" for i in range(nds)])
+    bottom = bottom.replace("!!MOY!!",mmoy)
+    mmin = "\n".join([f"{i+1} {statds[i][1]}" for i in range(nds)])
+    bottom = bottom.replace("!!MIN!!",mmin)
+    mmax = "\n".join([f"{i+1} {statds[i][2]}" for i in range(nds)])
+    bottom = bottom.replace("!!MAX!!",mmax)
+    return top+theme_part+exo_part+bottom
 
-def make_tex(nds,dateds,notes,rthemes,rexos, appreciation):
+def make_tex(nds,dateds,notes,rthemes,rexos, appreciation,allnote,stat_ds):
     writer = open(DS+str(nds)+"-Resultats.tex","w")
     writer.write(ENTETE)
     writer.write(f"\RDS{{{nds}}}{{{dateds}}}\n")
     for e in eleves:
-        writer.write(make_tex_eleve(e,notes,rthemes,rexos, appreciation))
+        writer.write(make_tex_eleve(e,notes,rthemes,rexos, appreciation, allnote, stat_ds))
         writer.write("\\pagebreak")
     writer.write(FIN)
+
+def get_stat_ds(data, nds, col):
+    stat_ds = []
+    for i in range(nds):
+        _,lig = get_exos(data,i+1)
+        lig += OFFSET_STAT
+        try:
+            moy, mini, maxi = data[DS+str(i+1)][lig][col], data[DS+str(i+1)][lig+1][col], data[DS+str(i+1)][lig+2][col] 
+        except:
+            moy, mini, maxi = 0,0, 0
+        stat_ds.append((moy, mini, maxi))
+    return stat_ds
+
+
     
 if not os.path.isfile(ODS_FILE):
     print(f"Le fichier de notes ({ODS_FILE}) est absent !")
@@ -251,15 +328,18 @@ else:
     for iex,ex in enumerate(lexos):
         print(f"{TTITLE} {BULLET} Exercice {iex+1} : {Fore.WHITE}{len(ex)} questions  -- {get_points(ex)} points ")
     eleves = get_eleves(data,rep)
-    appreciations = get_appreciation(data, nds, eleves, apline)
-    resultat_eleve = {e : resultat(data,nds,e,eleves,lexos) for e in eleves}
+    appreciations = get_appreciation(data, rep, eleves, apline)
+    resultat_eleve = {e : resultat(data,rep,e,eleves,lexos) for e in eleves}
     dnotes = {e : get_note(resultat_eleve[e]) for e in eleves}
     rang = eleves.copy()
+    stat_ds = get_stat_ds(data, nds, COL_STAT_DS)
+    print(stat_ds)
+    all_notes = get_all_notes(data, eleves, nds)
     rang.sort(key = lambda x : dnotes[x][0], reverse=True)
     notes = {e : (*dnotes[e],rang.index(e)+1) for e in  eleves}
     themes = get_themes(lexos)
     resultat_theme = {e : get_rt(resultat_eleve[e],themes) for e in eleves}
     resultat_exo = {e : get_rexo(resultat_eleve[e],nexos) for e in eleves}
-    make_tex(nds,dateds,notes,resultat_theme,resultat_exo, appreciations)
+    make_tex(nds,dateds,notes,resultat_theme,resultat_exo, appreciations,all_notes,stat_ds)
     for e in dnotes:
         print(f"* {e} : **{dnotes[e][0]}**")

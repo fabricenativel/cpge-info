@@ -30,3 +30,13 @@ hide: - navigation  in liens.md
 * Représentation des entiers et des flottants
 * *A partir du 03/11* : Récursivité. Preuve de terminaison et correction d'algorithmes récursifs. Ecriture de fonctions simples en versions récursives (somme, minimum, puissance, dessins à l'aide d'instructions `print`). Récursivité croisée.
 * *A partir du 10/11* : Aspects fonctionnels de OCaml. Ecriture et évaluation d'expressions en OCaml. Définition de fonctions, expressions conditionnelles. Type `list`, correspondance de motifs.
+
+## Semaines du 24/11, du 01/12 et du 08/12
+
+* Manipulations de listes en OCaml. Générations récursives de listes, utilisations de `List.init` (avec éventuellement une fonction anonyme). Correspondances de motifs sur les listes, écritures de fonctions récursives sur les listes (minimum, recherche, ...). Utilisation de `List.map`, `List.fold_left`, `List.fold_right`, `List.iter`. On n'utilise pas `List.nth`.
+
+* Terminaison, correction et complexité. Complexités usuelles et exemple d'algorithmes ayant ces complexités. Définition et manipulation de la notation $\mathcal{O}$.
+
+* *A partir du 01/12* : Complexité amortie (la *seule méthode* vue en cours est celle du potentiel). Tableaux et listes chainées comme structure de données abstraites. Implémentation de ces structures en C et en OCaml.
+
+* *A partir du 08/12* : Piles et files, et implémentations de ces structures de données à l'aide de tableaux ou de listes.
