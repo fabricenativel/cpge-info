@@ -9,7 +9,7 @@
 \ModeConcours
 \DS{MP2I}{3}{Décembre 2025}
 
-\setboolean{corrige}{true}
+\setboolean{corrige}{false}
 
 \newcommand{\maillon}[3]{
 	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
@@ -58,21 +58,31 @@
 		\hline
       \end{tabular}
 	.} 
-	\Question{Ecrire en langage C une fonction de signature \mintinline{c}{indice_min_depuis(int tab[], int n, int ind)} qui renvoie l'indice d'une occurrence du minimum du tableau {\tt tab} de taille {\tt n} à partir de l'indice {\tt ind} (inclus).}
+	\Question{Ecrire en langage C une fonction de signature \mintinline{c}{indice_min_depuis(int tab[], int n, int ind)} qui renvoie l'indice d'une occurrence du minimum du tableau {\tt tab} de taille {\tt n} à partir de l'indice {\tt ind} (inclus). On vérifiera les conditions sur {\tt ind} à l'aide d'instructions {\tt assert}.}
+	\ifcorrige
 	\corpartC{selection.c}{}{}{13}{27}
+	\fi
 	\Question{En langage C, on suppose \textit{déjà écrite} une fonction de signature \mintinline{c}{void echange(int tab[], int i, int j)} qui échange les éléments situés aux indices {\tt i} et {\tt j} dans le tableau {\tt tab}. Ecrire une fonction de signature \mintinline{c}{tri_selection(int tab[], int n)} qui tri le tableau {\tt tab} de taille {\tt n} en utilisant l'algorithme du tri par sélection.}
+	\ifcorrige
 	\corpartC{selection.c}{}{}{30}{38}
+	\fi
 	\Question{Montrer que l'algorithme du tri par sélection a une complexité quadratique en fonction de la taille $n$ du tableau.}
 	\tcor{La fonction de recherche du minimum a une complexité en $\mathcal{O}(n)$ car la boucle de recherche s'exécute au plus $n$ fois et elle ne contient que des opérations élémentaires. Le tri appelle $n$ fois la fonction de recherche du minimum et donc a une complexité en $n \mathcal{O}(n) = \mathcal{O}(n^2)$.} 
 	\Question{On suppose qu'on a trié un tableau de taille \numprint{500000} en $1.2$ secondes avec l'algorithme du tri par sélection, donner une estimation du temps nécessaire pour trier un tableau contenant un million d'éléments.}
 	\tcor{La taille du tableau est doublé et la complexité est quadratique donc le temps de calcul sera approximativement multiplié par 4, on doit donc s'attendre à un temps de calcul d'environ 4.8 secondes.}
 	\Question{Ecrire en OCaml une fonction {\tt separe : int list -> int list* int list} qui prend en argument une liste d'entiers {\tt lst} et renvoie un couple de deux listes contenant chacune une moitié des éléments de {\tt lst} (a une unité près). Par exemple {\tt separe [2; 8; 1; 4; 5]} peut renvoyer le couple {\tt [2; 1; 5], [8; 4]}.}
+	\ifcorrige
 	\corpartOCaml{tri_fusion.ml}{}{}{7}{11}
+	\fi
 	\Question{Ecrire en OCaml une fonction {\tt fusion : int list -> int list -> int list} qui prend en argument deux listes d'entiers triées et renvoie la liste triée de leur fusion. Par exemple {\tt fusion [1; 2; 5] [4; 8]} renvoie la liste {\tt [1; 2; 4; 5; 8]}.}
+	\ifcorrige
 	\corpartOCaml{tri_fusion.ml}{}{}{1}{5}
+	\fi
 	\Question{On rappelle que l'algorithme du tri fusion est un algorithme de tri récursif qui consiste en séparer en deux la liste des éléments à trier, à trier récursivement chacune de ces listes puis à les fusionner. Déduire des questions précédentes une fonction {\tt tri\_fusion : int list -> int list} qui prend en argument une liste d'entiers et renvoie cette liste triée.}
+	\ifcorrige
 	\corpartOCaml{tri_fusion.ml}{}{}{13}{20}
-	\Question{On admet qu'il faut $n$ comparaisons pour  fusionner deux listes dont la somme des longueurs est $n$. On cherche à déterminer la complexité du tri fusion en \textit{nombre de comparaison effectuées} et on note $C(n)$ le nombre de comparaisons afin de trier une liste de longueur $n$. Déterminer $C(0), C(1)$ et justifier rapidement que $C(n) = 2C(\dfrac{n}{2}) + n$.}
+	\fi
+	\Question{On admet qu'il faut au plus $n$ comparaisons pour  fusionner deux listes dont la somme des longueurs est $n$. On cherche à déterminer la complexité du tri fusion en \textit{nombre de comparaison effectuées} et on note $C(n)$ le nombre de comparaisons afin de trier une liste de longueur $n$. Déterminer $C(0), C(1)$ et justifier rapidement que $C(n) = 2C\left(\dfrac{n}{2}\right) + n$.}
 	\Question{Déduire de la relation précédente que pour tout $i \in \N^*$, $C(n) = 2^i C(\dfrac{n}{2^i}) + in$ et en déduire la complexité du tri fusion en nombre de comparaisons.}
 \end{Exercise}
 
@@ -150,7 +160,7 @@
 	\ifcorrige
 	\corpartC{file.c}{}{}{18}{32}
 	\fi
-	\Question{Ecrire la fonction {\tt retirer} de signature \mintinline{c}{int retirer(liste_circulaire *lc)} qui prend en argument une liste circulaire \textit{supposée non vide} et renvoie la valeur du maillon situé après le pointeur de queue en le retirant de la liste circulaire.}
+	\Question{Ecrire la fonction {\tt retirer} de signature \mintinline{c}{int retirer(liste_circulaire *lc)} qui prend en argument une liste circulaire \textit{supposée non vide} et renvoie la valeur du maillon situé après le pointeur de queue en le retirant de la liste circulaire. Une solution entièrement correcte devra libérer l'espace mémoire alloué au maillon que l'on supprime.}
 	\ifcorrige
 	\corpartC{file.c}{}{}{43}{57}
 	\fi
@@ -168,37 +178,88 @@
 \begin{Exercise}[title={dépouillement d'un vote}]\\
 	Le langage utilisé dans cet exercice est OCaml. On s'intéresse à la comptabilisation des résultats d'une élection. Chaque candidat  est désigné par un caractère ({\tt 'A', 'B', \dots}) et on suppose qu'on dispose des votes sous la forme d'une liste de caractère, par exemple la liste {\tt ['A'; 'C'; 'B'; 'B'; 'A'; 'A']} signifie qu'il y a eu 6 votants, le candidat {\tt 'A'} a obtenu 3 voix, le {\tt 'B'} deux voix et le {\tt 'C'} une voix. On souhaite dans un premier temps à partir de la liste des votes construire la liste des couples (candidat, nombre de votes), c'est à dire que si la liste des votes est {\tt ['A'; 'C'; 'B'; 'B'; 'A'; 'A']} alors on veut construire la liste {\tt [('A',3); ('C',1); ('B',2)]}.
 	\Question{Ecrire une fonction {\tt appartient : char -> char list -> bool} qui prend en argument un caractère {\tt c} et une liste de caractères {\tt lst} et qui renvoie {\tt true} si et seulement si {\tt c} est dans {\tt lst}.}
+	\ifcorrige
 	\corpartOCaml{election.ml}{}{}{1}{4}
+	\fi
 	\Question{En déduire une fonction {\tt candidats : char list -> char list} qui prend en argument une liste {\tt votes} et renvoie cette liste sans aucun doublon, par exemple {\tt candidats ['A'; 'C'; 'B'; 'B'; 'A'; 'A']} renvoie la liste {\tt ['A', 'C', 'B']}.}
+	\ifcorrige
 	\corpartOCaml{election.ml}{}{}{7}{10}
+	\fi
 	\Question{Ecrire une fonction {\tt nb\_votes : char -> char list -> int} qui prend en argument un caractère {\tt c} et une liste de caractères {\tt votes} et renvoie le nombre d'apparition de {\tt c} dans {\tt votes}. Par exemple {\tt nb\_votes 'A' ['A'; 'C'; 'B'; 'B'; 'A'; 'A']} renvoie  {\tt 3}.}
+	\ifcorrige
 	\corpartOCaml{election.ml}{}{}{13}{16}
+	\fi
 	\Question{En déduire une fonction {\tt comptabilise : char list -> (char*int) list} qui répond au problème posé, c'est à dire qu'elle prend en argument une liste de caractères {\tt votes} et renvoie une liste de couples {\tt (char*int)} de chacun des caractères apparaissant dans {\tt votes} et de son nombre d'occurrences dans {\tt votes}.}
+	\ifcorrige
 	\corpartOCaml{election.ml}{}{}{18}{20}
+	\fi
 	\Question{On veut maintenant écrire une version de la fonction {\tt comptabilise} qui parcourt une seule fois la liste des votes. Pour cela on veut écrire une fonction {\tt ajoute : char -> char*int list -> char*int list} qui prend en argument un caractère {\tt un\_vote}, une liste de couples {\tt (char*int) list} qui représente un résultat partiel du dépouillement des votes et renvoie le nouveau décompte des voix après prise en compte de {\tt un\_vote} . Par exemple :
 	\begin{itemize}
 		\item {\tt ajoute 'B' [('A',2); ('C',1)]} renvoie {\tt [('A',2); ('C',1); ('B', 1)]} (premier vote obtenu par le candidat {\tt 'B'})
 		\item {\tt ajoute 'C' [('A',2); ('C',1)]} renvoie {\tt [('A',2); ('C',2)]} (incrémente le nombre de vote du candidat {\tt 'C'})
 	\end{itemize}. Ecrire la fonction {\tt ajoute}.}
+	\ifcorrige
 	\corpartOCaml{election.ml}{}{}{22}{25}
+	\fi
 	\Question{En déduire une nouvelle version de la fonction {\tt comptabilise} qui parcourt une seule fois la liste des votes.}
+	\ifcorrige
 	\corpartOCaml{election.ml}{}{}{27}{30}
+	\fi
 \end{Exercise}
 
 \begin{Exercise}[title = {Représentation d'ensemble d'entiers}] \\
-	En OCaml, on propose de représenter un ensemble d'entiers, par la liste \textit{triée} (dans l'ordre croissant) de ses éléments. Par exemple l'ensemble {\tt \{7; 2; 5; 3\}} sera représenté par la liste {\tt [2; 3; 5; 7]}. Par contre, les listes {\tt [2; 3; 3; 5; 7]} (élément en double) ou {\tt [2; 5; 3; 7]} (non triée) ne représentent pas correctement un ensemble.
-	\Question{Ecrire une fonction \mintinline{ocaml}{est_ensemble: int list -> bool} qui renvoie {\tt true} lorsque la liste d'entier fournie en argument représente correctement un ensemble.}
+	En OCaml, on propose de représenter un ensemble d'entiers, par la liste \textit{triée} (dans l'ordre croissant) de ses éléments. Par exemple l'ensemble {\tt \{7; 2; 5; 3\}} sera représenté par la liste {\tt [2; 3; 5; 7]}. Par contre, les listes {\tt [2; 3; 3; 5; 7]} (élément en double) ou {\tt [2; 5; 3; 7]} (non triée) ne représentent pas correctement un ensemble. La liste vide {\tt []} représente l'ensemble vide.
+	\Question{Ecrire une fonction \mintinline{ocaml}{est_ensemble: int list -> bool} qui renvoie {\tt true} lorsque la liste d'entier fournie en argument représente correctement un ensemble. Par exemple {\tt est\_ensemble [2; 8; 1]} doit renvoyer {\tt false} car la liste n'est pas triée dans l'ordre croissant et {\tt est\_ensemble [1; 2; 7; 7; 10]} doit aussi renvoyer {\tt false} car {\tt 7} est présent deux fois.}
+	\ifcorrige
 	\corpartOCaml{ensemble.ml}{}{}{1}{5}
-	\Question{Ecrire une fonction \mintinline{ocaml}{intersection : int list -> int list -> int list} qui prend en argument deux listes d'entiers (en supposant que ces deux listes représentent correctement des ensembles) et renvoie la liste d'entiers représentant l'union de ces deux listes. Par exemple {\tt intersection [2; 5; 7] [5; 6; 7; 10];;} renvoie {\tt [5; 7]}.}
+	\fi
+	\Question{Ecrire une fonction \mintinline{ocaml}{intersection : int list -> int list -> int list} qui prend en argument deux listes d'entiers (en supposant que ces deux listes représentent correctement des ensembles) et renvoie la liste d'entiers représentant l'intersection des deux ensembles représentés par ces listes. Par exemple {\tt intersection [2; 5; 7] [5; 6; 7; 10];;} renvoie {\tt [5; 7]}.}
+	\ifcorrige
 	\corpartOCaml{ensemble.ml}{}{}{23}{29}
-	\Question{Quelle serait la complexité d'une fonction \mintinline{ocaml}{appartient : int -> int list -> bool} qui teste si un entier appartient ou non à une liste d'entiers représentant correctement un ensemble ? (on ne demane pas d'écrire la fonction appartient mais simplement d'en justifier la complexité)}
+	\fi
+	\Question{\textit{Sans les écrire}, donner les complexités des fonctions suivantes en les justifiant brièvement : 
+	\begin{itemize}
+	\item \mintinline{ocaml}{minimum : int list -> int} qui renvoie le plus petit élément d'un ensemble représenté par une liste d'entiers (on suppose l'ensemble non vide)
+	\item \mintinline{ocaml}{maximum : int list -> int} qui renvoie le plus grand élément d'un ensemble représenté par une liste d'entiers (on suppose l'ensemble non vide)
+	\end{itemize}}
 	\tcor{La complexité serait linéaire car dans le pire des cas, on doit parcourir toute la liste afin de savoir si l'élément cherché s'y trouve ou non.}
+
+
+
 	\NRet
-	On souhaite maintenant de façon similaire représenté un ensemble d'entier en langage C par le tableau trié de ses éléments, cette structure de donnée est \textit{non mutable} c'est à dire que si on souhaite par exemple ajouter un élément à un ensemble alors on crée un nouvel ensemble.
+	On souhaite maintenant, de façon similaire, représenter un ensemble d'entier en langage C par le tableau trié de ses éléments. Cette structure de donnée est \textit{non mutable} c'est à dire que si on souhaite par exemple ajouter un élément à un ensemble alors on crée un nouvel ensemble.
 	
 	\Ret
 	\Question{Proposer un type structuré {\tt ensemble} en C qui réalise cette représentation.}
+	\ifcorrige
+	\corpartC{ensemble.c}{}{}{5}{10}
+	\fi
+	\Question{Donner la complexité des fonctions de signature \mintinline{c}{int minimum(ensemble ens)} et \\ \mintinline{c}{int maximum(ensemble ens)} qui renvoie respectivement le minimum et le maximum de l'ensemble {\tt ens} donné en argument. On ne \textit{demande pas} d'écrire ces fonctions.}
+	\tcor{Ces fonctions renvoient respectivement le premier et le dernier élément d'un tableau, l'accès aux éléments d'un tableau étant en $\mathcal{O}(1)$, ces fonctions ont une complexité en $\mathcal{O}(1)$.}
 	\Question{Ecrire la fonction de signature \mintinline{c}{bool appartient(ensemble ens, int elt)} qui renvoie {\tt true} si et seulement si {\tt elt} appartient à {\tt ens}. Cette fonction \textit{doit procéder} en parcourant un à un les éléments du tableau représentant l'ensemble. On donnera la complexité de cette fonction (aucune justification n'est demandée).}
-	\Question{Donner en pseudo-langage un algorithme vu en cours et qui permettrait d'écrire une version de complexité linéarithmique de la fonction {\tt appartient} en s'appuyant sur le fait que les élements du tableau sont triés.}
+	\ifcorrige
+	\corpartC{ensemble.c}{}{}{100}{110}
+	\fi
+	\tcor{Cette fonction est de complexité linéaire en la taille de l'ensemble.}
+	\Question{Donner en pseudo-langage un algorithme vu en cours et qui permettrait d'écrire une version de complexité logarithmique de la fonction {\tt appartient}. Cette version doit  s'appuyer sur le fait que les éléments du tableau sont triés.}
+	\tcor{
+		\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Recherche dichotomique}
+		\Entree{Ensemble $E$ représenté par le tableau trié $ tab= \{t_0, \dots, t_{n-1}\}$ de ses éléments et un entier $x$.}
+		\Sortie{Un booléen indiquant si $x$ appartient à $E$.}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$a \leftarrow 0$ \\
+		$b \leftarrow n-1$ \\ 
+		\While{$b-a \geqslant 0$}{
+			$m \leftarrow (a+b)/2$\\
+			\If{$tab[m]=x$}{\Return{true}} \Else
+			{\If {$tab[m]>x$}{$b \leftarrow m-1$} \Else {$a \leftarrow m+1$}}
+		}
+		\Return{false}
+	\end{algorithm}
+	}
+	\Question{Proposer une implémentation de cet algorithme en langage C.}
+	\corpartC{ensemble.c}{}{}{112}{137}
 \end{Exercise}
 \end{document}

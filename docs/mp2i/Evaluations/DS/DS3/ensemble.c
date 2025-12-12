@@ -5,10 +5,9 @@
 struct ensemble_s
 {
     int cardinal;
-    int* elements;
+    int *elements;
 };
 typedef struct ensemble_s ensemble;
-
 
 ensemble cree_vide()
 {
@@ -22,20 +21,20 @@ ensemble ajoute_element(ensemble ens, int elt)
 {
     ensemble new;
     new.cardinal = ens.cardinal + 1;
-    new.elements = malloc(sizeof(int)*new.cardinal);
+    new.elements = malloc(sizeof(int) * new.cardinal);
     int offset = 0;
-    for (int i=0;i<ens.cardinal;i++)
+    for (int i = 0; i < ens.cardinal; i++)
     {
-        if (ens.elements[i]>elt && offset==0)
+        if (ens.elements[i] > elt && offset == 0)
         {
             new.elements[i] = elt;
             offset = 1;
         }
-        new.elements[i+offset] = ens.elements[i];
+        new.elements[i + offset] = ens.elements[i];
     }
-    if (offset==0)
+    if (offset == 0)
     {
-        new.elements[new.cardinal-1] = elt;
+        new.elements[new.cardinal - 1] = elt;
     }
     return new;
 }
@@ -45,15 +44,15 @@ ensemble intersection(ensemble ens1, ensemble ens2)
     int i1 = 0;
     int i2 = 0;
     int nb = 0;
-    while (i1<ens1.cardinal && i2<ens2.cardinal)
+    while (i1 < ens1.cardinal && i2 < ens2.cardinal)
     {
-        if (ens1.elements[i1]==ens2.elements[i2])
+        if (ens1.elements[i1] == ens2.elements[i2])
         {
-            nb+=1;
+            nb += 1;
             i1++;
             i2++;
         }
-        else if (ens1.elements[i1]<ens2.elements[i2])
+        else if (ens1.elements[i1] < ens2.elements[i2])
         {
             i1++;
         }
@@ -64,19 +63,19 @@ ensemble intersection(ensemble ens1, ensemble ens2)
     }
     ensemble new;
     new.cardinal = nb;
-    new.elements = malloc(sizeof(int)*nb);
+    new.elements = malloc(sizeof(int) * nb);
     i1 = 0;
     i2 = 0;
     int i = 0;
-    while (i1<ens1.cardinal && i2<ens2.cardinal)
+    while (i1 < ens1.cardinal && i2 < ens2.cardinal)
     {
-        if (ens1.elements[i1]==ens2.elements[i2])
+        if (ens1.elements[i1] == ens2.elements[i2])
         {
-            new.elements[i++]=ens1.elements[i1];
+            new.elements[i++] = ens1.elements[i1];
             i1++;
             i2++;
         }
-        else if (ens1.elements[i1]<ens2.elements[i2])
+        else if (ens1.elements[i1] < ens2.elements[i2])
         {
             i1++;
         }
@@ -90,21 +89,48 @@ ensemble intersection(ensemble ens1, ensemble ens2)
 
 void view(ensemble ens)
 {
-    printf("[%d] ",ens.cardinal);
-    for (int i=0;i<ens.cardinal;i++)
+    printf("[%d] ", ens.cardinal);
+    for (int i = 0; i < ens.cardinal; i++)
     {
-        printf("%d ",ens.elements[i]);
+        printf("%d ", ens.elements[i]);
     }
     printf("\n");
 }
 
 bool appartient(ensemble ens, int elt)
 {
-    for (int i=0;i<ens.cardinal;i++)
+    for (int i = 0; i < ens.cardinal; i++)
     {
-        if (ens.elements[i]==elt)
+        if (ens.elements[i] == elt)
         {
             return true;
+        }
+    }
+    return false;
+}
+
+bool dichotomie(ensemble ens, int elt)
+{
+    int a = 0;
+    int b = ens.cardinal - 1;
+    int m;
+    while (b - a >= 0)
+    {
+        m = (a + b) / 2;
+        if (ens.elements[m] == elt)
+        {
+            return true;
+        }
+        else
+        {
+            if (ens.elements[m] > elt)
+            {
+                b = m - 1;
+            }
+            else
+            {
+                a = m + 1;
+            }
         }
     }
     return false;
@@ -125,6 +151,9 @@ int main()
     view(ens2);
     ensemble ens3 = intersection(ens1, ens2);
     view(ens3);
-    printf("%d \n",appartient(ens3, 5));
-    printf("%d \n",appartient(ens3, 11));
+    printf("%d \n", dichotomie(ens1, 5));
+    printf("%d \n", dichotomie(ens1, 2));
+    printf("%d \n", dichotomie(ens1, 7));
+    printf("%d \n", dichotomie(ens1, 11));
+    printf("%d \n", dichotomie(ens1, 1));
 }

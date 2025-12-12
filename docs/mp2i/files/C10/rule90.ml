@@ -32,13 +32,13 @@ while (!cycle=false) do
   (
     if (Hashtbl.mem my_ht !st) then 
       (cycle := true;
-        Printf.printf "Motif déjà rencontré : %s" !st; 
+        Printf.printf "Motif déjà rencontré : %s\n" !st; 
       )
-   else (Hashtbl.add my_ht !st 0);
+   else( (Hashtbl.add my_ht !st 0);
     st := next (!st);
     Printf.printf "%s\n" !st;
     step := !step +1;
-  );
+  ))
 done;
 Printf.printf "Cycle détecté après %d itérations" (!step-1);
 ;;
