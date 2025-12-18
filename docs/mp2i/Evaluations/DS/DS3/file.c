@@ -75,9 +75,20 @@ int longueur(liste_circulaire lc)
     }
 }
 
+int lbug(liste_circulaire lc)
+{
+    int i=0;
+    while (lc!=NULL)
+    {
+        retirer(& lc);
+        i++;
+    }
+    return i;
+}
+
 void view(liste_circulaire lc)
 {
-    printf("Longueur = %d\n", longueur(lc));
+    printf("Longueur = %d\n", lbug(lc));
     if (est_vide(lc))
     {
         printf("NULL");
@@ -100,9 +111,9 @@ int main()
 {
     liste_circulaire f = NULL;
     ajouter(&f, 3);
-    ajouter_bug(&f, 7);
-    ajouter_bug(&f, 4);
-    ajouter_bug(&f, 12);
+    ajouter(&f, 7);
+    ajouter(&f, 4);
+    ajouter(&f, 12);
     view(f);
     int x = retirer(&f);
     view(f);

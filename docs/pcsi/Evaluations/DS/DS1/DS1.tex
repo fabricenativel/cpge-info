@@ -1,0 +1,193 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\DS{PCSI}{1}{Décembre 2024}
+
+\setboolean{corrige}{false}
+
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+        \item[\textbullet] La calculatrice n'est \textbf{pas autorisée}.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+\begin{Exercise}[title={Questions de cours}]
+    \Question{Recopier et compléter le tableau suivant en donnant le type et la valeur de l'expression.  Les  lignes sur fond gris sont des exemples déjà complétées afin de vous aider.\\
+    \begin{tabularx}{\linewidth}{|>{\tt}p{5cm}|>{\tt}p{2cm}|X|}
+        \hline
+        Expression & Type & Valeur \\
+        \hline
+        \rowcolor{gray!20} 5 == 3  & bool & {\tt False} \\
+        \hline
+        \rowcolor{gray!20} 3*8 + 1  & int & 25\\
+        \hline
+        3**4 & \comp{int} & \comp{81} \\
+        \hline
+        63\%7 == 0 & \comp{bool} & \comp{True} \\
+        \hline
+        "ah"*3 &  \comp{str} & \comp{"ahahah"}\\
+        \hline
+        10/4 & \comp{float}& \comp{2.5} \\
+        \hline
+        "e" in {"a":1,"b":3,"c":3} & \comp{bool} & \comp{True}\\
+        \hline
+        len("math")!=3 & \comp{bool}& \comp{True} \\
+        \hline
+        7//2 == 3.5 & \comp{bool}& \comp{False} \\
+        \hline
+        "20"+"24" & \comp{str} & \comp{"2024"} \\
+        \hline
+        (2+7, 17\%3) & \comp{tuple}& \comp{(9,2)} \\
+        \hline
+        "ab" >= "ac" & \comp{bool}&  \comp{False}\\
+        \hline
+        len([0]*4) & \comp{int} & \comp{4} \\
+        \hline
+        [x for x in range(1,6)] & \comp{list} & \comp{[1, 2, 3, 4, 5]}  \\
+        \hline
+    \end{tabularx}
+    }
+\Question{On suppose définie une variable {\tt l} de type {\tt list} contenant {\tt [2, 3, 5, 7, 11, 13, 17]}}
+\subQuestion{Quel est le contenu de {\tt l[5]} ? Quel est le contenu de {\tt l[1:4]} ?}
+\tcor{[\tt l[5] = 13} et {\tt l[1:4]=[3, 5, 7]}
+\subQuestion{Donner la valeur de {\tt n} ainsi que le contenu de {\tt l} après exécution de l'instruction \mintinline{python}{n = l.pop()}}
+\tcor{{\tt n = 17} et {\tt l = [2, 3, 5, 7, 11, 13]} car {\tt pop} supprime le dernier élément d'une liste et renvoie cet élément.}
+\subQuestion{Ecrire l'instruction permettant d'ajouter la valeur {\tt 19} à la fin de cette liste.}
+\tcor{\tt l.append(19)}
+\subQuestion{Quel est l'effet de l'instruction {\tt l[0] = l[0] + l[3]} ? }
+\tcor{Le premier élément de la liste {\tt l} est modifié, il devient la somme de son ancienne valeur et de {\tt l[3]} c'est à dire {\tt 2+7 = 9}.}
+\Question{Ecrire un programme (qui peut se limiter à une seule instruction) permettant de créer les listes suivantes :
+\begin{itemize}
+    \item[\textbullet] {\tt lst1} qui contient 14 fois l'entier 42.
+    \item[\textbullet] {\tt lst2} qui contient les entiers de 1 à 100.
+    \item[\textbullet] {\tt lst3} qui contient les 20 premières puissances positives de 2 (c'est à dire $2^0, 2^1, \dots, 2^{19}$) 
+\end{itemize}
+}
+\tcor{
+    \begin{itemize}
+        \item[\textbullet] {\tt lst1} qui contient 14 fois l'entier 42. \\
+        {\tt lst1 = [14]*42}
+        \item[\textbullet] {\tt lst2} qui contient les entiers de 1 à 100.\\
+        {\tt lst2 = [i for i in range(1,101)]}
+        \item[\textbullet] {\tt lst3} qui contient les 20 premières puissances positives de 2 (c'est à dire $2^0, 2^1, \dots, 2^{19}$) \\
+        {\tt lst3 = [2**i for i in range(0,20)]}
+    \end{itemize}
+    }
+
+\end{Exercise}
+
+\begin{Exercise}[title = {Fonction {\tt mystere}}] \\
+    On considère la fonction {\tt mystere} suivante :
+    \inputpartPython{mystere.py}{}{}{1}{11}
+    \Question{Donner le type attendu pour le paramètre {\tt n} et le type de la valeur renvoyée par cette fonction.}
+    \tcor{Cette fonction prend en argument un entier n et renvoie une liste d'entiers.}
+    \Question{Donner le résultat renvoyé par {\tt mystere} lors des appels suivants :
+    \begin{itemize}
+        \item {\tt mystere(-10)}
+        \item {\tt mystere(0)}
+        \item {\tt mystere(7)}
+    \end{itemize}
+    }
+    \tcor{
+        \begin{itemize}
+            \item {\tt mystere(-10)} : provoque une erreur {\tt AssertionError} et affiche {\tt "L'entier n doit être positif"}
+            \item {\tt mystere(0)} : renvoie {\tt [0]}
+            \item {\tt mystere(7)} : renvoie {\tt [7]}
+        \end{itemize}
+    }
+    \Question{On effectue à présent l'appel {\tt mystere(2025)}, recopier et compléter le tableau suivant qui indique le le contenu des variables, {\tt n, c} et {\tt res} durant l'exécution.\\
+    \begin{tabular}{|l|>{\tt}p{2cm}|>{\tt}p{2cm}|>{\tt}p{3cm}|}
+        \cline{2-4}
+        \multicolumn{1}{l|}{} & n & c & res \\
+        \hline
+        valeurs initiales & 2024 & 0 & [] \\
+        \hline
+        après un tour de la boucle {\tt while} & \comp{\tt 202} & \comp{\tt 4} & \comp{\tt [4]}  \\
+        \hline
+        après deux tour de la boucle {\tt while} & \comp{\tt 20} & \comp{\tt 2} & \comp{\tt [4, 2]} \\
+		\hline
+        après trois tour de la boucle {\tt while} & \comp{\tt 2} & \comp{\tt 0} & \comp{\tt [4, 2, 0]}  \\
+		\hline
+        après quatre tour de la boucle {\tt while} & \comp{\tt 0} & \comp{\tt 2} & \comp{\tt [4, 2, 0, 2]} \\
+		\hline
+      \end{tabular}
+    }
+    \Question{Proposer une spécification pour la fonction {\tt mystere}, en specifiant le type des arguments et du résultat et les éventuelles préconditions.}
+    \tcor{La fonction mystère prend en entrée un entier {\tt n} positif et renvoie la liste des chiffres de ce nombre dans l'ordre inverse. Par exemple {\tt mystere(173)} renvoie {\tt [3, 7, 1]}.}
+\end{Exercise}
+
+
+\begin{Exercise}[title={Lettre(s) majoritaire(s) d'un texte}]\\
+Le but de l'exercice est d'écrire une fonction {\tt plusfrequentes} prenant en argument une chaine de caractère {\tt texte} et renvoyant \textit{la liste} des lettres apparaissant le plus souvent dans {\tt texte}. Par souci de simplification on considère que {\tt texte} ne contient que les 26 lettres de l'alphabet minuscules et non accentuées : {\tt a, b, \dots z}. Par exemple,
+\begin{itemize}
+\item {\tt plusfrequentes("tout va tres bien ici")} renvoie {\tt ['t', 'i']} car ces deux lettres sont les plus fréquentes dans le texte, elles apparaissent toutes les deux 3 fois.
+\item {\tt plusfrequentes("ce petit exemple")} renvoie {\tt ['e']} car la lettre {\tt 'e'} apparaissant cinq fois est la seule plus fréquente.
+\end{itemize}
+\Question{Dans cette on  n'utilise pas de dictionnaire.}
+\subQuestion{Ecrire une fonction itérative {\tt occurrence} qui prend un argument une chaine de caractère {\tt texte} et une lettre {\tt l} et renvoie le nombre d'appararitions de {\tt l} dans {\tt texte}. Par exemple {\tt occurrence("ce petit exemple","t")} renvoie {\tt 2}.}
+\subQuestion{Ecrire une version récursive de la fonction {\tt occurrence}}.
+\subQuestion{Ecrire une fonction {\tt maximum} qui renvoie le maximum des éléments d'une liste non vide d'entiers.}
+\subQuestion{En utilisant les fonction précédentes, écrire la fonction {\tt plusfrequentes} qui répond au problème posé.}
+\Question{En utilisant un dictionnaire}
+\subQuestion{Ecrire une fonction {\tt comptabilise} qui prend en argument un texte ne contenant que les lettres {\tt a, b, \dots z} et renvoie un dictionnaire dont les clés sont ces lettres et les valeurs associées leur nombre d'apparitions.}
+\subQuestion{En utilisant la fonction précédente, écrire une nouvelle version de la fonction {\tt plusfrequentes}.}
+\end{Exercise}
+
+\begin{Exercise}[title={Validation de carte de crédit}]\\
+Un algorithme (appelé algorithme de Luhn), permet de vérifier qu'un numéro de carte de crédit est valide. Les étapes sont les suivantes :
+\begin{itemize}
+	\item on commence par extraire du numéro la liste des chiffres de rang impair ainsi que celle des chiffres de rang pair, en numérotant les chiffre à partir de la droite. Par exemple, sur le numéro {\tt 437716} cette procédure donne {\tt [3, 7, 6]} pour les chiffres de rang impair et {\tt [1, 7, 4]} pour ceux de rang pair. 
+	\item On double ensuite chaque chiffre de la liste des rangs pairs et si on obtient un chiffre plus grand que 9, alors on le remplace par la somme des deux chiffres qui le compose. Dans l'exemple précédent, la liste des chiffres de rang pair {\tt [1, 7, 4]} devient donc {\tt [2, 5, 8]} car {\tt 14} est remplacé par la somme de ses chiffres donc 5.
+	\item On calcule ensuite la somme des chiffres des deux listes, si le résultat obtenu est divisible par 10 alors le numéro de la carte de crédit est valide. Dans l'exemple précédent, on calcule donc :: \\ {\tt 3 + 7 + 6 + 2 + 5 + 8 = 33},\\ et comme 33 n'est pas divisible par 10, le numéro n'est pas valide.
+\end{itemize}
+\Question{Vérifier que le numéro {\tt 4762} est valide.}
+\Question{Ecrire une fonction {\tt num\_en\_liste} qui prend en argument un entier et renvoie la liste de ses chiffres. Par exemple, 
+{\tt num\_en\_liste(4762)} renvoie la liste {\tt [4, 7, 6, 2]}.}
+\Question{Ecrire une fonction {\tt impairs\_pairs} qui prend en argument une liste {\tt l} et renvoie deux listes, celles des éléments d'indice impair de {\tt l} et celle  éléments d'indice pairs en numérotant les indices à partir de la droite. Par exemple {\tt pairs\_impairs([4, 7, 6, 2])} renvoie {\tt [2, 7]} et {\tt [6, 4]}}
+\Question{Ecrire une fonction {\tt traite\_pairs} qui prend en argument une liste {\tt l}, ne renvoie rien et modifie cette liste en remplaçant chaque chiffre de la liste par son double. Si le résultat obtenu est supérieur à 9 alors il faut le remplacer par la somme des deux chiffres qui le composent. Par exemple, si  {\tt l=[6, 4]}, après l'appel {\tt traite\_pairs[l]}, le contenu de {\tt l} devient {\tt [3, 8]} en effet {\tt 4} a été remplacé par son double {\tt 8} et {\tt 6} par la somme des chiffres de son double {\tt 12}.}
+\Question{Ecrire une fonction {\tt test\_num\_carte} qui prend en argument un entier et renvoie {\tt True} si c'est le numéro d'une carte de crédit valide et {\tt False} sinon. Par exemple, {\tt test\_num\_carte(4762)} renvoie {\tt True}}.
+\end{Exercise}
+
+
+
+
+\begin{Exercise}[title = {Chiffrement de César}]
+    
+    \begin{quote}
+        \textit{En cryptographie, le chiffrement par décalage, aussi connu comme le chiffre de César ou le code de César (\dots), est une méthode de chiffrement très simple utilisée par Jules César dans ses correspondances secrètes (ce qui explique le nom « chiffre de César »). }
+        \begin{flushright}
+			(Wikipedia)
+		\end{flushright}
+    \end{quote}
+    
+    Pour coder un texte avec la code de César, on se donne une clé de codage $c$ (un entier entre 1 et 25) puis on décale toutes les lettres de $c$ emplacement dans l'alphabet \textit{en recommençant au début lorsqu'on dépasse le}  Z. Par exemple, si $c=7$, voici la correspondance entre les lettres et leur chiffrement : \medskip
+    \begin{center}
+    \begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|}
+        \hline
+        A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z \\ 
+        \hline
+        H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G \\
+        \hline
+    \end{tabular}
+\end{center} 
+    \medskip
+    On remarquera qu'on a réecrit l'alphabet  à partir du {\sc H} et en revenant au début une fois le {\sc Z} atteint.\\
+    Donc si on décide de chiffrer {\sc "PCSI"} avec une clé de 7, on obtient {\sc "WJZP"}.
+    
+    Le but de l'exercice est d'écrire une fonction {\tt cesar} qui prend en entrée une chaine de caractères et une clé et renvoie la chaine chiffrée avec cette clé. Si les caractères de la chaine ne sont pas des lettres majuscules on les laisse intactes. Par exemple {\tt chiffre("MP2I",1)} renvoie {\tt "NQ2J"} (le {\tt 2} est inchangé).
+    \Question{Ecrire une fonction {\tt codage} qui prend en entrée un entier {\tt decalage} et renvoie un dictionnaire dont les clés sont les lettres majuscules et les valeurs les lettres dans le chiffrement de César avec la clé {\tt decalage}. Par exemple si {\tt decalage} vaut 7, alors les clés de ce dictionnaires sont données sur la première ligne du  tableau ci-dessus et les valeurs correspondantes sur la deuxième ligne.}
+    \Question{Ecrire une fonction {\tt cesar} qui prend en entrée une chaine de caractère {\tt texte} et un entier {\tt decalage} et renvoie cette chaine chiffré avec la clé {\tt decalage}.}
+
+\end{Exercise}
+
+\end{document}
