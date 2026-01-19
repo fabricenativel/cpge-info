@@ -28,7 +28,7 @@ let () =
 let st = ref "...............#.............." in
 let cycle = ref false in
 let step = ref 0 in
-while (!cycle=false) do
+while (!step<50) do
   (
     if (Hashtbl.mem my_ht !st) then 
       (cycle := true;

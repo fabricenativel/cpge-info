@@ -16,7 +16,129 @@
 
 ## Travaux pratiques
 
-{{ exo("Quelques fonctions de hachage sur les chaines de caractères",[],0)}}
+{{ exo("Révision : un serpent dans le terminal !",[],0)}}
+
+![ex_snake](Images/C10/snake.png){.imgcentre width=400px}
+
+Vous avez peut-être reconnu sur la capture d'écran ci-dessus une version minimaliste d'un célèbre jeu vidéo : [*snake*](https://fr.wikipedia.org/wiki/Snake_(genre_de_jeu_vid%C3%A9o)){target=_blank}, dans lequel le joueur dirige un serpent qui doit, sans entrer en collision contre lui-même ou contre les bords de l'écran, atteindre le plus possible de nourriture (`@` dans l'image ci-dessus). Chaque nourriture consommée accroît la taille du serpent ainsi que sa vitesse. Une version jouable en ligne est disponible [ici](https://playsnake.org){target=_blank}. 
+
+Le but du TP est d'écrire en langage C, une version de ce jeu. L'interface graphique sera simplement le terminal et nous nous limiterons à l'affichage des caractères {{sc("ascii")}} standards. On pourra définir les caractères utilisés dans le jeu à l'aide de directives de précompilations en début de programme, par exemple dans la capture d'écran ci-dessous :
+```c
+#define HEAD 'O'
+#define BODY '*'
+#define EMPTY ' '
+#define FOOD '@'
+#define BORDER '+'
+```
+
+1. A propos de l'interface graphique  
+Nous allons utiliser le module [ncurses](https://tldp.org/HOWTO/NCURSES-Programming-HOWTO/){target=_blank} qui permet d'afficher des caractères dans le terminal en donnant simplement leur coordonnées. Afin d'utiliser ce module, on écrira en début de programme `#!c #include <ncurses.h>` et on fournit ci-dessous une fonction d'initialisation du terminal afin de le transformer en interface graphique utilisable :
+    ```c
+    --8<-- "C10/mysnake.c:init_term"
+    ```
+Une fois cette initialisation effectuée, on peut afficher n'importe quel caractère {{sc("ascii")}} dans le terminal en utilisant la fonction `mvaddch` qui prend en argument la ligne, la colonne et enfin le caractère affiché. Par exemple `#!c mvaddch(5, 7, 'X')` affiche un `X` à la ligne 5 et à la colonne 7. Le coin supérieur gauche du terminal est l'origine (ligne 0, colonne 0). D'autre part, la fonction d'initialisation précédente met à jour `maxl` et  `maxc` afin qu'ils contiennent les numéro des dernières lignes et colonnes visibles dans le terminal. D'autre part les modifications apportées au terminal sont *bufferisées* (mises en attente), la fonction `refresh()` permet de mettre à jour un terminal en executant toutes les modifications en attente. 
+        
+
+    1. Ecrire la fonction de signature  `#!c void make_border(int maxl, int maxc)` qui crée une bordure autour du terminal (dans la capture d'écran donnée en exemple au début du TP cette bordure est constituée de caractères `+`). On pourra éventuellement définir en début de programme le caractère utilisé pour la bordure à l'aide d'une directive de précompilation `#!c #define BORDER '+'`.
+
+        !!! aide
+            On notera bien que la fonction `mvaddch` :
+
+            * prends comme premier argument la *ligne* et comme second la *colonne*
+            * que le coin supérieur gauche est le point de coordonnées $(0,0)$.
+            * on doit uiliser `refresh()` pour visualiser les modifications apportées au terminal.
+
+    2. Afin de tester le programme (qui pour le moment ne crée que les bordures), écrire la fonction `main` qui appelle les fonctions `init_term` et `make_border` puis utiliser la fonction `usleep` du module `<unistd.h>` qui met en pause un programme pendant le nombre de *microsecondes* donné en arguent. afin d'attendre une seconde avant de quitter le programme. Vous devriez obtenir une image similaire à celle ci-dessous :
+    ![bordures](Images/C10/start.png){.imgcentre width=400px}
+
+    3. Ajouter la fonction `endwin()` à la fin du `main`, cela garantit de rendre un terminal "propre" en annulant les modifications apportées par la fonction d'initialisation du terminal.
+
+3. Une structure de données pour le serpent  
+Afin de représenter les positions occupées par le serpent on propose d'utiliser une liste chainée de position à l'aide du type structuré suivant :
+    ```c
+    --8<-- "C10/mysnake.c:lpos"
+    ```
+Afin d'agrandir le serpent, il suffira de rajouter un maillon à la liste chainée des positions occupées. Pour  simuler les mouvement du serpent on ne déplace en fait que **deux caractères**, en effet pour simuler le déplacement du serpent entier il suffit simplement de déplacer la tête et de supprimer la queue ! Par exemple sur l'illustation suivante :
+![move](Images/C10/move.png){.imgcentre width=400px}
+Dans la position suivante, seule la tête se sera déplacée et le dernier emplacement occupé par le queue sera vide. On a donc besoin d'une structure de donnée dans laquelle on peut ajouter en $\mathcal{O}(1)$ en tête de la liste et supprimer en $\mathcal{O}(1)$ en queue de la liste. On adopte donc le type structuré suivant :
+    ```c
+    --8<-- "C10/mysnake.c:snake"
+    ```
+    On fera bien attention qu'il faut :
+
+    * ajouter à la tête du serpent
+    * retirer à la queue du serpent
+
+    Par conséquent, la liste est chainée  de la *queue* vers la tête comme illustré ci-dessous :
+    ![structure](Images/C10/sdsnake.png){.imgcentre width=700px}
+    Ici, si le serpent se déplace vers la droite, il suffira en accédant par le pointeur de queue de supprimer le dernier maillon puis de rajouter la position $(3,6)$ au pointeur de tête.
+
+    1. Ecrire la fonction de signature `#!c void add_head(snake *ms, int l, int c)` qui rajoute une position à la tête du serpent. On fera attention à traiter le cas particulier où la liste des positions est initialement vide.
+
+    2. Ecrire la fonction de signature `#!c void remove_tail(snake *ms, int *l, int *c)` qui supprime le dernier maillon à la queue du serpent. Comme la taille du serpent n'est jamais inférieure à sa taille initiale, on pourra ignorer le cas limite où on supprime le dernier maillon.
+
+    3. Ecrire en utilisant `add_head` une fonction de signature `#!c snake init_snake(int size, int maxl, int maxc)` qui renvoie un serpent centré dans le terminal, se dirigeant vers la droite et de longueur `size`. On mettra en parallèle le terminal à jour  avec `mvaddch`.
+
+    4. Mettre à jour votre `main` de façon à afficher ce serpent.
+
+3. Génération aléatoire de nourriture
+
+    1. On rappelle que la fonction `rand()` permet de générer en entier aléatoire et qu'on peut initialiser le générateur avec par exemple `#!c srand(time(NULL));`. Lorsqu'on génère une position pour la nourriture elle ne doit pas être dans le serpent. Ecrire une fonction de signature `#!c void make_food(snake ms, int *pl, int *pc, int maxl, int maxc)` qui modifie `*pl` et `*pc` afin qu'ils contiennent l'emplacement de la prochaine nourriture. Cette fonction mettra aussi à jour le terminal à l'aide de `mvaddch`.
+
+    2. Tester votre fonction en appelant la fonction de génération de nourriture depuis le `main`.
+
+3. Déplacement du serpent  
+
+    1. Un déplacement du serpent peut générer une collision (avec lui-même ou les bordures), ou un augmentation de sa taille (s'il atteint la nourriture). Ecrire une fonction `!#c int move_snake(snake *ms, int pl, int pc, int maxl, int maxc)` qui déplace le serpent et renvoie un entier indiquant si le serpent est entré en collision ou s'il doit grandir. On pourra définir ces entiers par des directives de précompilation :
+
+        ```c
+        #define GROW 1
+        #define COLLISION 2
+        ```
+
+    2. Tester votre fonction en modifiant le `main` et en effectuant quelques déplacements.
+
+4. Boucle principal du jeu  
+
+    On pourra partir du squelette suivant afin d'écrire dans le main la boucle principal du jeu:
+
+    ```c
+    bool running = true;
+    int kpress;
+    while (running)
+    {
+        usleep(delay); 
+        kpress = getch(); //Récupère la touche tapée au clavier
+        if (kpress==KEY_UP)
+            {
+                .....
+            }
+        ....
+        event = move_snake(&ms, plig, pcol, maxlig, maxcol);
+        if (event == COLLISION)
+        {
+            running = false;
+        }
+        if (event == GROW)
+        {
+            .....
+        }
+    }
+    ```
+
+5. Améliorations possibles
+
+    * Faire afficher un score
+    * Enregistrer dans une fichier les meilleures performances
+    * Utiliser de la couleur
+    * Introduire des caractères spéciaux ou des emojis comme :apple: pour la nourriture
+    * Modifier le jeu en introduisant des bonus ou des malus, ...
+
+!!! lien "Pour aller plus loin"
+    Pour une interface graphique plus aboutie, on pourra consulter ce [projet de jeu Snake de V. Picard](https://vincent-picard.github.io/snake/){target=_blank}    
+
+
+{{ exo("Quelques fonctions de hachage sur les chaines de caractères",[])}}
 
 On propose de tester dans cet exercice trois fonctions de hachage sur les chaines de caractères, on pourra les coder au choix en C ou en OCaml. On testera ces fonctions sur un ensemble de 5000 chaines de caractères toutes de longueurs 6 et qui ont été générés aléatoirement et contiennent toutes des caractères {{sc("ascii")}} imprimables (ceux de codes 32 à 126) et téléchargeables ci-dessous :
     {{telecharger("Chaines aléatoires","./files/C10/test5000.txt")}}
@@ -146,6 +268,47 @@ Etant donné un tableau d'entiers  `T` et un entier `s`, le problème est de d�
 3. Tester ces deux implémentations en mesurant leur performance sur les nombres téléchargeables ci-dessous en recherchant deux nombres de somme 42
 {{telecharger("Liste de nombres","./files/C10/numbers.txt")}} 
 Vous pouvez tester votre réponse : (donner le plus grand des deux nombres) {{check_reponse("1663789")}}
+
+{{ exo("Résolution des collisions par sondage linéaire",[])}}
+
+On s'intéresse dans cet exercice à une méthode de résolution des collisions dite *par sondage linéaire*, elle consiste lorsqu'une collision se produit à rechercher un emplacement vide séquentiellement. Prenons un exemple pour comprendre, on considère que la table de hachage a 10 alvéoles et on veut insérer les valeurs `907, 202, 117, 318` en utilisant  la fonction de hachage modulo 10.
+
+* Insertion de `907` : 
+
+{{make_tab(["x","x","x","x","x","x","x",907,"x","x"])}}
+
+* Insertion de  `202` :
+
+{{make_tab(["x","x","202","x","x","x","x",907,"x","x"])}}
+
+* Insertion de `117` : 
+{{make_tab(["x","x","202","x","x","x","x",907,"117","x"])}}
+
+* Insertion de `318` : 
+{{make_tab(["x","x","202","x","x","x","x",907,"117","318"])}}
+
+La recherche d'un élément s'effectue donc à partir de son alvéole en avançant tant que l'alvéole est pleine. Par exemple ci-dessus, si on recherche `318`, il faudrait commencer à l'indice 8 et avancer à l'indice car l'indice 8 était occupé.
+La suppression d'un élément pose problème car par exemple en enlevant `117` de la table précédente, la recherche de 318 pourtant présent échouerait. Afin de résoudre ce problème, on peut attribuer à chaque case du tableau un statut : libre, occupé ou effacé. On continue la recherche après les cases ayant un statut occupé ou effacé. Par contre on insère dans une case ayant le statut libre ou effacé.
+
+On peut donc proposer le type structuré suivant en supposant que les clés et les valeurs sont des `#!c int`:
+```c
+struct slot_s
+{
+    int key;
+    int value;
+    int status;
+};
+typedef struct slot_s slot;
+
+struct hashtable_s
+{
+    slot *data;
+    int free;
+};
+typedef struct hashtable_s hashtable;
+```
+
+En utilisant cette structure de données, écrire et tester les fonctions usuelles sur les table de hachage : création, ajout d'un élément, test de présence d'une clé, modification de la valeur associée à une clé, suppression d'une clé, $\dots$
 
 {{ exo("Filtre de Bloom",[])}}
 

@@ -9,7 +9,7 @@
 \ModeExercice
 \DS{PCSI}{1}{Décembre 2024}
 
-\setboolean{corrige}{false}
+\setboolean{corrige}{true}
 
 
 \alertbox{\danger}{Consignes}{
@@ -23,7 +23,7 @@
 
 \begin{Exercise}[title={Questions de cours}]
     \Question{Recopier et compléter le tableau suivant en donnant le type et la valeur de l'expression.  Les  lignes sur fond gris sont des exemples déjà complétées afin de vous aider.\\
-    \begin{tabularx}{\linewidth}{|>{\tt}p{5cm}|>{\tt}p{2cm}|X|}
+    \begin{tabularx}{\linewidth}{|>{\tt}p{7cm}|>{\tt}p{2cm}|X|}
         \hline
         Expression & Type & Valeur \\
         \hline
@@ -39,7 +39,7 @@
         \hline
         10/4 & \comp{float}& \comp{2.5} \\
         \hline
-        "e" in {"a":1,"b":3,"c":3} & \comp{bool} & \comp{True}\\
+        "e" in \{"a":1,"b":3,"c":3\} & \comp{bool} & \comp{True}\\
         \hline
         len("math")!=3 & \comp{bool}& \comp{True} \\
         \hline
@@ -59,7 +59,7 @@
     }
 \Question{On suppose définie une variable {\tt l} de type {\tt list} contenant {\tt [2, 3, 5, 7, 11, 13, 17]}}
 \subQuestion{Quel est le contenu de {\tt l[5]} ? Quel est le contenu de {\tt l[1:4]} ?}
-\tcor{[\tt l[5] = 13} et {\tt l[1:4]=[3, 5, 7]}
+\tcor{\tt l[5] = 13} et {\tt l[1:4]=[3, 5, 7]}
 \subQuestion{Donner la valeur de {\tt n} ainsi que le contenu de {\tt l} après exécution de l'instruction \mintinline{python}{n = l.pop()}}
 \tcor{{\tt n = 17} et {\tt l = [2, 3, 5, 7, 11, 13]} car {\tt pop} supprime le dernier élément d'une liste et renvoie cet élément.}
 \subQuestion{Ecrire l'instruction permettant d'ajouter la valeur {\tt 19} à la fin de cette liste.}
@@ -134,13 +134,31 @@ Le but de l'exercice est d'écrire une fonction {\tt plusfrequentes} prenant en 
 \item {\tt plusfrequentes("ce petit exemple")} renvoie {\tt ['e']} car la lettre {\tt 'e'} apparaissant cinq fois est la seule plus fréquente.
 \end{itemize}
 \Question{Dans cette on  n'utilise pas de dictionnaire.}
-\subQuestion{Ecrire une fonction itérative {\tt occurrence} qui prend un argument une chaine de caractère {\tt texte} et une lettre {\tt l} et renvoie le nombre d'appararitions de {\tt l} dans {\tt texte}. Par exemple {\tt occurrence("ce petit exemple","t")} renvoie {\tt 2}.}
+\subQuestion{Ecrire une fonction itérative {\tt occurrence} qui prend un argument une chaine de caractère {\tt texte} et une lettre {\tt l} et renvoie le nombre d'apparitions de {\tt l} dans {\tt texte}. Par exemple {\tt occurrence("ce petit exemple","t")} renvoie {\tt 2}.}
+\ifcorrige
+\corpartPython{majoritaire.py}{}{}{3}{10}
+\fi
 \subQuestion{Ecrire une version récursive de la fonction {\tt occurrence}}.
+\ifcorrige
+\corpartPython{majoritaire.py}{}{}{12}{19}
+\fi
 \subQuestion{Ecrire une fonction {\tt maximum} qui renvoie le maximum des éléments d'une liste non vide d'entiers.}
+\ifcorrige
+\corpartPython{majoritaire.py}{}{}{20}{25}
+\fi
 \subQuestion{En utilisant les fonction précédentes, écrire la fonction {\tt plusfrequentes} qui répond au problème posé.}
+\ifcorrige
+\corpartPython{majoritaire.py}{}{}{27}{34}
+\fi
 \Question{En utilisant un dictionnaire}
 \subQuestion{Ecrire une fonction {\tt comptabilise} qui prend en argument un texte ne contenant que les lettres {\tt a, b, \dots z} et renvoie un dictionnaire dont les clés sont ces lettres et les valeurs associées leur nombre d'apparitions.}
+\ifcorrige
+\corpartPython{majoritaire.py}{}{}{36}{44}
+\fi
 \subQuestion{En utilisant la fonction précédente, écrire une nouvelle version de la fonction {\tt plusfrequentes}.}
+\ifcorrige
+\corpartPython{majoritaire.py}{}{}{46}{53}
+\fi
 \end{Exercise}
 
 \begin{Exercise}[title={Validation de carte de crédit}]\\
@@ -151,11 +169,24 @@ Un algorithme (appelé algorithme de Luhn), permet de vérifier qu'un numéro de
 	\item On calcule ensuite la somme des chiffres des deux listes, si le résultat obtenu est divisible par 10 alors le numéro de la carte de crédit est valide. Dans l'exemple précédent, on calcule donc :: \\ {\tt 3 + 7 + 6 + 2 + 5 + 8 = 33},\\ et comme 33 n'est pas divisible par 10, le numéro n'est pas valide.
 \end{itemize}
 \Question{Vérifier que le numéro {\tt 4762} est valide.}
+\tcor{La liste {\tt [2, 7]} est celle des chiffres de rang impair, et la liste {\tt [4, 6]} des chiffres de rang pair donne {\tt [8, 3]} ce qui conduit à une somme totale de {\tt 2+7+8+3 = 20} et donc un numéro valide.}
 \Question{Ecrire une fonction {\tt num\_en\_liste} qui prend en argument un entier et renvoie la liste de ses chiffres. Par exemple, 
 {\tt num\_en\_liste(4762)} renvoie la liste {\tt [4, 7, 6, 2]}.}
-\Question{Ecrire une fonction {\tt impairs\_pairs} qui prend en argument une liste {\tt l} et renvoie deux listes, celles des éléments d'indice impair de {\tt l} et celle  éléments d'indice pairs en numérotant les indices à partir de la droite. Par exemple {\tt pairs\_impairs([4, 7, 6, 2])} renvoie {\tt [2, 7]} et {\tt [6, 4]}}
+\ifcorrige
+\corpartPython{luhn.py}{}{}{1}{5}
+\fi
+\Question{Ecrire une fonction {\tt pairs\_impairs} qui prend en argument une liste {\tt l} et renvoie deux listes, celles des éléments d'indice impair de {\tt l} et celle  éléments d'indice pairs en numérotant les indices à partir de la droite. Par exemple {\tt pairs\_impairs([4, 7, 6, 2])} renvoie {\tt [4, 6]} et {\tt [7, 2]}}
+\ifcorrige
+\corpartPython{luhn.py}{}{}{7}{17}
+\fi
 \Question{Ecrire une fonction {\tt traite\_pairs} qui prend en argument une liste {\tt l}, ne renvoie rien et modifie cette liste en remplaçant chaque chiffre de la liste par son double. Si le résultat obtenu est supérieur à 9 alors il faut le remplacer par la somme des deux chiffres qui le composent. Par exemple, si  {\tt l=[6, 4]}, après l'appel {\tt traite\_pairs[l]}, le contenu de {\tt l} devient {\tt [3, 8]} en effet {\tt 4} a été remplacé par son double {\tt 8} et {\tt 6} par la somme des chiffres de son double {\tt 12}.}
+\ifcorrige
+\corpartPython{luhn.py}{}{}{19}{24}
+\fi
 \Question{Ecrire une fonction {\tt test\_num\_carte} qui prend en argument un entier et renvoie {\tt True} si c'est le numéro d'une carte de crédit valide et {\tt False} sinon. Par exemple, {\tt test\_num\_carte(4762)} renvoie {\tt True}}.
+\ifcorrige
+\corpartPython{luhn.py}{}{}{26}{33}
+\fi
 \end{Exercise}
 
 
@@ -186,8 +217,13 @@ Un algorithme (appelé algorithme de Luhn), permet de vérifier qu'un numéro de
     
     Le but de l'exercice est d'écrire une fonction {\tt cesar} qui prend en entrée une chaine de caractères et une clé et renvoie la chaine chiffrée avec cette clé. Si les caractères de la chaine ne sont pas des lettres majuscules on les laisse intactes. Par exemple {\tt chiffre("MP2I",1)} renvoie {\tt "NQ2J"} (le {\tt 2} est inchangé).
     \Question{Ecrire une fonction {\tt codage} qui prend en entrée un entier {\tt decalage} et renvoie un dictionnaire dont les clés sont les lettres majuscules et les valeurs les lettres dans le chiffrement de César avec la clé {\tt decalage}. Par exemple si {\tt decalage} vaut 7, alors les clés de ce dictionnaires sont données sur la première ligne du  tableau ci-dessus et les valeurs correspondantes sur la deuxième ligne.}
+    \ifcorrige
+    \corpartPython{cesar.py}{}{}{1}{7}
+    \fi
     \Question{Ecrire une fonction {\tt cesar} qui prend en entrée une chaine de caractère {\tt texte} et un entier {\tt decalage} et renvoie cette chaine chiffré avec la clé {\tt decalage}.}
-
+    \ifcorrige
+    \corpartPython{cesar.py}{}{}{10}{18}
+    \fi
 \end{Exercise}
 
 \end{document}

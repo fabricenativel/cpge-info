@@ -381,6 +381,18 @@ def define_env(env):
         return res
     
     @env.macro
+    def make_tab(values):
+        res = "<table class='tableau-indices'><tr>"
+        cpt = 0
+        for i in range(len(values)):
+            res += f"<td>{i}</td>"
+        res +='</tr><tr>'
+        for v in values:
+            res = res + f"<td>{v}</td>" 
+        res += '</tr></table>'
+        return res
+
+    @env.macro
     def file(elts):
         aff = '<table class="file"><tr>'
         for e in elts:

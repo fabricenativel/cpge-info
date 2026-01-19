@@ -1,24 +1,21 @@
-def numero(car):
+def codage(decalage):
     lettres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    dico = {}
     for i in range(len(lettres)):
-        if car==lettres[i]:
-            return i
-    return -1
+        icode = (i+decalage)%26
+        dico[lettres[i]] = lettres[icode]
+    return dico
 
-def decalage(cle):
-    lettres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    return lettres[cle:]+lettres[:cle]
 
-def cesar(chaine, cle):
-    chiffre = ""
-    dec = decalage(cle)
-    for c in chaine:
-        if numero(c)==-1:
-            chiffre +=c
+def cesar(texte,decalage):
+    dico = codage(decalage)
+    texte_chiffre = ""
+    for l in texte:
+        if l in dico:
+            texte_chiffre += dico[l]
         else:
-            chiffre += dec[numero(c)]
-    return chiffre
+            texte_chiffre += l
+    return texte_chiffre
 
-assert numero('A')==0
-assert numero('C')==2
-assert numero('!')==-1
+print(cesar("OK CA MARCHE BIEN !", 10))   
+print(cesar("YU MK WKBMRO LSOX !", 16))        

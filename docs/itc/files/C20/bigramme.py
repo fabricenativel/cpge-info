@@ -60,6 +60,10 @@ for l in LABELED:
     labeled_data += labeled
     test_data += test
 
+exphrase = input("Entrez une phrase à classer :")
+pp, res = knn(exphrase,labeled_data,5)
+print("Classé en ",res)
+'''
 sample = random.sample(test_data,nb_test)
 confusion = {(x,y):0 for x in LABELED for y in LABELED}
 n = 1
@@ -69,4 +73,4 @@ for s,l in sample:
         print(f"Erreur de classification  pour {s} ({l}) classé en {res}, ressemblance avec {pp}")
     confusion[(l,res)]+=1
 
-print(confusion)
+print(confusion)'''
