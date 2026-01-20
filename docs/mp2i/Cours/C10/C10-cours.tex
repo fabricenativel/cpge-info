@@ -60,7 +60,13 @@
 			\item<5-> Obtenir la valeur $v$ associée à une clé $c$.
 			\item<6-> Modifier la valeur associée à une clé.
 		\end{itemize}
+		\onslide<7->{\textcolor{BrickRed}{On veut effectuer ces opérations \textit{rapidement} }
 	\end{block}
+	\onslide<7->{
+		\begin{exampleblock}{Exemple}
+		La recherche du nombre d'occurrence de chacun des mots d'un texte est donc une application classique de cette structure de donnée. A chaque mot rencontré, s'il se trouve dans le dictionnaire on incrémente la valeur associée de 1 sinon on rajoute ce mot avec comme valeur 1.
+		\end{exampleblock}
+	}
 \end{frame}
 
 \makess{Techniques d'implémentation}
@@ -143,7 +149,7 @@
 		\ncline[nodesepA=0.3]{o->}{i42}{v42}
 		\onslide<3->{\ncline[nodesepB=0.42,offsetA=-0.2,nodesepA=0.04,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{bol}{i42}}
 		\begin{itemize}
-			\item<4->{\small Deux clés différentes ("bol" et "le"), doivent être rangées au même indice dans une tableau, c'est une \textcolor{BrickRed}{collision}.}
+			\item<4->{\small Deux clés différentes ("bol" et "le"), doivent être rangées au même indice, c'est une \textcolor{BrickRed}{collision}.}
 			\item<5->{\small La résolution par chaînage consiste à stocker des listes chaînées, dans le tableau. On dit alors que chaque case du tableau est un \textcolor{blue}{seau} (ou \textcolor{gray}{bucket} en anglais) .}
 		\end{itemize}
 	\end{block}
@@ -190,7 +196,7 @@
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{A retenir ...}
-			Sous les hypothèses suivantes :
+			Dans le cas d'une résolution des collisions par chainage, sous les hypothèses suivantes :
 			\begin{itemize}
 			\item<2-> le calcul de la fonction de hachage  est en $\mathcal{O}(1)$,
 			\item<2-> le hachage est uniforme,
@@ -200,10 +206,15 @@
 	\end{block}
 \end{frame}
 
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Résolution des collisions par sondage}
+		Une autre méthode de résolution des collision consiste lorsqu'elles se produisent à rechercher plus loin dans la table (\textit{à sonder}) jusqu'à trouver un emplacement vide. On parle de \textit{sondage linéaire} lorsqu'on recherche séquentiellement dans la table. On admettra que dans ce cas on retrouve pour les opérations, une complexité similaire à celle de la résolution par chainage. Un exemple d'implémentation sera vue en TP. 
+	\end{block}
+\end{frame}
 
 \makess{Implémentation en langage C}
 \begin{frame}{\Ctitle}{\stitle}
-	\begin{block}{Les listes chainées de clés/valeurs}
+	\begin{block}{Cas des occurrences des mots d'un texte}
 		\begin{itemize}
 			\item<1-> On commence par créer des listes chaînées de clés/valeurs. Les clés sont des chaines de caractères, et les valeurs des entiers positifs. Pour simplifier, on suppose qu'un mot a au maximum 26 lettres :
 				\onslide<2->{\inputpartC{\SPATH/count.c}{}{\scriptsize}{9}{16}}
@@ -271,8 +282,6 @@
 	\begin{block}{Module {\tt Hashtbl}}
 		La bibliothèque standard d'OCaml propose une implémentation des tables de hachage via le module \kw{Hashtbl}.
 		\begin{itemize}
-			\item<1-> On inclus ce module avec :
-				\inputpartOCaml{\SPATH/count.ml}{}{\small}{1}{1}
 			\item<2-> La fonction de hachage (\kw{Hashtbl.hash}) est prédéfinie par OCaml et s'applique à une valeur de n'importe quel type.
 			\item<3-> On doit donner une taille initiale lors de la création de la table de hachage :
 				\inputpartOCaml{\SPATH/count.ml}{}{\small}{2}{2}

@@ -32,14 +32,14 @@ Le but du TP est d'écrire en langage C, une version de ce jeu. L'interface grap
 ```
 
 1. A propos de l'interface graphique  
-Nous allons utiliser le module [ncurses](https://tldp.org/HOWTO/NCURSES-Programming-HOWTO/){target=_blank} qui permet d'afficher des caractères dans le terminal en donnant simplement leur coordonnées. Afin d'utiliser ce module, on écrira en début de programme `#!c #include <ncurses.h>` et on fournit ci-dessous une fonction d'initialisation du terminal afin de le transformer en interface graphique utilisable :
+Nous allons utiliser le module [ncurses](https://tldp.org/HOWTO/NCURSES-Programming-HOWTO/){target=_blank} qui permet d'afficher des caractères dans le terminal en donnant simplement leur coordonnées. Afin d'utiliser ce module, on écrira en début de programme `#!c #include <ncurses.h>` et on rajoutera l'option `-lncurses` à la ligne habituelle de compilation. On fournit ci-dessous une fonction d'initialisation du terminal afin de le transformer en interface graphique utilisable :
     ```c
     --8<-- "C10/mysnake.c:init_term"
     ```
-Une fois cette initialisation effectuée, on peut afficher n'importe quel caractère {{sc("ascii")}} dans le terminal en utilisant la fonction `mvaddch` qui prend en argument la ligne, la colonne et enfin le caractère affiché. Par exemple `#!c mvaddch(5, 7, 'X')` affiche un `X` à la ligne 5 et à la colonne 7. Le coin supérieur gauche du terminal est l'origine (ligne 0, colonne 0). D'autre part, la fonction d'initialisation précédente met à jour `maxl` et  `maxc` afin qu'ils contiennent les numéro des dernières lignes et colonnes visibles dans le terminal. D'autre part les modifications apportées au terminal sont *bufferisées* (mises en attente), la fonction `refresh()` permet de mettre à jour un terminal en executant toutes les modifications en attente. 
+Une fois cette initialisation effectuée, on peut afficher n'importe quel caractère {{sc("ascii")}} dans le terminal en utilisant la fonction `mvaddch` qui prend en argument la ligne, la colonne et enfin le caractère affiché. Par exemple `#!c mvaddch(5, 7, 'X')` affiche un `X` à la ligne 5 et à la colonne 7. Le coin supérieur gauche du terminal est l'origine (ligne 0, colonne 0). D'autre part, la fonction d'initialisation précédente met à jour `maxl` et  `maxc` afin qu'ils contiennent les numéro des dernières lignes et colonnes visibles dans le terminal. Enfin, les modifications apportées au terminal sont *bufferisées* (mises en attente), la fonction `refresh()` permet de mettre à jour un terminal en executant toutes les modifications en attente. 
         
 
-    1. Ecrire la fonction de signature  `#!c void make_border(int maxl, int maxc)` qui crée une bordure autour du terminal (dans la capture d'écran donnée en exemple au début du TP cette bordure est constituée de caractères `+`). On pourra éventuellement définir en début de programme le caractère utilisé pour la bordure à l'aide d'une directive de précompilation `#!c #define BORDER '+'`.
+    1. Ecrire la fonction de signature  `#!c void make_border(int maxl, int maxc)` qui crée une bordure autour du terminal (dans la capture d'écran donnée en exemple au début du TP cette bordure est constituée de caractères `+`).
 
         !!! aide
             On notera bien que la fonction `mvaddch` :
@@ -48,7 +48,7 @@ Une fois cette initialisation effectuée, on peut afficher n'importe quel caract
             * que le coin supérieur gauche est le point de coordonnées $(0,0)$.
             * on doit uiliser `refresh()` pour visualiser les modifications apportées au terminal.
 
-    2. Afin de tester le programme (qui pour le moment ne crée que les bordures), écrire la fonction `main` qui appelle les fonctions `init_term` et `make_border` puis utiliser la fonction `usleep` du module `<unistd.h>` qui met en pause un programme pendant le nombre de *microsecondes* donné en arguent. afin d'attendre une seconde avant de quitter le programme. Vous devriez obtenir une image similaire à celle ci-dessous :
+    2. Afin de tester le programme (qui pour le moment ne crée que les bordures), écrire la fonction `main` qui appelle les fonctions `init_term` et `make_border` puis utiliser la fonction `usleep` du module `<unistd.h>` qui met en pause un programme pendant le nombre de *microsecondes* donné en argument. afin d'attendre une seconde avant de quitter le programme. Vous devriez obtenir une image similaire à celle ci-dessous :
     ![bordures](Images/C10/start.png){.imgcentre width=400px}
 
     3. Ajouter la fonction `endwin()` à la fin du `main`, cela garantit de rendre un terminal "propre" en annulant les modifications apportées par la fonction d'initialisation du terminal.
@@ -58,7 +58,7 @@ Afin de représenter les positions occupées par le serpent on propose d'utilise
     ```c
     --8<-- "C10/mysnake.c:lpos"
     ```
-Afin d'agrandir le serpent, il suffira de rajouter un maillon à la liste chainée des positions occupées. Pour  simuler les mouvement du serpent on ne déplace en fait que **deux caractères**, en effet pour simuler le déplacement du serpent entier il suffit simplement de déplacer la tête et de supprimer la queue ! Par exemple sur l'illustation suivante :
+Afin d'agrandir le serpent, il suffira de rajouter un maillon à la liste chainée des positions occupées. Pour  simuler un déplacement du serpent on ne déplace en fait que **deux caractères** et pas la totalité du serpent. En effet, il suffit de déplacer la tête et de supprimer la queue ! Par exemple sur l'illustration suivante :
 ![move](Images/C10/move.png){.imgcentre width=400px}
 Dans la position suivante, seule la tête se sera déplacée et le dernier emplacement occupé par le queue sera vide. On a donc besoin d'une structure de donnée dans laquelle on peut ajouter en $\mathcal{O}(1)$ en tête de la liste et supprimer en $\mathcal{O}(1)$ en queue de la liste. On adopte donc le type structuré suivant :
     ```c
@@ -71,7 +71,7 @@ Dans la position suivante, seule la tête se sera déplacée et le dernier empla
 
     Par conséquent, la liste est chainée  de la *queue* vers la tête comme illustré ci-dessous :
     ![structure](Images/C10/sdsnake.png){.imgcentre width=700px}
-    Ici, si le serpent se déplace vers la droite, il suffira en accédant par le pointeur de queue de supprimer le dernier maillon puis de rajouter la position $(3,6)$ au pointeur de tête.
+    Ici, si le serpent se déplace vers la droite, il suffira en accédant par le pointeur de queue de supprimer le dernier maillon puis de rajouter la position $(3,6)$ au pointeur de tête pour obtenir les nouvelles positions occupées par le serpent à savoir $(3,2) (3,3) (3,4) (3,5)$ et $(3,6)$.
 
     1. Ecrire la fonction de signature `#!c void add_head(snake *ms, int l, int c)` qui rajoute une position à la tête du serpent. On fera attention à traiter le cas particulier où la liste des positions est initialement vide.
 
@@ -81,9 +81,12 @@ Dans la position suivante, seule la tête se sera déplacée et le dernier empla
 
     4. Mettre à jour votre `main` de façon à afficher ce serpent.
 
-3. Génération aléatoire de nourriture
+3. Génération aléatoire de nourriture  
+On rappelle que la fonction `rand()` permet de générer en entier aléatoire et qu'on peut initialiser le générateur avec par exemple `#!c srand(time(NULL));`. Lorsqu'on génère une position pour la nourriture elle ne doit pas être dans le serpent. On doit donc disposer d'une fonction qui teste si un couple de coordonnées `(l,c)` fait partie ou non des positions occupées par le serpent.
 
-    1. On rappelle que la fonction `rand()` permet de générer en entier aléatoire et qu'on peut initialiser le générateur avec par exemple `#!c srand(time(NULL));`. Lorsqu'on génère une position pour la nourriture elle ne doit pas être dans le serpent. Ecrire une fonction de signature `#!c void make_food(snake ms, int *pl, int *pc, int maxl, int maxc)` qui modifie `*pl` et `*pc` afin qu'ils contiennent l'emplacement de la prochaine nourriture. Cette fonction mettra aussi à jour le terminal à l'aide de `mvaddch`.
+    1. Ecrire une fonction de signature `#!c bool in_snake(snake ms, int l, int c)` qui renvoie un booléen indiquant si `(l,c)` fait partie des positions occupées par le serpent.
+
+    2. En utilisant `in_snake`, écrire une fonction de signature `#!c void make_food(snake ms, int *pl, int *pc, int maxl, int maxc)` qui modifie `*pl` et `*pc` afin qu'ils contiennent l'emplacement de la prochaine nourriture. Cette fonction mettra aussi à jour le terminal à l'aide de `mvaddch`.
 
     2. Tester votre fonction en appelant la fonction de génération de nourriture depuis le `main`.
 
@@ -287,7 +290,9 @@ On s'intéresse dans cet exercice à une méthode de résolution des collisions 
 * Insertion de `318` : 
 {{make_tab(["x","x","202","x","x","x","x",907,"117","318"])}}
 
-La recherche d'un élément s'effectue donc à partir de son alvéole en avançant tant que l'alvéole est pleine. Par exemple ci-dessus, si on recherche `318`, il faudrait commencer à l'indice 8 et avancer à l'indice car l'indice 8 était occupé.
+La recherche d'un élément s'effectue donc à partir de son alvéole en avançant tant que l'alvéole est pleine. Par exemple ci-dessus, si on recherche `318`, il faudrait commencer à l'indice 8 et avancer à l'indice 9 car l'indice 8 était occupé. De la même façon en recherchant `617` on commencerait à l'indice 7 et on devrait attendre d'atteindre l'indice vide 0 pour affirmer que ce nombre n'est pas dans la table.
+
+
 La suppression d'un élément pose problème car par exemple en enlevant `117` de la table précédente, la recherche de 318 pourtant présent échouerait. Afin de résoudre ce problème, on peut attribuer à chaque case du tableau un statut : libre, occupé ou effacé. On continue la recherche après les cases ayant un statut occupé ou effacé. Par contre on insère dans une case ayant le statut libre ou effacé.
 
 On peut donc proposer le type structuré suivant en supposant que les clés et les valeurs sont des `#!c int`:

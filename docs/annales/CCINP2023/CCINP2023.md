@@ -42,3 +42,6 @@ La proposition décrite dans l'énoncé correspond à la deuxième fonction du d
 ```python
 --8<-- "CCINP2023/CCINP2023.py:Q4"
 ```
+
+### Question 5
+

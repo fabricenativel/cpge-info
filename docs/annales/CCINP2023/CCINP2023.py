@@ -1,3 +1,5 @@
+from math import pi, cos, sin
+
 # --8<-- [start:Q3]
 def binarisation(imgG:array, seuil:int) -> array:
     n0, n1, _ = dimension(img)
@@ -20,3 +22,8 @@ def bilineaire(im : array, x:float, y: float) -> int :
     c = lineaire(x, x0, x1, a, b)
     return int(c)
 # --8<-- [end:Q4]
+
+# --8<-- [start:Q4]
+def rotation(im:array, angle:float) -> array :
+    p, q, _ = dimension(im)
+    angr = -ang *pi / 180
