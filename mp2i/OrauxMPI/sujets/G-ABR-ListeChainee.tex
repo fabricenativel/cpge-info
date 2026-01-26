@@ -1,0 +1,117 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/}
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$0$}} \\
+		\hline
+	\end{tabular}
+}
+\ModeExercice
+
+\lhead{{\sc mpi --} {\bf Préparation aux oraux}}
+\rhead{2024}
+\setboolean{corrige}{false}
+\begin{center}
+	\textbf{\Large Sujet G}
+\end{center}
+
+
+\setcounter{Exercise}{0}
+
+\newcommand{\cn}[1]{\TCircle{\tt #1}}
+\psset{arrows=->,treesep=1cm,levelsep=1cm}
+
+\begin{Exercise*}[title = type A]\\
+ Dans cet exercice, on autorise les doublons dans un arbre binaire de recherche et pour le cas d’égalité    on choisira le sous-arbre gauche. On ne cherchera pas à équilibrer les arbres.   
+\Question{Rappeler la définition d’un arbre binaire de recherche.}    
+\tcor{Un arbre binaire de recherche sur un ensemble d'étiquettes $E$ (totalement ordonné), peut se définir inductivement par l'axiome $\varnothing$ (arbre vide), et la règle d'inférence d'arité 2 : $(g,d) \mapsto (g,x,d)$ où $x \in E$ et toute étiquette de $g$ est inférieure à $x$ et toute étiquette de $d$ est supérieure à $x$.}
+\Question{Insérer successivement et une à une dans un arbre binaire de recherche initialement vide toutes les lettres    du mot {\tt bacddabdbae}, en utilisant l’ordre alphabétique sur les lettres. Quelle est la hauteur de l’arbre ainsi    obtenu ?}
+\tcor{ \pstree{\cn{b}}{} \quad
+\pstree{\cn{b}}{\cn{a} \Tn{}} \quad
+\pstree{\cn{b}}{\cn{a} \cn{c}} \quad 
+\pstree{\cn{b}}{\cn{a} \pstree{\cn{c}} {\Tn{} \cn{d}}}
+\pstree{\cn{b}}{\cn{a} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\cn{d} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\cn{d} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\cn{a} \cn{b}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\cn{d} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\cn{a} \cn{b}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\cn{a} \pstree{\cn{b}}{\cn{b} \Tn{}}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \pstree{\cn{b}}{\cn{b} \Tn{}}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \pstree{\cn{b}}{\cn{b} \Tn{}}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \cn{e}}}} \\
+La hauteur de l'arbre obtenu est $4$ (la programme donne $-1$ comme hauteur de l'arbre vide.)
+} 
+\Question{Montrer que le parcours en profondeur infixe d’un arbre binaire de recherche de lettres est un mot dont les    lettres sont rangées dans l’ordre croissant. On pourra procéder par induction structurelle.}
+\tcor{
+    On procède par induction structurelle, pour tout {\sc abr} $a$, on note $P(a)$ la propriété \og{} le parcours infixe de $a$ est un mot dont les lettres sont rangées dans l'ordre croissant\fg{}. 
+    \begin{itemize}
+        \item $P(\varnothing)$ est vraie et donc la propriété $P$ est vérifiée pour tous les axiomes.
+        \item Montrons à présent la conservation de la propriété $P$ par application de la règle d'inférence, si $g$ et $d$ sont deux {\sc abr} vérifiant $P$, et $x$ une lettre telle que toutes les lettres de $g$ sont avant $x$ et toutes les lettres de $d$ sont après $x$ dans l'ordre alphabétique. Le parcours infixe de l'{\sc abr} $(g,x,d)$ est par définition le parcours infixe de $g$ suivi de $x$ suivi du parcours infixe de $d$. Par hypothèse d'induction, les lettres du parcours de $g$ et celles du parcours de $d$ sont rangées par ordre croissant. Comme de plus $x$ est après toute les lettres de $g$ et avant toutes celles de $d$, le parcours de $(g,x,d)$ est bien formé de lettres rangées par ordre croissant.
+    \end{itemize}
+    Par application du principe d'induction structurelle, pour tout {\sc abr} $a$, $P(a)$ est vraie.
+}
+\Question{Proposer un algorithme qui permet de compter le nombre d’occurrences d’une lettre dans un arbre binaire de    recherche de lettres. Quelle est sa complexité ?\label{occ}}
+\tcor{On part de la racine, à chaque étape, on ajoute 1 au nombre d'occurence si l'étiquette est la lettre cherchée et on descend dans le sous arbre gauche si l'étiquette est inférieure ou égale à la racine et dans le sous arbre droit sinon. On s'arrête en rencontrant une feuille. Comme à chaque étape on descend d'un niveau dans l'orbre la complexité est en $O(h)$ où $h$ est la hauteur de l'arbre.}
+\end{Exercise*}
+
+\begin{Exercise*}[title = {type B}]\\
+Le langage utilisé dans cet exercice est le langage C. \smallskip\\
+Certaines comptines enfantines ont pour objectif de désigner une personne \og{} au hasard \fg{}, un exemple bien connu est \og{} \textit{Am, stram, gram, pic et pic et colégram} \fg{}. On suppose que $N$ enfants numérotés de 0 à $N-1$ sont assis en cercle et que l'un d'entre eux (le numéro $k$) récite une comptine contenant $S$ syllabes. A la première syllable il désigne son suivant immédiat dans le cercle puis il avance d'un enfant à chaque syllable jusqu'à la fin de la comptine. L'enfant désigné à la fin de la comptine doit quitter le cercle et le processus recommence à partir de son suivant immédiat jusqu'à ce qu'un seul enfant reste.
+	\Question{Donner une illustration de ce processus avec $N=5$ et $S=7$, en supposant que l'enfant $0$ commence et indiquer le numéro  du dernier enfant restant.}
+    \tcor{
+        \begin{enumerate}
+            \item[-] [0; 1; 2; 3; 4] 2 quitte le cercle et  3 récite la comptine
+            \item[-] [0; 1; 3; 4] 1 quitte le cercle et  3 récite la comptine
+            \item[-] [0; 3; 4] 4 quitte le cercle et  0 récite la comptine
+            \item[-] [0; 4] 4 quitte le cercle
+        \end{enumerate}
+        Donc c'est l'enfant $0$ qui reste.
+    }
+
+    \NRet \smallskip
+	On veut implémenter une structure de données de liste chainée circulaire permettant de représenter les enfants assis en cercle. On rappelle qu'une liste chainée circulaire est une liste dont le dernier maillon pointe vers le premier maillon. L'accès au cercle se fait via un pointeur  qui désigne l'enfant qui \textit{précède celui qui doit dire la comptine}. Par exemple un cercle initial de cinq enfants où le premier à dire la comptine est le numéro 0 est représenté par la structure de données ci-dessous :
+	\begin{center}
+		\begin{tabular}{ccllllc}
+			                                           &                         &                         &                         &                         & \rnode{liste}{{\quad \ \ }} & \\
+			                                           &                         &                         &                         &                         &                                      & \\
+			\rnode{head}{\raisebox{-2pt}{\phantom{Y}}} & \maillon{$0$}{v0}{p0} & \maillon{$1$}{v1}{p1} & \maillon{$2$}{v2}{p2} & \maillon{$3$}{v3}{p3} & \maillon{$4$}{v4}{p4}              & \\
+		\end{tabular}\\
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p0}{v1}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p2}{v3}
+		\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p3}{v4}
+		\ncline[nodesepB=0.25cm,nodesepA=0.05cm]{*->}{liste}{v4}
+		\ncbar[nodesepB=0.2cm,nodesepA=-0.2cm,angleA=-90,angleB=-90]{*->}{p4}{v0}
+	\end{center} 
+	Afin d'implémenter cette structure de données, on propose d'utiliser les types suivants
+	\inputpartC{comptine.c}{}{}{5}{11}
+	Ce type est défini dans le fichier compagnon de cet exercice téléchargeable à l'adresse :\\ {\tt https://fabricenativel.github.io/cpge-info/oraux/}.\\Ce fichier contient également une fonction de prototype \mintinline{c}{void affiche(liste_circulaire lc)} qui affiche le contenu de la liste circulaire à partir du maillon \textit{qui suit} celui désigné par {\tt lc}.
+	\Ret \smallskip
+	\Question{Ecrire une fonction de signature \mintinline{c}{void ajouter(liste_circulaire *lc, int v)} qui prend en paramètre un pointeur vers une liste circulaire et ajoute un maillon de valeur {\tt v} après le maillon pointé par {\tt lc} et met à jour le pointeur {\tt lc} pour qu'il pointe vers le nouveau maillon.}
+	\ifcorrige
+	\inputpartC{comptine.c}{}{}{18}{32}
+	\fi
+	\Question{En déduite une fonction de signature \mintinline{c}{liste_circulaire creer_cercle(int n)} qui prend en paramètre un entier {\tt n} et qui crée un cercle de {\tt n} enfants numérotés de 0 à {\tt n-1}.}
+	\ifcorrige
+	\inputpartC{comptine.c}{}{}{34}{42}
+	\fi
+	\Question{Ecrire une fonction de signature \mintinline{c}{void avance(liste_circulaire *lc, int s)} qui modifie la liste circulaire {\tt lc} en avançant de {\tt s} maillons.}
+	\ifcorrige
+	\inputpartC{comptine.c}{}{}{60}{70}
+	\fi
+	\Question{Ecrire une fonction de signature \mintinline{c}{void enleve(liste_circulaire *lc)} qui modifie la liste circulaire {\tt lc} en enlevant le maillon \textit{qui suit} celui pointé par {\tt lc}.}
+	\ifcorrige
+	\inputpartC{comptine.c}{}{}{44}{58}
+	\fi
+	\Question{En déduire une fonction de signature \mintinline{c}{int dernier_enfant(int n, int s)} qui renvoie le numéro du dernier enfant restant dans le cercle de {\tt n} enfants après avoir récité une comptine de {\tt s} syllabes en supposant que l'enfant 0 commence.}
+\end{Exercise*}
+
+
+\end{document}

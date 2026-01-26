@@ -1,0 +1,701 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+% Numéro et titre de chapitre
+\setcounter{numchap}{3}
+\newcommand{\Ctitle}{\cnum {Pointeurs, types structurés}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
+
+\makess{Mémoire en C}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Introduction}
+		\begin{itemize}
+			\item<1-> De façon schématique, la mémoire d'un ordinateur s'apparente à un immense tableau dont chaque case a une adresse.
+			\item<2-> Un \textcolor{blue}{pointeur} est une variable contenant une de ces adresses.
+			\item<3-> Le schéma ci-dessous représente un pointeur \kw{p} contenant l'adresse d'une variable \kw{x} qui vaut 42. \\
+				\onslide<4->{
+					\renewcommand{\arraystretch}{1.1}
+					\begin{tabular}{ccccccccc}
+						\textcolor{blue}{variable}   &       &                                      & \rnode{ax}{\kw{x}}                                                                    &                                      &       &       & \rnode{ap}{\kw{p}}                                                            &       \\
+						\textcolor{OliveGreen}{type} &       &                                      & \textcolor{OliveGreen}{\tt int}                                                      &                                      &       &       & \textcolor{OliveGreen}{\tt int *}                                          &       \\
+						\cline{3-5} \cline{8-8}
+						\cdashline{2-2} \cdashline{6-7} \cdashline{9-9}
+						valeur                       &       & \multicolumn{1}{|c|}{\phantom{4242}} & \multicolumn{1}{|c|}{\rnode{x}{42}}                                                   & \multicolumn{1}{|c|}{\phantom{4242}} &       &       & \multicolumn{1}{|c|}{\ovalnode[linecolor=BrickRed,linewidth=0.7pt]{pp}{2741}} &       \\
+						\cline{3-5} \cline{8-8}
+						\cdashline{2-2} \cdashline{6-7} \cdashline{9-9}
+						\textcolor{Sepia}{adresse}   & \dots & \textcolor{Sepia}{\scriptsize 2740}  & \ovalnode[linecolor=BrickRed,linewidth=0.7pt]{p}{\textcolor{Sepia}{\scriptsize 2741}} & \textcolor{Sepia}{\scriptsize 2742}  & \dots & \dots & \textcolor{Sepia}{\scriptsize 3154}                                           & \dots \\
+					\end{tabular}
+					\ncline[linecolor=BrickRed,linewidth=1pt]{->}{p}{x}
+					\ncbar[angleA=90,angleB=90,nodesep=1pt,linecolor=BrickRed]{->}{ap}{ax} \naput[labelsep=1pt]{\footnotesize \kw p pointe vers \kw{x}}
+				}
+			\item<6-> En C, on peut directement manipuler des adresses mémoires (des pointeurs) :
+				\begin{itemize}
+					\item<7-> \mintinline{c}{&x} est l'adresse de la variable {\tt x} (dans l'exemple précédent {\tt \&x = p (=2741)}), le type de {\tt p} est \mintinline{c}{int *} c'est à dire \textit{adresse d'un entier}.
+					\item<8-> \mintinline{c}{*p} est le contenu de l'adresse {\tt p} (dans l'exemple précédent {\tt *p = x (=42)}), le type de {\tt *p} est \mintinline{c}{int}.
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+		\rput(4.4,0.9){\rnode{stat}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Données statiques  \end{cadre}}}
+		\rput(9.5,0.9){\parbox{6cm}{\center \scriptsize Taille connue à la compilation \\ initialisées ou non.}}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+		\rput(4.4,0.9){\rnode{stat}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Données statiques  \end{cadre}}}
+		\rput(9.5,0.9){\parbox{6cm}{\center \scriptsize Taille connue à la compilation \\ initialisées ou non.}}
+		\rput(4.4,2.2){\rnode{tas}{\begin{cadre}{white}{BrickRed}{4.8}{2}   Tas (\textit{heap}) \end{cadre}}}
+		\rput(9.5,2.2){\parbox{6cm}{\center \scriptsize Taille variable \\ Allouée dynamiquement par le programmeur avec \kw{malloc} et libéré avec \kw{free} }}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+		\rput(4.4,0.9){\rnode{stat}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Données statiques  \end{cadre}}}
+		\rput(9.5,0.9){\parbox{6cm}{\center \scriptsize Taille connue à la compilation \\ initialisées ou non.}}
+		\rput(4.4,2.2){\rnode{tas}{\begin{cadre}{white}{BrickRed}{4.8}{2}   Tas (\textit{heap}) \end{cadre}}}
+		\rput(9.5,2.2){\parbox{6cm}{\center \scriptsize Taille variable \\ Allouée dynamiquement par le programmeur avec \kw{malloc} et libéré avec \kw{free} }}
+		\rput(4.4,5.6){\rnode{pile}{\begin{cadre}{white}{BrickRed}{4.8}{0.6}   Pile (\textit{stack}) \end{cadre}}}
+		\rput(9.5,5.6){\parbox{6cm}{\center \scriptsize Empile les contextes d'appel des fonctions \\ (variables locales, adresse de retour, \dots) }}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+		\rput(4.4,0.9){\rnode{stat}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Données statiques  \end{cadre}}}
+		\rput(9.5,0.9){\parbox{6cm}{\center \scriptsize Taille connue à la compilation \\ initialisées ou non.}}
+		\rput(4.4,2.2){\rnode{tas}{\begin{cadre}{white}{BrickRed}{4.8}{2}   Tas (\textit{heap}) \end{cadre}}}
+		\rput(9.5,2.2){\parbox{6cm}{\center \scriptsize Taille variable \\ Allouée dynamiquement par le programmeur avec \kw{malloc} et libéré avec \kw{free} }}
+		\rput(4.4,5.6){\rnode{pile}{\begin{cadre}{white}{BrickRed}{4.8}{0.6}   Pile (\textit{stack}) \end{cadre}}}
+		\rput(9.5,5.6){\parbox{6cm}{\center \scriptsize Empile les contextes d'appel des fonctions \\ (variables locales, adresse de retour, \dots) }}
+		\psline[linecolor=BrickRed,linestyle=dashed]{}(2,5.3)(2,3.2)
+		\psline[linecolor=BrickRed,linestyle=dashed]{}(6.78,5.3)(6.78,3.2)
+		\rput(4.5,4.4){Mémoire libre}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+		\rput(4.4,0.9){\rnode{stat}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Données statiques  \end{cadre}}}
+		\rput(9.5,0.9){\parbox{6cm}{\center \scriptsize Taille connue à la compilation \\ initialisées ou non.}}
+		\rput(4.4,2.2){\rnode{tas}{\begin{cadre}{white}{BrickRed}{4.8}{2}   Tas (\textit{heap}) \end{cadre}}}
+		\rput(9.5,2.2){\parbox{6cm}{\center \scriptsize Taille variable \\ Allouée dynamiquement par le programmeur avec \kw{malloc} et libéré avec \kw{free} }}
+		\rput(4.4,5.6){\rnode{pile}{\begin{cadre}{white}{BrickRed}{4.8}{0.6}   Pile (\textit{stack}) \end{cadre}}}
+		\rput(9.5,5.6){\parbox{6cm}{\center \scriptsize Empile les contextes d'appel des fonctions \\ (variables locales, adresse de retour, \dots) }}
+		\psline[linecolor=BrickRed,linestyle=dashed]{}(2,5.3)(2,3.2)
+		\psline[linecolor=BrickRed,linestyle=dashed]{}(6.78,5.3)(6.78,3.2)
+		\rput(4.5,4.4){Mémoire libre}
+		\ncline[nodesepB=1.2,linewidth=1pt,linestyle=dashed,linecolor=BrickRed]{->}{tas}{pile}
+		\ncline[nodesepB=1.5,linewidth=1pt,linestyle=dashed,linecolor=BrickRed]{->}{pile}{tas}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma de l'organisation de la mémoire en C}
+		\vspace{5.8cm}
+		\rput(1,0.0){\rnode{bas}{}}
+		\rput(1,5.9){\rnode{haut}{}}
+		\ncline[linecolor=gray,linestyle=dashed]{->}{bas}{haut}
+		\naput[nrot=:U,labelsep=0.1]{\textcolor{gray}{\scriptsize adresses croissantes}}
+		\rput(4.4,0.3){\rnode{code}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Code compilé \end{cadre}}}
+		\rput(9.5,0.3){\parbox{6cm}{\center \scriptsize En lecture seule}}
+		\rput(4.4,0.9){\rnode{stat}{\begin{cadre}{codebg}{OliveGreen}{4.8}{0.6}   Données statiques  \end{cadre}}}
+		\rput(9.5,0.9){\parbox{6cm}{\center \scriptsize Taille connue à la compilation \\ initialisées ou non.}}
+		\rput(4.4,2.2){\rnode{tas}{\begin{cadre}{white}{BrickRed}{4.8}{2}   Tas (\textit{heap}) \end{cadre}}}
+		\rput(9.5,2.2){\parbox{6cm}{\center \scriptsize Taille variable \\ Allouée dynamiquement par le programmeur avec \kw{malloc} et libéré avec \kw{free}}}
+		\rput(4.4,5.6){\rnode{pile}{\begin{cadre}{white}{BrickRed}{4.8}{0.6}   Pile (\textit{stack}) \end{cadre}}}
+		\rput(9.5,5.6){\parbox{6cm}{\center \scriptsize Empile les contextes d'appel des fonctions \\ (variables locales, adresse de retour, \dots) }}
+		\psline[linecolor=BrickRed,linestyle=dashed]{}(2,5.3)(2,3.2)
+		\psline[linecolor=BrickRed,linestyle=dashed]{}(6.78,5.3)(6.78,3.2)
+		\rput(4.5,4.4){Mémoire libre}
+		\ncline[nodesepB=1.2,linewidth=1pt,linestyle=dashed,linecolor=BrickRed]{->}{tas}{pile}
+		\ncline[nodesepB=1.5,linewidth=1pt,linestyle=dashed,linecolor=BrickRed]{->}{pile}{tas}
+		\ncbar[angle=180,offsetA=0.26,offsetB=0.28,linecolor=OliveGreen,linestyle=dashed]{code}{stat} \naput[nrot=:U,labelsep=0]{\textcolor{OliveGreen}{\scriptsize statique}}
+		\ncbar[angle=180,offsetA=0.98,offsetB=0.28,linecolor=BrickRed,linestyle=dashed]{tas}{pile} \naput[nrot=:U,labelsep=0]{\textcolor{BrickRed}{\scriptsize  dynamique}}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Conséquences}
+		Cette organisation de la mémoire a des conséquences importantes
+		\begin{itemize}
+			\item<1-> \textcolor{blue}{La taille de la pile est limitée} (bien plus que celle du tas), donc une variable locale de taille importante risque de provoquer un débordement de pile (\textit{stackoverflow}). Il est nettement préférable de l'allouer dans le tas.
+			\item<2-> Lors de l'appel à une fonction, les variables locales (et autres informations) sont stockées dans la pile. A la fin de l'exécution, ces informations sont supprimées de la pile. On ne doit donc \textcolor{blue}{pas conserver des adresses vers des variables locales}.
+			\item<3-> De la mémoire alloué par le programmeur dans le tas et non libérée est considérée \textcolor{blue}{comme non disponible}, créant des fuites mémoires (\textit{memory leak}).
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Un  exemple}
+		\inputpartC{\SPATH/varlocation.c}{}{\small}{3}{17}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Un second exemple}
+		\inputpartC{\SPATH/bigarray.c}{}{}{3}{7}
+		{\small
+		\begin{enumerate}
+			\item<1-> Rappeler la taille d'un \kw{double}, en déduire la taille du tableau {\tt big\_array}
+			\item<2-> Comment expliquer que programme a provoqué une {\tt erreur de segmentation}, alors qu'il a été exécuté sur une machine possédant 8 Go de mémoire vive ?
+			\item<3-> En déduire une information sur la taille de la pile sur cet ordinateur. 
+			\item<4-> Comment résoudre ce problème ? 
+		\end{enumerate}}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Pointeurs}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Opérateurs {\tt \&} et {\tt *}}
+		\begin{itemize}
+			\item<1-> Si \kw{t} est un type du C, par exemple (\kw{int}, \kw{char}, \dots), alors \kw{t *} est du type pointeur vers une valeur de type \kw{t}. Par exemple : \\
+				\onslide<2->{\mintinline{c}{int *p; //déclare un pointeur p vers un entier}} \\
+			\item<3-> Une valeur spéciale \mintinline{c}{NULL}, indique un pointeur qui ne pointe vers rien. Par exemple,\\
+				\onslide<4->{\mintinline{c}{char *c = NULL; // pointeur vers caractère initialisé à NULL}} \\
+			\item<5-> L'opérateur unaire \kw{\&}, appelé opérateur d'adresse, permet en C de récupérer l'adresse mémoire d'une variable.
+			\item<6-> L'opérateur unaire \kw{*}, appelé opérateur de déréférencement, permet en C de récupérer la valeur stockée dans une adresse mémoire. \\
+				\textcolor{BrickRed}{\important} Déréférencer un pointeur \kw{NULL} est un comportement indéfini.
+			\item<7-> Pour résumer : \\
+				\begin{tabularx}{\linewidth}{|c|c|X|}
+					\cline{2-3}
+					\multicolumn{1}{c|}{} & S'applique à   & Permet de                                           \\
+					\hline
+					\kw{\&}               & à une variable & récupérer son adresse                               \\
+					\hline
+					\kw{*}                & à un pointeur  & récupérer la valeur à l'emplacement mémoire désigné \\
+					\hline
+				\end{tabularx}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Remarque}
+		Lorsqu'on déclare un pointeur vers un entier par exemple avec \mintinline{c}{int * p;}, on peut considérer que :
+		\begin{itemize}
+		\item<2-> \kw{p} est une variable de type \kw{int*} qui contient l'adresse d'un entier :\\
+		\rnode{A}{\boxed{{\tt \textcolor{BrickRed}{int}{\tt *}}}} \ \ \ \rnode{B}{\tt p} \ncbar[angleA=270]{->}{B}{A}  : \textcolor{blue}{\textit{{\tt p} est l'adresse d'un {\tt int}}} \medskip
+		\item<2-> \kw{*p} est une variable de type \kw{int} qui contient la valeur de l'entier pointé par \kw{p} :\\
+		\rnode{C}{\boxed{{\tt \textcolor{BrickRed}{int}}}} \ \ \ \rnode{D}{\tt *p} \ncbar[angleA=270]{->}{D}{C}  : \textcolor{blue}{\textit{{\tt *p} est un {\tt int}}} \medskip
+		\end{itemize}
+	\onslide<3->{On peut donc manipuler {\tt p} :
+	\begin{itemize}
+	\item En lui attribuant l'adresse d'un entier, par exemple avec \mintinline{c}{p = &n} où \kw{n} est un entier.
+	\item En affectant un {\tt int} à {\tt *p}, \textcolor{BrickRed}{\textit{à condition que l'espace mémoire pointé par p soit alloué}}. Par exemple avec \mintinline{c}{*p = n;} où \kw{n} est un entier.
+	\end{itemize}}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 1}
+		\onslide<1->\inputpartC{\SPATH/modifie.c}{}{\small}{3}{9}
+		\onslide<2->{\small Dans l'exemple ci-dessus, \kw{p} est un pointeur qui contient l'adresse de \kw{n}.}
+		\onslide<3->{\small On modifie {\tt n}, en modifiant le contenu de son adresse.}
+	\end{exampleblock}
+	\begin{exampleblock}{Exemple 2}
+		\begin{enumerate}
+			\item<4-> \small Ecrire une fonction {\tt echange} qui prend en argument deux adresses vers des entiers et échange les valeurs de ces deux entiers.
+			\item<5-> \small Comment utiliser cette fonction pour échanger les valeurs de deux entiers {\tt a} et {\tt b} ?
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Fonctions {\tt malloc} et {\tt free}}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{{\tt malloc}}
+		\begin{itemize}
+			\item<1-> La fonction \kw{malloc} (disponible, comme {\tt free}, après \mintinline{c}{#include <stdlib.h>}) permet d'allouer sur le tas, un bloc mémoire dont on donne la taille.
+			\item<2-> Elle s'utilise donc souvent conjointement à \kw{sizeof} qui donne la taille d'un objet en C.
+			\item<3-> On peut allouer un bloc mémoire faisant {\tt n} fois la taille d'un entier, et dans ce cas on accède aux différentes cases de ce bloc \textit{de la même façon que pour un tableau}. \\
+			\mintinline{c}{int *t =  malloc(sizeof(int)*n); //n entier positif}:\\
+			\rnode{A}{\tt t} \quad \renewcommand{\arraystretch}{0.9} \begin{tabular}{|c|c|c|c|c|c|}
+				\hline
+				\rnode{B}{\textcolor{blue}{\tt t[0]}} & \textcolor{blue}{\tt t[1]} & \dots & \textcolor{blue}{\tt t[i]} & \dots & \textcolor{blue}{\tt t[n-1]} \\
+				\hline
+				\multicolumn{3}{c}{} & \multicolumn{1}{c}{\rnode{C}{}\ \rnode{D}{}} & \multicolumn{2}{c}{} \\
+			\end{tabular} \\ \medskip
+			\ncline[linewidth=0.04, linecolor=BrickRed,nodesepB=0.1]{->}{A}{B}
+			\ncline{<->,nodesep=-0.5}{C}{D} \nbput[labelsep=0.05]{\scriptsize{\tt sizeof(int)}}
+			\textcolor{gray}{\quad \small \important \ Une syntaxe équivalente pour accéder à \kw{t[i]} est \kw{*(t+i)}.}
+			\item<4-> Comme pour les tableaux, accéder en dehors des limites du bloc alloué est un comportement indéfini.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Quelques exemples}
+		\begin{itemize}
+		\item<1-> Pointeur non initialisé
+		\inputpartC{\SPATH/exmalloc.c}{}{\footnotesize}{6}{6}
+		Le pointeur \kw{ptr1}, est \textit{non itinialisé}, le déréfencer, par exemple pour lui attribuer une valeur (avec \mintinline{c}{*ptr1=42;}) est un comportement indéfini.
+		\item<2-> Pointeur initialisé à {\sc null}
+		\inputpartC{\SPATH/exmalloc.c}{}{\footnotesize}{7}{7}
+		Le pointeur \kw{ptr2}, est itinialisé à {\sc null}, son déréférencement est un comportement indéfini. 
+		\item<3-> Pointeur initialisé avec l'adresse d'une variable locale.
+		\inputpartC{\SPATH/exmalloc.c}{}{\footnotesize}{8}{9}
+		Le pointeur \kw{ptr3}, est initialisé avec l'adresse de {\tt n} (situé dans la pile). Le déréférencement de \kw{ptr3} donne la valeur de {\tt n} (ici 42).
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Quelques exemples}
+		\begin{itemize}
+			\item<1-> Pointeur initialisé avec l'adresse d'un bloc mémoire alloué dynamiquement.
+			\inputpartC{\SPATH/exmalloc.c}{}{\small}{10}{13}
+			Le pointeur \kw{ptr4}, est initialisé avec l'adresse d'un bloc mémoire alloué dynamiquement. Ce bloc mémoire est situé dans le \textcolor{BrickRed}{tas}, cet espace mémoire est disponible pour y stocker un entier.
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{{\tt free}}
+		\begin{itemize}
+			\item<1-> La fonction \kw{free} permet de libérer un bloc mémoire alloué grâce à {\tt malloc}
+			\item<2-> On appelle donc \kw{free} sur un pointeur \kw{p} crée  par \kw{malloc}. \\
+			\textcolor{BrickRed}{\small \danger \;}{Il est donc \textit{impératif} de \textit{toujours} disposer d'une référence vers un bloc mémoire qu'on a alloué.}
+			\inputpartC{\SPATH/memleak.c}{}{\footnotesize}{4}{14}
+			\item<4-> On utilisera toujours l'option \kw{fsanitize = address} du compilateur pour détecter ces fuites mémoires.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Conséquences}
+		En C, on n'écrira pas \textit{à proprement parlé} de fonctions renvoyant un tableau, mais plutôt des fonctions renvoyant un pointeur vers un bloc mémoire alloué dynamiquement que l'on traitera \textit{comme un tableau}. \\
+		\onslide<2->{Il faut cependant respecter certaines règles :}
+		\begin{itemize}
+			\item<3->[\textcolor{BrickRed}{\small \danger}]  L'allocation \textcolor{BrickRed}{doit} se faire avec \kw{malloc}, sinon le bloc mémoire est alloué sur la pile, dans la zone de contexte d'appel de la fonction, cette zone est dépilé dès qu'on quitte la fonction et donc la zone mémoire du tableau n'est plus accessible.
+			\item<4->[\textcolor{BrickRed}{\small \danger}] La fonction appelante doit libérer la mémoire allouée avec \kw{free} (sous peine de fuites mémoires.)
+		\end{itemize}
+		\onslide<5->{D'autre part, on s'autorisera dans les exercices et à l'oral l'abus de langage \og{}\textit{renvoyer un tableau}\fg{}. Il faudra garder à l'esprit qu'on renvoie en fait un pointeur !}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Ecrire une fonction \mintinline{c}{int* make_tab(int size, int init)} qui renvoie un pointeur vers un bloc mémoire de {\tt size} entiers tous initialisés à la valeur {\tt init}.
+		\onslide<2->{\inputpartC{\SPATH/renvoie_tab.c}{}{\footnotesize}{3}{18}}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Tableaux et pointeurs}
+		\textcolor{BrickRed}{\small \danger \;} En C, la confusion entre tableaux et pointeurs est fréquente et on a tendance à considérer que des écritures comme \mintinline{c}{int t[10];} et \mintinline{c}{int *t = malloc(sizeof(int)*10);} sont équivalentes. Bien qu'on puisse utiliser dans les deux cas la syntaxe \mintinline{c}{t[i]} (avec $0\leqslant i < 10$), c'est \textcolor{BrickRed}{faux} ! Notamment   :
+		\begin{itemize}
+			\item<2-> Dans un cas \kw{t} est alloué sur la pile, dans l'autre sur le tas.
+			\item<3-> La fonction \mintinline{c}{sizeof} ne renvoie pas la même valeur dans les deux cas. En particulier il est possible d'obtenir la taille du tableau, pas celle du bloc mémoire.
+			\item<4-> On ne peut pas avec un tableau utiliser directement l'opérateur d'assignation \kw{=}, alors que cela est possible avec un pointeur. 
+		\end{itemize}
+		\onslide<5->{Cependant, un tableau passé en argument à une fonction est traité comme un pointeur (par un mécanisme appelé \textit{pointer decay}).}
+	\end{block}
+\end{frame}
+
+\makess{Argument en ligne de commande}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Arguments de {\tt main}}
+		\begin{itemize}
+			\item<1-> La fonction \kw{main} d'un programme C peut prendre en arguments un entier habituellement noté \kw{argc} (\textit{argument count}) et un tableau habituellement noté \kw{argv[]} (\textit{argument vector}) de chaines de caractères.
+			\item<2-> Ces arguments doivent alors être fournis à l'exécutable produit lors de la compilation.
+			\item<3-> Ces arguments sont traités comme des chaines de caractères et doivent donc être convertis dans le type adéquat si besoin grâce aux fonctions suivantes disponibles dans \kw{stdlib}.
+				\begin{itemize}
+					\item<4-> La fonction \kw{atoi} (\textit{{\sc ascii} to integer}) permet de convertir une chaine de caractères en un \kw{int}
+					\item<5-> La fonction \kw{atof} (\textit{{\sc ascii} to float}) permet de convertir une chaine de caractères en un \kw{double}
+				\end{itemize}
+
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Ecrire un exécutable {\tt moyenne.exe} en C qui prend en argument sur la ligne de commande des flottants et écrit dans le terminal la moyenne de ces nombres.
+		Par exemple {\tt ./moyenne.exe 12 10.5 16.5} doit écrire  {\tt 13.0}.
+		\onslide<2->{
+			\inputpartC{\SPATH/moyenne.c}{}{\small}{1}{12}
+		}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Types structurés}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définitions}
+		\begin{itemize}
+			\item<1-> On peut définir en C, des types structurés, appelé \kw{struct} composés de plusieurs champs.
+			\item<2-> La syntaxe générale de définition d'un type structuré est :
+				\begin{langageC*}{tabsize=0}
+					struct nom_type_struct {
+					    type1 elt1;
+					    type2 elt2;
+					    ...};
+				\end{langageC*}
+			\item<3-> Un nom de type (qui peut être celui du {\tt struct}) peut être associé à un type structuré de façon à y faire référence plus rapidement.\\
+				\mintinline{c}{typedef struct nom_type_struct nom_type}\\
+				\textcolor{gray}{Le programme de MP2I recommande d'utiliser {\tt nom\_type\_s} pour le nom du {\tt struct} et {\tt nom\_type} pour le type.}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Pour créer le type structuré \kw{personne\_s} contenant les trois champs nom (chaine de caractères), poids et taille (float) :
+		\begin{langageC*}{tabsize=0}
+			struct personne_s {
+			    char nom[50]; //Le nom est limité à 50 caractères max
+			    float poids;
+			    float taille;
+			};
+		\end{langageC*}
+		On peut donner un nom à ce type : \\
+		\mintinline{c}{typedef struct personne_s personne;}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Déclaration, lecture et écriture d'un champ}
+		\begin{itemize}
+			\item<1-> La déclaration d'un variable de type personne peut se faire maintenant avec : \\
+				\mintinline{c}{personne bruce_banner;}
+			\item<2-> Eventuellement avec initialisation immédiate avec la notation \kw{\{} et \kw{\}} déjà rencontré sur les tableaux : \\
+				\mintinline{c}{personne hulk = {.nom="Hulk",.poids = 635,.taille=2.43};}
+			\item<3-> On accède aux champs avec la notion \kw{.}, pour les lire comme par exemple :\\
+				\mintinline{c}{imc_hulk = hulk.poids / (hulk.taille*hulk.taille);}
+			\item<4-> Ou pour les modifier, comme par exemple : \\
+				\mintinline{c}{bruce_banner.taille = 1.75;}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : Hulk fait un régime}
+		Quel sera l'affichage produit par le programme ci-dessous, pourquoi ?
+		\inputpartC{\SPATH/personne.c}{}{\scriptsize}{3}{22}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Pointeur sur un {\tt struct}}
+		\begin{itemize}
+			\item<1-> L'utilisation de pointeurs sur des \kw{struct} est courante en C.\\
+			\textcolor{gray}{\footnotesize Lorsqu'on passe un pointeur vers un \kw{struct} on passe une unique valeur (l'adresse), alors que si on passe le struct, on doit passer une copie de chacun de ses champs. Donc on peut passer par référence, même si on ne modifie pas le struct afin d'économiser l'espace mémoire et le temps de recopie des champs.}
+			\item<2-> Si \kw{p} est un pointeur sur un {\tt struct} (c'est-à-dire \kw{*p} est un {\tt struct}) alors on accède aux champs avec la notation : \textcolor{BrickRed}{\tt (*p).nom\_champ}
+			\item<3-> La notation précédente est raccourcie en \textcolor{BrickRed}{\tt p->nom\_champ}.
+		\end{itemize}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<4->{Proposer une version correcte de la fonction modifiant le champ poids d'une variable de type {\tt struct personne}.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\inputC{\SPATH/personne2.c}{}{\footnotesize}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Fichiers}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Manipulation des fichiers en C}
+		\begin{itemize}
+			\item<1-> L'ouverture d'un fichier se fait à l'aide de \kw{fopen} qui prend comme arguments le nom du fichier et le mode d'ouverture :
+				\begin{itemize}
+					\item<2-> \kw{"r"} pour un accès en lecture
+					\item<3-> \kw{"w"} pour un accès en écriture (le fichier est détruit s'il existait)
+				\end{itemize}
+			\item<4-> Cette fonction renvoie un pointeur vers un objet de type \kw{FILE} qui correspond à un flux de données sur lequel on peut lire ou écrire.
+			\item<5-> Les fonctions \kw{fscanf}  et \kw{fprint} permet respectivement de lire et d'écrire sur le flux de données.
+			\item<6-> Dans les deux cas, il faut fournir en argument le flux de données ainsi que les spécificateurs de format des données à lire et un pointeur vers les variables lues/écrites.
+			\item<7-> La valeur spéciale \kw{EOF} est renvoyée par \kw{scanf} lorsque la fin du fichier est atteinte.
+			\item<8-> Pour fermer un fichier, on utilise \kw{fclose}.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Somme des entiers}
+		\small On suppose qu'un fichier {\tt entiers.txt} contient des entiers séparés par des espaces.
+		\begin{itemize}
+			\item<1-> \small Ecrire l'instruction permettant d'ouvrir ce fichier en mode lecture
+				\onslide<5->\begin{langageC*}{fontsize=\small, tabsize=0}
+					FILE *fichier = fopen("entiers.txt","r");
+				\end{langageC*}
+			\item<2-> \small Déclarer deux entiers {\tt n} (qui va contenir les entiers lus) et {\tt somme} initialisé à 0.
+				\onslide<6->\begin{langageC*}{fontsize=\small, tabsize=0}
+					int n, somme = 0;
+				\end{langageC*}
+			\item<3-> \small Ecrire une boucle while permettant de lire chacun des entiers jusqu'à la fin du fichier et d'en faire la somme dans la variable {\tt somme}
+				\onslide<7->\begin{langageC*}{fontsize=\small, tabsize=0}
+					while (fscanf(fichier,"%d",&n)!=EOF) {
+					    somme = somme + n;}
+				\end{langageC*}
+				\item<4->\small Ecrire l'instruction permettant de fermer le fichier
+				\onslide<8->\begin{langageC*}{fontsize=\small, tabsize=0}
+					fclose(fichier);
+				\end{langageC*}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Programme complet}
+		\inputC{\SPATH/somme.c}{}{\small}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Compilation séparée}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Principe}
+		\begin{itemize}
+			\item<1-> De la même façon que certaines fonctions du langage C sont écrites dans des modules séparés et inclus à l'aide de la directive {\tt \#include} en début de programme, on peut écrire ses propres modules et y écrire des fonctions destinées à être réutilisées dans différents programmes.
+			\item<2-> Ces modules peuvent être \textcolor{blue}{compilés séparément}, ce qui induit de nombreux avantages (réduction de la taille du programme principal, structuration de l'application, maintenance facilitée du programme, \dots)
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Méthode}
+		\begin{itemize}
+			\item<2-> On commence par simplement écrire les signatures des fonctions dans un fichier {\tt <module.h>}. C'est le fichier d'en-tête (le \kw{h} vient de l'anglais \textit{header}).
+			\item<3-> Les corps des fonctions sont  écrites dans {\tt <module.c>} et ce fichier est compilé de façon à obtenir un fichier objet \kw{module.o} grâce à l'option \kw{-c} de {\tt gcc}.
+			\item<4-> Dans le programme principal utilisant le module, on écrit au début \mintinline{c}{#include "module.h"} ce qui permet de faire référence à ces fonctions sans déclencher de \textit{warning} à la compilation. \\
+				\onslide<5->\textcolor{BrickRed}{\small \danger} Ce sont bien des guillemets et pas \kw{<} et \kw{>}. \\
+			\item<5-> Le programme principal est lui aussi compilé avec l'option \kw{-c} de {\tt gcc} afin de produire un fichier \kw{main.o}.
+			\item<6-> Enfin, on lie ensemble les deux fichiers objets pour produire l'exécutable grâce à la ligne de compilation :\\
+				\onslide<6-> {\tt gcc \textcolor{blue}{module.o  main.o} -o main.exe}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Schéma des étapes d'une compilation séparée}
+		\renewcommand{\arraystretch}{3}
+		\begin{tabular}{cccc|c|}
+			\cline{5-5}
+			\rnode{MH}{\textcolor{blue}{\fbox{\makebox[2cm]{\tt \small \faFile* \; module.h}}}} & \hspace{1cm} & \rnode{PC}{\textcolor{blue}{\fbox{\makebox[2cm]{\tt \small \faFile* \; main.c}}}} & \hspace{1cm}         & \rnode{PO}{\textcolor{Sepia}{\fbox{\makebox[2cm]{\tt \small \faFileArchive \; main.o}}}}                   \\
+			                                                                                    &              & \rnode{MC}{\textcolor{blue}{\fbox{\makebox[2cm]{\tt \small \faFile* module.c}}}}  & \hspace{1cm}         & \rnode{MO}{\textcolor{Sepia}{\fbox{\makebox[2cm]{\tt \small \faFileArchive\; module.o}}}}                  \\
+			\cline{5-5}
+			                                                                                    &              &                                                                                   & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}                                                                                       \\
+			                                                                                    &              &                                                                                   & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\rnode{EX}{\textcolor{BrickRed}{\fbox{\makebox[2cm]{\tt \small \faCogs \; main.exe}}}}} \\
+		\end{tabular}
+		\onslide<2->{\ncline[doubleline=true,doublesep=2pt,doublecolor=gray,linecolor=gray,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{MH}{PC} \naput[labelsep=0cm]{{\scriptsize \tt \#include}}}
+		\onslide<3->{\ncline[doubleline=true,doublesep=2pt,doublecolor=OliveGreen,linecolor=OliveGreen,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{PC}{PO} \naput[labelsep=0cm]{{\scriptsize \tt gcc -c}}}
+		\onslide<4->{\ncline[doubleline=true,doublesep=2pt,doublecolor=OliveGreen,linecolor=OliveGreen,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{MC}{MO} \naput[labelsep=0cm]{{\scriptsize \tt gcc -c}}}
+		\onslide<5->{\ncline[nodesepA=0.2cm,doubleline=true,doublesep=2pt,doublecolor=OliveGreen,linecolor=OliveGreen,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{MO}{EX} \naput[labelsep=0cm]{{\scriptsize \tt gcc}}}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		\begin{itemize}
+			\item<1-> Des types composés \kw{struct} peuvent être définis dans le fichier d'en-tête sans donner leur structure. Ce point sera détaillé plus loin dans le cours lorsqu'on abordera les structures de données.
+			\item<2-> Afin d'éviter des redondances, on peut spécifier dans le fichier d'en-tête
+				\begin{langageC*}{tabsize = 0}
+					#ifndef NONMODULE
+					#define NONMODULE
+					// ici définition des signatures des fonctions
+					// et ici des types structurés éventuels
+					#endif
+				\end{langageC*}
+				Cela évite d'avoir des problèmes en cas de double inclusion malheureuse du même fichier.
+			\item<3-> Afin d'éviter des conflits entre des fonctions portant le même nom et définies dans des modules ou dans le programme principale, on peut préfixer tous les noms de fonctions ou de type d'un module par le nom de ce module.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Un exemple}
+		On décide de créer un module \kw{entiers} afin d'y définir des fonctions usuelles sur les entiers non présentes en C. Par exemple le calcul de puissances ou encore le calcul du {\sc pgcd} :
+		\begin{enumerate}
+			\item<2-> On commence par créer \kw{entiers.h} et y écrire les signatures de nos fonctions \\
+				\onslide<3->{\tt On y trouvera par exemple \mintinline{c}{int entiers_puissance(int a, int n);}}
+			\item<3-> On crée le fichier \kw{entiers.c} qui contient ces fonctions et on le compile avec \kw{gcc -c entiers.c}, cela produit un fichier {\tt entiers.o}
+			\item<4-> Dans le programme principal on inclus le fichier \kw{entiers.h} avec : \\
+				\mintinline{c}{#include "entiers.h"}
+			\item<5-> On compile le programme principal avec \kw{gcc -c main.c}, cela produit un fichier {\tt main.o}
+			\item<6-> Enfin, on produit l'executable grâce à la compilation \kw{gcc main.o entiers.o -o main.exe}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Tableaux multidimensionnels}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Allocation de l'espace mémoire}
+		\begin{itemize}
+			\item<1-> En C, on peut allouer des tableaux multidimensionnels sur la pile en précisant les tailles attendues pour chaque dimension. Par exemple :\\
+				\onslide<2->{\mintinline{c}{float matrice[4][4];} \\déclare un tableau de flottants de 4 lignes sur 4 colonnes. L'accès aux élément se fait alors avec la notation {\tt matrice[i][j]}.\\}
+				\onslide<3->\textcolor{blue}{La taille de la pile étant limitée, cela est réservé aux tableaux de petites tailles.}
+			\item<4-> Pour une allocation sur le tas d'un tableau $t$, de $n$ lignes et $m$ colonnes, (qui sera nécessaire pour les tableaux de taille importante), trois options sont envisageables :
+				\begin{itemize}
+					\item[$V_0$]<5-> Allouer un tableau à une dimension de taille $n\times m$.
+					\item[$V_1$]<6-> \textcolor{gray}{Allouer un tableau de tableau à une dimension.}
+					\item[$V_2$]<7-> \textcolor{gray}{Allouer un tableau de pointeurs, chacun des pointeurs pointe alors vers une ligne du tableau.}
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{$V_0$ : Allocation d'un tableau à une dimension}
+		\begin{itemize}
+			\item<1-> On alloue un tableau d'entiers de tailles $n \times m$ et on considère que les $m$ premiers forment la premières ligne, que les $m$ suivant sont la deuxième, \dots.
+			\item<2-> La structure de données correspondante et "à visualiser" est alors la suivante : \\
+				$\underbrace{\begin{array}{|c|c|c|} \hline t(0,0)& \dots & t(0,m-1)\\ \hline \end{array}}_{\mathrm{ligne\ }0 \ (m \mathrm{\ cases})}$
+				\dotfill
+				$\underbrace{\begin{array}{|c|c|c|} \hline t(n-1,0)& \dots & t(n-1,m-1)\\ \hline \end{array}}_{\mathrm{ligne\ }n-1 \ (m \mathrm{\ cases})}$
+			\item<3-> Pour accéder à l'élément situé en colonne {\tt j} et ligne {\tt i} on doit donc faire \kw{tab[m*i+j]}, c'est-à-dire qu'on perd la notation (pourtant pratique) {\tt tab[i][j]} des tableaux à deux dimensions, c'est le seul inconvénient de cette méthode.
+			\item<4-> \textcolor{BrickRed}{Cette solution est la plus simple et sera celle à privilégier cette année}. En effet, on ne fait qu'un \kw{malloc} et un \kw{free} et on manipule en fait un tableau à une dimension (ce qu'on doit normalement savoir faire !)
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{$V_1$ :Allocation d'un tableau de tableaux}
+		\begin{itemize}
+			\item<1-> Un tableau d'entier de type {\tt int} et de taille $n$ à la structure suivante en mémoire (où chaque case à la taille prévue pour accueillir un {\tt int})
+				\begin{center}
+					\begin{tabularx}{0.7\linewidth}{|p{0.6cm}|p{0.6cm}|X|p{0.6cm}|p{0.6cm}|}
+						\hline
+						                                    &                                     & \dotfill             &                      &                                         \\
+						\hline
+						\multicolumn{1}{c}{\footnotesize 0} & \multicolumn{1}{c}{\footnotesize 1} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\footnotesize $n-1$} \\
+					\end{tabularx}
+				\end{center}
+				\item<2->{Pour allouer une matrice de dimension $n \times m$, on peut "linéariser" le tableau et prévoir que chaque case à maintenant la capacité d'accueillir $m$ entiers. \textit{c'est-à-dire que c'est la solution précédente mais avec une gestion automatique des indices par le langage C.}}
+				\item<3->{La structure de données correspondante et "à visualiser" est alors la suivante :}
+				\newcolumntype{"}{@{\vrule width 1pt}}
+				\newcommand{\minitab}{\begin{tabular}{|c|p{0.74cm}|c|}  & \  \dots  &  \\ \end{tabular}}
+				\begin{tabularx}{\linewidth}{@{\vrule width 1pt}p{2cm}"p{2cm}"X"p{2cm}@{\vrule width 1pt}}
+					\Xhline{2\arrayrulewidth}
+					\minitab                                 & \minitab                                 & \dotfill             & \minitab                                 \\
+					\Xhline{2\arrayrulewidth}
+					\multicolumn{1}{c}{\small $m$ {\tt int}} & \multicolumn{1}{c}{\small $m$ {\tt int}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\small $m$ {\tt int}} \\
+					\multicolumn{1}{c}{\footnotesize 0}      & \multicolumn{1}{c}{\footnotesize 1}      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\footnotesize $n-1$}  \\
+				\end{tabularx}
+				Chaque case  du "grand" tableau contient un tableau de $m$ entiers.
+				\item<4->{Cette allocation s'effectue avec : \\ \mintinline{c}{int (*mat)[n] =  malloc(sizeof(*mat)*m);}}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{$V_2$ : Allocation d'un tableau de pointeurs}
+		\begin{itemize}
+			\item<1-> On peut aussi, allouer un tableau de pointeurs, chaque pointeur pointe sur une ligne de la matrice. La structure de données correspondante est alors :
+				\onslide<2->{\begin{center}
+						\renewcommand{\arraystretch}{1.4}
+						\begin{tabularx}{0.4\textwidth}{c|c|X|c|c|c|}
+							\multicolumn{1}{c}{}  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{0} & \multicolumn{1}{c}{\dots} & \multicolumn{1}{c}{$m-1$} \\
+							\cline{2-2} \cline{4-6}
+							{\footnotesize 0}     & \rnode{P1}{}         &                      & \rnode{C1}{}          & \dots                     &                           \\
+
+							\cline{2-2} \cline{4-6}
+							{\footnotesize 1}     & \rnode{P2}{}         &                      & \rnode{C2}{}          & \dots                     &                           \\
+							\cline{2-2} \cline{4-6}
+							\multicolumn{6}{c}{\dots}                                                                                                                           \\
+							\cline{2-2} \cline{4-6}
+							{\footnotesize $n-1$} & \rnode{PN}{}         &                      & \rnode{CN}{}          & \dots                     &                           \\
+							\cline{2-2} \cline{4-6}
+						\end{tabularx}
+						\ncline{*->}{P1}{C1}
+						\ncline{*->}{P2}{C2}
+						\ncline{*->}{PN}{CN}
+					\end{center}}
+			\item<3-> Dans ce cas il faut allouer le tableau de pointeurs : \\
+				\mintinline{c}{int **mat = malloc(sizeof(int*)*n);}
+			\item<4-> Puis chacune des lignes de la matrice individuellement : \\
+				\mintinline{c}{mat[i] = malloc(sizeof(int) * m);} (à faire pour $ 0 \leq i \leq n$)
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Le bilan ...}
+		\begin{itemize}
+			\item<1-> Chacune des méthodes a ses avantages et ses inconvénients
+			\item<2-> La seule qui doit être maitrisée est la méthode $V_0$ (puisqu'on reste en fait dans le cas de la dimension 1 en manipulant soi-même les indices)
+			\item<3-> Pour aller un peu plus loin dans l'apprentissage du C, les élèves intéressés peuvent essayer de coder une version utilisant la $V_1$ ou la $V_2$.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\end{document}
+
