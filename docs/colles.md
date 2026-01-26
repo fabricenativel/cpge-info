@@ -40,3 +40,13 @@ hide: - navigation  in liens.md
 * *A partir du 01/12* : Complexité amortie (la *seule méthode* vue en cours est celle du potentiel). Tableaux et listes chainées comme structure de données abstraites. Implémentation de ces structures en C et en OCaml.
 
 * *A partir du 08/12* : Piles et files, et implémentations de ces structures de données à l'aide de tableaux ou de listes.
+
+## Semaines du 26/01, du 02/02 et du 09/02
+
+* Révisions du semestre 1
+
+* Fonctions et tables de hachage, collisions, résolution par chainage ou par sondage linéaire. Exemples et applications.
+
+* *A partir du 02/02* : Bases de données, clé primaire, clés étrangères, schéma relationnel. Langage {{sc("sql")}}, requête dans une ou plusieurs tables.
+
+* *A partir du 09/02* : Arbres binaires, définition, vocabulaire. Relation entre nombres de noeuds et hauteur. Représentation en machine en OCaml et en C.

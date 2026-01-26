@@ -27,3 +27,4 @@ def bilineaire(im : array, x:float, y: float) -> int :
 def rotation(im:array, angle:float) -> array :
     p, q, _ = dimension(im)
     angr = -ang *pi / 180
+    matR = [[cos(angr), -sin()]]

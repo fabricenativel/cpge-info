@@ -186,7 +186,7 @@ int main()
     terminal_init(&maxlig, &maxcol);
     make_border(maxlig,maxcol);
     snake ms = init_snake(5, maxlig, maxcol);
-    init_fruit(ms, &plig, &pcol, maxlig, maxcol);
+    make_food(ms, &plig, &pcol, maxlig, maxcol);
     refresh();
     bool running = true;
     bool paused = false;
@@ -229,7 +229,7 @@ int main()
             }
             if (event == GROW)
             {
-                init_fruit(ms, &plig, &pcol, maxlig, maxcol);
+                make_food(ms, &plig, &pcol, maxlig, maxcol);
                 delay = delay - delay / 10;
             }
         }
