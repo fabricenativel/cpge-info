@@ -4,10 +4,10 @@ from time import sleep
 
 #--8<-- [start:car]
 SNAKE_HEAD = "O"
-SNAKE_BODY = "o"
+SNAKE_BODY = "*"
 BORDER = "+"
 EMPTY = ' '
-FOOD = "*"
+FOOD = "@"
 #--8<-- [end:car]
 
 RIGHT, UP, LEFT, DOWN = 0, 1, 2, 3
