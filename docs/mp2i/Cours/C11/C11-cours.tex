@@ -446,6 +446,36 @@
 	\end{exampleblock}
 \end{frame}
 
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{\textcolor{yellow}{\important} A retenir !}
+		On mémorisera la structure générale d'une requête {\sc sql} portant sur une unique table :
+		\begin{minted}[gobble=3]{sql}
+			SELECT <attributs>
+			FROM <table>
+			WHERE <conditions sur les attributs>
+			GROUP BY <colonnes_groupement>
+			HAVING <conditions sur les regroupements>
+			ORDER BY <colonnes_tri> 
+			LIMIT <nombre>;
+		\end{minted}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Quel est la structure probable de la table et le but de la requête suivante :
+		\begin{minted}[gobble=3]{sql}
+			SELECT id_client, nom, COUNT(*) as nb_commandes, SUM(montant) as total
+			FROM commande
+			WHERE pays = 'France'
+			GROUP BY id_client
+			HAVING total > 1000
+			ORDER BY total DESC
+			LIMIT 10;
+		\end{minted}
+	\end{exampleblock}
+\end{frame}
+
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple}
 		{\small On considère une base de données des pays du monde constitué d'une seule table : \\

@@ -9,8 +9,124 @@
 ## Travaux pratiques
 
 
+{{exo("Révision : Un serpent dans le terminal",[],0)}}
 
-{{ exo("Implémentation du rendu de monnaie en Python",[],0) }}
+
+![ex_snake](Images/C7/snake.png){.imgcentre width=400px}
+
+Vous avez peut-être reconnu sur la capture d'écran ci-dessus une version minimaliste d'un célèbre jeu vidéo : [*snake*](https://fr.wikipedia.org/wiki/Snake_(genre_de_jeu_vid%C3%A9o)){target=_blank}, dans lequel le joueur dirige un serpent qui doit, sans entrer en collision contre lui-même ou contre les bords de l'écran, atteindre le plus possible de nourriture (`@` dans l'image ci-dessus). Chaque nourriture consommée accroît la taille du serpent ainsi que sa vitesse. Une version jouable en ligne est disponible [ici](https://playsnake.org){target=_blank}. 
+
+Le but du TP est d'écrire, une version de ce jeu. L'interface graphique sera simplement le terminal et nous nous limiterons à l'affichage des caractères {{sc("ascii")}} standards. Pour cela nous allons transformer le terminal en interface graphique dans laquelle on peut afficher afficher n'importe quel caractère à la ligne et à la colonne donnée. On pourra définir les caractères utilisés dans le jeu à l'aide de variables globales en début de programme, par exemple dans la capture d'écran ci-dessus :
+```python
+--8<-- "C7/snake.py:car"
+```
+
+
+1. A propos de l'interface graphique  
+Nous allons utiliser le module [curses](https://docs.python.org/fr/3/howto/curses.html){target=_blank} qui permet d'afficher des caractères dans le terminal en donnant simplement leur coordonnées. On doit donc écrire en début de programme `#python import curses`. 
+Afin d'utiliser correctement cette interface graphique, on doit définir une fonction `snake`  puis l'appeler avec les deux instructions suivantes :
+```python
+terminal = curses.initscr()
+curses.wrapper(snake)
+```
+Dans la fonction `snake` les premières instructions ci-dessous initialisent le terminal et récupère sa taille :
+```python
+def snake(terminal):
+    #Initialiser l'écran
+    curses.cbreak()             # Désactiver la bufferisation de ligne
+    curses.curs_set(0)          # Cacher le curseur
+    curses.noecho()             # Ne pas afficher les touches tapées
+    terminal.nodelay(1)         # Rendre getch() non-bloquant
+    terminal.keypad(True)       # Accès aux touches spéciales
+    terminal.clear()            # vide le terminal
+    # Récupérer les dimensions du terminal
+    maxl, maxc = terminal.getmaxyx()
+    maxl = maxl-1               # pour que maxl contienne le numéro de la dernière ligne
+    maxc =  maxc - 1            # idem pour maxc
+```
+Une fois cette initialisation effectuée, on peut afficher n'importe quel caractère {{sc("ascii")}} dans le terminal en utilisant la fonction `terminal.addch` qui prend en argument la ligne, la colonne et enfin le caractère affiché. Par exemple `#!python terminal.addch(5, 7, 'X')` affiche un `X` à la ligne 5 et à la colonne 7. Le coin supérieur gauche du terminal est l'origine (ligne 0, colonne 0). Enfin, les modifications apportées au terminal sont *bufferisées* (mises en attente), la fonction `terminal.refresh()` permet de mettre à jour un terminal en executant toutes les modifications en attente. 
+
+    1. Pour vérifier que tout fonctionne correctement, ajouter à la fonction `snake` les instructions permettant d'afficher un `X` au centre du terminal. Puis utiliser la fonction `sleep` du module `time` qui permet d'attendre le nombre de secondes donné en argument(à importer en début de programme) afin de visualiser le résultat.        
+
+    2. Ecrire la fonction `make_border` qui prend en argument `maxl` et `maxc` et qui dessine une bordure autour du terminal (dans la capture d'écran donnée en exemple au début du TP cette bordure est constituée de caractères `+`). 
+
+        !!! aide
+            On notera bien que la fonction `terminal.addch` :
+
+            * prends comme premier argument la *ligne* et comme second la *colonne*
+            * que le coin supérieur gauche est le point de coordonnées $(0,0)$.
+            * on doit utiliser `refresh()` pour visualiser les modifications apportées au terminal.
+    
+    3. Compléter la fonction `snake` en appelant la fonction `make_border` et ajouter un temps d'attente afin de visualiser le résultat. Vous devriez obtenir un résultat similaire à la capture d'écran suivante :
+    ![bordures](Images/C7/start.png){.imgcentre width=400px}
+
+2. Représentation interne du serpent  
+On décide de stocker dans une liste de Python les positions occupées par le serpent, le premier élément de cette liste est la position de la queue du serpent et le dernier élément est la tête du serpent. Par exemple la liste `[(3,1), (3,2), (3,3), (3,4), (3,5)]` représente un serpent dont la tête est située en ligne 3 et colonne 5 et la queue en ligne 3 colonne 1. 
+
+    1. Ecrire une fonction `init_snake` qui prend en argument `maxl`, `maxc` et un entier `size` et qui renvoie la liste des positions occupées par un serpent horizontal, centrée au milieu de l'écran. Cette fonction doit aussi mettre à jour le terminal afin d'y afficher le serpent. On notera bien que la tête du serpent est représenté par un caractère différent du reste.
+
+    2. Appeler cette fonction depuis la fonction `snake` afin de faire afficher le serpent dans sa position de départ.
+
+
+3. Génération aléatoire de nourriture  
+On rappelle que la fonction `randint` permet de générer en entier aléatoire entre les deux bornes (incluses) données en argument. Lorsqu'on génère une position pour la nourriture elle ne doit pas être dans le serpent. On doit donc disposer d'une fonction qui teste si un couple de coordonnées `(l,c)` fait partie ou non des positions occupées par le serpent.
+
+    1. Ecrire une fonction `in_list(x, lst)` qui renvoie `True` si `x` est dans `lst` et `False` sinon.
+
+    2. En utilisant `in_snake`, écrire une fonction de signature `make_food(pos_snake, maxl,maxc)` où `pos_nake` est la liste des positions occupées par le serpent et `maxl`, `maxc` les dimensions du terminal qui renvoie un tuple de coordonnées `(fl,fc)` contenant les lignes et colonnes de la nourriture. Cette fonction mettra aussi à jour le terminal à l'aide de `terminal.addch`.
+
+    2. Tester votre fonction en appelant la fonction de génération de nourriture depuis le `main`.
+
+3. Déplacement du serpent  
+On initialise dans la fonction `snake` une variable `dir_snake` qui contiendra un entier indiquant la direction dans laquelle avance le serpent. On pourra définir des variables globales en début de programme afin d'utiliser de façon "transparente" ces entiers : `#!python RIGHT, UP, LEFT, DOWN = 0, 1, 2, 3`. Le serpent étant initialement horizontal avec la tête dirigée vers la droite on écrira `dir_snake = RIGHT`.
+
+    1. Un déplacement du serpent peut générer une collision (avec lui-même ou les bordures), ou un augmentation de sa taille (s'il atteint la nourriture). Ecrire une fonction `!#python move_snake(pos_snake, dir_snake, maxl, maxc, fl, fc)` qui déplace le serpent et renvoie un entier indiquant si le serpent est entré en collision ou s'il doit grandir. On pourra définir ces entiers par des variables globales en début de programme :
+
+        ```python
+        GROW = 1
+        COLLISION = 2
+        ```
+
+        !!! aide
+            On pourra  :
+            
+            * déterminer la prochaine position de la tête du serpent en utilisant la position précédente et la direction 
+            * si cette position est hors de l'écran ou se trouve dans le serpent alors renvoyer immédiatement `COLLISION`
+            * sinon ajouter cette position à la liste des positions occupées par le serpent et supprimer la queue tout en mettant à jour l'affichage du terminal
+            * renvoyer `GROW` si la nouvelle position est celle de la nourriture
+
+    2. Tester votre fonction en modifiant la fonction `snake` et en effectuant quelques déplacements éventuellement en modifiant la direction du serpent
+
+4. Boucle principal du jeu  
+
+    On pourra partir du squelette suivant afin d'écrire dans la fonction `snake` la boucle principal du jeu:
+    ```python
+    while (running):
+        sleep(delay)
+        event = move_snake(pos_snake,dir_snake, maxl, maxc, fl, fc) #déplacer le serpent
+        if event==GROW:                                             #nourriture consommée
+            fl,fc = make_food(maxl,maxc,pos_snake)                  #recrée la nourriture
+            delay = 0.9 * delay                                     #augmente la vitesse du jeu
+        if event==COLLISION:                                        #collision > fin du jeu
+            running = False
+        kpress = terminal.getch()                                   #récupère la touche pressée
+        if (kpress == curses.KEY_UP):                               #modifie en conséquence la direction
+            dir_snake = UP
+        elif (kpress == curses.KEY_DOWN):
+            dir_snake = DOWN
+        ....
+    ```
+
+5. Améliorations possibles
+
+    * Faire afficher un score
+    * Enregistrer dans un fichier les meilleures performances
+    * Utiliser de la couleur
+    * Introduire des caractères spéciaux ou des emojis comme :apple: pour la nourriture
+    * Modifier le jeu en introduisant des bonus ou des malus, ...
+
+
+{{ exo("Implémentation du rendu de monnaie en Python",[]) }}
 
 Le but de l'exercice est de compléter une fonction `rendu` écrite en Python qui implémente l'algorithme glouton pour le problème du rendu de monnaie. La fonction prend en argument :
 

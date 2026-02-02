@@ -46,7 +46,7 @@ Une fois cette initialisation effectuée, on peut afficher n'importe quel caract
 
             * prends comme premier argument la *ligne* et comme second la *colonne*
             * que le coin supérieur gauche est le point de coordonnées $(0,0)$.
-            * on doit uiliser `refresh()` pour visualiser les modifications apportées au terminal.
+            * on doit utiliser `refresh()` pour visualiser les modifications apportées au terminal.
 
     2. Afin de tester le programme (qui pour le moment ne crée que les bordures), écrire la fonction `main` qui appelle les fonctions `init_term` et `make_border` puis utiliser la fonction `usleep` du module `<unistd.h>` qui met en pause un programme pendant le nombre de *microsecondes* donné en argument. afin d'attendre une seconde avant de quitter le programme. Vous devriez obtenir une image similaire à celle ci-dessous :
     ![bordures](Images/C10/start.png){.imgcentre width=400px}
@@ -132,7 +132,7 @@ On rappelle que la fonction `rand()` permet de générer en entier aléatoire et
 5. Améliorations possibles
 
     * Faire afficher un score
-    * Enregistrer dans une fichier les meilleures performances
+    * Enregistrer dans un fichier les meilleures performances
     * Utiliser de la couleur
     * Introduire des caractères spéciaux ou des emojis comme :apple: pour la nourriture
     * Modifier le jeu en introduisant des bonus ou des malus, ...
