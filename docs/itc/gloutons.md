@@ -23,7 +23,7 @@ Le but du TP est d'écrire, une version de ce jeu. L'interface graphique sera si
 
 
 1. A propos de l'interface graphique  
-Nous allons utiliser le module [curses](https://docs.python.org/fr/3/howto/curses.html){target=_blank} qui permet d'afficher des caractères dans le terminal en donnant simplement leur coordonnées. On doit donc écrire en début de programme `#python import curses`. 
+Nous allons utiliser le module [curses](https://docs.python.org/fr/3/howto/curses.html){target=_blank} qui permet d'afficher des caractères dans le terminal en donnant simplement leur coordonnées. On doit donc écrire en début de programme `#!python import curses`. 
 Afin d'utiliser correctement cette interface graphique, on doit définir une fonction `snake`  puis l'appeler avec les deux instructions suivantes :
 ```python
 terminal = curses.initscr()
@@ -73,7 +73,7 @@ On rappelle que la fonction `randint` permet de générer en entier aléatoire e
 
     1. Ecrire une fonction `in_list(x, lst)` qui renvoie `True` si `x` est dans `lst` et `False` sinon.
 
-    2. En utilisant `in_snake`, écrire une fonction de signature `make_food(pos_snake, maxl,maxc)` où `pos_nake` est la liste des positions occupées par le serpent et `maxl`, `maxc` les dimensions du terminal qui renvoie un tuple de coordonnées `(fl,fc)` contenant les lignes et colonnes de la nourriture. Cette fonction mettra aussi à jour le terminal à l'aide de `terminal.addch`.
+    2. En utilisant `in_list`, écrire une fonction de signature `make_food(pos_snake, maxl,maxc)` où `pos_nake` est la liste des positions occupées par le serpent et `maxl`, `maxc` les dimensions du terminal qui renvoie un tuple de coordonnées `(fl,fc)` contenant les lignes et colonnes de la nourriture. Cette fonction mettra aussi à jour le terminal à l'aide de `terminal.addch`.
 
     2. Tester votre fonction en appelant la fonction de génération de nourriture depuis le `main`.
 
