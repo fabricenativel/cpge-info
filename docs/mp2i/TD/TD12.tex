@@ -21,20 +21,20 @@
 
 \begin{Exercise}[title = {Représentation en C}]\\
 	On rappelle qu'on a défini en C, un arbre binaire (avec des étiquettes entières) par :
-	\inputpartOCaml{\SPATH/arbres_binaires.c}{}{}{6}{13}
+	\inputpartOCaml{\SPATH/arbres_binaires.c}{}{}{7}{14}
 	\Question{Rappeler la définition de la hauteur d'un arbre binaire et écrire une fonction de prototype \\
 		\mintinline{c}{int hauteur(ab arbrebinaire)}} qui renvoie la hauteur de l'arbre donné en argument.
 	\Question{On rappelle que dans cette implémentation, l'espace nécessaire au stockage des noeuds est alloué dynamiquement à l'aide d'instructions {\tt malloc}. Ecrire une fonction de prototype \\
-	\mintinline{c}{void libere(ab* arbrebinaire)} qui détruit l'arbre binaire donné en paramètre, en libérant l'espace alloué par ses noeuds. A la fin de l'appel {\tt ab} vaut {\tt NULL}.}
+	\mintinline{c}{void libere(ab* arbrebinaire)} qui détruit l'arbre binaire donné en paramètre, en libérant l'espace alloué par ses noeuds. A la fin de l'appel {\tt arbrebinaire} est le pointeur {\sc null}.}
 \end{Exercise}
 
 
 \begin{Exercise}[title = {Représentation en OCaml}]\\
 	\label{abcaml}
 	On rappelle qu'on a défini en OCaml un arbre binaire (avec des étiquettes entières) par :
-	\inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{1}{3}
+	\inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{2}{4}
 	\Question{Dessiner l'arbre représenté par :
-		\inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{58}{66}
+		\inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{86}{94}
 	}
 	\Question{Donner sa taille et sa hauteur}
 	\Question{S'agit-il d'un arbre binaire de recherche ? Justifier}
@@ -58,9 +58,10 @@
 \begin{Exercise}[title = {Un peu de dénombrement}]\\
 	On note $T_n$ le nombre d'arbres binaires à $n$ noeuds.
 	\Question{Donner $T_0$ et déterminer une relation de récurrence liant les $(T_k)_{0 \leqslant k \leqslant n}$ \\
-	{\small \aide}\ Utiliser la définition par récurrence des arbres binaires.}
+	{\small \aide}\ Revenir à la définition vue en cours et considérer un arbre binaire à $n$ noeud comme un arbre binaire ayant un sous arbre contenant $k$ noeuds et un sous arbre contenant $n-k-1$ noeud.}
 	\Question{Vérifier que $T_5 = 42$.}
 	\\
+	\textbf{Remarque : }\\
 	Le nombre de Catalan d'indice $n$ est défini par : $$ C_n = \dfrac{1}{n+1} \binom{2n}{n}$$ et on prouve que $T_n = C_n$.
 
 \end{Exercise}
@@ -115,11 +116,11 @@
 
 \begin{Exercise}[title = {Un peu de complexité}]\\
 	On considère la fonction OCaml suivante qui prend en argument un arbre binaire tel que défini par le type de l'exercice \ref{abcaml}
-	\inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{45}{48}
-	\Question{Ecrire une spécification et donner un nom plus approprié à la fonction {\tt mystère}.}
+	\inputpartOCaml{\SPATH/arbres_binaires_int.ml}{}{}{48}{51}
+	\Question{Ecrire une spécification et donner un nom plus approprié à la fonction {\tt mystere}.}
 	\Question{Rappeler la complexité de l'opérateur {\tt @} et en déduire celle de la fonction {\tt mystere}}
 	\Question{Proposer une version de cette fonction ayant une complexité linéaire en fonction du nombre de noeuds de l'arbre.\\
-	{\small \aide\;} Utiliser une fonction auxiliaire avec un accumulateur.
+	{\small \aide\;} Utiliser une fonction auxiliaire avec un accumulateur en \textit{et écrire la spécification de cette fonction}.
 	}
 \end{Exercise}
 
@@ -127,7 +128,7 @@
 \begin{Exercise}[title = {Reconstruction d'un arbre à partir de parcours}]
 
 	\Question{Est-il possible de reconstruire de façon unique un arbre binaire à partir de son parcours préfixe et de son parcours postfixe ?}
-	\Question{Quel est l'arbre binaire dont le parcours préfixe est {\tt 16; 6; 2; 8; 9; 12; 24; 19; 26; } et le parcours infixe {\tt 2; 6; 8; 9; 12; 16; 19; 24; 26;}}
+	\Question{Quel est l'arbre binaire dont le parcours préfixe est {\tt 16; 6; 2; 8; 9; 12; 24; 19; 26 } et le parcours infixe {\tt 2; 6; 8; 9; 12; 16; 19; 24; 26}}
 
 \end{Exercise}
 
@@ -182,6 +183,54 @@
 	\Question{Donner une implémentation en OCaml sous la forme d'une fonction {\tt supprime} de signature {\tt abr -> int -> abr}}
 \end{Exercise}
 
+
+\begin{Exercise}[title = {Recherche dans un {\sc abr}}]
+	\Question{Rappeler la définition d'un arbre binaire de recherche}
+	\Question{On suppose maintenant qu'on a inséré dans un {\sc abr} initialement vide tous les entiers compris en 0 et 999. On effectue la recherche de l'entier 666 dans cet arbre. Parmi les séquences de valeurs suivantes, lesquelles peuvent être la séquence de noeuds parcourus jusqu'à  atteindre 666 ? :
+		\begin{itemize}
+			\item 487, 503, 911, 954, 499, 651, 672, 668, 666
+			\item 951, 812, 803, 798, 751, 670, 589, 652, 653, 666
+			\item 985, 112, 251, 306, 444, 503, 574, 602, 605, 681, 666
+			\item 844, 511, 845, 603, 702, 651, 699, 660, 670, 665, 666
+			\item 303, 404, 541, 752, 749, 742, 592, 603, 666
+		\end{itemize}}
+	\Question{Proposer un algorithme qui prend en entrée une séquence d'entiers $u_0, \dots u_{n}$ avec $u_n$ la valeur cherchée et vérifie que cette séquence peut effectivement constituer la suite de noeuds visités lors de la recherche réussie d'un nombre dans un tel {\sc abr}. L'algorithme doit avoir une complexité temporelle en $O(n)$.}
+	\Question{En fournir une implémentation en OCaml, en supposant que la séquence est donnée sous la forme d'une liste d'entiers de OCaml. La signature de votre fonction sera donc {\tt int list -> bool}}
+	\Question{Soit $t$ une liste représentant la suite de valeurs obtenue lors de la recherche réussie d'un élément dans un {\sc abr}, proposer un algorithme \textit{de complexité linéaire} permettant de trier ce tableau. En donner l'implémentation en OCaml.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Sur les tas}] \vspace{0.2cm}\\
+	\begin{tabularx}{\textwidth}{Y|Y}
+		\pstree{\TCircle{\tt 10}}
+		{\pstree{\TCircle{\tt 24}}
+			{\TCircle{\tt 27}
+				\TCircle{\tt 25}
+			}\pstree{\TCircle{\tt 31}}
+			{
+				\TCircle{\tt 32}
+				\Tn{}
+
+		}}    &
+		\pstree{\TCircle{22}}
+		{\pstree{\TCircle{30}}
+			{\pstree{\TCircle{$x$}}
+				{ \TCircle{51}
+					\TCircle{33}
+				}\TCircle{37}
+			}\pstree{\TCircle{42}}
+			{ \Tn{}
+				\TCircle{44}
+				\TCircle{57} \Tn{} }}
+		\\
+		$T_1$ & $T_2$ \\
+	\end{tabularx}
+	\Question{Vérifier que $T_1$ est un tas binaire min.}
+	\Question{Pour quelles valeurs de $x$, $T_2$ est-il un tas ?}
+	\Question{Donner la représentation de $T_2$ par un tableau.}
+	\Question{Dessiner un arbre binaire contenant les valeurs $6, 18, 10, 9$ et  $17$ telle que cet arbre ne soit \textit{pas} un tas et que l'étiquette de chaque noeud soit plus petite que les étiquettes de ses fils (lorsqu'elles existent).}
+	\Question{Rappeler l'algorithme d'extraction du minimum d'un tas et l'appliquer à $T_1$ et donner l'arbre obtenu après extraction.}
+	\Question{Rappeler l'algorithme d'insertion dans un tas et l'appliquer à $T_2$ pour insérer la valeur $28$ et donner l'arbre obtenu après cette insertion.}
+\end{Exercise}
 \begin{Exercise}[title = {Tri par tas}]
 	\Question{Rappeler la définiton d'un tas binaire}
 	\Question{Rappeler les relations liant l'indice d'un parent à ceux de ses fils (lorsqu'ils existent) lorsqu'on représente un tas binaire par un tableau}
@@ -192,5 +241,7 @@
 	\mintinline{ocaml}{type 'a heap = {mutable size : int; data : 'a array};;}\\
 	Ecrire une fonction {\tt insere} de signature {\tt 'a -> 'a heap -> unit} qui permet d'insérer une nouvelle valeur dans un tas binaire.}
 \end{Exercise}
+
+
 
 \end{document}

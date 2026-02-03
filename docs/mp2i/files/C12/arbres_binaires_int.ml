@@ -68,11 +68,11 @@ let est_abr ab =
     | h1::h2::t -> h1<h2 && est_croissant (h2::t) in
   est_croissant pi;;
 
-  let rec plus_petit ab v =
-    (*Vérifie que toutes les valeurs dans ab sont inférieures à v*)
-    match ab with
-    | Vide -> true
-    | Noeud(g, r, d) -> r<v && plus_petit g v && plus_petit d v;;
+let rec plus_petit ab v =
+  (*Vérifie que toutes les valeurs dans ab sont inférieures à v*)
+  match ab with
+  | Vide -> true
+  | Noeud(g, r, d) -> r<v && plus_petit g v && plus_petit d v;;
 
 
 let infixe ab = 
