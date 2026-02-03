@@ -62,12 +62,17 @@
 				}
 				\Tr{$\varnothing$}
 			} \quad \quad \quad
-			\item<2-> On omet parfois de représenter les sous arbres vides, mais on doit garder à l'esprit qu'un noeud non vide est \textit{toujours} un triplet. Et que donc les sous arbres gauche et droit même vide, sont toujours présents.
-			\item<3-> Lorsque qu'un noeud $a$ possède un sous arbre non vide dont la racine est $b$, on dit que $a$ est le \textcolor{blue}{père} de $b$ et que $b$ est le \textcolor{blue}{fils} $a$.
+			\item<2-> On omet parfois de représenter les sous arbres vides, mais on doit garder à l'esprit qu'un noeud non vide est \textit{toujours} un triplet. Et que donc les sous arbres gauche et droit même vides, sont toujours présents.
+		\end{itemize}
+	\end{block}
+	\onslide<3->{
+	\begin{block}{Vocabulaire}
+		\begin{itemize}
+			\item<3-> Lorsque $b$ est un sous arbre d'un noeud $a$, on dit que $a$ est le \textcolor{blue}{père} de $b$ et que $b$ est le \textcolor{blue}{fils} $a$.
 			\item<4-> Un noeud dont les deux sous arbres sont vides s'appelle une \textcolor{blue}{feuille}.
 			\item<5-> un noeud qui n'est pas une feuille s'appelle un \textcolor{blue}{noeud interne}.
 		\end{itemize}
-	\end{block}
+	\end{block}}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
@@ -132,7 +137,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Quelques cas particuliers}
 		\begin{itemize}
-			\item Un arbre binaire est dit \textcolor{blue}{dégénéré} lorsque tous les noeuds à l'exception des feuilles n'ont qu'un fils. \\
+			\item Un arbre binaire est dit \textcolor{blue}{dégénéré} lorsque tous les noeuds à l'exception des feuilles n'ont qu'un fils non vide. \\
 			      \onslide<2->{
 				      \begin{tabularx}{\linewidth}{YYY}
 					      \pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
@@ -212,14 +217,10 @@
 			En notant $n$ la taille et $h$ la hauteur d'un arbre binaire, on a la relation suivante : \\
 			\onslide<3->{$$ { h+1 \leqslant n \leqslant 2^{h+1}-1} $$}
 		\end{alertblock}}
-	\onslide<4->{
-		\begin{block}{Remarque}
-			On démontrera souvent une propriété $\mathcal{P}$, sur les arbres par récurrence (sur la hauteur ou la taille) ou par \textcolor{blue}{induction structurelle} :
-			\begin{itemize}
-				\item<5-> $\mathcal{P}$ est vraie sur l'arbre vide,
-				\item<6-> Si $\mathcal{P}$ est vraie pour $g$ et $d$ alors $\mathcal{P}$ est vraie pour un arbre dont les sous arbres sont $g$ et $d$.
-			\end{itemize}
-		\end{block}
+	\onslide<3->{
+		\begin{exampleblock}{Exemple}
+			Quelle est la taille minimale (resp. maximale) d'un arbre binaire de hauteur 9 ? Donner dans les deux cas le nombre de sous arbres vides.
+		\end{exampleblock}
 	}
 \end{frame}
 
@@ -237,7 +238,7 @@
 \makess{Représentation  en machine}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Type structuré en C}
-		En C, on représente un arbre binaire par un pointeur vers un type structuré contenant trois champs : l'étiquette (un {\tt int}) de la racine, et les pointeurs vers les deux sous arbres (gauche et droit).\\
+		En C, on représente un arbre binaire par un pointeur vers un type structuré contenant trois champs : l'étiquette (un  \mintinline{c}{int}) de la racine, et les pointeurs vers les deux sous arbres (gauche et droit).\\
 		\onslide<2->{\textcolor{blue}{L'arbre vide est alors représenté par  le pointeur {\sc null}}.}
 		\onslide<3->{\inputC{\SPATH/struct.c}{}{}}
 	\end{block}

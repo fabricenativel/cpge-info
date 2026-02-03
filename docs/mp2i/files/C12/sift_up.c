@@ -7,12 +7,13 @@ bool insert_heap(int nv, heap *mh)
     }
     else
     {
-        mh->tab[cp] = nv;
-        while (father(cp) != -1 && mh->tab[cp] < mh->tab[father(cp)])
+        mh->array[cp] = nv;
+        while (father(cp) != -1 && mh->array[cp] < mh->array[father(cp)])
         {
-            swap(mh->tab, cp, father(cp));
+            swap(mh->array, cp, father(cp));
             cp = father(cp);
         }
         mh->size = mh->size + 1;
+        return true;
     }
 }

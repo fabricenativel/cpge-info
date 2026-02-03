@@ -18,12 +18,11 @@ typedef noeud *ab;
 ab cree_arbre(ab g, int v, ab d)
 {
     noeud *n = malloc(sizeof(noeud));
-    {
-        n->sag = g;
-        n->valeur = v;
-        n->sad = d;
-        return n;
-    }
+    assert n!=NULL;
+    n->sag = g;
+    n->valeur = v;
+    n->sad = d;
+    return n;
 }
 // --8<-- [end:cree]
 

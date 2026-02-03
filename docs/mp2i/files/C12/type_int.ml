@@ -1,3 +1,3 @@
 type ab = 
   |Vide 
-  | Noeud of ab * int * ab ;;
+  |Noeud of ab * int * ab ;;
