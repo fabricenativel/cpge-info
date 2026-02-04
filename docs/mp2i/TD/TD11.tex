@@ -29,6 +29,39 @@
 	\subQuestion{De lister les cliens n'ayant jamais fait de réservation.}
 \end{Exercise}
 
+\begin{Exercise}[title = {Gestions de randonnées},origin = {\bac\; {\sc ccinp pc 2025}}]\\
+	Les applications de randonnées permettent à un utilisateur de stocker les données de ses randonnées effectuées ou d'avoir accès à celles effectuées par d'autres utilisateurs. Ces données sont stockées dans une base contenant notamment les tables suivantes :
+
+	La table {\tt Randonnee} contenant :
+	\begin{itemize}
+	\item {\tt Id} : entier identifiant de la randonnée.
+	\item {\tt Titre} : chaine de caractères, titre de la randonnée.
+	\item {\tt Type} : chaine de caractère du type de la randonnée : \textit{"Pied", "VTT", "Cheval"}.
+	\item {\tt Lieu} : chaine de caractères, coordonnées {\sc gps} du point de départ.
+	\item {\tt Distance} : flottant, longueur en kilomètres de la randonnée.
+	\item {\tt DenP} : entier, dénivelé positif en mètres.
+	\item {\tt DenN} : entier, dénivelé négatif en mètres.
+	\item {\tt Duree} : entier, durée compris entre 1 (facile) et 5 (difficile).
+	\item {\tt IdAuteur} : entier, identifiant de l'auteur de la randonnée.
+	\item {\tt Trace} : chaine de caractères, lien internet vers la trace {\sc gpx}. 
+	\end{itemize}
+
+	La table {\tt Auteur} contenant :
+	\begin{itemize}
+	\item {\tt Id} : entier, identifiant de l'auteur (le randonneur).
+	\item {\tt Nom} : chaine de caractères, nom de l'auteur.
+	\item {\tt Prenom} : chaine de caractères, prénom de l'auteur.
+	\item {\tt Pseudo} : chaine de caractères, pseudo de l'auteur.
+	\item {\tt Mail} : chaine de caractères, mail de l'auteur.
+	\end{itemize}
+	\Question{Expliquer en quoi l'attribut {\tt Titre} ne peut probablement pas être une clé primaire pour la table {\tt Randonnee}. Proposer un attribut de la table {\tt Randonnee} qui puisse être une clé primaire.}
+	\Question{Identifier un attribut qui soit une clé étrangère de la table {\tt Randonnee}.}
+	\Question{Ecrire une requête {\sc sql} dont l'évaluation renvoie le titre, les coordonnées {\sc gps} du point de départ et la longueur des randonnées à pied.}
+	\Question{Ecrire une requête {\sc sql} dont l'évaluation renvoie l'identifiant de l'auteur et son nombre d'activités à pied de niveau 3, classées par ordre décroissant du nombre d'activités de chaque auteur.}
+	\Question{Ecrire une requête {\sc sql} dont l'évaluation renvoie le {\tt Pseudo} de l'auteur et le {\tt Titre} des randonnées stockées dans la base.}
+	\Question{Ecrire une requête {\sc sql} dont l'évaluation renvoie les nom et prénom d'un des auteurs ayant posté le plus de randonnées à cheval.}
+\end{Exercise}
+
 \begin{Exercise}[title = {Quelques requêtes {\sc sql}}]\\
 	On considère une base de données des pays et villes du monde, constituée de :
 	\begin{itemize}
