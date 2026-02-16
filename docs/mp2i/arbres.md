@@ -244,9 +244,9 @@ Le but de l'exercice est d'écrire les fonctions d'insertion (percolation vers l
 
 5. Tester ces fonctions sur un exemple simple et afficher le tas binaire crée en utilisant la fonction de visualisation des arbres.
 
-6. Ecrire et tester la fonction `#c int getmin(heap *mh)` qui extrait le minimum du tas binaire donné en argument.
+6. Ecrire et tester la fonction `#!c int getmin(heap *mh)` qui extrait le minimum du tas binaire donné en argument.
 
-7. Ecrire une implémentation du tri par tas de signature `#c void heapsort(int *array, int size)` qui trie le tableau donné en argument.
+7. Ecrire une implémentation du tri par tas de signature `#!c void heapsort(int *array, int size)` qui trie le tableau donné en argument.
 
 
 {{ exo("Implémentation de la structure de tas en Ocaml",[])}}
@@ -270,7 +270,7 @@ Dans toute la suite de l'exercice, on suppose connu la taille du flux de donnée
 
     1. Ecrire une fonction de signature `#!c void insere(int tab[], int i,int v)` qui prend en argument un tableau de taille $N$, et un indice $i$ et qui en supposant ce tableau rangé jusqu'à l'indice $i$ (exclu) insère la valeur `v` à la position correcte dans ce tableau. 
 
-    2. Ecrire une fonction `#!c float mediane(int tab[], int s)` qui renvoie la médiane des $s$ premières valeurs du tableau `tab` (de taille $N$) en supposant que ce tableau est rangé.
+    2. Ecrire une fonction `#!c float mediane(int tab[], int s)` qui renvoie la médiane des valeurs du tableau `tab` (de taille $N$) d'indice $0, \dots s-1$ en supposant que ce sous tableau est rangé.
 
     3. Afin de simuler le flux de données, écrire une fonction `#!c int lire_flux(int minv, int maxv)` qui renvoie un entier au hasard entre `min v` (inclus) et `maxv` (exclu). Afin d'initialiser le flux, créer une fonction `#!c void init_flux(int graine)` qui initialise le générateur de nombre aléatoire avec la valeur `graine`.
 
@@ -280,7 +280,7 @@ Dans toute la suite de l'exercice, on suppose connu la taille du flux de donnée
             * l'initialisation se fait à l'aide de la fonction `srand` du module `stdlib`.
             * la fonction `rand` ne prend par d'argument et renvoie un entier aléatoire entre 0  et une constante `RAND_MAX` du langage.
 
-    4. Initialiser le flux de données avec la graine $42$, et tirer les valeurs entre 0 (inclus) et $100$ (exclu), et générer la liste 5 premières médianes, vous devriez trouver : $66, 53, 66, 53.5, 41$.
+    4. Initialiser le flux de données avec la graine $42$, et tirer des valeurs entre 0 (inclus) et $100$ (exclu), et générer la liste 5 premières médianes, vous devriez trouver : $66, 53, 66, 53.5, 41$.
 
     5. Toujours en initialisant avec la graine 42, tirer maintenant des valeurs entre 0 (inclus) et $1\,000\,000$ (exclu). Quelle est la médiane du flux de données après avoir lu $200\,000$ valeurs ? {{check_reponse("498742")}} (entrer la valeur entière sans le séparateur décimal).
 
@@ -290,7 +290,7 @@ Dans toute la suite de l'exercice, on suppose connu la taille du flux de donnée
 
     On considère à présent l'algorithme suivante qui met à profit l'utilisation de la structure de tas :
 
-    * On crée un tas binaire *max* `petit` contenant initialement la première valeur lue depuis le flux de données. 
+    * On crée un tas binaire *max* `petit` initialement vide. 
     * On crée un tas binaire *min* `grand` initialement vide.
     * pour chaque donnée $v$ lue :
         * si les deux tas ont la même taille, alors on insère $v$ dans `grand`, on extrait le min de `grand` et on l'insère dans `petit`
