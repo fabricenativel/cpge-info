@@ -245,8 +245,10 @@ Par exemple `separe [2; -3; -2; -1; 7; -4]` renvoie les liste `[2; 7]` et `[-3; 
 
 {{ exo("Exercices en ligne",[]) }}
 
-Le site officiel de [la fondation Ocaml](https://ocaml.org/){target=_blank}, propose des [exercices progressifs](https://ocaml-sf.org/learn-ocaml-public/#){target=_blank} à faire en ligne directement dans le navigateur.
 
+* Le site officiel de [la fondation Ocaml](https://ocaml.org/){target=_blank}, propose des [exercices progressifs](https://ocaml-sf.org/learn-ocaml-public/#){target=_blank} à faire en ligne directement dans le navigateur.
+
+* Des [Exercices OCaml, interactifs et corrigés](https://fortierq.github.io/ocaml-exercices){target=_blank} par **Q. Fortier**.
 
 ## Humour d'informaticien
 ![Webcomic](./Images/C6/OCamlHumour.png){.imgcentre width=500px}

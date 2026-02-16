@@ -257,6 +257,53 @@ Reprendre l'exercice précédent en utilisant OCaml, avec le type suivant pour r
     --8<-- "C12/tas.ml:def_tas"
 ```
 
+{{ exo("Médiane d'un flux de données",[])}}
+
+Dans cet exercice on considère un *flux de données* de valeurs entières, c'est à dire qu'on ne dispose pas initialement de la totalité des données et on considère qu'elles arrivent au fur et à mesure du déroulement de l'algorithme. A chaque nouvelle valeur lue, on veut mettre à jour une variable contenant la [**mediane**](https://fr.wikipedia.org/wiki/M%C3%A9diane_(statistiques)){target=_blank} des valeurs déjà lues. On rappelle que la médiane est, lorsque les valeurs sont rangées, la valeur qui sépare la série en deux parties de même effectif. Si on numérote les valeurs à partir de 0, alors lorsque la série contient un nombre impair $2n+1$ de valeurs (numérotées de $0$ à $2n$) alors c'est la valeur portant le numéro $n$. Par exemple, pour calculer la médiane de $2, 7, 3, 1, 10, 8, 4$, on range la série dans l'ordre : $1, 2, 3, 4, 7, 8, 10$ et donc ici la médiane est 4. Lorsque la série contient un nombre pair $2n$ de valeur (numérotées de 0 à $2n-1$) alors on fait la moyenne arithmétique des termes de rang $n-1$ et $n$ après rangement. Par exemple, pour calculer la médiane de $2, 10, 1, 4, 7, 3$, on range : $1, 2, 3, 4, 7, 10$ et la médiane est alors $(3+4)/2$ c'est à dire $3.5$.
+
+Dans toute la suite de l'exercice, on suppose connu la taille du flux de données qu'on note $N$ et on supposera cette valeur déjà définie en début de programme par une directive de précompilation `#!c #define`.
+
+
+1. Méthode consistant à ranger le flux de données
+
+    Dans cette partie, on décide de maintenir à jour une version rangée du flux de données, pour cela à chaque arrivée d'une nouvelle valeur, on l'insère à la bonne position dans la partie déjà rangée.
+
+    1. Ecrire une fonction de signature `#!c void insere(int tab[], int i,int v)` qui prend en argument un tableau de taille $N$, et un indice $i$ et qui en supposant ce tableau rangé jusqu'à l'indice $i$ (exclu) insère la valeur `v` à la position correcte dans ce tableau. 
+
+    2. Ecrire une fonction `#!c float mediane(int tab[], int s)` qui renvoie la médiane des $s$ premières valeurs du tableau `tab` (de taille $N$) en supposant que ce tableau est rangé.
+
+    3. Afin de simuler le flux de données, écrire une fonction `#!c int lire_flux(int minv, int maxv)` qui renvoie un entier au hasard entre `min v` (inclus) et `maxv` (exclu). Afin d'initialiser le flux, créer une fonction `#!c void init_flux(int graine)` qui initialise le générateur de nombre aléatoire avec la valeur `graine`.
+
+        !!! aide
+            On rappelle que :
+
+            * l'initialisation se fait à l'aide de la fonction `srand` du module `stdlib`.
+            * la fonction `rand` ne prend par d'argument et renvoie un entier aléatoire entre 0  et une constante `RAND_MAX` du langage.
+
+    4. Initialiser le flux de données avec la graine $42$, et tirer les valeurs entre 0 (inclus) et $100$ (exclu), et générer la liste 5 premières médianes, vous devriez trouver : $66, 53, 66, 53.5, 41$.
+
+    5. Toujours en initialisant avec la graine 42, tirer maintenant des valeurs entre 0 (inclus) et $1\,000\,000$ (exclu). Quelle est la médiane du flux de données après avoir lu $200\,000$ valeurs ? {{check_reponse("498742")}} (entrer la valeur entière sans le séparateur décimal).
+
+    6. Donner la complexité de cette méthode en fonction du nombre $n$ de données lues.
+
+2. Utilisation de la structure de tas
+
+    On considère à présent l'algorithme suivante qui met à profit l'utilisation de la structure de tas :
+
+    * On crée un tas binaire *max* `petit` contenant initialement la première valeur lue depuis le flux de données. 
+    * On crée un tas binaire *min* `grand` initialement vide.
+    * pour chaque donnée $v$ lue :
+        * si les deux tas ont la même taille, alors on insère $v$ dans `grand`, on extrait le min de `grand` et on l'insère dans `petit`
+        * sinon, on insère $v$ dans `petit`, on extrait le maximum de `petit` et l'insère dans `grand`.
+
+    On fera bien attention que `petit` est un tas binaire **max** alors que `grand` est un tas binaire **min**.
+
+    1. Dérouler cet algorithme en considérant le flux de donnée suivant : 10, 6, 11, 12, 14, 9, 3 et en schématisant l'évolution des deux tas.
+    2. Vérifier que l'invariant suivant est préservé durant le déroulement de l'algorithme : `petit` contient la moitié inférieure des valeurs du flux et `grand` la moitié supérieure (la moitié inférieure contenant éventuellement un élément supplémentaire).
+    3. En déduire comment extraire la médiane du flux de données.
+    4. Mettre en oeuvre cette nouvelle méthode et retrouver les résultats de la première partie.
+    5. Donner en fonction de $n$ la complexité de cette nouvelle méthode.
+
 ## Humour d'informaticien
 
 ![tree](./Images/C12/real_tree.png){.imgcentre width=500px}

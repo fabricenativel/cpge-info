@@ -91,7 +91,7 @@ def frozen_to_str(fset):
     else:
         return str(set(fset))
 
-juniper = make_graph(6)
+juniper = make_graph(9)
 print(len(juniper))
 juniper_graph = graphviz.Digraph()
 for s in juniper:

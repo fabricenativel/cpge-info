@@ -112,6 +112,6 @@ Par exemple, sur le tableau $[10, 6, 3, 9, 7, 5]$ si on choisit comme pivot 5, a
 On propose ici d'implémenter cet algorithme en Python en choisissant comme *pivot le dernier élément du tableau*. 
 
 
-1. Ecrire la fonction `partitionne` qui prend en argument une liste et renvoie deux listes, l'une formée des éléments inférieurs ou  au dernier élément de la liste et l'autre formée des éléments strictement supérieurs.
+1. Ecrire la fonction `partitionne` qui prend en argument une liste et renvoie deux listes, l'une formée des éléments inférieurs ou  égaux au dernier élément de la liste et l'autre formée des éléments strictement supérieurs.
 2. Ecrire la fonction `tri_rapide` qui prend en argument une liste et renvoie cette liste triée.
 

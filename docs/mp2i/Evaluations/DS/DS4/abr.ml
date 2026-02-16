@@ -1,11 +1,15 @@
-(* --8<-- [start:type_int] *)
-type ab = 
-  |Vide 
-  |Noeud of ab * int * ab ;;
-(* --8<-- [end:type_int] *)
+type abr = 
+  | Vide 
+  | Noeud of  abr * int * abr;;
 
+let rec insere valeur arbre = 
+  match arbre with
+  | Vide -> Noeud(Vide, valeur, Vide)
+  | Noeud( g, v, d) -> 
+    if valeur < v then Noeud(insere valeur g, v, d)
+    else if valeur > v then Noeud(g, v, insere valeur d)
+    else failwith "Element déjà présent";;
 
-(* --8<-- [start:voir] *)
 let rec write_edge a writer ninv=
   match a with
   | Vide -> ()
@@ -42,52 +46,37 @@ let view a =
   write_edge a outc ninv;
   output_string outc "}\n";
   close_out outc;
-  ignore (Sys.command "xdot temp.gv");;
-(* --8<-- [end:voir] *)
+  ignore (Sys.command "xdot temp.gv &");;
 
-let rec mystere ab = 
+let rec view_prefixe ab =
   match ab with
-  | Vide -> []
-  | Noeud(g,v,d) ->   v::mystere g @ mystere d;;
+  | Vide -> ()
+  | Noeud(g, e, d) -> print_int e; print_string " "; view_prefixe g; view_prefixe d;;
 
-let prefixe ab =
-  let rec aux_prefixe ab acc =
-    (*aux_prefixe renvoie la parcours prefixe de ab SUIVI de acc*)
-    match ab with
-    | Vide -> acc
-    | Noeud(g, v, d) -> v::aux_prefixe g (aux_prefixe d acc) in
-  aux_prefixe ab [];;
-
-let parcours_infixe ab = [];;
-
-let est_abr ab =
-  let pi = parcours_infixe ab in
-  let rec est_croissant l =
-    match l with
-    | [] -> true
-    | h::[] -> true
-    | h1::h2::t -> h1<h2 && est_croissant (h2::t) in
-  est_croissant pi;;
-
-let rec plus_petit ab v =
-  (*Vérifie que toutes les valeurs dans ab sont inférieures à v*)
+let rec view_infixe ab =
   match ab with
-  | Vide -> true
-  | Noeud(g, r, d) -> r<v && plus_petit g v && plus_petit d v;;
+  | Vide -> ()
+  | Noeud(g, e, d) ->  view_infixe g; print_int e; print_string " "; view_infixe d;;
 
+let rec view_suffixe ab =
+  match ab with
+  | Vide -> ()
+  | Noeud(g, e, d) ->  view_suffixe g; view_suffixe d; print_int e; print_string " ";;
 
-let infixe ab = 
-  let rec aux ab acc =
-    match ab with
-    | Vide -> acc
-    | Noeud(g,v,d) -> v :: (aux g (aux d acc))
-  in aux ab [];;
 
 let () = 
-  let r1 = Noeud(Noeud(Vide,5,Vide),1,Noeud(Vide,6,Vide)) in
-  let r3 = Noeud(Vide,3,Noeud(Vide,4,Vide)) in
-  let r7 = Noeud(Vide,7,r1) in
-  let t = Noeud(r7,2,r3) 
-  in
-  List.iter (fun n -> Printf.printf "%d " n) (prefixe t);;
-
+  let arbre = Noeud (
+      Noeud(Noeud(Vide, 10, Noeud(Vide, 17, Vide)),28,Noeud(Vide,31,Vide)),
+      42,
+      Noeud(Noeud(Noeud(Vide,27,Vide),24,Vide),32,Vide)
+  ) in
+  print_string "Prefixe = ";
+  view_prefixe arbre;
+  print_newline ();
+  print_string "Infixe = ";
+  view_infixe arbre;
+  print_newline ();
+  print_string "Suffixe = ";
+  view_suffixe arbre;
+  print_newline ();
+  view arbre;;
