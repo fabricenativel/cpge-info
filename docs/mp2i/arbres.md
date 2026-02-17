@@ -257,6 +257,10 @@ Reprendre l'exercice précédent en utilisant OCaml, avec le type suivant pour r
     --8<-- "C12/tas.ml:def_tas"
 ```
 
+!!! Warning "Attention"
+    Les exercices suivant mettent en oeuvre l'utilisation de la structure de données de tas binaire pour la résolution de problèmes, on recommande d'aborder ces exercices uniquement lorsque les deux exercices précédents (implémentation de la structure de données de tas et application au tri) sont réalisés. Dans l'énoncé on a utilisé le langage C pour la médiane d'une flux de données et OCaml dans la fusion de $k$ liste triées mais chacun des deux exercices peut être réalisé dans l'un ou l'autre des deux langages.
+
+
 {{ exo("Médiane d'un flux de données",[])}}
 
 Dans cet exercice on considère un *flux de données* de valeurs entières, c'est à dire qu'on ne dispose pas initialement de la totalité des données et on considère qu'elles arrivent au fur et à mesure du déroulement de l'algorithme. A chaque nouvelle valeur lue, on veut mettre à jour une variable contenant la [**mediane**](https://fr.wikipedia.org/wiki/M%C3%A9diane_(statistiques)){target=_blank} des valeurs déjà lues. On rappelle que la médiane est, lorsque les valeurs sont rangées, la valeur qui sépare la série en deux parties de même effectif. Si on numérote les valeurs à partir de 0, alors lorsque la série contient un nombre impair $2n+1$ de valeurs (numérotées de $0$ à $2n$) alors c'est la valeur portant le numéro $n$. Par exemple, pour calculer la médiane de $2, 7, 3, 1, 10, 8, 4$, on range la série dans l'ordre : $1, 2, 3, 4, 7, 8, 10$ et donc ici la médiane est 4. Lorsque la série contient un nombre pair $2n$ de valeur (numérotées de 0 à $2n-1$) alors on fait la moyenne arithmétique des termes de rang $n-1$ et $n$ après rangement. Par exemple, pour calculer la médiane de $2, 10, 1, 4, 7, 3$, on range : $1, 2, 3, 4, 7, 10$ et la médiane est alors $(3+4)/2$ c'est à dire $3.5$.
@@ -303,6 +307,21 @@ Dans toute la suite de l'exercice, on suppose connu la taille du flux de donnée
     3. En déduire comment extraire la médiane du flux de données.
     4. Mettre en oeuvre cette nouvelle méthode et retrouver les résultats de la première partie.
     5. Donner en fonction de $n$ la complexité de cette nouvelle méthode.
+
+{{ exo("Fusion de k listes triées",[])}}
+
+Dans cet exercice on s'intéresse à la fusion d'un tableau de $k$ liste déjà triées en une seule liste triée. On supposera par souci de simplicité que chaque liste à la même longueur $n$. Par exemple si $k=3$ et $n=2$ et que le tableau de liste est `#!ocaml [| [2; 4]; [1; 5]; [6; 7] |]` alors la fusion de ces 3 listes donne `#!ocaml [1; 2; 4; 5; 6; 7]`.
+
+1. Fusion successives des listes 
+
+    1. Ecrire une fonction `fusion : 'a list -> 'a list -> 'a list` qui prend en argument deux listes supposées triées et renvoie leur fusion
+    2. En utilisant la fonction précédente, écrire une fonction `fusion_multiple : 'a list array -> 'a list` qui prend en argument un tableau de liste triées et renvoie la liste issue de leur fusion. On procédera par fusion successive de deux listes en utilisant la fonction écrite à la question précédente.
+    3. Déterminer la complexité de cette méthode en fonction de $k$ (nombre de listes) et de $n$ (longueur de chaque liste).
+
+2. Utilisation d'un tas binaire min  
+
+    1. Mettre en oeuvre la méthode qui consiste à utiliser un tas binaire min de taille $k$ dans lequel on insère initialement pour chaque liste le couple (indice dans le tableau de la liste, premier élément de la liste). Ensuite tant que ce tas n'est pas vide, on prélève son minimum et on insère l'élément suivant de la liste dont ce minimum est issu (si la liste n'est pas vide).
+    2. Déterminer la complexité de cette nouvelle méthode.
 
 ## Humour d'informaticien
 

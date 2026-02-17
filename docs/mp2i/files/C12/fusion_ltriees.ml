@@ -1,5 +1,21 @@
 type 'a heap = {mutable size : int; data : 'a array};;
 
+
+let rec fusion l1 l2 =
+  match l1, l2 with
+  | [], _ -> l2
+  | _, [] -> l1
+  | h1::t1, h2::t2 -> if h1<h2 then h1::(fusion t1 l2) else h2::(fusion l1 t2);;
+
+let fusion_multiple arrlist =
+  let rec aux arrlist ind deb =
+    if ind=Array.length arrlist then deb else
+      aux arrlist (ind+1) (fusion arrlist.(ind) deb)
+    in
+  aux arrlist 0 [];;
+
+
+
 let plus_petit a b =
   let k1,v1 = a in
   let k2,v2 = b in
@@ -74,10 +90,13 @@ let affiche heap =
         let lsize = int_of_string (Sys.argv.(2)) in
         let vmax = int_of_string (Sys.argv.(3)) in
         let asl = make_array_sorted_list nblist lsize vmax in
+        let s1 = Sys.time() in
+        let fm = fusion_multiple asl in
+        let f1 = Sys.time() in
+        Printf.printf "Fusion successive : %f\n" (f1-.s1);
+        let s2 = Sys.time() in
         let mh = {size = 0; data = Array.make 1000 (0,0)} in
         for i=0 to nblist-1 do
-          Printf.printf "%d -> " i;
-          affiche_liste asl.(i);
           insert (List.hd asl.(i),i) mh;
           asl.(i) <- List.tl asl.(i);
         done;
@@ -89,8 +108,9 @@ let affiche heap =
             (insert (List.hd asl.(num),num) mh;
             asl.(num) <- List.tl asl.(num));
           done;
-        List.iter (fun x -> Printf.printf "%d " x) !res;
-        print_newline ()
+        res := List.rev !res;
+        let f2 = Sys.time() in
+        Printf.printf "Avec un tas  : %f\n" (f2-.s2);
       );;
 
 
