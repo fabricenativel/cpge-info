@@ -50,3 +50,15 @@ hide: - navigation  in liens.md
 * *A partir du 02/02* : Bases de données, clé primaire, clés étrangères, schéma relationnel. Langage {{sc("sql")}}, requête dans une ou plusieurs tables.
 
 * *A partir du 09/02* : Arbres binaires, définition, vocabulaire. Relation entre nombres de noeuds et hauteur. Représentation en machine en OCaml et en C.
+
+## Semaines du 23/02, du 16/03 et du 23/03
+
+* Parcours en profondeur préfixe, infixe et suffixe d'un arbre. Parcours en largeur.
+
+* Arbres binaires de recherche, insertion, recherche et suppression de valeurs. Complexité de ces opérations.
+
+* Caractérisation d'un arbre binaire de recherche par son parcours infixe.
+
+* Structure de tas binaire. Représentation par un tableau. Opération d'insertion et d'extraction du minimum. Utilisation pour l'implémentation d'une file de priorité. Tri par tas
+
+* Méthodes algorithmiques : force brute, retour sur trace, algorithme glouton.

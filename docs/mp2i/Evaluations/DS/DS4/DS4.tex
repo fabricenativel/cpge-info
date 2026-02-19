@@ -343,14 +343,14 @@ Pour un couple $(x_0,y_0) \in \Z^2$, on définit la suite $(u_n)_{n \in \N}$ par
 \Question{Vérifier sur l'exemple $N = 10$ et $(x_0, y_0) = (1, 8)$ en calculant manuellement les premiers termes que la suite contient un cycle. Quelle est la longueur de ce cycle ?}
 \Question{Justifier que pour toute valeur de $N$ fixée et tout couple initial $(x_0, y_0)$, la suite $(u_n)$ contient nécessairement un cycle. On pourra remarquer que l'ensemble des couples possibles est fini.}
 \tcor{L'ensemble $\Z^2 / N\Z^2$ est fini puisqu'il contient exactement $N^2$ éléments. Comme la suite $(u_n)$ reste dans cet ensemble fini et a une infinité de termes, par le principe des tiroirs, au moins deux éléments de la suite doivent être identiques. Par conséquent, la suite est périodique à partir d'un certain rang.}
-\Question{Ecrire la fonction $f_N$ en OCaml avec la signature : \mintinline{ocaml}{let f int -> int -> int-> int * int} en donnant les paramètres dans cet ordre : {\tt x}, {\tt y} et {\tt N}.}
-\Question{Ecrire une fonction \mintinline{ocaml}{let appartient 'a -> 'a list -> bool} qui teste si un élément appartient à une liste. Donner la complexité de cette fonction en fonction de la taille de la liste.}
-\Question{Ecrire une fonction \mintinline{ocaml}{let cycle_naif int -> int -> int -> int * int} qui prend en argument (dans cet ordre) $x_0$, $y_0$ et $N$ et détecte le cycle en maintenant à jour une liste des couples déjà rencontrés, et renvoie le premier couple qui apparaît deux fois.}
+\Question{Ecrire la fonction $f_N$ en OCaml avec la signature : \mintinline{ocaml}{f : int -> int -> int-> int * int} en donnant les paramètres dans cet ordre : {\tt x}, {\tt y} et {\tt N}.}
+\Question{Ecrire une fonction \mintinline{ocaml}{appartient : 'a -> 'a list -> bool} qui teste si un élément appartient à une liste. Donner la complexité de cette fonction en fonction de la taille de la liste.}
+\Question{Ecrire une fonction \mintinline{ocaml}{cycle_naif : int -> int -> int -> int * int} qui prend en argument (dans cet ordre) $x_0$, $y_0$ et $N$ et détecte le cycle en maintenant à jour une liste des couples déjà rencontrés, et renvoie le premier couple qui apparaît deux fois.}
 
 \Question{Quelle est la complexité dans le pire cas de la fonction {\tt cycle\_naif} en fonction du nombre de termes à parcourir avant de trouver le premier couple apparaissant deux fois ?} 
 
 \smallskip
-On propose maintenant d'utiliser une table de hachage afin de stocker les termes déjà rencontrés, les clés sont les couples rencontrées et la valeur associée est l'indice dans la suite de ce couple. Par exemple si les trois premiers termes de la suite sont $(1,5), (4,3), (7, 7)$ alors la table de hachage doit contenir les clés $(1,5), (4,3)$, et $(7,7)$ associées respectivement aux valeurs $0, 1$ et $2$.
+On propose maintenant d'utiliser une table de hachage afin de stocker les termes déjà rencontrés, les clés sont les couples rencontrés et la valeur associée est l'indice dans la suite de ce couple. Par exemple si les trois premiers termes de la suite sont $(1,5), (4,3), (7, 7)$ alors la table de hachage doit contenir les clés $(1,5), (4,3)$, et $(7,7)$ associées respectivement aux valeurs $0, 1$ et $2$ (c'est à dire aux indices auxquels sont apparus ces couples).
 On rappelle ci-dessous  les fonctions de manipulation d'une table de hachage en OCaml :
 \begin{itemize}
 \item{\tt Hashtbl.create : int -> ('a,'b) Hashtbl.t} renvoie une table de hachage dont on donne la taille initiale.
