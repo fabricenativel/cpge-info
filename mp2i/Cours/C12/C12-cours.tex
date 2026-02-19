@@ -1,0 +1,821 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{12}
+\newcommand{\Ctitle}{\cnum {Arbres binaires}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
+\newcommand{\NR}[1]{\TCircle[fillstyle=solid,fillcolor=red!20!white,linecolor=red,radius=0.25cm]{#1}}
+\newcommand{\NN}[1]{\TCircle[fillstyle=solid,fillcolor=black!20!white,linecolor=black,radius=0.25cm]{#1}}
+% Exemple introductif
+\makess{Définition}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		Un \textcolor{blue}{arbre binaire}, est une structure de données \textit{hiérarchique} (les éléments, appelés \textcolor{blue}{noeuds} sont rangés par niveau) qui peut se définir récursivement.\\
+		En effet, un arbre binaire est
+		\begin{itemize}
+			\item<2-> soit vide, on le note alors $\varnothing$
+			\item<3-> soit un noeud $(sag,r,sad)$  appelé \textcolor{blue}{racine} où $r$ est l'étiquette de la racine et $sag$ et $sad$ sont deux arbres binaires (le sous arbre gauche, et le sous arbre droit)
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemples}
+		\onslide<4->{\small L'arbre $(\varnothing,a,(\varnothing,b,\varnothing))$\\}
+		\onslide<5->{
+			\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$a$}}{
+				\Tr{$\varnothing$}
+				\pstree{\TCircle[radius=0.25cm]{$b$}}{
+					\Tr{$\varnothing$}
+					\Tr{$\varnothing$}
+				}
+			} \quad \quad \quad }
+		\onslide<6->
+		{
+			\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$a$}}{
+				\Tn{}
+				\TCircle[radius=0.25cm]{$b$}
+			}
+			\\}
+		\onslide<7->{\small Représenté avec (à gauche) ou sans (à droite) les sous arbres vides.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		\begin{itemize}
+			\item<1->{\small \textcolor{BrickRed}{\danger}} Les deux arbres ci-dessous sont \textcolor{blue}{différents} !\\
+			\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$a$}}{
+				\Tr{$\varnothing$}
+				\pstree[arrows=->]{\TCircle[radius=0.25cm]{$b$}}{
+					\Tr{$\varnothing$}
+					\Tr{$\varnothing$}
+				}
+			} \quad \quad \quad
+			\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$a$}}{
+				\pstree{\TCircle[radius=0.25cm]{$b$}}{
+					\Tr{$\varnothing$}
+					\Tr{$\varnothing$}
+				}
+				\Tr{$\varnothing$}
+			} \quad \quad \quad
+			\item<2-> On omet parfois de représenter les sous arbres vides, mais on doit garder à l'esprit qu'un noeud non vide est \textit{toujours} un triplet. Et que donc les sous arbres gauche et droit même vides, sont toujours présents.
+		\end{itemize}
+	\end{block}
+	\onslide<3->{
+	\begin{block}{Vocabulaire}
+		\begin{itemize}
+			\item<3-> Lorsque $b$ est un sous arbre d'un noeud $a$, on dit que $a$ est le \textcolor{blue}{père} de $b$ et que $b$ est le \textcolor{blue}{fils} $a$.
+			\item<4-> Un noeud dont les deux sous arbres sont vides s'appelle une \textcolor{blue}{feuille}.
+			\item<5-> un noeud qui n'est pas une feuille s'appelle un \textcolor{blue}{noeud interne}.
+		\end{itemize}
+	\end{block}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définition récursive du nombre de noeuds et de la hauteur}
+		\begin{itemize}
+			\item Le \textcolor{blue}{nombre de noeuds} d'un arbre binaire $A$, noté $n(A)$, se définit récursivement par :
+			      \onslide<2->{
+				      $$ \left\{
+					      \begin{array}{llll}
+						      n(A) & = & 0               & \text{si $A$ est vide}  \\
+						      n(A) & = & 1 + n(g) + n(d) & \text{si $A = (g,a,d)$} \\
+					      \end{array}
+					      \right.
+				      $$}
+			\item<3-> La \textcolor{blue}{hauteur} d'un arbre binaire $A$, noté $h(A)$, se définit récursivement par :
+				\onslide<4->{
+					$$ \left\{
+						\begin{array}{llll}
+							h(A) & = & -1                  & \text{si $A$ est vide}  \\
+							h(A) & = & 1 + \max(h(g),h(d)) & \text{si $A = (g,a,d)$} \\
+						\end{array}
+						\right.
+					$$}
+				\onslide<5->{\textcolor{BrickRed}{\small \danger} Certains auteurs prennent $0$ comment hauteur de l'arbre vide.}
+				\item<6->La \textcolor{blue}{profondeur} d'un noeud est sa distance à la racine.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$r$}}{
+				\Tn{}
+				\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$k$}}
+				{
+					\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$e$}}{
+						\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$p$}}{
+							\TCircle[radius=0.25cm]{$l$}
+							\TCircle[radius=0.25cm]{$u$}
+						}
+						\Tn{}
+					}
+					\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{$c$}}{
+						\Tn{}
+						\TCircle[radius=0.25cm]{$z$}}
+				}
+			}
+		\end{center}
+		\begin{itemize}
+			\item<2-> Nommer les feuilles et les noeuds internes
+			\item<3-> Donner le nombre de noeuds
+			\item<4-> Donner la hauteur de cet arbre
+			\item<5-> Donner un noeud de profondeur 2
+			\item<6-> Donner l'écriture de cet arbre sous forme de triplet
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+% Cas particuliers d'arbres binaires
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Quelques cas particuliers}
+		\begin{itemize}
+			\item Un arbre binaire est dit \textcolor{blue}{dégénéré} lorsque tous les noeuds à l'exception des feuilles n'ont qu'un fils non vide. \\
+			      \onslide<2->{
+				      \begin{tabularx}{\linewidth}{YYY}
+					      \pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+						      \Tn{}
+						      \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+							      \Tn{}
+							      \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+								      \Tn{}
+								      \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+									      \Tn{}
+								      }}}}
+					       &
+					      \pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+						      \Tn{}
+						      \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+							      \Tn{}
+							      \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+
+								      \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+									      \Tn{}
+								      }\Tn{}}}}
+					       & \pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+						      \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+							      \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+								      \pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+									      \Tn{} } \Tn{}} \Tn{}}                    \Tn{}
+					      }
+				      \end{tabularx}}
+			      \onslide<2-> Pour les arbres représentés à gauche et à droite on parle de \textit{peigne}, à rapprocher de la liste chainée.
+		\end{itemize}
+	\end{block}
+\end{frame}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Quelques cas particuliers}
+		\begin{itemize}
+			\item<2-> Un arbre binaire est dit \textcolor{blue}{parfait} lorsque tous les niveaux sont remplis : \\
+				\onslide<3->{
+					\begin{center}
+						\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}
+						{
+							\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+								\TCircle[radius=0.25cm]{}
+								\TCircle[radius=0.25cm]{}
+							}
+							\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+								\TCircle[radius=0.25cm]{}
+								\TCircle[radius=0.25cm]{}
+							}
+						}
+					\end{center}}
+			\item<4-> Un arbre binaire est dit \textcolor{blue}{complet} lorsque tous les niveaux à l'exception du dernier sont remplis et que le dernier niveau est rempli à parti de la gauche. \\
+				\onslide<5->{
+					\begin{center}
+						\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}
+						{
+							\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+								\TCircle[radius=0.25cm]{}
+								\TCircle[radius=0.25cm]{}
+							}
+							\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{}}{
+								\TCircle[radius=0.25cm]{}
+								\Tn{}
+							}
+						}
+					\end{center}}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% Relation entre hauteur et taille
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Nombre de sous abres vides}
+		Le nombre de sous arbres vides d'un arbre binaire de taille $n$ est $n+1$.
+	\end{alertblock}
+	\onslide<2->{
+		\begin{alertblock}{Relation entre hauteur et taille}
+			En notant $n$ la taille et $h$ la hauteur d'un arbre binaire, on a la relation suivante : \\
+			\onslide<3->{$$ { h+1 \leqslant n \leqslant 2^{h+1}-1} $$}
+		\end{alertblock}}
+	\onslide<3->{
+		\begin{exampleblock}{Exemple}
+			Quelle est la taille minimale (resp. maximale) d'un arbre binaire de hauteur 9 ? Donner dans les deux cas le nombre de sous arbres vides.
+		\end{exampleblock}
+	}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercices}
+		\begin{enumerate}
+			\item<1-> Dessiner un arbres binaires de taille 4 dont l'un des noeuds au moins a un fils gauche vide.
+			\item<2-> Dessiner un arbre binaire de hauteur taille 4 et de hauteur 3.
+			\item<3-> Dessiner un arbre binaire de hauteur 2 et de taille $2^3-1$.
+			\item<4-> Montrer que le nombre d'arêtes (trait reliant  un noeud à un fils \textit{non vide}) d'un arbre binaire à $n$ noeuds ($n \geqslant 1$) est $n-1$
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Représentation  en machine}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Type structuré en C}
+		En C, on représente un arbre binaire par un pointeur vers un type structuré contenant trois champs : l'étiquette (un  \mintinline{c}{int}) de la racine, et les pointeurs vers les deux sous arbres (gauche et droit).\\
+		\onslide<2->{\textcolor{blue}{L'arbre vide est alors représenté par  le pointeur {\sc null}}.}
+		\onslide<3->{\inputC{\SPATH/struct.c}{}{}}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Création d'un arbre}
+		\onslide<2->On écrit alors une fonction \mintinline{c}{ab cree_arbre(ab g, int v, ab d)}  qui renvoie un arbre donne on donne l'étiquette de la racine et les deux sous arbres :
+		\onslide<3>{\inputC{\SPATH/cree.c}{}{}}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{enumerate}
+			\item<1-> En utilisant cette représentation, créer l'arbre binaire suivant :
+				\begin{center}
+					\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{9}}
+					{
+						\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{5}}{
+							\Tn{}
+							\TCircle[radius=0.25cm]{7}
+						}
+						\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{3}}{
+							\TCircle[radius=0.25cm]{4}
+							\Tn{}
+						}
+					}
+				\end{center}
+			\item<2-> Ecrire la fonction qui calcule le nombre de noeuds d'un arbre binaire.
+				\onslide<3->{\inputC{\SPATH/taille.c}{}{}}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Type structuré en OCaml}
+		Un arbre binaire étant soit vide soit constituée d'une étiquette (qu'on suppose de type {\tt int}), on le définit en OCaml en envisageant les 2 cas :
+		\onslide<2->{\inputOCaml{\SPATH/type_int.ml}{}{}}
+		\onslide<3-> Pour un type quelconque d'étiquette, on utilise un type paramétré {\tt 'a} :
+		\onslide<4->{\inputOCaml{\SPATH/type_param.ml}{}{}}
+	\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{enumerate}
+			\item<1-> En utilisant cette représentation, créer l'arbre binaire suivant :
+				\begin{center}
+					\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{2}}
+					{
+						\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{7}}{
+							\Tn{}
+							\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{1}}{
+								\TCircle[radius=0.25cm]{5}
+								\TCircle[radius=0.25cm]{6}}
+						}
+						\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{3}}{
+							\Tn{}
+							\TCircle[radius=0.25cm]{4}
+						}
+					}
+				\end{center}
+			\item<2-> Ecrire la fonction permettant de calculer le nombre de noeuds d'un arbre binaire et donner sa complexité.
+				\onslide<3->{\inputOCaml{\SPATH/taille_param.ml}{}{}}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Cas particulier d'un arbre binaire complet}
+		\onslide<2->{Un arbre binaire complet de taille $n$ peut être représenté de façon compacte à l'aide d'un tableau de taille $n$.}
+		\onslide<3->{On numérote les noeuds depuis la racine, de gauche à droite et de haut en bas, le noeud numeroté $i$ est placé dans la case d'indice $i$.}
+		\onslide<4->{Par exemple :
+			\begin{center}
+				\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{4} \alt<5->{\nput[labelsep=1 pt]{0}{\pssucc}{\textcolor{blue}{\scriptsize 0}}}{}}
+				{
+					\pstree[treesep=0.5cm,levelsep=0.7cm]{
+						\TCircle[radius=0.25cm]{5} \alt<5->{\nput[labelsep=1 pt]{0}{\pssucc}{\textcolor{blue}{\scriptsize 1}}}{}}{
+						\TCircle[radius=0.25cm]{2} \alt<5->{\nput[labelsep=1 pt]{0}{\pssucc}{\textcolor{blue}{\scriptsize 3}}}{}
+						\TCircle[radius=0.25cm]{7} \alt<5->{\nput[labelsep=1 pt]{0}{\pssucc}{\textcolor{blue}{\scriptsize 4}}}{}
+					}
+					\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{9} \alt<5->{\nput[labelsep=1 pt]{0}{\pssucc}{\textcolor{blue}{\scriptsize 2}}}{}}{
+						\TCircle[radius=0.25cm]{8} \alt<5->{\nput[labelsep=1 pt]{0}{\pssucc}{\textcolor{blue}{\scriptsize 5}}}{}
+						\Tn{}
+					}
+				}\vspace{0.2cm}
+			\end{center}}
+		\onslide<6->{sera représenté par le tableau :}
+		\onslide<7->{
+			\begin{tabular}{|c|c|c|c|c|c|}
+				\hline
+				4                                                   & 5                                                   & 9                                                   & 2                                                   & 7                                                   & 8                                                   \\
+				\hline
+				\multicolumn{1}{c}{\textcolor{blue}{\scriptsize 0}} & \multicolumn{1}{c}{\textcolor{blue}{\scriptsize 1}} & \multicolumn{1}{c}{\textcolor{blue}{\scriptsize 2}} & \multicolumn{1}{c}{\textcolor{blue}{\scriptsize 3}} & \multicolumn{1}{c}{\textcolor{blue}{\scriptsize 4}} & \multicolumn{1}{c}{\textcolor{blue}{\scriptsize 5}} \\
+			\end{tabular}}
+		\begin{itemize}
+			\item<8-> Le fils gauche (resp. droit) du noeud $i$ se trouve à l'indice $2i+1$ (resp.) $2i+2$.
+			\item<9-> Le père du noeud d'indice i se trouve à l'indice $\PE{\dfrac{i-1}{2}}$.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Parcours d'un arbre binaire}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Parcours récursifs}
+		On appelle \textit{parcours d'un arbre binaire} un algorithme permettant de visiter chaque noeud de cet arbre une et une seule fois afin d'y effectuer un traitement (tester la présence d'une valeur, chercher la plus petite valeur, \dots).
+		\onslide<2->{Compte tenu de la structure récursive des arbres binaires, trois parcours récursifs émergent suivant le choix du moment où on traite la racine du noeud ($g,r,d$) : }
+		\begin{itemize}
+			\item<3-> Dans le parcours \textcolor{blue}{préfixe}, la racine est traitée avant de relancer le parcours sur  le sous arbre gauche $g$ et le sous arbre droit $d$.
+			\item<4-> Dans le parcours \textcolor{blue}{infixe}, la racine est traitée après le parcours du sous arbre gauche $g$ mais avant celui du sous arbre droit  $d$.
+			\item<5-> Dans le parcours \textcolor{blue}{suffixe}, la racine est traitée  après le parcours du sous arbre gauche $g$ et du sous arbre droit $d$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\begin{tabular}{p{0.3cm}p{0.3cm}p{0.3cm}p{0.3cm}p{0.3cm}p{0.3cm}p{0.3cm}}
+				                    &                     &                     & \circlenode{A}{{R}} &                     &                     & \phantom{0}\vspace{0.5cm} \\
+				                    & \circlenode{B}{T}   &                     &                     &                     & \circlenode{C}{{C}} & \phantom{0}\vspace{0.5cm} \\
+				\circlenode{D}{{V}} &                     & \circlenode{E}{{I}} &                     & \circlenode{F}{{F}} &                     & \phantom{0}\vspace{0.5cm} \\
+				                    & \circlenode{I}{{M}} &                     & \circlenode{G}{{P}} &                     & \circlenode{H}{{A}} &                           \\
+				\ncline{->}{A}{B} \ncline{->}{A}{C} \ncline{->}{B}{D} \ncline{->}{B}{E} \ncline{->}{F}{G} \ncline{->}{F}{H} \ncline{C}{F} \ncline{D}{I}
+			\end{tabular}
+		\end{center}
+		Donner l'ordre des noeuds lorsqu'on parcourt l'arbre ci-dessus :
+		\begin{itemize}
+			\item<2-> En profondeur préfixé : \onslide<3->{R, T, V, M, I, C, F, P, A}
+			\item<4-> En profondeur infixé : \onslide<5->{V, M, T, I, R, P, F, A, C}
+			\item<6-> En profondeur suffixé : \onslide<7->{M, V, I, T, P, A, F, C, R}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Parcours en largeur}
+		La parcours en largeur revient à lister les noeuds par ordre croissant de profondeur et de gauche à droite \\
+		\onslide<2-> L'implémentation de ce parcours peut se faire à l'aide d'une file dans laquelle on stocke les noeuds restants à parcourir. A chaque fois qu'on traite un noeud, on le defile et on enfile ses fils.
+	\end{alertblock}
+	\onslide<3->{
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{S}}
+			{
+				\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{U}}{
+					\Tn{}
+					\TCircle[radius=0.25cm]{E}
+				}
+				\pstree[treesep=0.5cm,levelsep=0.7cm]{\TCircle[radius=0.25cm]{P}}{
+					\TCircle[radius=0.25cm]{R}
+					\Tn{}
+				}
+			}
+		\end{center}\vspace{0.2cm}}
+		\onslide<4-> {Le parcours en largeur donne : S, U, P, E, R.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Exemples d'implémentation}
+		\begin{itemize}
+			\item<1-> Parcours préfixe en C (affichage des étiquettes)
+				\onslide<2->{\inputC{\SPATH/prefixec.c}{}{\footnotesize}}
+			\item<3-> Parcours infixe en OCaml (affichage des étiquettes)
+				\onslide<4->{\inputOCaml{\SPATH/infixeml.ml}{}{\footnotesize}}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Arbres binaires de recherche}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Arbre binaire de recherche}
+		Un arbre binaire \textcolor{blue}{de recherche} (noté {\sc abr}), est un arbre binaire tel que :
+		\begin{itemize}
+			\item<2-> Les étiquettes des noeuds, appelées \textcolor{blue}{clés} sont toutes comparables entre elles. \\
+				\onslide<4->{\textcolor{gray}{Par exemple, les étiquettes sont toutes des nombres ou encore des chaines de caractères (comparées par ordre alphabétique).}}
+			\item<5-> Pour \textcolor{blue}{tous} les noeuds $N(g,v,d)$ l'ensemble des clés présentes dans le sous arbre gauche $g$ (resp. droit $d$) sont strictement inférieures (resp. supérieures) à $v$.\\
+				\item<6->{Les clés sont \textcolor{blue}{uniques}.}
+		\end{itemize}
+	\end{alertblock}
+	\onslide<7->{
+		\begin{block}{Caractérisation par le parcours infixe}
+			Un arbre binaire est un {\sc abr} si et seulement si le parcours infixe fournit les clés dans l'ordre croissant.
+		\end{block}}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\begin{tabular}{p{0.3cm}p{0.3cm}p{0.3cm}p{0.3cm}p{0.3cm}p{0.3cm}p{0.3cm}}
+				                    &                     &                     & \circlenode{A}{{10}} &                      &                      & \phantom{0}\vspace{0.5cm} \\
+				                    & \circlenode{B}{{6}} &                     &                      &                      & \circlenode{C}{{19}} & \phantom{0}\vspace{0.5cm} \\
+				\circlenode{D}{{4}} &                     & \circlenode{E}{{?}} &                      & \circlenode{F}{{16}} &                      & \phantom{0}\vspace{0.5cm} \\
+				                    & \circlenode{I}{{5}} &                     & \circlenode{G}{{13}} &                      & \circlenode{H}{{17}} &                           \\
+				\ncline{->}{A}{B} \ncline{->}{A}{C} \ncline{->}{B}{D} \ncline{->}{B}{E} \ncline{->}{F}{G} \ncline{->}{F}{H} \ncline{C}{F} \ncline{D}{I}
+			\end{tabular}\vspace{-0.5cm}
+		\end{center}
+		{\small
+		\begin{itemize}
+			\item<1-> Cet arbre est-il un {\sc abr} si la clé manquante est 2 ? 9 ? 12 ?
+			\item<2-> On suppose que la clé manquante est 9. Proposer une nouvelle valeur pour le noeud de clé 16 de façon à ce que cet arbre reste un {\sc abr}.
+			\item<3-> Proposer une valeur pour le noeud de clé 16 de façon à ce que cet arbre ne soit pas un {\sc abr}.
+			\item<4-> Donner l'ordre des clés lors d'un parcours infixe.
+		\end{itemize}}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Insertion dans un {\sc abr}}
+		Pour insérer une nouvelle valeur $u$ dans un {\sc abr} $A$ :
+		\begin{itemize}
+			\item<2-> Si $A$ est vide on renvoie $(\varnothing,u,\varnothing)$.
+			\item<3-> Sinon $A = (g,v,d)$ et on insère dans $g$ si $u<v$ et dans $d$ sinon.
+		\end{itemize}
+	\end{alertblock}
+	\onslide<4->
+	{\begin{block}{Implémentation en OCaml}
+			\inputOCaml{\SPATH/insereml.ml}{}{}
+		\end{block}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		\begin{itemize}
+			\item<1-> Dessiner l'arbre obtenu en partant de l'arbre vide puis en insérant dans cet ordre les valeurs :
+				\begin{itemize}
+					\item<2-> 2, 5, 7, 9 et 11
+					\item<3-> 9, 5, 11, 2, 7
+					\item<4-> 7, 5, 9, 2, 11
+				\end{itemize}
+				\item<5->En vous inspirant de la fonction d'insertion, écrire une fonction {\tt in\_abr} ({\tt abr -> int -> bool}) qui renvoie un booléen indiquant si la valeur passé en argument se trouve ou non dans l'{\sc abr}.
+				\onslide<6->{\inputOCaml{\SPATH/appartientml.ml}{}{}}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Complexité}
+		La complexité des opérations d'insertion et de recherche dans un {\sc abr} est majorée par la hauteur $h$ de l'arbre. \\
+		\onslide<2->\textcolor{gray}{\small En effet, on descend d'un niveau dans l'arbre à chaque appel récursif et la profondeur d'un noeud est inférieure à $h$.}\\
+	\end{block}
+	\onslide<3->{
+		\begin{alertblock}{Cas des arbres binaires équilibrés}
+			Soit $S$, un ensemble d'arbres binaires. On dit que les arbres de $S$ sont \textcolor{blue}{équilibrés} s'il existe une constante $C$ telle que, pour tout arbre $s \in S$ :
+			$$ h(s) \leqslant C \log(n(s))$$
+			Conséquence : pour tout $s \in S$, la complexité des opérations est \textcolor{blue}{logarithmique} en fonction de la taille $n$ de $s$.
+		\end{alertblock}}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation des tableaux associatifs}
+		\begin{itemize}
+			\item<1-> Si l'ensemble des clés est ordonné, on peut implémenter les tableaux associatifs en utilisant une famille d'arbres binaires équilibrés. Chaque noeud de l'arbre contient alors une information supplémentaire (sa valeur) en plus de la clé associée.
+			\item<2-> Les opérations usuelles (insertion, test d'appartenance, \dots) ont alors une complexité logarithmique.
+		\end{itemize}
+	\end{block}
+	\onslide<3->{
+		\begin{exampleblock}{Exemple}
+			\mintinline{c}{{ "dans":12 , "le" : 8, "un" : 16, "bol" : 10, "mer" : 8} } est représenté par :
+			\begin{center}\pstree[arrows=->,treesep=0.5cm,levelsep=0.7cm]{\TR[radius=0.25cm]{("le",8)}}{
+					\pstree{\TR{("dans",12)}}{
+						\Tr{("bol",10)}
+						\Tr{("mer",8)}}
+					\TR{("un",16)}}
+			\end{center}
+		\end{exampleblock}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Suppression d'une clé dans un {\sc abr}}
+		Pour supprimer une clé $x$ dans un {\sc abr} $A$ :
+		\begin{itemize}
+			\item<3-> Si $A$ est vide, on renvoie $A$.
+			\item<4-> Sinon, en notant $A=(g, v, d)$ :
+				\begin{itemize}
+					\item<4->si $x<v$ on supprime $x$ de $g$.
+					\item<5-> Si $x>v$ on supprime $x$ de $d$.
+					\item<6-> Si $x=v$, dans le cas où $g$ et $d$ sont tous les deux vides on renvoie l'arbre vide. Sinon,  l'un au moins des deux arbres $g$ ou $d$ est non vide et on peut soit remplacer $v$ par la clé minimale de $d$ et on supprime cette clé de $d$ soit remplacer $v$ par la clé maximale de $g$ et on supprime cette clé de $g$.
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\psset{arrows=->,treesep=0.8cm,levelsep=0.8cm, radius=0.3cm}
+		On considère l'arbre binaire de recherche suivant :
+		\begin{center}
+			\pstree{\TCircle{\tt 29}}
+			{\pstree{\TCircle{\tt 24}}
+				{\pstree{\TCircle{\tt 14}}
+					{ \TCircle{11}
+						\pstree{\TCircle{\tt 16}}
+						{ \Tn{}
+							\TCircle{\tt 20}
+						}}\TCircle{\tt 26}
+				}\pstree{\TCircle{\tt 37}}
+				{
+					\TCircle{\tt 34}
+					\Tn{}
+				}}
+		\end{center}
+		\begin{itemize}
+		\item Quel est l'arbre binaire obtenu si on supprime la clé 34 ?
+		\item Même question pour la clé 16
+		\item Même question pour la clé 14
+		\end{itemize}
+	\textcolor{gray}{Les implémentations (C ou OCaml) seront vus en TP.}
+	\end{exampleblock}
+\end{frame}
+
+
+\makess{Tas et files de priorité}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Definition}
+		Une file de priorité est une structure de données, dans laquelle :
+		\begin{itemize}
+			\item<2-> chaque élément enfilé possède une priorité.
+			\item<3-> lorsqu'on défile un élément, on enlève l'élément le plus prioritaire (et donc pas forcément le premier enfilé comme dans une file classique).
+		\end{itemize}
+		\onslide<4->{\textcolor{gray}{Les applications de cette structure de données sont nombreuses en informatique, par exemple l'ordonnanceur (\textit{scheduler}) d'un système d'exploitation} ou encore comme ingrédient d'autres algorithmes.}
+	\end{block}
+	\onslide<5->{
+		\begin{exampleblock}{Exercice}
+			Déterminer les complexités des opérations enfiler et défiler si on implémente une file de priorité à l'aide d'une liste chainée.
+		\end{exampleblock}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Structure de tas}
+		Soit $t$ un arbre binaire dont les noeuds sont étiquetés par des éléments d'un ensemble ordonné.
+		\begin{itemize}
+			\item<2-> si l'étiquette d'un noeud est toujours inférieure à celle de ses enfants (lorsqu'ils existent), on dit que $t$ possède la \textcolor{blue}{propriété de tas-min.}
+			\item<3-> si de plus $t$ est complet, on dit que $t$ est un \textcolor{blue}{tas-min binaire}.
+		\end{itemize}
+	\end{alertblock}
+	\onslide<4->{
+		\begin{exampleblock}{Exemple}
+			\begin{center}
+				\pstree[arrows=->,treesep=0.7cm,levelsep=1cm]{\TCircle[radius=0.25cm]{$1$}}
+				{
+					\pstree[treesep=0.7cm,levelsep=1cm]{\TCircle[radius=0.25cm]{$3$}}{
+						\TCircle[radius=0.25cm]{$7$}
+						\TCircle[radius=0.25cm]{$5$}
+					}
+					\pstree[treesep=0.7cm,levelsep=1cm]{\TCircle[radius=0.25cm]{$6$}}{
+						\TCircle[radius=0.25cm]{$8$}
+						\Tn{}
+					}
+				}
+			\end{center}
+		\end{exampleblock}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		\begin{itemize}
+			\item <1-> On parle de \textcolor{blue}{tas-max} lorsque l'étiquette du noeud est toujours supérieure ou égale à celle de ses enfants.
+			\item <2-> Le terme anglais est \textit{(binary) heap} (mais n'a rien à voir avec la zone mémoire dans laquelle on alloue à l'aide de {\tt malloc})
+		\end{itemize}
+	\end{block}
+	\onslide<3->{
+		\begin{block}{Propriété}
+			\begin{itemize}
+				\item <3-> La racine contient un élément de clé minimale
+				\item <4-> Si $a$ est un ancêtre de $b$ alors l'étiquette de $a$ est inférieure à celle de $b$.
+			\end{itemize}
+		\end{block}}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation}
+		Un tas binaire étant un arbre binaire complet, on peut utiliser la représentation des arbres binaires sour forme de tableau.
+		On rappelle qu'alors :
+		\begin{itemize}
+			\item<2-> Le fils gauche (resp. droit) du noeud $i$ se trouve à l'indice $2i+1$ (resp. $2i+2$)
+			\item<3-> Le père du noeud d'indice $i$ se trouve à l'indice $\PE{\dfrac{i-1}{2}}$.
+		\end{itemize}
+	\end{block}
+	\onslide<4->{
+		\begin{exampleblock}{Exemple}
+			Donner la représentation sous forme de tableau du tas binaire donné en exemple
+		\end{exampleblock}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation en C}
+		Les opérations intéressantes faisant varier la taille du tas (insertion, extraction du minimum) on utilise un tableau de capacité fixée mais de taille variable :
+		\inputC{\SPATH/struct_tas.c}{}{}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation en OCaml}
+		En OCaml, la capacité du tableau étant accessible (avec \mintinline{ocaml}{Array.length}) on se contente de garder la taille effective utilisée dans un champ mutable
+		\onslide<2->{\inputOCaml{\SPATH/def_tas.ml}{}{}}
+		\onslide<3->{On remarque l'utilisation d'un type paramétré \mintinline{ocaml}{'a} pour le type des éléments du tas. Ce type sera instancié dès la création du tas, par exemple :}
+		\onslide<4->{\inputOCaml{\SPATH/cree_tas.ml}{}{}}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		On considère l'arbre binaire suivant :
+		\begin{center}
+			\pstree[arrows=->,treesep=0.7cm,levelsep=0.9cm]{\TCircle[radius=0.25cm]{4}}
+			{
+				\pstree{\TCircle[radius=0.25cm]{5}}{
+					\pstree{\TCircle[radius=0.25cm]{9}}{
+						\TCircle[radius=0.25cm]{21}
+						\TCircle[radius=0.25cm]{17}
+					}
+					\pstree{\TCircle[radius=0.25cm]{8}}{
+						\TCircle[radius=0.25cm]{42}
+						\Tn{}
+					}
+				}
+				\pstree{\TCircle[radius=0.25cm]{11}}{
+					\TCircle[radius=0.25cm]{13}
+					\TCircle[radius=0.25cm]{14}
+				}
+			}
+		\end{center}
+		\begin{enumerate}
+			\item<1-> Vérifier qu'il s'agit bien d'un tas binaire (min)
+			\item<2-> Donner par deux méthodes différentes (un parcours en largeur et les formules donnant les indices des fils), le tableau représentant ce tas binaire,
+			\item<3-> Dessiner l'arbre correspondant au tableau  {\tt [5; 7; 12; 9; 11: 10; 22; 31]}, est-ce un tas binaire ?
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Insertion dans un tas binaire}
+		Pour insérer une nouvelle valeur $x$ dans un tas binaire, on écrit cette valeur dans la première case libre du tableau et on incrémente la taille du tas. Puis, on effectue une \textcolor{blue}{percolation vers le haut} (\textit{sift-up} en anglais) pour rétablir la propriété de tas si elle a été perdue. \\
+		\onslide<2->La percolation vers le haut, consiste à échanger l'élément inséré avec son père tant que ce dernier lui est supérieur (et qu'il existe). \\
+		\onslide<3->Cet algorithme  :
+		\begin{itemize}
+			\item<4-> termine ($x$ remonte d'un niveau à chaque étape).
+			\item<5-> est correct car l'invariant suivant est préservé : \textit{"à tout moment, les deux seuls éléments pouvant entrer en conflit avec la propriété de tas sont $x$ et son père"}.
+			\item<6-> est de complexité $O(\log n)$.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\pstree[arrows=->,treesep=0.7cm,levelsep=0.9cm]{\TCircle[radius=0.25cm]{1}}
+			{
+				\pstree{\TCircle[radius=0.25cm]{25}}{
+					\pstree{\TCircle[radius=0.25cm]{32}}{
+						\TCircle[radius=0.25cm]{41}
+						\TCircle[radius=0.25cm]{77}
+					}
+					\pstree{\TCircle[radius=0.25cm]{28}}{
+						\TCircle[radius=0.25cm]{32}
+						\Tn{}
+					}
+				}
+				\pstree{\TCircle[radius=0.25cm]{19}}{
+					\TCircle[radius=0.25cm]{13}
+					\TCircle[radius=0.25cm]{4}
+				}
+			}
+		\end{center}
+		Donner les étapes successives de l'insertion de $11$ dans le tas ci-dessus
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Extraction du minimum}
+		Pour extraire le minimum d'un tas binaire :
+		\begin{itemize}
+			\item<2-> On extrait l'élément d'indice 0 du tableau (donc la racine du tas)
+			\item<3-> On le remplace par le dernier élément du tableau et on diminue la taille du tas
+			\item<4-> On effectue une \textcolor{blue}{percolation vers le bas} de cet élément pour cela, on l'échange avec le plus petit de ses deux fils tant qu'il est supérieur à l'un des deux (et que les fils existent).
+		\end{itemize}
+	\end{block}
+	\onslide<5->{
+		\begin{exampleblock}{Exemple}
+			\begin{center}
+				\pstree[arrows=->,treesep=0.4cm,levelsep=0.8cm]{\TCircle[radius=0.25cm]{\textcolor{OliveGreen}{$1$}}}
+				{
+					\pstree{\TCircle[radius=0.25cm]{$3$}}{
+						\TCircle[radius=0.25cm]{$7$}
+						\TCircle[radius=0.25cm]{$5$}
+					}
+					\pstree{\TCircle[radius=0.25cm]{$6$}}{
+						\TCircle[radius=0.25cm]{\textcolor{red}{$8$}}
+						\Tn{}
+					}
+				}
+				\onslide<6->{
+					\pstree[arrows=->,treesep=0.4cm,levelsep=0.8cm]{\TCircle[radius=0.25cm]{\textcolor{red}{$8$}}}
+					{
+						\pstree{\TCircle[radius=0.25cm]{$3$}}{
+							\TCircle[radius=0.25cm]{$7$}
+							\TCircle[radius=0.25cm]{$5$}
+						}
+						\pstree{\TCircle[radius=0.25cm]{$6$}}{
+							\Tn{}
+							\Tn{}
+						}
+					}}
+				\onslide<7->{
+					\pstree[arrows=->,treesep=0.4cm,levelsep=0.8cm]{\TCircle[radius=0.25cm]{$3$}}
+					{
+						\pstree{\TCircle[radius=0.25cm]{\textcolor{red}{$8$}}}{
+							\TCircle[radius=0.25cm]{$7$}
+							\TCircle[radius=0.25cm]{$5$}
+						}
+						\pstree{\TCircle[radius=0.25cm]{$6$}}{
+							\Tn{}
+							\Tn{}
+						}
+					}}
+				\onslide<8->{
+					\pstree[arrows=->,treesep=0.4cm,levelsep=0.8cm]{\TCircle[radius=0.25cm]{$3$}}
+					{
+						\pstree{\TCircle[radius=0.25cm]{$5$}}{
+							\TCircle[radius=0.25cm]{$7$}
+							\TCircle[radius=0.25cm]{\textcolor{red}{$8$}}
+						}
+						\pstree{\TCircle[radius=0.25cm]{$6$}}{
+							\Tn{}
+							\Tn{}
+						}
+					}}
+			\end{center}
+		\end{exampleblock}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation : percolation vers le haut en C}
+		\inputC{\SPATH/sift_up.c}{}{\footnotesize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation : percolation vers le bas en OCaml}
+		\inputOCaml{\SPATH/sift_down.ml}{}{\footnotesize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Tri par tas}
+		A partir de la structure de tas, on obtient un algorithme de tri :
+		\begin{itemize}
+			\item<2-> on insère les $n$ éléments à trier dans un tas initialement vide,
+			\item<3-> on réalise ensuite $n$ extractions du minimum.
+		\end{itemize}
+	\end{block}
+	\onslide<4->{
+	\begin{exampleblock}{Exercice}
+		\begin{enumerate}
+			\item<4-> Déterminer la complexité de cet algorithme de tri
+			\item<5-> En proposer une implémentation en C, en supposant déjà écrite les fonctions :
+				\begin{itemize}
+					\item<6-> \mintinline{c}{heap make_heap(int c)} qui renvoie un tas vide de capacité {\tt c}
+					\item<7-> \mintinline{c}{bool insert_heap(int nv, heap* mh)} qui insère {\tt nv} dans le tas {\tt mh}
+					\item<8-> \mintinline{c}{int extract_min(heap * mh)} qui renvoie le minimum du tas {\tt *mh} en le supprimant de {\tt *mh}
+						}
+				\end{itemize}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\end{document}
