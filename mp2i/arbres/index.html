@@ -1,0 +1,3769 @@
+<!--
+pyodide-mkdocs-theme
+Copyleft GNU GPLv3 🄯 2024 Frédéric Zinelli
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.
+If not, see <https://www.gnu.org/licenses/>.
+-->
+
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cours de la filière MP2I et cours d'Informatique de tronc commun (Lycée Leconte de Lisle - Académie de la Réunion)">
+      
+      
+      
+        <link rel="canonical" href="https://fabricenativel.github.io/cpge-info/mp2i/arbres/">
+      
+      
+        <link rel="prev" href="../introbd/">
+      
+      
+        <link rel="next" href="../forcebrute/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
+        <title>C12-Arbres binaires - Cours d'informatique en CPGE</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+
+<script type="importmap">{"imports": {"functools": "../../js-libs/functools.js", "jsLogger": "../../js-libs/jsLogger.js", "process_and_gui": "../../js-libs/process_and_gui.js", "0-generic-python-snippets-pyodide": "../../js-per-pages/0-generic-python-snippets-pyodide.js", "1-error_logs-pyodide": "../../js-per-pages/1-error_logs-pyodide.js", "1-packagesInstaller-install-pyodide": "../../js-per-pages/1-packagesInstaller-install-pyodide.js", "1-runtimeManager-runtime-pyodide": "../../js-per-pages/1-runtimeManager-runtime-pyodide.js", "2-0-runnersManager-runners": "../../js-per-pages/2-0-runnersManager-runners.js", "2-pyodideSectionsRunner-runner-pyodide": "../../js-per-pages/2-pyodideSectionsRunner-runner-pyodide.js", "3-btnRunner-py_btn": "../../js-per-pages/3-btnRunner-py_btn.js", "3-terminalRunner-term": "../../js-per-pages/3-terminalRunner-term.js", "4-0-idesManager-ide": "../../js-per-pages/4-0-idesManager-ide.js", "4-ideLogistic-ide": "../../js-per-pages/4-ideLogistic-ide.js", "4-ideRunner-ide": "../../js-per-pages/4-ideRunner-ide.js", "5-ideTester-ides_test": "../../js-per-pages/5-ideTester-ides_test.js", "6-2-init-playground": "../../js-per-pages/6-2-init-playground.js", "6-idePlayground-playground": "../../js-per-pages/6-idePlayground-playground.js", "qcms-qcm": "../../js-per-pages/qcms-qcm.js", "start-pyodide": "../../js-per-pages/start-pyodide.js", "overlord": "../../js-scripts/overlord.js", "subscriptions": "../../js-scripts/subscriptions.js"}}</script>
+
+
+
+      
+    
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/jquery.terminal@2.43.1/css/jquery.terminal.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<script src="../../js-libs/0-config.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script type="text/javascript">
+if(!window.CONFIG) window.CONFIG={}
+CONFIG.argsFigureDivId="figure1"
+CONFIG.baseUrl="../.."
+CONFIG.buttonIconsDirectory="../../assets/images"
+CONFIG.editorFontFamily="monospace"
+CONFIG.editorFontSize=15
+CONFIG.exportZipPrefix=""
+CONFIG.exportZipWithNames=false
+CONFIG.inServe=false
+CONFIG.keyStrokesAutoSave=30
+CONFIG.language="fr"
+CONFIG.pmtUrl="https://gitlab.com/frederic-zinelli/pyodide-mkdocs-theme"
+CONFIG.projectId=null
+CONFIG.projectMoveFromOldId=null
+CONFIG.projectNoJsWarning=false
+CONFIG.pythonLibs=['turtle']
+CONFIG.siteUrl="https://fabricenativel.github.io/cpge-info/"
+CONFIG.version="5.4.5"
+CONFIG.lang={"allOthersTrash": {"msg": "1 entr\u00e9e non associ\u00e9e au projet en cours a \u00e9t\u00e9 trouv\u00e9e. Voulez-vous la supprimer ?\n(Vous risquez de perdre des donn\u00e9es d'un site voisin !)", "plural": "{N} entr\u00e9es non associ\u00e9es au projet en cours ont \u00e9t\u00e9 trouv\u00e9es. Voulez-vous toutes les supprimer ?\n(Vous risquez de perdre des donn\u00e9es d'un site voisin !)"}, "attemptsLeft": {"msg": "\u00c9valuations restantes"}, "check": {"msg": "Valider<br><kbd>Ctrl</kbd>+<kbd>Enter</kbd><br>(Clic droit pour l'historique)", "em": 9, "kbd": ""}, "comments": {"msg": "(D\u00e9s-)Active le code apr\u00e8s la ligne <code># Tests</code> (insensible \u00e0 la casse)<br>(<kbd>Ctrl</kbd>+<kbd>I</kbd>)", "em": 17, "kbd": "Ctrl+I"}, "complementTrash": {"msg": "Nota : 1 entr\u00e9e non associ\u00e9e \u00e0 ce projet", "plural": "Nota : {N} entr\u00e9es non associ\u00e9es \u00e0 ce projet"}, "corr": {"msg": "\ud83d\udc0d Proposition de correction"}, "corrBtn": {"msg": "Tester la correction (serve)", "em": 0, "kbd": ""}, "delayedReveal": {"msg": "Solution affich\u00e9e dans {N} essai(s).", "format": "info"}, "download": {"msg": "T\u00e9l\u00e9charger", "em": 0, "kbd": ""}, "editorCode": {"msg": "\u00c9diteur", "format": "info"}, "failHead": {"msg": "Dommage !", "format": "warning"}, "failTail": {"msg": "est maintenant disponible", "plural": "sont maintenant disponibles"}, "feedback": {"msg": "Tronquer ou non le feedback dans les terminaux (sortie standard & stacktrace / relancer le code pour appliquer)", "em": 19, "kbd": ""}, "figureAdmoTitle": {"msg": "Votre figure"}, "figureText": {"msg": "Votre trac\u00e9 sera ici"}, "fullScreen": {"msg": "Entrer ou sortir du mode \"plein \u00e9cran\"<br>(<kbd>Esc</kbd>)", "em": 10, "kbd": "Esc"}, "installDone": {"msg": "Installations termin\u00e9es !", "format": "info"}, "installStart": {"msg": "Installation de paquets python. Ceci peut prendre un certain temps...", "format": "info"}, "loadIde": {"msg": "Configure l'IDE avec ces donn\u00e9es", "em": 10, "kbd": ""}, "noCodesTrash": {"msg": "Pas de codes trouv\u00e9s pour le projet en cours sur ce navigateur."}, "p5Start": {"msg": "D\u00e9marre l'animation", "em": 0, "kbd": ""}, "p5Step": {"msg": "Avance d'une image", "em": 0, "kbd": ""}, "p5Stop": {"msg": "Arr\u00eate l'animation", "em": 0, "kbd": ""}, "pickerFailure": {"msg": "Veuillez cliquer sur la page entre deux utilisations des raccourcis clavier ou utiliser un bouton, afin de pouvoir t\u00e9l\u00e9verser un fichier."}, "play": {"msg": "Ex\u00e9cuter le code<br>(<kbd>Ctrl</kbd>+<kbd>S</kbd>)", "em": 9, "kbd": "Ctrl+S"}, "publicTests": {"msg": "Tests publics", "format": "info"}, "pyBtn": {"msg": "Ex\u00e9cuter le code", "em": 9, "kbd": ""}, "qcmCheckTip": {"msg": "V\u00e9rifier les r\u00e9ponses", "em": 11, "kbd": ""}, "qcmMaskTip": {"msg": "Les r\u00e9ponses resteront cach\u00e9es...", "em": 11, "kbd": ""}, "qcmRedoTip": {"msg": "Recommencer", "em": 9, "kbd": ""}, "qcmTitle": {"msg": "Question", "plural": "Questions"}, "refresh": {"msg": "Une version plus r\u00e9cente du code existe.\nVeuillez copier vos \u00e9ventuelles modifications puis r\u00e9initialiser l'IDE.", "format": "warning"}, "rem": {"msg": "Remarques"}, "removeTrash": {"msg": "Il y a actuellement 1 r\u00e9f\u00e9rence enregistr\u00e9e sur ce navigateur.\nVoulez-vous l'effacer ?", "plural": "Il y a actuellement {N} r\u00e9f\u00e9rences enregistr\u00e9es sur ce navigateur.\nVoulez-vous toutes les effacer ?"}, "restart": {"msg": "R\u00e9initialiser l'\u00e9diteur", "em": 0, "kbd": ""}, "restartConfirm": {"msg": "ATTENTION: r\u00e9initialiser l'\u00e9diteur fera perdre les anciens codes, status de validation et historiques.", "em": 0, "kbd": ""}, "revealCorr": {"msg": "le corrig\u00e9"}, "revealJoin": {"msg": "et"}, "revealRem": {"msg": "les commentaires"}, "runScript": {"msg": "Script lanc\u00e9...", "format": "info"}, "save": {"msg": "Sauvegarder dans le navigateur", "em": 0, "kbd": ""}, "secretTests": {"msg": "Tests secrets", "format": "info"}, "show": {"msg": "Afficher corr & REMs", "em": 0, "kbd": ""}, "splitModePlaceholder": {"msg": "\u00c9diteur dans l'autre colonne"}, "splitScreen": {"msg": "Entrer ou sortir du mode \"deux colonnes\"<br>(<kbd>Alt+:</kbd> ; <kbd>Ctrl</kbd> pour inverser les colonnes)", "em": 23, "kbd": ""}, "storageIdCollision": {"msg": "Contacter l'auteur du site web en lui fournissant ce message complet. Une collision potentielle d'ids entre plusieurs projets \u00e0 \u00e9t\u00e9 rencontr\u00e9e. Il faut ajouter ou modifier l'argument ID pour l'IDE suivant:"}, "successHead": {"msg": "Bravo !", "format": "success"}, "successHeadExtra": {"msg": "Vous avez r\u00e9ussi tous les tests !"}, "successMsg": {"msg": "OK", "format": "success"}, "successMsgNoTests": {"msg": "Termin\u00e9 sans erreur.", "format": "info"}, "successTail": {"msg": "Pensez \u00e0 lire"}, "test1Ide": {"msg": "Lance ce test", "em": 7, "kbd": ""}, "testIdes": {"msg": "Lance tous les tests...", "em": 7, "kbd": ""}, "testStop": {"msg": "Arr\u00eate les tests", "em": 6, "kbd": ""}, "tests": {"msg": "\n\n# Tests\n\n", "as_pattern": "^#\\s*Tests"}, "testsDone": {"msg": "Tests termin\u00e9s", "format": "info"}, "tipTrash": {"msg": "Supprimer du navigateur les codes enregistr\u00e9s pour Cours d'informatique en CPGE", "em": 15, "kbd": ""}, "titleCorr": {"msg": "Solution"}, "titleRem": {"msg": "Remarques"}, "unforgettable": {"msg": "N'oubliez pas de faire une validation !", "format": "warning"}, "upload": {"msg": "T\u00e9l\u00e9verser", "em": 0, "kbd": ""}, "validation": {"msg": "Validation - ", "format": "info"}, "wrapTerm": {"msg": "Si activ\u00e9, le texte copi\u00e9 dans le terminal est joint sur une seule ligne avant d'\u00eatre copi\u00e9 dans le presse-papier", "em": 19, "kbd": ""}, "zip": {"msg": "Archiver les codes des IDEs exportables de la page", "em": 14, "kbd": ""}, "zipAskForNames": {"msg": "Veuillez pr\u00e9ciser votre/vos noms (cha\u00eene vide interdite) :"}}
+</script>
+<script src="../../js-libs/0-legacy-subscriber.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="../../js-libs/functools.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-libs/jsLogger.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-libs/mathjax-libs.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="../../js-libs/process_and_gui.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<link href="../../pyodide-css/0-generic.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/btns-header.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/history.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/hourglass.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/ide.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/qcm.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/terminal.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/testing.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<input type="checkbox" id="ace_palette" autocomplete="off" class="md-toggle" data-ace-dark-mode="tomorrow_night_bright" data-ace-light-mode="crimson_editor">
+
+
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/fenarius.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#c12-arbres-binaires" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../.." title="Cours d&#39;informatique en CPGE" class="md-header__button md-logo" aria-label="Cours d'informatique en CPGE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M241.3-13c-11.4-2.3-23.1-2.3-34.5 0L19.3 24.5C8.1 26.7 0 36.6 0 48c0 10.3 6.5 19.3 16 22.6V144L.3 222.6c-.2.9-.3 1.9-.3 2.9 0 8 6.5 14.6 14.6 14.6h34.9c8 0 14.6-6.5 14.6-14.6 0-1-.1-1.9-.3-2.9L48 144V77.3l48 9.6V144c0 70.7 57.3 128 128 128s128-57.3 128-128V86.9l76.7-15.3C439.9 69.3 448 59.4 448 48s-8.1-21.3-19.3-23.5zM224 224c-44.2 0-80-35.8-80-80h160c0 44.2-35.8 80-80 80m-103.9 96.1C58.7 348.3 16 410.3 16 482.3c0 16.4 13.3 29.7 29.7 29.7H200V366l-57.4-43c-6.5-4.9-15.2-6.2-22.6-2.8zM248 512h154.3c16.4 0 29.7-13.3 29.7-29.7 0-72-42.7-134-104.1-162.1-7.4-3.4-16.1-2.1-22.6 2.8l-57.4 43v146z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cours d'informatique en CPGE
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              C12-Arbres binaires
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../progression/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../itc/progression/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../evaluations/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../colles/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/chalkboard-user.svg' width=16px height=16px>&thinsp; Colles
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../programmes/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../annales/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/graduation-cap.svg' width=16px height=16px>&thinsp; Annales PC
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../liens/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cours d&#39;informatique en CPGE" class="md-nav__button md-logo" aria-label="Cours d'informatique en CPGE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M241.3-13c-11.4-2.3-23.1-2.3-34.5 0L19.3 24.5C8.1 26.7 0 36.6 0 48c0 10.3 6.5 19.3 16 22.6V144L.3 222.6c-.2.9-.3 1.9-.3 2.9 0 8 6.5 14.6 14.6 14.6h34.9c8 0 14.6-6.5 14.6-14.6 0-1-.1-1.9-.3-2.9L48 144V77.3l48 9.6V144c0 70.7 57.3 128 128 128s128-57.3 128-128V86.9l76.7-15.3C439.9 69.3 448 59.4 448 48s-8.1-21.3-19.3-23.5zM224 224c-44.2 0-80-35.8-80-80h160c0 44.2-35.8 80-80 80m-103.9 96.1C58.7 348.3 16 410.3 16 482.3c0 16.4 13.3 29.7 29.7 29.7H200V366l-57.4-43c-6.5-4.9-15.2-6.2-22.6-2.8zM248 512h154.3c16.4 0 29.7-13.3 29.7-29.7 0-72-42.7-134-104.1-162.1-7.4-3.4-16.1-2.1-22.6 2.8l-57.4 43v146z"/></svg>
+
+    </a>
+    Cours d'informatique en CPGE
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../progression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index des chapitres
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systemes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C0-Notions d'architecture et de systèmes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C1-Premiers pas en langage C
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../discipline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C2-Discipline de programmation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pointeurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C3-Pointeurs et types structurés
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arithmetique/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C4-Arithmétique des ordinateurs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recursivite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C5-Récursivité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introOCaml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C6-OCaml : aspects fonctionnels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terminaison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C7-Terminaison, correction, complexité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C8-Structures de données séquentielles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../OCamlimp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C9-Ocaml : aspects impératifs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C10-Tableau associatif, hachage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introbd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C11-Introduction aux bases de données
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C12-Arbres binaires
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C12-Arbres binaires
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cours
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#travaux-diriges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Travaux dirigés
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#travaux-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Travaux pratiques
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Travaux pratiques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-1-implementation-des-arbres-binaires-en-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 1 : Implémentation des arbres binaires en C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-2-implementation-des-arbres-binaires-en-ocaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 2 : Implémentation des arbres binaires en OCaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-3-arbre-complet-represente-par-un-tableau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 3 : Arbre complet représenté par un tableau
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-4-parcours-recursif-en-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 4 : Parcours récursif en C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-5-parcours-recursif-en-ocaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 5 : Parcours récursif en OCaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-6-parcours-en-largeur-en-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 6 : Parcours en largeur en C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-7-parcours-en-largeur-en-ocaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 7 : Parcours en largeur en OCaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-8-arbre-binaire-de-recherche-en-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 8 : Arbre binaire de recherche en C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-9-arbre-binaire-de-recherche-en-ocaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 9 : Arbre binaire de recherche en OCaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-10-hauteur-moyenne-dun-abr-aleatoire" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 10 : Hauteur moyenne d'un ABR aléatoire
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-11-implementation-de-la-structure-de-tas-en-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 11 : Implémentation de la structure de tas en C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-12-implementation-de-la-structure-de-tas-en-ocaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 12 : Implémentation de la structure de tas en Ocaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-13-mediane-dun-flux-de-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 13 : Médiane d'un flux de données
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-14-fusion-de-k-listes-triees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 14 : Fusion de k listes triées
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#humour-dinformaticien" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Humour d'informaticien
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../forcebrute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C13-Force brute, retour sur trace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../induction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C14-Induction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decomposition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C15-Décomposition en sous problèmes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logique/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C16-Logique
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graphes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C17-Graphes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mea/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C18-Modèle entité-association
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../textes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C19-Algorithmes des textes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algographes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C20-Algorithmes des graphes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../complement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C21-Compléments sur les arbres
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/progression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/point/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C0-Faire le point
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/bases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C1-Bases de Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/listes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C2-Listes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/fichiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C3-Fichiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/discipline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C4-Discipline de programmation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/dictionnaires/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C5-Dictionnaires
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/recursivite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C6-Récursivité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/gloutons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C7-Algorithmes gloutons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/tris/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C8-Tris
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/entiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C9-Représentation des entiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/terminaison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C10-Terminaison et corrections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/graphes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C11-Graphes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/complexite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C12-Complexité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/flottants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C13-Représentation des flottants
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/parcours/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C14-Plus courts chemins dans un graphe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C15-Manipulation d'images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 3
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/revisions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C16-Un peu de Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/introbd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C17-Introduction aux bases de données
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/progdyn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C18-Programmation dynamique
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/jointures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C19-Jointures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/knn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C20-k plus proches voisins, k-moyennes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../itc/algojeux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C21-Algorithme pour l'étude des jeux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../evaluations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/chalkboard-user.svg' width=16px height=16px>&thinsp; Colles
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/chalkboard-user.svg' width=16px height=16px>&thinsp; Colles
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../colles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programme de colles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programmes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programme d'informatique en MP2I
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/graduation-cap.svg' width=16px height=16px>&thinsp; Annales PC
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/graduation-cap.svg' width=16px height=16px>&thinsp; Annales PC
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annales/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sujets corrigés
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annales/CCINP2024/CCINP2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024 - CCINP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annales/CCMP2024/CCMP2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024 - CCMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annales/CCINP2025/CCINP2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025 - CCINP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../liens/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Liens
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cours
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#travaux-diriges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Travaux dirigés
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#travaux-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Travaux pratiques
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Travaux pratiques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-1-implementation-des-arbres-binaires-en-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 1 : Implémentation des arbres binaires en C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-2-implementation-des-arbres-binaires-en-ocaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 2 : Implémentation des arbres binaires en OCaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-3-arbre-complet-represente-par-un-tableau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 3 : Arbre complet représenté par un tableau
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-4-parcours-recursif-en-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 4 : Parcours récursif en C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-5-parcours-recursif-en-ocaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 5 : Parcours récursif en OCaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-6-parcours-en-largeur-en-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 6 : Parcours en largeur en C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-7-parcours-en-largeur-en-ocaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 7 : Parcours en largeur en OCaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-8-arbre-binaire-de-recherche-en-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 8 : Arbre binaire de recherche en C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-9-arbre-binaire-de-recherche-en-ocaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 9 : Arbre binaire de recherche en OCaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-10-hauteur-moyenne-dun-abr-aleatoire" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 10 : Hauteur moyenne d'un ABR aléatoire
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-11-implementation-de-la-structure-de-tas-en-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 11 : Implémentation de la structure de tas en C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-12-implementation-de-la-structure-de-tas-en-ocaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 12 : Implémentation de la structure de tas en Ocaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-13-mediane-dun-flux-de-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 13 : Médiane d'un flux de données
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-14-fusion-de-k-listes-triees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 14 : Fusion de k listes triées
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#humour-dinformaticien" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Humour d'informaticien
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+
+
+                  
+
+
+<h1 id="c12-arbres-binaires"><span class='numchapitre'>C12</span> Arbres binaires <span style='float:right;'><span class="twemoji" title="Structures de données"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M0 80c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v16h128V80c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48h-96c-26.5 0-48-21.5-48-48v-16H192v16c0 7.3-1.7 14.3-4.6 20.5L256 288h80c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48h-96c-26.5 0-48-21.5-48-48v-96c0-7.3 1.7-14.3 4.6-20.5L128 224H48c-26.5 0-48-21.5-48-48z"/></svg></span></span><a class="headerlink" href="#c12-arbres-binaires" title="Permanent link">&para;</a></h1>
+<p><span class='quote'>"Trees sprout up just about everywhere in computer science"</span><br><span class='author'>D. Knuth</span><br></p>
+<h2 id="cours">Cours<a class="headerlink" href="#cours" title="Permanent link">&para;</a></h2>
+<p><span class='centre'><a class="md-button" href="../Cours/C12/C12-cours.pdf" target="_blank">Support de cours chapitre 12 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M208 48H96c-8.8 0-16 7.2-16 16v384c0 8.8 7.2 16 16 16h80v48H96c-35.3 0-64-28.7-64-64V64C32 28.7 60.7 0 96 0h133.5c17 0 33.3 6.7 45.3 18.7l122.5 122.6c12 12 18.7 28.3 18.7 45.3v149.5h-48v-128h-88c-39.8 0-72-32.2-72-72v-88zm140.1 112L256 67.9V136c0 13.3 10.7 24 24 24zM240 380h32c33.1 0 60 26.9 60 60s-26.9 60-60 60h-12v28c0 11-9 20-20 20s-20-9-20-20V400c0-11 9-20 20-20m32 80c11 0 20-9 20-20s-9-20-20-20h-12v40zm96-80h32c28.7 0 52 23.3 52 52v64c0 28.7-23.3 52-52 52h-32c-11 0-20-9-20-20V400c0-11 9-20 20-20m32 128c6.6 0 12-5.4 12-12v-64c0-6.6-5.4-12-12-12h-12v88zm76-108c0-11 9-20 20-20h48c11 0 20 9 20 20s-9 20-20 20h-28v24h28c11 0 20 9 20 20s-9 20-20 20h-28v44c0 11-9 20-20 20s-20-9-20-20z"/></svg></span></a></span></p>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>Ce diaporama ne vous donne que quelques points de repères lors de vos révisions. Il devrait être complété par la relecture attentive de vos <strong>propres</strong> notes de cours et par une révision approfondie des exercices.</p>
+</div>
+<h2 id="travaux-diriges">Travaux dirigés<a class="headerlink" href="#travaux-diriges" title="Permanent link">&para;</a></h2>
+<p><span class='centre'><a class="md-button" href="../TD/TD12.pdf" target="_blank">Fiche de TD12 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M208 48H96c-8.8 0-16 7.2-16 16v384c0 8.8 7.2 16 16 16h80v48H96c-35.3 0-64-28.7-64-64V64C32 28.7 60.7 0 96 0h133.5c17 0 33.3 6.7 45.3 18.7l122.5 122.6c12 12 18.7 28.3 18.7 45.3v149.5h-48v-128h-88c-39.8 0-72-32.2-72-72v-88zm140.1 112L256 67.9V136c0 13.3 10.7 24 24 24zM240 380h32c33.1 0 60 26.9 60 60s-26.9 60-60 60h-12v28c0 11-9 20-20 20s-20-9-20-20V400c0-11 9-20 20-20m32 80c11 0 20-9 20-20s-9-20-20-20h-12v40zm96-80h32c28.7 0 52 23.3 52 52v64c0 28.7-23.3 52-52 52h-32c-11 0-20-9-20-20V400c0-11 9-20 20-20m32 128c6.6 0 12-5.4 12-12v-64c0-6.6-5.4-12-12-12h-12v88zm76-108c0-11 9-20 20-20h48c11 0 20 9 20 20s-9 20-20 20h-28v24h28c11 0 20 9 20 20s-9 20-20 20h-28v44c0 11-9 20-20 20s-20-9-20-20z"/></svg></span></a></span></p>
+<h2 id="travaux-pratiques">Travaux pratiques<a class="headerlink" href="#travaux-pratiques" title="Permanent link">&para;</a></h2>
+<h3 id="exercice-1-implementation-des-arbres-binaires-en-c"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 1 : <em>Implémentation des arbres binaires en C</em><a class="headerlink" href="#exercice-1-implementation-des-arbres-binaires-en-c" title="Permanent link">&para;</a></h3>
+<p>On rappelle la structure de données vue en cours et permettant de représenter une arbre binaire en C :
+<div class="language-c highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">noeud</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">noeud</span><span class="w"> </span><span class="o">*</span><span class="n">sag</span><span class="p">;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">valeur</span><span class="p">;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">noeud</span><span class="w"> </span><span class="o">*</span><span class="n">sad</span><span class="p">;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">};</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">noeud</span><span class="w"> </span><span class="n">noeud</span><span class="p">;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">typedef</span><span class="w"> </span><span class="n">noeud</span><span class="w"> </span><span class="o">*</span><span class="n">ab</span><span class="p">;</span>
+</span></code></pre></div>
+On donne aussi, la fonction permettant de créer un arbre binaire en donnant ses deux sous arbres et son étiquette :
+<div class="language-c highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">    </span><span class="n">ab</span><span class="w"> </span><span class="nf">cree_arbre</span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">ab</span><span class="w"> </span><span class="n">d</span><span class="p">)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">        </span><span class="n">noeud</span><span class="w"> </span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">noeud</span><span class="p">));</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="n">assert</span><span class="w"> </span><span class="n">n</span><span class="o">!=</span><span class="nb">NULL</span><span class="p">;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="n">n</span><span class="o">-&gt;</span><span class="n">sag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="p">;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="n">n</span><span class="o">-&gt;</span><span class="n">valeur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="n">n</span><span class="o">-&gt;</span><span class="n">sad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="p">;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="p">}</span>
+</span></code></pre></div></p>
+<ol>
+<li>
+<p>En utilisant cette représentation, créer une variable <code>t</code> de type arbre binaire représentant l'arbre suivant ;<br />
+<pre class="mermaid"><code>    graph TD
+    A["14"] --&gt; L["7"]
+    A --&gt; G["10"]
+    L --&gt; O["5"]
+    L --&gt; R["6"]
+    G --- V1[" "]
+    G --&gt; I["12"]
+    style V1 fill:#FFFFFF, stroke:#FFFFFF
+    linkStyle 4 stroke:#FFFFFF,stroke-width:0px</code></pre></p>
+<details class="aide">
+<summary>Visualisation de l'arbre</summary>
+<p>On donne ci-dessous une fonction permettant de visualiser l'arbre.</p>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">write_edge</span><span class="p">(</span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="n">ab</span><span class="w"> </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">ninv</span><span class="p">)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">sag</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">        </span><span class="p">{</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">            </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="o">-&gt;</span><span class="n">valeur</span><span class="p">);</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">            </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; -&gt; &quot;</span><span class="p">);</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">            </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="o">-&gt;</span><span class="n">sag</span><span class="o">-&gt;</span><span class="n">valeur</span><span class="p">);</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">            </span><span class="n">write_edge</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="o">-&gt;</span><span class="n">sag</span><span class="p">,</span><span class="w"> </span><span class="n">ninv</span><span class="p">);</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="k">else</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="p">{</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">            </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;I%d [style=invis]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">ninv</span><span class="p">);</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">            </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%d -&gt; I%d [style=invis]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="o">-&gt;</span><span class="n">valeur</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">ninv</span><span class="p">);</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">            </span><span class="p">(</span><span class="o">*</span><span class="n">ninv</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">        </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;I%d [style=invis]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">ninv</span><span class="p">);</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">        </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%d -&gt; I%d [style=invis]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="o">-&gt;</span><span class="n">valeur</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">ninv</span><span class="p">);</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">        </span><span class="p">(</span><span class="o">*</span><span class="n">ninv</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">sad</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">        </span><span class="p">{</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">            </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="o">-&gt;</span><span class="n">valeur</span><span class="p">);</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">            </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; -&gt; &quot;</span><span class="p">);</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">            </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="o">-&gt;</span><span class="n">sad</span><span class="o">-&gt;</span><span class="n">valeur</span><span class="p">);</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">            </span><span class="n">write_edge</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="o">-&gt;</span><span class="n">sad</span><span class="p">,</span><span class="w"> </span><span class="n">ninv</span><span class="p">);</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">        </span><span class="k">else</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">        </span><span class="p">{</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">            </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;I%d [style=invis]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">ninv</span><span class="p">);</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">            </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%d -&gt; I%d [style=invis]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="o">-&gt;</span><span class="n">valeur</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">ninv</span><span class="p">);</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">            </span><span class="p">(</span><span class="o">*</span><span class="n">ninv</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">view</span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="n">g</span><span class="p">)</span>
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="w">        </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fopen</span><span class="p">(</span><span class="s">&quot;temp.gv&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;w&quot;</span><span class="p">);</span>
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a><span class="w">        </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;digraph mygraph {</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a><span class="w">        </span><span class="n">write_edge</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+</span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a><span class="w">        </span><span class="n">fprintf</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span id="__span-2-41"><a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a><span class="w">        </span><span class="n">fclose</span><span class="p">(</span><span class="n">writer</span><span class="p">);</span>
+</span><span id="__span-2-42"><a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a><span class="w">        </span><span class="n">system</span><span class="p">(</span><span class="s">&quot;xdot temp.gv &amp;&quot;</span><span class="p">);</span>
+</span><span id="__span-2-43"><a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a><span class="w">    </span><span class="p">}</span>
+</span></code></pre></div>
+</details>
+</li>
+<li>
+<p>Ecrire une fonction <code>est_vide</code> de signature <code class="language-c highlight"><span class="kt">bool</span><span class="w"> </span><span class="n">est_vide</span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="n">a</span><span class="p">)</span></code> permettant de tester si l'arbre donné en paramètre est vide.</p>
+</li>
+<li>
+<p>Ecrire et tester la fonction <code>taille</code>  de signature <code class="language-c highlight"><span class="kt">int</span><span class="w"> </span><span class="n">taille</span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="n">a</span><span class="p">)</span></code> et qui renvoie le nombre de noeuds de l'arbre binaire donné en argument.</p>
+</li>
+<li>
+<p>Ecrire et tester la fonction <code>hauteur</code>  de signature <code class="language-c highlight"><span class="kt">int</span><span class="w"> </span><span class="n">hauteur</span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="n">a</span><span class="p">)</span></code> et qui renvoie la hauteur de l'arbre binaire donné en argument.</p>
+</li>
+<li>
+<p>Ecrire une fonction permettant <code>detruit</code> de signature <code class="language-c highlight"><span class="kt">void</span><span class="w"> </span><span class="n">detruit</span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="o">*</span><span class="n">a</span><span class="p">)</span></code> qui permet de détruire un arbre binaire en <em>libérant l'espace mémoire</em> occupé par ses noeuds. Après l'appel à cette fonction, <code>a</code> est le pointeur <code>NULL</code>.</p>
+</li>
+<li>
+<p>Ecrire une fonction <code>insere_noeud</code> de signature <code class="language-c highlight"><span class="kt">void</span><span class="w"> </span><span class="n">insere_noeud</span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="o">*</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">)</span></code> qui insère à un emplacement aléatoire un noeud portant l'étiquette <code>v</code> dans l'abre <code>*t</code>. </p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>Pour insérer un noeud de façon aléatoire, on pourra procéder de la façon suivante :</p>
+<ul>
+<li>Si l'arbre est vide il devient l'arbre <code>(NULL,v,NULL)</code></li>
+<li>Sinon on descend aléatoirement à gauche ou à droit pour y faire l'insertion.</li>
+<li>On rappelle qu'en C, <code>rand()</code> génère un entier aléatoire entre 0 et le plus grand entier représentable</li>
+<li>Une méthode possible d'initialisation du générateur aléatoire de nombre est d'utiliser le temps : <code class="language-c highlight"><span class="n">srand</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">));</span></code> disponible après <code class="language-c highlight"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;time.h&gt;</span></code></li>
+</ul>
+</div>
+</li>
+<li>
+<p>Ecrire une fonction <code>arbre_aleatoire</code> de signature <code class="language-c highlight"><span class="n">ab</span><span class="w"> </span><span class="n">arbre_aleatoire</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span></code> qui génère un arbre binaire aléatoire de <code>n</code> noeuds portant comme étiquette les entiers <span class="arithmatex">\(0, \dots, n-1\)</span>. </p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On pourra procéder de la façon suivante :</p>
+<ul>
+<li>générer une permutation aléatoire de <span class="arithmatex">\(\{0,\dots,n-1\}\)</span> en utilisant par exemple le <a href="https://fr.wikipedia.org/wiki/M%C3%A9lange_de_Fisher-Yates" target="_blank">mélange de Fischer-Yates</a>,</li>
+<li>insérer les entiers dans l'ordre de la permutation en utilisant la fonction <code>insere_noeud</code> de la question précédente.</li>
+</ul>
+</div>
+</li>
+</ol>
+<h3 id="exercice-2-implementation-des-arbres-binaires-en-ocaml"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 2 : <em>Implémentation des arbres binaires en OCaml</em><a class="headerlink" href="#exercice-2-implementation-des-arbres-binaires-en-ocaml" title="Permanent link">&para;</a></h3>
+<p>On rappelle l'implémentation des arbres binaires avec des étiquettes entières  en OCaml vu en cours :
+<div class="language-OCaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>    <span class="k">type</span> <span class="n">ab</span> <span class="o">=</span> 
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>      <span class="o">|</span><span class="nc">Vide</span> 
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>      <span class="o">|</span><span class="nc">Noeud</span> <span class="k">of</span> <span class="n">ab</span> <span class="o">*</span> <span class="kt">int</span> <span class="o">*</span> <span class="n">ab</span> <span class="o">;;</span>
+</span></code></pre></div></p>
+<ol>
+<li>
+<p>En utilisant cette représentation, créer une variable <code>t</code> de type <code>ab</code> représentant l'arbre suivant ;<br />
+<pre class="mermaid"><code>    graph TD
+    A["14"] --&gt; L["17"]
+    A --&gt; G["9"]
+    G --- V1[" "]
+    L --&gt; R["6"]
+    L --- V2[" "]
+    G --&gt; I["8"]
+    style V1 fill:#FFFFFF, stroke:#FFFFFF
+    style V2 fill:#FFFFFF, stroke:#FFFFFF
+    linkStyle 2 stroke:#FFFFFF,stroke-width:0px
+    linkStyle 4 stroke:#FFFFFF,stroke-width:0px</code></pre></p>
+<details class="aide">
+<summary>Visualisation de l'arbre</summary>
+<p>On donne ci-dessous une fonction permettant de visualiser l'arbre.</p>
+<div class="language-OCaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>    <span class="k">let</span> <span class="k">rec</span> <span class="n">write_edge</span> <span class="n">a</span> <span class="n">writer</span> <span class="n">ninv</span><span class="o">=</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>      <span class="k">match</span> <span class="n">a</span> <span class="k">with</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>      <span class="o">|</span> <span class="nc">Vide</span> <span class="o">-&gt;</span> <span class="bp">()</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>      <span class="o">|</span> <span class="nc">Noeud</span> <span class="o">(</span><span class="n">sag</span><span class="o">,</span><span class="n">e</span><span class="o">,</span><span class="n">sad</span><span class="o">)</span> <span class="o">-&gt;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="k">match</span> <span class="n">sag</span><span class="o">,</span> <span class="n">sad</span> <span class="k">with</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="o">|</span> <span class="nc">Vide</span><span class="o">,</span> <span class="nc">Vide</span> <span class="o">-&gt;</span> <span class="bp">()</span><span class="o">;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="o">|</span> <span class="nc">Noeud</span> <span class="o">(_,</span> <span class="n">eg</span><span class="o">,</span> <span class="o">_),</span> <span class="nc">Vide</span> <span class="o">-&gt;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>          <span class="nn">Printf</span><span class="p">.</span><span class="n">fprintf</span> <span class="n">writer</span> <span class="s2">&quot;%d -&gt; %d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="n">e</span> <span class="n">eg</span><span class="o">;</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>          <span class="nn">Printf</span><span class="p">.</span><span class="n">fprintf</span> <span class="n">writer</span>  <span class="s2">&quot;I%d [style=invis]</span><span class="se">\n</span><span class="s2"> %d -&gt; I%d [style=invis]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">!</span><span class="n">ninv</span> <span class="n">e</span> <span class="o">!</span><span class="n">ninv</span><span class="o">;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>          <span class="n">ninv</span> <span class="o">:=</span> <span class="o">!</span><span class="n">ninv</span> <span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>          <span class="nn">Printf</span><span class="p">.</span><span class="n">fprintf</span> <span class="n">writer</span>  <span class="s2">&quot;I%d [style=invis]</span><span class="se">\n</span><span class="s2"> %d -&gt; I%d [style=invis]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">!</span><span class="n">ninv</span> <span class="n">e</span> <span class="o">!</span><span class="n">ninv</span><span class="o">;</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>          <span class="n">ninv</span> <span class="o">:=</span> <span class="o">!</span><span class="n">ninv</span> <span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>          <span class="n">write_edge</span> <span class="n">sag</span> <span class="n">writer</span> <span class="n">ninv</span><span class="o">;</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        <span class="o">|</span> <span class="nc">Vide</span><span class="o">,</span> <span class="nc">Noeud</span><span class="o">(_,</span><span class="n">ed</span><span class="o">,_)</span> <span class="o">-&gt;</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>          <span class="nn">Printf</span><span class="p">.</span><span class="n">fprintf</span> <span class="n">writer</span>  <span class="s2">&quot;I%d [style=invis]</span><span class="se">\n</span><span class="s2"> %d -&gt; I%d [style=invis]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">!</span><span class="n">ninv</span> <span class="n">e</span> <span class="o">!</span><span class="n">ninv</span><span class="o">;</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>          <span class="n">ninv</span> <span class="o">:=</span> <span class="o">!</span><span class="n">ninv</span> <span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>          <span class="nn">Printf</span><span class="p">.</span><span class="n">fprintf</span> <span class="n">writer</span>  <span class="s2">&quot;I%d [style=invis]</span><span class="se">\n</span><span class="s2"> %d -&gt; I%d [style=invis]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">!</span><span class="n">ninv</span> <span class="n">e</span> <span class="o">!</span><span class="n">ninv</span><span class="o">;</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>          <span class="n">ninv</span> <span class="o">:=</span> <span class="o">!</span><span class="n">ninv</span> <span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>          <span class="nn">Printf</span><span class="p">.</span><span class="n">fprintf</span> <span class="n">writer</span> <span class="s2">&quot;%d -&gt; %d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="n">e</span> <span class="n">ed</span><span class="o">;</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>          <span class="n">write_edge</span> <span class="n">sad</span> <span class="n">writer</span> <span class="n">ninv</span><span class="o">;</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        <span class="o">|</span> <span class="nc">Noeud</span> <span class="o">(_,</span><span class="n">eg</span><span class="o">,_),</span> <span class="nc">Noeud</span> <span class="o">(_,</span><span class="n">ed</span><span class="o">,</span> <span class="o">_</span> <span class="o">)</span> <span class="o">-&gt;</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>          <span class="nn">Printf</span><span class="p">.</span><span class="n">fprintf</span> <span class="n">writer</span> <span class="s2">&quot;%d -&gt; %d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="n">e</span> <span class="n">eg</span><span class="o">;</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>          <span class="nn">Printf</span><span class="p">.</span><span class="n">fprintf</span> <span class="n">writer</span>  <span class="s2">&quot;I%d [style=invis]</span><span class="se">\n</span><span class="s2"> %d -&gt; I%d [style=invis]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">!</span><span class="n">ninv</span> <span class="n">e</span> <span class="o">!</span><span class="n">ninv</span><span class="o">;</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>          <span class="n">ninv</span> <span class="o">:=</span> <span class="o">!</span><span class="n">ninv</span> <span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>          <span class="nn">Printf</span><span class="p">.</span><span class="n">fprintf</span> <span class="n">writer</span> <span class="s2">&quot;%d -&gt; %d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="n">e</span> <span class="n">ed</span><span class="o">;</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>          <span class="n">write_edge</span> <span class="n">sag</span> <span class="n">writer</span> <span class="n">ninv</span><span class="o">;</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>          <span class="n">write_edge</span> <span class="n">sad</span> <span class="n">writer</span> <span class="n">ninv</span><span class="o">;</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>    <span class="o">;;</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>    <span class="k">let</span> <span class="n">view</span> <span class="n">a</span> <span class="o">=</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>      <span class="k">let</span> <span class="n">ninv</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span> <span class="k">in</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>      <span class="k">let</span> <span class="n">outc</span> <span class="o">=</span> <span class="n">open_out</span> <span class="s2">&quot;temp.gv&quot;</span> <span class="k">in</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>      <span class="n">output_string</span> <span class="n">outc</span> <span class="s2">&quot;digraph mygraph {</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">;</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>      <span class="n">write_edge</span> <span class="n">a</span> <span class="n">outc</span> <span class="n">ninv</span><span class="o">;</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>      <span class="n">output_string</span> <span class="n">outc</span> <span class="s2">&quot;}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">;</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>      <span class="n">close_out</span> <span class="n">outc</span><span class="o">;</span>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>      <span class="n">ignore</span> <span class="o">(</span><span class="nn">Sys</span><span class="p">.</span><span class="n">command</span> <span class="s2">&quot;xdot temp.gv&quot;</span><span class="o">);;</span>
+</span></code></pre></div>
+</details>
+</li>
+<li>
+<p>Ecrire une fonction <code>est_vide</code> de signature <code>ab -&gt; bool</code> permettant de tester si l'arbre donné en paramètre est vide.</p>
+</li>
+<li>
+<p>Ecrire et tester la fonction <code>taille</code>  de signature <code>ab -&gt; int</code> et qui renvoie le nombre de noeuds de l'arbre binaire donné en argument.</p>
+</li>
+<li>
+<p>Ecrire et tester la fonction <code>hauteur</code>  de signature <code>ab -&gt; int</code> et qui renvoie la hauteur de l'arbre binaire donné en argument.</p>
+</li>
+<li>
+<p>En utilisant la méthode de votre choix (deux sont proposées dans l'exercice précédent), écrire en OCaml une fonction <code>arbre_alaetoire</code> de signature <code>int -&gt; ab</code> et qui renvoie un arbre aléatoire de <span class="arithmatex">\(n\)</span> noeuds.</p>
+</li>
+</ol>
+<h3 id="exercice-3-arbre-complet-represente-par-un-tableau"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 3 : <em>Arbre complet représenté par un tableau</em><a class="headerlink" href="#exercice-3-arbre-complet-represente-par-un-tableau" title="Permanent link">&para;</a></h3>
+<p>Cet exercice concerne la représentation d'un arbre binaire complet de taille <span class="arithmatex">\(n\)</span> par un tableau de taille <span class="arithmatex">\(n\)</span> et  est à traiter <em>au choix</em> en OCaml ou en C.  Pour chaque question, le tableau <code>tab</code> da taille <code>n</code> est la représentation en machine d'un arbre binaire complet de taille <code>n</code>.</p>
+<ol>
+<li>
+<p>Ecrire une fonction qui pour le noeud situé à l'indice <code>i</code> renvoie l'indice du parent (<span class="arithmatex">\(-1\)</span> pour la racine)</p>
+</li>
+<li>
+<p>Ecrire une fonction qui pour le noeud situé à l'indice <code>i</code> renvoie les indices des fils gauches et droit (<span class="arithmatex">\(-1\)</span> s'il n'existent pas)</p>
+</li>
+<li>
+<p>Ecrire une fonction renvoyant la hauteur de l'arbre.</p>
+</li>
+</ol>
+<h3 id="exercice-4-parcours-recursif-en-c"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 4 : <em>Parcours récursif en C</em><a class="headerlink" href="#exercice-4-parcours-recursif-en-c" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Ecrire en langage C, une fonction qui affiche les noeuds dans l'ordre :</p>
+<p>a. d'un parcours prefixe<br />
+b. d'un parcours infixe<br />
+c. d'un parcours postfixe  </p>
+</li>
+<li>
+<p>On souhaite à présent créer une liste chainée contenant les noeuds dans l'ordre du parcours préfixe  </p>
+<p>a. Implémenter une structure de liste chainée en C dans laquelle on conservera un pointeur sur la premier élément de la liste et aussi un pointeur sur le dernier élément de la liste. De cette façon, on peut concaténer deux listes en temps constant.</p>
+<p>b. En utilisant cette implémentation, écrire une fonction renvoyant une liste chainée contenant les noeuds de l'arbre dans l'ordre d'un parcours prefixe. </p>
+</li>
+</ol>
+<h3 id="exercice-5-parcours-recursif-en-ocaml"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 5 : <em>Parcours récursif en OCaml</em><a class="headerlink" href="#exercice-5-parcours-recursif-en-ocaml" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Ecrire en OCaml, en utilisant l'opérateur de concaténation <code>@</code> une fonction <code>prefixe : 'a ab -&gt; 'a list</code> qui renvoie le parcours préfixe de l'arbre binaire donné en argument.</p>
+</li>
+<li>
+<p>Comme cela a été vu en <span style="font-variant:small-caps;">td</span>, on rappelle que le parcours précédent est de compléxité quadratique (car l'opérateur <code>@</code> est de complexité linéaire par rapport à la longueur de la première liste). On cherche donc maintenant à écrire une version de complexité linéaire du parcours préfixe. d'un arbre binaire. Pour cela on propose d'écrire une fonction auxilaire <code>prefixe_aux : 'a ab -&gt; 'a list -&gt; 'a list</code> qui prend en argument un arbre binaire <em>et une liste</em> <code>acc</code> et renvoie le parcours prefixe de l'arbre suivi du contenu de <code>acc</code>.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>Utiliser la fonction auxiliaire pour traduire le fait que le parcours préfixe de l'arbre <code>(g, v, d)</code> est <code>v</code> suivi du parcours préfixe de <code>g</code> suivi du parcours préfixe de <code>d</code>.</p>
+</div>
+</li>
+<li>
+<p>Réprendre le question précédentes pour le parcours infixe et pour le parcours postfixe.</p>
+</li>
+</ol>
+<h3 id="exercice-6-parcours-en-largeur-en-c"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 6 : <em>Parcours en largeur en C</em><a class="headerlink" href="#exercice-6-parcours-en-largeur-en-c" title="Permanent link">&para;</a></h3>
+<p>Ecrire une fonction de signature <code class="language-c highlight"><span class="kt">void</span><span class="w"> </span><span class="n">largeur</span><span class="p">(</span><span class="n">ab</span><span class="w"> </span><span class="n">a</span><span class="p">)</span></code> qui affiche les noeuds dans l'ordre d'un parcours en largeur. Comme expliqué en cours, on peut utiliser une <em>file</em> qu'on pourra implémenter par exemple par une liste chainée (avec un pointeur de tête et un pointeur de queue).</p>
+<h3 id="exercice-7-parcours-en-largeur-en-ocaml"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 7 : <em>Parcours en largeur en OCaml</em><a class="headerlink" href="#exercice-7-parcours-en-largeur-en-ocaml" title="Permanent link">&para;</a></h3>
+<p>Ecrire une fonction de signature <code>ab -&gt; unit</code> qui affiche les noeuds dans l'ordre d'un parcours en largeur. Comme expliqué en cours, on peut utiliser une <em>file</em> qu'on pourra implémenter à l'aide du module <code>Queue</code> de Caml dont on rappelle ci-dessous quelques fonctions :</p>
+<ul>
+<li><code>Queue.create</code> de signature <code>unit -&gt; 'a Queue.t</code> qui crée une file d'attente vide, par exemple <code class="language-ocaml highlight"><span class="k">let</span> <span class="n">ma_file</span> <span class="o">=</span> <span class="nn">Queue</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span></code></li>
+<li><code>Queue.is_empty</code> de signature (<code>'a Queue.t -&gt; bool</code>) qui teste si la file est vide ou non</li>
+<li><code>Queue.push</code> de signature (<code>'a -&gt; 'a Queue.t -&gt; unit</code>) qui enfile un élément, par exemple <code class="language-ocaml highlight"><span class="nn">Queue</span><span class="p">.</span><span class="n">push</span> <span class="mi">10</span> <span class="n">ma_file</span></code></li>
+<li><code>Queue.pop</code> de signature (<code>'a Queue.t -&gt; 'a</code>) qui défile un élément, par exemple <code class="language-ocaml highlight"><span class="k">let</span> <span class="n">elt</span> <span class="o">=</span> <span class="nn">Queue</span><span class="p">.</span><span class="n">pop</span> <span class="n">ma_file</span></code></li>
+</ul>
+<h3 id="exercice-8-arbre-binaire-de-recherche-en-c"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 8 : <em>Arbre binaire de recherche en C</em><a class="headerlink" href="#exercice-8-arbre-binaire-de-recherche-en-c" title="Permanent link">&para;</a></h3>
+<p>Pour l'implémentation des arbres binaires de recherche en C, on reprend la structure utilisée pour les arbres binaires :
+<div class="language-c highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">noeud</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">noeud</span><span class="w"> </span><span class="o">*</span><span class="n">sag</span><span class="p">;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">valeur</span><span class="p">;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">noeud</span><span class="w"> </span><span class="o">*</span><span class="n">sad</span><span class="p">;</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="p">};</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">noeud</span><span class="w"> </span><span class="n">noeud</span><span class="p">;</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="k">typedef</span><span class="w"> </span><span class="n">noeud</span><span class="w"> </span><span class="o">*</span><span class="n">abr</span><span class="p">;</span>
+</span></code></pre></div></p>
+<ol>
+<li>
+<p>Ecrire une fonction <code>insere</code> de signature <code class="language-c highlight"><span class="kt">void</span><span class="w"> </span><span class="n">insere</span><span class="p">(</span><span class="n">abr</span><span class="w"> </span><span class="o">*</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">)</span></code> qui insère la valeur <code>v</code> dans l'arbre binaire <code>t</code>. </p>
+</li>
+<li>
+<p>Construire et visualiser l'arbre binaire obtenu en insérant successivement les valeurs <span class="arithmatex">\(7, 5, 9, 2\)</span> et <span class="arithmatex">\(11\)</span>.</p>
+</li>
+<li>
+<p>Ecrire une fonction <code>present</code> de signature <code class="language-c highlight"><span class="kt">bool</span><span class="w"> </span><span class="n">present</span><span class="p">(</span><span class="n">abr</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">)</span></code> qui teste l'appartenance de la valeur <code>v</code> à l'arbre <code>t</code>.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Pour écrire l'implémentation de la suppression d'une clé dans un <span style="font-variant:small-caps;">abr</span> en C, on recommande de commencer par l’implémentation en OCaml ci-dessous.</p>
+</div>
+<h3 id="exercice-9-arbre-binaire-de-recherche-en-ocaml"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 9 : <em>Arbre binaire de recherche en OCaml</em><a class="headerlink" href="#exercice-9-arbre-binaire-de-recherche-en-ocaml" title="Permanent link">&para;</a></h3>
+<p>Pour l'implémentation des arbres binaires de recherche en OCaml, on reprend la structure utilisée pour les arbres binaires :
+<div class="language-OCaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>    <span class="k">type</span> <span class="n">abr</span> <span class="o">=</span> 
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>      <span class="o">|</span><span class="nc">Vide</span> 
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>      <span class="o">|</span><span class="nc">Noeud</span> <span class="k">of</span> <span class="n">abr</span> <span class="o">*</span>  <span class="kt">int</span> <span class="o">*</span> <span class="n">abr</span><span class="o">;;</span>
+</span></code></pre></div></p>
+<ol>
+<li>
+<p>Ecrire une fonction <code>insere</code> de signature <code>abr -&gt; int -&gt; abr</code> qui insère une valeur dans un  <span style="font-variant:small-caps;">abr</span> et renvoie l'<span style="font-variant:small-caps;">abr</span> obtenu. </p>
+</li>
+<li>
+<p>Construire et visualiser l'arbre binaire obtenu en insérant successivement les valeurs <span class="arithmatex">\(7, 5, 9, 2\)</span> et <span class="arithmatex">\(11\)</span>.</p>
+</li>
+<li>
+<p>Ecrire une fonction <code>present</code> de signature <code>abr -&gt; int -&gt; bool</code> qui teste si une valeur appartient ou non à un <code>abr</code>.</p>
+</li>
+<li>
+<p>Ecrire une fonction <code>min_arb : abr -&gt; int</code> qui renvoie la plus petite clé présente dans un <span style="font-variant:small-caps;">abr</span> non vide. </p>
+</li>
+<li>
+<p>Ecrire une fonction <code>max_arb : abr -&gt; int</code> qui renvoie la plus grande clé présente dans un <span style="font-variant:small-caps;">abr</span> non vide. </p>
+</li>
+<li>
+<p>Ecrire une fonction <code>supprime : abr -&gt; int -&gt; abr</code> qui supprime une clé dans un <span style="font-variant:small-caps;">abr</span>.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On rappelle que l'algorithme de suppression distingue plusieurs cas :</p>
+<ul>
+<li>si l'arbre est vide ou que la clé n'est pas présente alors on renvoie l'arbre.</li>
+<li>sinon on descend récursivement dans l'arbre jusqu'à trouver la clé <span class="arithmatex">\(x\)</span>, dans un noeud <span class="arithmatex">\((g, x, d)\)</span> si ce noeud est une feuille on le supprime sinon on peut soit remplacer <span class="arithmatex">\(x\)</span> par le maximum de <span class="arithmatex">\(g\)</span> (si <span class="arithmatex">\(g\)</span> est non vide) soit remplacer <span class="arithmatex">\(d\)</span> par le minimum de <span class="arithmatex">\(d\)</span> (si <span class="arithmatex">\(d\)</span> est non vide).</li>
+</ul>
+</div>
+</li>
+</ol>
+<h3 id="exercice-10-hauteur-moyenne-dun-abr-aleatoire"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 10 : <em>Hauteur moyenne d'un ABR aléatoire</em><a class="headerlink" href="#exercice-10-hauteur-moyenne-dun-abr-aleatoire" title="Permanent link">&para;</a></h3>
+<p>Le but de cet exercice est de faire des statistiques sur la hauteur de l'arbre binaire obtenu en insérant <em>aléatoirement</em> dans cet arbre les entiers <span class="arithmatex">\(0, \dots, 1023\)</span>. Pour l'implémentation, on utilisera au choix le C ou OCaml.</p>
+<ol>
+<li>Quelle est la hauteur maximale obtenue ? donner un ordre d'insertion permettant d'atteindre cette valeur</li>
+<li>Quelle est la hauteur minimale ?</li>
+<li>
+<p>Ecrire une fonction permettant de générer une permutation aléatoire des entiers <span class="arithmatex">\(0,\dots,1023\)</span></p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On pourra par exemple, générer le tableau des entiers de 0 à 1023 puis utiliser le <a href="https://fr.wikipedia.org/wiki/M%C3%A9lange_de_Fisher-Yates" target="_blank">melagne de Knuth</a></p>
+</div>
+</li>
+<li>
+<p>Créer une fonction prenant en argument un tableau d'entiers, qui insère ces entiers dans un <span style="font-variant:small-caps;">abr</span> puis renvoie la hauteur de l'arbre obtenu.</p>
+</li>
+<li>
+<p>Donner la moyenne, le minimum, le maximum de la série statistique des hauteurs obtenues en utilisant 1000 fois la fonction précédente.</p>
+</li>
+</ol>
+<h3 id="exercice-11-implementation-de-la-structure-de-tas-en-c"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 11 : <em>Implémentation de la structure de tas en C</em><a class="headerlink" href="#exercice-11-implementation-de-la-structure-de-tas-en-c" title="Permanent link">&para;</a></h3>
+<p>On rappelle qu'un tas est un arbre binaire <em>complet</em> et que par conséquent, on peut le représenter à l'aide d'un tableau. En C, on propose la structure de données suivantes :
+<div class="language-C highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">heap_s</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">array</span><span class="p">;</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="p">};</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">heap_s</span><span class="w"> </span><span class="n">heap</span><span class="p">;</span>
+</span></code></pre></div></p>
+<ul>
+<li><code>size</code> est la taille courant du tas</li>
+<li><code>capacity</code> est la capacité maximale du tas</li>
+<li><code>array</code> est le pointeur vers les éléments du tas, la zone mémoire correspondante est allouée de taille <code>capacity</code> à la création du tas.</li>
+</ul>
+<p>Le but de l'exercice est d'écrire les fonctions d'insertion (percolation vers le haut) et de suppression du minimum  (percolation vers le bas) d'un élément dans ce tas puis de les utiliser afin d'implémenter l'algorithme du tri par tas.</p>
+<ol>
+<li>
+<p>Rappeler les indices des fils éventuels d'un élément dont l'indice dans le tableau est <code>i</code> puis écrire une fonction de signature <code class="language-c highlight"><span class="kt">int</span><span class="w"> </span><span class="n">son</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span></code> qui renvoie l'indice du fils <em>gauche</em> du noeud d'indice <code>i</code>.</p>
+</li>
+<li>
+<p>Rappeler l'indices du parent  d'un élément dont l'indice dans le tableau est <code>i&gt;0</code> puis écrire une fonction de signature <code class="language-c highlight"><span class="kt">int</span><span class="w"> </span><span class="n">father</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span></code> qui renvoie l'indice du parent du noeud d'indice <code>i</code>.</p>
+</li>
+<li>
+<p>Ecrire la fonction <code class="language-c highlight"><span class="n">heap</span><span class="w"> </span><span class="n">make_heap</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">cap</span><span class="p">)</span></code> qui renvoie un tas binaire de capacité maximale <code>cap</code>, on rappelle qu'il faut allouer le pointeur vers les éléments du tas.</p>
+</li>
+<li>
+<p>Ecrire la fonction <code class="language-c highlight"><span class="kt">bool</span><span class="w"> </span><span class="n">insert_heap</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nv</span><span class="p">,</span><span class="w"> </span><span class="n">heap</span><span class="w"> </span><span class="o">*</span><span class="n">mh</span><span class="p">)</span></code> qui modifie le tas donné en argument en y insérant la valeur <code>nv</code>. </p>
+</li>
+<li>
+<p>Tester ces fonctions sur un exemple simple et afficher le tas binaire crée en utilisant la fonction de visualisation des arbres.</p>
+</li>
+<li>
+<p>Ecrire et tester la fonction <code class="language-c highlight"><span class="kt">int</span><span class="w"> </span><span class="n">getmin</span><span class="p">(</span><span class="n">heap</span><span class="w"> </span><span class="o">*</span><span class="n">mh</span><span class="p">)</span></code> qui extrait le minimum du tas binaire donné en argument.</p>
+</li>
+<li>
+<p>Ecrire une implémentation du tri par tas de signature <code class="language-c highlight"><span class="kt">void</span><span class="w"> </span><span class="n">heapsort</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">array</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">)</span></code> qui trie le tableau donné en argument.</p>
+</li>
+</ol>
+<h3 id="exercice-12-implementation-de-la-structure-de-tas-en-ocaml"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 12 : <em>Implémentation de la structure de tas en Ocaml</em><a class="headerlink" href="#exercice-12-implementation-de-la-structure-de-tas-en-ocaml" title="Permanent link">&para;</a></h3>
+<p>Reprendre l'exercice précédent en utilisant OCaml, avec le type suivant pour représenter un tas :</p>
+<div class="language-OCaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>    <span class="k">type</span> <span class="k">&#39;</span><span class="n">a</span> <span class="n">heap</span> <span class="o">=</span> <span class="o">{</span><span class="k">mutable</span> <span class="n">size</span> <span class="o">:</span> <span class="kt">int</span><span class="o">;</span> <span class="n">data</span> <span class="o">:</span> <span class="k">&#39;</span><span class="n">a</span> <span class="kt">array</span><span class="o">};;</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>Les exercices suivant mettent en oeuvre l'utilisation de la structure de données de tas binaire pour la résolution de problèmes, on recommande d'aborder ces exercices uniquement lorsque les deux exercices précédents (implémentation de la structure de données de tas et application au tri) sont réalisés. Dans l'énoncé on a utilisé le langage C pour la médiane d'une flux de données et OCaml dans la fusion de <span class="arithmatex">\(k\)</span> liste triées mais chacun des deux exercices peut être réalisé dans l'un ou l'autre des deux langages.</p>
+</div>
+<h3 id="exercice-13-mediane-dun-flux-de-donnees"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 13 : <em>Médiane d'un flux de données</em><a class="headerlink" href="#exercice-13-mediane-dun-flux-de-donnees" title="Permanent link">&para;</a></h3>
+<p>Dans cet exercice on considère un <em>flux de données</em> de valeurs entières, c'est à dire qu'on ne dispose pas initialement de la totalité des données et on considère qu'elles arrivent au fur et à mesure du déroulement de l'algorithme. A chaque nouvelle valeur lue, on veut mettre à jour une variable contenant la <a href="https://fr.wikipedia.org/wiki/M%C3%A9diane_(statistiques)" target="_blank"><strong>mediane</strong></a> des valeurs déjà lues. On rappelle que la médiane est, lorsque les valeurs sont rangées, la valeur qui sépare la série en deux parties de même effectif. Si on numérote les valeurs à partir de 0, alors lorsque la série contient un nombre impair <span class="arithmatex">\(2n+1\)</span> de valeurs (numérotées de <span class="arithmatex">\(0\)</span> à <span class="arithmatex">\(2n\)</span>) alors c'est la valeur portant le numéro <span class="arithmatex">\(n\)</span>. Par exemple, pour calculer la médiane de <span class="arithmatex">\(2, 7, 3, 1, 10, 8, 4\)</span>, on range la série dans l'ordre : <span class="arithmatex">\(1, 2, 3, 4, 7, 8, 10\)</span> et donc ici la médiane est 4. Lorsque la série contient un nombre pair <span class="arithmatex">\(2n\)</span> de valeur (numérotées de 0 à <span class="arithmatex">\(2n-1\)</span>) alors on fait la moyenne arithmétique des termes de rang <span class="arithmatex">\(n-1\)</span> et <span class="arithmatex">\(n\)</span> après rangement. Par exemple, pour calculer la médiane de <span class="arithmatex">\(2, 10, 1, 4, 7, 3\)</span>, on range : <span class="arithmatex">\(1, 2, 3, 4, 7, 10\)</span> et la médiane est alors <span class="arithmatex">\((3+4)/2\)</span> c'est à dire <span class="arithmatex">\(3.5\)</span>.</p>
+<p>Dans toute la suite de l'exercice, on suppose connu la taille du flux de données qu'on note <span class="arithmatex">\(N\)</span> et on supposera cette valeur déjà définie en début de programme par une directive de précompilation <code class="language-c highlight"><span class="cp">#define</span></code>.</p>
+<ol>
+<li>
+<p>Méthode consistant à ranger le flux de données</p>
+<p>Dans cette partie, on décide de maintenir à jour une version rangée du flux de données, pour cela à chaque arrivée d'une nouvelle valeur, on l'insère à la bonne position dans la partie déjà rangée.</p>
+<ol>
+<li>
+<p>Ecrire une fonction de signature <code class="language-c highlight"><span class="kt">void</span><span class="w"> </span><span class="n">insere</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">tab</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">)</span></code> qui prend en argument un tableau de taille <span class="arithmatex">\(N\)</span>, et un indice <span class="arithmatex">\(i\)</span> et qui en supposant ce tableau rangé jusqu'à l'indice <span class="arithmatex">\(i\)</span> (exclu) insère la valeur <code>v</code> à la position correcte dans ce tableau. </p>
+</li>
+<li>
+<p>Ecrire une fonction <code class="language-c highlight"><span class="kt">float</span><span class="w"> </span><span class="n">mediane</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">tab</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="p">)</span></code> qui renvoie la médiane des valeurs du tableau <code>tab</code> (de taille <span class="arithmatex">\(N\)</span>) d'indice <span class="arithmatex">\(0, \dots s-1\)</span> en supposant que ce sous tableau est rangé.</p>
+</li>
+<li>
+<p>Afin de simuler le flux de données, écrire une fonction <code class="language-c highlight"><span class="kt">int</span><span class="w"> </span><span class="n">lire_flux</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">minv</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">maxv</span><span class="p">)</span></code> qui renvoie un entier au hasard entre <code>min v</code> (inclus) et <code>maxv</code> (exclu). Afin d'initialiser le flux, créer une fonction <code class="language-c highlight"><span class="kt">void</span><span class="w"> </span><span class="n">init_flux</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">graine</span><span class="p">)</span></code> qui initialise le générateur de nombre aléatoire avec la valeur <code>graine</code>.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On rappelle que :</p>
+<ul>
+<li>l'initialisation se fait à l'aide de la fonction <code>srand</code> du module <code>stdlib</code>.</li>
+<li>la fonction <code>rand</code> ne prend par d'argument et renvoie un entier aléatoire entre 0  et une constante <code>RAND_MAX</code> du langage.</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Initialiser le flux de données avec la graine <span class="arithmatex">\(42\)</span>, et tirer des valeurs entre 0 (inclus) et <span class="arithmatex">\(100\)</span> (exclu), et générer la liste 5 premières médianes, vous devriez trouver : <span class="arithmatex">\(66, 53, 66, 53.5, 41\)</span>.</p>
+</li>
+<li>
+<p>Toujours en initialisant avec la graine 42, tirer maintenant des valeurs entre 0 (inclus) et <span class="arithmatex">\(1\,000\,000\)</span> (exclu). Quelle est la médiane du flux de données après avoir lu <span class="arithmatex">\(200\,000\)</span> valeurs ? 
+<input type="text" id="q76" class="text-input-neutral"> <img id="q76img" src="https://fabricenativel.github.io/cpge-info/images/circle-question.svg" width="24px" style="vertical-align:middle"> 
+<input type="button" value="valider" class="repbutton" onclick="check('q76','dd7a028f565f61bbb86920974acc09cada487618259f7426c86b017e384ee42f')">
+<input type="button" value="reset" class="repbutton" onclick="imgreset('q76')">
+ (entrer la valeur entière sans le séparateur décimal).</p>
+</li>
+<li>
+<p>Donner la complexité de cette méthode en fonction du nombre <span class="arithmatex">\(n\)</span> de données lues.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Utilisation de la structure de tas</p>
+<p>On considère à présent l'algorithme suivante qui met à profit l'utilisation de la structure de tas :</p>
+<ul>
+<li>On crée un tas binaire <em>max</em> <code>petit</code> initialement vide. </li>
+<li>On crée un tas binaire <em>min</em> <code>grand</code> initialement vide.</li>
+<li>pour chaque donnée <span class="arithmatex">\(v\)</span> lue :<ul>
+<li>si les deux tas ont la même taille, alors on insère <span class="arithmatex">\(v\)</span> dans <code>grand</code>, on extrait le min de <code>grand</code> et on l'insère dans <code>petit</code></li>
+<li>sinon, on insère <span class="arithmatex">\(v\)</span> dans <code>petit</code>, on extrait le maximum de <code>petit</code> et l'insère dans <code>grand</code>.</li>
+</ul>
+</li>
+</ul>
+<p>On fera bien attention que <code>petit</code> est un tas binaire <strong>max</strong> alors que <code>grand</code> est un tas binaire <strong>min</strong>.</p>
+<ol>
+<li>Dérouler cet algorithme en considérant le flux de donnée suivant : 10, 6, 11, 12, 14, 9, 3 et en schématisant l'évolution des deux tas.</li>
+<li>Vérifier que l'invariant suivant est préservé durant le déroulement de l'algorithme : <code>petit</code> contient la moitié inférieure des valeurs du flux et <code>grand</code> la moitié supérieure (la moitié inférieure contenant éventuellement un élément supplémentaire).</li>
+<li>En déduire comment extraire la médiane du flux de données.</li>
+<li>Mettre en oeuvre cette nouvelle méthode et retrouver les résultats de la première partie.</li>
+<li>Donner en fonction de <span class="arithmatex">\(n\)</span> la complexité de cette nouvelle méthode.</li>
+</ol>
+</li>
+</ol>
+<h3 id="exercice-14-fusion-de-k-listes-triees"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 14 : <em>Fusion de k listes triées</em><a class="headerlink" href="#exercice-14-fusion-de-k-listes-triees" title="Permanent link">&para;</a></h3>
+<p>Dans cet exercice on s'intéresse à la fusion d'un tableau de <span class="arithmatex">\(k\)</span> liste déjà triées en une seule liste triée. On supposera par souci de simplicité que chaque liste à la même longueur <span class="arithmatex">\(n\)</span>. Par exemple si <span class="arithmatex">\(k=3\)</span> et <span class="arithmatex">\(n=2\)</span> et que le tableau de liste est <code class="language-ocaml highlight"><span class="o">[|</span> <span class="o">[</span><span class="mi">2</span><span class="o">;</span> <span class="mi">4</span><span class="o">];</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span> <span class="mi">5</span><span class="o">];</span> <span class="o">[</span><span class="mi">6</span><span class="o">;</span> <span class="mi">7</span><span class="o">]</span> <span class="o">|]</span></code> alors la fusion de ces 3 listes donne <code class="language-ocaml highlight"><span class="o">[</span><span class="mi">1</span><span class="o">;</span> <span class="mi">2</span><span class="o">;</span> <span class="mi">4</span><span class="o">;</span> <span class="mi">5</span><span class="o">;</span> <span class="mi">6</span><span class="o">;</span> <span class="mi">7</span><span class="o">]</span></code>.</p>
+<ol>
+<li>
+<p>Fusion successives des listes </p>
+<ol>
+<li>Ecrire une fonction <code>fusion : 'a list -&gt; 'a list -&gt; 'a list</code> qui prend en argument deux listes supposées triées et renvoie leur fusion</li>
+<li>En utilisant la fonction précédente, écrire une fonction <code>fusion_multiple : 'a list array -&gt; 'a list</code> qui prend en argument un tableau de liste triées et renvoie la liste issue de leur fusion. On procédera par fusion successive de deux listes en utilisant la fonction écrite à la question précédente.</li>
+<li>Déterminer la complexité de cette méthode en fonction de <span class="arithmatex">\(k\)</span> (nombre de listes) et de <span class="arithmatex">\(n\)</span> (longueur de chaque liste).</li>
+</ol>
+</li>
+<li>
+<p>Utilisation d'un tas binaire min  </p>
+<ol>
+<li>Mettre en oeuvre la méthode qui consiste à utiliser un tas binaire min de taille <span class="arithmatex">\(k\)</span> dans lequel on insère initialement pour chaque liste le couple (indice dans le tableau de la liste, premier élément de la liste). Ensuite tant que ce tas n'est pas vide, on prélève son minimum et on insère l'élément suivant de la liste dont ce minimum est issu (si la liste n'est pas vide).</li>
+<li>Déterminer la complexité de cette nouvelle méthode.</li>
+</ol>
+</li>
+</ol>
+<h2 id="humour-dinformaticien">Humour d'informaticien<a class="headerlink" href="#humour-dinformaticien" title="Permanent link">&para;</a></h2>
+<p><img alt="tree" class="imgcentre" src="../Images/C12/real_tree.png" width="500px" />
+Finally after years of search I found a real tree ... </p><script type="text/javascript">
+CONFIG.needMermaid = false;
+CONFIG.overlordClasses = [];
+globalThis.PAGE_IDES_CONFIG = '.\x1e}{\x1e0b0a.'
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  <div class="md-copyright_pyodide">
+    
+    
+  </div>
+  
+    <div class="md-copyright_pyodide">
+      <div>
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      <div id="pyodide-footer">
+        <a href="https://gitlab.com/frederic-zinelli/pyodide-mkdocs-theme" target="_blank" rel="noopener">
+          Pyodide MkDocs Theme
+        </a> v.5.4.5
+      </div>
+    </div>
+  
+</div>
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.tabs", "navigation.tabs.sticky", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+    
+    
+
+
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascript/check.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+      
+    
+<script src="../../js-scripts/overlord.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-scripts/subscriptions.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+
+
+  </body>
+</html>

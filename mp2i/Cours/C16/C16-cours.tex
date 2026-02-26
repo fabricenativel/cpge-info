@@ -1,0 +1,446 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+\DeclareMathAlphabet{\mymathbb}{U}{BOONDOX-ds}{m}{n}
+\begin{document}
+
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{16}
+\newcommand{\Ctitle}{\cnum {Logique}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
+
+\newcommand{\vrai}{\mymathbb{1}}
+\newcommand{\faux}{\mymathbb{0}}
+\newcommand{\non}{\neg}
+\newcommand{\et}{\wedge}
+\newcommand{\ou}{\vee}
+\newcommand{\imp}{\to}
+\newcommand{\eq}{\leftrightarrow}
+\newcommand{\lnode}[1]{\TCircle{$#1$}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\vv}[1]{\llbracket #1 \rrbracket_{\varphi}}
+\psset{treesep=0.5cm,levelsep=0.8cm}
+
+\makess{Syntaxe des formules logiques}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		Soit  $\vrai$ un ensemble au plus dénombrable de variables logiques noté $V = \{p, q, r, \dots \}$. On définit inductivement l'ensemble $P$ des formules logiques sur  $\vrai$ par :
+		\begin{itemize}
+			\item<2-> L'ensemble d'axiomes $P_0 = \{ \top, \bot \} \cup V$ \\
+				\onslide<3->\textcolor{gray}{\small $\top$  se lit \og{} top \fg{} et $\bot$ se lit \og{} bottom \fg{}}
+			\item<4-> Les règles d'inférence :
+				\begin{itemize}
+					\item<4-> \textit{négation} $\non : F \mapsto \non F$
+					\item<5-> \textit{conjonction} $\et : F,G \mapsto (F \et G)$
+					\item<6-> \textit{disjonction} $\ou : F,G \mapsto (F \ou G)$
+					\item<7-> \textit{implication} $\imp : F,G \mapsto (F \imp G)$
+					\item<8-> \textit{équivalence} $\eq : F,G \mapsto (F \eq G)$
+				\end{itemize}
+		\end{itemize}
+		On notera avec les lettres minuscules $p$, $q$, \dots \textit{les variables logiques} ie les éléments de  $\vrai$ et avec les lettres majuscules  $\faux$, $G$, \dots \textit{les formules logiques} ie les éléments de $P$.
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		\begin{itemize}
+			\item Afin d'éviter de surcharger les écritures, on pourra omettre certaines parenthèses :
+			      \begin{itemize}
+				      \item<2-> En utilisant l'associativité à droite de $\et, \ou$ : \\
+					      \onslide<3-> \textcolor{gray}{Par exemple, $(p \ou (q \ou r))$ s'écrit plus simplement $p \ou q \ou r$.}
+				      \item<4-> En utilisant l'ordre de priorité suivant sur les connecteurs : $\non, \et, \ou, \imp, \eq$ \\
+					      \onslide<5-> \textcolor{gray}{Par exemple $ ((\non p) \ou (q \et r))$ s'écrit plus simplement $\non p \ou q \et r$.}
+			      \end{itemize}
+			      \onslide<6->{En cas de doute, on laissera les parenthèses afin de lever toute ambiguïté.}
+			\item<7-> On a définit pour le moment simplement les propositions logiques valables d'un point de vue \textit{syntaxique}, sans leur donner de sens ou de valeur.
+		\end{itemize}
+	\end{block}
+	\onslide<8->{
+		\begin{exampleblock}{Exemples}
+			\begin{itemize}
+				\item<7-> $(((\non p) \ou (\non q)) \et r)$ est une formule logique qu'on pourra écrire plus simplement $(\non p \ou \non q) \et r$.
+				\item<8-> $\et p \non pq$ ou encore $( p \et q) \imp (r$ ne sont pas des formules logiques.
+				\item<9-> $(p \imp q) \et (q \imp p)$ et $ p \eq q$ sont deux formules logiques \textit{différentes}.
+			\end{itemize}
+		\end{exampleblock}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Arbre syntaxique}
+		Les formules logiques admettent naturellement une représentation sous forme d'arbre :
+		\begin{itemize}
+			\item<2-> les variables logiques et les constantes $\top$ et $\bot$ sont les étiquettes des feuilles
+			\item<3-> les noeuds internes ont pour étiquette les règles d'inférence
+		\end{itemize}
+	\end{block}
+	\onslide<4->{
+		\begin{exampleblock}{Exemples}
+			La  formule logique $( p \imp q) \ou (\non r)$ admet la représentation : \\
+			\onslide<5->{
+				\begin{center}
+					\pstree{\lnode{\ou}}{\pstree{\lnode{\imp}}{\lnode{p} \lnode{q}} \pstree{\lnode{\non}}{\lnode{r}}}
+				\end{center}
+			}
+		\end{exampleblock}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{itemize}
+			\item Quelle est la formule logique ayant pour représentation arborescente :
+			      \begin{center}
+				      \pstree{\lnode{\et}}{
+					      \pstree{\lnode{\ou}}{
+						      \pstree{\lnode{\imp}}{\lnode{p} \lnode{q}}
+						      \pstree{\lnode{\eq}}{\lnode{r} \lnode{s}}
+					      }
+					      \pstree{\lnode{\ou}}{
+						      \lnode{r}
+						      \pstree{\lnode{\non}}{\lnode{q}}
+					      }
+				      }
+			      \end{center}
+			      \onslide<2->\textcolor{OliveGreen}{$ ((p \imp q) \ou (r \eq s)) \et (r \ou (\non q)) $}
+			\item<3-> Dessiner la représentation arborescente de $ \non(\top \eq (p \ou q))$.
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Hauteur, taille et sous formule}
+		Etant donnée une formule logique notée  $\faux$,
+		\begin{itemize}
+			\item<2-> la \textcolor{blue}{hauteur} de  $\faux$ est la hauteur de l'arbre syntaxique associé
+			\item<3-> la \textcolor{blue}{taille} de  $\faux$ est le nombre de noeuds de l'arbre syntaxiqué associé
+			\item<4-> Une \textcolor{blue}{sous formule} de  $\faux$ est un sous-arbre de l'arbre syntaxique associé
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation en OCaml}
+		Le type somme de OCaml associé à la correspondance de motif permettent de représenter et de travailler efficacement sur les formules logiques.
+		\onslide<2->{\inputpartOCaml{\SPATH/fl.ml}{}{\small}{1}{8}}
+		\onslide<3->{On a représenté ici une variable logique par un entier, on pourrait choisir un caractère, ou un type option {\tt 'a}.\\}
+		\onslide<4->{La formule logique $(p \et \non q) \imp r$ est alors représentée par :}
+		\onslide<5->{\inputpartOCaml{\SPATH/fl.ml}{}{\small}{16}{16}}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation en OCaml}
+		Le calcul de la taille s'obtient alors via un \textit{pattern matching} :
+		\onslide<2->{\inputpartOCaml{\SPATH/fl.ml}{}{\small}{18}{25}}
+	\end{block}
+\end{frame}
+
+\makess{Sémantique des formules logiques}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Valuation}
+		On note $\mathbb{B} = \{\faux, \vrai\}$, l'ensemble des \textcolor{blue}{valeurs de vérités}\\
+		Une \textcolor{blue}{valuation} est une attribution de l'une des deux valeurs de vérités à chaque variable propositionnelle. Une valuation $\varphi$ est une donc une application de  $\vrai$ de $B$.
+	\end{alertblock}
+	\onslide<2->{
+		\begin{exampleblock}{Exemple}
+			Si l'ensemble des variables propositionnelle est $V = \{ p, q, r \}$, une valuation possible est : \\
+			$\varphi :  V  \mapsto \B$, avec $\varphi(p) = \vrai$, $\varphi(q) = \faux$ et $\varphi(r) = \faux$.    \\
+		\end{exampleblock}
+	}
+	\onslide<3->{
+		\begin{block}{Remarque}
+			En nontant $| V | = n$,  il y a $2^n$ valuations possibles.
+		\end{block}
+	}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Fonction booléennes usuelles}
+		On rappelle les fonction booléennes usuelles associées à chaque connecteur :
+		\begin{tabularx}{\textwidth}{YY}
+			$f_{\et} : \B^2 \mapsto \B$ \newline
+			\begin{tabular}{l|l|l}
+				$x$ & $y$ & $f_{\et}(x,y)$ \\
+				\hline
+				 $\faux$ &  $\faux$ &  $\faux$            \\
+				 $\faux$ &  $\vrai$ &  $\faux$            \\
+				 $\vrai$ &  $\faux$ &  $\faux$            \\
+				 $\vrai$ &  $\vrai$ &  $\vrai$            \\
+			\end{tabular} &
+			$f_{\ou} : \B^2 \mapsto \B$ \newline
+			\begin{tabular}{l|l|l}
+				$x$ & $y$ & $f_{\ou}(x,y)$ \\
+				\hline
+				 $\faux$ &  $\faux$ &  $\faux$            \\
+				 $\faux$ &  $\vrai$ &  $\vrai$            \\
+				 $\vrai$ &  $\faux$ &  $\vrai$            \\
+				 $\vrai$ &  $\vrai$ &  $\vrai$            \\
+			\end{tabular}      \\
+			                                                    & \\
+			$f_{\imp} : \B^2 \mapsto \B$ \newline
+			\begin{tabular}{l|l|l}
+				$x$ & $y$ & $f_{\imp}(x,y)$ \\
+				\hline
+				 $\faux$ &  $\faux$ &  $\vrai$             \\
+				 $\faux$ &  $\vrai$ &  $\vrai$             \\
+				 $\vrai$ &  $\faux$ &  $\faux$             \\
+				 $\vrai$ &  $\vrai$ &  $\vrai$             \\
+			\end{tabular} &
+			$f_{\eq} : \B^2 \mapsto \B$ \newline
+			\begin{tabular}{l|l|l}
+				$x$ & $y$ & $f_{\eq}(x,y)$ \\
+				\hline
+				 $\faux$ &  $\faux$ &  $\vrai$            \\
+				 $\faux$ &  $\vrai$ &  $\faux$            \\
+				 $\vrai$ &  $\faux$ &  $\faux$            \\
+				 $\vrai$ &  $\vrai$ &  $\vrai$            \\
+			\end{tabular}      \\
+			                                                    & \\
+		\end{tabularx}
+		Et $f_{\non} : \B \mapsto \B$, définie par $f_\non(\faux) = \vrai$ et $f_\non(\vrai) = \faux$.
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Valeur de vérité d'une formule}
+		Pour une valuation $\varphi$, on définit la valeur de vérité d'une formule $F$ notée $\vv{F}$ par :
+		\begin{itemize}
+			\item<2-> $\vv{\top} = V$
+			\item<2-> $\vv{\bot} = F$
+			\item<3-> si $v \in V$, $\vv{v} = \varphi(v)$
+			\item<4-> $\vv{\non F} = f_{\non}(\vv{F})$
+			\item<5-> $\vv{(F \et G)} = f_{\et}(\vv{F},\vv{G})$
+			\item<5-> $\vv{(F \ou G)} = f_{\ou}(\vv{F},\vv{G})$
+			\item<5-> $\vv{(F \imp G)} = f_{\imp}(\vv{F},\vv{G})$
+			\item<5-> $\vv{(G \eq G)} = f_{\eq}(\vv{G},\vv{G})$
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Sur $V = \{p, q, r\}$, on considère la valuation $\varphi :  V  \mapsto \B$, telle que $\varphi(p) = \vrai$, $\varphi(q) = \faux$ et $\varphi(r) = \faux$ on peut alors déterminer la valeur de vérité de la formule logique $F = (p \imp q) \et (\non p \ou r )$ associée à cette valuation :
+		\onslide<2->{$\vv{F} = f_{\et} (\vv{p \imp q}, \vv{\non p \ou r})$ \\}
+		\onslide<3->{$\vv{F} = f_{\et} (f_{\imp}(\vv{p},\vv{q})), f_{\ou}(\vv{\non p},\vv{r})$ \\}
+		\onslide<4->{$\vv{F} = f_{\et}(f_{\imp}(\vrai,\faux),f_{\ou}(\faux,\faux))$\\}
+		\onslide<5->{$\vv{F} = f_{\et}(\faux,\faux)$\\}
+		\onslide<6->{$\vv{F} = \faux$\\}
+		\begin{itemize}
+			\item<7-> Donner la valeur de vérité de cette proposition pour la valuation $\varphi'$ définie par : $ \varphi'(p) = \faux, \varphi'(q) = \faux, \varphi'(r) = \faux$
+			\item<8-> Déterminer la valeur de vérité de $((p \imp q) \ou (r \eq s)) \et (r \ou (\non q))$ pour la valuation $\varphi$.
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Tautologie, antilogie, satisfiabilité}
+		\begin{itemize}
+			\item Une formule est une \textcolor{blue}{tautologie} si sa valeur de vérité est  $\vrai$ pour toute valuation. c'est-à-dire que $F$ est une tautologie ssi pour tout $\varphi \in \B^V$, $\vv{F} = \vrai$.
+			\item<2-> Une formule est une \textcolor{blue}{antilogie} si sa valeur de vérité est  $\faux$ pour toute valuation. c'est-à-dire que $F$ est une antilogie ssi pour tout $\varphi \in \B^V$, $\vv{F} = \faux$.
+			\item<3-> Une formule est \textcolor{blue}{satisfiable} s'il existe une valuation pour laquelle sa valeur de vérité est  $\vrai$. c'est-à-dire que $F$ est satisfiable ssi il existe $\varphi \in \B^V$ tel que $\vv{F} = \vrai$.
+		\end{itemize}
+	\end{alertblock}
+	\onslide<4->
+	{\begin{block}{Remarques}
+			\begin{itemize}
+				\item<4-> $F$ est une tautologie ssi $\non F$ n'est pas satisfiable.
+				\item<5-> $F$ est satisfiable ssi $\non F$ n'est pas une tautologie.
+			\end{itemize}
+		\end{block}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Tables de vérité}
+		La \textcolor{blue}{table de vérité} d'une formule logique $F$ contenant $n$ variables logiques consiste à présenter sous forme de tableau la valeur de vérité de $F$  pour chacune des $2^n$ valuations possibles.
+	\end{block}
+	\onslide<2->{
+		\begin{exampleblock}{Exemple}
+			\begin{itemize}
+				\item<2-> Dresser la table de vérité de $F = (p \imp q) \eq (\non p \ou q)$
+					\onslide<4->{
+						\begin{tabular}{c|c|c|c|c}
+							$p$ & $q$ & $p \imp q$                                             & $\non p \ou q$                                         & $F$                                                    \\
+                            \hline
+							 $\faux$ &  $\faux$ & \leavevmode{\onslide<5->{\textcolor{OliveGreen}{ $\vrai$}}} & \leavevmode{\onslide<6->{\textcolor{OliveGreen}{ $\vrai$}}} & \leavevmode{\onslide<7->{\textcolor{OliveGreen}{ $\vrai$}}} \\
+							 $\faux$ &  $\vrai$ & \leavevmode{\onslide<5->{\textcolor{OliveGreen}{ $\vrai$}}} & \leavevmode{\onslide<6->{\textcolor{OliveGreen}{ $\vrai$}}} & \leavevmode{\onslide<7->{\textcolor{OliveGreen}{ $\vrai$}}} \\
+							 $\vrai$ &  $\faux$ & \leavevmode{\onslide<5->{\textcolor{OliveGreen}{ $\faux$}}} & \leavevmode{\onslide<6->{\textcolor{OliveGreen}{ $\faux$}}} & \leavevmode{\onslide<7->{\textcolor{OliveGreen}{ $\vrai$}}} \\
+							 $\vrai$ &  $\vrai$ & \leavevmode{\onslide<5->{\textcolor{OliveGreen}{ $\vrai$}}} & \leavevmode{\onslide<6->{\textcolor{OliveGreen}{ $\vrai$}}} & \leavevmode{\onslide<7->{\textcolor{OliveGreen}{ $\vrai$}}} \\
+						\end{tabular}
+					}
+				\item<3-> Que peut-on en déduire ?
+				\onslide<8->\textcolor{OliveGreen}{$F$ est une tautologie.}
+			\end{itemize}
+		\end{exampleblock}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{alertblock}{Equivalence logique}
+        On dit que deux formules logiques $F$ et $G$ sont \textcolor{blue}{logiquement équivalentes} si pour toute valuation $\varphi$, $\vv{F} = \vv{G}$.
+        On notera alors $F \equiv G$.\\
+        \onslide<2->{Cela traduit l'égalité sémantique de $F$ et $G$, et permet de simplifier les formules.}
+        \onslide<3->{A ne pas confondre avec $\eq$ qui est un connecteur logique.}
+    \end{alertblock}
+    \onslide<3->
+    {\begin{block}{Quelques équivalences à connaitre}
+        \begin{itemize}
+            \item<3-> $\non (\non F) \equiv F$
+            \item<4-> $F \ou (G \et H) \equiv (F \ou G) \et (F \ou H)$
+            \item<5-> $F \et (G \ou H) \equiv (F \et G) \ou (F \et H)$ 
+            \item<6-> $\non (F \ou G) \equiv \non F \et \non G$  (loi de De Morgan)
+            \item<7-> $\non (F \et G) \equiv \non F \ou \non G$ (loi de De Morgan)
+            \item<8-> $F \imp G \equiv   \non F \ou G $
+        \end{itemize}
+    \end{block}
+}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple}
+        Montrer que :
+        \begin{itemize}
+            \item $P \ou \non P \equiv \top$ (tiers exclu)
+            \item<2-> $ P \imp Q \equiv \non Q \imp \non P$ (contraposition)
+        \end{itemize}
+    \end{exampleblock}
+    \onslide<3->{
+    \begin{alertblock}{Conséquence logique}
+        On dit que qu'une formule $G$ est \textcolor{blue}{conséquence logique} d'un ensemble de formules  $\Gamma = \{F_1, \dots F_n\}$  si pour toute valuation $\varphi$, qui rend vraies les formules $(F_i)_{1\leqslant i \leqslant n}$ rend aussi vraie $G$.
+        On notera alors $\Gamma \vDash Q$.\\
+        \onslide<4->{A ne pas confondre avec $\imp$ qui est un connecteur logique.}
+    \end{alertblock}}
+    \onslide<5->{
+        \begin{block}{Remarques}
+            \begin{itemize}
+                \item<5-> Une formule $F$ est est une tautologie ssi $\varnothing \vDash F$, on notera simplement, $\vDash F$.
+                \item<6-> $F \equiv G$ ssi $F \vDash G$ et $ G \vDash Q$.
+            \end{itemize}
+        \end{block}
+                }
+\end{frame}
+
+\makess{Formes normales}
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{block}{Définitions}
+        \begin{itemize}
+        \item Un \textcolor{blue}{littéral} est une formule qui est soit une variable propositionnelle $p$, soit sa négation $\non p$.
+        \item<2-> Une \textcolor{blue}{forme normale conjonctive} est une formule qui est une conjonction de disjonctions de littéraux.\\
+        $(p_{1,1} \ou p_{1,2} \dots \ou p_{1,k_1}) \et \underbrace{(p_{2,1} \ou p_{2,2} \dots \ou p_{2,k_2})}_{\text{\textcolor{blue}{une clause}}} \et \dots \et (p_{m,1} \ou p_{m,2} \dots \ou p_{m,k_m})$
+        \item<3-> Une \textcolor{blue}{forme normale disjonctive} est une formule qui est une disjonction de conjonctions de littéraux.\\
+        $(p_{1,1} \et p_{1,2} \dots \et p_{1,k_1}) \ou (p_{2,1} \et p_{2,2} \dots \et p_{2,k_2}) \ou \dots \ou (p_{m,1} \et p_{m,2} \dots \et p_{m,k_m})$
+        \end{itemize}
+    \end{block}
+    \onslide<4->{
+        \begin{exampleblock}{Exemple}
+            $(p \et q \et \non r) \ou (\non p \et r) \ou (p \et \non q \et\non r)$ est une {\sc fnd}.
+        \end{exampleblock}
+    }
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{alertblock}{Propositions}
+        \begin{itemize}
+            \item<1-> Pour tout formule logique $F$, il existe une {\sc fnc} $G$ et une {\sc fnd} $H$ telles que $F \equiv G \equiv H$.
+            \item<2-> On dispose d'un algorithme pour calculer une forme normale :
+            \begin{enumerate}
+                \item<3-> supprimer les $\bot$ et les $\top$
+                \item<4-> Remplacer $\imp$ et $\eq$ par des formules sémantiquement équivalentes  n'utilisant pas ces connecteurs : $A \imp B \equiv \non A \ou B$ et $ A \eq B \equiv (A \et B) \ou (\non A \et \non B)$.
+                \item<5-> Utiliser les lois de De Morgan afin de faire descendre les $\non$ au niveau des feuilles de l'arbre syntaxique
+                \item<6-> Appliquer les propriétés d'associativité et de distributivité des connecteurs $\et$ et $\ou$.
+                \item<7-> simplifier les doublons éventuelles dans les clauses de littéraux ($v \et \non v \equiv \bot$ et $v \ou \non v = \top$)
+            \end{enumerate}
+            \item<8-> Une autre méthode consiste à utiliser la table de vérité.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple}
+        {\small Mise sous forme normale de $ P = (p \imp q) \eq \non r$ \\}
+        \begin{itemize}
+            \item<1->{\small Méthode 1 : utilisation de l'algorithme \\}
+            \onslide<2->{\small $P =  ((p \imp q) \et \non r) \ou (\non (p\imp q) \et \non \non r)$ (équivalence sémantique de $\eq$)}
+            \onslide<3->{\small $P =  ((\non p \ou q) \et \non r) \ou (\non (\non p \ou q) \et r)$ (équivalence sémantique de $\imp$)}
+            \onslide<4->{\small $P = ((\non p \ou q) \et \non r) \ou ( (p \et \non q) \et r)$ (lois de DeMorgan)} 
+            \onslide<5->{\small $P = (\non p \et \non r) \ou (q \et \non r) \ou ( p \et \non q \et r)$ (distributivité et associativité)}
+            \item<6->{\small Méthode 2 : utilisation de la table de vérité\\}
+            \onslide<7->{\begin{tabular}{>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}c|>{\small}l} 
+                $p$ & $q$ &$r$  & $p \imp q$  & $\non r$&  $P$                                                    \\
+                \cline{1-6}
+                 $\faux$ &  $\faux$ &  $\faux$ &  $\vrai$ &  $\vrai$&  $\textcolor{BrickRed}{\vrai}$ & \leavevmode\onslide<7->{$\longrightarrow (\non p \et \non q \et \non r) \ou$} \\
+                 $\faux$ &  $\faux$ &  $\vrai$ &  $\vrai$ &  $\faux$&   $\faux$ & \\
+                 $\faux$ &  $\vrai$ &  $\faux$ &  $\vrai$ &  $\vrai$&  $\textcolor{BrickRed}{\vrai}$ & \leavevmode\onslide<8->{$\longrightarrow (\non p \et  q \et \non r) \ou$}\\
+                 $\faux$ &  $\vrai$ &  $\vrai$ &  $\vrai$ &  $\faux$&   $\faux$ & \\
+                 $\vrai$ &  $\faux$ &  $\faux$ &  $\faux$ &  $\vrai$&   $\faux$ & \\
+                 $\vrai$ &  $\faux$ &  $\vrai$ &  $\faux$ &  $\faux$&  $\textcolor{BrickRed}{\vrai}$ & \leavevmode\onslide<9->{$\longrightarrow ( p \et \non q \et  r) \ou$}\\
+                 $\vrai$ &  $\vrai$ &  $\faux$ &  $\vrai$ &  $\vrai$&  $\textcolor{BrickRed}{\vrai}$ & \leavevmode\onslide<10->{$\longrightarrow (p \et  q \et \non r)$}\\
+                 $\vrai$ &  $\vrai$ &  $\vrai$ &  $\vrai$ &  $\faux$&   $\faux$ & \\
+            \end{tabular}}
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\makess{Problème {\sc sat} -- Algorithme de Quine}
+\begin{frame}{\Ctitle}{\stitle}
+\begin{block}{Définitions}
+    \begin{itemize}
+		\item<1-> Un \textcolor{blue}{problème de décision} sur un ensemble $E$, est une question sur les éléments de $E$ à laquelle on répond par \textit{oui} ou \textit{non}.\\
+		\textcolor{gray}{Par exemple sur $\N$, savoir si un entier $n$ est premier ou non est un problème de décision.}
+		\item<2-> La \textcolor{blue}{théorie de la calculabilité} étudie l'existence ou non d'un algorithme capable de répondre à un problème de décision.\\
+		\textcolor{gray}{Par exemple le problème de l'arrêt est indécidable}
+		\item<3-> La \textcolor{blue}{théorie de la complexité} s'intéresse à la complexité des algorithmes lorsqu'un problème de décision est décidable.		
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Problème {\sc sat}}
+		Le problème {\sc sat} (pour satisfiabilité) est le problème de savoir si une formule logique $F$ définie sur un ensemble de variable logique $V = \{p_1, \dots p_n\}$ est satisfiable ou non.
+	\end{alertblock}
+\end{frame}
+
+
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{alertblock}{Algorithme de Quine}
+    Pour tester la satisfiabilité d'une formule logique, on peut construire sa table de vérité ou utiliser l'\textcolor{blue}{algorithme de Quine}. Soit $F$ une formule contenant les variables logiques $p_1, \dots p_n$.
+    \begin{itemize}
+        \item On fixe $\varphi(p_1) = \faux$ et on teste récursivement la satisfiabilité de $F$ dans laquelle toutes les occurences de $p_1$ sont remplacées par $\bot$ (notée $F[\bot/p_1$]).
+        \item En cas d'échec,  on fixe $\varphi(p_1) = \vrai$ et on teste récursivement la satisfiabilité de $P[\top/p_1]$.
+        \item En cas d'échec la formule n'est pas satisfiable.
+    \end{itemize}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+    \begin{exampleblock}{Exemple}
+        Dérouler l'algorithme de Quine sur $F = (p\ \ou q) \et (\non q \ou \non r) \et (\non p \ou r) \et (p \ou r)$
+        \begin{itemize}
+            \item On affecte la valeur  $\faux$ à $p$ et on teste la satisfiabilité de : \\
+            \onslide<2->{$ F[\bot/p] = (\bot \ou q) \et (\non q \ou \non r) \et (\non \bot \ou r) \et (\bot \ou r) $\\}
+            \onslide<3->{$ \phantom{P[\bot/p]} = q \et (\non q \ou \non r) \et \top \et r$ \\}
+            \onslide<4->{$ \phantom{P[\bot/p]} = q \et (\non q \ou \non r) \et r$}
+            \begin{itemize} 
+                \item<5-> On affecte la valeur  $\faux$ à $q$ et on teste la satisfiabilité de : \\
+                \onslide<6->{$\bot \et (\non \bot \ou \non r) \et r$ qui est non satisfiable}
+                \item<7-> On affecte la valeur  $\vrai$ à $q$ et on teste la satisfiabilité de : \\
+                \onslide<8->{$\top \et (\non \top \ou \non r) \et r =  \non r \et r $ donc non satisfiable. }
+            \end{itemize}
+            \item<9-> On affecte la valeur  $\vrai$ à $p$ et on teste la satisfiabilité de : \\
+            \onslide<10->{$ F[\top/p] = (\top \ou q) \et (\non q \ou \non r) \et (\non \top \ou r) \et (\top \ou r) $\\}
+            \onslide<11->{$ F[\top/p] = (\non q \ou \non r) \et  r $\\}
+            \begin{itemize} 
+                \item<12-> On affecte la valeur  $\faux$ à $q$ et on teste la satisfiabilité de : \\
+                \onslide<13->{$(\non \bot \ou \non r) \et  r = r $ qui est satisfiable.}
+            \end{itemize}
+        \end{itemize}
+        \onslide<14->{On dispose à la fin d'un valuation  $\varphi$ telle que $\vv{P} = V$ : $\varphi(p) = V, \varphi(q)=F$ et  $\varphi(r)=V$.}
+    \end{exampleblock}
+
+\end{frame}
+
+
+
+\end{document}  

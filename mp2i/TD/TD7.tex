@@ -1,0 +1,156 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{7}{Terminaison, correction, complexité}
+
+\setcounter{Exercise}{0}
+
+\begin{Exercise}[title = {Intersection}]\\
+En OCaml, on représente une partie de $\N$ par une liste \textit{triée} d’entiers, par exemple  $[9; 15; 22; 28]$
+\Question{Ecrire une fonction {\tt intersection} : {\tt list -> list -> list} calculant l’intersection de deux parties (le résultat doit être trié).}
+\Question{Prouver la terminaison de {\tt intersection}.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Correction}]
+    \Question{Ecrire en C une fonction de signature \mintinline{c}{int somme(int tab[], int taille)} renvoyant la somme des éléments d'un tableau.}
+    \Question{Prouver la correction de votre fonction.}
+\end{Exercise}
+    
+
+\begin{Exercise}[title={Notation $O$}]
+\Question{Déterminer un $O$ des suites de terme général :}\\
+\begin{tabularx}{\linewidth}{XXX}
+a) $2023 n^2$ &
+b) $n^2 + 10^9 n$ &
+c) $3 n + 7 \log n$ \\
+d) $2^{n+7} + n^{10}$ &
+e) $\sqrt{19n^2+3}$ &
+f) $\log(3n)+\log(n)$ \\
+\end{tabularx}
+\Question{Montrer que si $u_n = O(v_n)$ et $v_n = O(w_n)$ alors $u_n = O(w_n)$.}
+\Question{Montrer que $O(u_n) + O(v_n) = O(\max(u_n,v_n)$).}
+\Question{Montrer que si $u_n = O(a_n)$ et $v_n = O(b_n)$ alors $u_nv_n = O(a_nb_n)$.}
+\Question{Déterminer un $O$ (le \og{} meilleur \fg{} possible) des expressions suivantes :}\\
+\begin{tabularx}{\linewidth}{XXX}
+a) $O(n^4)+O(n^2)$ &
+b) $O(n^5)+O(n^5)$ &
+b) $O(n^3)+O(\log(n))$ \\
+d) $O(n^4)\times O(n^3)$ &
+e) $O(n^4)\times O(\sqrt{n})$& 
+f) $O(n^2)\times O(\log{n})$ \\
+\end{tabularx}
+\end{Exercise}
+
+
+\begin{Exercise}[title={multiplier en additionnant}]
+    \inputpartC{add_mult.c}{\small}{}{3}{8}
+\Question{En supposant $p>0$ montrer la terminaison.}
+\Question{Prouver que cette fonction renvoie $p \times n$.}
+\Question{Déterminer sa complexité.}
+\end{Exercise}
+
+\begin{Exercise}[title={Vérification du tri}]
+    \Question{Ecrire un algorithme permettant de vérifier qu'un tableau est trié par ordre croissant.}
+    \Question{En proposer une implémentation en OCaml permettant de vérifier qu'une liste est triée.}
+    \Question{Prouver que votre algorithme est correct.}
+    \Question{Déterminer sa complexité.}
+\end{Exercise}
+
+\begin{Exercise}[title={exponentiation rapide}]\\
+On rappelle la fonction d'exponentiation rapide dans sa version récursive :
+\inputpartC{exp_rapide.c}{\small}{}{5}{13}
+\Question{Prouver que cet algorithme termine.}
+\Question{Prouver qu'il est correct.\\
+\aide \; En notant $n_0$ la valeur initiale de $n$, on pourra considérer l'invariant suivant : {\tt res * cp\textsuperscript{n}}=$a^{n_0}$} 
+\Question{Donner sa complexité.} 
+\end{Exercise}
+
+\begin{Exercise}[title={retour sur la multiplication}]\\
+On donne la fonction suivante :
+\inputpartC{add_mult2.c}{\small}{}{5}{12}
+
+\Question{Vérifier à la main, sur deux entiers naturels de votre choix que cette fonction est conforme à sa spécification.}
+\Question{Montrer la terminaison de cette fonction}
+\Question{Montrer que cette fonction est bien conforme à sa spécification.}
+\end{Exercise}
+
+\begin{Exercise}[title={tri à bulles}]
+
+\Question{Rappeler le principe du tri à bulles.}
+\Question{En écrire une implémentation en C, dans laquelle on vérifie à chaque passage qu'au moins une inversion a été effectuée. Si tel n'est pas le cas on termine immédiatement l'algorithme puisque cela signifie que les élements sont triées.}
+\Question{Montrer la terminaison de cette fonction}
+\Question{Prouver qu'elle est correcte. \\
+\aide \; On pourra exhiber un invariant qui donne le nombre d'éléments figurants à leur place finale après chaque itération.
+}
+    
+\end{Exercise}
+
+\begin{Exercise}[title={Recherche dichotomique}]
+\begin{algorithm}[H]
+    \footnotesize
+    \DontPrintSemicolon
+    \caption{Recherche dichotomique}
+    \Entree{$a \in \N$ et un tableau d'entiers $t$ \textbf{trié} de longueur $n$}
+    \Sortie{Booléen indiquant si $a \in t$.}
+    \everypar={\footnotesize \textcolor{gray}{\nl}}
+    $ d \leftarrow 0$ \;
+    $ f \leftarrow n-1$ \;
+    \Tq{$f - d \geqslant 0$}{
+        $ m \leftarrow (f+d)/2$ \;
+    \Si{$t[m]=a$}{
+        \Return Vrai 
+    }
+    \Si{$a<t[m]$}
+    {
+        $f \leftarrow m - 1$
+    }\Sinon
+    {   $d \leftarrow m + 1$}
+    }
+    \Return Faux
+  \end{algorithm} 
+  \Question{Etudier la terminaison de cet algorithme.}
+  \Question{Prouver que cet algorithme est totalement correct.}
+  \Question{Déterminer sa complexité.}
+\end{Exercise}
+
+\begin{Exercise}[title={nombre de chiffres d'un entier}]
+    \Question{Ecrire en C, une version itérative d'une fonction donnant le nombre de chiffres d'un entier naturel.}
+    \Question{Ecrire une version récursive en OCaml.}
+    \Question{Prouver la terminaison dans les deux cas.}
+    \Question{Prouver la correction dans les deux cas.}
+\end{Exercise}
+
+\begin{Exercise}[title={majorité absolue}]\\
+On considère les résultats d'un vote sous la forme d'un tableau d'entier positifs, lorsqu'on rencontre la valeur {\tt i} cela signifie que la candidat numéro {\tt i} a obtenu un vote. Par exemple si le tableau contient les valeurs {\tt [2, 3, 1, 2, 2, 2, 4, 1, 1, 2]}, alors le candidat 1 a obtenu 3 voix, le candidat 2 a obtenu 5 voix, $\dots$.
+On cherche à déterminer un algorithme efficace permettant de déterminer (s'il existe) le candidat ayant obtenu la majorité absolue. Dans le cas où aucun candidat n'a la majorité absolue alors l'algorithme doit renvoyer {\tt -1}.
+On note $C$ le nombre de candidats et $N$ le nombre de votes.
+
+\Question{Proposer un algorithme permettant de résoudre ce problème et donner sa complexité}\\
+On donne ci-dessous \textbf{le début} de l'implémentation en C d'un algorithme  proposé par R. Boyer et S. Moore:
+\inputpartC{vote.c}{\small}{}{7}{20}
+\Question{Prouver qu'à la fin de la boucle {\tt for}, la variable {\tt candidat} contient le numéro du seul candidat éventuellement majoritaire}
+\Question{Compléter l'implémentation en ajoutant les lignes permettant de vérifier après la boucle for que ce candidat est effectivement majoritaire}
+\Question{Donner la complexité de cet algorithme.}
+\end{Exercise}
+
+
+
+\begin{Exercise}[title={Fonction 91}]\\
+    La fonction 91, noté $f_{91}$ due à l'informaticien J. McCarthy est définie sur $\N$ par : \\
+    $f_{91}(n) = \left\{
+        \begin{array}{lr}
+            n-10 & \text{ si } n>100, \\
+            f_{91}(f_{91}(n+11))  & \text{ si } n \leq 100.
+        \end{array}
+    \right.$
+    \Question{Calculer $f_{91}(101)$, $f_{91}(200)$, $f_{91}(2025)$}
+    \Question{Ecrire une fonction {\tt f91} en OCaml permettant de calculer cette fonction.}
+    \Question{Montrer que si $n \in \intN{90}{100}$ alors $f(n) = f(n+1)$. En déduire la valeur de $f$ sur $\intN{90}{100}$.}
+    \Question{Prouver pour tout $n \in \intN{0}{101}$, cette fonction termine et vaut $91$. On pourra considérer l'entier $p \in \N^*$ tel que $90 \leqslant n+11p \leqslant 100$.}
+    \end{Exercise}
+
+\end{document}

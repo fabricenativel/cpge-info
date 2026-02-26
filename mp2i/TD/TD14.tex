@@ -1,0 +1,73 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{14}{Induction}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C14/}
+
+
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise}[title = {Relation divise}] \\
+    Sur $\N$, on définit la relation binaire $|$ par $x|y$ si et seulement si $x$ divise $y$.
+    \Question{Montrer que $(\N,|)$ est un ensemble ordonnée}
+    \Question{L'ordre est-il total ? Justifier }
+    \Question{Quels sont les successeurs immédiats de 1 ?}
+\end{Exercise}
+
+\begin{Exercise}[title = {Ordre inverse}] \\
+    Soit $(E, \preccurlyeq)$ un ensemble ordonné, on définit la relation $ \succcurlyeq$ par $x \succcurlyeq y$ si et seulement si $y \preccurlyeq x$.
+    \Question{Montrer que $\succcurlyeq$ est une relation d'ordre sur $E$. On l'appelle l'ordre inverse de $\preccurlyeq$.}
+    \Question{Si $\preccurlyeq$ est un ordre bien fondé, son ordre inverse $\succcurlyeq$ l'est-il aussi ?}
+\end{Exercise}
+
+\begin{Exercise}[title = {Diagramme de Hasse}] \\
+    Le diagramme de Hasse d'un ensemble ordonné fini $(E,\preccurlyeq)$ est un graphe dont les sommets sont les éléments de $E$ et dans lequel il y a un arc entre $e$ et $f$ lorsque $e$ est un prédécesseur immédiat de $f$.
+    \Question{Dessiner le diagramme de Hasse de $(E, \subset)$ où $E$ est l'ensemble des parties de $\{a, b, c\}$.}
+    \Question{Dessiner le diagramme de Hasse de $(\intN{0}{9}, |)$.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Définitions inductives}]
+    \Question{Donner une définition inductive de l'ensemble des entiers impairs.}
+    \Question{Donner une définition inductive de l'ensemble des nombres entier en écriture binaire.}
+    \Question{Donner une définition inductive de l'ensemble des palindromes sur un alphabet $A$.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Preuve par induction structurelle}]\\
+    Soit $X$ le sous ensemble de $N^2$ défini inductivement par :
+    \begin{itemize}
+        \item $X_0 = \{(0;1)\}$
+        \item et la règle d'inférence $(x,y) \mapsto (x+1, (x+1)y)$
+    \end{itemize}
+    \Question{Donner les trois premiers éléments de $X$ obtenus par application successive de la règle d'inférence.}
+    \Question{Prouver par induction structurelle que $X = \{(n, n!), n \in \N\}$}
+\end{Exercise}
+
+\begin{Exercise}[title = {Rangements de petits trains}]\\
+    Un enfant décide de ranger ses petits trains en procédant de la façon suivante : il choisit un objet à ranger de façon aléatoire puis, s'il s'agit d'un wagon il le range directement sinon il s'agit d'un train et dans ce cas il le sépare en autant de wagons qu'il contient. Montrer que cette procédure de rangement termine.
+\end{Exercise}
+
+\begin{Exercise}[title = {Tri par épuisement des inversions}]\\
+    On propose le principe suivant pour trier un tableau de $n$ entiers $(a_0, \dots, a_{n-1})$ : tant que le tableau n'est pas trié, on sélectionne deux indices $i$ et $j$ dans $\intN{0}{n-1}$ tels que $a_i > a_j$ et on échange les éléments situés à ces indices.
+    Montrer que cet algorithme termine.
+\end{Exercise}
+
+\begin{Exercise}[title={Fonction 91}]\\
+    La fonction 91, noté $f_{91}$ due à l'informaticien J. McCarthy est définie sur $\N$ par : \\
+    $f_{91}(n) = \left\{
+        \begin{array}{lr}
+            n-10 & \text{ si } n>100, \\
+            f_{91}(f_{91}(n+11))  & \text{ si } n \leq 100.
+        \end{array}
+    \right.$
+    \Question{Calculer $f_{91}(101)$, $f_{91}(200)$, $f_{91}(2023)$}
+    \Question{Calculer $f_{91}(90)$, $f_{90}(95)$}
+    \Question{Ecrire une fonction {\tt f91} en OCaml permettant de calculer cette fonction.}
+    \Question{Prouver la terminaison de cette fonction}
+\end{Exercise}
+
+\end{document}

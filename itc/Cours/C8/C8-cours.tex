@@ -1,0 +1,232 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{8}
+\newcommand{\Ctitle}{\cnum Algorithmes de tri}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C\thenumchap}
+
+
+
+% Généralités - Tri sélection
+\makess{Introduction}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Généralités}
+		Les algorithmes de tris sont fondamentaux en informatique, ils prennent en entrée une suite de valeurs (nombres, mots, \dots) qu'on peut \textit{comparer} entre eux (relation supérieur ou égal pour les nombres, ordre alphabétique pour les mots, \dots) et fournissent en sortie cette liste de valeurs ordonnées.
+	\end{block}
+	\onslide<2->{\begin{block}{\textcolor{yellow}{\small \danger} Mutabilité}
+			\begin{itemize}
+				\item<2->   Les listes de Python sont \textcolor{BrickRed}{mutables}, par conséquent lorsqu'on passe une liste en argument à une fonction alors cela modifiera cette liste. Car les modifications sur le paramètre affectera toutes les références de cette liste et donc la liste initiale.
+				\item<3-> On peut donc choisir pour une fonction de tri entre :
+					\begin{itemize}
+						\item<4-> modifier la liste passée en argument \textit{sans en créer une nouvelle}, on n'a donc pas besoin de l'instruction \kw{return}. On dira qu'on fait un tri \textcolor{blue}{en place}.
+						\item<5-> créer une nouvelle liste \textit{sans modifier celle donnée en argument} et il faut alors renvoyer cette nouvelle liste avec \kw{return}
+					\end{itemize}
+			\end{itemize}
+		\end{block}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Utilisation d'une fonction de tri}
+		Supposons qu'on veuille trier la liste {\tt lst = [5, -1, 9, 7, 2, 8, -4]}.
+		\begin{itemize}
+			\item Si la fonction de tri fait un \textit{tri en place} alors on utilise \\ \kw{trie\_en\_place(lst)}\\Cela aura pour effet de modifier {\tt lst} en {\tt lst = [-4, -1, 2, 5, 7, 8, 9,]}
+			\item Si la fonction crée une nouvelle liste alors on utilise \\ \kw{lst\_triee=trie\_nouvelle(lst)} \\Cela ne modifiera pas {\tt lst} mais  {\tt lst\_triee} contiendra une copie triée de {\tt lst}.
+		\end{itemize}
+	\end{block}
+	\begin{exampleblock}{Exemples}
+		Deux fonctions de tri existent déjà dans Python :
+		\begin{itemize}
+			\item \kw{sort} qui effectue un tri \textit{en place} et qui à la façon de {\tt append} ou {\tt pop} s'appelle en mettant la liste en préfixe. Par exemple \kw{lst.sort()}.
+			\item \kw{sorted} qui crée une nouvelle liste par exemple, \kw{lst\_triee = sorted(lst)}.
+		\end{itemize}
+
+	\end{exampleblock}
+\end{frame}
+
+\makess{Tri par sélection}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Principe de l'algorithme}
+		Un premier algorithme simple de tri est le tri par sélection aussi appelé tri par recherche itérée du minimum. C'est un tri en place qui consiste à :
+		\begin{itemize}
+			\item<1-> Rechercher le plus petit élément de la liste à partir de l'indice 0
+			\item<2-> Echanger cet élément avec le premier de la liste
+			\item<3-> Rechercher le plus petit élément de la liste à partir de l'indice 1
+			\item<4-> Echanger cet élément avec le second de la liste
+			\item<5-> Et ainsi de suite jusqu'à ce que la liste soit entièrement triée
+		\end{itemize}
+		\onslide<6->{Ainsi, pour \kw{i}={\tt 0 \dots (n-1)}, on échange l'élément d'indice \kw{i} avec le minimum de la liste à partir de l'indice \kw{i}.}
+	\end{alertblock}
+\end{frame}
+
+
+% Exemple tri sélection
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		On considère la liste \texttt{lst = [12,10,18,15,14]}, compléter le tableau suivant qui montre l'évolution de la liste lors du déroulement de l'algorithme. On y a noté $i_m$ l'indice du minimum à partir de l'indice {\tt i}
+		\begin{center}
+			\begin{tabular}{l|l|l}
+				\textcolor{blue}{$i$} & \textcolor{blue}{$i_m$} & \textcolor{blue}{\tt lst} \\
+				\hline
+				0 & 1 & $[10,12,18,15,14]$ \\
+				\hline
+				\dots & \dots & \dots \\
+			\end{tabular}
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+% Implémentation tri sélection
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation en Python}
+		Ecrire les fonctions Python suivantes :
+		\begin{itemize}
+			\item<2-> la fonction \texttt{ind\_min} qui renvoie l'indice du plus petit des éléments  à partir de l'indice \texttt{ind},
+			\item<3-> la fonction \texttt{echange} qui intervertit les éléments de la liste situés aux indices \texttt{ind} et \texttt{ind\_min}.
+		\end{itemize}
+		\onslide<4->{En déduire la fonction {\tt tri\_selection} qui trie \textit{en place} la liste donnée en argument.}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\begin{itemize}
+			\item Recherche de l'indice du minimum depuis un indice donné
+			      \inputpython{\SPATH/indice_min.py}{}{\small}
+			\item Echange deux éléments dans une liste en donnant leur indice
+			      \inputpython{\SPATH/echange.py}{}{\small}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Implémentation du tri par sélection en Python}
+		\inputpython{\SPATH/tri_selection.py}{}{\small}
+	\end{exampleblock}
+\end{frame}
+
+% Tri insertion
+\makess{Tri par insertion}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Principe de l'algorithme}
+		Le principe est de considérer qu'une partie située en début de liste est déjà triée (cette partie est initialement vide), ensuite on parcourt le reste de la liste et on insère chaque élément qu'on rencontre dans la partie déjà triée.
+		\begin{itemize}
+			\item<1-> on parcourt la liste à partir du premier élément
+			\item<2-> chaque élément rencontré est inséré à la bonne position en début de liste
+			\item<3-> Cette insertion peut se faire en échangeant cet élément avec son voisin de gauche tant qu'il lui est supérieur
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+% Exemple tri insertion
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\onslide<1->{On considère la liste \texttt{[12,10,18,15,14]} voici les étapes d'un tri par insertion sur cette liste, où on, a indiqué par le séparateur \textcolor{blue}{\tt |} la frontière entre la partie déjà triée et celle à trier. L'élément qui va être inséré dans la partie trié est en rouge}
+		\renewcommand{\arraystretch}{0.8}
+		\begin{itemize}
+			\item<1-> \texttt{[\textcolor{blue}{|}\textcolor{BrickRed}{12}, 10, 18, 15, 14]}.
+			\item<2-> \texttt{[12 \textcolor{blue}{|},\textcolor{BrickRed}{10} , 18, 15, 14]}
+			\item<3-> \texttt{[10, 12 \textcolor{blue}{|},\textcolor{BrickRed}{18}, 15, 14]}
+			\item<4-> \texttt{[10, 12, 18 \textcolor{blue}{|},\textcolor{BrickRed}{15}, 14]}
+			\item<5-> \texttt{[10, 12, 15, 18 \textcolor{blue}{|},\textcolor{BrickRed}{14}]}
+			\item<6-> \texttt{[10, 12, 14, 15, 18 \textcolor{blue}{|}]}
+		\end{itemize}
+		\onslide<7->{L'algorithme s'arrête car on a atteint la fin de la liste.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation du tri par insertion en Python}
+		\begin{itemize}
+			\item L'ingrédient essentiel de l'algorithme est la fonction permettant d'insérer la valeur d'indice donné {\tt idx} dans le début de la liste \textit{en supposant ce début de liste déjà triée}.
+			      \item<2->C'est à dire qu'on doit écrire une fonction \mintinline{python}{insere} qui prend en argument une liste et un indice {\tt i} et insère l'élément {\tt liste[i]} au bon emplacement dans le début de la liste.
+			      \item<3->On propose de procéder de la façon suivante : on échange l'élément d'indice {\tt i} avec son voisin de gauche tant qu'on a pas atteint le début de la liste (donc {\tt i>0}) ou que l'élément à gauche est plus petit ou égal .
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\begin{itemize}
+			\item Fonction d'insertion
+			      \inputpython{\SPATH/insere.py}{}{\small}
+			\item Tri par insertion
+			      \inputpython{\SPATH/tri_insertion.py}{}{\small}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Le tri fusion}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Principe de l'algorithme}
+		Le tri fusion un algorithme récursif, en effet, pour trier une liste $l$ de taille $n$,
+		\begin{itemize}
+			\item<2-> \textcolor{blue}{Diviser} : on sépare $l$ en deux moitiés (à une unité près) $l_1$ et $l_2$.
+			\item<3-> \textcolor{blue}{Régner } : on trie $l_1$ et $l_2$ (récursivement)
+			\item<4-> \textcolor{blue}{Combiner } : on fusionne les listes triées afin de construire la solution au problème initial
+		\end{itemize}
+	\end{alertblock}
+	\onslide<5->{
+	\begin{block}{Remarque}
+		L'algorithme du tri fusion illustre une stratégie algorithmique appelée \textit{diviser pour régner} qui consiste à résoudre un problème en le divisant en sous-problèmes plus petits, puis en combinant les solutions de ces sous-problèmes pour résoudre le problème initial.
+	\end{block}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		On considère la liste \texttt{[12, 10, 18, 15, 14, 7]} voici les étapes d'un tri fusion sur cette liste
+		\begin{itemize}
+			\item<2-> \textcolor{blue}{Diviser} : on sépare la liste en deux moitiés \texttt{[12, 10, 18]} et \texttt{[15, 14, 7]}
+			\item<3-> \textcolor{blue}{Régner} : on trie récursivement les deux listes
+			\item<4-> \textcolor{blue}{Combiner} : on fusionne les listes triées \texttt{[10, 12, 18]} et \texttt{[15, 14, 7]}
+		\end{itemize}
+		\onslide<5->{\begin{center}
+				\psset{arrows=->, labelsep=3pt}
+				\begin{tabularx}{\linewidth}{YYY}
+					                                                       & \rnode{S}{\psframebox[linecolor=blue]{[12, 10, 18, 15, 14]}}    &                                                       \\
+					                                                       & \textcolor{blue}{Diviser}                                       &                                                       \\
+					\rnode{M1}{\psframebox[linecolor=blue]{[12, 10, 18]}}  &                                                                 & \rnode{M2}{\psframebox[linecolor=blue]{[15, 14, 7]}}  \\
+
+					                                                       & \textcolor{blue}{Régner}                                        &                                                       \\
+					\rnode{MT1}{\psframebox[linecolor=blue]{[10, 12, 18]}} &                                                                 & \rnode{MT2}{\psframebox[linecolor=blue]{[7, 14, 15]}} \\
+					                                                       & \textcolor{blue}{Combiner}                                      &                                                       \\
+					                                                       & \rnode{F}{\psframebox[linecolor=blue]{[7, 10, 12, 14, 15, 18]}} &                                                       \\
+				\end{tabularx}
+				\ncline[linecolor=BrickRed]{->}{S}{M1} \ncline[linecolor=BrickRed]{->}{S}{M2}
+				\ncline[linecolor=BrickRed]{->}{M1}{MT1} \ncline[linecolor=BrickRed]{->}{M2}{MT2}
+				\ncline[linecolor=BrickRed]{->}{MT1}{F} \ncline[linecolor=BrickRed]{->}{MT2}{F}
+			\end{center}}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation du tri fusion en Python}
+		\begin{itemize}
+			\item<2-> La première étape est de définir une fonction \texttt{fusion} qui prend en argument deux listes triées et les fusionne en une seule liste triée.
+			\item<3-> Ensuite, on peut définir la fonction \texttt{tri\_fusion} qui trie une liste en utilisant la méthode du tri fusion.L'étape de séparation peut s'effectuer avec l'extraction de \textit{tranches}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Implémentation en Python}
+		\begin{itemize}
+			\item Fusion
+			      \inputpython{\SPATH/fusion.py}{}{\small}
+			\item Tri fusion
+			      \inputpython{\SPATH/tri_fusion.py}{}{\small}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+\end{document}

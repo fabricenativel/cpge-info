@@ -1,0 +1,3990 @@
+<!--
+pyodide-mkdocs-theme
+Copyleft GNU GPLv3 🄯 2024 Frédéric Zinelli
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.
+If not, see <https://www.gnu.org/licenses/>.
+-->
+
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cours de la filière MP2I et cours d'Informatique de tronc commun (Lycée Leconte de Lisle - Académie de la Réunion)">
+      
+      
+      
+        <link rel="canonical" href="https://fabricenativel.github.io/cpge-info/itc/listes/">
+      
+      
+        <link rel="prev" href="../bases/">
+      
+      
+        <link rel="next" href="../fichiers/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
+        <title>C2-Listes - Cours d'informatique en CPGE</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+
+<script type="importmap">{"imports": {"functools": "../../js-libs/functools.js", "jsLogger": "../../js-libs/jsLogger.js", "process_and_gui": "../../js-libs/process_and_gui.js", "0-generic-python-snippets-pyodide": "../../js-per-pages/0-generic-python-snippets-pyodide.js", "1-error_logs-pyodide": "../../js-per-pages/1-error_logs-pyodide.js", "1-packagesInstaller-install-pyodide": "../../js-per-pages/1-packagesInstaller-install-pyodide.js", "1-runtimeManager-runtime-pyodide": "../../js-per-pages/1-runtimeManager-runtime-pyodide.js", "2-0-runnersManager-runners": "../../js-per-pages/2-0-runnersManager-runners.js", "2-pyodideSectionsRunner-runner-pyodide": "../../js-per-pages/2-pyodideSectionsRunner-runner-pyodide.js", "3-btnRunner-py_btn": "../../js-per-pages/3-btnRunner-py_btn.js", "3-terminalRunner-term": "../../js-per-pages/3-terminalRunner-term.js", "4-0-idesManager-ide": "../../js-per-pages/4-0-idesManager-ide.js", "4-ideLogistic-ide": "../../js-per-pages/4-ideLogistic-ide.js", "4-ideRunner-ide": "../../js-per-pages/4-ideRunner-ide.js", "5-ideTester-ides_test": "../../js-per-pages/5-ideTester-ides_test.js", "6-2-init-playground": "../../js-per-pages/6-2-init-playground.js", "6-idePlayground-playground": "../../js-per-pages/6-idePlayground-playground.js", "qcms-qcm": "../../js-per-pages/qcms-qcm.js", "start-pyodide": "../../js-per-pages/start-pyodide.js", "overlord": "../../js-scripts/overlord.js", "subscriptions": "../../js-scripts/subscriptions.js"}}</script>
+
+
+
+      
+    
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/jquery.terminal@2.43.1/css/jquery.terminal.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery.terminal@2.43.1/js/jquery.terminal.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.7/ace.min.js" integrity="sha512-GQpIYSKNIPIC763JKTNALj+t18/nfLdzw5gITgFGa31aK/4NmjyPKsfqrjh7CuzpJaG3nqEleeVcWUhHad9Axg==" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.7/ext-language_tools.min.js" integrity="sha512-iK7yTkCkv7MbFwTqRgHTbmIqoiiLq6BsyNjymnFyB5a7pEQwYThj9QIgqBy9+XPPwj7+hAEHyR2npOHL1bz4Qg==" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="../../js-libs/0-config.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script type="text/javascript">
+if(!window.CONFIG) window.CONFIG={}
+CONFIG.argsFigureDivId="figure1"
+CONFIG.baseUrl="../.."
+CONFIG.buttonIconsDirectory="../../assets/images"
+CONFIG.editorFontFamily="monospace"
+CONFIG.editorFontSize=15
+CONFIG.exportZipPrefix=""
+CONFIG.exportZipWithNames=false
+CONFIG.inServe=false
+CONFIG.keyStrokesAutoSave=30
+CONFIG.language="fr"
+CONFIG.pmtUrl="https://gitlab.com/frederic-zinelli/pyodide-mkdocs-theme"
+CONFIG.projectId=null
+CONFIG.projectMoveFromOldId=null
+CONFIG.projectNoJsWarning=false
+CONFIG.pythonLibs=['turtle']
+CONFIG.siteUrl="https://fabricenativel.github.io/cpge-info/"
+CONFIG.version="5.4.5"
+CONFIG.lang={"allOthersTrash": {"msg": "1 entr\u00e9e non associ\u00e9e au projet en cours a \u00e9t\u00e9 trouv\u00e9e. Voulez-vous la supprimer ?\n(Vous risquez de perdre des donn\u00e9es d'un site voisin !)", "plural": "{N} entr\u00e9es non associ\u00e9es au projet en cours ont \u00e9t\u00e9 trouv\u00e9es. Voulez-vous toutes les supprimer ?\n(Vous risquez de perdre des donn\u00e9es d'un site voisin !)"}, "attemptsLeft": {"msg": "\u00c9valuations restantes"}, "check": {"msg": "Valider<br><kbd>Ctrl</kbd>+<kbd>Enter</kbd><br>(Clic droit pour l'historique)", "em": 9, "kbd": ""}, "comments": {"msg": "(D\u00e9s-)Active le code apr\u00e8s la ligne <code># Tests</code> (insensible \u00e0 la casse)<br>(<kbd>Ctrl</kbd>+<kbd>I</kbd>)", "em": 17, "kbd": "Ctrl+I"}, "complementTrash": {"msg": "Nota : 1 entr\u00e9e non associ\u00e9e \u00e0 ce projet", "plural": "Nota : {N} entr\u00e9es non associ\u00e9es \u00e0 ce projet"}, "corr": {"msg": "\ud83d\udc0d Proposition de correction"}, "corrBtn": {"msg": "Tester la correction (serve)", "em": 0, "kbd": ""}, "delayedReveal": {"msg": "Solution affich\u00e9e dans {N} essai(s).", "format": "info"}, "download": {"msg": "T\u00e9l\u00e9charger", "em": 0, "kbd": ""}, "editorCode": {"msg": "\u00c9diteur", "format": "info"}, "failHead": {"msg": "Dommage !", "format": "warning"}, "failTail": {"msg": "est maintenant disponible", "plural": "sont maintenant disponibles"}, "feedback": {"msg": "Tronquer ou non le feedback dans les terminaux (sortie standard & stacktrace / relancer le code pour appliquer)", "em": 19, "kbd": ""}, "figureAdmoTitle": {"msg": "Votre figure"}, "figureText": {"msg": "Votre trac\u00e9 sera ici"}, "fullScreen": {"msg": "Entrer ou sortir du mode \"plein \u00e9cran\"<br>(<kbd>Esc</kbd>)", "em": 10, "kbd": "Esc"}, "installDone": {"msg": "Installations termin\u00e9es !", "format": "info"}, "installStart": {"msg": "Installation de paquets python. Ceci peut prendre un certain temps...", "format": "info"}, "loadIde": {"msg": "Configure l'IDE avec ces donn\u00e9es", "em": 10, "kbd": ""}, "noCodesTrash": {"msg": "Pas de codes trouv\u00e9s pour le projet en cours sur ce navigateur."}, "p5Start": {"msg": "D\u00e9marre l'animation", "em": 0, "kbd": ""}, "p5Step": {"msg": "Avance d'une image", "em": 0, "kbd": ""}, "p5Stop": {"msg": "Arr\u00eate l'animation", "em": 0, "kbd": ""}, "pickerFailure": {"msg": "Veuillez cliquer sur la page entre deux utilisations des raccourcis clavier ou utiliser un bouton, afin de pouvoir t\u00e9l\u00e9verser un fichier."}, "play": {"msg": "Ex\u00e9cuter le code<br>(<kbd>Ctrl</kbd>+<kbd>S</kbd>)", "em": 9, "kbd": "Ctrl+S"}, "publicTests": {"msg": "Tests publics", "format": "info"}, "pyBtn": {"msg": "Ex\u00e9cuter le code", "em": 9, "kbd": ""}, "qcmCheckTip": {"msg": "V\u00e9rifier les r\u00e9ponses", "em": 11, "kbd": ""}, "qcmMaskTip": {"msg": "Les r\u00e9ponses resteront cach\u00e9es...", "em": 11, "kbd": ""}, "qcmRedoTip": {"msg": "Recommencer", "em": 9, "kbd": ""}, "qcmTitle": {"msg": "Question", "plural": "Questions"}, "refresh": {"msg": "Une version plus r\u00e9cente du code existe.\nVeuillez copier vos \u00e9ventuelles modifications puis r\u00e9initialiser l'IDE.", "format": "warning"}, "rem": {"msg": "Remarques"}, "removeTrash": {"msg": "Il y a actuellement 1 r\u00e9f\u00e9rence enregistr\u00e9e sur ce navigateur.\nVoulez-vous l'effacer ?", "plural": "Il y a actuellement {N} r\u00e9f\u00e9rences enregistr\u00e9es sur ce navigateur.\nVoulez-vous toutes les effacer ?"}, "restart": {"msg": "R\u00e9initialiser l'\u00e9diteur", "em": 0, "kbd": ""}, "restartConfirm": {"msg": "ATTENTION: r\u00e9initialiser l'\u00e9diteur fera perdre les anciens codes, status de validation et historiques.", "em": 0, "kbd": ""}, "revealCorr": {"msg": "le corrig\u00e9"}, "revealJoin": {"msg": "et"}, "revealRem": {"msg": "les commentaires"}, "runScript": {"msg": "Script lanc\u00e9...", "format": "info"}, "save": {"msg": "Sauvegarder dans le navigateur", "em": 0, "kbd": ""}, "secretTests": {"msg": "Tests secrets", "format": "info"}, "show": {"msg": "Afficher corr & REMs", "em": 0, "kbd": ""}, "splitModePlaceholder": {"msg": "\u00c9diteur dans l'autre colonne"}, "splitScreen": {"msg": "Entrer ou sortir du mode \"deux colonnes\"<br>(<kbd>Alt+:</kbd> ; <kbd>Ctrl</kbd> pour inverser les colonnes)", "em": 23, "kbd": ""}, "storageIdCollision": {"msg": "Contacter l'auteur du site web en lui fournissant ce message complet. Une collision potentielle d'ids entre plusieurs projets \u00e0 \u00e9t\u00e9 rencontr\u00e9e. Il faut ajouter ou modifier l'argument ID pour l'IDE suivant:"}, "successHead": {"msg": "Bravo !", "format": "success"}, "successHeadExtra": {"msg": "Vous avez r\u00e9ussi tous les tests !"}, "successMsg": {"msg": "OK", "format": "success"}, "successMsgNoTests": {"msg": "Termin\u00e9 sans erreur.", "format": "info"}, "successTail": {"msg": "Pensez \u00e0 lire"}, "test1Ide": {"msg": "Lance ce test", "em": 7, "kbd": ""}, "testIdes": {"msg": "Lance tous les tests...", "em": 7, "kbd": ""}, "testStop": {"msg": "Arr\u00eate les tests", "em": 6, "kbd": ""}, "tests": {"msg": "\n\n# Tests\n\n", "as_pattern": "^#\\s*Tests"}, "testsDone": {"msg": "Tests termin\u00e9s", "format": "info"}, "tipTrash": {"msg": "Supprimer du navigateur les codes enregistr\u00e9s pour Cours d'informatique en CPGE", "em": 15, "kbd": ""}, "titleCorr": {"msg": "Solution"}, "titleRem": {"msg": "Remarques"}, "unforgettable": {"msg": "N'oubliez pas de faire une validation !", "format": "warning"}, "upload": {"msg": "T\u00e9l\u00e9verser", "em": 0, "kbd": ""}, "validation": {"msg": "Validation - ", "format": "info"}, "wrapTerm": {"msg": "Si activ\u00e9, le texte copi\u00e9 dans le terminal est joint sur une seule ligne avant d'\u00eatre copi\u00e9 dans le presse-papier", "em": 19, "kbd": ""}, "zip": {"msg": "Archiver les codes des IDEs exportables de la page", "em": 14, "kbd": ""}, "zipAskForNames": {"msg": "Veuillez pr\u00e9ciser votre/vos noms (cha\u00eene vide interdite) :"}}
+</script>
+<script src="../../js-libs/0-legacy-subscriber.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="../../js-libs/functools.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-libs/jsLogger.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-libs/mathjax-libs.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="../../js-libs/process_and_gui.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<link href="../../pyodide-css/0-generic.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/btns-header.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/history.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/hourglass.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/ide.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/qcm.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/terminal.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../pyodide-css/testing.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<input type="checkbox" id="ace_palette" autocomplete="off" class="md-toggle" data-ace-dark-mode="tomorrow_night_bright" data-ace-light-mode="crimson_editor">
+
+
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/fenarius.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#c2-listes" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../.." title="Cours d&#39;informatique en CPGE" class="md-header__button md-logo" aria-label="Cours d'informatique en CPGE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M241.3-13c-11.4-2.3-23.1-2.3-34.5 0L19.3 24.5C8.1 26.7 0 36.6 0 48c0 10.3 6.5 19.3 16 22.6V144L.3 222.6c-.2.9-.3 1.9-.3 2.9 0 8 6.5 14.6 14.6 14.6h34.9c8 0 14.6-6.5 14.6-14.6 0-1-.1-1.9-.3-2.9L48 144V77.3l48 9.6V144c0 70.7 57.3 128 128 128s128-57.3 128-128V86.9l76.7-15.3C439.9 69.3 448 59.4 448 48s-8.1-21.3-19.3-23.5zM224 224c-44.2 0-80-35.8-80-80h160c0 44.2-35.8 80-80 80m-103.9 96.1C58.7 348.3 16 410.3 16 482.3c0 16.4 13.3 29.7 29.7 29.7H200V366l-57.4-43c-6.5-4.9-15.2-6.2-22.6-2.8zM248 512h154.3c16.4 0 29.7-13.3 29.7-29.7 0-72-42.7-134-104.1-162.1-7.4-3.4-16.1-2.1-22.6 2.8l-57.4 43v146z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cours d'informatique en CPGE
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              C2-Listes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mp2i/progression/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../progression/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../evaluations/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../colles/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/chalkboard-user.svg' width=16px height=16px>&thinsp; Colles
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../programmes/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../annales/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/graduation-cap.svg' width=16px height=16px>&thinsp; Annales PC
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../liens/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cours d&#39;informatique en CPGE" class="md-nav__button md-logo" aria-label="Cours d'informatique en CPGE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M241.3-13c-11.4-2.3-23.1-2.3-34.5 0L19.3 24.5C8.1 26.7 0 36.6 0 48c0 10.3 6.5 19.3 16 22.6V144L.3 222.6c-.2.9-.3 1.9-.3 2.9 0 8 6.5 14.6 14.6 14.6h34.9c8 0 14.6-6.5 14.6-14.6 0-1-.1-1.9-.3-2.9L48 144V77.3l48 9.6V144c0 70.7 57.3 128 128 128s128-57.3 128-128V86.9l76.7-15.3C439.9 69.3 448 59.4 448 48s-8.1-21.3-19.3-23.5zM224 224c-44.2 0-80-35.8-80-80h160c0 44.2-35.8 80-80 80m-103.9 96.1C58.7 348.3 16 410.3 16 482.3c0 16.4 13.3 29.7 29.7 29.7H200V366l-57.4-43c-6.5-4.9-15.2-6.2-22.6-2.8zM248 512h154.3c16.4 0 29.7-13.3 29.7-29.7 0-72-42.7-134-104.1-162.1-7.4-3.4-16.1-2.1-22.6 2.8l-57.4 43v146z"/></svg>
+
+    </a>
+    Cours d'informatique en CPGE
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/progression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index des chapitres
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/systemes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C0-Notions d'architecture et de systèmes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/introC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C1-Premiers pas en langage C
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/discipline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C2-Discipline de programmation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/pointeurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C3-Pointeurs et types structurés
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/arithmetique/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C4-Arithmétique des ordinateurs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/recursivite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C5-Récursivité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/introOCaml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C6-OCaml : aspects fonctionnels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/terminaison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C7-Terminaison, correction, complexité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/sl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C8-Structures de données séquentielles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/OCamlimp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C9-Ocaml : aspects impératifs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/hash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C10-Tableau associatif, hachage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/introbd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C11-Introduction aux bases de données
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/arbres/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C12-Arbres binaires
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/forcebrute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C13-Force brute, retour sur trace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/induction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C14-Induction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/decomposition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C15-Décomposition en sous problèmes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/logique/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C16-Logique
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/graphes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C17-Graphes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/mea/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C18-Modèle entité-association
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/textes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C19-Algorithmes des textes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/algographes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C20-Algorithmes des graphes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mp2i/complement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C21-Compléments sur les arbres
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../progression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../point/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C0-Faire le point
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C1-Bases de Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C2-Listes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C2-Listes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#retour-sur-les-chaines-de-caracteres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retour sur les chaines de caractères
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Retour sur les chaines de caractères">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-1-test-de-presence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 1 : Test de présence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-2-nombre-doccurences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 2 : Nombre d'occurences
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-3-somme-des-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 3 : Somme des codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-4-caracteres-identiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 4 : Caractères identiques
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tranches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tranches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tranches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-5-extraire-des-tranches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 5 : Extraire des tranches
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tuples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tuples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tuples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-6-moyenne-dun-tuple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 6 : Moyenne d'un tuple
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iterables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Itérables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Itérables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-7-faire-un-parcours-par-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 7 : Faire un parcours par élément
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-listes-de-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Les listes de Python
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Les listes de Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-8-manipulation-de-liste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 8 : Manipulation de liste
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mutables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mutables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generations-de-listes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Générations de listes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Générations de listes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-9-creation-de-listes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 9 : Création de listes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#importation-de-fonctions-en-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Importation de fonctions en Python
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cours
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercices-de-synthese" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercices de synthèse
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercices de synthèse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-10-generation-de-listes-en-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 10 : Génération de listes en Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-11-parcours-de-listes-en-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 11 : Parcours de listes en Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-12-recherche-doccurences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 12 : Recherche d'occurences
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-13-evolution-dune-chaine-de-caracteres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 13 : Evolution d'une chaine de caractères
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-14-denivele-positif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 14 : Denivelé positif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-15-evolution-dune-liste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 15 : Evolution d'une liste
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-16-points-du-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 16 : Points du plan
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fichiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C3-Fichiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../discipline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C4-Discipline de programmation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dictionnaires/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C5-Dictionnaires
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recursivite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C6-Récursivité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gloutons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C7-Algorithmes gloutons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tris/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C8-Tris
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../entiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C9-Représentation des entiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terminaison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C10-Terminaison et corrections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graphes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C11-Graphes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../complexite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C12-Complexité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../flottants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C13-Représentation des flottants
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parcours/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C14-Plus courts chemins dans un graphe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C15-Manipulation d'images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 3
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../revisions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C16-Un peu de Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introbd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C17-Introduction aux bases de données
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../progdyn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C18-Programmation dynamique
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jointures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C19-Jointures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../knn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C20-k plus proches voisins, k-moyennes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algojeux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C21-Algorithme pour l'étude des jeux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../evaluations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/chalkboard-user.svg' width=16px height=16px>&thinsp; Colles
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/chalkboard-user.svg' width=16px height=16px>&thinsp; Colles
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../colles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programme de colles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programmes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programme d'informatique en MP2I
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/graduation-cap.svg' width=16px height=16px>&thinsp; Annales PC
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/graduation-cap.svg' width=16px height=16px>&thinsp; Annales PC
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annales/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sujets corrigés
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annales/CCINP2024/CCINP2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024 - CCINP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annales/CCMP2024/CCMP2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024 - CCMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annales/CCINP2025/CCINP2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025 - CCINP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../liens/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Liens
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#retour-sur-les-chaines-de-caracteres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retour sur les chaines de caractères
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Retour sur les chaines de caractères">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-1-test-de-presence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 1 : Test de présence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-2-nombre-doccurences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 2 : Nombre d'occurences
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-3-somme-des-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 3 : Somme des codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-4-caracteres-identiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 4 : Caractères identiques
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tranches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tranches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tranches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-5-extraire-des-tranches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 5 : Extraire des tranches
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tuples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tuples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tuples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-6-moyenne-dun-tuple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 6 : Moyenne d'un tuple
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iterables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Itérables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Itérables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-7-faire-un-parcours-par-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 7 : Faire un parcours par élément
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-listes-de-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Les listes de Python
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Les listes de Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-8-manipulation-de-liste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 8 : Manipulation de liste
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mutables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mutables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generations-de-listes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Générations de listes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Générations de listes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-9-creation-de-listes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 9 : Création de listes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#importation-de-fonctions-en-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Importation de fonctions en Python
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cours
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercices-de-synthese" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercices de synthèse
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercices de synthèse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-10-generation-de-listes-en-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 10 : Génération de listes en Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-11-parcours-de-listes-en-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 11 : Parcours de listes en Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-12-recherche-doccurences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 12 : Recherche d'occurences
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-13-evolution-dune-chaine-de-caracteres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 13 : Evolution d'une chaine de caractères
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-14-denivele-positif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 14 : Denivelé positif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-15-evolution-dune-liste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 15 : Evolution d'une liste
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-16-points-du-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercice 16 : Points du plan
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+
+
+                  
+
+
+<h1 id="c2-listes"><span class='numchapitre'>C2</span> Listes <span style='float:right;'><span class="twemoji" title="Python"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg></span></span><a class="headerlink" href="#c2-listes" title="Permanent link">&para;</a></h1>
+<h2 id="retour-sur-les-chaines-de-caracteres">Retour sur les chaines de caractères<a class="headerlink" href="#retour-sur-les-chaines-de-caracteres" title="Permanent link">&para;</a></h2>
+<p>On a déjà rencontré les chaines de caractères en Python, elles s'écrivent entre guillemets (<code>"</code>) ou apostrophes (<code>'</code>) et sont constituées d'une séquence de caractères auxquels on peut accéder directement grâce à leur indice (ou index) c'est-à-dire leur numéro à partir de 0 en utilisant la notation <code>[]</code>. Par exemple,
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">exemple</span> <span class="o">=</span> <span class="s2">&quot;L&#39;informatique c&#39;est fantastique !&quot;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">a</span> <span class="o">=</span> <span class="n">exemple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># a vaut &#39;L&#39; (le premier caractère)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">b</span> <span class="o">=</span> <span class="n">exemple</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="c1"># a vaut &#39;n&#39; (le quatrième caractère)</span>
+</span></code></pre></div>
+D'autre part, la longueur d'une chaine de caractères (c'est-à-dire le nombre de caractères qu'elle contient) s'obtient avec la fonction <code class="language-python highlight"><span class="nb">len</span></code>. Par exemple <code class="language-python highlight"><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;PCSI&quot;</span><span class="p">)</span></code> vaut 4. Les indices des caractères d'une chaine <code>c</code> vont de <code>0</code> à <code class="language-python3 highlight"><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span></code>. Un accès au-delà de l'indice <code>len(c)-1</code> provoquera une erreur (<code>IndexError</code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On retiendra notamment que le <em>dernier</em> caractère d'une chaine <code>c</code> est celui d'indice <code class="language-python highlight"><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span></code></p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Les valeurs négatives d'indice sont acceptées en Python et sont alors considérés comme une numérotation à partir de <span class="arithmatex">\(-1\)</span> et depuis la fin de la chaine. c'est-à-dire que <code>c[-1]</code> est le dernier caractère de la chaine c, <code>c[-2]</code> son avant dernier, etc ..<br />
+Cette notation n'est <em>pas</em> au programme et ne sera pas utilisée dans le cadre de ce cours.</p>
+</div>
+<p>L'accès aux caractères via la notation <code>[]</code> associé à une boucle <code class="language-python highlight"><span class="k">for</span></code>, permet d'effectuer un <strong>parcours</strong> d'une chaine de caractères afin de "sélectionner" un à un les caractères et éventuellement d'effectuer un traitement sur ces caractères. Typiquement, sur une chaine <code>c</code>, cette boucle prend la forme suivante : <code class="language-python highlight"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">))</span></code> puisqu'alors la variable <code>i</code> prend les valeurs allant de 0 à <code class="language-python highlight"><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span></code> (inclus) ce qui correspond bien aux domaine valide des indices d'une chaine  <code>c</code>.</p>
+<p>Par exemple, supposons qu'on veuille écrire une fonction permettant de compter le nombre de voyelles dans une chaine de caractères (écrite en majuscules), on pourrait écrire :</p>
+<div id="global_editor_8d1c4a6366f0a6340ad1b14036b4c39bcb1ff5c3" class="py_mk_ide"><div class="py_mk_wrapper md-typeset"><div class="comment_py_mk_wrapper"><div is_v="false" mode="" id="editor_8d1c4a6366f0a6340ad1b14036b4c39bcb1ff5c3"></div><span id="comment_editor_8d1c4a6366f0a6340ad1b14036b4c39bcb1ff5c3" class="comment tooltip">###<span style="--tool_shift: 95%;width:17em;" class="tooltiptext bottom">(Dés-)Active le code après la ligne <code># Tests</code> (insensible à la casse)<br>(<kbd>Ctrl</kbd>+<kbd>I</kbd>)</span></span><div class="ide-split-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M3,3H11V5H3V3M13,3H21V5H13V3M3,7H11V9H3V7M13,7H21V9H13V7M3,11H11V13H3V11M13,11H21V13H13V11M3,15H11V17H3V15M13,15H21V17H13V15M3,19H11V21H3V19M13,19H21V21H13V19Z" /> </svg><span style="--tool_shift: 95%;width:23em;" class="tooltiptext bottom">Entrer ou sortir du mode "deux colonnes"<br>(<kbd>Alt+:</kbd> ; <kbd>Ctrl</kbd> pour inverser les colonnes)</span></div><div class="ide-full-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M17 4H20C21.1 4 22 4.9 22 6V8H20V6H17V4M4 8V6H7V4H4C2.9 4 2 4.9 2 6V8H4M20 16V18H17V20H20C21.1 20 22 19.1 22 18V16H20M7 18H4V16H2V18C2 19.1 2.9 20 4 20H7V18M18 8H6V16H18V8Z" /> </svg><span style="--tool_shift: 95%;width:10em;" class="tooltiptext bottom">Entrer ou sortir du mode "plein écran"<br>(<kbd>Esc</kbd>)</span></div></div><div style="--n-buttons:2" class="term_wrapper"><div is_v="False" style="line-height:24px;--n-lines:10;" id="term_editor_8d1c4a6366f0a6340ad1b14036b4c39bcb1ff5c3" class="term_editor py_mk_terminal"></div><div class="term_btns_wrapper"><div class="twemoji stdout-ctrl tooltip"><svg viewBox="0 0 24 24" fill="none"     stroke="var(--md-default-fg-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"     xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>   <path d="M 4,21.4 V 2.6 C 4,2.3 4.3,2 4.6,2 h 11.65 c 0.16,0 0.31,0.06 0.42,0.18 l 3.15,3.15 C 19.94,5.44 20,5.59 20,5.75 V 21.4 C 20,21.73 19.73,22 19.4,22 H 4.6 C 4.3,22 4,21.73 4,21.4 Z" ></path>   <path d="M 16,5.4 V 2.35 C 16,2.16 16.16,2 16.35,2 c 0.09,0 0.18,0.03 0.25,0.10 l 3.29,3.29 C 19.96,5.46 20,5.55 20,5.65 20,5.84 19.84,6 19.65,6 H 16.6 C 16.27,6 16,5.73 16,5.4 Z" ></path>   <path d="m 8,9.25 h 8" ></path>   <path d="M 7.9,13.25 H 15.9"></path>   <path d="M 7.9,11.25 H 14.4" ></path>   <path d="M 7.9,19.25 H 14.4" ></path>   <path d="m 7.9,15.25 h 8" ></path>   <path d="M 7.9,17.25 H 11.9" ></path>   <path d="m 8,5.25 h 4" ></path>   <path d="m 8,7.25 h 4" ></path> </g> <g><path class="stdout-x-ray-svg" d="M 3,11.4 v 6 L 21,13.8 V 7.7 Z" style="fill:var(--md-default-bg-color);stroke-width:0;" ></path></g> </svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Tronquer ou non le feedback dans les terminaux (sortie standard & stacktrace / relancer le code pour appliquer)</span></div><div class="stdout-wraps-btn tooltip svg-switch-btn twemoji deactivated"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path d="M7 21H5V3h2v18m7-18h-2v6h2V3m0 12h-2v6h2v-6m5-3-3-3v2H9v2h7v2l3-3Z"> </path></svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Si activé, le texte copié dans le terminal est joint sur une seule ligne avant d'être copié dans le presse-papier</span></div></div></div></div><div class="ide_buttons_div_wrapper"><div class="ide_buttons_div"><button btn_kind="play" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Exécuter le code<br>(<kbd>Ctrl</kbd>+<kbd>S</kbd>)" data-tip-width="9"><img src="../../assets/images/icons8-play-64.png" class="skip_light_box" /></button><button btn_kind="download" style="margin-left:1em; margin-right:0.2em;" class="tooltip " data-tip-txt="Télécharger"><img src="../../assets/images/icons8-download-64.png" class="skip_light_box" /></button><button btn_kind="upload" style="margin-left:0.2em; margin-right:1em;" class="tooltip " data-tip-txt="Téléverser"><img src="../../assets/images/icons8-upload-64.png" class="skip_light_box" /></button><button btn_kind="restart" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Réinitialiser l'éditeur"><img src="../../assets/images/icons8-restart-64.png" class="skip_light_box" /></button><button btn_kind="save" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Sauvegarder dans le navigateur"><img src="../../assets/images/icons8-save-64.png" class="skip_light_box" /></button></div><div class="compteur_wrapper"><div class="compteur"></div></div></div></div>
+
+<div class="py_mk_hidden" id="solution_editor_8d1c4a6366f0a6340ad1b14036b4c39bcb1ff5c3"></div>
+<h3 id="exercice-1-test-de-presence"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 1 : <em>Test de présence</em><a class="headerlink" href="#exercice-1-test-de-presence" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Ecrire une fonction <code>est_dans</code> qui prend en argument une chaine de caractères <code>chaine</code> et un caractère <code>c</code> et qui renvoie <code>True</code> si  <code>c</code> est dans chaine et <code>False</code> sinon.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On rappelle que l'instruction <code>return</code> permet de quitter immédiatement une boucle.</p>
+</div>
+</li>
+<li>
+<p>Mofifier la fonction précédente afin qu'elle renvoie l'indice de la <em>première</em> occurence de  <code>c</code> dans <code>chaine</code> ou <span class="arithmatex">\(-1\)</span> si <code>c</code> n'apparaît pas dans chaine.</p>
+</li>
+</ol>
+<h3 id="exercice-2-nombre-doccurences"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 2 : <em>Nombre d'occurences</em><a class="headerlink" href="#exercice-2-nombre-doccurences" title="Permanent link">&para;</a></h3>
+<p>Ecrire une fonction <code>compte_occurence</code> qui prend en argument une chaine de caractères <code>chaine</code> et un caractère <code>c</code> et qui renvoie le nombre d'apparitions de <code>c</code> dans <code>chaine</code>. Par exemple <code>compte_occurence("magnifique","i")</code> renvoie 2.</p>
+<h3 id="exercice-3-somme-des-codes"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 3 : <em>Somme des codes</em><a class="headerlink" href="#exercice-3-somme-des-codes" title="Permanent link">&para;</a></h3>
+<p>En informatique, chaque caractère est associé à un entier : son code <em>unicode</em>, par exemple le code <em>unicode</em> du caractère <code>A</code> est 65. En Python, pour obtenir le code <em>unicode</em> d'un caractère on utilise la fonction <code>ord</code>, ainsi <code>ord('A')</code> vaut 65. Déterminer la somme de tous les codes <em>unicode</em> des caractères de la phrase "<em>L'informatique en PCSI, c'est vraiment le top !</em>" ?<br />
+<strong>Attention</strong> : les guillemets ne font pas partie de la phrase. </p>
+<div class="admonition note">
+<p class="admonition-title">Remarques</p>
+<ul>
+<li>En tapant <code class="language-python3 highlight"><span class="nb">ord</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span></code> dans le terminal ci-dessous vous pouvez vérifier qu'on obtient bien 65.</li>
+<li>L'unicode étend le code <span style="font-variant:small-caps;">ascii</span> qui est parfois plus connu. En effet, lorsque le code <span style="font-variant:small-caps;">ascii</span> d'un caractère existe, il correspond à son code unicode. Ainsi le code <span style="font-variant:small-caps;">ascii</span> de <code>A</code> existe (et vaut donc aussi 65), mais <code>ù</code> n'est pas un caractère <span style="font-variant:small-caps;">ascii</span> et n'a donc pas de code <span style="font-variant:small-caps;">ascii</span> mais a bien un code unicode : 249.</li>
+</ul>
+</div>
+<div id="global_editor_2947c105069ef98ed48b161f074f7e72548597a1" class="py_mk_ide"><div class="py_mk_wrapper md-typeset"><div class="comment_py_mk_wrapper"><div is_v="false" mode="" id="editor_2947c105069ef98ed48b161f074f7e72548597a1"></div><span id="comment_editor_2947c105069ef98ed48b161f074f7e72548597a1" class="comment tooltip">###<span style="--tool_shift: 95%;width:17em;" class="tooltiptext bottom">(Dés-)Active le code après la ligne <code># Tests</code> (insensible à la casse)<br>(<kbd>Ctrl</kbd>+<kbd>I</kbd>)</span></span><div class="ide-split-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M3,3H11V5H3V3M13,3H21V5H13V3M3,7H11V9H3V7M13,7H21V9H13V7M3,11H11V13H3V11M13,11H21V13H13V11M3,15H11V17H3V15M13,15H21V17H13V15M3,19H11V21H3V19M13,19H21V21H13V19Z" /> </svg><span style="--tool_shift: 95%;width:23em;" class="tooltiptext bottom">Entrer ou sortir du mode "deux colonnes"<br>(<kbd>Alt+:</kbd> ; <kbd>Ctrl</kbd> pour inverser les colonnes)</span></div><div class="ide-full-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M17 4H20C21.1 4 22 4.9 22 6V8H20V6H17V4M4 8V6H7V4H4C2.9 4 2 4.9 2 6V8H4M20 16V18H17V20H20C21.1 20 22 19.1 22 18V16H20M7 18H4V16H2V18C2 19.1 2.9 20 4 20H7V18M18 8H6V16H18V8Z" /> </svg><span style="--tool_shift: 95%;width:10em;" class="tooltiptext bottom">Entrer ou sortir du mode "plein écran"<br>(<kbd>Esc</kbd>)</span></div></div><div style="--n-buttons:2" class="term_wrapper"><div is_v="False" style="line-height:24px;--n-lines:10;" id="term_editor_2947c105069ef98ed48b161f074f7e72548597a1" class="term_editor py_mk_terminal"></div><div class="term_btns_wrapper"><div class="twemoji stdout-ctrl tooltip"><svg viewBox="0 0 24 24" fill="none"     stroke="var(--md-default-fg-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"     xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>   <path d="M 4,21.4 V 2.6 C 4,2.3 4.3,2 4.6,2 h 11.65 c 0.16,0 0.31,0.06 0.42,0.18 l 3.15,3.15 C 19.94,5.44 20,5.59 20,5.75 V 21.4 C 20,21.73 19.73,22 19.4,22 H 4.6 C 4.3,22 4,21.73 4,21.4 Z" ></path>   <path d="M 16,5.4 V 2.35 C 16,2.16 16.16,2 16.35,2 c 0.09,0 0.18,0.03 0.25,0.10 l 3.29,3.29 C 19.96,5.46 20,5.55 20,5.65 20,5.84 19.84,6 19.65,6 H 16.6 C 16.27,6 16,5.73 16,5.4 Z" ></path>   <path d="m 8,9.25 h 8" ></path>   <path d="M 7.9,13.25 H 15.9"></path>   <path d="M 7.9,11.25 H 14.4" ></path>   <path d="M 7.9,19.25 H 14.4" ></path>   <path d="m 7.9,15.25 h 8" ></path>   <path d="M 7.9,17.25 H 11.9" ></path>   <path d="m 8,5.25 h 4" ></path>   <path d="m 8,7.25 h 4" ></path> </g> <g><path class="stdout-x-ray-svg" d="M 3,11.4 v 6 L 21,13.8 V 7.7 Z" style="fill:var(--md-default-bg-color);stroke-width:0;" ></path></g> </svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Tronquer ou non le feedback dans les terminaux (sortie standard & stacktrace / relancer le code pour appliquer)</span></div><div class="stdout-wraps-btn tooltip svg-switch-btn twemoji deactivated"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path d="M7 21H5V3h2v18m7-18h-2v6h2V3m0 12h-2v6h2v-6m5-3-3-3v2H9v2h7v2l3-3Z"> </path></svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Si activé, le texte copié dans le terminal est joint sur une seule ligne avant d'être copié dans le presse-papier</span></div></div></div></div><div class="ide_buttons_div_wrapper"><div class="ide_buttons_div"><button btn_kind="play" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Exécuter le code<br>(<kbd>Ctrl</kbd>+<kbd>S</kbd>)" data-tip-width="9"><img src="../../assets/images/icons8-play-64.png" class="skip_light_box" /></button><button btn_kind="download" style="margin-left:1em; margin-right:0.2em;" class="tooltip " data-tip-txt="Télécharger"><img src="../../assets/images/icons8-download-64.png" class="skip_light_box" /></button><button btn_kind="upload" style="margin-left:0.2em; margin-right:1em;" class="tooltip " data-tip-txt="Téléverser"><img src="../../assets/images/icons8-upload-64.png" class="skip_light_box" /></button><button btn_kind="restart" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Réinitialiser l'éditeur"><img src="../../assets/images/icons8-restart-64.png" class="skip_light_box" /></button><button btn_kind="save" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Sauvegarder dans le navigateur"><img src="../../assets/images/icons8-save-64.png" class="skip_light_box" /></button></div><div class="compteur_wrapper"><div class="compteur"></div></div></div></div>
+
+<div class="py_mk_hidden" id="solution_editor_2947c105069ef98ed48b161f074f7e72548597a1"></div>
+<p>Vérifier votre réponse : 
+<input type="text" id="q28" class="text-input-neutral"> <img id="q28img" src="https://fabricenativel.github.io/cpge-info/images/circle-question.svg" width="24px" style="vertical-align:middle"> 
+<input type="button" value="valider" class="repbutton" onclick="check('q28','0ba896169af5b24dcc877d78f0c3feaf9c9c7f0ca2ef6248f19de437dfc2b003')">
+<input type="button" value="reset" class="repbutton" onclick="imgreset('q28')"></p>
+<h3 id="exercice-4-caracteres-identiques"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 4 : <em>Caractères identiques</em><a class="headerlink" href="#exercice-4-caracteres-identiques" title="Permanent link">&para;</a></h3>
+<p>Ecrire une fonction <code>identiques</code> qui prend en argument deux chaines de caractères <code>c1</code> et <code>c2</code> et renvoie le nombre de fois où <code>c1</code> et <code>c2</code> ont le même caractère au même indice. Par exemple <code>identiques("python","poterie")</code> renvoie 2 car ces deux chaines coïndicent à l'indice <code>0</code> (un <code>p</code>) et à l'indice <code>2</code> (un <code>t</code>).</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>A noter qu'on peut accéder aux caractères d'une chaine mais pas les modifier ! Par exemple l'instruction de la ligne 2 ci-dessous provoque une erreur : <code>TypeError: 'str' object does not support item assignment</code>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">exemple</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># On essaye de mettre une majuscule donc de remplacer le &quot;p&quot; par &quot;P&quot;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">exemple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;P&quot;</span>
+</span></code></pre></div></p>
+</div>
+<h2 id="tranches">Tranches<a class="headerlink" href="#tranches" title="Permanent link">&para;</a></h2>
+<p>Une <em>tranche</em> (en anglais <em>slice</em>) d'une chaine de caractères s'obtient en donnant les indices de départ (<em>compris</em>) et de fin (<em>exclu</em>) séparé par le caractère <code>:</code> entre crochets. Par exemple, si on considère la chaine <code class="language-python highlight"><span class="n">exemple</span> <span class="o">=</span> <span class="s1">&#39;Bonjour&#39;</span></code> dont on donne les indices des caractères ci-dessous :</p>
+<table class="data"><tr><td>'B'</td><td>'o'</td><td>'n'</td><td>'j'</td><td>'o'</td><td>'u'</td><td>'r'</td></tr><tr><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr></table>
+
+<ul>
+<li><code class="language-python highlight"><span class="n">exemple</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span></code> vaut <code>"Bon"</code></li>
+<li><code class="language-python highlight"><span class="n">exemple</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span></code> vaut <code>"jour"</code></li>
+<li><code class="language-python highlight"><span class="n">exemple</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span></code> vaut <code>"jo"</code></li>
+</ul>
+<p>A noter que :</p>
+<ul>
+<li>si le début de tranche n'est pas précisé alors la tranche démarre au début de la chaine, par exemple <code class="language-python highlight"><span class="n">exemple</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span></code> vaut <code>"Bonjo"</code></li>
+<li>si la fin de la tranche n'est pas précisée alors elle se termine à la fin de la chaine, par exemple <code class="language-python highlight"><span class="n">exemple</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span></code> vaut <code>"our"</code></li>
+<li>et donc en précisant ni le début ni la fin, la tranche est la chaine complète, par exemple <code class="language-python highlight"><span class="n">exemple</span><span class="p">[:]</span></code> vaut <code>"Bonjour"</code></li>
+</ul>
+<p>De la même façon que l'instruction <code>range</code>, une tranche accepte un troisième paramètre optionnel qui indique un pas de progression dans la récupération des caractères de la chaine. Par exemple, <code class="language-python highlight"><span class="n">exemple</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span></code> vaut <code>"Bnor"</code> car on ne récupère que les caractères situés aux indices <code>0, 2, 4</code> et <code>6</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Les pas négatifs sont possibles, par conséquent <code class="language-python highlight"><span class="n">exemple</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></code> signifie par exemple récupérer tous les caractères à partir de la fin jusqu'au début et donc inverse l'ordre des caractères pour créer une nouvelle chaine qui  vaut <code>"ruojnoB"</code>.</p>
+</div>
+<h3 id="exercice-5-extraire-des-tranches"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 5 : <em>Extraire des tranches</em><a class="headerlink" href="#exercice-5-extraire-des-tranches" title="Permanent link">&para;</a></h3>
+<div id="global_editor_a8174ef91117a4557a307feedaaf3a91c5763fd7" class="py_mk_ide"><div class="py_mk_wrapper md-typeset"><div class="comment_py_mk_wrapper"><div is_v="false" mode="" id="editor_a8174ef91117a4557a307feedaaf3a91c5763fd7"></div><span id="comment_editor_a8174ef91117a4557a307feedaaf3a91c5763fd7" class="comment tooltip">###<span style="--tool_shift: 95%;width:17em;" class="tooltiptext bottom">(Dés-)Active le code après la ligne <code># Tests</code> (insensible à la casse)<br>(<kbd>Ctrl</kbd>+<kbd>I</kbd>)</span></span><div class="ide-split-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M3,3H11V5H3V3M13,3H21V5H13V3M3,7H11V9H3V7M13,7H21V9H13V7M3,11H11V13H3V11M13,11H21V13H13V11M3,15H11V17H3V15M13,15H21V17H13V15M3,19H11V21H3V19M13,19H21V21H13V19Z" /> </svg><span style="--tool_shift: 95%;width:23em;" class="tooltiptext bottom">Entrer ou sortir du mode "deux colonnes"<br>(<kbd>Alt+:</kbd> ; <kbd>Ctrl</kbd> pour inverser les colonnes)</span></div><div class="ide-full-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M17 4H20C21.1 4 22 4.9 22 6V8H20V6H17V4M4 8V6H7V4H4C2.9 4 2 4.9 2 6V8H4M20 16V18H17V20H20C21.1 20 22 19.1 22 18V16H20M7 18H4V16H2V18C2 19.1 2.9 20 4 20H7V18M18 8H6V16H18V8Z" /> </svg><span style="--tool_shift: 95%;width:10em;" class="tooltiptext bottom">Entrer ou sortir du mode "plein écran"<br>(<kbd>Esc</kbd>)</span></div></div><div style="--n-buttons:2" class="term_wrapper"><div is_v="False" style="line-height:24px;--n-lines:10;" id="term_editor_a8174ef91117a4557a307feedaaf3a91c5763fd7" class="term_editor py_mk_terminal"></div><div class="term_btns_wrapper"><div class="twemoji stdout-ctrl tooltip"><svg viewBox="0 0 24 24" fill="none"     stroke="var(--md-default-fg-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"     xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>   <path d="M 4,21.4 V 2.6 C 4,2.3 4.3,2 4.6,2 h 11.65 c 0.16,0 0.31,0.06 0.42,0.18 l 3.15,3.15 C 19.94,5.44 20,5.59 20,5.75 V 21.4 C 20,21.73 19.73,22 19.4,22 H 4.6 C 4.3,22 4,21.73 4,21.4 Z" ></path>   <path d="M 16,5.4 V 2.35 C 16,2.16 16.16,2 16.35,2 c 0.09,0 0.18,0.03 0.25,0.10 l 3.29,3.29 C 19.96,5.46 20,5.55 20,5.65 20,5.84 19.84,6 19.65,6 H 16.6 C 16.27,6 16,5.73 16,5.4 Z" ></path>   <path d="m 8,9.25 h 8" ></path>   <path d="M 7.9,13.25 H 15.9"></path>   <path d="M 7.9,11.25 H 14.4" ></path>   <path d="M 7.9,19.25 H 14.4" ></path>   <path d="m 7.9,15.25 h 8" ></path>   <path d="M 7.9,17.25 H 11.9" ></path>   <path d="m 8,5.25 h 4" ></path>   <path d="m 8,7.25 h 4" ></path> </g> <g><path class="stdout-x-ray-svg" d="M 3,11.4 v 6 L 21,13.8 V 7.7 Z" style="fill:var(--md-default-bg-color);stroke-width:0;" ></path></g> </svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Tronquer ou non le feedback dans les terminaux (sortie standard & stacktrace / relancer le code pour appliquer)</span></div><div class="stdout-wraps-btn tooltip svg-switch-btn twemoji deactivated"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path d="M7 21H5V3h2v18m7-18h-2v6h2V3m0 12h-2v6h2v-6m5-3-3-3v2H9v2h7v2l3-3Z"> </path></svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Si activé, le texte copié dans le terminal est joint sur une seule ligne avant d'être copié dans le presse-papier</span></div></div></div></div><div class="ide_buttons_div_wrapper"><div class="ide_buttons_div"><button btn_kind="play" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Exécuter le code<br>(<kbd>Ctrl</kbd>+<kbd>S</kbd>)" data-tip-width="9"><img src="../../assets/images/icons8-play-64.png" class="skip_light_box" /></button><button btn_kind="download" style="margin-left:1em; margin-right:0.2em;" class="tooltip " data-tip-txt="Télécharger"><img src="../../assets/images/icons8-download-64.png" class="skip_light_box" /></button><button btn_kind="upload" style="margin-left:0.2em; margin-right:1em;" class="tooltip " data-tip-txt="Téléverser"><img src="../../assets/images/icons8-upload-64.png" class="skip_light_box" /></button><button btn_kind="restart" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Réinitialiser l'éditeur"><img src="../../assets/images/icons8-restart-64.png" class="skip_light_box" /></button><button btn_kind="save" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Sauvegarder dans le navigateur"><img src="../../assets/images/icons8-save-64.png" class="skip_light_box" /></button></div><div class="compteur_wrapper"><div class="compteur"></div></div></div></div>
+
+<div class="py_mk_hidden" id="solution_editor_a8174ef91117a4557a307feedaaf3a91c5763fd7"></div>
+<h2 id="tuples">Tuples<a class="headerlink" href="#tuples" title="Permanent link">&para;</a></h2>
+<p>De la même façon, qu'une chaine de caractères est une séquence de caractères repérés par des indices, un <strong>tuple</strong> est une séquence de valeur (de type quelconque) repéré par des indices. Par exemple :</p>
+<ul>
+<li><code class="language-python highlight"><span class="n">coordonnees</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.8</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">)</span></code></li>
+<li><code class="language-python highlight"><span class="n">notes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span></code></li>
+<li><code class="language-python highlight"><span class="n">anniversaire</span> <span class="o">=</span> <span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="s2">&quot;Janvier&quot;</span><span class="p">,</span> <span class="mi">1956</span><span class="p">)</span></code></li>
+<li><code class="language-python highlight"><span class="n">voyelles</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;e&quot;</span><span class="p">,</span><span class="s2">&quot;i&quot;</span><span class="p">,</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="s2">&quot;u&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">)</span></code></li>
+<li><code class="language-python highlight"><span class="n">reponses</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></code></li>
+</ul>
+<p>Les éléments d'un tuple peuvent donc être de n'importe quel type et comme dans le troisième exemple être de types différents.</p>
+<p>Ce qui a été vu sur les chaines de caractères reste en grande partie valide sur les tuples, notamment :</p>
+<ul>
+<li>on accède aux éléments d'un tuple avec la notation <code>[]</code>, on peut donc <em>parcourir</em> les éléments d'un tuple à l'aide d'une boucle <code>for</code>. Par, exemple <code class="language-python highlight"><span class="n">mois</span> <span class="o">=</span> <span class="n">anniversaire</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></code></li>
+<li>on ne peut pas modifier les éléments d'un tuple. Par exemple <code>anniversaire[1] = 1</code> provoque une erreur <code>TypeError</code></li>
+<li>la fonction <code>len</code> renvoie le nombre de valeurs présentes dans le tuple. Par exemple <code>len(anniversaire)</code> renvoie 3.</li>
+<li>la syntaxe des tranches est identique mais une tranche de tuple est un tuple. Par exemple <code>notes[:3]</code> renvoie <code>(12,4,7)</code>.</li>
+</ul>
+<p>La particularité des tuples est de pouvoir être <em>décompacté</em> afin que chaque élément soit affecté à une valeur, par exemple :</p>
+<ul>
+<li><code class="language-python highlight"><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span>  <span class="n">coordonnees</span></code> va affecter <code>3.2</code> à <code>x</code>, <code>-5.8</code> à <code>y</code> et <code>7.0</code> à <code>z</code></li>
+<li><code class="language-python highlight"><span class="n">mois</span><span class="p">,</span> <span class="n">jour</span><span class="p">,</span> <span class="n">annee</span> <span class="o">=</span> <span class="n">anniversaire</span></code> va affecter <code>31</code> à jour, <code>"Janvier"</code> à <code>mois</code> et <code>1956</code> à <code>annee</code>.</li>
+</ul>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Décompacter un tuple sans prévoir autant de variables que d'éléments dans le tuple provoque une erreur <code>ValueError</code>.</p>
+</div>
+<h3 id="exercice-6-moyenne-dun-tuple"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 6 : <em>Moyenne d'un tuple</em><a class="headerlink" href="#exercice-6-moyenne-dun-tuple" title="Permanent link">&para;</a></h3>
+<p>Ecrire une fonction prenant en argument un tuple d'entiers de longueur strictement positive et qui renvoie la moyenne des valeurs de ce tuple.</p>
+<h2 id="iterables">Itérables<a class="headerlink" href="#iterables" title="Permanent link">&para;</a></h2>
+<p>Les chaines de caractères et les tuples sont tous deux des <strong>itérables</strong> de Python c'est-à-dire qu'on peut les parcourir directement à l'aide d'une boucle <code>for</code> qui prend alors la syntaxe suivante : <code class="language-python highlight"><span class="k">for</span> <span class="o">&lt;</span><span class="n">element</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">iterable</span><span class="o">&gt;</span></code>, notez bien l'absence de <code>range</code>. Dans ce cas, la variable de parcours n'est pas un entier (contrairement à la version avec <code>range</code>) mais directement les valeurs de l'itérable. </p>
+<div class="admonition retenir">
+<p class="admonition-title">A retenir</p>
+<ul>
+<li>Avec la syntaxe <code class="language-python highlight"><span class="k">for</span> <span class="o">&lt;</span><span class="n">indice</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">&lt;</span><span class="n">entier</span><span class="o">&gt;</span><span class="p">)</span></code>, on effectue le parcours d'un itérable par indice.</li>
+<li>Avec la syntaxe <code class="language-python highlight"><span class="k">for</span> <span class="o">&lt;</span><span class="n">element</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">iterable</span><span class="o">&gt;</span></code>, on effectue le parcours d'un itérable par valeur.</li>
+<li>Exemples :  <ul>
+<li><code class="language-python highlight"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;Bonjour&quot;</span><span class="p">))</span></code>, la variable de parcours est <em>l'indice</em> des caractères successif de la chaine et donc prend les valeurs <code>0,1,...,6</code></li>
+<li><code class="language-python highlight"><span class="k">for</span> <span class="n">lettre</span> <span class="ow">in</span> <span class="s2">&quot;Bonjour&quot;</span></code>, la variable de parcours est directement un caractère de la chaine et donc prend les valeurs <code>'B', 'o', ..., 'r'</code></li>
+</ul>
+</li>
+</ul>
+</div>
+<h3 id="exercice-7-faire-un-parcours-par-element"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 7 : <em>Faire un parcours par élément</em><a class="headerlink" href="#exercice-7-faire-un-parcours-par-element" title="Permanent link">&para;</a></h3>
+<p>Reprendre les deux exercices ci-dessous en effectuant obligatoirement un parcours par élément dans l'écriture de la fonction.</p>
+<ol>
+<li>
+<p>Ecrire une fonction <code>est_dans</code> qui prend en argument une chaine de caractères <code>chaine</code> et un caractère <code>c</code> et qui renvoie <code>True</code> si  <code>c</code> est dans chaîne et <code>False</code> sinon. </p>
+</li>
+<li>
+<p>Ecrire une fonction prenant en argument un tuple d'entiers de longueur strictement positive et qui renvoie la moyenne des valeurs de ce tuple.</p>
+</li>
+</ol>
+<h2 id="les-listes-de-python">Les listes de Python<a class="headerlink" href="#les-listes-de-python" title="Permanent link">&para;</a></h2>
+<p>Les listes de Python sont des séquences de valeurs <strong>modifiables</strong> repérées (comme les tuples et les chaines de caractères) par leur indice. Elles se notent entre crochets et les valeurs sont séparées par des virgules. Par exemple,</p>
+<ul>
+<li><code class="language-python highlight"><span class="n">temperatures</span> <span class="o">=</span> <span class="p">[</span><span class="mi">24</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">27</span><span class="p">]</span></code></li>
+<li><code class="language-python highlight"><span class="n">anniversaire</span> <span class="o">=</span> <span class="p">[</span><span class="mi">23</span><span class="p">,</span> <span class="s2">&quot;Juin&quot;</span><span class="p">,</span> <span class="mi">1912</span><span class="p">]</span></code></li>
+<li><code class="language-python highlight"><span class="n">points</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">),(</span><span class="s2">&quot;C&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)]</span></code></li>
+</ul>
+<p>On retrouve sur les listes les mêmes fonctionnalités vu sur les tuples (et les chaines de caractères) :</p>
+<ul>
+<li>longueur avec <code>len</code></li>
+<li>accès à l'élément d'indice <code>i</code> de la liste <code>l</code> grâce à la syntaxe <code>l[i]</code></li>
+<li>syntaxe d'extraction des tranches</li>
+<li>parcours par élément avec <code>in</code> ou parcours par indice avec <code>range</code></li>
+</ul>
+<p>De plus au contraire des tuples, les valeurs présentes dans une liste sont <em>modifiables</em>, par exemple :
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">courses</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;oignons&quot;</span><span class="p">,</span> <span class="s2">&quot;chips&quot;</span><span class="p">,</span> <span class="s2">&quot;oranges&quot;</span><span class="p">,</span> <span class="s2">&quot;sel&quot;</span><span class="p">,</span> <span class="s2">&quot;poivre&quot;</span><span class="p">]</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># finalement on prend des cacahuètes à la place des chips :</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">courses</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cacahuètes&quot;</span>
+</span></code></pre></div></p>
+<p>D'autre part les deux opérations suivantes sont possibles sur les listes (on fera bien attention à la syntaxe et notamment à l'absence de <code>=</code>) :</p>
+<ul>
+<li>ajouter un élément à la fin de la liste grâce à <code>append</code>, pour ajouter <code>x</code> à la fin de la liste <code>l</code>, on écrit <code class="language-python highlight"><span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></code></li>
+<li>supprimer le dernier élément d'un liste grâce à <code>pop</code>, pour supprimer le dernier élément de la liste <code>l</code>, on écrit <code class="language-python highlight"><span class="n">l</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span></code></li>
+<li>l'instruction précédente (c'est-à-dire <code class="language-python highlight"><span class="n">l</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span></code>) renvoie l'élément supprimé, on peut donc le récupérer par exemple pour l'affecter à une variable et écrire par exemple : <code class="language-python highlight"><span class="n">dernier</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span></code></li>
+</ul>
+<h3 id="exercice-8-manipulation-de-liste"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 8 : <em>Manipulation de liste</em><a class="headerlink" href="#exercice-8-manipulation-de-liste" title="Permanent link">&para;</a></h3>
+<p>On considère la liste de courses ci-dessous :</p>
+<div id="global_editor_55c1b346419fd16be1f3f6380e386619e6288d9e" class="py_mk_ide"><div class="py_mk_wrapper md-typeset"><div class="comment_py_mk_wrapper"><div is_v="false" mode="" id="editor_55c1b346419fd16be1f3f6380e386619e6288d9e"></div><span id="comment_editor_55c1b346419fd16be1f3f6380e386619e6288d9e" class="comment tooltip">###<span style="--tool_shift: 95%;width:17em;" class="tooltiptext bottom">(Dés-)Active le code après la ligne <code># Tests</code> (insensible à la casse)<br>(<kbd>Ctrl</kbd>+<kbd>I</kbd>)</span></span><div class="ide-split-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M3,3H11V5H3V3M13,3H21V5H13V3M3,7H11V9H3V7M13,7H21V9H13V7M3,11H11V13H3V11M13,11H21V13H13V11M3,15H11V17H3V15M13,15H21V17H13V15M3,19H11V21H3V19M13,19H21V21H13V19Z" /> </svg><span style="--tool_shift: 95%;width:23em;" class="tooltiptext bottom">Entrer ou sortir du mode "deux colonnes"<br>(<kbd>Alt+:</kbd> ; <kbd>Ctrl</kbd> pour inverser les colonnes)</span></div><div class="ide-full-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M17 4H20C21.1 4 22 4.9 22 6V8H20V6H17V4M4 8V6H7V4H4C2.9 4 2 4.9 2 6V8H4M20 16V18H17V20H20C21.1 20 22 19.1 22 18V16H20M7 18H4V16H2V18C2 19.1 2.9 20 4 20H7V18M18 8H6V16H18V8Z" /> </svg><span style="--tool_shift: 95%;width:10em;" class="tooltiptext bottom">Entrer ou sortir du mode "plein écran"<br>(<kbd>Esc</kbd>)</span></div></div><div style="--n-buttons:2" class="term_wrapper"><div is_v="False" style="line-height:24px;--n-lines:10;" id="term_editor_55c1b346419fd16be1f3f6380e386619e6288d9e" class="term_editor py_mk_terminal"></div><div class="term_btns_wrapper"><div class="twemoji stdout-ctrl tooltip"><svg viewBox="0 0 24 24" fill="none"     stroke="var(--md-default-fg-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"     xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>   <path d="M 4,21.4 V 2.6 C 4,2.3 4.3,2 4.6,2 h 11.65 c 0.16,0 0.31,0.06 0.42,0.18 l 3.15,3.15 C 19.94,5.44 20,5.59 20,5.75 V 21.4 C 20,21.73 19.73,22 19.4,22 H 4.6 C 4.3,22 4,21.73 4,21.4 Z" ></path>   <path d="M 16,5.4 V 2.35 C 16,2.16 16.16,2 16.35,2 c 0.09,0 0.18,0.03 0.25,0.10 l 3.29,3.29 C 19.96,5.46 20,5.55 20,5.65 20,5.84 19.84,6 19.65,6 H 16.6 C 16.27,6 16,5.73 16,5.4 Z" ></path>   <path d="m 8,9.25 h 8" ></path>   <path d="M 7.9,13.25 H 15.9"></path>   <path d="M 7.9,11.25 H 14.4" ></path>   <path d="M 7.9,19.25 H 14.4" ></path>   <path d="m 7.9,15.25 h 8" ></path>   <path d="M 7.9,17.25 H 11.9" ></path>   <path d="m 8,5.25 h 4" ></path>   <path d="m 8,7.25 h 4" ></path> </g> <g><path class="stdout-x-ray-svg" d="M 3,11.4 v 6 L 21,13.8 V 7.7 Z" style="fill:var(--md-default-bg-color);stroke-width:0;" ></path></g> </svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Tronquer ou non le feedback dans les terminaux (sortie standard & stacktrace / relancer le code pour appliquer)</span></div><div class="stdout-wraps-btn tooltip svg-switch-btn twemoji deactivated"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path d="M7 21H5V3h2v18m7-18h-2v6h2V3m0 12h-2v6h2v-6m5-3-3-3v2H9v2h7v2l3-3Z"> </path></svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Si activé, le texte copié dans le terminal est joint sur une seule ligne avant d'être copié dans le presse-papier</span></div></div></div></div><div class="ide_buttons_div_wrapper"><div class="ide_buttons_div"><button btn_kind="play" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Exécuter le code<br>(<kbd>Ctrl</kbd>+<kbd>S</kbd>)" data-tip-width="9"><img src="../../assets/images/icons8-play-64.png" class="skip_light_box" /></button><button btn_kind="download" style="margin-left:1em; margin-right:0.2em;" class="tooltip " data-tip-txt="Télécharger"><img src="../../assets/images/icons8-download-64.png" class="skip_light_box" /></button><button btn_kind="upload" style="margin-left:0.2em; margin-right:1em;" class="tooltip " data-tip-txt="Téléverser"><img src="../../assets/images/icons8-upload-64.png" class="skip_light_box" /></button><button btn_kind="restart" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Réinitialiser l'éditeur"><img src="../../assets/images/icons8-restart-64.png" class="skip_light_box" /></button><button btn_kind="save" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Sauvegarder dans le navigateur"><img src="../../assets/images/icons8-save-64.png" class="skip_light_box" /></button></div><div class="compteur_wrapper"><div class="compteur"></div></div></div></div>
+
+<div class="py_mk_hidden" id="solution_editor_55c1b346419fd16be1f3f6380e386619e6288d9e"></div>
+<ol>
+<li>En utilisant la notation <code>[]</code>, remplacer les oranges par des pommes.</li>
+<li>Ecrire une instruction permettant d'ajouter <code>"riz"</code> à cette liste.</li>
+<li>Ecrire les instructions permettant de supprimer l'avant-dernier élément de cette liste.</li>
+</ol>
+<h2 id="mutables">Mutables<a class="headerlink" href="#mutables" title="Permanent link">&para;</a></h2>
+<p>En Python, on manipule des objets c'est à dire des associations entre des noms (des <em>étiquettes</em>) et des variables (un type, une valeur, un emplacement en mémoire). Certains objets sont dits <strong>non mutables</strong>, cela signifie qu'ils ne <em>peuvent pas être modifiés</em>. C'est le cas par exemple des entiers, ainsi lorsqu'on écrit les lignes de code suivantes :
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="n">n</span> <span class="o">=</span> <span class="mi">7</span> 
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="n">m</span> <span class="o">=</span> <span class="n">n</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+</span></code></pre></div></td></tr></table></div>
+Le mécanisme interne de python consiste à :</p>
+<ul>
+<li>ligne 1 : créer un objet entier 7 et lui donner l'étiquette <code>n</code></li>
+<li>ligne 2 : attribuer une nouvelle étiquette à l'objet précédent : <code>m</code></li>
+<li>ligne 3 : <code>n+1</code> crée un nouvel objet entier de valeur 8, on lui donne l'étiquette <code>n</code></li>
+</ul>
+<p>Comme les entiers, les flottants, les tuples et les chaines de caractères sont <em>non mutables</em>. Par contre les listes sont mutables, ce qui signifie que l'objet <em>liste</em> peut-être modifié, ainsi :</p>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="n">m</span> <span class="o">=</span> <span class="n">l</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+<p>le mécanisme interne à Python consiste à :</p>
+<ul>
+<li>ligne 1 : créer un objet liste contenant <code>[1,7]</code> et d'étiquette <code>l</code> (on dit aussi référence)</li>
+<li>ligne 2 : attribuer une nouvelle étiquette <code>m</code> à ce <strong>même objet</strong></li>
+<li>ligne 3 : modifier ce nouvel objet. Et donc <code>m</code> référence aussi la liste <code>[1, 7, 2]</code></li>
+</ul>
+<h2 id="generations-de-listes">Générations de listes<a class="headerlink" href="#generations-de-listes" title="Permanent link">&para;</a></h2>
+<p>On peut créer une liste :</p>
+<ul>
+<li>en donnant explicitement la liste de ses éléments, par exemple <code>amis = ["Pierre", "Paul", "Alice", "Bob"]</code></li>
+<li>
+<p>lorque la liste est composée de le répétition du même élément on peut utiliser <code>*</code> à la façon de ce qui a été vu sur les chaines de caractères, par exemple <code>zeros = [0] * 10</code> crée une liste contenant 10 zéros.
+    !!! danger</p>
+</li>
+<li>
+<p>par ajouts successifs d'éléments à l'aide de <code>append</code></p>
+</li>
+<li>par <em>compréhension</em> c'est-à-dire en indiquant à l'aide d'une boucle <code>for</code> les éléments qui composent la liste (à la façon dont on définit parfois des ensembles en mathématiques). Par exemple <code>entiers = [i for i in range(10)]</code> crée la liste <code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.</li>
+</ul>
+<h3 id="exercice-9-creation-de-listes"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 9 : <em>Création de listes</em><a class="headerlink" href="#exercice-9-creation-de-listes" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Créer la liste des carrés des entiers de 1 à 10 par ajouts successifs (utiliser une boucle <code>for</code>).</p>
+</li>
+<li>
+<p>Créer la liste des carrés des entiers de 1 à 10 par compréhension.</p>
+</li>
+<li>
+<p>Créer la liste des entiers impairs de 1 à 99 par ajouts successifs</p>
+</li>
+<li>
+<p>Créer la liste des entiers impairs de 1 à 99 par compréhension</p>
+</li>
+<li>
+<p>Créer une liste contenant 20 fois <code>"Python"</code></p>
+</li>
+</ol>
+<h2 id="importation-de-fonctions-en-python">Importation de fonctions en Python<a class="headerlink" href="#importation-de-fonctions-en-python" title="Permanent link">&para;</a></h2>
+<p>On peut importer une fonction <code>f</code> se trouvant dans une librarie <code>lib</code> grâce à la syntaxe : <code class="language-python highlight"><span class="kn">from</span><span class="w"> </span><span class="nn">lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">f</span></code>. Par exemple la fonction racine carrée, <code>sqrt</code> n'existe pas nativement mais peut être importée depuis la librairie <code>math</code> à l'aide de <code class="language-python highlight"><span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">sqrt</span></code>.</p>
+<p>On peut aussi importer la totalité de la librairie <code>lib</code> avec <code class="language-python highlight"><span class="kn">import</span><span class="w"> </span><span class="nn">lib</span></code>, par exemple, pour importer la totalité de la librairie <code>math</code> on écrit simplement <code class="language-python highlight"><span class="kn">import</span><span class="w"> </span><span class="nn">math</span></code>. Dans ce cas <em>toutes</em> les fonctions de la librairie sont accessibles mais on doit les nommer en les préfixant par le nom de la librairie, ici on pourrait donc calculer la racine carrée de 10 avec <code>racine10 = math.sqrt(10)</code>.</p>
+<h2 id="cours">Cours<a class="headerlink" href="#cours" title="Permanent link">&para;</a></h2>
+<p><span class='centre'><a class="md-button" href="../Cours/C2/C2-cours.pdf" target="_blank">Fiche de cours chapitre 2 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M208 48H96c-8.8 0-16 7.2-16 16v384c0 8.8 7.2 16 16 16h80v48H96c-35.3 0-64-28.7-64-64V64C32 28.7 60.7 0 96 0h133.5c17 0 33.3 6.7 45.3 18.7l122.5 122.6c12 12 18.7 28.3 18.7 45.3v149.5h-48v-128h-88c-39.8 0-72-32.2-72-72v-88zm140.1 112L256 67.9V136c0 13.3 10.7 24 24 24zM240 380h32c33.1 0 60 26.9 60 60s-26.9 60-60 60h-12v28c0 11-9 20-20 20s-20-9-20-20V400c0-11 9-20 20-20m32 80c11 0 20-9 20-20s-9-20-20-20h-12v40zm96-80h32c28.7 0 52 23.3 52 52v64c0 28.7-23.3 52-52 52h-32c-11 0-20-9-20-20V400c0-11 9-20 20-20m32 128c6.6 0 12-5.4 12-12v-64c0-6.6-5.4-12-12-12h-12v88zm76-108c0-11 9-20 20-20h48c11 0 20 9 20 20s-9 20-20 20h-28v24h28c11 0 20 9 20 20s-9 20-20 20h-28v44c0 11-9 20-20 20s-20-9-20-20z"/></svg></span></a></span></p>
+<h2 id="exercices-de-synthese">Exercices de synthèse<a class="headerlink" href="#exercices-de-synthese" title="Permanent link">&para;</a></h2>
+<h3 id="exercice-10-generation-de-listes-en-python"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 10 : <em>Génération de listes en Python</em><a class="headerlink" href="#exercice-10-generation-de-listes-en-python" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>On considère le programme suivant :
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">liste1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">liste2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">liste3</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">liste3</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></code></pre></div></p>
+<ol>
+<li>Quel est le contenu de chacune des listes ?</li>
+<li>Indiquer par quel procédé chacune de ces listes a été crée.</li>
+</ol>
+</li>
+<li>
+<p>Ecrire un programme python permettant de créer les listes suivantes :</p>
+<ol>
+<li>Une liste contenant 12 fois le chiffre 7.</li>
+<li>La liste des nombres entiers de 1 à 100.</li>
+<li>
+<p>Une liste contenant 1000 nombres tirés au sort entre 1 et 6.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On rappelle que la fonction <code>randint</code> peut être importée depuis le module <code>random</code>, elle permet de tirer un nombre en deux valeurs <code>a</code> et <code>b</code> données en paramètres.</p>
+</div>
+</li>
+<li>
+<p>La liste des cubes des entiers de 1 à 10.</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="exercice-11-parcours-de-listes-en-python"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 11 : <em>Parcours de listes en Python</em><a class="headerlink" href="#exercice-11-parcours-de-listes-en-python" title="Permanent link">&para;</a></h3>
+<p>On suppose qu'on dispose d'une liste de notes, on veut écrire une fonction qui renvoie le nombres de notes qui sont en dessous de la moyenne. </p>
+<ol>
+<li>
+<p>On considère une première version de cette fonction :
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">inferieur_moyenne</span><span class="p">(</span><span class="n">liste_notes</span><span class="p">):</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">nb</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">liste_notes</span><span class="p">:</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="k">if</span> <span class="o">.....</span><span class="p">:</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>            <span class="n">nb</span> <span class="o">=</span> <span class="o">.......</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="k">return</span> <span class="o">...</span>
+</span></code></pre></div></p>
+<ol>
+<li>Recopier et compléter cette fonction</li>
+<li>Tester cette fonction </li>
+</ol>
+</li>
+<li>
+<p>Voici une deuxième version de cette fonction :
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">inferieur_moyenne</span><span class="p">(</span><span class="n">liste_notes</span><span class="p">):</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">nb</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="k">for</span> <span class="n">indice</span> <span class="ow">in</span> <span class="o">........</span><span class="p">:</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>        <span class="k">if</span> <span class="o">...........</span> <span class="p">:</span> 
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>            <span class="n">nb</span> <span class="o">=</span> <span class="o">.......</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="k">return</span> <span class="o">...</span>
+</span></code></pre></div></p>
+<ol>
+<li>Recopier et compléter cette fonction</li>
+<li>Tester cette fonction</li>
+</ol>
+</li>
+<li>
+<p>Quelle est la différence principale entre ces deux versions de la même fonction ?</p>
+</li>
+<li>
+<p>Ecrire les fonctions suivantes :</p>
+<ol>
+<li><code>somme_liste</code> qui prend comme argument une liste non vide de nombres et renvoie la somme de ces nombres.</li>
+<li><code>moyenne_liste</code> qui prend comme argument une liste non vide de nombres et renvoie la moyenne de ces nombres.</li>
+<li><code>max_liste</code> qui prend comme argument une liste non vide de nombres et renvoie le plus grand de ces nombres.</li>
+<li><code>min_liste</code> qui prend comme argument une liste non vide de nombres et renvoie le plus petit de ces nombres.</li>
+</ol>
+</li>
+</ol>
+<h3 id="exercice-12-recherche-doccurences"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 12 : <em>Recherche d'occurences</em><a class="headerlink" href="#exercice-12-recherche-doccurences" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ecrire une fonction <code>present</code> qui prend en argument un elément <code>elt</code> et une liste <code>liste</code>   et qui renvoie <code>True</code> si <code>elt</code> se trouve dans la liste <code>liste</code> et <code>False</code> sinon. Par exemple <code>present(3,[1,4,5])</code> renvoie <code>False</code>, par contre <code>present(4,[1,4,5])</code> renvoie <code>True</code>.</li>
+<li>Tester cette fonction</li>
+<li>Ecrire une fonction <code>occurence</code> qui renvoie le nombre de fois où <code>elt</code> apparaît dans <code>liste</code>.</li>
+<li>Ecrire une fonction <code>indice</code> qui renvoie l'indice de la première apparition d'<code>elt</code>dans <code>liste</code>. On renvoie <span class="arithmatex">\(-1\)</span> si <code>elt</code> ne se trouve pas dans <code>liste</code>.</li>
+</ol>
+<h3 id="exercice-13-evolution-dune-chaine-de-caracteres"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 13 : <em>Evolution d'une chaine de caractères</em><a class="headerlink" href="#exercice-13-evolution-dune-chaine-de-caracteres" title="Permanent link">&para;</a></h3>
+<p>On considère une chaine de caractères initialement constituée de <span class="arithmatex">\(k\)</span> caractères <code>.</code> suivie d'un caractère <code>#</code> puis de <span class="arithmatex">\(k\)</span> caractères <code>.</code>. Par exemple pour <span class="arithmatex">\(k=5\)</span> la chaine est <code>.....#.....</code> (5 <code>.</code> suivi d'un <code>#</code> puis de 5 <code>.</code>). Cette chaine évolue de la façon suivante :</p>
+<ul>
+<li>si un <code>.</code> est entre un <code>#</code> et un <code>.</code>, il se transforme en <code>#</code> sinon il reste un <code>.</code></li>
+<li>si un <code>#</code> est entre deux <code>#</code> ou s'il a un <code>#</code> à sa gauche et un <code>.</code> à sa droite, il se transforme en <code>.</code> sinon il reste un <code>#</code></li>
+<li>le premier et le dernier caractère ayant un seul voisin, ils ne sont pas affectés par ces règles d'évolutions et restent toujours des <code>.</code></li>
+</ul>
+<p>Par exemple dans le cas <span class="arithmatex">\(k=5\)</span> : les étapes successives d'évolution sont :</p>
+<ul>
+<li><code>.....#.....</code> (état initial :)</li>
+<li><code>....###....</code> (étape 1)</li>
+<li><code>...##..#...</code> (étape 2)</li>
+<li><code>..##.####..</code> (étape 3)</li>
+<li><code>.##..#...#.</code> (étape 4)</li>
+<li><code>.#.####.##.</code> (étape 5)</li>
+</ul>
+<p>Dans le cas <span class="arithmatex">\(k=256\)</span>, et à l'étape 1000, combien de <code>#</code> contient la chaine ?</p>
+<div id="global_editor_336b3986953665bba1fab43b34433c2652f38a06" class="py_mk_ide"><div class="py_mk_wrapper md-typeset"><div class="comment_py_mk_wrapper"><div is_v="false" mode="" id="editor_336b3986953665bba1fab43b34433c2652f38a06"></div><span id="comment_editor_336b3986953665bba1fab43b34433c2652f38a06" class="comment tooltip">###<span style="--tool_shift: 95%;width:17em;" class="tooltiptext bottom">(Dés-)Active le code après la ligne <code># Tests</code> (insensible à la casse)<br>(<kbd>Ctrl</kbd>+<kbd>I</kbd>)</span></span><div class="ide-split-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M3,3H11V5H3V3M13,3H21V5H13V3M3,7H11V9H3V7M13,7H21V9H13V7M3,11H11V13H3V11M13,11H21V13H13V11M3,15H11V17H3V15M13,15H21V17H13V15M3,19H11V21H3V19M13,19H21V21H13V19Z" /> </svg><span style="--tool_shift: 95%;width:23em;" class="tooltiptext bottom">Entrer ou sortir du mode "deux colonnes"<br>(<kbd>Alt+:</kbd> ; <kbd>Ctrl</kbd> pour inverser les colonnes)</span></div><div class="ide-full-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M17 4H20C21.1 4 22 4.9 22 6V8H20V6H17V4M4 8V6H7V4H4C2.9 4 2 4.9 2 6V8H4M20 16V18H17V20H20C21.1 20 22 19.1 22 18V16H20M7 18H4V16H2V18C2 19.1 2.9 20 4 20H7V18M18 8H6V16H18V8Z" /> </svg><span style="--tool_shift: 95%;width:10em;" class="tooltiptext bottom">Entrer ou sortir du mode "plein écran"<br>(<kbd>Esc</kbd>)</span></div></div><div style="--n-buttons:2" class="term_wrapper"><div is_v="False" style="line-height:24px;--n-lines:10;" id="term_editor_336b3986953665bba1fab43b34433c2652f38a06" class="term_editor py_mk_terminal"></div><div class="term_btns_wrapper"><div class="twemoji stdout-ctrl tooltip"><svg viewBox="0 0 24 24" fill="none"     stroke="var(--md-default-fg-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"     xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>   <path d="M 4,21.4 V 2.6 C 4,2.3 4.3,2 4.6,2 h 11.65 c 0.16,0 0.31,0.06 0.42,0.18 l 3.15,3.15 C 19.94,5.44 20,5.59 20,5.75 V 21.4 C 20,21.73 19.73,22 19.4,22 H 4.6 C 4.3,22 4,21.73 4,21.4 Z" ></path>   <path d="M 16,5.4 V 2.35 C 16,2.16 16.16,2 16.35,2 c 0.09,0 0.18,0.03 0.25,0.10 l 3.29,3.29 C 19.96,5.46 20,5.55 20,5.65 20,5.84 19.84,6 19.65,6 H 16.6 C 16.27,6 16,5.73 16,5.4 Z" ></path>   <path d="m 8,9.25 h 8" ></path>   <path d="M 7.9,13.25 H 15.9"></path>   <path d="M 7.9,11.25 H 14.4" ></path>   <path d="M 7.9,19.25 H 14.4" ></path>   <path d="m 7.9,15.25 h 8" ></path>   <path d="M 7.9,17.25 H 11.9" ></path>   <path d="m 8,5.25 h 4" ></path>   <path d="m 8,7.25 h 4" ></path> </g> <g><path class="stdout-x-ray-svg" d="M 3,11.4 v 6 L 21,13.8 V 7.7 Z" style="fill:var(--md-default-bg-color);stroke-width:0;" ></path></g> </svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Tronquer ou non le feedback dans les terminaux (sortie standard & stacktrace / relancer le code pour appliquer)</span></div><div class="stdout-wraps-btn tooltip svg-switch-btn twemoji deactivated"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path d="M7 21H5V3h2v18m7-18h-2v6h2V3m0 12h-2v6h2v-6m5-3-3-3v2H9v2h7v2l3-3Z"> </path></svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Si activé, le texte copié dans le terminal est joint sur une seule ligne avant d'être copié dans le presse-papier</span></div></div></div></div><div class="ide_buttons_div_wrapper"><div class="ide_buttons_div"><button btn_kind="play" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Exécuter le code<br>(<kbd>Ctrl</kbd>+<kbd>S</kbd>)" data-tip-width="9"><img src="../../assets/images/icons8-play-64.png" class="skip_light_box" /></button><button btn_kind="download" style="margin-left:1em; margin-right:0.2em;" class="tooltip " data-tip-txt="Télécharger"><img src="../../assets/images/icons8-download-64.png" class="skip_light_box" /></button><button btn_kind="upload" style="margin-left:0.2em; margin-right:1em;" class="tooltip " data-tip-txt="Téléverser"><img src="../../assets/images/icons8-upload-64.png" class="skip_light_box" /></button><button btn_kind="restart" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Réinitialiser l'éditeur"><img src="../../assets/images/icons8-restart-64.png" class="skip_light_box" /></button><button btn_kind="save" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Sauvegarder dans le navigateur"><img src="../../assets/images/icons8-save-64.png" class="skip_light_box" /></button></div><div class="compteur_wrapper"><div class="compteur"></div></div></div></div>
+
+<div class="py_mk_hidden" id="solution_editor_336b3986953665bba1fab43b34433c2652f38a06"></div>
+<p>Vérifier votre réponse : 
+<input type="text" id="q29" class="text-input-neutral"> <img id="q29img" src="https://fabricenativel.github.io/cpge-info/images/circle-question.svg" width="24px" style="vertical-align:middle"> 
+<input type="button" value="valider" class="repbutton" onclick="check('q29','4be84111a613654b362415e563cb7607df7b203b5d303802a8a546061bbc7847')">
+<input type="button" value="reset" class="repbutton" onclick="imgreset('q29')"></p>
+<h3 id="exercice-14-denivele-positif"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 14 : <em>Denivelé positif</em><a class="headerlink" href="#exercice-14-denivele-positif" title="Permanent link">&para;</a></h3>
+<p>On donne ci-dessous, une liste d'entiers <code>altitudes</code> (déjà présente dans votre mini IDE), qui correspond aux altitudes d'un coureur lors d'une course de montagne. On veut déterminer le <em>denivelé positif</em> de ce coureur c'est-à-dire la somme des longueurs des <em>ascensions</em>. Par exemple, si la liste <code>altitudes</code> est <code>[330, 490, 380, 610, 780, 550]</code> alors :</p>
+<ul>
+<li>la course commence par une ascension de dénivelé positif <span class="arithmatex">\(160\)</span> (<span class="arithmatex">\(490-330\)</span>)</li>
+<li>puis on a une descente (de <span class="arithmatex">\(490\)</span> à <span class="arithmatex">\(380\)</span>)</li>
+<li>puis une ascension avec un dénivelé positif de <span class="arithmatex">\(230\)</span> (<span class="arithmatex">\(610-380\)</span>)</li>
+<li>puis une nouvelle ascencion de dénivelé positif <span class="arithmatex">\(170\)</span> (<span class="arithmatex">\(780-610\)</span>)</li>
+<li>puis une descente (de <span class="arithmatex">\(780\)</span> à <span class="arithmatex">\(550\)</span>)</li>
+</ul>
+<p>Le dénivelé cumulé positif total de cette course est donc <span class="arithmatex">\(160+230+170=560\)</span></p>
+<p>Quel est le dénivelé cumulé positif total de la liste des altitudes donnée dans votre IDE ci-dessous ?</p>
+<p><input type="text" id="q30" class="text-input-neutral"> <img id="q30img" src="https://fabricenativel.github.io/cpge-info/images/circle-question.svg" width="24px" style="vertical-align:middle"> 
+<input type="button" value="valider" class="repbutton" onclick="check('q30','88831144c552348a6df88c9a58528323d0e5f7da3c67e213fffdba38ac6617c1')">
+<input type="button" value="reset" class="repbutton" onclick="imgreset('q30')"></p>
+<div id="global_editor_8592c4e3ac0423e07b8979401687c48b18fde9a5" class="py_mk_ide"><div class="py_mk_wrapper md-typeset"><div class="comment_py_mk_wrapper"><div is_v="false" mode="" id="editor_8592c4e3ac0423e07b8979401687c48b18fde9a5"></div><span id="comment_editor_8592c4e3ac0423e07b8979401687c48b18fde9a5" class="comment tooltip">###<span style="--tool_shift: 95%;width:17em;" class="tooltiptext bottom">(Dés-)Active le code après la ligne <code># Tests</code> (insensible à la casse)<br>(<kbd>Ctrl</kbd>+<kbd>I</kbd>)</span></span><div class="ide-split-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M3,3H11V5H3V3M13,3H21V5H13V3M3,7H11V9H3V7M13,7H21V9H13V7M3,11H11V13H3V11M13,11H21V13H13V11M3,15H11V17H3V15M13,15H21V17H13V15M3,19H11V21H3V19M13,19H21V21H13V19Z" /> </svg><span style="--tool_shift: 95%;width:23em;" class="tooltiptext bottom">Entrer ou sortir du mode "deux colonnes"<br>(<kbd>Alt+:</kbd> ; <kbd>Ctrl</kbd> pour inverser les colonnes)</span></div><div class="ide-full-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M17 4H20C21.1 4 22 4.9 22 6V8H20V6H17V4M4 8V6H7V4H4C2.9 4 2 4.9 2 6V8H4M20 16V18H17V20H20C21.1 20 22 19.1 22 18V16H20M7 18H4V16H2V18C2 19.1 2.9 20 4 20H7V18M18 8H6V16H18V8Z" /> </svg><span style="--tool_shift: 95%;width:10em;" class="tooltiptext bottom">Entrer ou sortir du mode "plein écran"<br>(<kbd>Esc</kbd>)</span></div></div><div style="--n-buttons:2" class="term_wrapper"><div is_v="False" style="line-height:24px;--n-lines:10;" id="term_editor_8592c4e3ac0423e07b8979401687c48b18fde9a5" class="term_editor py_mk_terminal"></div><div class="term_btns_wrapper"><div class="twemoji stdout-ctrl tooltip"><svg viewBox="0 0 24 24" fill="none"     stroke="var(--md-default-fg-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"     xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>   <path d="M 4,21.4 V 2.6 C 4,2.3 4.3,2 4.6,2 h 11.65 c 0.16,0 0.31,0.06 0.42,0.18 l 3.15,3.15 C 19.94,5.44 20,5.59 20,5.75 V 21.4 C 20,21.73 19.73,22 19.4,22 H 4.6 C 4.3,22 4,21.73 4,21.4 Z" ></path>   <path d="M 16,5.4 V 2.35 C 16,2.16 16.16,2 16.35,2 c 0.09,0 0.18,0.03 0.25,0.10 l 3.29,3.29 C 19.96,5.46 20,5.55 20,5.65 20,5.84 19.84,6 19.65,6 H 16.6 C 16.27,6 16,5.73 16,5.4 Z" ></path>   <path d="m 8,9.25 h 8" ></path>   <path d="M 7.9,13.25 H 15.9"></path>   <path d="M 7.9,11.25 H 14.4" ></path>   <path d="M 7.9,19.25 H 14.4" ></path>   <path d="m 7.9,15.25 h 8" ></path>   <path d="M 7.9,17.25 H 11.9" ></path>   <path d="m 8,5.25 h 4" ></path>   <path d="m 8,7.25 h 4" ></path> </g> <g><path class="stdout-x-ray-svg" d="M 3,11.4 v 6 L 21,13.8 V 7.7 Z" style="fill:var(--md-default-bg-color);stroke-width:0;" ></path></g> </svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Tronquer ou non le feedback dans les terminaux (sortie standard & stacktrace / relancer le code pour appliquer)</span></div><div class="stdout-wraps-btn tooltip svg-switch-btn twemoji deactivated"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path d="M7 21H5V3h2v18m7-18h-2v6h2V3m0 12h-2v6h2v-6m5-3-3-3v2H9v2h7v2l3-3Z"> </path></svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Si activé, le texte copié dans le terminal est joint sur une seule ligne avant d'être copié dans le presse-papier</span></div></div></div></div><div class="ide_buttons_div_wrapper"><div class="ide_buttons_div"><button btn_kind="play" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Exécuter le code<br>(<kbd>Ctrl</kbd>+<kbd>S</kbd>)" data-tip-width="9"><img src="../../assets/images/icons8-play-64.png" class="skip_light_box" /></button><button btn_kind="download" style="margin-left:1em; margin-right:0.2em;" class="tooltip " data-tip-txt="Télécharger"><img src="../../assets/images/icons8-download-64.png" class="skip_light_box" /></button><button btn_kind="upload" style="margin-left:0.2em; margin-right:1em;" class="tooltip " data-tip-txt="Téléverser"><img src="../../assets/images/icons8-upload-64.png" class="skip_light_box" /></button><button btn_kind="restart" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Réinitialiser l'éditeur"><img src="../../assets/images/icons8-restart-64.png" class="skip_light_box" /></button><button btn_kind="save" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Sauvegarder dans le navigateur"><img src="../../assets/images/icons8-save-64.png" class="skip_light_box" /></button></div><div class="compteur_wrapper"><div class="compteur"></div></div></div></div>
+
+<div class="py_mk_hidden" id="solution_editor_8592c4e3ac0423e07b8979401687c48b18fde9a5"></div>
+<details class="aide">
+<summary>Indice</summary>
+<ul>
+<li>Pour obtenir la valeur d'un élément dans une liste de Python, on peut utiliser la syntaxe <code>liste[indice]</code>. Par exemple, si <code>noel = [25,12,2024]</code> alors <code>noel[1] = 12</code> (l'indice du premier élément est 0).</li>
+<li>Pour parcourir une liste, on peut utiliser un boucle <code>for</code> dont la variable représente l'indice de la valeur à laquelle on souhaite accéder. Par exemple <code>for i in range(3)</code> crée une variable qui prendra successivement les valeurs <code>0,1</code> et <code>2</code> (dans un <code>range</code> la dernière valeur n'est <em>pas</em> prise), cette variable peut être utilisé dans la boucle pour accéder à <code>noel[0]</code> puis <code>noel[1]</code> et enfin <code>noel[2]</code></li>
+<li>La fonction <code>len</code> s'applique aussi aux listes et renvoie leur nombre d'éléments.</li>
+</ul>
+</details>
+<h3 id="exercice-15-evolution-dune-liste"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 15 : <em>Evolution d'une liste</em><a class="headerlink" href="#exercice-15-evolution-dune-liste" title="Permanent link">&para;</a></h3>
+<p>On considère la liste <code>carres</code> des <span class="arithmatex">\(k\)</span> premiers carrés des entiers <em>strictement</em> positifs, par exemple si <span class="arithmatex">\(k=6\)</span>, <code>carres = [1, 4, 9, 16, 25, 36]</code>. Sur cette liste on effectue les opérations suivantes :</p>
+<ul>
+<li>on enlève les deux derniers éléments</li>
+<li>s'ils ont même parité on calcule leur somme, sinon leur différence (plus grand moins plus petit)</li>
+<li>on rajoute la valeur calculée à l'étape précédente (la somme ou la différence) la fin de la liste</li>
+</ul>
+<p>Par exemple pour <code>carres = [1, 4, 9, 16, 25, 36]</code></p>
+<ul>
+<li>les deux derniers éléments sont <code>25</code> et <code>36</code>, ils sont enlevés de la liste qui devient <code>[1, 4, 9, 16]</code></li>
+<li>ces deux entiers n'ont pas la même parité, on fait la différence <code>36 - 25 = 11</code></li>
+<li>on ajoute cette valeur à la fin de la liste qui devient <code>[1, 4, 9, 16, 11]</code>
+On renouvelle ce processus sur la liste obtenue jusqu'à ce qu'elle contienne un unique élément (dans l'exemple ci-dessous on obtient successivement <code>[1, 4, 9, 5]</code> puis <code>[1, 4, 14]</code> puis <code>[1, 18]</code> et enfin <code>[17]</code>).</li>
+</ul>
+<p>Quel est l'élément restant dans le cas <span class="arithmatex">\(k=100\)</span> ?</p>
+<p><input type="text" id="q31" class="text-input-neutral"> <img id="q31img" src="https://fabricenativel.github.io/cpge-info/images/circle-question.svg" width="24px" style="vertical-align:middle"> 
+<input type="button" value="valider" class="repbutton" onclick="check('q31','2c272d362d10ec874a0ca0fafcaa46e4355aefb5f2abfad93783b2dbdf26827a')">
+<input type="button" value="reset" class="repbutton" onclick="imgreset('q31')"></p>
+<div id="global_editor_28b1e3f54d1828686f61c7b216a0517279395495" class="py_mk_ide"><div class="py_mk_wrapper md-typeset"><div class="comment_py_mk_wrapper"><div is_v="false" mode="" id="editor_28b1e3f54d1828686f61c7b216a0517279395495"></div><span id="comment_editor_28b1e3f54d1828686f61c7b216a0517279395495" class="comment tooltip">###<span style="--tool_shift: 95%;width:17em;" class="tooltiptext bottom">(Dés-)Active le code après la ligne <code># Tests</code> (insensible à la casse)<br>(<kbd>Ctrl</kbd>+<kbd>I</kbd>)</span></span><div class="ide-split-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M3,3H11V5H3V3M13,3H21V5H13V3M3,7H11V9H3V7M13,7H21V9H13V7M3,11H11V13H3V11M13,11H21V13H13V11M3,15H11V17H3V15M13,15H21V17H13V15M3,19H11V21H3V19M13,19H21V21H13V19Z" /> </svg><span style="--tool_shift: 95%;width:23em;" class="tooltiptext bottom">Entrer ou sortir du mode "deux colonnes"<br>(<kbd>Alt+:</kbd> ; <kbd>Ctrl</kbd> pour inverser les colonnes)</span></div><div class="ide-full-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M17 4H20C21.1 4 22 4.9 22 6V8H20V6H17V4M4 8V6H7V4H4C2.9 4 2 4.9 2 6V8H4M20 16V18H17V20H20C21.1 20 22 19.1 22 18V16H20M7 18H4V16H2V18C2 19.1 2.9 20 4 20H7V18M18 8H6V16H18V8Z" /> </svg><span style="--tool_shift: 95%;width:10em;" class="tooltiptext bottom">Entrer ou sortir du mode "plein écran"<br>(<kbd>Esc</kbd>)</span></div></div><div style="--n-buttons:2" class="term_wrapper"><div is_v="False" style="line-height:24px;--n-lines:10;" id="term_editor_28b1e3f54d1828686f61c7b216a0517279395495" class="term_editor py_mk_terminal"></div><div class="term_btns_wrapper"><div class="twemoji stdout-ctrl tooltip"><svg viewBox="0 0 24 24" fill="none"     stroke="var(--md-default-fg-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"     xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>   <path d="M 4,21.4 V 2.6 C 4,2.3 4.3,2 4.6,2 h 11.65 c 0.16,0 0.31,0.06 0.42,0.18 l 3.15,3.15 C 19.94,5.44 20,5.59 20,5.75 V 21.4 C 20,21.73 19.73,22 19.4,22 H 4.6 C 4.3,22 4,21.73 4,21.4 Z" ></path>   <path d="M 16,5.4 V 2.35 C 16,2.16 16.16,2 16.35,2 c 0.09,0 0.18,0.03 0.25,0.10 l 3.29,3.29 C 19.96,5.46 20,5.55 20,5.65 20,5.84 19.84,6 19.65,6 H 16.6 C 16.27,6 16,5.73 16,5.4 Z" ></path>   <path d="m 8,9.25 h 8" ></path>   <path d="M 7.9,13.25 H 15.9"></path>   <path d="M 7.9,11.25 H 14.4" ></path>   <path d="M 7.9,19.25 H 14.4" ></path>   <path d="m 7.9,15.25 h 8" ></path>   <path d="M 7.9,17.25 H 11.9" ></path>   <path d="m 8,5.25 h 4" ></path>   <path d="m 8,7.25 h 4" ></path> </g> <g><path class="stdout-x-ray-svg" d="M 3,11.4 v 6 L 21,13.8 V 7.7 Z" style="fill:var(--md-default-bg-color);stroke-width:0;" ></path></g> </svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Tronquer ou non le feedback dans les terminaux (sortie standard & stacktrace / relancer le code pour appliquer)</span></div><div class="stdout-wraps-btn tooltip svg-switch-btn twemoji deactivated"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path d="M7 21H5V3h2v18m7-18h-2v6h2V3m0 12h-2v6h2v-6m5-3-3-3v2H9v2h7v2l3-3Z"> </path></svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Si activé, le texte copié dans le terminal est joint sur une seule ligne avant d'être copié dans le presse-papier</span></div></div></div></div><div class="ide_buttons_div_wrapper"><div class="ide_buttons_div"><button btn_kind="play" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Exécuter le code<br>(<kbd>Ctrl</kbd>+<kbd>S</kbd>)" data-tip-width="9"><img src="../../assets/images/icons8-play-64.png" class="skip_light_box" /></button><button btn_kind="download" style="margin-left:1em; margin-right:0.2em;" class="tooltip " data-tip-txt="Télécharger"><img src="../../assets/images/icons8-download-64.png" class="skip_light_box" /></button><button btn_kind="upload" style="margin-left:0.2em; margin-right:1em;" class="tooltip " data-tip-txt="Téléverser"><img src="../../assets/images/icons8-upload-64.png" class="skip_light_box" /></button><button btn_kind="restart" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Réinitialiser l'éditeur"><img src="../../assets/images/icons8-restart-64.png" class="skip_light_box" /></button><button btn_kind="save" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Sauvegarder dans le navigateur"><img src="../../assets/images/icons8-save-64.png" class="skip_light_box" /></button></div><div class="compteur_wrapper"><div class="compteur"></div></div></div></div>
+
+<div class="py_mk_hidden" id="solution_editor_28b1e3f54d1828686f61c7b216a0517279395495"></div>
+<details class="aide">
+<summary>Indice</summary>
+<p>En python <code>append</code> et <code>pop</code> permettent d'effectuer les opérations suivantes sur une liste:</p>
+<ul>
+<li><code>append</code> ajoute l'élément donné en argument à la fin de la liste. Par exemple si <code>liste_de_courses = ["courgettes","poivrons","tomates","oignons"]</code>, l'instruction <code>liste_de_courses.append("aubergines")</code> va ajouter en fin de <code>liste_de_courses</code> l'élément <code>"aubergines"</code>. <strong>Attention</strong> à la syntaxe qui est <code>&lt;liste&gt;.append(&lt;element&gt;)</code>.</li>
+<li><code>pop</code> modifie une liste en lui enlevant son <em>dernier</em> élément et renvoie ce dernier élément. c'est-à-dire que le résultat d'un <code>pop</code> (l'élément supprimé) peut-être utilisé (pour donner une valeur à une variable par exemple). Par exemple si <code>matieres = ["Informatique","Anglais","Maths","Physique","SVT"]</code>, l'instruction <code>supprime = matieres.pop()</code> a <strong>deux</strong> effets :<ul>
+<li>le dernier élément de <code>matieres</code> est supprimé la liste devient <code>matieres = ["Informatique","Anglais","Maths","Physique"]</code></li>
+<li>ce dernier élément devient la valeur de <code>supprime</code> (et donc <code>supprime = "SVT"</code>)</li>
+</ul>
+</li>
+</ul>
+</details>
+<h3 id="exercice-16-points-du-plan"><img alt="▪" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/25aa.svg" title=":black_small_square:" />   Exercice 16 : <em>Points du plan</em><a class="headerlink" href="#exercice-16-points-du-plan" title="Permanent link">&para;</a></h3>
+<p>Dans votre IDE ci-dessous, est déjà définie une liste de points du plan, chaque point est représenté par un <em>tuple</em> de python à deux éléments : son abscisse et son ordonnée. Par exemple <code>points = [ (2,-1), (3,5)]</code> contient les points de coordonnées <span class="arithmatex">\((2,-1)\)</span> et <span class="arithmatex">\((3,5)\)</span>. Quelle est la plus courte distance entre deux points de la liste de points définie dans l'éditeur ci-dessous (valeur arrondie au centième) ?</p>
+<div id="global_editor_e0f8f396e90407d9db704edbbea72bb809655ddb" class="py_mk_ide"><div class="py_mk_wrapper md-typeset"><div class="comment_py_mk_wrapper"><div is_v="false" mode="" id="editor_e0f8f396e90407d9db704edbbea72bb809655ddb"></div><span id="comment_editor_e0f8f396e90407d9db704edbbea72bb809655ddb" class="comment tooltip">###<span style="--tool_shift: 95%;width:17em;" class="tooltiptext bottom">(Dés-)Active le code après la ligne <code># Tests</code> (insensible à la casse)<br>(<kbd>Ctrl</kbd>+<kbd>I</kbd>)</span></span><div class="ide-split-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M3,3H11V5H3V3M13,3H21V5H13V3M3,7H11V9H3V7M13,7H21V9H13V7M3,11H11V13H3V11M13,11H21V13H13V11M3,15H11V17H3V15M13,15H21V17H13V15M3,19H11V21H3V19M13,19H21V21H13V19Z" /> </svg><span style="--tool_shift: 95%;width:23em;" class="tooltiptext bottom">Entrer ou sortir du mode "deux colonnes"<br>(<kbd>Alt+:</kbd> ; <kbd>Ctrl</kbd> pour inverser les colonnes)</span></div><div class="ide-full-screen tooltip svg-switch-btn twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">   <path d="M17 4H20C21.1 4 22 4.9 22 6V8H20V6H17V4M4 8V6H7V4H4C2.9 4 2 4.9 2 6V8H4M20 16V18H17V20H20C21.1 20 22 19.1 22 18V16H20M7 18H4V16H2V18C2 19.1 2.9 20 4 20H7V18M18 8H6V16H18V8Z" /> </svg><span style="--tool_shift: 95%;width:10em;" class="tooltiptext bottom">Entrer ou sortir du mode "plein écran"<br>(<kbd>Esc</kbd>)</span></div></div><div style="--n-buttons:2" class="term_wrapper"><div is_v="False" style="line-height:24px;--n-lines:10;" id="term_editor_e0f8f396e90407d9db704edbbea72bb809655ddb" class="term_editor py_mk_terminal"></div><div class="term_btns_wrapper"><div class="twemoji stdout-ctrl tooltip"><svg viewBox="0 0 24 24" fill="none"     stroke="var(--md-default-fg-color)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"     xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>   <path d="M 4,21.4 V 2.6 C 4,2.3 4.3,2 4.6,2 h 11.65 c 0.16,0 0.31,0.06 0.42,0.18 l 3.15,3.15 C 19.94,5.44 20,5.59 20,5.75 V 21.4 C 20,21.73 19.73,22 19.4,22 H 4.6 C 4.3,22 4,21.73 4,21.4 Z" ></path>   <path d="M 16,5.4 V 2.35 C 16,2.16 16.16,2 16.35,2 c 0.09,0 0.18,0.03 0.25,0.10 l 3.29,3.29 C 19.96,5.46 20,5.55 20,5.65 20,5.84 19.84,6 19.65,6 H 16.6 C 16.27,6 16,5.73 16,5.4 Z" ></path>   <path d="m 8,9.25 h 8" ></path>   <path d="M 7.9,13.25 H 15.9"></path>   <path d="M 7.9,11.25 H 14.4" ></path>   <path d="M 7.9,19.25 H 14.4" ></path>   <path d="m 7.9,15.25 h 8" ></path>   <path d="M 7.9,17.25 H 11.9" ></path>   <path d="m 8,5.25 h 4" ></path>   <path d="m 8,7.25 h 4" ></path> </g> <g><path class="stdout-x-ray-svg" d="M 3,11.4 v 6 L 21,13.8 V 7.7 Z" style="fill:var(--md-default-bg-color);stroke-width:0;" ></path></g> </svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Tronquer ou non le feedback dans les terminaux (sortie standard & stacktrace / relancer le code pour appliquer)</span></div><div class="stdout-wraps-btn tooltip svg-switch-btn twemoji deactivated"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path d="M7 21H5V3h2v18m7-18h-2v6h2V3m0 12h-2v6h2v-6m5-3-3-3v2H9v2h7v2l3-3Z"> </path></svg><span style="--tool_shift: 97%;width:19em;" class="tooltiptext bottom">Si activé, le texte copié dans le terminal est joint sur une seule ligne avant d'être copié dans le presse-papier</span></div></div></div></div><div class="ide_buttons_div_wrapper"><div class="ide_buttons_div"><button btn_kind="play" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Exécuter le code<br>(<kbd>Ctrl</kbd>+<kbd>S</kbd>)" data-tip-width="9"><img src="../../assets/images/icons8-play-64.png" class="skip_light_box" /></button><button btn_kind="download" style="margin-left:1em; margin-right:0.2em;" class="tooltip " data-tip-txt="Télécharger"><img src="../../assets/images/icons8-download-64.png" class="skip_light_box" /></button><button btn_kind="upload" style="margin-left:0.2em; margin-right:1em;" class="tooltip " data-tip-txt="Téléverser"><img src="../../assets/images/icons8-upload-64.png" class="skip_light_box" /></button><button btn_kind="restart" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Réinitialiser l'éditeur"><img src="../../assets/images/icons8-restart-64.png" class="skip_light_box" /></button><button btn_kind="save" style="margin-left:0.2em; margin-right:0.2em;" class="tooltip " data-tip-txt="Sauvegarder dans le navigateur"><img src="../../assets/images/icons8-save-64.png" class="skip_light_box" /></button></div><div class="compteur_wrapper"><div class="compteur"></div></div></div></div>
+
+<div class="py_mk_hidden" id="solution_editor_e0f8f396e90407d9db704edbbea72bb809655ddb"></div>
+<p>Véfifier votre réponse : 
+<input type="text" id="q32" class="text-input-neutral"> <img id="q32img" src="https://fabricenativel.github.io/cpge-info/images/circle-question.svg" width="24px" style="vertical-align:middle"> 
+<input type="button" value="valider" class="repbutton" onclick="check('q32','9909ad1ab3ddcc236b8a4850d5363b6ccae09ae0e6d4c8a1e53ae6b34f5a9cb0')">
+<input type="button" value="reset" class="repbutton" onclick="imgreset('q32')"></p><script type="text/javascript">
+CONFIG.needMermaid = false;
+CONFIG.overlordClasses = ["Terminal", "Ide", "GlobalRunnersManager"];
+globalThis.PAGE_IDES_CONFIG = '.\x1en+}:E_qoa3xIw]hUed{C[6(750f,1-g8Yr)z4pk9vmPtOAuyb. iS!cs=Ll2\x1e0s010q0r0Z0R0h0H0f0F0r0C0$0K0i0v0j0v0v0A0z0}0j0K130_0W0C160 0W0K0$0j0N0W0$190A0A0y1f010d0Y0,0L0V0f0a0i0P0q1p0Y010*0Z0%0R0q0%0D0$0h0P0L1G0f0O0h0V0q0*0*0q0X1t010B1B0q0a0O0f1K0a1G1+1A011Z1#1%0f1G0H0P1)0h1+1$0R1.1:010U0%0q0?1*1,1~1q010r0q0A0Y1K1M1O1Q1S1U0q0w0$0o0i0Z0a0q0I0d090a0Y2x0Y0a0W1P1R1T1V0%0Y0(0Y0z2v2y0Y0A0=0Y0Z2Q2w0H0i0a0E2l1V0a2m2o2q2s2t2L2M2y0Z2d2n2p2r0u0Z0n2H2I000T000Y2P2/2%2=2@0(2_0e2|2~2$2;2?2^0Y000l360H2e380q313b000S3f3h2:3j3a333c0p3o2 39322_0G002u2w2+3F2A2C2j2F2H2z2B2i2E1H0Y0b0Y0C2*2x0H0q0R0U0H2w3H3O2k0%201K0H251{271 1!010L0U0W1D0$1?1H0R3*2920230$3X0R3|1F3 1B200L0h1F3|1^1`1|1-403=4b4d261}3;1#0k0$0*0U2b0r1A0u0n3=0q4r4t4v0f1y0R0o0h0r484y4A4C4u0.0f0M0m4L4z1B1t4H1{0f1D0W4L013Z0H0R1V014V3?0V0L0Z0f0m0o0:1z1q0a0U1U3=3X3{1D0P0:1A0D0C3=4@4_4!1E280Y4M1B0i0U0;0f0H0U0a1A0A0i0*234 5m0f0E0H0h0U0L1A0z3=0=2b0?2q5v5x5z1A571B230g5k5m4p015O0f0L0*0i0V5o5q5s4W5x0A0Z4,4j5g0R1G2g0%4!2c5d010l0a5)0a0:5Z3=5h5j0*0h0E0f0i0%234*1A0R5l0q3=3,0?3X0P5;0P660M5B3=2o5;2n0q0$0M0f0W0R5n1q5p5r6d1B6p1`3-6v6x5!6B6o665k0q0O0q5q6H6y2N5#6C016E1K5m1@6J5$011E1P245d6A6%6k0k0f0Z2b5b2r480j5C1B530a6;6?1D6^1A0j3=2b436Q23655.0q5:0f4Z22241`6?5p5*3!4`1#0/0;0H202b0i0$0R0Z0O0i1O1F0r5y452O0?4244486b0U6W6h0h6P65676+0Z1{5;1F7u0M6b7u7n6-6W0%4I0m7e0a0*1u66687w4Z245x0H5;7F0f7H3Y487$3=0%0H3{6p0o1.0z0y0q0~0N0A0j0q0j0W1h0N0N0K0+0K0~0j0r8p0y0z0_0`0i0y0`8d118o0A0~0v0W8e8p8c0r0i0r1n8K0y8i110W410R0r4R0q5Z5,4(0m0h1`5r6$6W4B4b696z6V808S7D1)5i7e1l1A0+0z6{010$8=0A0q0.0W7X6a6c0c4A7p0=0f0+8j0x0$0C870z0v0N2c0N0F0.0K0F190v0C120x0K0A0x0q0x0+0y9o8N0x0i0C1A1s1u1w1y1.1D1F1H1X5~1;1(4n4i494A1=1@1_9U5@207g3.4h9$6e0=9)3:8X3@3_0Z3{1G475S7|459^3~5S4l9|249!3/4o9:4c459#5S4B4s4P4w1q5f0-4O4E4G4I4K4x4.ab4D4Q4S4U4k0V4Y6~4#4%4)4+1z4.1t4;4?4^1G1A4|4~1B505b535d5658aH0q5b1Fan5 5i8!5l6T7 aM5u5w5y5A1q5M015E7h5Ha*5Ka-800q5Pa#9`a`5V5X8W6U6K5%0h5)5+9W5-5/1N5;1V0A5@5_5{5}20608!62647/6+947L9,6G6h6j6l6n6D6M6r6t6S8%6L6q9-bC8,b36X6M3X6P6R6wa$8-bybF6!24bD1B6)6P8+b26.0i6:6=aU711H738{6}6 b*2%480x756s3X66aU7zba3~7+0f9(7iaU7k4t3X1.0.0:0=7s6Q7v7x7zaU7B8:7`9{7J6c4 7c7Ob|7R4*7T0a7V0R7X7Z0$7#bR5T7)7+7-7Q7:cu0f7?0=7_99clbW5T820f841.0A0{0i0+0+1j0+9E0z8o0$0z9x0q0y0F0j9A0N9s110r9m0_0y0+0i168b1g1a0+9r9E1i0j8r0C0i0N0j8 0W0F0z8R8T0M8V5S0R8Z8#7~cC8)0=6,cCci8=8}45b50A8^8`6e8~900r926tbq0q967oca0?0i0F0C9u9k0CdT9E0K0y0y9E6`0x8 0.0i0i8cd90`dY0~0A0r0x9H4/1v1x7n1C5c1H0D7Z0a6r0%9Q201$9Ta49V1/9X1(9Z4g9/b82168eca51B1G0k1G3L09010e2w0Q0t0!0l1!1{6U0:0Y0r0U0Y0Qav4I0a1!0$003}0Y0E090U8`0q0N5|5q0Y0#eo2v2v030Y0t1L5WeOeQ0N1G0J0Y3K1D0E6^0Y0%0Ucf1|2G4b3!2}6w1$0Z3g3K0He)0zeRe@0*cx3~eA7c2V0rf5f70Y3DeZ3T0X0Y0eel2U1Se-1V0Y0P0h0R0YeoeEaweX0a3Xf8fa0f0C3Lek1G0u0XfN0neY0ae!0+fmfo7Zfre.3Q0yfc3#0Z242G0$0i2U7vfg0FfE2vfE4}fG0+fJ4BfLfN0XfP0afk0jfUfp5Y0qe-0;22fYf)f+7u0Rf.fEe?5h2d3K0v0Y0L6hf%7^f;1Hf?7z0f0jf_el3jf|f~fk0Kg2fWg5g92egbf-ePf6f/3Q2be.0igl4c0:cu3T0zfygK0qgW8_0Y0w2qac0%0IgqfFgt0Kgwf{fOfQe!0yfm5_bZ23fsgQ2/fg1$0q2ee%0*f.1Gg,gs45f!2IfKgyg=f fR0Y0vgDfqgF5mgHf,gdgYgMe?e}2b0U0kfc0Yg7em5X3ph02rh8f9gtgkhcf`hef}g?0Y0xhkg4fs3Q0Cf!gm7cgogahpgegN2V2G0*005E3X2Sg{0qhGfG0xg:hM0n3+bGa99:3^3`469~8X9{i048e84Wa74ea39*9 i8h|eeapadaX4qacaj3Yalatijaqdh4Tii4/aw5b4$4x4(3!aB4-auaF59aI4{4}0*co510ZaP55a.iFb;aWaf4.bk5QbQbJa#5Ia+8^5D0H5F6;6~a?a,3Ta_a{5Ri2a~5W5YcQgmb55*d_bj7b7dbdbf5`2qbiaY6163cHbp1q7K6W6f6N6i4Fbw1q8{6Y0o6s6ubPcQ6YbGjpbI6%6EbM6Q0*bHb#6WjrbU7rju6WbYjajB3=6/b:6@b,1q6`jL5Hb)jO6_b^77b{7ab~5;7feg1K7j2pc6d_c97qccgccf7A8/8~cOb_7}dIcofv7Pboct7U7{cx6tczcBbJ7(0h7*1{cGk07;6~cL7^0fckj`i1jK5NcScU290$dXgZ8v9p9z0^0W8D8o15eR8J0K0N138k9B0A0K0W0x100vdX0v9b0$0x2b0ycYkPd)d)0N0$c*ks0+dg8Ub1i68Y8!1K8$jG4N8*dsk8j@a88=dydA8{dwkjdEdG6mjb9597dM0fdX9e0W150v0K0C8b0_8D0q9sdb0~de8e0F10lg890+0F0^9jd=1td@9L299N9^0D0i4b0Le2e9ehe7e39Ya2lL9+1Bc2ie8|5y7^3Q2I0ueo0h0Ze;7Ueo1!eo2n0Z0L0%l*fya/2U2W1Hl;eo23h51:eo4b7x3Xl`4(1Lcgl:4-h`6GlU4ah~9?i4a}77a19_a64debmb4kide6lRahik0.itigil4YamiT4NmtirioiueGiwaziA4,aD4:4=iQaJiIiKaO541qaR1BiQaV5dagiVa|k=a(i+5Ji-741Ba:5Gm)i#a^5Na~m$ee5Ui@b1a%3?5(i|5Sb}7cbb5=be1.bgj40R9R01iVbmj9b!jcbs6g7cbv0%l42JbE1)jmbBjtknbKbF6Gntm}jw6OjyjAnzbz5y1|jFnujIb!m}jMjUb+6_b.jT70b=73jXb`79n27dj%7hj)c4j+7mc8987rb^j;7yj?7Cj^7GklcmbraMcpj cskfcwcyf,k76%k9kb7,7.n~cJkhcNn@mhdok8kp668529kPd20y9rd)0F9b1e0W120N8v9r8f0z9w0+8d5p0i0Wc$d/hV8KkK0N0x0N9A9d8m8vk$0K8e1ecWk*dik,20dlk/0hk;nudqnLdtk`8;dx8@1q8_k dD9193l57LdK0-n,gu1c1glq0N0y0 kP0W929soE0K8f15pb0j0$om0+8c0F0i9hly9Jd^9Md{e11YlKmn9Si9lQ5SlTmq5Sjepv3?md9@3}i541klmfmka14fpEa0py8XmwmumAipad4Fim4JmEpUmDit4XmGayiyaAmKiDmNaTmPaL01aN52mT0YmV01mXlDitm#i;nuiZi,1A0Ki%i)a=m*5Li/iWa}5Pm{i_m b7k-nZn4j1n7j35|nabjaZ4!j8kej|1BjebujhnmbxnvnqjnnDcCjrnx6Im%qGjxbOqNnujDnHcQnKk^b$b(nT72jQnR6~nOnU1qb@1B76nXb|i n4n#3.j*7lc729j.cbn.cen:cho-kkoeqzp^n|crcIk27Wk5o2cQo5cFo8rakg3-cMkjj_r5qO8183oicVcXcZc#c%c)c+90c.c:8Nc?d/c_hVc|c~8cc=8kd3oE1fd7d9db0qdddf8.dhdj8Xo#dncQo*qY7%o-l0k}o;dBqAo@dFo_hzl6dL7q0@8Nc!oT0j7u0z8k8dc+ddoL8j0z0C0v0FoP9p0C0Fd/kD0ypnlAd_lDd|2b5|6P1VlJpwpEe4pxpEpAib29e!0)gQsmfc2G5q7w3Z2b2G0wfggW2rgl66fu4J2-goeVg+1wf90:4P2GlZdW5M0+0C0+1!sem,8l5MdWq-9Bq-dP0F1!0x8w1!de0N1!6`m,hVs)lfs-s81!8k5M0 0yt9kPs~s+t79B1!c=0Nh_nipSee9;h 9}pJa_mhpMtqi8mmpBpNtpk-p%mvai4Qakp#tGmC4RispWmF4Zp,afiz4*p/4WmMaG4_p?iJn{iLiNmUiPaTmYq1qvm^m}q5qc1qtdm-i(a;m:a@i.m?i:6Tk-m`b0qji{qli~j#n5j2bhqtj6blqxn~r6qBnkqDnnjkbznrjoqSnEnw0?nyqKbLnBqRiXjvnFjEqW5;bZr)jLb%jNnPb-jSq)q#jPhPnW78q;u9q@c3kjn)q{r_q~q.cd7wr1k3n=7Ero7Ir67Nn}rjo0rd7!rfcEkcri7S7=rlkir4u/rqoh7(c80C9y7u0v0i890j0`ddd/0r0|0z1h169h151aksc/9llkdW0A8loFf*kW0Nc^d60q0+lk0rc+0v1zrXk+dkdmk:of6%r(rfr+k|o:0Yo=dC7El2r?jco|q}0?lu198e1m0K0_oqlqlq8B0`0xoFs9pl8w9zoM1g9Bp3sj9Kslprss0-1=sulOpPtBeesyedk-pDwck-trmettmg44txwjtzlPpQmpsziftHae5eaowxpZmyp$wBasp)eFtR0ZixtTp.aCp:tZiG2zmQt%mSaQt+5aq0tPq2uA7Ma)t?hiq9t{i!t}a.5Um^u2i?u4qOi`b6i}5 q=b qp29n8qsnbndug7:uibGqC6kqEjjnpbAuqw$xdjsuruw5;qQjzuvbJqU6#qOqXcQnNuPnQuNuKq+uRu%jYnYw}j$6~pAq_j,n+dMj:r0cgu+cju.j{o`7Mr8nfn k3o1u_rqu{o7xXoav0oc7{n^rfv5oj1BcW0|rwoFry0rc*c,rCc;rFc^0.rIc}vkrLd1rOd5rRdadcdeoXrZeer#vOr%0kk@vSu,o.8?dzr.o?vZo^dHxUv%o~gZ0Asf1gvIkG16kUvAkMs1918E0i9zp7s kP0y8p8Q1q9Iskpq9O1Im01+psnbsvw9eawswi9%j(wisBsDd{sFgR2qfbsMgYsOh20LsRfv0/5)24sW2vy!fblZ0ws,0j0I1!0w0Dt00Czcg$q8s+zize570zzm0Dtd560Fzmb@zbzd1a0B0+zmtddTzqb@0vzqt00Kzm0v0BzHzdtdzpzd0Db@dQ0ItnqAh{y,4kpGwppKtwwmtCtAwvwq4mz!pX4vtLiqwCinz?pYwGtPp*wJwL5etUiBmLiEp=iHp@p_iMp{p}p 5ct.5jt:cCt=m;xBl?qat|i-w/m@q3w=qhw@nuw_n08Xqnw~5?qqucx3qvneqyxUtox9jinobSqHnsxjxpnFqMxgAOxmqJASbTqVxsuFjJnMuJq*q$0YjR6|nSb;A,q-2aj`jZAAxGc1y.xJn*q|n,xNu)xPduu-odv3r@n`r7j~r9u~cvxZu^cAu`karhx)u 7@x,cPv4rsv629oTd(0C0W0zoFd/1j0Fc{1fvb0r0AoNc!oNp68i8f896svedWlppb8sc^vEkFdYc:9j9fyeoZ3=yho%vP8(ykdrym8:r,vVvXr:ytr=yvB9dJ0c.'
+</script><script src="../../js-per-pages/0-generic-python-snippets-pyodide.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-per-pages/1-error_logs-pyodide.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-per-pages/1-packagesInstaller-install-pyodide.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-per-pages/1-runtimeManager-runtime-pyodide.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-per-pages/2-0-runnersManager-runners.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-per-pages/2-pyodideSectionsRunner-runner-pyodide.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-per-pages/3-terminalRunner-term.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-per-pages/4-0-idesManager-ide.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-per-pages/4-ideLogistic-ide.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-per-pages/4-ideRunner-ide.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-per-pages/start-pyodide.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  <div class="md-copyright_pyodide">
+    
+    
+  </div>
+  
+    <div class="md-copyright_pyodide">
+      <div>
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      <div id="pyodide-footer">
+        <a href="https://gitlab.com/frederic-zinelli/pyodide-mkdocs-theme" target="_blank" rel="noopener">
+          Pyodide MkDocs Theme
+        </a> v.5.4.5
+      </div>
+    </div>
+  
+</div>
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.tabs", "navigation.tabs.sticky", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+    
+    
+
+
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascript/check.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+      
+    
+<script src="../../js-scripts/overlord.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../js-scripts/subscriptions.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+
+
+  </body>
+</html>

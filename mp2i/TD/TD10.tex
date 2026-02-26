@@ -1,0 +1,79 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{10}{Table de hachage}
+
+\setcounter{Exercise}{0}
+
+\begin{Exercise}[title = {un exemple de table de hachage}]\\
+On considère une table de hachage de 13 alvéoles contenant des entiers, la fonction de hachage est : \\ $h : k \mapsto k \mod 13$.
+\Question{Donner le schéma de la table après insertion des entiers 17, 120, 39, 144, 100, 5, 110.}
+\Question{Quel est la taux de charge de la table ?}
+\Question{Donner deux valeurs non encore insérées et qui provoquent une collision.}
+\end{Exercise}
+
+\begin{Exercise}[title = {fonction de hachage}]
+    \Question{Une fonction de hachage peut-elle être aléatoire ? Justifier}
+    \Question{Que dire du nombre de collisions si la fonction de hachage est injective ?}
+    \Question{Sur l'ensemble des chaines de caractères on choisit la fonction renvoyant la longueur de la chaine comme fonction de hachage. Schématiser le contenu de la table de hachage après insertion des mots de la phrase :\og \textit{La cigale, ayant chanté tout l’été, se trouva fort dépourvue quand la bise fut venue}\fg}
+    \Question{On suppose qu'on construit une table de hachage de taille $N$ avec une fonction de hachage constante égale à un entier $k \in \intN{0}{N-1}$. Quel sera le contenu de cette table après l'insertion de $n$ éléments ?}
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Adressage ouvert par sondage linéaire}]\\
+Une autre méthode de gestion des collisions consiste lorsque deux valeurs produisent le même \textit{hash} à rechercher le premier emplacement vide, plus loin dans la table de hachage afin d'y ranger la nouvelle valeur. 
+Par exemple, en notant $a,b,c,d$ les couples de clés valeurs déjà insérés, alors si  le contenu de la table est  :
+\begin{center}
+\newcommand{\ec}[1]{\multicolumn{1}{c}{#1}}
+\begin{tabular}{|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|p{0.4cm}|}
+    \hline
+    $a$ &  & & & $b$ & $c$ &  & & $d$ & \\
+    \hline
+    \ec{\tt 0} & \ec{\tt 1}& \ec{\tt 2} & \ec{\tt 3}&\ec{\tt 4} & \ec{\tt 5}&\ec{\tt 6} &\ec{\tt 7} &\ec{\tt 8} &\ec{\tt 9} \\
+\end{tabular}
+\end{center}
+Alors si l'insertion de $e$ doit se faire à l'indice {\tt 4}, il sera placé en {\tt 6} (premier emplacement vide suivant)
+\Question{Donner le schéma de cette table après insertion de $f$ (de \textit{hash} 9)} et de $g$ (de \textit{hash} 8).
+\Question{A quelle condition portant sur le taux de charge de la table cette stratégie peut-elle fonctionner ?}
+\Question{Proposer une implémentation en C de cette nouvelle stratégie d'insertion.}
+\Question{Que dire du problème de la suppression d'une entrée dans la table ?}
+\end{Exercise}
+
+\begin{Exercise}[title = {Suppression des doublons}]\\
+    On considère un tableau $t$ de $n$ valeurs, on souhaite récupérer \textit{sans doublons} la liste des valeurs présentes dans ce tableau. Le langage d'application dans cet exercice sera OCaml.
+    \Question{Proposer un algorithme naïf n'utilisant pas de table de hachage pour répondre au problème posé.}
+    \Question{Donner la complexité en fonction de $n$ de cet algorithme.}
+    \Question{En donner une implémentation en OCaml sous la forme d'une fonction {\tt unique : 'a array -> 'a list}.}
+    \Question{En utilisant les tables de hachage, donner un algorithme ayant une meilleure complexité.}
+    \Question{En donner une implémentation en OCaml sous la forme d'une fonction {\tt unique\_hash : 'a array -> 'a list}. On pourra utiliser le module {\tt Hashtbl}.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Hachage d'une chaine de caractères}]
+\Question{Une fonction de hachage élémentaire sur les chaines consiste simplement à faire la somme des codes {\sc ascii} de ses caractères. On suppose qu'on hache des chaines de longueur maximale 26.}
+\subQuestion{Quel est alors la valeur maximale atteinte par la fonction de hachage ?}
+\subQuestion{Rappeler le nombre d'entiers représentable en OCaml par le type {\tt int}}
+\subQuestion{Même question pour le type {\tt uint64\_t} en C.}
+\subQuestion{Que dire de ces résultats ?}
+\Question{On propose une nouvelle fonction de hachage pour une chaine $s$ de longueur $n$, donnant des valeurs \og{} assez grandes \fg{} et sensible à l'ordre des caractères :
+$$ h(s) = \sum_{i=0}^{n-1} 31^i \times c_i$$
+où $c_i$ est le code du caractère situé à l'indice $i$ dans la chaine $s$ et la constante 31 choisie arbitrairement.
+}
+\subQuestion{Proposez une implémentation \textit{efficace} en C pour cette fonction.}
+\subQuestion{Même question en OCaml}
+\subQuestion{Si la longueur de la table de hachage est $N$ peut-on directement utiliser $h(s) \mod N$ comme indice du seau de la chaine $s$ ? Expliquer}
+\end{Exercise}
+
+\begin{Exercise}[title = {Recherche de collisions}]\\
+On reprend la fonction de hachage de l'exercice précédent : pour une chaine $s$ de longueur $n$,
+$$ h(s) = \sum_{i=0}^{n-1} 31^i \times c_i$$
+où $c_i$ est le code du caractère situé à l'indice $i$ dans la chaine $s$.
+\Question{Montrer qu'il existe deux chaines de caractères de longueur 2, formées de lettres minuscules (code 97 à 122) ou majuscules(code 65 à 90) et produisant la même valeur pour $h$.}
+\Question{En déduire une façon de construire un nombre arbitraire de chaînes de caractères ayant la même valeur pour la fonction $h$.}
+\end{Exercise}
+
+
+\end{document}
