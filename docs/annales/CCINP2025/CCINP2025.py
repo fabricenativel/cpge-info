@@ -83,6 +83,25 @@ def standardise(liste_parcours:itineraire) -> itineraire:
     return parcours_std
 # --8<-- [end:Q21]
 
+
+# --8<-- [start:Q26]
+# On applique l'algorithme de Dijkstra :
+sInit , sFin = "a", "f"
+distance = dijkstra(G, sInit, sFin)
+
+# On construit la liste du chemin en partant de la fin :
+s = sFin
+chemin = [s]
+while s != sInit:
+    chemin.append(distance[s][1])
+    s = distance[s][1]
+# On remet le chemin dans l'ordre du début vers la fin
+chemin.reverse()
+
+print("Un chemin de ", sInit, " à ", sFin, " est : ", chemin)
+print("La difficulté minimale est de :",distance[sFin][0])
+# --8<-- [end:Q26]
+
 p0 = (47.8741, 1.8758, 100)
 p1 = (47.8744, 1.8759, 102)
 p2 = (47.8748, 1.8761, 110)

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 
 // Valide une ligne
@@ -94,9 +95,9 @@ bool resolution(int carre[], int index, int n, int values[], bool utilise[], int
     return false;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    int n = 5;
+    int n = atoi(argv[1]);
     int size = n*n;
     int valeurs[size];
     int carre[size];

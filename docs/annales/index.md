@@ -9,7 +9,6 @@
     * Les sujets du concours commun mines-ponts sont la propriété du {{sc("gip ccmp")}}, ils sont distribués sous la licence [Creative Commons Attribution](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr) (voir [la page des annales du concours](https://concoursminesponts.fr/annales/){target =_blank})
     * En filière PC, il n'y a plus d'épreuve écrite d'informatique au concours centrale supélec depuis 2022
 
-
 ## Année 2023
 
 {{sujets("2023")}}

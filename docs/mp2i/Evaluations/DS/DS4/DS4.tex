@@ -9,7 +9,7 @@
 \ModeConcours
 \DS{MP2I}{4}{Février 2026}
 
-\setboolean{corrige}{false}
+\setboolean{corrige}{true}
 \newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C12}
 
 \newcommand{\maillon}[3]{
@@ -304,9 +304,11 @@ GROUPE BY revue
 	Le langage d'implémentation dans cet exercice est le langage C, on suppose déjà importées les librairies {\tt <stdint.h>} et {\tt <string.h>} et  on s'intéresse aux fonction de hachages sur des chaines de caractères constituées uniquement des lettres de l'alphabet (minuscules ou majuscules), des chiffres de 0 à 9 et des caractères spéciaux {\tt \_} et {\tt *}. On remarquera que cela fait un total de \textbf{64} caractères possibles. 
 
 	\Question{Justifier rapidement qu'il est préférable d'utiliser un type entier non signé du langage C ({\tt uint8\_t, uint32\_t, uint64\_t}) comme type de retour de la fonction de hachage.}
+	\tcor{La fonction de hachage risque de provoquer un dépassement de capacité, sur un type signé c'est un comportement indéfini en C. Il est donc préférable d'utiliser un type non signé sur lequel les dépassements de capacité sont calculés modulo le plus petit entier non représentable sur le nombre de bits du type. Par exemple sur le type {\tt uint8\_t} c'est modulo 256}
 	\Question{On suppose que les chaines de caractères ont une longueur fixe de huit caractères. Montrer que si la valeur de hachage est stockée sous la forme du type {\tt uint32\_t} du langage C, alors il est certain que deux valeurs distinctes entrent en collision.}
+	\tcor{Le nombre possible de chaines de caractères de longueur 8 avec 64 possibilités pour chaque caractères est $64^8 = 2^{48}$ cela dépasse $2^{32}$, le nombre d'entiers représentable sur un {\tt uint32\_t} donc par le principe des tiroirs il est certains que deux chaines distinctes entrent en collision}
 	\Question{Toujours en supposant des chaines de longueur fixe de huit caractères, montrer que si la valeur de hachage est stockée sous la forme du type {\tt uint64\_t} du langage C, alors on peut trouver une fonction de hachage ne provoquant aucune collision.}
-	
+	\tcor{Comme $2^{64}$ > $2^{48}$, on peut trouver une fonction de hachage donnant une valeur distincte pour chaque chaine, on peut par exemple numéroter dans l'ordre lexicographique les chaines et leur attribuer comme valeur de hachage leur numéro.}
 	 \smallskip
 	Dans la suite de l'exercice, les chaines de caractères à hacher peuvent être de n'importe quelle longueur et on numérote les 64 caractères possibles de la façon suivante :
 	\begin{itemize}
@@ -316,7 +318,7 @@ GROUPE BY revue
 	 \item la caractère  {\tt \_} a le numéro 63 et {\tt *} le 64. 
 	\end{itemize}
 	 Et on propose la fonction de hachage suivant pour une chaine $s$ de longueur $n$ constituée des caractères $c_0,\dots,c_{n-1}$ : \\
-	$\displaystyle{h(s) = \sum_{i=0}^{n-1} N(c_i) * 32^i}$\\
+	$\displaystyle{h(s) = \sum_{i=0}^{n-1} N(c_i) \times 32^i}$\\
 	où $N(c_i)$ est le numéro du caractère $c_i$.\\
 	On suppose déjà écrite une fonction de signature \mintinline{c}{int num(char c)} qui renvoie le numéro attribué à un des 64 caractères possibles, par exemple {\tt num('A')} renvoie 1, {\tt num('a')} renvoie 27.
 	 \smallskip
@@ -324,9 +326,20 @@ GROUPE BY revue
 	Expliquer pourquoi l'implémentation suivante de la fonction de hachage est de complexité quadratique en la longueur de la chaine {\tt s} et proposer une correction afin de rendre cette complexité linéaire.
 	\inputpartC{hash.c}{}{}{26}{34}
 }
+\tcor{A la ligne 4, chaque passage dans la boucle fait appel à la fonction {\tt strlen} qui est de complexité linéaire en la longueur de la chaine car elle doit parcourir la chaine afin de déterminer la position du caractère sentinelle {\tt \textbackslash 0}. Ce qui donne une complexité quadratique, pour obtenir une complexité linéaire il suffit de calculer la longueur de la chaine une seule fois avant d'entrer dans la boucle.}
 \Question{Déterminer deux chaines de longueur 2 qui entrent en collision.}
+\tcor{
+	On considère deux chaines composées de deux caractères $s = xy$ et $s'=x'y'$ entrant en collision, alors $x + 32 y = x' + 32 y'$. C'est à dire $x-x' = 32(y'-y)$. C'est à dire que $32 | (x-x')$ . Comme de plus $x \in \intN{1}{64}$ et $x' \in \intN{1}{64}$, cela signifie que $x-x' = 32$ et donc $y' = y + 1$, on peut choisir n'importe quelle valeur respectant ces conditions par exemple : $x = 52$, $x'=20$, $y = 1$ et $y'=2$ c'est à dire les chaines {\tt 'zA'} et {'TB'}
+}
 \Question{Montrer qu'il est possible de construire des chaines de longueurs arbitraires entrant en collision.}
-
+\tcor{ 
+	Supposons que $s$ et $s'$ entrent en collision ($s \neq s'$) et soient $xy$, $x'y'$ deux chaines de longueurs deux entrant en collision tel que déterminé à la question précédente alors en notant $sxy$ la chaine obtenue en concaténant $s$ et $xy$ : \\
+	$\displaystyle{h(sxy) = \sum_{i=0}^{n-1} N(c_i) \times 32^i}$ \\
+	$\displaystyle{h(sxy) = \sum_{i=0}^{n-3} N(c_i) \times 32^i + 32^{n-2}(x + 32y)}$ \\
+	$\displaystyle{h(sxy) = h(s)+ 32^{n-2}h(xy)}$ \\
+	$\displaystyle{h(sxy) = h(s')+ 32^{n-2}h(x'y')}$ car $s$ et $s'$ sont en collision et $xy$ et $x'y'$ aussi.
+	Donc $h(sxy)=h(s'x'y')$, c'est à dire que si deux chaines sont en collision alors on peut obtenir une nouvelle collision en concaténant à ces chaines deux chaines de longueur deux entrant en collision. 
+}
 \end{Exercise}
 
 
@@ -341,14 +354,24 @@ $\\
 Pour un couple $(x_0,y_0) \in \Z^2$, on définit la suite $(u_n)_{n \in \N}$ par $u_0 =(x_0,y_0)$ et $u_{n+1} = f_N(u_n)$.
 
 \Question{Vérifier sur l'exemple $N = 10$ et $(x_0, y_0) = (1, 8)$ en calculant manuellement les premiers termes que la suite contient un cycle. Quelle est la longueur de ce cycle ?}
+\tcor{On obtient successivement les couples {\tt (1,8) (9,1) (1,4) (3,7) (1,4)} donc un cycle de longueur 2 {\tt (1,4) (3,7)} après deux itérations}
 \Question{Justifier que pour toute valeur de $N$ fixée et tout couple initial $(x_0, y_0)$, la suite $(u_n)$ contient nécessairement un cycle. On pourra remarquer que l'ensemble des couples possibles est fini.}
 \tcor{L'ensemble $\Z^2 / N\Z^2$ est fini puisqu'il contient exactement $N^2$ éléments. Comme la suite $(u_n)$ reste dans cet ensemble fini et a une infinité de termes, par le principe des tiroirs, au moins deux éléments de la suite doivent être identiques. Par conséquent, la suite est périodique à partir d'un certain rang.}
 \Question{Ecrire la fonction $f_N$ en OCaml avec la signature : \mintinline{ocaml}{f : int -> int -> int-> int * int} en donnant les paramètres dans cet ordre : {\tt x}, {\tt y} et {\tt N}.}
+\ifcorrige
+\corpartOCaml{cycle.ml}{}{}{1}{4}
+\fi
 \Question{Ecrire une fonction \mintinline{ocaml}{appartient : 'a -> 'a list -> bool} qui teste si un élément appartient à une liste. Donner la complexité de cette fonction en fonction de la taille de la liste.}
+\ifcorrige
+\corpartOCaml{cycle.ml}{}{}{14}{17}
+\fi
+\tcor{La complexité est linéaire.}
 \Question{Ecrire une fonction \mintinline{ocaml}{cycle_naif : int -> int -> int -> int * int} qui prend en argument (dans cet ordre) $x_0$, $y_0$ et $N$ et détecte le cycle en maintenant à jour une liste des couples déjà rencontrés, et renvoie le premier couple qui apparaît deux fois.}
-
+\ifcorrige
+\corpartOCaml{cycle.ml}{}{}{19}{25}
+\fi
 \Question{Quelle est la complexité dans le pire cas de la fonction {\tt cycle\_naif} en fonction du nombre de termes à parcourir avant de trouver le premier couple apparaissant deux fois ?} 
-
+\tcor{La complexité est quadratique.}
 \smallskip
 On propose maintenant d'utiliser une table de hachage afin de stocker les termes déjà rencontrés, les clés sont les couples rencontrés et la valeur associée est l'indice dans la suite de ce couple. Par exemple si les trois premiers termes de la suite sont $(1,5), (4,3), (7, 7)$ alors la table de hachage doit contenir les clés $(1,5), (4,3)$, et $(7,7)$ associées respectivement aux valeurs $0, 1$ et $2$ (c'est à dire aux indices auxquels sont apparus ces couples).
 On rappelle ci-dessous  les fonctions de manipulation d'une table de hachage en OCaml :
@@ -362,8 +385,11 @@ On rappelle ci-dessous  les fonctions de manipulation d'une table de hachage en 
 
 
 \Question{Justifier rapidement que l'utilisation d'une table de hachage pour stocker les couples déjà rencontrés permet d'obtenir une complexité meilleure que celle de la fonction {\tt cycle\_naif}.}
+\tcor{Le test d'appartenance à la table de hachage est en temps constant.}
 \Question{En utilisant une table de hachage de OCaml, écrire une version de la fonction de recherche de cycle. Cette fonction devra renvoyé le premier élément rencontré à deux reprises \textit{ainsi que la longueur du cycle}.}
-
+\ifcorrige
+\corpartOCaml{cycle.ml}{}{}{27}{35}
+\fi
 
 
 \end{Exercise}

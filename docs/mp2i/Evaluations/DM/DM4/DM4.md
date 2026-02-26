@@ -1,8 +1,20 @@
 hide: - navigation  in index.md
 
-{{dm(4,"Trix radix")}} 
+{{dm(4,"Tri radix")}} 
 
-## Tris stables
+## Exercice 1 : suppression dans un arbre binaire de recherche
+
+Exercice 9 de la [fiche de TD du chapitre 12](https://fabricenativel.github.io/cpge-info/mp2i/TD/TD12.pdf){target=_blank}
+
+## Exercice 2 : Utilisation de la structure de tas
+
+1. Si cela n'a pas été encore fait, implémenter dans le langage de votre choix l'algorithme du tri par tas (voir [cet exercice pour le C](https://fabricenativel.github.io/cpge-info/mp2i/arbres/#exercice-11-implementation-de-la-structure-de-tas-en-c){target=_blank} et [celui ci pour le OCaml](https://fabricenativel.github.io/cpge-info/mp2i/arbres/#exercice-12-implementation-de-la-structure-de-tas-en-ocaml))
+
+2. Traiter au choix le problème [de la médiane d'un flux de données](https://fabricenativel.github.io/cpge-info/mp2i/arbres/#exercice-13-mediane-dun-flux-de-donnees){target=_blank} ou [celui de la fusion de k listes triées](https://fabricenativel.github.io/cpge-info/mp2i/arbres/#exercice-13-mediane-dun-flux-de-donnees){target=_blank}.
+
+## Exercice 3 : Tri radix
+
+### Tris stables
 
 Etant donné un ensemble $X$ de valeurs à trier, une *clé* de tri est une application  $C : X^2 \mapsto \mathbb{N}$ telle que :
     
@@ -26,7 +38,7 @@ On dit qu'un tri est *stable* lorsqu'il préserve l'ordre des éléments égaux.
 1. Rappeler le principe du tri par insertion, ce tri est-il stable ? 
 2. Montrer sur un exemple bien choisi que l'implémentation classique du tri par sélection (pour trier une liste de $n$ valeurs, à l'étape $i$, $0 \leq i < n$, on recherche le plus petit élément dans le sous tableau commençant à l'indice $i$ et on l'échange avec celui situé à l'indice $i$) n'est pas un tri stable.
 
-## Test de la fonction de tri intégrée à OCaml
+### Test de la fonction de tri intégrée à OCaml
 
 La fonction `#!ocaml Array.sort : ('a -> 'a -> int) -> 'a array -> unit` intégrée à OCaml permet de trier un tableau de valeurs en donnant la clé de tri (c'est le premier argument c'est à dire la fonction `'a -> 'a -> int`). Par exemple, 
 si `test` est le tableau  
@@ -47,7 +59,7 @@ On remarque donc que ce tri n'est *pas stable* comme indiqué dans la [documenta
     !!! aide
         Utiliser la [fonction `Sys.time`](https://ocaml.org/manual/5.1/api/Sys.html){target=_blank}
 
-## Test de la fonction de tri intégrée au langage C
+### Test de la fonction de tri intégrée au langage C
 
 En C, on utilisera les entiers positifs codés sur 32 bits de `stdint.h` c'est à dire le tytpe `uint32_t` . Le langage C possède aussi une fonction de tri dans le module `<stdlib.h>` basée sur l'algorithme du [tri rapide](https://fr.wikipedia.org/wiki/Tri_rapide){target=_blank}, la signature de la fonction est :
 ```c
@@ -71,7 +83,7 @@ Afin de tester cette fonction,
 
 2. Afficher le temps de calcul nécessaire pour trier un tableau de $10^7$ entiers généré aléatoirement par le fonction précédente en utilisant la fonction `qsort` présentée plus haut.
 
-## Principe du tri radix 
+### Principe du tri radix 
 
 Les tris précédents sont des tris généraux qui fonctionnent sur tous les types de données dès qu'une clé de tri est donnée. L'algorithme du tri radix ne fonctionne que sur certains types de données, en particulier les entiers positifs. Prenons un exemple pour illustrer le principe de cet algorithme, on suppose qu'on doit trier des entiers positifs ayant *au plus 3 chiffres en base 10*, par exemple $[212, 303, 155, 600, 42, 702, 182, 305]$, l'idée de l'algorithme est de trier *de façon stable* suivant le chiffre des unités, puis celui des dizaines, plus celui des unités, ainsi l'ordre déjà construit sur les plus petits chiffres sera préservée lorsqu'on trie sur les chiffres suivants. Comme les nombres ont au plus 3 chiffres, 3 passes sont nécessaires :
 
@@ -84,7 +96,7 @@ Les tris précédents sont des tris généraux qui fonctionnent sur tous les typ
 
 1. Donner les étapes de l'algorithme pour la liste $[707, 332, 117, 259, 9, 152, 419]$, en donnant vos résultats dans un tableau tel que celui présenté ci-dessus.
 
-## Implémentation en base 10 en OCaml
+### Implémentation en base 10 en OCaml
 
 Dans cette partie, on implémente en OCaml, le tri radix pour des entiers en base 10 strictement inférieur à $10^{10}$. 
 
@@ -107,7 +119,7 @@ Dans cette partie, on implémente en OCaml, le tri radix pour des entiers en bas
 
 4. A présent on veut tester cet algorithme sur des entiers positifs aléatoires compris entre $0$ et $2^{30}-1$, vérifier rapidement que $10^{9} \leqslant 2^{30} < 10^{10}$ et en déduire le nombre de chiffres maximal en base 10 d'un entiers compris entre $0$ et $2^{30}$. Tester alors la fonction `tri_radix` sur un tableau de $10^{7}$ entiers aléatoires et comparer avec le temps de calcul obtenu avec l'algorithme de tri intégré à OCaml.
 
-## Implémentation en base 2 puissance l en C
+### Implémentation en base 2 puissance l en C
 
 L'implémentation précédente utilise la base 10, alors que les entiers sont représentés en base 2 en machine, comme nous testons sur des entiers compris entre $0$ et $2^{30}-1$, ils ont au plus 30 chiffres en base 2. Si on trie en base 2, l'algorithme fera donc 30 passes, l'idée est donc de *regrouper les chiffres en base 2 en bloc de longueur l* afin de trier en base $2^l$. Par exemple, si $l=4$ cela revient à trier en base 16 (donc avec 16 valeurs possibles pour chaque chiffre). Et on ne doit plus faire que $\left\lceil\frac{30}{4}\right\rceil=8$ passes. 
 

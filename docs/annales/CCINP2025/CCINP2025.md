@@ -140,3 +140,34 @@ Cette boucle parcourt les à fils non encore visités du sommet à traiter et s�
 
 ### Question 24
 L'algorithme précédent ne donne pas le chemin de difficulté minimale en effet le chemin `a -> d -> e -> f` est de difficulté cumulée $4+ 1 + 1 = 6$.
+
+### Question 25
+
+On rappelle qu'il s'agit de faire fonctionner l'algorithme de Djikstra, c'est à dire qu'à chaque ligne, on sélectionne le sommet non encore visité se situant à la plus petite distance (sur la ligne de numéro 4, il s'agit de d), puis de mettre à jour les colonnes des sommets à visiter si on trouve une distance inférieure depuis ce sommet. Sur la ligne 5 par exemple, on a mis à jour la colonne du sommet `f` puisqu'à partir de `e` on a un chemin de longueur 6 : (5 (chemin jusqu'à `e`) + 1 (longueur de l'arc `e-f`))
+
+![Tableaucomplet](./djikstra1.png){.imgcentre width=600px}
+
+### Question 26
+
+!!! note
+    Pour cette question, il faut bien remarquer que le dictionnaire `distance`, contient pour chaque sommet un tuple de deux valeurs : le sommet parent et la distance minimale. Par exemple `distance["d"]` contient `(4, "a")`.
+
+```python hl_lines="8 9 10 14 15"
+    --8<-- "CCINP2025/CCINP2025.py:Q26"
+```
+
+### Question 27
+
+On sait que le temps du test d'appartenance à une liste est de complexité linéaire en la taille de la liste. On pourrait donc utiliser un dictionnaire pour les sommets à visiter ou déjà visité car le test d'appartenance à un dictionnaire s'effectue en temps constant.
+
+### Question 28
+
+* Liste des sommets visités par l'appel `dijkstra(G1, "a1", "j1")` :
+    * "b1", "c1", "d1" (tous situés à distance 1)
+    * "e1", "f1", "g1", "h1", "i1" (distance 2)
+    * "j1" (distance 3) arrêt car sommet cible trouvé.
+* Liste des sommets visités par l'appel `dijkstra(G1, "j1", "a1")` :
+    * "g1" (seul sommet à distance 1)
+    * "c1" (distance 2)
+    * "a1" (distance 3) arrêt car sommet cible trouvé.
+   
