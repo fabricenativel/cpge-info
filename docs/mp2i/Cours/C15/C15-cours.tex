@@ -155,7 +155,7 @@
 					\item<2-> \textcolor{blue}{Diviser} : on sépare $T$ en deux sous tableaux $T_g = [t_0 \dots t_{k-1}]$ et $T_d = [t_{k+1}\dots t_{n-1}]$. \\
 						\textcolor{BrickRed}{\small \danger} Attention : on remarquera bien que $t_k$ n'est dans aucun des deux sous tableaux !
 					\item<3-> \textcolor{blue}{Régner} : on recherche récursivement les tranche maximales des sous tableaux $T_g$ et $T_d$ ainsi que celle des tranches contenant l'élément $t_k$.\\
-					Afin de rechercher la valeur maximale d'une tranche contenant $t_k$, on peut rechercher le maximum des tranches se terminant en $t_k$ et le maximum des tranches commençant en $t_k$.
+						Afin de rechercher la valeur maximale d'une tranche contenant $t_k$, on peut rechercher le maximum des tranches se terminant en $t_k$ et le maximum des tranches commençant en $t_k$.
 					\item<4-> \textcolor{blue}{Combiner} on prend le maximum des trois valeurs obtenues.
 				\end{itemize}
 		\end{enumerate}
@@ -197,26 +197,26 @@
 			\item<2-> Rappeler l'expression de $C_{ij}$.
 			\item<3-> Quelle est la complexité d'un algorithme calculant les coefficients de $C$ en utilisant l'expression précédente ?
 			\item<4-> on sépare $A$ et $B$ en blocs de tailles égales : \\
-			$A =
-				\begin{bmatrix}
-					A_{1,1} & A_{1,2} \\
-					A_{2,1} & A_{2,2}
-				\end{bmatrix}$ et
-			$B =
-				\begin{bmatrix}
-					B_{1,1} & B_{1,2} \\
-					B_{2,1} & B_{2,2}
-				\end{bmatrix}$ \\
-			Déterminer la complexité d'un algorithme qui effectue la multiplication par bloc : \\
-			$\begin{bmatrix}
-				A_{1,1} & A_{1,2} \\
-				A_{2,1} & A_{2,2}
-			\end{bmatrix} \times 
-				\begin{bmatrix}
-					B_{1,1} & B_{1,2} \\
-					B_{2,1} & B_{2,2}
-				\end{bmatrix}
-			$ 
+				$A =
+					\begin{bmatrix}
+						A_{1,1} & A_{1,2} \\
+						A_{2,1} & A_{2,2}
+					\end{bmatrix}$ et
+				$B =
+					\begin{bmatrix}
+						B_{1,1} & B_{1,2} \\
+						B_{2,1} & B_{2,2}
+					\end{bmatrix}$ \\
+				Déterminer la complexité d'un algorithme qui effectue la multiplication par bloc : \\
+				$\begin{bmatrix}
+						A_{1,1} & A_{1,2} \\
+						A_{2,1} & A_{2,2}
+					\end{bmatrix} \times
+					\begin{bmatrix}
+						B_{1,1} & B_{1,2} \\
+						B_{2,1} & B_{2,2}
+					\end{bmatrix}
+				$
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -224,32 +224,32 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Algorithme de Strassen}
 		{\small L'algorithme de Strassen est une approche diviser pour régner :}
-				\begin{itemize}
-					\item<2->{\small \textcolor{blue}{diviser} : on sépare $A$ et $B$ en blocs de tailles égales : \\
-						$A =
-							\begin{bmatrix}
-								A_{1,1} & A_{1,2} \\
-								A_{2,1} & A_{2,2}
-							\end{bmatrix}$ et
-						$B =
-							\begin{bmatrix}
-								B_{1,1} & B_{1,2} \\
-								B_{2,1} & B_{2,2}
-							\end{bmatrix}$}
+		\begin{itemize}
+			\item<2->{\small \textcolor{blue}{diviser} : on sépare $A$ et $B$ en blocs de tailles égales : \\
+			            $A =
+				            \begin{bmatrix}
+					            A_{1,1} & A_{1,2} \\
+					            A_{2,1} & A_{2,2}
+				            \end{bmatrix}$ et
+			            $B =
+				            \begin{bmatrix}
+					            B_{1,1} & B_{1,2} \\
+					            B_{2,1} & B_{2,2}
+				            \end{bmatrix}$}
 			\item<3->{\small \textcolor{blue}{régner} On calcule \textcolor{BrickRed}{seulement \textbf{7}} produits matriciels : \\
-$M_{1} = (A_{1,1} + A_{2,2}) (B_{1,1} + B_{2,2})$ \\
-$M_{2} = (A_{2,1} + A_{2,2}) B_{1,1}$\\
-$M_{3} = A_{1,1} (B_{1,2} - B_{2,2})$\\
-$M_{4} = A_{2,2} (B_{2,1} - B_{1,1})$\\
-$M_{5} = (A_{1,1} + A_{1,2}) B_{2,2}$\\
-$M_{6} = (A_{2,1} - A_{1,1}) (B_{1,1} + B_{1,2})$\\
-$M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
+			            $M_{1} = (A_{1,1} + A_{2,2}) (B_{1,1} + B_{2,2})$ \\
+			            $M_{2} = (A_{2,1} + A_{2,2}) B_{1,1}$\\
+			            $M_{3} = A_{1,1} (B_{1,2} - B_{2,2})$\\
+			            $M_{4} = A_{2,2} (B_{2,1} - B_{1,1})$\\
+			            $M_{5} = (A_{1,1} + A_{1,2}) B_{2,2}$\\
+			            $M_{6} = (A_{2,1} - A_{1,1}) (B_{1,1} + B_{1,2})$\\
+			            $M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
 			\item<4->{\small \textcolor{blue}{combiner} On combine les solutions afin de construire les blocs de la matrice $C$ :\\
-			$C_{1,1} = M_{1} + M_{4} - M_{5} + M_{7}$\\
-			$C_{1,2} = M_{3} + M_{5}$\\
-			$C_{2,1} = M_{2} + M_{4}$\\
-			$C_{2,2} = M_{1} - M_{2} + M_{3} + M_{6}$}
-\end{itemize}
+			            $C_{1,1} = M_{1} + M_{4} - M_{5} + M_{7}$\\
+			            $C_{1,2} = M_{3} + M_{5}$\\
+			            $C_{2,1} = M_{2} + M_{4}$\\
+			            $C_{2,2} = M_{1} - M_{2} + M_{3} + M_{6}$}
+		\end{itemize}
 	\end{exampleblock}
 \end{frame}
 
@@ -277,7 +277,7 @@ $M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
 						f_0   & = & 1,                                                  \\
 						f_1   & = & 1,                                                  \\
 						f_{n} & = & f_{n-1}+f_{n-2} \mathrm{\ \ pour\ tout\ \ } n\geq2.\end{array} \right.$
-					\onslide<2->{\inputpartOCaml{\SPATH/fibo.ml}{}{}{1}{2}}
+				\onslide<2->{\inputpartOCaml{\SPATH/fibo.ml}{}{}{1}{2}}
 			\item<3-> Tracer le graphe des appels récursifs de cette fonction pour $n=5$
 			\item<4-> Commenter
 		\end{enumerate}
@@ -315,10 +315,10 @@ $M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
 			\item<1-> La \textcolor{blue}{mémoïsation} consiste à stocker dans une structure de données les valeurs renvoyées par une fonction afin de ne pas les recalculer lors des appels identiques suivant.\\
 			\item<2-> Les tableaux associatifs dont les clés sont les arguments de la fonction et les valeurs les résultats correspondant sont des structures de données adaptées à ce stockage car on teste l'appartenance et on retrouve une valeur efficacement.
 			\item<3-> On rappelle qu'un tableau associatif peut-être implémenté de façon efficace par :
-			\begin{itemize}
-				\item une table de hachage 
-				\item un arbre binaire de recherche lorsque les clés sont ordonnées.
-			\end{itemize}
+				\begin{itemize}
+					\item une table de hachage
+					\item un arbre binaire de recherche lorsque les clés sont ordonnées.
+				\end{itemize}
 		\end{itemize}
 	\end{alertblock}
 \end{frame}
@@ -331,9 +331,9 @@ $M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
 			\begin{center}
 				\begin{tabular}{|l|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|}
 					\hline
-					longueur ($i$) & 1 & 2 & 3 & 4 & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 \\
+					longueur ($i$)   & 1 & 2 & 3 & 4 & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 \\
 					\hline
-					prix     ($p_i$)& 2 & 4 & 7 & 8 & 12 & 14 & 18 & 23 & 24 & 25 & 26 & 31 \\
+					prix     ($p_i$) & 2 & 4 & 7 & 8 & 12 & 14 & 18 & 23 & 24 & 25 & 26 & 31 \\
 					\hline
 				\end{tabular}
 			\end{center}}
@@ -369,9 +369,9 @@ $M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
 		\begin{enumerate}
 			\addtocounter{enumi}{3}
 			\item Pour calculer $v_5$, on doit calculer $v_4, v_3, \dots v_0$. Mais l'appel à $v_4$ demande aussi le calcul de $v_3, v_2, \dots v_0$. On se trouve donc bien dans le cas d'un chevauchement d'appels récursifs. \\
-			\medskip
-			On peut proposer la version avec memoisation suivante :
-			\inputpartC{\SPATH/barre.c}{}{\footnotesize}{30}{40}
+			      \medskip
+			      On peut proposer la version avec memoisation suivante :
+			      \inputpartC{\SPATH/barre.c}{}{\footnotesize}{30}{40}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -381,31 +381,31 @@ $M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
 		\begin{enumerate}
 			\addtocounter{enumi}{4}
 			\item On peut construire l'arbre des appels récursifs pour $n=5$ :\\
-			\onslide<2->{\begin{center}
-			\psset{levelsep=1cm,treesep=0.2cm,linecolor=OliveGreen,linewidth=0.6pt}
-			\pstree{\TCircle{$v_5$}}{
-				\TCircle{$v_1$}
-				\pstree{\TCircle{$v_2$}}{
-					\TCircle{$v_1$}}
-				\pstree{\TCircle{$v_3$}}{
-						\TCircle{$v_1$}
-						\pstree{\TCircle{$v_2$}}{
-						\TCircle{$v_1$}}
-						}
-				\pstree{\TCircle{$v_4$}}{
-					\TCircle{$v_1$}
-					\pstree{\TCircle{$v_2$}}{
-					\TCircle{$v_1$}}
-					\pstree{\TCircle{$v_3$}}{
-						\TCircle{$v_1$}
-						\pstree{\TCircle{$v_2$}}{
-						\TCircle{$v_1$}}
-						}
-				}
-			}
-			\end{center}}
-			\onslide<3->{En notant $a_n$ le nombre d'appels pour calculer $v_n$, on a $\displaystyle{a_n = 1 + \sum_{k=0}^{n-1} a_k}$.}
-			\onslide<4->{On obtient $a_n = 2^n$ et donc la complexité est au moins quadratique !}
+			      \onslide<2->{\begin{center}
+					      \psset{levelsep=1cm,treesep=0.2cm,linecolor=OliveGreen,linewidth=0.6pt}
+					      \pstree{\TCircle{$v_5$}}{
+						      \TCircle{$v_1$}
+						      \pstree{\TCircle{$v_2$}}{
+							      \TCircle{$v_1$}}
+						      \pstree{\TCircle{$v_3$}}{
+							      \TCircle{$v_1$}
+							      \pstree{\TCircle{$v_2$}}{
+								      \TCircle{$v_1$}}
+						      }
+						      \pstree{\TCircle{$v_4$}}{
+							      \TCircle{$v_1$}
+							      \pstree{\TCircle{$v_2$}}{
+								      \TCircle{$v_1$}}
+							      \pstree{\TCircle{$v_3$}}{
+								      \TCircle{$v_1$}
+								      \pstree{\TCircle{$v_2$}}{
+									      \TCircle{$v_1$}}
+							      }
+						      }
+					      }
+				      \end{center}}
+			      \onslide<3->{En notant $a_n$ le nombre d'appels pour calculer $v_n$, on a $\displaystyle{a_n = 1 + \sum_{k=0}^{n-1} a_k}$.}
+			      \onslide<4->{On obtient $a_n = 2^n$ et donc la complexité est au moins quadratique !}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -415,25 +415,25 @@ $M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
 		\begin{enumerate}
 			\addtocounter{enumi}{4}
 			\item Dans le cas de la mémoïsation, les appels récursifs déjà calculés sont obtenus directement, ce qui donne l'arbre d'appel suivant :
-			\onslide<2->{\begin{center}
-				\psset{levelsep=1cm,treesep=0.2cm,linecolor=OliveGreen,linewidth=0.6pt}
-				\pstree{\TCircle{$v_5$}}{
-					\TCircle{$v_1$}
-					\pstree{\TCircle{$v_2$}}{
-						\TCircle{$v_1$}}
-					\pstree{\TCircle{$v_3$}}{
-							\TCircle{$v_1$}
-							\TCircle{$v_2$}
-							}
-					\pstree{\TCircle{$v_4$}}{
-						\TCircle{$v_1$}
-						\TCircle{$v_2$}
-						\TCircle{$v_3$}
-						}
-					}
-				\end{center}}
-				\onslide<3->{En notant $b_n$ le nombre d'appels pour calculer $v_n$, on a $\displaystyle{b_n = \sum_{k=0}^{n-1} k}$.}
-			\onslide<4->{La complexité est donc quadratique.}
+			      \onslide<2->{\begin{center}
+					      \psset{levelsep=1cm,treesep=0.2cm,linecolor=OliveGreen,linewidth=0.6pt}
+					      \pstree{\TCircle{$v_5$}}{
+						      \TCircle{$v_1$}
+						      \pstree{\TCircle{$v_2$}}{
+							      \TCircle{$v_1$}}
+						      \pstree{\TCircle{$v_3$}}{
+							      \TCircle{$v_1$}
+							      \TCircle{$v_2$}
+						      }
+						      \pstree{\TCircle{$v_4$}}{
+							      \TCircle{$v_1$}
+							      \TCircle{$v_2$}
+							      \TCircle{$v_3$}
+						      }
+					      }
+				      \end{center}}
+			      \onslide<3->{En notant $b_n$ le nombre d'appels pour calculer $v_n$, on a $\displaystyle{b_n = \sum_{k=0}^{n-1} k}$.}
+			      \onslide<4->{La complexité est donc quadratique.}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -476,26 +476,135 @@ $M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Sous structure optimale : contre-exemples}
-	On donne ici deux exemples de problèmes n'ayant \textit{pas} la propriété de \textcolor{blue}{sous structure optimale} :
+		On donne ici deux exemples de problèmes n'ayant \textit{pas} la propriété de \textcolor{blue}{sous structure optimale} :
 		\begin{itemize}
 			\item<2-> Nombre minimal de multiplications dans le calcul de $a^n$\\
-			\onslide<3->\textcolor{gray}{\small Par exemple le calcul optimal de $a^{15}$ demande 5 multiplications : $a^{15} = a^3 \times \left((a^3)^2\right)^2$ \\ $a^6$ doit donc être donc calculé en utilisant le calcul de $a^3$ au lieu de par exemple $a^6 = (a^2)^3$ qui demande aussi 3 multiplications. c'est-à-dire qu'on peut avoir trouvé une solution optimale $n=6$ mais qui n'intervient \textit{pas} dans le calcul pour $n=15$.}
+				\onslide<3->\textcolor{gray}{\small Par exemple le calcul optimal de $a^{15}$ demande 5 multiplications : $a^{15} = a^3 \times \left((a^3)^2\right)^2$ \\ $a^6$ doit donc être donc calculé en utilisant le calcul de $a^3$ au lieu de par exemple $a^6 = (a^2)^3$ qui demande aussi 3 multiplications. c'est-à-dire qu'on peut avoir trouvé une solution optimale $n=6$ mais qui n'intervient \textit{pas} dans le calcul pour $n=15$.}
 			\item<4-> Recherche du plus long chemin élémentaire dans un graphe\\
-			\onslide<5->{
-			\begin{tabularx}{\linewidth}{p{2.5cm}X}
-				\begin{tabular}{lr}
-					\circlenode[linecolor=gray]{a}{\textcolor{gray}{$a$}} \hspace{1cm} & \circlenode[linecolor=gray]{b}{\textcolor{gray}{$b$}} \vspace{1cm}\\
-					\multicolumn{2}{c}{\circlenode[linecolor=gray]{c}{\textcolor{gray}{$c$}}}\\
-				\end{tabular} 
-				\ncarc[linecolor=gray]{->}{a}{b} \ncarc[linecolor=gray]{->}{a}{c} \ncarc[linecolor=gray]{->}{b}{a} \ncarc[linecolor=gray]{->}{b}{c} \ncarc[linecolor=gray]{->}{c}{a} \ncarc[linecolor=gray]{->}{c}{b}
-				& \vspace{-1cm}
-				\textcolor{gray}{\small Dans le graphe ci-contre, le plus long chemin élémentaire de $a$ vers $c$ est $a \rightarrow b \rightarrow c$ et son sous-chemin $a \rightarrow b$ n'est pas une la solution du sous problème consistant à rechercher le plus long chemin élémentaire de $a$ vers $b$. Et de même pour son sous chemin $b \rightarrow c$.}
-			\end{tabularx}}
+				\onslide<5->{
+					\begin{tabularx}{\linewidth}{p{2.5cm}X}
+						\begin{tabular}{lr}
+							\circlenode[linecolor=gray]{a}{\textcolor{gray}{$a$}} \hspace{1cm} & \circlenode[linecolor=gray]{b}{\textcolor{gray}{$b$}} \vspace{1cm} \\
+							\multicolumn{2}{c}{\circlenode[linecolor=gray]{c}{\textcolor{gray}{$c$}}}                                                               \\
+						\end{tabular}
+						\ncarc[linecolor=gray]{->}{a}{b} \ncarc[linecolor=gray]{->}{a}{c} \ncarc[linecolor=gray]{->}{b}{a} \ncarc[linecolor=gray]{->}{b}{c} \ncarc[linecolor=gray]{->}{c}{a} \ncarc[linecolor=gray]{->}{c}{b}
+						 & \vspace{-1cm}
+						\textcolor{gray}{\small Dans le graphe ci-contre, le plus long chemin élémentaire de $a$ vers $c$ est $a \rightarrow b \rightarrow c$ et son sous-chemin $a \rightarrow b$ n'est pas une la solution du sous problème consistant à rechercher le plus long chemin élémentaire de $a$ vers $b$. Et de même pour son sous chemin $b \rightarrow c$.}
+					\end{tabularx}}
 		\end{itemize}
 	\end{exampleblock}
 \end{frame}
 
 
+\makess{Exemple résolu : chemin de somme maximale dans une pyramide}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Position du problème}
+		Rechercher le chemin de somme maximale partant du haut d'une pyramide d'entiers à sa base :
+		\begin{center}
+			\begin{pspicture}(0,-2.2)(6,0.5) % Ajuster la taille de la figure selon les besoins
+				% Niveau 1
+				\rput(3,0){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 5}}{5}}}
+				% Niveau 2
+				\rput(2.5,-0.52){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 3}}{3}}}
+				\rput(3.5,-0.52){\psframebox[framesep=4pt]{4}}
+				% Niveau 3
+				\rput(2,-1.04){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 9}}{9}}}
+				\rput(3,-1.04){\psframebox[framesep=4pt]{2}}
+				\rput(4,-1.04){\psframebox[framesep=4pt]{6}}
+				% Niveau 4
+				\rput(1.5,-1.56){\psframebox[framesep=4pt]{4}}
+				\rput(2.5,-1.56){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 6}}{6}}}
+				\rput(3.5,-1.56){\psframebox[framesep=4pt]{8}}
+				\rput(4.5,-1.56){\psframebox[framesep=4pt]{4}}
+				% Niveau 5
+				\rput(1,-2.08){\psframebox[framesep=4pt]{3}}
+				\rput(2,-2.08){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 9}}{9}}}
+				\rput(3,-2.08){\psframebox[framesep=4pt]{2}}
+				\rput(4,-2.08){\psframebox[framesep=4pt]{5}}
+				\rput(5,-2.08){\psframebox[framesep=4pt]{7}}
+				\onslide<6->{\rput(5.7,-1.25){\textcolor{BrickRed}{\bf Max = 32}}}
+			\end{pspicture}
+		\end{center}
+		\begin{enumerate}
+			\item<2-> {\small déterminer cette somme et un chemin possible sur l'exemple ci-dessus.}
+			\item<3-> {\small que penser d'une solution qui testerait toutes les possibilités ?\\}
+			\item<7-> {\small obtient-on la solution optimale en choisissant l'entier maximal à chaque étape ?}
+			\item<7-> {\small vérifier qu'on retrouve les caractéristiques d'un problème soluble par programmation dynamique.}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\addtocounter{enumi}{1}
+		\begin{enumerate}
+			\item<1->\textcolor{OliveGreen}{\small Pour tester chaque possibilité on doit énumérer tous les chemins possibles depuis le sommet vers un point de la base, en notant $n$ le nombre de niveau, on a deux choix à chaque niveau (excepté le premier), le nombre de chemins est donc $2^{n-1}$. La complexité est donc en $\mathcal{O}(n2^n)$ car il faut aussi calculer la somme de chaque chemin ($\mathcal{O}(n)$). Cette méthode n'est donc pas utilisable pour des valeurs de $n$ importantes.}
+			\item<2->\textcolor{OliveGreen}{\small Sur l'exemple ci-dessus on constate que prendre le maximum à chaque étape (c'est à dire adopter un \textcolor{blue}{algorithme glouton}) ne conduit pas à la solution optimale.}
+			\item<3->\textcolor{OliveGreen}{\small C'est bien un problème d'\textit{d'optimisation} et résoudre un problème pour une pyramide de $n$ niveau et de sommets $S$, c'est :}
+			\begin{itemize}
+				\item \textcolor{OliveGreen}{\small résoudre le même problème sur  les \textit{deux} pyramides de $n-1$ niveaux et de sommets respectifs $S_g$ et $S_d$ (fils gauche et droit de $S$). Puis prendre le maximum des deux résultats, on trouve la propriété de \textit{sous structure optimale}.}
+				\item \textcolor{OliveGreen}{\small Les sous problèmes se \textit{chevauchent} car on retrouve bien la même pyramide centrale en traitant celle de sommet $S_g$ ou celle de sommet $S_d$ comme illustré ci-dessous.}
+			\end{itemize}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Chevauchement de sous problème}
+		\begin{center}
+			\begin{pspicture}(0,-2.7)(6,0.5) % Ajuster la taille de la figure selon les besoins
+				% Niveau 1
+				\rput(3,0){\psframebox[framesep=4pt]{5}}
+				% Niveau 2
+				\rput(2.5,-0.52){\psframebox[framesep=4pt]{3}}
+				\rput(3.5,-0.52){\psframebox[framesep=4pt]{4}}
+				% Niveau 3
+				\rput(2,-1.04){\psframebox[framesep=4pt]{9}}
+				\rput(3,-1.04){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 2}}}
+				\rput(4,-1.04){\psframebox[framesep=4pt]{6}}
+				% Niveau 4
+				\rput(1.5,-1.56){\psframebox[framesep=4pt]{4}}
+				\rput(2.5,-1.56){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 6}}}
+				\rput(3.5,-1.56){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 8}}}
+				\rput(4.5,-1.56){\psframebox[framesep=4pt]{4}}
+				% Niveau 5
+				\rput(1,-2.08){\psframebox[framesep=4pt]{3}}
+				\rput(2,-2.08){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 9}}}
+				\rput(3,-2.08){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 2}}}
+				\rput(4,-2.08){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 5}}}
+				\rput(5,-2.08){\psframebox[framesep=4pt]{7}}
+				\psline[linecolor=OliveGreen,linewidth=0.7pt](3,-0.5)(1.2,-2.5)(4.8,-2.5)(3,-0.5)
+				\psline[linecolor=BrickRed, linestyle=dashed,linewidth=0.5pt](2.5,0.2)(0.1,-2.7)(5.2,-2.7)(2.5,0.2)
+				\psline[linecolor=BrickRed, linestyle=dashed,linewidth=0.5pt](3.5,0.2)(0.9,-2.7)(6.2,-2.7)(3.5,0.2)
+			\end{pspicture}
+		\end{center}
+		Le sous problème de la pyramide \textcolor{OliveGreen}{verte} apparaît dans la résolution du sous problème de la pyramide droite \textit{et} celui de la pyramide gauche.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		En supposant la pyramide représentée par un tableau de tableau en OCaml, écrire la fonction {\tt smax} qui prend en argument une pyramide et renvoie sa somme maximale.
+		\onslide<2->
+		\inputpartOCaml{\SPATH/pyramide.ml}{}{}{1}{8}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Complexité}
+		\begin{itemize}
+
+			\item<1-> Sans mémoïsation, l'algorithme a une complexité \textit{exponentielle}, en effet la résolution d'un problème de taille $n$ demande la résolution de deux sous problèmes de taille $n-1$, c'est à dire qu'on a les équation de complexité : \\
+			      $\left\{
+				      \begin{array}{lll}
+					      C(1) & = & 1            \\
+					      C(n) & = & 2C(n-1)  + 1 \\
+				      \end{array}
+				      \right.$\\
+			\item<2-> En mémoïsant les solutions des sous problèmes déjà traités (ou en procédant itérativement bas en haut), on obtient une complexité \textit{quadratique}, en effet chaque sous problème est résolu une unique fois. Or il y  a $\dfrac{n(n+1)}{2}$ sous problèmes et leur résolution s'effectue en temps constant (on compare simplement les valeurs des deux sous problèmes gauche et droit).
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
 
 \makess{Exemple résolu : plus longue sous séquence commune}
 \begin{frame}{\Ctitle}{\stitle}
@@ -556,27 +665,27 @@ $M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
 	\begin{exampleblock}{Reconstruction de la solution}
 		{\small La matrice obtenue pour les mots : {\sc imperial} et {\sc empire} est : \\}
 		\quad \quad \begin{tabular}{|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
-			
+
 			\cline{2-8}
-		\multicolumn{1}{c|}{}	& \textcolor{blue}{$\epsilon$}  & \textcolor{blue}{E}  &\alt<17->{\textcolor{red}{M}}{\textcolor{blue}{M}} &\alt<15->{\textcolor{red}{P}}{\textcolor{blue}{P}} &\alt<11->{\textcolor{red}{I}}{\textcolor{blue}{I}} &\textcolor{blue}{R} & \textcolor{blue}{E} \\
+			\multicolumn{1}{c|}{}                              & \textcolor{blue}{$\epsilon$} & \textcolor{blue}{E}              & \alt<17->{\textcolor{red}{M}}{\textcolor{blue}{M}} & \alt<15->{\textcolor{red}{P}}{\textcolor{blue}{P}} & \alt<11->{\textcolor{red}{I}}{\textcolor{blue}{I}} & \textcolor{blue}{R}             & \textcolor{blue}{E}             \\
 			\hline
-			\textcolor{blue}{$\epsilon$}	& 0 &0 &0 &0 &0 &0 &0 \\ 
-		\textcolor{blue}{I}	& 0 & \alt<18->{\textcolor{red}{0}}{0} &0 &0 &1 &1 &1 \\ 
-		\alt<17->{\textcolor{red}{M}}{\textcolor{blue}{M}}	& 0 &0 &\alt<16->{\textcolor{red}{\underline 1}}{1} &1 &1 &1 &1 \\ 
-		\alt<15->{\textcolor{red}{P}}{\textcolor{blue}{P}}	& 0 &0 & 1 &\alt<14->{\textcolor{red}{\underline 2}}{2} &2 &2 &2 \\ 
-		\textcolor{blue}{E}	& 0 &1 &1 &\alt<13->{\textcolor{red}{2}}{2} &2 &2 &3 \\ 
-		\textcolor{blue}{R}	& 0 &1 &1 &\alt<12->{\textcolor{red}{2}}{2} &2 &3 &3 \\ 
-		\alt<11->{\textcolor{red}{I}}{\textcolor{blue}{I}}	& 0 &1 &1 &2 &\alt<10->{\textcolor{red}{\underline 3}}{3} &3 &3 \\ 
-		\textcolor{blue}{A}	& 0 &1 &1 &2 &\alt<9->{\textcolor{red}{3}}{3} &3 &3 \\ 
-		\textcolor{blue}{L}	& 0 &1 &1 &2 &\alt<8->{\textcolor{red}{3}}{3} &\alt<7->{\textcolor{red}{3}}{3} &\alt<6->{\textcolor{red}{3}}{3} \\
-		\hline
+			\textcolor{blue}{$\epsilon$}                       & 0                            & 0                                & 0                                                  & 0                                                  & 0                                                  & 0                               & 0                               \\
+			\textcolor{blue}{I}                                & 0                            & \alt<18->{\textcolor{red}{0}}{0} & 0                                                  & 0                                                  & 1                                                  & 1                               & 1                               \\
+			\alt<17->{\textcolor{red}{M}}{\textcolor{blue}{M}} & 0                            & 0                                & \alt<16->{\textcolor{red}{\underline 1}}{1}        & 1                                                  & 1                                                  & 1                               & 1                               \\
+			\alt<15->{\textcolor{red}{P}}{\textcolor{blue}{P}} & 0                            & 0                                & 1                                                  & \alt<14->{\textcolor{red}{\underline 2}}{2}        & 2                                                  & 2                               & 2                               \\
+			\textcolor{blue}{E}                                & 0                            & 1                                & 1                                                  & \alt<13->{\textcolor{red}{2}}{2}                   & 2                                                  & 2                               & 3                               \\
+			\textcolor{blue}{R}                                & 0                            & 1                                & 1                                                  & \alt<12->{\textcolor{red}{2}}{2}                   & 2                                                  & 3                               & 3                               \\
+			\alt<11->{\textcolor{red}{I}}{\textcolor{blue}{I}} & 0                            & 1                                & 1                                                  & 2                                                  & \alt<10->{\textcolor{red}{\underline 3}}{3}        & 3                               & 3                               \\
+			\textcolor{blue}{A}                                & 0                            & 1                                & 1                                                  & 2                                                  & \alt<9->{\textcolor{red}{3}}{3}                    & 3                               & 3                               \\
+			\textcolor{blue}{L}                                & 0                            & 1                                & 1                                                  & 2                                                  & \alt<8->{\textcolor{red}{3}}{3}                    & \alt<7->{\textcolor{red}{3}}{3} & \alt<6->{\textcolor{red}{3}}{3} \\
+			\hline
 		\end{tabular}\\
-	\onslide<2->{\small On peut utiliser ce résultat pour construire la {\sc plssc} :}
-	\begin{itemize}
-		\item<3-> {\small on part de la dernière case en bas et à droite}
-		\item<4-> {\small si les lettres sur la ligne et la colonne sont identiques on ajoute à la {\sc plssc} et on remonte en diagonale}
-		\item<5-> {\small sinon on va à gauche ou en haut suivant la case qui a plus grande valeur}
-	\end{itemize}
+		\onslide<2->{\small On peut utiliser ce résultat pour construire la {\sc plssc} :}
+		\begin{itemize}
+			\item<3-> {\small on part de la dernière case en bas et à droite}
+			\item<4-> {\small si les lettres sur la ligne et la colonne sont identiques on ajoute à la {\sc plssc} et on remonte en diagonale}
+			\item<5-> {\small sinon on va à gauche ou en haut suivant la case qui a plus grande valeur}
+		\end{itemize}
 	\end{exampleblock}
 \end{frame}
 
@@ -615,10 +724,10 @@ $M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
 			\end{itemize}
 			\onslide<6->\textcolor{black}{Avec ces notations, on doit donc trouver $m(s,n)$ et on dispose des relations suivantes :} \\
 			\onslide<7->{\textcolor{black}{$\left\{ \begin{array}{lll}
-							m(0,k)   & = & 0 \text{ pour tout } 1\leq k \leq n,                         \\
-							m(s,0) & = & +\infty \text{ pour tout } s \in \N^*,                                                     \\
-							m(s,k)   & = & m(s,k-1)    \text{ si }  s<p_k,                              \\
-							m(s,k)   & = & \min\left\{ 1 + m(s-p_k,k), m(s,k-1) \text{  }\right\} \text{ sinon.}\end{array} \right.$}\medskip \\}
+							m(0,k) & = & 0 \text{ pour tout } 1\leq k \leq n,                                  \\
+							m(s,0) & = & +\infty \text{ pour tout } s \in \N^*,                                \\
+							m(s,k) & = & m(s,k-1)    \text{ si }  s<p_k,                                       \\
+							m(s,k) & = & \min\left\{ 1 + m(s-p_k,k), m(s,k-1) \text{  }\right\} \text{ sinon.}\end{array} \right.$}\medskip \\}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -627,9 +736,9 @@ $M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
 	\begin{exampleblock}{Résolution}
 		\begin{enumerate}
 			\addtocounter{enumi}{1}
-			\item Programme en C 
-			\onslide<2->{\inputpartC{\SPATH/rendu.c}{}{\small}{7}{16}}
-			\onslide<3->{Comme pour la {\sc plssc}, on peut écrire une solution itérative ou une solution utilisant la mémoïsation.}
+			\item Programme en C
+			      \onslide<2->{\inputpartC{\SPATH/rendu.c}{}{\small}{7}{16}}
+			      \onslide<3->{Comme pour la {\sc plssc}, on peut écrire une solution itérative ou une solution utilisant la mémoïsation.}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -642,20 +751,20 @@ $M_{7} = (A_{1,2} - A_{2,2}) (B_{2,1} + B_{2,2})$}
 			      \renewcommand{\arraystretch}{1.3}
 			      \begin{tabular}{|c|c|c|c|c|c|c|}
 				      \cline{2-6}
-					  \multicolumn{1}{c|}{} & \textcolor{blue}{0} &  \textcolor{blue}{1}  {\tiny ($\scriptstyle p_1=1$)}  & \textcolor{blue}{2} {\tiny ($\scriptstyle p_2=3$)} & \textcolor{blue}{3} {\tiny ($\scriptstyle p_3=4$)}& \textcolor{blue}{4} {\tiny ($\scriptstyle p_4=5$)} \\
-					  \hline
-				      	\textcolor{blue}{0}& 0 & 0 & 0 & 0 & 0 \\ 
-						\textcolor{blue}{1}& $\infty$ & 1 & 1 & 1 & 1 \\ 
-						\textcolor{blue}{2}& $\infty$ & 2 & 2 & 2 & \alt<2->{\circlenode[linecolor=blue]{r1}{\textcolor{blue}{2}}}{2} \\ 
-						\textcolor{blue}{3}& $\infty$ & 3 & 1 & 1 & 1 \\ 
-						\textcolor{blue}{4}& $\infty$ & 4 & 2 & 1 & 1 \\ 
-						\textcolor{blue}{5}& $\infty$ & 5 & 3 & 2 & 1 \\ 
-						\textcolor{blue}{6}& $\infty$ & 6 & 2 & 2 & 2 \\ 
-						\textcolor{blue}{7}& $\infty$ & 7 & 3 & \alt<4->{\circlenode[linecolor=blue]{r0}{\textcolor{blue}{2}}}{2} & \circlenode[linecolor=red]{r2}{\textcolor{red}{2}} \\ 
-					\hline
+				      \multicolumn{1}{c|}{} & \textcolor{blue}{0} & \textcolor{blue}{1}  {\tiny ($\scriptstyle p_1=1$)} & \textcolor{blue}{2} {\tiny ($\scriptstyle p_2=3$)} & \textcolor{blue}{3} {\tiny ($\scriptstyle p_3=4$)}                & \textcolor{blue}{4} {\tiny ($\scriptstyle p_4=5$)}                \\
+				      \hline
+				      \textcolor{blue}{0}   & 0                   & 0                                                   & 0                                                  & 0                                                                 & 0                                                                 \\
+				      \textcolor{blue}{1}   & $\infty$            & 1                                                   & 1                                                  & 1                                                                 & 1                                                                 \\
+				      \textcolor{blue}{2}   & $\infty$            & 2                                                   & 2                                                  & 2                                                                 & \alt<2->{\circlenode[linecolor=blue]{r1}{\textcolor{blue}{2}}}{2} \\
+				      \textcolor{blue}{3}   & $\infty$            & 3                                                   & 1                                                  & 1                                                                 & 1                                                                 \\
+				      \textcolor{blue}{4}   & $\infty$            & 4                                                   & 2                                                  & 1                                                                 & 1                                                                 \\
+				      \textcolor{blue}{5}   & $\infty$            & 5                                                   & 3                                                  & 2                                                                 & 1                                                                 \\
+				      \textcolor{blue}{6}   & $\infty$            & 6                                                   & 2                                                  & 2                                                                 & 2                                                                 \\
+				      \textcolor{blue}{7}   & $\infty$            & 7                                                   & 3                                                  & \alt<4->{\circlenode[linecolor=blue]{r0}{\textcolor{blue}{2}}}{2} & \circlenode[linecolor=red]{r2}{\textcolor{red}{2}}                \\
+				      \hline
 			      \end{tabular}
-				  \onslide<3->{\ncbar[angleA=0, angleB=0, linestyle=dashed, linecolor=red]{->}{r2}{r1} \nbput{$\boxed{p_4}$}}
-				  \onslide<4->{\ncline[linestyle=dashed, linecolor=red]{->}{r2}{r0}}
+			      \onslide<3->{\ncbar[angleA=0, angleB=0, linestyle=dashed, linecolor=red]{->}{r2}{r1} \nbput{$\boxed{p_4}$}}
+			      \onslide<4->{\ncline[linestyle=dashed, linecolor=red]{->}{r2}{r0}}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}

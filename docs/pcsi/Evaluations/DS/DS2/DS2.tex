@@ -6,7 +6,7 @@
 \begin{document}
 
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
-\ModeExercice
+\ModeConcours
 \DS{PCSI}{2}{Mars 2026}
 
 \setboolean{corrige}{false}
@@ -64,7 +64,7 @@
 \begin{Exercise}[title={Exponentiation}]\\
 	Dans cette exercice, on s'intéresse à différentes fonctions permettant de calculer pour deux entiers positifs $a \in \N$ et $n \in \N$, la valeur de $a^n$. On s'interdit l'utilisation de l'opérateur d'exponentiation {\tt **} de Python qui donnerait directement le résultat.
 	\Question{Ecrire une fonction \textit{iterative} {\tt expo\_iter} qui prend en argument deux entiers {\tt a} et {\tt n} et renvoie {\tt a} puissance {\tt n} en procédant par multiplication successive par {\tt a}.}
-	\Question{Exprimer, pour $n>0$, $a^n$ en fonction de $a^{n-1}$ puis écrire une version \textit{récursive} {\tt expo\_rec} de la fonction permettant de calculer $a^n$.}\\ \medskip 
+	\Question{Exprimer, pour $n>0$, $a^n$ en fonction de $a^{n-1}$ puis écrire une version \textit{récursive} {\tt expo\_rec} de la fonction permettant de calculer $a^n$.} \medskip \\
 	On donne ci-dessous un algorithme appelé \textit{exponentiation rapide} : \\
 	\begin{algorithm}[H]
 		\DontPrintSemicolon
@@ -130,61 +130,78 @@
 	  }
 \end{Exercise}
 
-\begin{Exercise}[title={Problème du sac à dos}]\\
-	On dispose d'un sac à dos pouvant contenir un poids maximal noté $P$ et de $n$ objets ayant chacun un poids $\left(p_i\right)_{0\leqslant i \leqslant n-1}$ et une valeur $\left(v_i\right)_{0\leqslant i \leqslant n-1}$. On cherche à remplir le sac à dos de manière à maximiser la valeur totale des objets contenus dans le sac sans dépasser le poids maximal $P$.
-	Par exemple, si on dispose des objets suivants :
-	\begin{itemize}
-		\item un objet de poids $p_0 = 4$ et de valeur $v_0 = 20$,
-		\item un objet de poids $p_1 = 5$ et de valeur $v_1 = 28$,
-		\item un objet de poids $p_2 = 6$ et de valeur $v_2 = 36$,
-		\item un objet de poids $p_3 = 7$ et de valeur $v_3 = 50$,
-	\end{itemize}
-	et qu'on suppose que le poids maximal du sac est $10$ alors un choix possible serait de prendre l'objet 3, aucun autre objet ne rentre alors dans le sac et la valeur du sac est  de $50$ avec un poids de 7. Une autre possibilité plus intéressante serait de choisir les objets 0  et 2, la valeur totale serait alors de $56$ et le poids du sac de $10$.\smallskip
+\begin{Exercise}[title={Traversée maximale d'une matrice carrée}]\\
+	On considère une matrice à $n$ lignes et $n$ colonnes notée $M$ à coefficients dans $\N$, et dont le coefficient situé à la ligne $i$ et à la colonne $j$ avec $0 \leqslant i \leqslant n-1$ et  $0 \leqslant j \leqslant n-1$ sera noté $M_{i,j}$. On s'intéresse aux chemins depuis la première valeur en haut à gauche ($M_{0,0})$ jusqu'à la dernière en bas à droite ($M_{n-1,n-1}$) qui n'utilisent que les déplacements vers la droite ($\rightarrow$) ou vers le bas ($\downarrow$). Voici deux exemples de tels chemins dans une même matrice $A$ de 4 lignes et 4 colonnes : \\
+	\begin{center}
+		\begin{tabularx}{0.8\textwidth}{YY}
+			$\renewcommand\arraystretch{2}
+				\begin{pmatrix}
+					\circlenode{a}{2} & 5                 & 4                 & 6                 \\
+					\circlenode{b}{8} & 5                 & 9                 & 8                 \\
+					\circlenode{c}{5} & \circlenode{d}{7} & \circlenode{e}{4} & 6                 \\
+					9                 & 6                 & \circlenode{f}{4} & \circlenode{g}{4} \\
+				\end{pmatrix}$
+			\ncline{->}{a}{b}
+			\ncline{->}{b}{c}
+			\ncline{->}{c}{d}
+			\ncline{->}{d}{e}
+			\ncline{->}{e}{f}
+			\ncline{->}{f}{g}                   &
+			$    \renewcommand\arraystretch{2}
+				\begin{pmatrix}
 
-	Dans toute la suite de l'exercice on supposera que les poids et les valeurs des objets sont fournis sous la forme d'une liste de Python contenant les tuples {\tt (poids, valeur)} représentant les objets. Par exemple, les objets précédents seraient représentés par la liste suivante :
-	\begin{minted}{python}
-objets = [(4, 20), (5, 28), (6, 36), (7, 50)]
-\end{minted}
-	\Question{On considère la stratégie gloutonne suivante : on trie les objets par ordre décroissant de leur rapport valeur/poids et on les prend dans cet ordre jusqu'à ce que le poids maximal soit atteint.}
-	\subQuestion{Vérifier qu'en appliquant cette stratégie à la liste d'objets :
-		\begin{minted}{python}
-[(4, 30), (5, 34), (6, 36), (7, 49), (10, 74)]
-\end{minted}
-		et un poids maximal de 10, on n'obtient pas la meilleure solution.}
-	\tcor{En triant les objets par rapport poids/valeur, on obtient l'ordre suivant :
-		\begin{itemize}
-			\item objet 0 (poids : 4, valeur : 30, rapport : 7.5)
-			\item objet 4 (poids : 10, valeur : 74, rapport : 7.4)
-			\item objet 3 (poids : 7, valeur : 49, rapport : 7.0)
-			\item objet 1 (poids : 5, valeur : 34, rapport : 6.8)
-			\item objet 2 (poids : 6, valeur : 36, rapport : 6.0)
-		\end{itemize}
-		On parcourt donc cette liste en prenant les objets tant qu'ils ne dépassent pas la contrainte de poids. Cela conduit à choisir les objets 0 et 1 pour une valeur de 64. Cette combinaison n'est pas optimale puisque l'on peut obtenir une valeur de 74 en prenant uniquement l'objet 4.}
-	\subQuestion{Ecrire une fonction {\tt glouton}, qui prend en arguments une liste d'objets qu'on suppose \textit{déjà triée par ordre décroissant du rapport valeur/poids} et un poids maximal et qui renvoie la valeur maximale que l'on peut obtenir en appliquant la stratégie gloutonne.}
-	\ifcorrige
-		\corpartPython{sac.py}{}{}{12}{20}
-	\fi
-    \subQuestion{Montrer sur un exemple de votre choix (avec au moins 3 objets) que si on choisit de trier les objets par ordre croissant de poids (c'est à dire qu'on choisit en premier les objets les plus légers), alors la stratégie gloutonne ne donne pas non plus la solution optimale.}
-    \tcor{On peut par exemple considérer les objets suivants :
-    {\tt [(1, 10), (3, 20), (5, 40)]} et un poids maximal de 5. La stratégie gloutonne choisirait les objets 0 et 1 pour une valeur de 30 alors que la solution optimale est de prendre l'objet 2 pour une valeur de 40.}
-	\Question{La recherche exhaustive consiste à énumérer tous les choix possibles d'objet et à calculer la valeur ainsi que le poids pour chaque choix, on retient alors le choix qui maximise la valeur du sac sans dépasser le poids maximal. On propose de représenter un choix d'objets par une liste contenant des 0 et des 1. Si le $i$-ème élément de la liste vaut $1$ alors l'objet $i$ est choisi, s'il vaut $0$ alors l'objet $i$ n'est pas choisi. Par exemple, pour les objets précédents, le choix de prendre uniquement l'objet 3 serait représenté par la liste \mintinline{python}{[0, 0, 0, 1]} et le choix de prendre les objets 0 et 2 serait représenté par la liste \mintinline{python}{[1, 0, 1, 0]}.}
-	\subQuestion{Justifier rapidement que le nombre possible de choix d'objet est $2^n$.}
-	\tcor{Pour chaque objet, on a deux choix possibles, le prendre ou non, comme il y a $n$ objets, le nombre total de choix est $2^n$.}
-
-
-	\subQuestion{Afin de générer tous les choix possibles on propose de parcourir les entiers de $0$ à $2^n - 1$ et de convertir chaque entier en son écriture binaire. Ecrire une fonction {\tt choix} qui prend en argument un entier {\tt n} et un entier {\tt k} tel que $0 \leqslant k \leqslant 2^n -1$ et renvoie la liste des chiffres de $k$ en base 2 sur $n$ bits. Par exemples {\tt choix(8,17) renvoie {\tt [0,0,0,1,0,0,0,1]}} (car on utilise {\tt 8} bits et $(00010001)_2=17$), et {\tt choix(8,121) renvoie {\tt [0,1, 1, 1, 1, 0, 0, 1]}}\\
-    {\small \aide \;} Indication : on pourra utiliser la fonction {\tt bin} de Python qui prend en argument un nombre entier et renvoie son écriture en base 2 précédée de {\tt 0b} sous la forme d'une chaine de caractère, par exemple {\tt bin(17)} renvoie {\tt "0b10001"}.}
-	\ifcorrige
-	\corpartPython{sac.py}{}{}{22}{28}
-	\fi
-    \subQuestion{Ecrire une fonction {\tt valeur\_poids} qui prend en arguments, une liste d'objets ainsi qu'un choix d'objet (sous la forme indiquée ci-dessus) et qui renvoie le poids et la valeur du sac correspondant à ce choix. Par exemple avec la liste {\tt objets} donnée en exemple plus haut,  {\tt valeur\_poids(objets, [1, 0, 1, 0])} doit renvoyer $(56, 10)$.}
-	\ifcorrige
-		\corpartPython{sac.py}{}{}{1}{9}
-	\fi
-    \subQuestion{Ecrire une fonction {\tt recherche\_exhaustive} qui prend en argument une liste d'objets et un poids maximal et qui renvoie la valeur maximale que l'on peut obtenir en appliquant la stratégie de recherche exhaustive. C'est à dire en testant tous les choix possibles d'objets et en retenant le choix de valeur maximale qui ne dépasse pas le poids maximal autorisé.}
-    \ifcorrige
-		\corpartPython{sac.py}{}{}{30}{38}
-	\fi
+					\circlenode{a}{2} & \circlenode{b}{5} & \circlenode{c}{4} & 6                 \\
+					8                 & 5                 & \circlenode{d}{9} & \circlenode{e}{8} \\
+					5                 & 7                 & 4                 & \circlenode{f}{6} \\
+					9                 & 6                 & 4                 & \circlenode{g}{4} \\
+				\end{pmatrix}$
+			\ncline{->}{a}{b}
+			\ncline{->}{b}{c}
+			\ncline{->}{c}{d}
+			\ncline{->}{d}{e}
+			\ncline{->}{e}{f}
+			\ncline{->}{f}{g}
+			\\
+			Un exemple $C_1$ de chemin dans $A$ & Un exemple $C_2$ de chemin dans $A$ \\
+		\end{tabularx} \end{center}
+	On appelle \textit{somme d'un chemin} dans une matrice $M$, la somme des coefficients $M_{i,j}$ rencontrés en suivant ce chemin. Dans les exemples ci-dessus, le chemin $C_1$ a une somme de $34$ et le chemin $C_2$ a une somme de $38$. .\\
+	On décide de représenter un chemin par une liste de et {\tt 0} (un pas vers le bas) et de {\tt 1} (un pas à droite). Par exemple le chemin $C_1$ donné en exemple ci-dessus correspond à la liste {\tt [0, 0, 1, 1, 0, 1]}. La matrice est représentée par une liste de liste d'entiers, par exemple la matrice A sera représentée par {\tt [[2, 5, 4, 6], [8, 5, 9, 8], [5, 7, 4, 6], [9, 6, 4, 4]]}.
+	\Question{Montrer que pour une matrice de taille {\tt n}, un chemin valide depuis $M_{0,0}$ jusqu'à $M_{n-1,n-1}$ contient $n-1$ fois le chiffre {\tt 0} et $n-1$ fois le chiffre {\tt 1}}.
+	\Question{Ecrire une foncton {\tt est\_valide} qui prend en argument un chemin et un entier {\tt n} et renvoie {\tt True} si et seulement ce chemin est un chemin valide depuis $M_{0,0}$ jusqu'à $M_{n-1,n-1}$.}
+	\Question{Ecrire une fonction {\tt somme\_chemin} qui prend en argument une matrice et un chemin (supposé valide) et renvoie la somme obtenue en parcourant la matrice en suivant ce chemin.}  \medskip  \\
+	On propose l'algorithme suivant afin de résoudre ce problème  : si les deux directions bas ou droite sont possibles on choisit celle qui mène vers le coefficient de matrice le plus élevé, en cas d'égalité, on choisit (arbitrairement) la direction bas. Dans l'exemple ci-dessus à partir de $M_{0,0}=2$ on peut aller vers à droite vers $M_{0,1} = 5$ ou en bas vers $M_{1,0}=8$ et on choisit donc d'aller en bas puisque $8>5$. Une fois arrivé en $M_{1,0}$ les deux directions possibles mènent vers des coefficients identiques (5 des deux côtés) et donc, on va vers le bas. Enfin, lorsqu'une seule direction est possible (parce qu'on a atteint la dernière colonne ou la dernière ligne), c'est cette direction qui est choisie.
+	\Question{Poursuivre le déroulement de cet algorithme sur la matrice $A$ donnée en exemple ci-dessus, dessiner le chemin obtenu et donner sa somme.}
+	\tcor{$\renewcommand\arraystretch{2} \begin{pmatrix}
+		\circlenode{a}{2} & 5                 & 4                 & 6                 \\
+		\circlenode{b}{8} & 5                 & 9                 & 8                 \\
+		\circlenode{c}{5} & 7 & 4 & 6                 \\
+		\circlenode{d}{9}                 & \circlenode{e}{6}                 & \circlenode{f}{4} & \circlenode{g}{4} \\
+	\end{pmatrix}$
+\ncline{->}{a}{b}
+\ncline{->}{b}{c}
+\ncline{->}{c}{d}
+\ncline{->}{d}{e}
+\ncline{->}{e}{f}
+\ncline{->}{f}{g} \\ Le chemin obtenu a une somme de $2 + 8 + 5 + 9 + 6  + 4 + 4 = 38$}
+	\Question{Dans quelle famille d'algorithme peut-on classer cet algorithme ? Justifier.}
+	\tcor{C'est un algorithme glouton car à chaque étape on choisit un maximum \textit{local} sans se préoccuper de l'impact de ce choix sur le maximum global.}
+	\tcor{On doit choisir un nombre de directions qui dépend linéairement de la taille de la matrice $n$, chaque choix compare deux valeur et donc s'effectue en temps constant. C'est donc un algorithme de complexité linéaire.}
+	\Question{Montrer en exhibant un exemple dans le cas $n=4$ que cet algorithme ne fournit par toujours un chemin de somme maximale.}
+	\tcor{On a obtenu sur l'exemple une somme de $38$, or dans cette même matrice, un autre chemin donne une somme supérieure : \\
+	$\renewcommand\arraystretch{2} \begin{pmatrix}
+		\circlenode{a}{2} & 5                 & 4                 & 6                 \\
+		\circlenode{b}{8} & \circlenode{c}{5}                 & \circlenode{d}{9}                 & \circlenode{e}{8}                 \\
+		5 & 7 & 4 & \circlenode{f}{6}                 \\
+		9                 & 6                 & 4 & \circlenode{g}{4} \\
+	\end{pmatrix}$
+\ncline{->}{a}{b}
+\ncline{->}{b}{c}
+\ncline{->}{c}{d}
+\ncline{->}{d}{e}
+\ncline{->}{e}{f}
+\ncline{->}{f}{g} \\ Le chemin obtenu a une somme de $2 + 8 + 5 + 9 + 8  + 2 + 4 = 42$
+	}
+	\Question{Ecrire une fonction {\tt greedy} qui prend en argument une matrice (représentée par une liste de liste) et renvoie le chemin (sous la forme d'une liste de {\tt 0} et de {\tt 1}) obtenu en appliquant cet algorithme.}
 \end{Exercise}
 
 \end{document}

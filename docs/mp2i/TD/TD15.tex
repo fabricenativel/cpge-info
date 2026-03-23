@@ -38,6 +38,28 @@
     }
 \end{Exercise}
 
+\begin{Exercise}[title = {Algorithme de Kadane}]\\
+    Le problème de la recherche de la tranche maximale dans un tableau a été résolu en complexité linéarithmique avec une méthode diviser pour régner (voir cours), on considère dans cet exercice l'algorithme suivant du Jay Kadane : \\
+    \setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Tranche maximale dans un tableau non vide}
+		\Entree{Un tableu $t$ de taille $n>0$ d'entiers}
+		\Sortie{La somme d'une tranche maximale dans $t$.}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$smax \leftarrow t[0]$\\
+        $si \leftarrow t[0]$\\
+		\Pour{$i \leftarrow 1$ à $n-1$ }{
+			\Si {$si>0$} {$si = si + t_i$} \Sinon {$si = t_i$}
+			\Si {$si>s$} {$s = si$} 
+		}
+		\Return $s$
+	  \end{algorithm}
+    \Question{Quel est la complexité de cet algorithme ?}
+    \Question{Ecrire une implémentation en langage C de cet algorithme.}
+    \Question{Montrer que cet algorithme est correct. On pourra prouver l'invariant de boucle suivant $si$ contient le maximum des tranches qui se terminent en $t_i$.}
+\end{Exercise}
+
 \begin{Exercise}[title = {Algorithme de Karatsuba}]\\
     On considère deux nombres $M$ et $N$ ayant $n$ chiffres en base 10, on suppose $n$ paire et on note $k=n/2$. Ces deux nombres peuvent donc s'écrire $M = a\times 10^k + b$ et $N = c \times 10^k +d$ où $a,b,c$ et $d$ sont des nombres à $k$ chiffres.
     \Question{Si on développe "normalement" $(a\times 10^k + b)(c \times 10^k +d)$, combien de produits de nombres à $k$ chiffres sont nécessaires pour calculer $MN$ ? }
