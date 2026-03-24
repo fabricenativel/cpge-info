@@ -29,7 +29,7 @@ int max_tranchek(int tab[],int start, int k, int end)
         sk = sk+tab[i];
         if (sk>sk_max_right) {sk_max_right = sk;}
     }
-    return max3(sk_max_left,sk_max_right,sk_max_left+sk_max_right-tab[k]);
+    return sk_max_left+sk_max_right-tab[k];
 }
 
 int somme_maxi_aux(int tab[], int size, int start, int end) {
@@ -44,45 +44,58 @@ int somme_maxi_aux(int tab[], int size, int start, int end) {
     s3 = somme_maxi_aux(tab, size, mid+1, end);
     return max3(s1,s2,s3);}
 
-int somme_maxi(int tab[], int size)
+int smax_dpr(int tab[], int size)
 {
     return somme_maxi_aux(tab,size,0,size-1);
 }
 
-int* read_tab(char filename[], int *tab_size)
+int* random_tab(int seed, int size, int minvalue, int maxvalue)
 {
-    // Taille du tableau
-    int size = 0;
-    int n;
-    FILE* reader = fopen(filename,"r");
-    while (fscanf(reader,"%d\n",&n)!=EOF)
-    {
-        size = size + 1;
-    }
-    // Allocation et lecture
+    srand(seed);
     int *tab = malloc(sizeof(int)*size);
-    rewind(reader);
     for (int i=0;i<size;i++)
     {
-        fscanf(reader,"%d\n",&tab[i]);
+        tab[i] = minvalue + rand()%(maxvalue-minvalue+1);
     }
-    *tab_size = size;
     return tab;
 }
 
-int main(int argc,char *argv[])
+void view_tab(int tab[], int size)
 {
-    //int test[9] = {2, -7, -5, 4, -1, 10, -4, 9, -2};
-    int *test;
-    int test_size;
-    if (argc!=2) {
-        printf("Utilisation : ./algo1.exe filename");
-    }
-    else
+    printf("[");
+    for (int i=0;i<size-1;i++)
     {
-        test = read_tab(argv[1],&test_size);
-        printf("Lecture terminée, %d éléments lus\n",test_size);
+        printf("%d, ",tab[i]);
     }
-    printf("Somme maximale d'une tranche = %d\n",somme_maxi(test,test_size));
+    printf("%d]\n",tab[size-1]);
+}
+
+int smax_bf(int tab[], int size)
+{
+    int smax = tab[0];
+    int s;
+    for (int i=0;i<size;i++)
+    {
+        s=0;
+        for (int j=i;j<size;j++)
+        {
+            s = s + tab[j];
+            if (s>smax)
+            {
+                smax =s;
+            }
+            
+        }
+    }
+    return smax;
+}
+
+int main()
+{
+    int seed = 42;
+    int size = 1000;
+    int *test = random_tab(seed,size,-500, 500);
+    printf("Solution par force brute : %d \n",smax_bf(test,size));
+    printf("Solution par diviser pour régner : %d \n",smax_dpr(test,size));
     free(test);
 }

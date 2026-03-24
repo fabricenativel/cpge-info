@@ -48,6 +48,26 @@ On a schématisé le tri du tableau `[| 10; 6; 3; 9; 7; 5 |]` suivant ce princip
 3. Donner une implémentation du tri fusion en OCaml.
 
 
+{{ exo("Tranche de somme maximale dans un tableau",[])}}
+
+Le but de l'exercice est d'implémenter en langage C, les diverses méthodes vues en cours afin de déterminer dans un tableau d'entiers la somme maximale d'une tranche. On commence par écrire une fonction qui génère un tableau aléatoire afin de tester les différents algorithmes. On rappelle que le générateur aléatoire de nombre peut être initialisé grâce à la fonction `#!c srand` qui prend en argument un entier, la graine (*seed*), servant à initialiser le générateur.
+
+1. Ecrire une fonction de signature `#!c int* random_tab(int seed, int size, int minvalue, int maxvalue)` qui prend en argument une graine, la taille du tableau les valeurs minimales et maximales des élements et renvoie un tableau aléatoire. On vérifira que l'appel `random_tab(42, 10, -5, 5)` renvoie bien le tableau `{5, 4, -2, 2, 4, 0, -2, -3, 3, 4}`.
+
+2. Ecrire l'implémentation de la méthode par force brute vue en cours (complexité quadratique) sous la forme d'une fonction de signature `#!c int somme_maxi(int tab[], int size)`  et la tester sur le tableau généré par l'appel `random_tab(42, 1000, -500, 500)`. Vérifier votre réponse : {{check_reponse("8900")}}.
+
+3. Ecrire l'implémentation de la méthode diviser pour régner (complexité linéarithmique) sous la forme d'une fonction de signature `#!c int smax_dpr(int tab[], int size)` et la tester sur le même tableau.
+
+    !!! aide
+        * Voir le [cours](https://fabricenativel.github.io/cpge-info/mp2i/Cours/C15/C15-cours.pdf)
+        * S'aider d'une fonction auxiliaire qui prend de plus en paramètre les deux indices du tableau entre lesquelles on résoud le problème.
+
+
+3. Un algorithme très élégant et ayant une complexité en $\mathcal{O}(n)$ pour ce problème a été proposé par [Jay Kadane](https://en.wikipedia.org/wiki/Joseph_Born_Kadane){target=_blank}. L'algorithme consiste à parcourir le tableau en tenant à jour la valeur de $T_j$ qui est la tranche de somme maximale qui se termine à l'index $j$. La somme de la tranche maximale est alors obtenu en maintenant à jour une variable contenant le maximum des $T_j$ au fur et à mesure de leurs calculs. Cet algorithme est donnée dans [la fiche de TD](https://fabricenativel.github.io/cpge-info/mp2i/TD/TD15.pdf){target=_blank}. L'implémenter puis le tester sur le même tableau que précédemment.
+
+    
+
+
 {{ exo("Le tri rapide",[])}}
 
 Le [tri rapide *(quicksort)*](https://en.wikipedia.org/wiki/Quicksort){target=_blank} est un algorithme de tri développé par T. Hoare en 1959. Le tri rapide repose comme le tri fusion sur une méthode diviser pour régner. La séparation en deux sous tableaux s'effectue en choisissant (aléatoirement) un pivot, la séparation s'effectue alors en mettant d'un côté les nombres inférieurs au pivot et de l'autre les nombres supérieurs. Par conséquent, la longueur des sous listes  obtenue dépend du pivot choisi. Par contre on s'affranchit de la phase de fusion puisqu'elle consiste simplement à concaténer les deux sous listes. Bien qu'ayant une complexité quadratique dans le pire des cas, l'algorithme a d'excellentes performances dans le cas moyen (la fonction `quicksort` existe déjà en C).
@@ -173,25 +193,6 @@ Le problème de la recherche de la découpe de valeur maximale d'une barre a ét
     !!! Aide
         On pourra remarquer que puisque `vmax[16] = vmax[7] + prix[9]` cela signifie qu'une découpe maximale peut-être obtenue avec un morceau de taille 9 et la  découpe maximale d'une barre de taille 7. En répétant ce processus de proche en proche on peut déterminer la taille des morceaux d'une découpe de valeur maximale.
 
-{{ exo("Tranche de somme maximale dans un tableau",[] )}}
-
-Etant donné un tableau d'entiers (positif ou négatif) $[e_0,\dots,e_{n-1}]$ on cherche dans ce tableau la tranche de plus grande somme. Par exemple pour le tableau $[-2, 7, 1, -3, 5, -8, -2, 9]$ c'est la tranche $[7, 1, -3, 5]$ qui a la plus grande somme et cette somme est 10. On n'autorise pas de tranche de longueur nulle et donc par exemple pour le tableau $[-5, -2, -7]$ c'est la tranche $[-2]$ qui a la plus grande somme.
-
-1. Implémenter  l'algorithme naïf qui calcule la somme de toutes les tranches possibles c'est-à-dire les $\displaystyle{S_{ij} = \sum_{k=i}^{j} e_k}$ et donne ensuite le maximum. Quel est la complexité de cet algorithme ?
-
-    !!! aide
-        On pourra d'abord écrire la fonction `somme_tranche` qui prend en argument deux entiers $i$ et $j$ et renvoie $S_{ij}$
-
-2. Proposer une version permettant de se ramener à un algorithme ayant une complexité quadratique.
-
-    !!! aide
-        On pourra par exemple calculer les $S_{0i}$ pour $0 \leq i \leq n-1$ et exprimer les $S_{ij}$ à l'aide de ces sommes partielles.
-
-3. Un algorithme très élégant et ayant une complexité en $\mathcal{O}(n)$ pour ce problème a été proposé par [Jay Kadane](https://en.wikipedia.org/wiki/Joseph_Born_Kadane){target=_blank}. L'algorithme consiste à parcourir le tableau en tenant à jour la valeur de $T_j$ qui est la tranche de somme maximale qui se termine à l'index $j$. La somme de la tranche maximale est alors obtenu en maintenant à jour une variable contenant le maximum des $T_j$ au fur et à mesure de leurs calculs.
-
-    1. Etablir la relation de récurrence liant $T_{j+1}$ et $T_{j}$
-    2. Implémenter et tester ce nouvel algorithme
-    3. Proposer une version qui donne aussi les index de début et de fin de la tranche de somme maximale.
 
 
 {{ exo("Parenthésage optimal d'un produit matriciel",[]) }}
