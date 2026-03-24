@@ -1,0 +1,207 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeConcours
+\DS{PCSI}{2}{Mars 2026}
+
+\setboolean{corrige}{false}
+
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] La calculatrice n'est \textbf{pas autorisée}.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+\begin{Exercise}[title={Tri par sélection}]
+	\Question{Expliquer brièvement le principe de l'algorithme du \textit{tri par sélection} et donner l'évolution du contenu de la liste \mintinline{python}{[42, 28, 11, 9, 33]}  lorsqu'elle est triée en utilisant cet algorithme.}
+    \tcor{On parcourt la liste avec un indice {\tt i} à partir du début. Pour chaque valeur de {\tt i} on sélectionne l'indice {\tt m} du minimum des éléments de la liste \textit{à partir} de l'indice {\tt i} et on l'échange avec celui d'indice {\tt i}. Sur la liste \mintinline{python}{[42, 28, 11, 9, 33]}, on obtient successivement :
+    \begin{itemize}
+    \item \mintinline{python}{[9, 28, 11, 42, 33]}
+    \item \mintinline{python}{[9, 11, 28, 42, 33]}
+    \item \mintinline{python}{[9, 11, 28, 42, 33]}
+    \item \mintinline{python}{[9, 11, 28, 33, 42]}
+    \end{itemize}
+    }
+	\Question{Ecrire en Python une fonction {\tt echange} qui prend en argument une liste {\tt lst} ainsi que deux entiers {\tt i} et {\tt j} ne renvoie rien et échange les éléments d'indice {\tt i} et {\tt j} de cette liste. Par exemple, si {\tt lst = [25, 17, 34, 22, 37]} alors {\tt echange(lst, 1, 3)} doit modifier la liste {\tt lst} en {\tt [25, 22, 34, 17, 37]}. On vérifiera les préconditions sur {\tt i} et {\tt j} à l'aide d'instructions {\tt assert}.}
+    \ifcorrige
+    \corpartPython{tri_selection.py}{}{}{3}{6}
+    \fi
+	\Question{Ecrire en Python une fonction {\tt indice\_min\_depuis} qui prend en argument une liste {\tt lst} et un entier {\tt i} et renvoie l'indice du plus petit élément de la liste {\tt lst} à partir de l'indice {\tt i}. Par exemple, si {\tt lst = [25, 17, 34, 22, 37]} alors {\tt indice\_min\_depuis(lst, 2)} doit renvoyer {\tt 3} (c'est à dire l'indice de {\tt 22} qui est l'élément minimal à partir de celui d'indice 2).}
+    \ifcorrige
+    \corpartPython{tri_selection.py}{}{}{8}{14}
+    \fi
+	\Question{Ecrire en Python une fonction {\tt tri\_selection} qui prend en argument une liste {\tt lst} et modifie cette liste de façon à la trier par ordre croissant en utilisant l'algorithme du tri par sélection. On utilisera les fonctions {\tt echange} et {\tt indice\_min\_depuis} écrites aux questions précédentes.}
+    \ifcorrige
+    \corpartPython{tri_selection.py}{}{}{16}{20}
+    \fi
+	\Question{Un ordinateur a pris 3 secondes pour trier une liste de \numprint{250000} éléments en utilisant un tri par sélection. Donner une estimation (aucune justification n'est demandée) du temps que prendrait cet ordinateur pour trier une liste de \numprint{1000000} éléments en utilisant le même algorithme.}
+    \ifcorrige
+    \tcor{On peut estimer que le temps de calcul est proportionnel au carré du nombre d'éléments à trier. Ainsi, si le temps est de 3 secondes pour \numprint{250000} éléments, il serait de $3 \times \left(\frac{1000000}{250000}\right)^2 = 3 \times 16 = 48$ secondes pour \numprint{1000000} éléments. La justification n'était pas demandée mais en examinant l'algorithme on peut constater que le nombre d'opérations à effectuer évolue comme le carré du nombre d'éléments à trier.}
+    \fi
+\end{Exercise}
+
+\begin{Exercise}[title={Ecriture binaire des entiers}]
+	\Question{Donner l'écriture en base 2 de $(172)_{10}$.}
+    \tcor{$(172)_{10} = (10101100)_2$}
+	\Question{Ecrire $(10011101)_2$ en base 10.}
+    \tcor{C'est $(10011101)_2 = 1 \times 2^7 + 0 \times 2^6 + 0 \times 2^5 + 1 \times 2^4 + 1 \times 2^3 + 1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0 = 128 + 16 + 8 + 4 + 1 = 157$}
+	\Question{Quel est le plus grand nombre représentable en base 2 en utilisant 10 bits ?}
+    \tcor{Le plus grand nombre représentable en base 2 avec 10 bits est $(1111111111)_2 = 2^{10} - 1 = 1023$}
+	\Question{On suppose que l'on travaille sur des entiers codés sur 8 bits en complément à 2. A quel nombre entier en base 10 correspond $(11011001)_2$ ?}
+    \tcor{Le bit de poids fort est compté négativement et les autres positivement. Donc $(11011001)_2 = -2^7 + 2^6 + 2^4 + 2^3 + 2^0 = -128 + 64 + 16 + 8 + 1 = -39$}
+\end{Exercise}
+
+
+\begin{Exercise}[title={Exponentiation}]\\
+	Dans cette exercice, on s'intéresse à différentes fonctions permettant de calculer pour deux entiers positifs $a \in \N$ et $n \in \N$, la valeur de $a^n$. On s'interdit l'utilisation de l'opérateur d'exponentiation {\tt **} de Python qui donnerait directement le résultat.
+	\Question{Ecrire une fonction \textit{iterative} {\tt expo\_iter} qui prend en argument deux entiers {\tt a} et {\tt n} et renvoie {\tt a} puissance {\tt n} en procédant par multiplication successive par {\tt a}.}
+	\Question{Exprimer, pour $n>0$, $a^n$ en fonction de $a^{n-1}$ puis écrire une version \textit{récursive} {\tt expo\_rec} de la fonction permettant de calculer $a^n$.} \medskip \\
+	On donne ci-dessous un algorithme appelé \textit{exponentiation rapide} : \\
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Exponentiation rapide}
+		\Entree{$a \in \N, n \in \N$}
+		\Sortie{$a^n$}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$p \leftarrow 1$\;
+		\Tq{$n \neq 0$}{
+			\Si{$n$ est impair}
+			{$p \leftarrow p\times a$ \;}
+			$a \leftarrow a*a$ \;
+			$n \leftarrow \lfloor\frac{n}{2}\rfloor$ \;
+		}
+		\Return $p$
+	\end{algorithm}
+	\Question{Donner les valeurs successives prises par les variables $a$, $n$ et $p$ si on fait fonctionner cet algorithme avec $a=2$ et $n=13$. On pourra recopier et compléter le tableau suivant et donner les valeurs de $a$ et de $p$ sous la forme de puissance de 2 :\\
+      \begin{tabular}{|l|c|c|c|}
+        \cline{2-4}
+        \multicolumn{1}{l|}{} & $a$ & $n$ & $p$ \\
+        \hline
+        valeurs initiales & 2 & 13 & 1 \\
+        \hline
+        après un tour de boucle & \comp{$2^2$} &\comp{6} & \comp{$2$} \\
+        \hline
+        après deux tours de boucle & \comp{$2^4$} &\comp{3} & \comp{$2$} \\
+		\hline
+		après trois tours de boucle & \comp{$2^8$} &\comp{1} & \comp{$2^5$} \\
+		\hline
+        après quatre tours de boucle & \comp{$2^{16}$} &\comp{0} & \comp{$2^{13}$} \\
+		\hline
+      \end{tabular}
+      }
+	  \Question{Ecrire une implémentation en Python de cet algorithme sous la forme d'une fonction {\tt exp\_rapide}.}
+	  \Question{Prouver que cet algorithme termine, on pourra montrer que {\tt n} est un variant de la boucle tant que de l'algorithme.}
+	  \tcor{
+	 Dans l'algorithme ci-dessus, la quantité $n$ est un variant de boucle, en effet :
+	 \begin{enumerate}
+		\item $n \in \N$ par précondition.
+		\item $n$ reste  positif  par condition d'entrée dans la boucle.
+		\item $n$ décroit strictement car $n$ est divisé par 2  lors de chaque passage dans la boucle.
+	  \end{enumerate}
+	  L'algorithme termine car on a trouvé un variant de boucle.
+	  }
+      \Question{Prouver que cet algorithme est correct. En notant $a_0$ (resp. $n_0$) la valeur initiale de $a$ (resp. $n$), on pourra prouver l'invariant $p \times a^{n} = a_0^{n_0}$.}
+	  \tcor{
+	  On note, $a_0$ la valeur initiale de $a$ et $n_0$ la valeur initiale de $n$, montrons que la propriété $I$ : \og{} $p \times a^{n} = a_0^{n_0}$ \fg est un invariant de boucle.
+	  \begin{enumerate}
+		\item Avant d'entrée dans la boucle $p=1$, $a= a_0$ et $n=n_0$ donc $p \times a^{n} = a_0^{n_0}$ et  $I$ est vérifiée.
+		\item On suppose $I$ vérifié à l'entrée de la boucle et on note $a'$ (resp. $n'$, resp. $p'$) les valeurs prises par $a$ (resp. $n$, resp. $p$) au tour de boucle suivant, alors : \\
+		\begin{itemize}
+            \item Si $n$ est paire, $n'=n/2$, $p'=p$ et $a' = a^2$ donc \\
+            $p' \times a'^{n'} = p \times (a^2)^{n/2}$ \\
+            $p' \times a'^{n'} = p \times a^{n}$ \\ et puisque $I$ était vraie en entrée de boucle,
+            $p' \times a'^{n'} = a_0 ^ {n_0}$\\
+            \item Sinon, $n'=(n-1)/2$, $p'=p \times a $ et $a' = a^2$ donc \\
+            $p' \times a'^{n'} = p \times a \times (a^2)^{(n-1)/2}$ \\
+            $p' \times a'^{n'} = p \times a^{n}$ \\ et puisque $I$ était vraie en entrée de boucle,
+            $p' \times a'^{n'} = a_0 ^ {n_0}$\\
+        \end{itemize}
+	  \end{enumerate}
+	  En sortie de boucle, puisque $n=0$, cet invariant donne $p \times a^0 = a_0 ^ {n_0}$ et donc $p =a_0 ^ {n_0}$ et donc l'algorithme est correcte.
+	  }
+\end{Exercise}
+
+\begin{Exercise}[title={Traversée maximale d'une matrice carrée}]\\
+	On considère une matrice à $n$ lignes et $n$ colonnes notée $M$ à coefficients dans $\N$, et dont le coefficient situé à la ligne $i$ et à la colonne $j$ avec $0 \leqslant i \leqslant n-1$ et  $0 \leqslant j \leqslant n-1$ sera noté $M_{i,j}$. On s'intéresse aux chemins depuis la première valeur en haut à gauche ($M_{0,0})$ jusqu'à la dernière en bas à droite ($M_{n-1,n-1}$) qui n'utilisent que les déplacements vers la droite ($\rightarrow$) ou vers le bas ($\downarrow$). Voici deux exemples de tels chemins dans une même matrice $A$ de 4 lignes et 4 colonnes : \\
+	\begin{center}
+		\begin{tabularx}{0.8\textwidth}{YY}
+			$\renewcommand\arraystretch{2}
+				\begin{pmatrix}
+					\circlenode{a}{2} & 5                 & 4                 & 6                 \\
+					\circlenode{b}{8} & 5                 & 9                 & 8                 \\
+					\circlenode{c}{5} & \circlenode{d}{7} & \circlenode{e}{4} & 6                 \\
+					9                 & 6                 & \circlenode{f}{4} & \circlenode{g}{4} \\
+				\end{pmatrix}$
+			\ncline{->}{a}{b}
+			\ncline{->}{b}{c}
+			\ncline{->}{c}{d}
+			\ncline{->}{d}{e}
+			\ncline{->}{e}{f}
+			\ncline{->}{f}{g}                   &
+			$    \renewcommand\arraystretch{2}
+				\begin{pmatrix}
+
+					\circlenode{a}{2} & \circlenode{b}{5} & \circlenode{c}{4} & 6                 \\
+					8                 & 5                 & \circlenode{d}{9} & \circlenode{e}{8} \\
+					5                 & 7                 & 4                 & \circlenode{f}{6} \\
+					9                 & 6                 & 4                 & \circlenode{g}{4} \\
+				\end{pmatrix}$
+			\ncline{->}{a}{b}
+			\ncline{->}{b}{c}
+			\ncline{->}{c}{d}
+			\ncline{->}{d}{e}
+			\ncline{->}{e}{f}
+			\ncline{->}{f}{g}
+			\\
+			Un exemple $C_1$ de chemin dans $A$ & Un exemple $C_2$ de chemin dans $A$ \\
+		\end{tabularx} \end{center}
+	On appelle \textit{somme d'un chemin} dans une matrice $M$, la somme des coefficients $M_{i,j}$ rencontrés en suivant ce chemin. Dans les exemples ci-dessus, le chemin $C_1$ a une somme de $34$ et le chemin $C_2$ a une somme de $38$. .\\
+	On décide de représenter un chemin par une liste de et {\tt 0} (un pas vers le bas) et de {\tt 1} (un pas à droite). Par exemple le chemin $C_1$ donné en exemple ci-dessus correspond à la liste {\tt [0, 0, 1, 1, 0, 1]}. La matrice est représentée par une liste de liste d'entiers, par exemple la matrice A sera représentée par {\tt [[2, 5, 4, 6], [8, 5, 9, 8], [5, 7, 4, 6], [9, 6, 4, 4]]}.
+	\Question{Montrer que pour une matrice de taille {\tt n}, un chemin valide depuis $M_{0,0}$ jusqu'à $M_{n-1,n-1}$ contient $n-1$ fois le chiffre {\tt 0} et $n-1$ fois le chiffre {\tt 1}}.
+	\Question{Ecrire une foncton {\tt est\_valide} qui prend en argument un chemin et un entier {\tt n} et renvoie {\tt True} si et seulement ce chemin est un chemin valide depuis $M_{0,0}$ jusqu'à $M_{n-1,n-1}$.}
+	\Question{Ecrire une fonction {\tt somme\_chemin} qui prend en argument une matrice et un chemin (supposé valide) et renvoie la somme obtenue en parcourant la matrice en suivant ce chemin.}  \medskip  \\
+	On propose l'algorithme suivant afin de résoudre ce problème  : si les deux directions bas ou droite sont possibles on choisit celle qui mène vers le coefficient de matrice le plus élevé, en cas d'égalité, on choisit (arbitrairement) la direction bas. Dans l'exemple ci-dessus à partir de $M_{0,0}=2$ on peut aller vers à droite vers $M_{0,1} = 5$ ou en bas vers $M_{1,0}=8$ et on choisit donc d'aller en bas puisque $8>5$. Une fois arrivé en $M_{1,0}$ les deux directions possibles mènent vers des coefficients identiques (5 des deux côtés) et donc, on va vers le bas. Enfin, lorsqu'une seule direction est possible (parce qu'on a atteint la dernière colonne ou la dernière ligne), c'est cette direction qui est choisie.
+	\Question{Poursuivre le déroulement de cet algorithme sur la matrice $A$ donnée en exemple ci-dessus, dessiner le chemin obtenu et donner sa somme.}
+	\tcor{$\renewcommand\arraystretch{2} \begin{pmatrix}
+		\circlenode{a}{2} & 5                 & 4                 & 6                 \\
+		\circlenode{b}{8} & 5                 & 9                 & 8                 \\
+		\circlenode{c}{5} & 7 & 4 & 6                 \\
+		\circlenode{d}{9}                 & \circlenode{e}{6}                 & \circlenode{f}{4} & \circlenode{g}{4} \\
+	\end{pmatrix}$
+\ncline{->}{a}{b}
+\ncline{->}{b}{c}
+\ncline{->}{c}{d}
+\ncline{->}{d}{e}
+\ncline{->}{e}{f}
+\ncline{->}{f}{g} \\ Le chemin obtenu a une somme de $2 + 8 + 5 + 9 + 6  + 4 + 4 = 38$}
+	\Question{Dans quelle famille d'algorithme peut-on classer cet algorithme ? Justifier.}
+	\tcor{C'est un algorithme glouton car à chaque étape on choisit un maximum \textit{local} sans se préoccuper de l'impact de ce choix sur le maximum global.}
+	\tcor{On doit choisir un nombre de directions qui dépend linéairement de la taille de la matrice $n$, chaque choix compare deux valeur et donc s'effectue en temps constant. C'est donc un algorithme de complexité linéaire.}
+	\Question{Montrer en exhibant un exemple dans le cas $n=4$ que cet algorithme ne fournit par toujours un chemin de somme maximale.}
+	\tcor{On a obtenu sur l'exemple une somme de $38$, or dans cette même matrice, un autre chemin donne une somme supérieure : \\
+	$\renewcommand\arraystretch{2} \begin{pmatrix}
+		\circlenode{a}{2} & 5                 & 4                 & 6                 \\
+		\circlenode{b}{8} & \circlenode{c}{5}                 & \circlenode{d}{9}                 & \circlenode{e}{8}                 \\
+		5 & 7 & 4 & \circlenode{f}{6}                 \\
+		9                 & 6                 & 4 & \circlenode{g}{4} \\
+	\end{pmatrix}$
+\ncline{->}{a}{b}
+\ncline{->}{b}{c}
+\ncline{->}{c}{d}
+\ncline{->}{d}{e}
+\ncline{->}{e}{f}
+\ncline{->}{f}{g} \\ Le chemin obtenu a une somme de $2 + 8 + 5 + 9 + 8  + 2 + 4 = 42$
+	}
+	\Question{Ecrire une fonction {\tt greedy} qui prend en argument une matrice (représentée par une liste de liste) et renvoie le chemin (sous la forme d'une liste de {\tt 0} et de {\tt 1}) obtenu en appliquant cet algorithme.}
+\end{Exercise}
+
+\end{document}

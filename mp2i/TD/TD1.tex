@@ -1,0 +1,130 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{1}{Langage C}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/}
+
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise}[title={Déclarations}]
+	\Question{Ecrire les instructions permettant de :}
+		\subQuestion{Déclarer une variable {\tt n} de type entier.}
+		\subQuestion{Déclarer une variable {\tt x} de type flottant initialisée à 1.}
+		\subQuestion{Déclarer une variable {\tt test} de type booléen, quelle librairie est nécessaire ?}
+		\subQuestion{Déclarer un tableau de 5 entiers initialisés aux valeurs \{1, 4, 9, 16, 25\}}
+		\subQuestion{Déclarer une chaine de caractères initialisée à \og \textit{Trop bien le langage C} \fg{};}
+		\subQuestion{Déclarer une variable de type {\tt char} contenant le caractère \$.}
+	\Question{Ecrire les signatures des fonctions suivantes :}
+		\subQuestion{{\tt divisible\_par} qui prend en argument deux entiers $n$ et $p$ et renvoie un booléen.}
+		\subQuestion{{\tt somme} qui prend en argument un tableau de flottant et un entier et renvoie un flottant.}
+		\subQuestion{{\tt carre} qui prend en argument un entier  renvoie un entier.}
+		\subQuestion{{\tt affiche} qui prend en argument un booléen  et ne renvoie rien.}
+\end{Exercise}
+
+\begin{Exercise}[title = {boucles {\tt}}]\\
+	Indiquer si les boucles {\tt for} suivantes sont correctes ou non et si elles le sont, donner les valeurs prises par la variable d'itération.
+	\Question{\mintinline{c}{for (int m = 1; m < 10; m=m+1)}}
+	\Question{\mintinline{c}{for (int i = 12; i < 10; i++)}}
+	\Question{\mintinline{c}{for (int k = 0; k < 10; i--)}}
+	\Question{\mintinline{c}{for (j = 0; j < 10; j++)}}
+	\Question{\mintinline{c}{for (int i = 42; i > 21; i--)}}
+\end{Exercise}
+
+\begin{Exercise}[title={Comportements indéfinis}]
+	\Question{Rappeler ce qu'est un \textit{comportement indéfini} en C.}
+	\Question{Donner au moins un exemple de programme ayant un comportement indéfini.}
+	\Question{On considère la fonction suivante en C :
+	\inputpartC{\SPATH/indefini.c}{}{\small}{3}{13}
+	et on précise que le standard du langage C indique que : 
+	\begin{quote}
+		\og{}\textit{If control reaches the closing curly brace (\}) of a non-void function without evaluating a return statement, using the return value of the function call is undefined behavior.} \fg{}
+	\end{quote}
+	En déduire un cas où l'utilisation de cette fonction produit un comportement indéfini et écrire une fonction {\tt main} appelant la fonction {\tt signe} et produisant un comportement indéfini. \\
+	Remarque : lors de la compilation, on obtient l'avertissement suivant : \og{}\textit{control reaches end of non-void function} \fg{}
+	}
+
+\end{Exercise}
+
+
+\begin{Exercise}[title={Opérations sur les types de bases}]
+	\Question{On considère le programme suivant :}
+	\inputpartC{\SPATH/op.c}{}{\small}{1}{7}
+	\subQuestion{Quel est le résultat produit ? Expliquer.}
+	\subQuestion{Que se passe-t-il si on change la ligne 5 en \mintinline{c}{float r = 5.0 % 3.0;}}
+	\Question{Ecrire une expression booléenne valant vraie si {\tt a} est égale à {\tt b+c} ou si {\tt c} est non nul et que {\tt a} est divisible par {\tt c}}. L'évaluation de cette expression génère-t-elle une erreur si {\tt c} est nul ?
+	\Question{On suppose déjà déclarée la variable \mintinline{c}{char c = 'A';}. Quel est le résultat de l'instruction suivante :\\ \mintinline{c}{printf("%c \n",c+1);}}
+\end{Exercise}
+
+\begin{Exercise}[title={Portée}] \\
+On considère le programme C suivant :
+\begin{langageC}
+#include <stdio.h>
+
+const float pi = 3.1415;
+int k = 1;
+
+int main() {
+	float s = 0;
+	int k = 1;
+	while (pi * pi / 6 - s > 0.25) {
+		float v;
+		v = 1.0 / (k * k);
+		s += v;
+		k = k + 1;
+	}
+	return 0;
+	}
+
+\end{langageC}
+\Question{Pour chacune des variables du programme, indiquer si elle est globale ou locale et donner sa portée.}
+\Question{Déterminer la valeur de chacune des variables existantes juste avant l'instruction {\tt return} de la ligne 15. \\
+\aide \; On peut utiliser une calculatrice !}
+\end{Exercise}
+	
+\begin{Exercise}[title={Conversion}] \\
+Déterminer le type et la valeur des expressions suivantes. Indiquer lorsqu'une conversion implicite ou explicite a eu lieu.
+
+\Question{\tt !(5<7)}
+\Question{\tt 3 + 0.14}
+\Question{\tt (int)7.5 + (int)12.3}
+\Question{\tt 7.0 /2}
+\Question{\tt (true || false) \&\& (false || true)}
+\Question{\tt (int) 19.6 \% 4}
+\end{Exercise}
+
+\begin{Exercise}[title={Analyser un programme}] \\
+On considère le programme suivant :
+\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C1/echange.c}{}
+\Question{Quel sera le résultat de l'exécution de ce programme ? Pourquoi ?}
+\Question{Quel sera l'affichage produit si on déplace l'affichage des variables {\tt a} et {\tt b} dans la fonction {\tt echange} ? Pourquoi ?}
+\end{Exercise}
+
+\begin{Exercise}[title={Programmes à commenter}]\\
+Commenter les programmes suivants en précisant les résultats obtenus (si le programme compile) ou les erreurs ou avertissements éventuels et les comportements indéfinis.
+\begin{itemize}
+	\item[\textbullet] Programme A :
+	\inputpartC{\SPATH/com1.c}{}{\small}{1}{11}
+	\item[\textbullet] Programme B :
+	\inputpartC{\SPATH/com2.c}{}{\small}{1}{11}
+	\item[\textbullet] Programme C :
+	\inputpartC{\SPATH/com3.c}{}{\small}{1}{11}
+	\item[\textbullet] Programme D :
+	\inputpartC{\SPATH/no_return.c}{}{}{1}{15}
+\end{itemize}
+\end{Exercise}
+
+\begin{Exercise}[title={A propos de {\tt ++}}]
+\Question{Rappeler le type auquel il s'applique et le rôle de l'opérateur {\tt ++}}
+\Question{On suppose déjà déclarée une variable \mintinline{c}{int a = 42;}.\\
+Que vaut b si on a écrit \mintinline{c}{int b = a++ + a;} ? \\
+Détailler votre raisonnement.}
+\end{Exercise}
+
+
+
+\end{document}
