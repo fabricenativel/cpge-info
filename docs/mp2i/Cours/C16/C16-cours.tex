@@ -27,7 +27,7 @@
 \makess{Syntaxe des formules logiques}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{alertblock}{Définition}
-		Soit  $\vrai$ un ensemble au plus dénombrable de variables logiques noté $V = \{p, q, r, \dots \}$. On définit inductivement l'ensemble $P$ des formules logiques sur  $\vrai$ par :
+		Soit  un ensemble au plus dénombrable de variables logiques noté $V = \{p, q, r, \dots \}$. On définit inductivement l'ensemble $P$ des formules logiques sur  $V$ par :
 		\begin{itemize}
 			\item<2-> L'ensemble d'axiomes $P_0 = \{ \top, \bot \} \cup V$ \\
 				\onslide<3->\textcolor{gray}{\small $\top$  se lit \og{} top \fg{} et $\bot$ se lit \og{} bottom \fg{}}
@@ -40,7 +40,8 @@
 					\item<8-> \textit{équivalence} $\eq : F,G \mapsto (F \eq G)$
 				\end{itemize}
 		\end{itemize}
-		On notera avec les lettres minuscules $p$, $q$, \dots \textit{les variables logiques} ie les éléments de  $\vrai$ et avec les lettres majuscules  $\faux$, $G$, \dots \textit{les formules logiques} ie les éléments de $P$.
+		\onslide<9->{On notera avec les lettres minuscules $p$, $q$, \dots \textit{les variables logiques} ie les éléments de  $
+		V$ et avec les lettres majuscules  $F$, $G$, \dots \textit{les formules logiques} ie les éléments de $P$.}
 	\end{alertblock}
 \end{frame}
 
@@ -55,7 +56,7 @@
 					      \onslide<5-> \textcolor{gray}{Par exemple $ ((\non p) \ou (q \et r))$ s'écrit plus simplement $\non p \ou q \et r$.}
 			      \end{itemize}
 			      \onslide<6->{En cas de doute, on laissera les parenthèses afin de lever toute ambiguïté.}
-			\item<7-> On a définit pour le moment simplement les propositions logiques valables d'un point de vue \textit{syntaxique}, sans leur donner de sens ou de valeur.
+			\item<7-> On a définit pour le moment simplement les formules logiques valables d'un point de vue \textit{syntaxique}, sans leur donner de sens ou de valeur.
 		\end{itemize}
 	\end{block}
 	\onslide<8->{
@@ -111,11 +112,11 @@
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Hauteur, taille et sous formule}
-		Etant donnée une formule logique notée  $\faux$,
+		Etant donnée une formule logique notée  $F$,
 		\begin{itemize}
-			\item<2-> la \textcolor{blue}{hauteur} de  $\faux$ est la hauteur de l'arbre syntaxique associé
-			\item<3-> la \textcolor{blue}{taille} de  $\faux$ est le nombre de noeuds de l'arbre syntaxiqué associé
-			\item<4-> Une \textcolor{blue}{sous formule} de  $\faux$ est un sous-arbre de l'arbre syntaxique associé
+			\item<2-> la \textcolor{blue}{hauteur} de  $F$ est la hauteur de l'arbre syntaxique associé
+			\item<3-> la \textcolor{blue}{taille} de  $F$ est le nombre de noeuds de l'arbre syntaxiqué associé
+			\item<4-> Une \textcolor{blue}{sous formule} de  $F$ est un sous-arbre de l'arbre syntaxique associé
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -141,7 +142,7 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{alertblock}{Valuation}
 		On note $\mathbb{B} = \{\faux, \vrai\}$, l'ensemble des \textcolor{blue}{valeurs de vérités}\\
-		Une \textcolor{blue}{valuation} est une attribution de l'une des deux valeurs de vérités à chaque variable propositionnelle. Une valuation $\varphi$ est une donc une application de  $\vrai$ de $B$.
+		Une \textcolor{blue}{valuation} est une attribution de l'une des deux valeurs de vérités à chaque variable propositionnelle. Une valuation $\varphi$ est une donc une application de  $V$ dans $B$.
 	\end{alertblock}
 	\onslide<2->{
 		\begin{exampleblock}{Exemple}
@@ -207,8 +208,8 @@
 	\begin{alertblock}{Valeur de vérité d'une formule}
 		Pour une valuation $\varphi$, on définit la valeur de vérité d'une formule $F$ notée $\vv{F}$ par :
 		\begin{itemize}
-			\item<2-> $\vv{\top} = V$
-			\item<2-> $\vv{\bot} = F$
+			\item<2-> $\vv{\top} = \vrai$
+			\item<2-> $\vv{\bot} = \faux$
 			\item<3-> si $v \in V$, $\vv{v} = \varphi(v)$
 			\item<4-> $\vv{\non F} = f_{\non}(\vv{F})$
 			\item<5-> $\vv{(F \et G)} = f_{\et}(\vv{F},\vv{G})$

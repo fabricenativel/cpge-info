@@ -65,17 +65,9 @@ int main()
     }
     v[0] = 0;
     lire_barre("ex1.txt", barre, bsize+1);
-    st = (float)clock() / CLOCKS_PER_SEC;
-    res = vmax(barre, bsize);
-    et = (float)clock() / CLOCKS_PER_SEC;
-    printf("Solution = %d obtenue en %f s\n", res, et-st);
-    st = (float)clock() / CLOCKS_PER_SEC;
-    res = vmax_memo(barre, bsize, v);
-    et = (float)clock() / CLOCKS_PER_SEC;
-    printf("Solution (mémo) = %d obtenue en %f s\n", res, et-st);
-    st = (float)clock() / CLOCKS_PER_SEC;
-    res = vmax_iter(barre, bsize);
-    et = (float)clock() / CLOCKS_PER_SEC;
-    printf("Solution (itérative) = %d obtenue en %f s\n", res, et-st);
+    for (int i=0; i<=12; i++)
+        {printf("%d ",vmax(barre, i));}
+    printf("\n");
+
 
 }

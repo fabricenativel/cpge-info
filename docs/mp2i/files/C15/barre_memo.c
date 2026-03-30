@@ -55,4 +55,9 @@ int main()
     calc[0] = 0;
     lire_barre("ex1.txt",barre,12);
     printf("Solution = %d \n", vmax(barre, 12, lmax, calc));
+    for (int i=1; i<12; i++)
+    {
+        printf("%d ", calc[i]);
+    }
+    printf("\n");
 }
