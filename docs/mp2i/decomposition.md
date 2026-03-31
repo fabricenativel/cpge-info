@@ -161,18 +161,34 @@ Pour gravir un escalier on peut faire des enjambées d'une ou deux marches. Par 
     3. Ecrire une fonction OCaml permettant de répondre au problème.
 
 
-{{ exo("Jamais deux consécutifs !",[] )}}
+{{ exo("Cambriolages en série !",[] )}}
 
-Vous disposez d'un tableau de valeurs de $n$ valeurs $[h_0,\dots,h_{n-1}]$, on doit sommer les valeurs présentes dans ce tableau mais *sans jamais utiliser deux éléments consécutifs*. Le but de l'exercice est d'écrire un programme permettant de trouver la somme maximale ainsi atteignable.
+Le célèbre gentleman cambrioleur Arsène Lutin a décidé de cambrioler les maisons situées dans la rue de la paix à Paris (rien d'étonnant à cela puisqu'il s'agit de la rue la plus chère au Monopoly). Ne vous inquiétez pas, il compte donner aux bonnes oeuvres son butin, on peut donc essayer pour lui d'optimiser cette série de cambriolage. Les propriétaires des maisons ont mis en place un ingénieux système d'alerte et toute maison cambriolée signalera immédiatement le larcin à la maison suivante, qui comme elle a été prévenue ne pourra pas être cambriolée.  
+La donnée du problème est donc un tableau de valeurs de $n$ valeurs $[b_0,\dots,b_{n-1}]$, des butins disponibles dans chacune des maison. Et on cherche à déterminer le butin maximal qu'on peut obtenir sans jamais prélever deux valeurs consécutives. Par exemple si le tableau contient les valeurs $[7, 5, 3, 6]$ alors la somme maximale est atteinte en prenant $7$ et $6$ et vaut $13$. On choisira dans cet exercice, le langage d'implémentation de son choix.
 
-Par exemple si le tableau contient les valeurs $[7, 5, 3, 6]$ alors la somme maximale est atteinte en prenant $7$ et $6$ et vaut $13$.
+1. Que dire d'une solution par force brute ?
 
-1. Résoudre ce problème en utilisant la programmation dynamique
+    !!! note
+        On pourra dans un second temps (mais les questions suivantes sont prioritaires) implémenter la méthode par force brute et la tester en terme de temps de calcul.
+
+2. Mettre en place un algorithme glouton et trouver un exemple montrant qu'on obtient pas alors la valeur optimale.
+
+    !!! aide
+        On peut par exemple considérer simplement les deux prochaines maisons et choisir celle qui a le butin le plus élevé.
+
+3. Résoudre ce problème en utilisant la programmation dynamique
 
     !!! aide
         On pourra noter $S_i$ la somme maximale sans utiliser d'éléments consécutifs à partir de l'indice $i$ et déterminer la relation de recurrence liant les $S_i$ ($0 \leq i  < n$)
 
-2. Proposer une solution pour reconstruire la liste des valeurs  utilisées dans la solution
+
+4. Tester votre programme avec la suite de valeurs suivantes pour les butins : `69, 22, 94, 34, 25, 3, 1, 15, 81, 9, 59, 26, 62, 57, 16, 40, 98, 16, 32, 7, 79, 19, 35, 88, 54, 56, 40, 48, 91, 55` et vérifier votre résultat : {{check_reponse("863")}}.
+
+5. Tester maintenant votre programme avec une suite de 1000 valeurs (on pourra par exemple générer un tableau aléatoire de 1000 valeurs comprises entre 1 et 5000 en prenant comme graine 42 à l'aide de la fonction écrite à l'[exercice 2](#exercice-2-tranche-de-somme-maximale-dans-un-tableau)). Qu'observe-t-on ? Expliquer ? 
+
+6. Mettre en place une stratégie afin de résoudre le problème rencontré à l'exercice 2 puis tester votre résultat sur le tableau aléatoire de la question précédente. Vérifier votre résultat : {{check_reponse("1506550")}}
+
+7. Proposer une solution pour reconstruire la liste des valeurs  utilisées dans la solution
 
 
 {{ exo("Découpe de valeur maximale",[]) }}
