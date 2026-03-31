@@ -163,8 +163,9 @@ Pour gravir un escalier on peut faire des enjambées d'une ou deux marches. Par 
 
 {{ exo("Cambriolages en série !",[] )}}
 
-Le célèbre gentleman cambrioleur Arsène Lutin a décidé de cambrioler les maisons situées dans la rue de la paix à Paris (rien d'étonnant à cela puisqu'il s'agit de la rue la plus chère au Monopoly). Ne vous inquiétez pas, il compte donner aux bonnes oeuvres son butin, on peut donc essayer pour lui d'optimiser cette série de cambriolage. Les propriétaires des maisons ont mis en place un ingénieux système d'alerte et toute maison cambriolée signalera immédiatement le larcin à la maison suivante, qui comme elle a été prévenue ne pourra pas être cambriolée.  
-La donnée du problème est donc un tableau de valeurs de $n$ valeurs $[b_0,\dots,b_{n-1}]$, des butins disponibles dans chacune des maison. Et on cherche à déterminer le butin maximal qu'on peut obtenir sans jamais prélever deux valeurs consécutives. Par exemple si le tableau contient les valeurs $[7, 5, 3, 6]$ alors la somme maximale est atteinte en prenant $7$ et $6$ et vaut $13$. On choisira dans cet exercice, le langage d'implémentation de son choix.
+Le célèbre gentleman cambrioleur Arsène Lutin a décidé de cambrioler les maisons situées dans la rue de la paix à Paris (rien d'étonnant à cela puisqu'il s'agit de la rue la plus chère au Monopoly). Ne vous inquiétez pas, il compte donner sob butin aux bonnes oeuvres. Votre mission est d'optimiser cette série de cambriolage afin d'obtenir le butin maximal, en fin il est *impossible* de cambrioler deux maisons consécutives de la rue. En effet, les propriétaires des maisons ont mis en place un ingénieux système d'alerte et toute maison cambriolée signalera immédiatement le larcin à la maison suivante, qui comme elle a été prévenue ne pourra pas être cambriolée.  
+La donnée du problème est donc un tableau de $n$ valeurs $[b_0,\dots,b_{n-1}]$, des butins disponibles dans chacune des maison ($b_i$ est la butin disponible dans la maison d'indice $i$). Et on cherche à déterminer le butin maximal qu'on peut obtenir sans jamais prélever deux valeurs consécutives. Par exemple si le tableau contient les valeurs $[7, 5, 3, 6]$ alors le butin maximal est atteint en prenant $7$ et $6$ et vaut $13$.  
+On choisira dans cet exercice, le langage d'implémentation de son choix.
 
 1. Que dire d'une solution par force brute ?
 
@@ -184,11 +185,11 @@ La donnée du problème est donc un tableau de valeurs de $n$ valeurs $[b_0,\dot
 
 4. Tester votre programme avec la suite de valeurs suivantes pour les butins : `69, 22, 94, 34, 25, 3, 1, 15, 81, 9, 59, 26, 62, 57, 16, 40, 98, 16, 32, 7, 79, 19, 35, 88, 54, 56, 40, 48, 91, 55` et vérifier votre résultat : {{check_reponse("863")}}.
 
-5. Tester maintenant votre programme avec une suite de 1000 valeurs (on pourra par exemple générer un tableau aléatoire de 1000 valeurs comprises entre 1 et 5000 en prenant comme graine 42 à l'aide de la fonction écrite à l'[exercice 2](#exercice-2-tranche-de-somme-maximale-dans-un-tableau)). Qu'observe-t-on ? Expliquer ? 
+5. Tester maintenant votre programme avec une suite de 1000 valeurs (on pourra par exemple générer un tableau aléatoire de 1000 valeurs comprises entre 1 et 5000 en prenant comme graine 42 à l'aide de la fonction écrite à l'[exercice 2](#exercice-2-tranche-de-somme-maximale-dans-un-tableau)). Qu'observe-t-on ? Expliquer.
 
-6. Mettre en place une stratégie afin de résoudre le problème rencontré à l'exercice 2 puis tester votre résultat sur le tableau aléatoire de la question précédente. Vérifier votre résultat : {{check_reponse("1506550")}}
+6. Mettre en place une stratégie afin de résoudre le problème rencontré à la question précédente  puis tester votre résultat sur le tableau aléatoire de 1000 valeurs. Vérifier votre résultat : {{check_reponse("1506550")}}
 
-7. Proposer une solution pour reconstruire la liste des valeurs  utilisées dans la solution
+7. Proposer et implémenter une solution pour reconstruire une liste des indices des maisons à cambrioler afin d'obtenir le butin maximal.
 
 
 {{ exo("Découpe de valeur maximale",[]) }}
