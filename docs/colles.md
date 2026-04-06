@@ -62,3 +62,11 @@ hide: - navigation  in liens.md
 * Structure de tas binaire. Représentation par un tableau. Opération d'insertion et d'extraction du minimum. Utilisation pour l'implémentation d'une file de priorité. Tri par tas
 
 * Méthodes algorithmiques : force brute, retour sur trace, algorithme glouton.
+
+## Semaines du 06/04, du 13/04 et du 20/04
+
+* Relations d'ordres, exemples. Ordre lexicographique, ordre produit. Ordre bien fondé, définition et propriété caractéristiques. Application à la preuve de terminaison de programme
+* Définition inductive d'ensembles. Preuve par induction structurelle
+* Méthode algorithmique : diviser pour régner. Complexité de cette méthode. Exemples : tri fusion, tranche maximale dans un tableau, algorithme de Strassen
+* Méthode algorithmique : programmation dynamique. Complexité de cette méthode. Mémoïsation, méthode ascendante. Exemples : valeur maximale de la découpe d'une barre, chemin de somme maximale dans une pyramide, plus longue sous séquence commune, rendu de monnaie.
+* *A partir du 13/04* : définition inductive des formules logiques. Valuation et sémantique d'une formule logique. Formes normales. Problème SAT, algorithme de Quine
