@@ -135,9 +135,9 @@ from PIL import Image
 ```
 
 !!! Warning "Attention"
-    Les images suivantes, libres de droit (crédit : wikipedia), seront utilisées comme exemple dans cet exercice, elles doivent être enregistrées sur l'ordinateur *dans le même dossier* que vos programmes. Pour cela faire un clic droit sur chaque image, puis sélectionner *Enregistrer la cible du lien sous...* et sélectionner le dossier où se trouve vos programmes Python.
-    * {{telecharger("Une photographie du Mont Fuji","files/C12/Mont_Fuji.jpg")}}
-    * {{telecharger("Une photographie d'un animal","files/C12/img.jpg")}}
+    Les images suivantes, libres de droit (crédit : wikipedia), seront utilisées comme exemple dans cet exercice, elles doivent être enregistrées sur l'ordinateur *dans le même dossier* que vos programmes. Pour cela faire un clic droit sur chaque image, puis sélectionner *Enregistrer la cible du lien sous...* et sélectionner le dossier où se trouve vos programmes Python.  
+    {{telecharger("Une photographie du Mont Fuji","files/C12/Mont_Fuji.jpg")}}
+    {{telecharger("Une photographie d'un animal","files/C12/img.jpg")}}
 
 1. Ouvrir et visualiser une image
 
@@ -174,12 +174,12 @@ from PIL import Image
     * `#!python <var_img>.width`  donne la largeur de l'image contenu dans `<var_img>`
     * `#!python <var_img>.height`  donne la hauteur de l'image contenu dans `<var_img>`
 
-    A vous de jouer : quelles sont les dimensions de l'image représentant l'animal ? (entrer les dimensions  séparées par un `x` et sans espace) : {check_reponse("1280x854")}
+    A vous de jouer : quelles sont les dimensions de l'image représentant l'animal ? (entrer les dimensions  séparées par un `x` et sans espace) : {{check_reponse("1280x854")}}
 
 3. Lecture des informations d'un pixel
 
     Comme nous l'avons déjà vu, une image est vue comme un tableau de pixel, on peut lire les informations de couleur d'un pixel d'un point grâce à `#!python getpixel(colonne,ligne)`. Les lignes et les colonnes étant numérotées à partir de 0, les informations de couleur du tout premier pixel situé en haut et à gauche de l'image du mont Fuji s'obtiennent avec :
-    ``̀ ̀python
+    ```python
     premier_pixel = fuji.getpixel((0,0))
     print(premier_pixel)
     ```
@@ -221,7 +221,7 @@ from PIL import Image
 6. Pour aller plus loin
 
     Essayer d'autre modification de l'image par exemple un miroir vertical ou horizontal. On peut aussi penser à *pixeliser* l'image c'est à dire qu'on remplace tout un carré de pixel de taille $n$ donnée par la moyenne des pixels de ce carré. A titre d'exemple, ci-dessous l'image du mont Fuji on a regroupé pixellisé avec un carré de côté 4 (c'est à dire qu'on regroupe les 16 pixels de ce carré).
-    [Mont Fuji Pixellisé](./Images/C12/pixellise.jpg){.imgcentre}
+    ![Mont Fuji Pixellisé](./Images/C12/pixellise.jpg){.imgcentre}
 
 {{ exo("Création d'images",[])}}
 
@@ -236,9 +236,10 @@ drapeau = Image.new("RGB",(300,200),(255,255,255))
 
 permet de créer une image de dimension 300 sur 200 au format RGB entièrement blanche (couleur : (255,255,255)). Le format 300 sur 200 n'a pas été choisi au hasard, cela nous donne une proportion 2:3 qui est celle du [drapeau Français](https://fr.wikipedia.org/wiki/Drapeau_de_la_France).
 
-Plus bas, sur cette même page, vous trouverez les [code couleurs du drapeau Français](https://fr.wikipedia.org/wiki/Drapeau_de_la_France#Dimensions_et_couleurs), au format RGB : <br>
-* La couleur rouge est codée (226,25,32) <br>
-* La couleur bleue est codée (5,20,64) <br>
+La page wikipedia ci-dessus donne aussi les [codes couleurs du drapeau Français](https://fr.wikipedia.org/wiki/Drapeau_de_la_France#Dimensions_et_couleurs), au format RGB : 
+
+* La couleur rouge est codée (226,25,32)
+* La couleur bleue est codée (5,20,64) 
 
 Nous pouvons maintenant modifier les pixels de notre image afin d'y faire figurer un rectangle bleue de 100 sur 200 pixels à gauche et un rectangle rouge de 100 sur 200 pixels à droite :
 ```python
@@ -258,11 +259,10 @@ drapeau.show()
 
 2. Créer une image de dimensions 256x256 formant un dégradé de gris c'est à dire que la première ligne a la code couleur (0,0,0), la deuxième (1,1,1), la troisème (2,2,2) et ainsi de suite jusqu'à la dernière qui aura le code (255,255,255) en augmentant de un à chaque ligne.
 
-3. En vous inspirant de l'exemple du drapeau français, créer l'image du [sweden flag
-drapeau de la suède](https://en.wikipedia.org/wiki/Flag_of_Sweden){target=_blank} en respectant les dimensions et les codes couleurs.
+3. En vous inspirant de l'exemple du drapeau français, créer l'image du [drapeau de la suède](https://en.wikipedia.org/wiki/Flag_of_Sweden){target=_blank} en respectant les dimensions et les codes couleurs.
 
 {{ exo("Steganographie",[])}}
-Comme vu dans les exercices précédents, les informations de couleur d'une image au format RGB sont représentées pour chaque pixel par trois octets qui représentent les niveaux de rouge, de vert et de bleu. On obtient donc en tout $256 \times 256 \times 256 = 16\,777\,216$, une variation minime des trois octets produira une différence de couleur à peine (ou pas du tout) perceptible par un oeil humain. L'idée est donc d'utiliser les deux derniers bit de chaque information de couleur afin d'y stocker une information, c'est le principe de la [steganographie](https://fr.wikipedia.org/wiki/St%C3%A9ganographie). 
+Comme vu dans les exercices précédents, les informations de couleur d'une image au format RGB sont représentées pour chaque pixel par trois octets qui représentent les niveaux de rouge, de vert et de bleu. On obtient donc en tout $256 \times 256 \times 256 = 16\,777\,216$, soit plus de **16 millions** de couleurs possibles. Une variation minime des trois octets produira une différence de couleur à peine (ou pas du tout) perceptible par un oeil humain. L'idée est donc d'utiliser les deux derniers bit de chaque information de couleur afin d'y stocker une information, c'est le principe de la [steganographie](https://fr.wikipedia.org/wiki/St%C3%A9ganographie). 
 
 Comme on utilise les deux derniers bits de chaque octet de couleur la modification de couleur sera minime en effet ce sont les bits de *poids faibles*, ils valent respectivement $2^0=1$ et $2^1=2$. Comme on modifie 2 bits (sur les 8) de chaque couleur on peut donc stocker **6** bits d'information dans un pixel c'est à dire $2^6 = 64$ codes différents. Cela est largement suffisant pour stocker les 26 lettres majuscules et le caractère espace. On convient du code suivant :
 
