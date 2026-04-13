@@ -56,37 +56,28 @@ let rec quine une_fnc valuation=
   | [] -> true
   | []::t ->  false
   | h::t -> let p = extrait_var une_fnc in
-            valuation.(p) <- true;
+            valuation.(p-1) <- true;
             let nf1 = substitution une_fnc p true  in
               if quine nf1 valuation  then true else 
-                (valuation.(p) <- false;
+                (valuation.(p-1) <- false;
                 let nf2 = substitution une_fnc p false in
               if quine nf2 valuation  then true else false);;
   
 
 
-  let () = let j1 = [[Var 8];[Var 9]] in
-           let j2 = [[Var 4; Var 6; Var 7]] in
-           let j3 = [[Var 3];[Var 5]] in
-           (* Unicité du jour ou on est et du jour où le sphinx ment*)
-           let uni_jour = ref [] in
-           let cl1 = ref [] in
-           let cl2 = ref [] in
-           for  i=1 to 7 do
-            cl1 := [];
-            cl2 := [];
-            for j=1 to 7 do
-              if  i=j then (cl1:= (Var j)::!cl1; cl2:= (Var (j+7))::!cl2;)
-               else  (cl1:=(NVar j)::!cl1; cl2:=(NVar (j+7))::!cl2)
-            done;
-            uni_jour := !cl1::!cl2::!uni_jour
-          done;
-          print_fnc (j1@j2@j3);
-          let enigme = j1@j2@j3@ (!uni_jour) in
-          let valuation = Array.make 15 false in
-         let res = quine enigme valuation in
-         Printf.printf "Résolution = %b\n" res;
-         for i=8 to 14 do
-          Printf.printf "Ment jour %d = %b\n" i res
-         done
+  let () = let t = [ [Var 1; Var 2; NVar 3]
+  ; [NVar 1; Var 2; Var 3]
+  ; [Var 1; NVar 2; Var 3]
+  ; [NVar 1; NVar 2; NVar 3] ] in
+            let s = 3 in
+          let valuation = Array.make s false in
+         let res = quine t valuation in
+         if res then
+         (Printf.printf "Satisfiable : ";
+         for i=0 to (s-1) do
+          Printf.printf " %b" valuation.(i);
+         done;
+         print_newline ())
+        else
+          (Printf.printf "Non satisfiable \n";)
         ;;

@@ -482,6 +482,10 @@ def define_env(env):
             m -= 1
         to_disp += '$'
         return to_disp
+    
+    @env.macro
+    def db(nombre):
+        return bin(nombre)[2:]
 
     @env.macro
     def decimal(binaire):

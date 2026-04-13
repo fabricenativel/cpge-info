@@ -9,7 +9,7 @@
 \ModeConcours
 \DS{PCSI}{2}{Mars 2026}
 
-\setboolean{corrige}{false}
+\setboolean{corrige}{true}
 
 
 \alertbox{\danger}{Consignes}{
@@ -64,7 +64,15 @@
 \begin{Exercise}[title={Exponentiation}]\\
 	Dans cette exercice, on s'intéresse à différentes fonctions permettant de calculer pour deux entiers positifs $a \in \N$ et $n \in \N$, la valeur de $a^n$. On s'interdit l'utilisation de l'opérateur d'exponentiation {\tt **} de Python qui donnerait directement le résultat.
 	\Question{Ecrire une fonction \textit{iterative} {\tt expo\_iter} qui prend en argument deux entiers {\tt a} et {\tt n} et renvoie {\tt a} puissance {\tt n} en procédant par multiplication successive par {\tt a}.}
-	\Question{Exprimer, pour $n>0$, $a^n$ en fonction de $a^{n-1}$ puis écrire une version \textit{récursive} {\tt expo\_rec} de la fonction permettant de calculer $a^n$.} \medskip \\
+	\ifcorrige
+    \corpartPython{expo.py}{}{}{1}{5}
+    \fi
+	\Question{Exprimer, pour $n>0$, $a^n$ en fonction de $a^{n-1}$ puis écrire une version \textit{récursive} {\tt expo\_rec} de la fonction permettant de calculer $a^n$.}
+	\tcor{On a $a^n = a \times a^{n-1}$ et $a^0 = 1$, ces relations permettent d'écrire une version récursive de la fonction d'exponentiation.}
+	\ifcorrige
+    \corpartPython{expo.py}{}{}{7}{10}
+    \fi
+	\medskip 
 	On donne ci-dessous un algorithme appelé \textit{exponentiation rapide} : \\
 	\begin{algorithm}[H]
 		\DontPrintSemicolon
@@ -99,6 +107,9 @@
       \end{tabular}
       }
 	  \Question{Ecrire une implémentation en Python de cet algorithme sous la forme d'une fonction {\tt exp\_rapide}.}
+	\ifcorrige
+    \corpartPython{expo.py}{}{}{12}{19}
+    \fi
 	  \Question{Prouver que cet algorithme termine, on pourra montrer que {\tt n} est un variant de la boucle tant que de l'algorithme.}
 	  \tcor{
 	 Dans l'algorithme ci-dessus, la quantité $n$ est un variant de boucle, en effet :
@@ -167,8 +178,16 @@
 	On appelle \textit{somme d'un chemin} dans une matrice $M$, la somme des coefficients $M_{i,j}$ rencontrés en suivant ce chemin. Dans les exemples ci-dessus, le chemin $C_1$ a une somme de $34$ et le chemin $C_2$ a une somme de $38$. .\\
 	On décide de représenter un chemin par une liste de et {\tt 0} (un pas vers le bas) et de {\tt 1} (un pas à droite). Par exemple le chemin $C_1$ donné en exemple ci-dessus correspond à la liste {\tt [0, 0, 1, 1, 0, 1]}. La matrice est représentée par une liste de liste d'entiers, par exemple la matrice A sera représentée par {\tt [[2, 5, 4, 6], [8, 5, 9, 8], [5, 7, 4, 6], [9, 6, 4, 4]]}.
 	\Question{Montrer que pour une matrice de taille {\tt n}, un chemin valide depuis $M_{0,0}$ jusqu'à $M_{n-1,n-1}$ contient $n-1$ fois le chiffre {\tt 0} et $n-1$ fois le chiffre {\tt 1}}.
+	\tcor{On doit se déplacer $n-1$ fois vers la droite car on passe de la colonne $0$ à la colonne $n-1$, le seul mouvement qui augmente la colonne étant le mouvement vers la droite, ce mouvement doit apparaitre $n-1$ fois et donc il y a $n-1$ fois le chiffre 1 dans un liste de mouvement permettant de passer de $M_{0,0}$ à $M_{n-1,n-1}$. Par un raisonnement similaire sur les lignes, le chiffre 0 doit apparaitre $n-1$ fois aussi.}
 	\Question{Ecrire une foncton {\tt est\_valide} qui prend en argument un chemin et un entier {\tt n} et renvoie {\tt True} si et seulement ce chemin est un chemin valide depuis $M_{0,0}$ jusqu'à $M_{n-1,n-1}$.}
-	\Question{Ecrire une fonction {\tt somme\_chemin} qui prend en argument une matrice et un chemin (supposé valide) et renvoie la somme obtenue en parcourant la matrice en suivant ce chemin.}  \medskip  \\
+	\ifcorrige
+    \corpartPython{somme_matrice.py}{}{}{1}{18}
+    \fi
+	\Question{Ecrire une fonction {\tt somme\_chemin} qui prend en argument une matrice et un chemin (supposé valide) et renvoie la somme obtenue en parcourant la matrice en suivant ce chemin.}
+	\ifcorrige
+    \corpartPython{somme_matrice.py}{}{}{20}{30}
+    \fi
+	\medskip  
 	On propose l'algorithme suivant afin de résoudre ce problème  : si les deux directions bas ou droite sont possibles on choisit celle qui mène vers le coefficient de matrice le plus élevé, en cas d'égalité, on choisit (arbitrairement) la direction bas. Dans l'exemple ci-dessus à partir de $M_{0,0}=2$ on peut aller vers à droite vers $M_{0,1} = 5$ ou en bas vers $M_{1,0}=8$ et on choisit donc d'aller en bas puisque $8>5$. Une fois arrivé en $M_{1,0}$ les deux directions possibles mènent vers des coefficients identiques (5 des deux côtés) et donc, on va vers le bas. Enfin, lorsqu'une seule direction est possible (parce qu'on a atteint la dernière colonne ou la dernière ligne), c'est cette direction qui est choisie.
 	\Question{Poursuivre le déroulement de cet algorithme sur la matrice $A$ donnée en exemple ci-dessus, dessiner le chemin obtenu et donner sa somme.}
 	\tcor{$\renewcommand\arraystretch{2} \begin{pmatrix}
@@ -185,7 +204,6 @@
 \ncline{->}{f}{g} \\ Le chemin obtenu a une somme de $2 + 8 + 5 + 9 + 6  + 4 + 4 = 38$}
 	\Question{Dans quelle famille d'algorithme peut-on classer cet algorithme ? Justifier.}
 	\tcor{C'est un algorithme glouton car à chaque étape on choisit un maximum \textit{local} sans se préoccuper de l'impact de ce choix sur le maximum global.}
-	\tcor{On doit choisir un nombre de directions qui dépend linéairement de la taille de la matrice $n$, chaque choix compare deux valeur et donc s'effectue en temps constant. C'est donc un algorithme de complexité linéaire.}
 	\Question{Montrer en exhibant un exemple dans le cas $n=4$ que cet algorithme ne fournit par toujours un chemin de somme maximale.}
 	\tcor{On a obtenu sur l'exemple une somme de $38$, or dans cette même matrice, un autre chemin donne une somme supérieure : \\
 	$\renewcommand\arraystretch{2} \begin{pmatrix}
@@ -202,6 +220,9 @@
 \ncline{->}{f}{g} \\ Le chemin obtenu a une somme de $2 + 8 + 5 + 9 + 8  + 2 + 4 = 42$
 	}
 	\Question{Ecrire une fonction {\tt greedy} qui prend en argument une matrice (représentée par une liste de liste) et renvoie le chemin (sous la forme d'une liste de {\tt 0} et de {\tt 1}) obtenu en appliquant cet algorithme.}
+	\ifcorrige
+    \corpartPython{somme_matrice.py}{}{}{32}{47}
+    \fi
 \end{Exercise}
 
 \end{document}

@@ -113,10 +113,8 @@ let clauses fl =
 
   
 
-let a = Var 1;;
-let b = Var 2;;
-let c = Var 3;;
-let d = Var 4;;
-let e = Var 5;;
-let f = Var 6;;
-let ex = Et (Equ (Et (a, Non b),Ou(Non c, d)),Et( Imp (a,c), Ou (e,f ))) ;;
+let p = Var 1;;
+let q = Var 2;;
+let r = Var 3;;
+let ex = 
+  Equ (Non (Imp (p,q)), (Ou ((Non r), p))) ;;

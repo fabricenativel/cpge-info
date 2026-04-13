@@ -125,3 +125,170 @@ On rappelle qu'un nombre premier est un entier naturel ayant exactement deux div
 
 3. Calculer la somme de tous les nombres premiers inférieur à 10000.  
 Vérifier votre réponse : {{check_reponse("5736396")}}
+
+
+{{ exo("Bases de la manipulation d'images",[])}}
+
+Cet exercice porte sur la manipulation et la transformation d'images à l'aide de la librairie **PIL** de Python, aussi en début de tout programme vous devrez exécuter la ligne suivante afin d'importer cette librairie :
+```python3
+from PIL import Image
+```
+
+!!! Warning "Attention"
+    Les images suivantes, libres de droit (crédit : wikipedia), seront utilisées comme exemple dans cet exercice, elles doivent être enregistrées sur l'ordinateur *dans le même dossier* que vos programmes. Pour cela faire un clic droit sur chaque image, puis sélectionner *Enregistrer la cible du lien sous...* et sélectionner le dossier où se trouve vos programmes Python.
+    * {{telecharger("Une photographie du Mont Fuji","files/C12/Mont_Fuji.jpg")}}
+    * {{telecharger("Une photographie d'un animal","files/C12/img.jpg")}}
+
+1. Ouvrir et visualiser une image
+
+    On doit créer une variable variable qui permet de représenter une image, on le fera à partir du fichier  'Mont_Fuji.jpg' téléchargé ci-dessus, grâce aux instructions suivantes :
+    ```python
+    # Crée une variable de type "Image" à partir du fichier "Mont_Fuji.jpg"
+    fuji = Image.open('Mont_Fuji.jpg')
+    ```
+    Puis, on peut visualiser cette image en rajoutant dans le programme :
+    ```python
+    # Visualisation de l'image crée à l'instruction précédente
+    fuji.show()
+    ```
+
+    !!! note "A retenir"
+        * Pour manipuler des images avec Python on doit d'abord importer le module Image : `#!python from PIL import Image`
+        * On crée une variable représentant l'image grâce à `#!python <var_img> = Image.open(<nom_fichier>)`
+        * On affiche l'image contenur dans la variable `#!python <var_img>` avec l'instruction   `#!python <var_img>.show()`
+
+    A vous de jouer maintenant : ouvrir et visualiser la photographie de l'animal à l'aide de Python et indiquer de quel animal il s'agit {{check_reponse("lion")}}.
+
+2. Obtenir des informations sur l'image
+
+    La largeur (*width* en anglais) de l'image contenu dans `<var_img>` s'obient par exemple avec `<var_img>.width` et sa hauteur (*height* en anglais) avec `<var_img>.height`. Ces deux informations sont données en nombre de pixels, ce sont les dimensions de la matrice représentant l'image en mémoire.
+    Par exemple,
+    ```python
+    fuji_larg = fuji.width
+    fuji_haut = fuji.height
+    print("L'image du mont Fuji a pour dimensions : ",fuji_larg,"x",fuji_haut," pixels")
+    ```
+    Affichera les dimensions de l'image du mont Fuji (640 x 456).
+
+    !!! note "A retenir"
+    * `#!python <var_img>.width`  donne la largeur de l'image contenu dans `<var_img>`
+    * `#!python <var_img>.height`  donne la hauteur de l'image contenu dans `<var_img>`
+
+    A vous de jouer : quelles sont les dimensions de l'image représentant l'animal ? (entrer les dimensions  séparées par un `x` et sans espace) : {check_reponse("1280x854")}
+
+3. Lecture des informations d'un pixel
+
+    Comme nous l'avons déjà vu, une image est vue comme un tableau de pixel, on peut lire les informations de couleur d'un pixel d'un point grâce à `#!python getpixel(colonne,ligne)`. Les lignes et les colonnes étant numérotées à partir de 0, les informations de couleur du tout premier pixel situé en haut et à gauche de l'image du mont Fuji s'obtiennent avec :
+    ``̀ ̀python
+    premier_pixel = fuji.getpixel((0,0))
+    print(premier_pixel)
+    ```
+    Ce qui affichera à l'écran un tuple : `(156, 191, 211)`, en effet l'image étant en couleur, chaque pixel est défini par son niveau (entre 0 et 255) des trois couleurs rouge, vert et bleu. 
+
+    !!! note "A retenir"
+        On obtient les informations de couleur du pixel situés ligne `lig` et colonne `col` de la matrice de pixel en utilisant `#!python <var_img>.getpixel((col,lig))`, attention aux doubles parenthèses autour des coordonnées. Les informations de couleur du pixel sont données sous la forme d'un tuple de trois valeurs entières comprises en 0 et 255 et qui sont les niveaux de rouge, vert et bleu.
+
+    A vous de jouer : quelles sont les informations de couleur du *dernier pixel* de l'image de l'animal (donner les trois entiers séparés par des virgules) ? {{check_reponse("162,151,157")}}
+
+4. Modification d'un pixel
+
+    Pour modifier un pixel, on utilise `putpixel` en indiquant comme argument la ligne et la colonne du pixel puis le nouveau triplet de couleur (pour une image RGB).
+    Par exemple :
+    ```python
+    fuji.putpixel((0,0),(255,0,0))
+    fuji.show()
+    ```
+    Remplace le premier pixel de l'image du mont fuji par un pixel de couleur rouge.
+
+    !!! note "A retenir"
+        On modifie la couleur du pixel situé ligne i et colonne j en `(r,v,b)`  en utilisant `#!python <var_img>.putpixel((i,j),(r,v,b))`.
+
+    On peut utiliser une boucle `for` afin de modifier tous les pixels de la première ligne :
+    ```python
+    # la colonne varie entre 0 et la largeur de l'image (cette largeur s'obtient  grâce à fuji.width)
+    for col in range(fuji.width):
+        fuji.putpixel((col,0),(255,0,0))
+    fuji.show()
+    ```
+
+    A vous de jouer : modifier l'image de l'animal afin de créer un cadre de 3 pixels d'épaisseur (de la couleur de votre choix) tout autour de l'image.
+
+5. Passage d'une image en niveau de gris
+
+    Afin de [transformer une image en niveau de gris](https://fr.wikipedia.org/wiki/Niveau_de_gris){target=_blank}, on recommande d'utiliser la formule suivante : $l = 0,2126 \times r + 0,7152 \times v + 0,0722 \times b$ où $(r,v,b)$ étaient les anciennes valeurs de couleurs du pixel, et $(l,l,l)$ les nouvelles (les trois niveaux de couleur sont identiques donc on obtient un pixel gris dont $l$ est la *luminance*).
+    En utilisant deux boucles `for` imbriquées, parcourir tous les pixels de l'image et les transformer afin d'obtenir une image en niveau de gris. Visualiser cette nouvelle image.
+
+6. Pour aller plus loin
+
+    Essayer d'autre modification de l'image par exemple un miroir vertical ou horizontal. On peut aussi penser à *pixeliser* l'image c'est à dire qu'on remplace tout un carré de pixel de taille $n$ donnée par la moyenne des pixels de ce carré. A titre d'exemple, ci-dessous l'image du mont Fuji on a regroupé pixellisé avec un carré de côté 4 (c'est à dire qu'on regroupe les 16 pixels de ce carré).
+    [Mont Fuji Pixellisé](./Images/C12/pixellise.jpg){.imgcentre}
+
+{{ exo("Création d'images",[])}}
+
+Le module PIL découvert dans l'exercice précédent permet aussi de créer des images, la syntaxe est alors la suivante :
+```python
+<nouvelle_image>=Image.create(<mode>,(<largeur>,<hauteur>),<couleur>)
+```
+Par exemple, l'instruction
+```python
+drapeau = Image.new("RGB",(300,200),(255,255,255))
+```
+
+permet de créer une image de dimension 300 sur 200 au format RGB entièrement blanche (couleur : (255,255,255)). Le format 300 sur 200 n'a pas été choisi au hasard, cela nous donne une proportion 2:3 qui est celle du [drapeau Français](https://fr.wikipedia.org/wiki/Drapeau_de_la_France).
+
+Plus bas, sur cette même page, vous trouverez les [code couleurs du drapeau Français](https://fr.wikipedia.org/wiki/Drapeau_de_la_France#Dimensions_et_couleurs), au format RGB : <br>
+* La couleur rouge est codée (226,25,32) <br>
+* La couleur bleue est codée (5,20,64) <br>
+
+Nous pouvons maintenant modifier les pixels de notre image afin d'y faire figurer un rectangle bleue de 100 sur 200 pixels à gauche et un rectangle rouge de 100 sur 200 pixels à droite :
+```python
+# Crée le rectangle bleu à gauche de l'image
+for col in range(0,100):
+    for lig in range(0,200):
+        drapeau.putpixel((col,lig),(5,20,64))
+# Crée le rectangle rouge à droite de l'image
+for col in range(200,300):
+    for lig in range(0,200):
+        drapeau.putpixel((col,lig),(226,25,32))
+# Affiche le drapeau crée :
+drapeau.show()
+```
+
+1. Créer puis afficher une image de taille 100 sur 100 pixels entièrement jaune (code couleur : (255,255,0))
+
+2. Créer une image de dimensions 256x256 formant un dégradé de gris c'est à dire que la première ligne a la code couleur (0,0,0), la deuxième (1,1,1), la troisème (2,2,2) et ainsi de suite jusqu'à la dernière qui aura le code (255,255,255) en augmentant de un à chaque ligne.
+
+3. En vous inspirant de l'exemple du drapeau français, créer l'image du [sweden flag
+drapeau de la suède](https://en.wikipedia.org/wiki/Flag_of_Sweden){target=_blank} en respectant les dimensions et les codes couleurs.
+
+{{ exo("Steganographie",[])}}
+Comme vu dans les exercices précédents, les informations de couleur d'une image au format RGB sont représentées pour chaque pixel par trois octets qui représentent les niveaux de rouge, de vert et de bleu. On obtient donc en tout $256 \times 256 \times 256 = 16\,777\,216$, une variation minime des trois octets produira une différence de couleur à peine (ou pas du tout) perceptible par un oeil humain. L'idée est donc d'utiliser les deux derniers bit de chaque information de couleur afin d'y stocker une information, c'est le principe de la [steganographie](https://fr.wikipedia.org/wiki/St%C3%A9ganographie). 
+
+Comme on utilise les deux derniers bits de chaque octet de couleur la modification de couleur sera minime en effet ce sont les bits de *poids faibles*, ils valent respectivement $2^0=1$ et $2^1=2$. Comme on modifie 2 bits (sur les 8) de chaque couleur on peut donc stocker **6** bits d'information dans un pixel c'est à dire $2^6 = 64$ codes différents. Cela est largement suffisant pour stocker les 26 lettres majuscules et le caractère espace. On convient du code suivant :
+
+|Code (6 bits) |Valeur décimale | Caractère |
+|--------------|----------------|-----------|
+| `000000`     | 0              | *espace*  |
+| `000001`     | 1              |     `A`   |
+| `000010`     | 2              |     `B`   |
+| `000011`     | 3              |     `C`   |
+| .......      | ....           | .....     |
+| `011010`     | 26             |     `Z`   |
+| `111111`     | 63             | *Fin de message*|
+
+!!! remarque
+    On n'utilise pas les codes de 27 (inclus) à 62 (inclus), ils pourraient représenter  les chiffres, les lettres minuscules, les caractères de ponctuation, ...
+
+
+Prenons un exemple, on veut dissimuler le caractère `Z` (code décimal 26 et code binaire `011010`) dans le pixel de coordonnées $(0;0)$ et on suppose que ce pixel à  pour valeurs de couleurs RVB : `(156,191,211)`, on va donc :
+
+* convertir 156 en binaire : $156$={{binaire_dec(db(156))}} puis on modifie   les deux derniers bits  en `01` ce qui donne comme nouvelle valeur {{binaire(db(157))}} = $157$
+* convertir 191 en binaire : $191$={{binaire_dec(db(191))}} puis on modifie   les deux derniers bits  en `10` ce qui donne comme nouvelle valeur {{binaire(db(190))}} = $190$
+* convertir 211 en binaire : $211$={{binaire_dec(db(211))}} puis on modifie   les deux derniers bits  en `10` ce qui donne comme nouvelle valeur {{binaire(db(190))}} = $210$
+
+On transforme donc les couleurs de ce pixel en `(157,190,210)`, la modification est imperceptible et un caractère est dissimulé dans l'image.
+
+En utilisant ce code vous devez retrouver le messsage caché dans l'image suivante :
+![Fuji Steganographie](./Images/C12/Mont_Fuji_Message.bmp){.imgcentre}
+Le message démarre au pixel de coordonnées `(0,0)`, vous devez lire de gauche à droite et de haut en bas jusqu'à le code de fin de message.
+{check_reponse("FELICITATIONS CET EXERCICE ETAIT DIFFICILE ET TU AS REUSSI")}
