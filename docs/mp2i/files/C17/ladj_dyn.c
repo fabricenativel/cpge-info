@@ -73,10 +73,10 @@ graphe init_graphe(int size)
     return g;
 }
 
-void cree_arete(graphe g, int i, int j)
+void cree_arete(graphe *g, int i, int j)
 {
-    ajout(&(g.ladj[i]),j);
-    ajout(&(g.ladj[j]),i);
+    ajout((g->ladj)[i],j);
+    ajout((g->ladj)[j],i);
 }
 
 void affiche_graphe(graphe g)
@@ -113,11 +113,11 @@ void visualise(graphe g)
 
 int main()
 { graphe g = init_graphe(5);
-    cree_arete(g, 1, 3);
-    cree_arete(g, 2, 4);
-    cree_arete(g, 0, 1);
-    cree_arete(g, 0, 2);
-    cree_arete(g, 0, 3);
+    cree_arete(&g, 1, 3);
+    cree_arete(&g, 2, 4);
+    cree_arete(&g, 0, 1);
+    cree_arete(&g, 0, 2);
+    cree_arete(&g, 0, 3);
     affiche_graphe(g);
     visualise(g);
 }
