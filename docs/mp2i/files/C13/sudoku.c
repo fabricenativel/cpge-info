@@ -241,10 +241,12 @@ int main()
     char fname[100] = GRIDPATH;
     sudoku ms;
     init_ngh(NGH);
-    strcat(fname, "g100.txt");
+    strcat(fname, "Cent.txt");
     FILE *reader = fopen(fname, "r");
+    for (int i=0;i<10;i++){
     ms = make_sudoku(reader);
     view(&ms);
     solve(&ms,0,0);
     view(&ms);
+    }
 }

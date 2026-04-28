@@ -116,5 +116,9 @@ let clauses fl =
 let p = Var 1;;
 let q = Var 2;;
 let r = Var 3;;
-let ex = 
-  Equ (Non (Imp (p,q)), (Ou ((Non r), p))) ;;
+let () = 
+  let ex = Et (Ou (Non q, Non r), Et (Et (Ou (Non p, r), Ou (q, Non r)),Ou(q,r ) )) in 
+  print_formule ex;
+  print_newline ();
+  table_verite ex
+;;
