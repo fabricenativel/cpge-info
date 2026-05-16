@@ -1,5 +1,11 @@
 hide: - navigation  in index.md
 
+
+Le corrigé du sujet de concours blanc donné pendant les vacances peut-être télécharger ci-dessous :
+{{telecharger("Corrigé Concours Blanc 2025","./CorrigeCB.pdf")}}
+
+***
+
 {{dm(5,"Résolution de sudoku mis sous forme normale conjonctive")}} 
 
 Le but de l'exercice est de résoudre un [sudoku](https://en.wikipedia.org/wiki/Sudoku){target=_blank} en :
