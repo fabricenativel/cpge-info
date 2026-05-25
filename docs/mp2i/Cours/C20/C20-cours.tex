@@ -43,10 +43,14 @@
 				\onslide<4->{Par exemple, \mintinline{ocaml}{List.iter (fun n -> print_int n; print_string "; ") [1; 2; 3];;} affiche {\tt 1; 2; 3; }}
 		\end{itemize}
 	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exercices}
 		\begin{enumerate}
-			\item<5-> Utiliser {\tt List.iter} pour afficher les longueurs d'une liste de chaîne de caractères.
-			\item<6-> Ecrire, \textit{en utilisant} \mintinline{ocaml}{List.iter}, une fonction {\tt somme: int list -> int} qui renvoie la somme des éléments de la liste d'entiers donnée en argument.
+			\item<1-> Utiliser {\tt List.iter} pour afficher les mots de 5 lettres d'une liste de mots.
+			\item<2-> Ecrire, \textit{en utilisant} \mintinline{ocaml}{List.iter}, une fonction {\tt somme: int list -> int} qui renvoie la somme des éléments de la liste d'entiers donnée en argument. \\
+			\textcolor{OliveGreen}{\small \aide \;} Utiliser les aspects impératifs du langage
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -219,11 +223,11 @@
 	\begin{block}{Analyse de l'algorithme {\sc bfs}}
 		\begin{itemize}
 			\item<2-> Chaque sommet est inséré une unique fois dans la file et à chaque tour de boucle on retire un sommet ce qui assure la \textcolor{blue}{terminaison}
-			\item<3-> Pour la \textcolor{blue}{correction}, on prouve l'invariant suivant : pour le sommet {\tt s} retiré de la file à chaque tour de boucle, \mintinline{ocaml}{distance.(s)} contient la distance minimale (en nombre d'arêtes) du sommet de départ à {\tt s}.
-				\begin{itemize}
-					\item<4-> C'est vrai au premier tour de boucle puisque le premier sommet retiré est le sommet de départ et qu'on initialise {\tt distance.(depart)} à 0.
-					\item<5-> La propriété est conservée à chaque tour de boucle, en effet en la supposant vraie à tous les tours de boucle précédents, les sommets présents dans la file sont les sommets {\tt t}  non encore parcourus et tels que {\tt distance.(t)} contienne {\tt distance.(t) = distance.(s) + 1} où {\tt s} est un sommet déjà parcouru. Puisque {\tt s} a déjà été retiré de la file {\tt distance.(s)} est minimale et donc {\tt distance.(t) aussi}.
-				\end{itemize}
+			\item<3-> Pour la \textcolor{blue}{correction}, on note $G = (V,E)$ le graphe, $s \in V$ le sommet source, $d[v]$ le tableau des distances et $Q$ la file et $\delta(v)$ la distance minimale du sommet source $s$ au sommet $v$. Puis on prouve : 
+			\begin{itemize}
+				\item<4-> L'invariant noté $(I)$ : \og{}\textit{La file $Q$ contient $k$ sommets $v_1, \dots v_k$ avec $d[v_1] \leqslant \dots \leqslant d[v_k]$ et $d[v_k] \leqslant d[v_1] +1$} \fg{} (envisager l'évolution de la file suivant les cas enfiler ou défiler). 
+				\item Et par récurrence sur la propriété $\mathcal{P}(n)$ : \og{}\textit{pour tout sommet $v$ à distance $n$ de $s$, on a $d[v]=\delta(v)$} \fg{}.
+			\end{itemize} 
 			\item<6-> La boucle {\tt while} s'exécute au plus $|S|$ fois et l'itération sur les voisins sortants d'un sommet permet d'examiner chaque arête au plus une fois. La complexité du parcours en largeur est donc un $O(|S|+|A|)$
 		\end{itemize}
 	\end{block}
@@ -240,7 +244,7 @@
 					\item<5->Utiliser le module \mintinline{ocaml}{Stack} de OCaml afin de gérer directement la pile des sommets en attente d'être exploré.
 				\end{itemize}
 		\end{itemize}
-		\onslide<6->{\small \textcolor{BrickRed}{\danger \;} La différence entre les deux parcours ne se limite pas à l'utilisation d'une pile ou d'une file. En effet, dans le cas d'un parcours en largeur, un sommet ne peut jamais être inséré deux fois dans la file. Dans le parcours d'un parcours en profondeur, on peut effectuer un appel récursif sur le même sommet plusieurs fois (ou un sommet peut apparaître plusieurs fois dans la pile) mais la seconde fois, l'appel récursif se termine immédiatement.}
+		\onslide<6->{\small \textcolor{BrickRed}{\danger \;} La différence entre les deux parcours ne se limite pas à l'utilisation d'une pile ou d'une file. En effet, dans le cas d'un parcours en largeur, un sommet ne peut jamais être inséré deux fois dans la file. Dans le cas d'un parcours en profondeur, on peut effectuer un appel récursif sur le même sommet plusieurs fois (ou un sommet peut apparaître plusieurs fois dans la pile) mais la seconde fois, l'appel récursif se termine immédiatement.}
 	\end{block}
 \end{frame}
 
@@ -403,9 +407,9 @@
 	}
 \end{frame}
 
-\makess{Algorithme de Djikstra}
+\makess{Algorithme de Dijkstra}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
-	\begin{exampleblock}{Algorithme de Djikstra : exemple}
+	\begin{exampleblock}{Algorithme de Dijkstra : exemple}
 		\begin{center}
 			\begin{pspicture}(5,2.7)
 				\rput(0,2.2){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
@@ -448,7 +452,7 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Principe}
 		\begin{itemize}
-		\item<1-> L'algorithme de Djikstra recherche le plus court chemin depuis un sommet de départ $s$ vers \textit{tous les autres} sommets du graphe.
+		\item<1-> L'algorithme de Dijkstra recherche le plus court chemin depuis un sommet de départ $s$ vers \textit{tous les autres} sommets du graphe.
 		\item<2-> Les poids sont supposés \textcolor{BrickRed}{positifs}.
 		\item<3-> C'est un adaptation du parcours en largeur, dans laquelle la file des sommets en attente de traitement est une \textcolor{blue}{file de priorité}.
 		\item<4->  La priorité est la distance minimale trouvée pour le moment depuis le sommet de départ. \\
@@ -459,7 +463,7 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Proposition d'implémentation}
-		\inputpartOCaml{\SPATH/djikstra.ml}{}{\small}{64}{78}
+		\inputpartOCaml{\SPATH/dijkstra.ml}{}{\small}{64}{78}
 	\end{block}
 \end{frame}
 

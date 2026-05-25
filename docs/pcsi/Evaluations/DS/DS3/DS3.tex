@@ -29,18 +29,18 @@
 		\item l'adénine, notée {\tt A};
 		\item la thymine, notée {\tt T};
 		\item la cytosine, notée {\tt C};
-		\item la guanine, notée {\tt G};
+		\item la guanine, notée {\tt G}.
 	\end{itemize}
-	Ces petites molécules, appelées nucléotides, servent de \og{} \textit{lettres} \fg{} pour écrire le code génétique. Trois bases consécutives forment ce qu'on appelle une \textit{codon}. Par exemple, {\tt ATC} ou encore {\tt GTT} sont des codons.
+	Ces petites molécules, appelées nucléotides, servent de \og{} \textit{lettres} \fg{} pour écrire le code génétique. Trois bases consécutives forment ce qu'on appelle un \textit{codon}. Par exemple, {\tt ATC} ou encore {\tt GTT} sont des codons.
 	\medskip
 
 	On définit en Python la variable \mintinline{python}{adn = "ATCGTACGT"}
 
 	\Question{Quel est le type de la variable {\tt adn} ?}
     \tcor{{\tt adn} est du type chaine de caractères {\tt str}}
-    \Question{Quel est le type et la valeur de la variable \mintinline{python}{longueur = len(adn)} ?}
+    \Question{Quels sont le type et la valeur de la variable \mintinline{python}{longueur = len(adn)} ?}
     \tcor{{\tt longueur} est du type {\tt int} et vaut 9, c'est le nombre de caractère de la chaine {\tt adn}.}
-	\Question{Quel est le type et le contenu de la variable \mintinline{python}{morceau = adn[1:6]} ?}
+	\Question{Quels sont le type et la valeur de la variable \mintinline{python}{morceau = adn[1:6]} ?}
     \tcor{{\tt morceau} est de type {\tt str} et contient {\tt TCGTA} car elle commence en position 1 de la chaine {\tt adn} et se termine en position {\tt 6} \textit{exclu}.}
 	\Question{Écrire une fonction {\tt est\_adn} qui prend en argument une chaîne de caractères et renvoie un booléen indiquant si cette chaîne de caractères représente bien un morceau d'{\sc adn}, c'est-à-dire si cette chaîne ne contient que les quatre nucléotides {\tt A}, {\tt T}, {\tt C} et {\tt G}. Par exemple,
     \begin{itemize}
@@ -81,7 +81,7 @@
     \tcor{$(101)_{10} = (01100101)_2$ et donc cet entier représente le nucléotide $C$ répété 37 fois.} 
     \Question{Par quel entier peut-on représenter {\tt TTTTTTTTTT} (10 répétitions de {\tt T}) ?}
     \tcor{On doit représenter le nucléotide {\tt T} donc les premiers bits sont $11$ puis on écrit 10 en base 2 sur les 6 bits restants ce qui donne $(11001010)_2 = (202)_{10}$.}
-    \Question{Avec ce codage, quel est le nombre maximal de répétitions d'un nucléotide que l'ont peut coder avec un entier sur 8 bits ?}
+    \Question{Avec ce codage, quel est le nombre maximal de répétitions d'un nucléotide que l'on peut coder avec un entier sur 8 bits ?}
     \tcor{Le nombre de répétitions est codé sur 6 bits et donc le nombre maximal de répétitions est $(111111)_2 = (63)_{10}$.}
     \Question{Écrire la fonction {\tt encode} qui prend en entrée un nucléotide et son nombre de répétitions et renvoie l'entier qui le représente. Par exemple, {\tt encode('A',10)} renvoie 10, {\tt encode('G',39)} renvoie 167, {\tt encode('T',8)} renvoie 200.}
     \ifcorrige
@@ -103,11 +103,11 @@
     \fi
     \Question{On suppose, dans cette question uniquement, que $n=m$. Afin de rechercher l'attribution optimale (celle ayant l'écart total le plus faible), on propose l'algorithme qui consiste à tester toutes les attributions possibles et à renvoyer celle ayant le plus petit écart total. Quelle est la complexité de cette méthode en fonction de $n$ ? Que peut-on en conclure ?}
     \tcor{On doit tester toutes les attributions possibles, c'est à dire toutes les permutations possibles de la liste des $n$ créneaux. On doit donc tester $n!$ attributions, pour chacune de ces attributions la fonction précédente qui calcule l'écart total a une complexité en $\mathcal{O}(n)$ car la boucle est parcourue $n$ fois et ne contient que des opérations élémentaires. Le complexité finale de cet algorithme est donc en $\mathcal{O}(n\times n!)$, il est donc inutilisable en pratique sauf sur de petites valeurs de $n$.}
-    \Question{Un autre algorithme consiste à traiter la liste des demandes dans l'ordre et à attribuer au client le créneau disponible le plus proche de sa demande. Par exemple si la liste des demandes est {\tt [7, 3, 10]} et que la liste des créneaux disponibles est {\tt [4, 9, 11]} alors on effectue les attributions suivantes : {\tt 7} $\rightarrow$ {\tt 9}, puis {\tt 3} $\rightarrow$ {\tt 4} et enfin {\tt 10} $\rightarrow$ {\tt 11}. Dans quelle famille d'algorithmes peut se ranger ce procédé ? Justifier.}
+    \Question{Un autre algorithme consiste à traiter la liste des demandes dans l'ordre et à attribuer au client le créneau disponible le plus proche de sa demande. Par exemple si la liste des demandes est {\tt [7, 3, 10]} et que la liste des créneaux disponibles est {\tt [4, 9, 11]} alors on effectue les attributions suivantes : {\tt 7} $\rightarrow$ {\tt 9}, puis {\tt 3} $\rightarrow$ {\tt 4} et enfin {\tt 10} $\rightarrow$ {\tt 11}. En justifiant votre réponse, indiquer dans quelle famille d'algorithmes peut se ranger ce procédé.}
     \tcor{C'est un algorithme glouton car on fait un choix optimal local (le meilleur créneau possible pour le client en cours) sans se soucier de l'impact de ce choix sur l'écart total.}
     \Question{Montrer, sur un exemple de votre choix, que  cet algorithme ne fournit pas toujours la solution optimale au problème.}
     \tcor{On peut prendre les demandes  {\tt [9, 11]} avec les disponibilités {\tt [10, 7, 16]} l'algorithme fournit alors l'attribution {\tt [(9,10), (11, 7)]} pour un écart total de 5 alors que l'attribution {\tt [(9,7),(11,10)]} a un écart total de 3.}
-    \Question{Écrire une fonction {\tt attribue} qui prend en argument un entier {\tt cible} ainsi qu'une liste {\tt disponibles} et qui renvoie un entier de {\tt disponibles} le plus proche en valeur absolue de {\tt cible}. Par exemple {\tt attribue(12, [7, 11, 14, 9, 3])} renvoie {\tt 11}.}
+    \Question{Écrire une fonction {\tt attribue} qui prend en argument un entier {\tt cible} ainsi qu'une liste {\tt disponibles} et qui renvoie un entier de la liste {\tt disponibles} le plus proche (en valeur absolue) de {\tt cible}. Par exemple {\tt attribue(12, [7, 11, 14, 9, 3])} renvoie {\tt 11}.}
     \ifcorrige
     \corpartPython{attribution.py}{}{}{8}{13}
     \fi
@@ -153,7 +153,7 @@ Par exemple, dans le graphe $g$ suivant, $\{0, 1, 3\}$ est un triangle, par cont
 \Question{Rappeler la définition d'un graphe complet. Donner, en le justifiant rapidement, le nombre de triangles d'un graphe complet à $n$ sommets.}
 \tcor{Un graphe complet est un graphe dans lequel pour toute paire de sommets $(i,j)$, on a $ij$ qui est un arc c'est à dire $ij \in A$. Donc tous les triplets de sommets sont des triangles, donc il y a autant de triplets de sommets que de triangle, c'est à dire $\displaystyle{\binom{n}{3}}$ triangles}
 
-\Question{On dit qu'un graphe est bipartite lorsqu'il existe une partition de l'ensemble des sommets $S$ en deux ensembles $S_1$ et $S_2$ tel que toute arête ait un élément dans $S_1$ et l'autre dans $S_2$. Dessiner un graphe bipartite à $6$ sommets et $9$ arêtes.}
+\Question{On dit qu'un graphe est bipartite lorsqu'il existe une partition de l'ensemble des sommets $S$ en deux ensembles $S_1$ et $S_2$ tels que toute arête ait un élément dans $S_1$ et l'autre dans $S_2$. Dessiner un graphe bipartite à $6$ sommets et $9$ arêtes.}
 \tcor{
     Les sommets $0, 1$ et $2$ sont dans $S_1$ et les sommets $3, 4 $ et $5$ dans $S_2$.
     \begin{center}
@@ -190,10 +190,10 @@ On suppose maintenant que les graphes sont représentés en Python par \textit{l
 \ifcorrige
 \corpartPython{triangle.py}{}{}{9}{13}
 \fi
-\bigskip{}
+\medskip{}\\
 Afin de lister les triangles d'un graphe on propose l'algorithme suivant : pour chaque arête {\tt \{s,t\}} du graphe, on recherche l'intersection des listes d'adjacence de {\tt s} et de {\tt t}.
 
-\Question{Écrire une fonction {\tt intersection} qui prend en argument deux listes d'entiers \textit{supposées triées} et renvoie leur intersection. On souhaite une fonction de complexité linéaire par rapport à la taille de ces listes.}
+\Question{Écrire une fonction {\tt intersection} qui prend en argument deux listes d'entiers \textit{supposées triées} (dans l'ordre croissant) et renvoie leur intersection. On souhaite une fonction de complexité linéaire par rapport à la taille de ces listes.}
 \ifcorrige
 \corpartPython{triangle.py}{}{}{15}{28}
 \fi

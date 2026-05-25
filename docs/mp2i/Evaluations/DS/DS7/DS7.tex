@@ -1,0 +1,420 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+\setminted{showtabs=false}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeConcours
+\DS{MP2I}{7}{Mai 2025}
+\psset{arrows=->,treesep=0.5cm,levelsep=0.8cm, radius=0.3cm}
+\setboolean{corrige}{false}
+\newcommand{\non}{\neg}
+\newcommand{\et}{\wedge}
+\newcommand{\ou}{\vee}
+\newcommand{\imp}{\to}
+\newcommand{\eq}{\leftrightarrow}
+\setlength{\algomargin}{0em}
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$e_0$}} \\
+		\hline
+	\end{tabular}
+}
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] Les programmes demandés doivent être écrits en C ou en OCaml suivant l'exercice. Dans le cas du C, on suppose que les librairies standards usuelles ({\tt <stdio.h>}, {\tt <stdlib.h>}, {\tt <stdbool.h>}) sont déjà importées.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+
+\begin{Exercise}[title={Analyse d'un algorithme}]
+	\begin{quote}
+		\og{} \textit{Le problème du drapeau hollandais est un problème de programmation, présenté par Edsger Dijkstra, qui consiste à réorganiser une collection d'éléments identifiés par leur couleur, sachant que seules trois couleurs sont présentes (par exemple, rouge, blanc, bleu, dans le cas du drapeau des Pays-Bas).
+			Étant donné un nombre quelconque de balles rouges, blanches et bleues alignées dans n'importe quel ordre, le problème est à les réarranger dans le bon ordre : les bleues d'abord, puis les blanches, puis les rouges.}\fg{}
+		\begin{flushright}
+			(Wikipedia)
+		\end{flushright}
+	\end{quote}
+	On suppose déjà écrite la fonction {\tt echange} de prototype \mintinline{c}{void echange(int tab[], int i, int j)} qui échange les éléments d'indice {\tt i} et {\tt j} dans le tableau {\tt tab} et on considère dans la suite que cet échange s'effectue en temps constant. On donne ci-dessous une implémentation de  l'algorithme du drapeau hollandais en langage C permettant de réarranger les éléments d'un tableau ne contenant les trois valeurs entières 1, 2 et 3  :
+	\inputpartC{hollandais.c}{}{}{22}{45}
+	\Question{Faire fonctionner cet algorithme sur le tableau {\tt tab = \{1, 3, 2, 2, 3, 1\}}, et donner le contenu de {\tt tab} ainsi que celui des variables {\tt i1}, {\tt i2}, {\tt i3} lors du déroulement de l'algorithme en recopiant et complétant le tableau suivant : \smallskip \\
+		\renewcommand{\arraystretch}{1.5}
+		\begin{tabular}{|l|>{\tt }c|>{\tt}c|>{\tt}c|>{\tt}c|}
+			\cline{2-5}
+			\multicolumn{1}{c|}{} & tab                                                                                                                                       & i1             & i2             & i3             \\
+			\hline
+			Initialisation        & \{\rnode{d0}{1}, 3, 2, 2, 3, \rnode{f0}{1}\}                                                                                              & 0              & 5              & 5              \\
+			\hline
+			Etape 1               & \comp{\cor{\{1, \rnode{d1}{3}, 2, 2, 3, \rnode{f1}{1}\}} \ncbar[angle=-90,arm=0.1cm,nodesep=0.05cm,linewidth=1pt,linecolor=gray]{d1}{f1}} & \comp{\cor{1}} & \comp{\cor{5}} & \comp{\cor{5}} \\
+			\hline
+			Etape 2               & \comp{\cor{\{1, \rnode{d2}{1}, 2, 2, \rnode{f2}{3}, 3\}} \ncbar[angle=-90,arm=0.1cm,nodesep=0.05cm,linewidth=1pt,linecolor=gray]{d2}{f2}} & \comp{\cor{1}} & \comp{\cor{4}} & \comp{\cor{4}} \\
+			\hline
+			Etape 3               & \comp{\cor{\{1, 1, \rnode{d3}{2}, 2, \rnode{f3}{3}, 3\}} \ncbar[angle=-90,arm=0.1cm,nodesep=0.05cm,linewidth=1pt,linecolor=gray]{d3}{f3}} & \comp{\cor{2}} & \comp{\cor{4}} & \comp{\cor{4}} \\
+			\hline
+			Etape 4               & \comp{\cor{\{1, 1, \rnode{d4}{3}, \rnode{f4}{2}, 2, 3\}} \ncbar[angle=-90,arm=0.1cm,nodesep=0.05cm,linewidth=1pt,linecolor=gray]{d4}{f4}} & \comp{\cor{2}} & \comp{\cor{3}} & \comp{\cor{4}} \\
+			\hline
+			Etape 5               & \comp{\cor{\{1, 1, \underline{2}, 2, 3, 3\}}}                                                                                             & \comp{\cor{2}} & \comp{\cor{2}} & \comp{\cor{3}} \\
+			\hline
+			Etape 6               & \comp{\cor{\{1, 1, 2, 2, 3, 3\}}}                                                                                                         & \comp{\cor{2}} & \comp{\cor{1}} & \comp{\cor{3}} \\
+			\hline
+		\end{tabular}\smallskip}
+	\Question{Prouver la terminaison de cet algorithme.}
+	\tcor{Montrons que {\tt i2-i1} est un variant :
+		\begin{itemize}
+			\item[(H1)] {\tt i2-i1} est entier comme différence de deux entiers
+			\item[(H2)] {\tt i2-i1} est positif avant d'entrer dans la boucle et reste positif par condition d'entrée dans la boucle {\tt while}
+			\item[(H3)] {\tt i2-i1} décroît à chaque tour de boucle car soit {\tt i1} augmente (si {\tt tab[i1]==1}) soit {\tt i2} diminue (si {\tt tab[i1]==2} ou {\tt tab[i1]==3}).
+		\end{itemize}
+		Donc {\tt i2-i1} est bien un variant et donc la fonction termine.
+	}
+	\Question{Prouver la correction de cet algorithme.\\
+		\aide \; \textit{Indication : on pourra noter $n$ la taille du tableau et  :
+			\begin{itemize}
+				\item $P_1$ la portion du tableau {\tt tab} comprise entre les indices 0 (inclus) et {\tt i1} (exclu)
+				\item $P_2$ la portion du tableau {\tt tab} comprise entre les indices {\tt i2} (inclus) et {\tt i3} (exclu)
+				\item $P_3$ la portion du tableau {\tt tab} comprise entre les indices {\tt i3} (inclus) et $n-1$ (exclu)
+			\end{itemize}
+			Et prouver l'invariant suivant : \og{} $P_1$ ne contient que des 1, $P_2$ que des 2 et $P_3$ que des 3 \fg{}.
+		}}
+	\tcor{Avec les notations proposées pour $P_1$, P$_2$ et $P_3$, montrons  l'invariant = \og{}$P_1$ ne contient que des 1, $P_2$ que des 2 et $P_3$ que des 3 \fg{}
+		\begin{itemize}
+			\item Initialisation: avant d'entrer dans la boucle, $i_1=0$, $i_2=n-1$, $i_3=n-1$ donc $P_1$, $P_2$ et $P_3$ sont vides et donc $I$ est vraie.
+			\item Conservation : On suppose $I$ vérifié et on montre qu'il reste vrai au tour de boucle suivant, on distingue alors 3 cas suivant la première valeur non encore triée c'est à dire {\tt tab[i1]} :
+			      \begin{itemize}
+				      \item Si {\tt tab[i1]} vaut 1, alors {\tt i1} augmente de 1 donc un 1 est ajouté à $P_1$ qui puisque $I$ est supposé vérifié en entrant dans la boucle ne contenait que des 1. Ni $P_2$ ni $P_3$ ne sont modifiés et donc dans ce cas $I$ reste vrai.
+				      \item Si {\tt tab[i1]} vaut 2, alors ce 2 est placé à l'indice {\tt i2} qui est décrémenté. Cela revient donc à ajouter un 2 à $P2$ qui par hypothèse  ne contenait que des 2. Ni $P_1$, ni $P_3$ ne sont modifiés et donc $I$ reste vrai.
+				      \item Sinon {\tt tab[i1]} vaut nécessairement 3, alors ce 3 est placé à l'indice {\tt i3}, La partie $P_2$ est décalée d'un rang à gauche (elle garde la même longueur), $i_2$ et $i_3$ sont décrémentés. Un 3 étant ajouté à $P_3$ qui par hypothèse ne contenait que des 3, l'invariant est préservé.
+			      \end{itemize}
+			      On en conclut que la fonction est totalement correcte (elle termine et elle est correcte)
+		\end{itemize}
+	}
+	\Question{Donner, en la justifiant brièvement, la complexité de l'algorithme du drapeau hollandais.}
+	\tcor{En notant $n$ la taille du tableau, la boucle {\tt while} s'exécute $n$ fois et comme elle ne contient que des opérations élémentaires, la complexité de l'algorithme est un $O(n)$.}
+	\Question{On rappelle que l'algorithme du tri par sélection consiste à rechercher pour {\tt i=0 \dots i=n-1} le minimum du sous tableau {\tt tab[i] \dots tab[n-1]} et à l'échanger avec l'élément d'indice {\tt i}. Donner une implémentation de cet algorithme de tri en langage C sous la forme d'une fonction de signature : \\ \mintinline{c}{void tri_selection(int tab[], int size)} qui prend en argument un tableau d'entiers et sa longueur et trie en place ce tableau. On pourra \textit{éventuellement} utiliser une fonction annexe de recherche de minimum dont on précisera la spécification.}
+	\ifcorrige
+		\corpartC{selection.c}{}{}{12}{38}
+	\fi
+	\Question{Rappeler, en la justifiant brièvement,  la complexité de l'algorithme du tri par sélection.}
+	\tcor{Le tri par sélection a une complexité quadratique en effet la fonction de recherche du minimum est de complexité linéaire en la taille du tableau et elle est appelée à chaque itération de la boucle {\tt for}.}
+	\Question{On a mesuré qu'en utilisant l'algorithme du tri par sélection un ordinateur trie une liste de dix million d'éléments en 5 secondes. Quel est le temps prévisible approximatif pour trier une liste contenant un milliard d'éléments ?}
+	\tcor{Le nombre d'élements est multiplié par 100 et l'algorithme ayant une complexité quadratique, le temps prévisible sera multiplié par $100^2 = \numprint{10000}$. Donc l'exécution prendra environ \numprint{50000} secondes (environ 14 heures). }
+	\Question{On a mesuré qu'en utilisant l'algorithme du drapeau hollandais un ordinateur trie une liste de dix million d'éléments en 0.2 secondes. Quel est le temps prévisible approximatif pour  trier une liste contenant un milliard d'éléments ?}
+	\tcor{Le nombre d'élements est multiplié par 100 et l'algorithme ayant une complexité linéaire, le temps prévisible sera multiplié lui aussi par 100. Donc l'exécution prendra environ \numprint{20} secondes.}
+
+
+\end{Exercise}
+
+\begin{Exercise}[title = {Base de données et informaticiennes célèbres}, origin = {\bac \; {\sc capes l3} -- Sujet zéro} ]\\
+	On souhaite modéliser une base de données sur des informaticiennes ayant marqué l'histoire de l'informatique (exemples : Ada Lovelace, Grace Hopper, Frances Allen, Radia Perlman, \dots). Cette base de données repose sur le schéma relationnel suivant
+	\begin{center}
+		\includegraphics[width=15cm]{informaticiennes.eps}
+	\end{center}
+	La table {\tt Domaines} contient les différents domaines de recherche des universités.
+
+	\Question{Indiquer pour chaque table, la clé primaire et la ou les éventuelles clés étrangères.}
+	\tcor{La clé primaire de {\tt Domaines} est {\tt id}, celle de {\tt Universités} porte aussi le nom {\tt id} et celle de {\tt Informaticiennes} porte aussi le nom {\tt id}. La table {\tt Informaticiennes} possède une clé étrangère {\tt id\_domaines} qui référence la clé primaire de {\tt Domaines} et une clé étrangère {\tt id\_université} qui référence la clé primaire de {\tt Universités}.}
+	\Question{Ecrire une requête {\sc sql} permettant d'afficher dans l'ordre alphabétique le nom des informaticiennes françaises.}
+
+	\ifcorrige
+		\begin{minted}{sql}
+SELECT nom
+FROM Informaticiennes
+WHERE nationalite="Française"
+ORDER BY nom ASC
+\end{minted}
+	\fi
+	\Question{Ecrire une requête {\sc sql} permettant d'afficher le nombre d'informaticiennes américaines.}
+	\ifcorrige
+		\begin{minted}{sql}
+SELECT COUNT(*) 
+FROM Informaticiennes
+WHERE nationalite="Américaine"
+	\end{minted}
+	\fi
+	\Question{Ecrire une requête {\sc sql} affichant le nom de chaque informaticienne, le nom de son domaine de recherche et le nom de son université.}
+	\ifcorrige
+		\begin{minted}{sql}
+SELECT Informaticiennes.nom, Domaines.nom, Universites.nom
+FROM Informaticiennes 
+JOIN Domaines ON  Informaticiennes.id_domaine = Domaines.id
+JOIN Universites ON Informaticiennes.id_universite = Universites.id
+		\end{minted}
+	\fi
+	\Question{Ecrire une requête {\sc sql} affichant le nombre d'informaticiennes par nationalité en triant le résultat par nombre décroissant.}
+	\ifcorrige
+	\begin{minted}{sql}
+SELECT nationalite, COUNT(*) as nb 
+FROM Informaticiennes
+GROUP BY nationalite
+ORDER BY nb DESC
+	\end{minted}
+	\fi
+	
+\end{Exercise}
+
+
+\begin{Exercise}[title = {L'accès aux enfers}]\\
+	Dans la mythologie grecque, l’accès aux Enfers est gardé par le Cerbère, un terrible loup à trois têtes. Celui-ci se trouve devant trois couloirs qui, soit
+	permettent de rejoindre le monde des vivants, soit conduisent directement aux Enfers.
+
+	Lorsque Cerbère accueille un nouvel arrivant, il est contraint de lui dire la vérité. Par la suite, il peut mentir ou dire la vérité à sa guise mais il respecte toujours les règles qu’il s’est fixées.
+
+	Après avoir bu la coupe de ciguë, Socrate se retrouve face à Cerbère. Celui-ci, honoré de rencontrer le grand philosophe, veut lui offrir une chance d’éviter la damnation éternelle. Il lui dit alors : \og{} \textit{Je vais t’indiquer un des couloirs qui mène au monde des vivants mais, pour mettre à l’épreuve ta grande sagesse, j’énoncerai trois indications logiques qui seront, soit toutes vraies, soit toutes fausses et tu en déduiras le couloir que tu devras suivre} \fg{}.
+
+	Nous noterons $I_1$ , $I_2$ et $I_3$ les propositions associées aux indications de la première, la deuxième et la troisième tête de Cerbère.
+	\Question{Représenter l'énoncé de Cerbère sous la forme d'une formule du calcul des propositions dépendant de $I_1, I_2$ et $I_3$}
+	\tcor{$(I_1 \et I_2 \et I_3) \ou (\non I_1 \et \non I_2 \et \non I_3)$}
+
+	\NRet \smallskip
+	La première tête dit ensuite : \og{} \textit{Le premier couloir ainsi que le troisième mènent au monde des vivants} \fg{}.
+	La deuxième tête dit : \og{} \textit{Si le deuxième couloir mène au monde des vivants, alors le troisième n'y mène pas \fg{}.}
+	La troisième tête conclut par : \og{} \textit{Le premier couloir mène au monde des vivants, par contre le deuxième n'y mène pas \fg{}.}
+
+	Nous noterons, $C_1, C_2$ et $C_3$ les variables propositionnelles correspondant au fait que le premier, le deuxième et le troisième couloir mènent au monde des vivants.
+
+	\Ret \smallskip
+	\Question{Exprimer $I_1, I_2$ et $I_3$ sous la forme du calcul des propositions dépendant de $C_1, C_2$ et $C_3$}
+	\tcor{\begin{itemize}
+			\item $I_1 : C_1 \et C_3$
+			\item $I_2 : C_2 \imp \non C_3$
+			\item $I_3 : C_1 \et \non C_2$
+		\end{itemize}}
+	\Question{En utilisant le calcul des propositions (résolution avec les tables de vérité), déterminer le couloir que Socrate doit suivre pour rejoindre le monde des vivants.}
+	\tcor{
+		\begin{tabular}{|l|l|l|l|l|l|l|}
+			\hline
+			$C_1$ & $C_2$ & $C_3$ & $I_1$ & $I_2$ & $I_3$ & $(I_1 \et I_2 \et I_3) \ou (\non I_1 \et \non I_2 \et \non I_3)$ \\
+			\hline
+			0     & 0     & 0     & 0     & 1     & 0     & 0                                                                \\
+			\hline
+			0     & 0     & 1     & 0     & 1     & 0     & 0                                                                \\
+			\hline
+			0     & 1     & 0     & 0     & 1     & 0     & 0                                                                \\
+			\hline
+			0     & 1     & 1     & 0     & 0     & 0     & 1                                                                \\
+			\hline
+			1     & 0     & 0     & 0     & 1     & 1     & 0                                                                \\
+			\hline
+			1     & 0     & 1     & 1     & 1     & 1     & 1                                                                \\
+			\hline
+			1     & 1     & 0     & 0     & 1     & 0     & 0                                                                \\
+			\hline
+			1     & 1     & 1     & 1     & 0     & 0     & 0                                                                \\
+			\hline
+		\end{tabular}\\
+		Donc comme $I_1, I_2$ et $I_3$ sont soient toutes vraies soient toutes fausses, seules deux lignes du tableau conviennent et dans les deux cas, $C_3$ est vraie, donc pour être sur de rejoindre le monde des vivants, Socrate doit prendre le couloir 3.
+	}
+	\Question{En admettant que Cerbère ait menti en donnant les trois indications, Socrate pouvait-il suivre d'autres couloirs ? Si oui, lequel ou lesquels ?}
+	\tcor{Si on suppose que Cerbère a menti alors on se trouve sur la ligne où $I_1, I_2$ et $I_3$ sont fausses et donc deux couloirs permettent de rejoindre le monde des vivants le couloir 2 et le couloir 3.}
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Traversée maximale d'une matrice carrée}]\\
+	On considère une matrice à $n$ lignes et $n$ colonnes notée $M$ à coefficients dans $\N$, et dont le coefficient situé à la ligne $i$ et à la colonne $j$ avec $0 \leqslant i \leqslant n-1$ et  $0 \leqslant j \leqslant n-1$ sera noté $M_{i,j}$. On s'intéresse aux chemins depuis la première valeur en haut à gauche ($M_{0,0})$ jusqu'à la dernière en bas à droite ($M_{n-1,n-1}$) qui n'utilisent que les déplacements vers la droite ($\rightarrow$) ou vers le bas ($\downarrow$). Voici deux exemples de tels chemins dans une même matrice $A$ de 4 lignes et 4 colonnes : \\
+	\begin{center}
+		\begin{tabularx}{0.8\textwidth}{YY}
+			$\renewcommand\arraystretch{2}
+				\begin{pmatrix}
+					\circlenode{a}{2} & 5                 & 4                 & 6                 \\
+					\circlenode{b}{8} & 5                 & 9                 & 8                 \\
+					\circlenode{c}{5} & \circlenode{d}{7} & \circlenode{e}{4} & 6                 \\
+					9                 & 6                 & \circlenode{f}{4} & \circlenode{g}{4} \\
+				\end{pmatrix}$
+			\ncline{->}{a}{b}
+			\ncline{->}{b}{c}
+			\ncline{->}{c}{d}
+			\ncline{->}{d}{e}
+			\ncline{->}{e}{f}
+			\ncline{->}{f}{g}                   &
+			$    \renewcommand\arraystretch{2}
+				\begin{pmatrix}
+
+					\circlenode{a}{2} & \circlenode{b}{5} & \circlenode{c}{4} & 6                 \\
+					8                 & 5                 & \circlenode{d}{9} & \circlenode{e}{8} \\
+					5                 & 7                 & 4                 & \circlenode{f}{6} \\
+					9                 & 6                 & 4                 & \circlenode{g}{4} \\
+				\end{pmatrix}$
+			\ncline{->}{a}{b}
+			\ncline{->}{b}{c}
+			\ncline{->}{c}{d}
+			\ncline{->}{d}{e}
+			\ncline{->}{e}{f}
+			\ncline{->}{f}{g}
+			\\
+			Un exemple $C_1$ de chemin dans $A$ & Un exemple $C_2$ de chemin dans $A$ \\
+		\end{tabularx} \end{center}
+	On appelle \textit{somme d'un chemin} dans une matrice $M$, la somme des coefficients $M_{i,j}$ rencontrés en suivant ce chemin. Dans les exemples ci-dessus, le chemin $C_1$ a une somme de $34$ et le chemin $C_2$ a une somme de $38$. Le but du problème est d'étudier divers algorithmes qui cherchent à déterminer un chemin dont la somme est maximale.\\
+	
+	On propose l'algorithme $\mathcal{A}_0$ suivant afin de résoudre ce problème  : si les deux directions bas ou droite sont possibles on choisit celle qui mène vers le coefficient de matrice le plus élevé, en cas d'égalité, on choisit (arbitrairement) la direction bas. Dans l'exemple ci-dessus à partir de $M_{0,0}=2$ on peut aller vers à droite vers $M_{0,1} = 5$ ou en bas vers $M_{1,0}=8$ et on choisit donc d'aller en bas puisque $8>5$. Une fois arrivé en $M_{1,0}$ les deux directions possibles mènent vers des coefficients identiques (5 des deux côtés) et donc, on va vers le bas. Enfin, lorsqu'une seule direction est possible (parce qu'on a atteint la dernière colonne ou la dernière ligne), c'est cette direction qui est choisie.
+	\Question{Poursuivre le déroulement de cet algorithme sur la matrice $A$ donnée en exemple ci-dessus, dessiner le chemin obtenu et donner sa somme.}
+	\tcor{$\renewcommand\arraystretch{2} \begin{pmatrix}
+		\circlenode{a}{2} & 5                 & 4                 & 6                 \\
+		\circlenode{b}{8} & 5                 & 9                 & 8                 \\
+		\circlenode{c}{5} & 7 & 4 & 6                 \\
+		\circlenode{d}{9}                 & \circlenode{e}{6}                 & \circlenode{f}{4} & \circlenode{g}{4} \\
+	\end{pmatrix}$
+\ncline{->}{a}{b}
+\ncline{->}{b}{c}
+\ncline{->}{c}{d}
+\ncline{->}{d}{e}
+\ncline{->}{e}{f}
+\ncline{->}{f}{g} \\ Le chemin obtenu a une somme de $2 + 8 + 5 + 9 + 6  + 4 + 4 = 38$}
+	\Question{Dans quelle famille d'algorithme peut-on classer cet algorithme ? Justifier.}
+	\tcor{C'est un algorithme glouton car à chaque étape on choisit un maximum \textit{local} sans se préoccuper de l'impact de ce choix sur le maximum global.}
+	\Question{Donner la complexité de cet algorithme.}
+	\tcor{On doit choisir un nombre de directions qui dépend linéairement de la taille de la matrice $n$, chaque choix compare deux valeurs et donc s'effectue en temps constant. C'est donc un algorithme de complexité linéaire.}
+	\Question{Montrer en exhibant un exemple dans le cas $n=4$ que cet algorithme ne fournit pas toujours un chemin de somme maximale.}
+	\tcor{On a obtenu sur l'exemple une somme de $38$, or dans cette même matrice, un autre chemin donne une somme supérieure : \\
+	$\renewcommand\arraystretch{2} \begin{pmatrix}
+		\circlenode{a}{2} & 5                 & 4                 & 6                 \\
+		\circlenode{b}{8} & \circlenode{c}{5}                 & \circlenode{d}{9}                 & \circlenode{e}{8}                 \\
+		5 & 7 & 4 & \circlenode{f}{6}                 \\
+		9                 & 6                 & 4 & \circlenode{g}{4} \\
+	\end{pmatrix}$
+\ncline{->}{a}{b}
+\ncline{->}{b}{c}
+\ncline{->}{c}{d}
+\ncline{->}{d}{e}
+\ncline{->}{e}{f}
+\ncline{->}{f}{g} \\ Le chemin obtenu a une somme de $2 + 8 + 5 + 9 + 8  + 6 + 4 = 46$
+	}
+	\smallskip{} \\
+	En Ocaml, on décide de représenter un déplacement vers la droite par un {\tt 0} et un déplacement vers le bas par un {\tt 1}. Un chemin dans la matrice est alors représenté par une liste de {\tt 0} et de {\tt 1}, par exemple le chemin $C_1$ donné en exemple est représenté par {\tt [1, 1, 0, 0, 1, 0]}.
+	\Question{Ecrire une fonction {\tt choix : int array array -> int -> int -> int} qui prend en argument une matrice ainsi qu'un numéro de ligne et de colonne et valides (c'est à dire positif et strictement inférieur à la dimension de la matrice) et renvoie le déplacement choisi ({\tt 0} pour la droite et {\tt 1} pour le bas) par l'algorithme naïf $\mathcal{A}_0$.}
+	\ifcorrige
+	\corpartOCaml{chemin.ml}{}{}{1}{5}
+	\fi
+	\Question{Ecrire une fonction {\tt naif : int array array -> int list} qui prend en entrée une matrice d'entiers {\tt M} et renvoie le chemin fourni par l'algorithme naïf $\mathcal{A}_0$. Les réponses n'utilisant pas les aspects impératifs du langage (boucles et références) seront valorisées.}
+	\ifcorrige
+	\corpartOCaml{chemin.ml}{}{}{7}{13}
+	\fi
+	\Question{Ecrire une fonction {\tt somme : int array array -> int list -> int} qui prend en entrée une matrice d'entiers {\tt M}, un chemin dans cette matrice et renvoie la somme de ce chemin. De même que pour la question précédente, les réponses n'utilisant pas les aspects impératifs du langage seront valorisées.}
+	\ifcorrige
+	\corpartOCaml{chemin.ml}{}{}{15}{21}
+	\fi
+	\Question{Montrer que pour une matrice de taille $n$, un chemin de $M_{0,0}$ à $M_{n-1,n-1}$ est la donnée de $2n-2$ déplacements et que parmi ces déplacements $n-1$ sont vers la droite et $n-1$ sont vers le bas.}
+	\tcor{On doit effectuer $n-1$ déplacements vers la droite afin de passer de la colonne $0$ à la colonne $n-1$. De même on effectue $n-1$ déplacements vers le bas afin de passer de la ligne $0$ à la ligne $n-1$. Ce qui donne un total de $2n-2$ déplacements.}
+    \Question{En déduire que pour une matrice  $M$ de $n$ lignes et $n$ colonnes, il existe $\binom{2n-2}{n-1}$ chemins possibles de $M_{0,0}$ vers $M_{n-1,n-1}$.}
+	\tcor{D'après la question précédente, un chemin est une liste de $2n-2$ valeurs contenant $n-1$ fois {\tt 0} et $n-1$ fois {\tt 1}. Choisir un chemin revient donc à choisir l'emplacement des $n-1$ valeurs {\tt 1} parmi les $2n-2$ emplacements disponibles. Donc il y a en tout $\binom{2n-2}{n-1}$ chemins.}
+	\Question{En déduire la complexité de l'algorithme par force brute qui testerait le coût de tous les chemins possibles afin de déterminer le chemin optimal. On pourra utiliser le résultat suivant : $\binom{2n-2}{n-1}$ est un $\mathcal{O}(4^n)$.}
+	\tcor{
+	Comme pour chaque chemin, le calcul de la somme est un $O(n)$, on obtient finalement une complexité $O(4^{n}\,n)$, c'est à dire une complexité exponentielle. L'algorithme est donc inutilisable en pratique pour de grandes valeurs de $n$.
+	}\\
+
+	\medskip{}
+	On veut maintenant utiliser une méthode par programmation dynamique pour résoudre ce problème. On note, pour tout $i \in \intN{0}{n-1}$ et $j \in \intN{0}{n-1}$ $S_{i,j}$ la somme maximale des coefficients rencontrés  depuis $M_{i,j}$ (exclu) jusqu'à $M_{n-1,n-1}$ (inclus).
+	\Question{Justifier rapidement que $S_{n-1, n-1} = 0$.}
+	\tcor{On se trouve déjà sur $M_{n-1,n-1}$, le seul chemin est donc le chemin vide de somme nulle et $S_{n-1, n-1} = 0$.}
+	\Question{Justifier que pour tout $0 \leqslant i < n-1$, $S_{i,n-1} = M_{i+1,n-1} + S_{i+1, n-1}$ et que pour tout  $0 \leqslant j < n-1$, $S_{n-1,j} = M_{n-1,j+1} + S_{n-1, j+1}$.}
+	\tcor{Pour tout $0 \leqslant i < n-1$, le seul mouvement autorisé depuis $M_{i,n-1}$ est d'aller en bas car on a déjà atteint la dernière colonne, donc la somme maximale d'un chemin depuis $S_{i,n-1}$ est celle obtenue depuis $M_{i+1,n-1}$ auquel on ajoute la somme maximale obtenue depuis $M_{i+1,n-1}$ c'est à dire $S_{i+1,n-1}$, on a donc bien $S_{i,n-1} = M_{i+1,n-1} + S_{i+1, n-1}$. On obtient la seconde relation par un raisonnement similaire lorsque la dernière ligne est atteinte}
+	\Question{Montrer que pour $0 \leqslant i < n-1$ et $0 \leqslant j < n-1$ , $S_{i,j} = \max \left\{ M_{i+1,j}+S_{i+1,j}, M_{i,j+1}+ S_{i,j+1} \right\}$.} 
+	\tcor{A partir de $M_{i,j}$, on peut aller en bas et dans ce cas la somme maximale atteinte sera $M_{i+1,j}+S_{i+1,j}$ ou à droite et dans ce cas la somme maximale atteinte sera $M_{i,j+1}+S_{i,j+1}$. On prend le maximum de ces possibilités, ce qui donne bien l'égalité ci-dessus.}
+    \Question{Ecrire une fonction \textit{récursive}, {\tt dynamique : int array array -> int} qui calcule la solution du problème (à savoir $S_{0,0}$) en utilisant les relations de récurrence écrites aux questions précédentes.}
+	\ifcorrige
+	\inputpartOCaml{chemin.ml}{}{}{24}{33}
+	\fi
+    \Question{Faire un schéma des premiers appels récursifs de la fonction précédente, quel phénomène constate-t-on ?}
+	\tcor{On constate un chevauchement des appels récursifs, c'est à dire que plusieurs appels récursifs avec les mêmes paramètres d'appel.}
+	\Question{La mémoïsation est une méthode permettant de pallier le problème mis en évidence à la question précédente, expliquer brièvement en quoi cela consiste (on ne demande pas de programmer cette méthode mais simplement d'en expliciter le principe).}
+	\tcor{La mémoïsation consiste à stocker les résultats  déjà calculés afin d'en disposer rapidement si le même appel intervient de nouveau. La structure de données adaptée est une table de hachage, les clés sont les paramètres d'appel et les valeurs associées le résultat de la fonction. Ici on peut simplement utiliser une matrice de dimension $n \times n$ car les paramètres d'appel sont des entiers $i,j$ appartenant à $\intN{0}{n}$.}
+	\Question{Déterminer la complexité de  la méthode par programmation dynamique si on suppose qu'on utilise la mémoïsation.}
+	\tcor{La complexité est quadratique en la taille $n$ de la matrice, en effet on calcule les valeurs de la matrice des $S_{ij}$ en $O(1)$ et chaque terme est calculé en une seule fois.}
+\end{Exercise}
+
+\begin{Exercise}[title = Séquence génétique]\\
+	On s'intéresse dans cet exercice à la compression de chaines de caractères représentant des séquences génétiques codées sur l'alphabet {\tt \{A, C, G, T\}}. Et on souhaite compresser la séquence $S$={\tt ATGTGATGTCCT}. On supposera qu'initialement la séquence est codée en {\sc ascii} et que donc chacun des caractères occupe 1 octet (donc 8 bits).
+	\Question{Construire l'arbre de Huffman associé à la compression de $S$.}
+	\tcor{
+		\begin{center}
+			\includegraphics[height=5cm]{hf.eps}
+		\end{center}
+	}
+	\Question{Donner les codes obtenus pour chacun des quatre caractères {\tt A, C, G} et {\tt T}. En déduire le taux de compression de l'algorithme, sans tenir compte de la taille de l'arbre (on pourra conserver une écriture fractionnaire).}
+	\tcor{
+	\begin{itemize}
+		\item Code pour {\tt T} = {\tt 0}
+		\item Code pour {\tt G} = {\tt 10}
+		\item Code pour {\tt A} = {\tt 110}
+		\item Code pour {\tt C} = {\tt 111}
+	\end{itemize}
+
+	\Ret
+	Comme indiqué sur l'arbre {\tt T} apparaît 5 fois, {\tt G} 3 fois et {\tt A} et {\tt C} chacun deux fois. La taille finale du code est donc : $5 \times 1 + 3\times 2 + 2\times 3 + 2 \times 3 = 23$ bits, alors le code initial contenait $12$ caractères codés sur 8 bits chacun donc $96$ bits, le taux de compression est donc de $\dfrac{23}{96} \simeq 24 \%$.
+	}
+
+	\NRet \smallskip
+	On rappelle que le principe de la compression {\sc lzw} est d'attribuer un code aux préfixes rencontrés lors de la lecture du texte à compresser de façon à disposer d'un code compact si ce préfixe se présente à nouveau.  On attribue initialement les codes {\tt A} $\rightarrow 0$, {\tt C} $\rightarrow 1$, {\tt G} $\rightarrow 2$  et {\tt T} $\rightarrow 3$
+	Le début de l'algorithme va donc consister à attribuer un nouveau code au premier préfixe non encore codé qui apparaît lors de la lecture du texte. Et donc, ici, on attribue le code {\tt 4} au prefixe {\tt AT} et on émettra le code de {\tt A} c'est à dire 0.
+
+	\Ret\smallskip
+	\Question{Poursuivre le déroulement de cet algorithme en complétant le tableau suivant : \\
+		\begin{tabular}{|l|l|l|}
+			\hline
+			Position dans le texte          & Code émis & Nouveau préfixe ajouté    \\
+			\hline
+			{\tt \underline{A}TGTGATGTCCT } & 0         & {\tt AT } $\rightarrow 4$ \\
+		\end{tabular}\\
+	}
+	\tcor{
+	\begin{tabular}{|l|l|l|}
+		\hline
+		Position dans le texte         & Code émis & Nouveau préfixe ajouté     \\
+		\hline
+		{\tt \underline{A}TGTGATGTCCT} & 0         & {\tt AT } $\rightarrow 4$  \\
+		\hline
+		{\tt A\underline{T}GTGATGTCCT} & 3         & {\tt TG } $\rightarrow 5$  \\
+		\hline
+		{\tt AT\underline{G}TGATGTCCT} & 2         & {\tt GT } $\rightarrow 6$  \\
+		\hline
+		{\tt ATG\underline{TG}ATGTCCT} & 5         & {\tt TGA } $\rightarrow 7$ \\
+		\hline
+		{\tt ATGTG\underline{AT}GTCCT} & 4         & {\tt ATG } $\rightarrow 8$ \\
+		\hline
+		{\tt ATGTGAT\underline{GT}CCT} & 6         & {\tt GTC } $\rightarrow 9$ \\
+		\hline
+		{\tt ATGTGATGT\underline{C}CT} & 1         & {\tt CC } $\rightarrow 10$ \\
+		\hline
+		{\tt ATGTGATGTC\underline{C}T} & 1         & {\tt CT } $\rightarrow 11$ \\
+		\hline
+		{\tt ATGTGATGTCC\underline{T}} & 3         &                            \\
+		\hline
+	\end{tabular}\\
+	On obtient donc la suite de codes : {\tt [0; 3; 2; 5; 4; 6; 1; 1; 3]}}
+	\Question{Quel est le taux de compression obtenu (la taille d'un code est un octet) ?}
+	\tcor{12 sur 9}
+	\Question{Décompresser le texte $T$ codé par suite de codes {\tt [3; 1; 4; 6; 5; 2; 0; 2 ]} sur ce même alphabet en expliquant comment est reconstruit le dictionnaire de décompression.}
+	\tcor{$T = $ {\tt TCTCTCTCTGAG}}\\
+	
+	\medskip{}
+	A présent, on code en base 2 sur deux bits les nucléotides~:\phantom{\strut} \\
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+        Nucléotide & {\tt A} & {\tt C} & {\tt G} & {\tt T} \\
+        \hline
+        Code sur 2 bits & {\tt 00} & {\tt 01} & {\tt 10} & {\tt 11} \\
+        \hline
+    \end{tabular}\\
+    Et on propose de représenter un brin d'{\sc adn} par une suite d'entiers codés sur 8 bits, les deux premiers bits de l'entier représentent le nucléotide et les 6 bits suivants indiquent le nombre de répétitions. Par exemple
+    \begin{itemize}
+    \item l'entier $10$ s'écrit en binaire sur un octet $(00001010)_2$, les deux premiers bits sont $00$ et donc représentent le nucléotide {\tt A}, les 6 bits suivants donnent le nombre de répétitions $(001010)_2 = (10)_{10}$ et donc cet entier code {\tt AAAAAAAAAA}.
+    \item l'entier $167$ s'écrit en binaire sur un octet $(10100111)_2$, comme $10$ (les deux premiers bits) code le nucléotide {\tt G} et que les 6 bits suivants représentent $(100111)_2 = (39)_{10}$ en décimal, cet entier représente le nucléotide {\tt G} répété 39 fois.
+    \item l'entier $200$ s'écrit en binaire sur un octet $(11001000)_2$ et donc représente 8 répétitions du nucléotide~{\tt T}.
+    \end{itemize}
+    \Question{Que représente l'entier 101 ?}
+    \tcor{$(101)_{10} = (01100101)_2$ et donc cet entier représente le nucléotide $C$ répété 37 fois.} 
+    \Question{Par quel entier peut-on représenter {\tt TTTTTTTTTT} (10 répétitions de {\tt T}) ?}
+    \tcor{On doit représenter le nucléotide {\tt T} donc les premiers bits sont $11$ puis on écrit 10 en base 2 sur les 6 bits restants ce qui donne $(11001010)_2 = (202)_{10}$.}
+    \Question{Avec ce codage, quel est le nombre maximal de répétitions d'un nucléotide que l'on peut coder avec un entier sur 8 bits ?}
+    \tcor{Le nombre de répétitions est codé sur 6 bits et donc le nombre maximal de répétitions est $(111111)_2 = (63)_{10}$.}
+\end{Exercise}
+
+\end{document}

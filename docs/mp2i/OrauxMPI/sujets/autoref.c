@@ -5,7 +5,7 @@
 bool valide(int tab[], int n, int i)
 {
     int s = 0;
-    for (int k = 0; k < i; k++)
+    for (int k = 0; k <= i; k++)
     {
         s += tab[k];
     }
@@ -13,7 +13,7 @@ bool valide(int tab[], int n, int i)
     {
         return false;
     }
-    int occ[i]; 
+    int occ[n]; 
     for (int k = 0; k < i; k++)
     {
         occ[k] = 0;

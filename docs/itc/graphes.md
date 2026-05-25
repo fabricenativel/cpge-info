@@ -78,7 +78,7 @@
 
 7. Ecrire une fonction `ronde` qui prend en entrée un entier `n` et renvoie un graphe dans lequel chaque sommet `i` a un unique successeur : le sommet `i+1` modulo `n`. 
 
-8. Ecrire une fonction qui `degre_entrant` qui prend en argument un graphe `g` représenté par liste d'adjacence ainsi qu'un entier `i` et renvoie le degre entrant de ce sommet.
+8. Ecrire une fonction  `degre_entrant` qui prend en argument un graphe `g` représenté par liste d'adjacence ainsi qu'un entier `i` et renvoie le degre entrant de ce sommet.
 
 9. Ecrire une fonction `predecesseurs` qui prend en argument un graphe `g` représenté par une matrice d'adjacence ainsi qu'un entier `i` et renvoie la liste des predecesseurs de ce sommet.
 
@@ -90,7 +90,19 @@
 
 1. Ecrire une fonction `liste_vers_matrice` qui prend en entrée un graphe représenté par liste d'adjacence (tel que dans l'exercice 2) et renvoie ce même graphe représenté par matrice d'adjacence (tel que dans l'exercice 1).
 
+{{exo("Coloration d'un graphe",[])}}
 
+La coloration d'un graphe consiste à attribuer une couleur à chacun des sommets de ce graphe de façon à ce que deux sommets adjacents soient de deux couleurs différentes. On s'intéresse généralement à une coloration utilisant un *minimum* de couleurs.
+
+1. Combien de couleurs sont nécessaires au minimum pour colorier un graphe à $n$ sommets ?  Et au maximum ? 
+
+2. On suppose maintenant que les graphes sont représentés par liste d'adjacence et que les sommets sont $0, 1, \dots$. Ecrire une fonction `adjacent` qui prend en argument un graphe et deux sommets et renvoie `True` lorsque ces deux sommets sont adjacents et `False` sinon.
+
+3. On représente la coloration d'un graphe à $n$ sommets par une liste de $n$ entiers. Par exemple si le graphe a 4 sommets la coloration `[1, 2, 1, 3]` signigie que les sommets 0 et 2 sont de la couleur 1, le sommet 1 est de couleur 2 et le sommet 3 est de couleur 3. Ecrire une fonction `valide` qui prend en argument un graphe et une coloration et renvoie `True` lorsque cette coloration est valide et `False` sinon.
+
+4. On propose un algorithme glouton pour colorier un graphe : on parcourt les sommets *dans leur ordre de numérotation* et on leur attribue la plus petite couleur disponible. Ecrire la fonction `glouton` qui prend en argument un graphe et renvoie sa coloration gloutonne.
+
+5. On considère un graphe cycle à 6 sommets, montrer que ce graphe peut-être colorer avec deux couleurs. En choisissant une numérotation appropriée des sommets montrer que l'algorithme glouton utilise 3 couleurs. Que peut-on en conclure ?
 
 {{exo("Exercices sur Codex",[])}}
 
