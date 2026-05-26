@@ -70,3 +70,10 @@ hide: - navigation  in liens.md
 * Méthode algorithmique : diviser pour régner. Complexité de cette méthode. Exemples : tri fusion, tranche maximale dans un tableau, algorithme de Strassen
 * Méthode algorithmique : programmation dynamique. Complexité de cette méthode. Mémoïsation, méthode ascendante. Exemples : valeur maximale de la découpe d'une barre, chemin de somme maximale dans une pyramide, plus longue sous séquence commune, rendu de monnaie.
 * *A partir du 13/04* : définition inductive des formules logiques. Valuation et sémantique d'une formule logique. Formes normales. Problème SAT, algorithme de Quine
+
+## Semaines du 25/05, du 01/06 et du 08/06
+
+* Graphes, vocabulaire, représentation par matrice ou par liste d'adjacences. Implémentation en C et en OCaml
+* Algorithmes des textes : recherche dans un texte (méthode naïve, algorithme de Boyer-Moore-Hoorspool, algorithme de Rabin-Karp), compression de texte : algorithme de Huffman, algorithme LZW
+* Modèle entité-association. Langage {{sc("sql")}}, requête dans une ou plusieurs tables, sous-requêtes.
+* *A partir du 01/06* : algorithme des graphes : parcours en largeur et application, parcours en profondeur, tri topologique d'un graphe orienté acyclique, algorithme de Dijkstra
