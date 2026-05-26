@@ -1,0 +1,41 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\setboolean{corrige}{false}
+\TPnote{1}{Langage C}{10}
+%Nom de la première activité
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise}[title={Calcul d'une somme}]
+	\Question{Ecrire une fonction {\tt somme} en C de prototype \mintinline{c}{int somme(int n, int d, int t)} qui renvoie la somme des entiers de l'intervalle $\intN{1}{n}$ divisibles par {\tt d} \textit{et} qui se terminent par {\tt t}. Par exemple :
+		\begin{itemize}
+			\item {\tt somme(40, 3, 9)} doit renvoyer {\tt 9+39 = 48} car les seuls entiers de $\intN{1}{40}$ divisibles par 3 et se terminant par 9 sont 9 et 39.
+			\item {\tt somme(100, 2, 0)} doit renvoyer {\tt 10+20+\dots+100 = 550}
+			\item {\tt somme(100, 4, 5)} doit renvoyer 0 (aucun nombre divisible par 4 ne se termine par 5).
+		\end{itemize}} 
+	\reponse{8}{3}
+	\ifcorrige
+	\inputpartC{somme.c}{}{}{4}{15}
+	\fi
+	\Question{Quelle est la valeur renvoyée par {\tt somme(50000, 3, 7)} ?}
+	\reponse{0}{1}
+	\tcor{\tt   41653332}
+\end{Exercise}
+
+\begin{Exercise}[title={Etendue d'un tableau}]
+	\Question{Ecrire une fonction {\tt etendue} qui prend en argument un tableau (supposée non vide) et sa taille et renvoie l'écart maximal entre deux éléments de ce tableau. Par exemple, sur le tableau {\tt int ex[7] = \{1, 5, 3, 0, -1, 4, 8 \}}, la fonction {\tt etendue} doit renvoyer {\tt 9}.}
+	\reponse{8}{5}
+	\ifcorrige \inputpartC{etendue.c}{}{}{3}{19} \fi
+	\Question{Dans le \textit{main} de votre programme, créer un tableau  d'entiers {\tt u} de taille 100 et à l'aide d'une boucle, l'initialiser avec les valeurs prises par la suite $(u_n)_{n \in \N}$ de terme général $u_n = n^2 - 133n + 3822$ pour $n=0 \dots 99$. c'est-à-dire que {\tt u[i]} doit contenir la valeur de $u_i$ (pour $i \in \intN{0}{99}$), par exemple {\tt u[0]=3822}. Utiliser la fonction {\tt etendue} sur ce tableau, quelle réponse obtenez-vous ?}
+	\ifcorrige \inputpartC{etendue.c}{}{}{21}{29} \fi
+	\reponse{0}{1}
+	\tcor{\tt 4422}
+\end{Exercise}
+
+\end{document}

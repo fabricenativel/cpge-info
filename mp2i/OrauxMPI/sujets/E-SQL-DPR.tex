@@ -1,0 +1,166 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/}
+
+\ModeExercice
+
+\lhead{{\sc mpi --} {\bf Préparation aux oraux}}
+\rhead{2024}
+\setboolean{corrige}{false}
+\begin{center}
+	\textbf{\Large Sujet E}
+\end{center}
+
+
+\setcounter{Exercise}{0}
+
+\newcommand{\cn}[1]{\TCircle{\tt #1}}
+\psset{arrows=->,treesep=1cm,levelsep=1cm}
+
+\begin{Exercise*}[title = type A]\\
+	On s'intéresse dans cette partie à un site Internet d'échange de supports de cours entre enseignants  de {\sc mp2i/mpi}. Chaque personne désirant proposer ou récupérer du contenu doit commencer par se créer un compte sur ce site et peut ensuite accéder à du contenu ou en proposer.
+
+	Ce site repose sur une base de données contenant en particulier une table, nommée {\tt ressources}. Elle possède un enregistrement par document téléversé sur le site. Ses attributs sont :
+	\begin{itemize}
+		\item {\tt id}, un identifiant numérique, unique pour chaque ressource ;
+		\item {\tt owner}, le pseudo de la personne ayant créé la ressource ;
+		\item {\tt annee}, l'année de publication de la ressource ;
+		\item {\tt titre}, une chaine de caractères décrivant la ressource ;
+		\item {\tt type}, chaine de caractères pouvant être cours, ds, tp ou td.
+	\end{itemize}
+
+	Voici un extrait de cette table :
+
+	\medskip
+
+	\begin{center}
+		\begin{tabular}{|l|l|c|c|r|}
+			\hline
+			{\tt id} & {\tt owner} & {\tt annee} & {\tt titre}               & {\tt type} \\
+			\hline
+			4        & dknuth      & 2020        & Machine à décalage        & cours      \\
+			13       & alovelace   & 2022        & Intelligence artificielle & td         \\
+			$\cdots$ & $\cdots$    & $\cdots$    & $\cdots$                  & $\cdots$   \\
+			\hline
+		\end{tabular}
+	\end{center}
+
+
+	\Question{Écrire une requête SQL permettant de connaitre tous les titres des ressources déposées par \og{}{\tt jclarke}\fg{} classées par année de publication croissante.}
+	\ifcorrige
+		\begin{minted}{sql}
+SELECT titre 
+FROM ressources 
+WHERE owner="jclarke"
+ORDER BY annee ASC;
+\end{minted}
+	\fi
+	\Question{Écrire une requête SQL permettant de connaitre le nombre total de ressources de type cours présentes sur le site.}
+	\ifcorrige
+		\begin{minted}{sql}
+SELECT COUNT(*)
+FROM ressources
+WHERE type = "cours";
+\end{minted}
+	\fi
+	\Question{Que fait la requête suivante : ?
+		\begin{minted}{sql}
+SELECT R.owner
+FROM Ressources AS R
+WHERE R.type = 'td'
+GROUP BY R.owner
+ORDER BY COUNT(*) DESC
+LIMIT 3
+\end{minted}
+	}
+	\tcor{Cette requête permet d'afficher les trois premiers propriétaires de ressources ayant posté le plus de ressources de type {\tt td}}
+
+	\NRet
+	Cette base de données contient également une table {\tt utilisateurs} qui contient les informations sur les utilisateurs du site. Elle possède un enregistrement par utilisateur. Ses attributs sont :
+	\begin{itemize}
+		\item {\tt nom}, le nom de l'utilisateur (clé primaire) ;
+		\item {\tt mdp}, le mot de passe de l'utilisateur.
+		\item {\tt email}, l'adresse email de l'utilisateur.
+		\item {\tt naissance}, l'année de naissance de l'utilisateur.
+	\end{itemize}
+	Voici un extrait de cette table :
+	\medskip
+	\begin{center}
+		\begin{tabular}{|l|l|l|l|}
+			\hline
+			{\tt nom} & {\tt mdp} & {\tt email}        & {\tt naissance } \\
+			\hline
+			dknuth    & chepas123 & dknuth@bigboss.com & 1938             \\
+			\hline
+			\dots     & \dots     & \dots              & \dots            \\
+		\end{tabular}
+	\end{center}
+	L'attribut {\tt owner} de la table {\tt ressources} est une clé étrangère qui référence l'attribut {\tt nom} de la table {\tt utilisateurs}.
+	\Ret
+	\Question{Ecrire une requête SQL permettant de lister toutes les ressources déposées par des utilisateurs nés après 2000.}
+	\ifcorrige
+		\begin{minted}{sql}
+SELECT * FROM ressources
+JOIN utilisateurs
+ON ressources.owner = utilisateurs.nom
+WHERE utilisateurs.naissance>2000
+\end{minted}
+	\fi
+	\Question{Ecrire une requête SQL permettant de lister tous les utilisateurs n'ayant déposé aucune ressource.}
+	\ifcorrige
+		\begin{minted}{sql}
+SELECT nom FROM utilisateurs
+EXCEPT 
+SELECT owner FROM ressources
+\end{minted}
+	\fi
+\end{Exercise*}
+
+\begin{Exercise*}[title = {type B}]\\
+	On considère un tableau d'entiers $t$ de taille $n \neq  0$ et on s'intéresse au problème de la recherche de la somme maximale d'une tranche de  $t$ (c'est à dire d'éléments contigus de $t$).\\
+	Par exemple, si $t = \{2, -7, -5, 4, -1, 10, -4, 9, -2\}$ alors la somme maximale d'une tranche est $18$ (obtenue en prenant la tranche $\{4, -1, 10, -4, 9\}$). On notera $(t_i)_{0  \leqslant i \leqslant n-1}$ les éléments de $t$ et $S_{i,j} = t_i+ \dots +t_j$ ($0 \leqslant i \leqslant j \leqslant n-1$) la somme de la tranche comprises entre les indices $i$ (inclus) et $j$ (inclus).\\
+	Les fonctions demandées dans cet exercice doivent être écrites en langage C. Un fichier contenant le code compagnon de cet exercice est à télécharger à l'adresse {\tt https://fabricenativel.github.io/cpge-info/oraux/}, il contient une fonction de prototype \mintinline{c}{int max3(int a, int b, int c)} qui renvoie le maximum des trois entiers {\tt a}, {\tt b} et {\tt c} ainsi qu'une fonction {\tt main} dans laquelle est définie le tableau donné en exemple ci-dessus.
+	\Question{Ecrire une fonction de signature \mintinline{c}{int tranchemax_naif(int tab[], int taille)} qui résoud ce problème en calculant de proche en proche les  $S_{i,j}$ grâce aux relations $S_{i,i} =t_i$ et $S_{i,j} = S_{i,j-1}+ t_j$ et en renvoyant leur maximum.}
+	\ifcorrige
+	\inputpartC{tmax.c}{}{}{4}{21}
+	\fi
+	\Question{Quelle est la complexité de cette fonction ?}
+	\tcor{On utilise donc deux boucles imbriquées dans laquelle on effectue uniquement des opérations élémentaires, la complexité est donc  $\mathcal{O}(n^2)$.}
+	
+	\NRet \smallskip
+	On veut maintenant implémenter une méthode \textit{diviser pour régner}, pour cela, on note $k = \PE{\dfrac{n}{2}}$ et :
+	\begin{itemize}
+		\item On sépare $t$ en deux sous tableaux $t_g = \{t_0, \dots, t_{k-1}\}$ et $t_d = \{ t_{k+1}, \dots t_{n-1} \}$ (on remarquera bien que $t_k$ n'appartient à aucun de ces deux sous tableaux.)
+		\item On recherche récursivement les tranches maximales de ces deux sous tableaux ainsi que la valeur maximale d'une tranche contenant $t_k$ (qu'on pourra obtenir en considérant le maximum des tranches se terminant sur $t_k$ et celui des tranches commençant en $t_k$.).
+		\item on prend le maximum des trois valeurs obtenues.
+	\end{itemize}
+
+	\Ret \smallskip
+	\Question{Ecrire une fonction de signature \mintinline{c}{int max_tranchek(int tab[], int start, int k, int end)} qui renvoie dans le tableau {\tt tab} entre les indices {\tt start} (inclus) et {\tt end} (exclu) le maximum d'une tranche contenant l'élémént {\tt tab[k]}}.
+	\ifcorrige
+	\inputpartC{tmax.c}{}{}{32}{59}
+	\fi
+    \Question{Ecrire une fonction de signature \mintinline{c}{int tranchemax_dpr(int tab[], int size, int start, int end)} qui implémente la méthode diviser pour régner décrite ci-dessus.
+}
+\ifcorrige
+	\inputpartC{tmax.c}{}{}{61}{82}
+	\fi
+	\Question{Quelle est la complexité de la méthode diviser pour régner ?}
+	\tcor{Pour résoudre un problème de taille $n$, on doit en résoudre deux de tailles $\lfloor \frac{n}{2} \rfloor$ et rechercher le maximum des tranches contenant l'élément $t_k$. Cette opération a une complexité linéaire, on a donc :
+				$\left\{
+					\begin{array}{lll}
+						C(0)  & \in & O(1)          \\
+						C(2n) & =   & 2C(n)  + O(n) \\
+					\end{array}
+					\right.$\\
+				La résolution de cette équation de complexité donne une complexité en  $O(n\,\log n)$.}
+\end{Exercise*}
+
+
+\end{document}

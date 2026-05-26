@@ -1,0 +1,55 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\setboolean{corrige}{false}
+\TPnote{2}{Langage C}{20}
+%Nom de la première activité
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise}[title={Nombre  harshad}]
+
+    Les questions sont \textit{indépendantes}, et on pourra toujours utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée. On supposera toujours déjà incluses les librairies usuelles du langage C.
+
+	On dit qu'un entier strictement positif est un \textit{nombre harshad} (ou nombre de Niven) lorsqu'il est divisible par la somme de ses chiffres dans une base donnée. Dans cet exercice, on s'intéresse aux nombres harshad en base 10. Par exemples, {\tt $48$} est un nombre harshad puisque 48 est divisible par $12$, de même $63$ (divisible par 9) ou encore $190$ (divisible par 10) sont aussi des nombres harshad. Par contre $28$, ou encore $104$ ne sont pas des nombres harshad.
+
+    \Question{Ecrire une fonction de signature \mintinline{c}{bool est_harshad(int n)} qui renvoie {\tt true} si et seulement si {\tt n} est un nombre harshad.}
+    \reponse{11}{4}
+    \ifcorrige
+    \corpartC{harshad.c}{}{}{6}{16}
+    \fi
+    \Question{Ecrire une fonction {\tt main} qui prend un argument en ligne de commande une chaine de caractère, la convertit en entier (avec la fonction {\tt atoi}) puis affiche {\tt true} si cet entier est harshad et {\tt false} sinon. Si aucun argument n'est donné, on affiche un message d'erreur. Par exemple, voici des comportements attendus en supposant que l'exécutable s'appelle {\tt harshad.exe}
+    \begin{minted}[gobble=8]{bash}
+        ./harshad.exe 42
+        true
+        ./harsahd.exe 53
+        false
+        ./harshad.exe
+        Utilisation : ./harshad.exe <entier positif>
+    \end{minted}
+    }
+    \reponse{8}{3}
+    \ifcorrige
+    \corpartC{harshad.c}{}{}{76}{93}
+    \fi
+    \Question{Ecrire une fonction \mintinline{c}{int* get_harshad(int limit, int *nb)} qui prend en argument un entier {\tt limit}, et renvoie un tableau contenant les nombres de harshad inférieurs ou égaux à {\tt limit}. De plus {\tt *nb} doit contenir après appel le nombre de nombres harshad inférieurs ou égaux à {\tt limit}. Par exemple comme les nombres harshad inférieurs ou égaux à 20 sont {\tt \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 18, 20\}} l'appel {\tt get\_harshad(20, \&n)} renvoie un tableau contenant ces entiers et après l'appel {\tt n} contient la taille de ce tableau donc {\tt 13}.}
+    \reponse{12}{8}
+    \ifcorrige
+    \corpartC{harshad.c}{}{}{18}{39}
+    \fi
+    \Question{On recherche à présent des suites de nombres consécutifs qui sont tous harshad, par exemple les nombres $110, 111$ et $112$ sont 3 nombres harshad consécutifs. Dans un tableau quelconque de valeurs, on est donc amené à chercher le nombre maximal de valeurs consécutives. Ecrire une fonction de signature \mintinline{c}{int consecutifs(int tab[], int size, int *start)} qui renvoie le nombre maximal de valeurs consécutives dans le tableau {\tt tab} de taille {\tt size} et met à jour {\tt *start} afin qu'elle contienne la première de ces valeurs. Par exemple cette fonction sur le tableau {\tt \{2, 7, 8, 13, 14, 15, 17, 18, 21\}} renvoie 3 et {\tt *start} vaut 13. En effet il y a un maximum de 3 valeurs consécutives et la première est 13. }
+    \reponse{12}{4}
+    \ifcorrige
+    \corpartC{harshad.c}{}{}{41}{64}
+    \fi
+    \Question{Rechercher le nombre maximal de nombres harshad consécutifs parmi ceux qui sont inférieurs à un million \textit{et strictement supérieurs à 9}, combien il y en a-t-il et quel est le premier ce cette série ? }
+    \reponse{1}{1}
+    \tcor{En utilisant les fonctions précédents, on trouve qu'il y a au maximum 5 nombres harshad consécutifs dans l'intervalle considéré, le premier d'entre eux est \numprint{131052}.}
+\end{Exercise}
+
+\end{document}

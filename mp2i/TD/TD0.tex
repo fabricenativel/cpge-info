@@ -1,0 +1,65 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{0}{Systèmes}
+
+%Nom de la première activité
+\setcounter{Exercise}{0}
+\begin{Exercise}[title={Arborescence}]\\
+On donne ci-dessous l'arborescence du répertoire personnel de l'utilisateur {\tt John} : 
+\begin{center}
+	\pstree[levelsep=1.5cm]{\noeud{John}}{
+						\pstree[levelsep=1.2cm]{\noeud{Public}}{\Tr{\tt img1.jpg} \Tr{\tt img2.jpg} \Tr{\tt img3.jpg}}
+						\noeud{Téléchargements}
+						\pstree[levelsep=1.2cm]{\noeud{Documents}}{\Tr{\tt secret.txt} \Tr{\tt .abc}}
+						\noeud{Vidéos}
+						\pstree[levelsep=1.2cm]{\noeud{Travail}}{\noeud{\footnotesize Cours} \noeud{\footnotesize TD} \noeud{\footnotesize TP}}}
+\end{center}
+\Question{En supposant que le répertoire personnel de John était initialement vide, donner une suite de commande ayant permis de construire cette arborescence de dossier.}
+\Question{On suppose maintenant qu'on se trouve dans le répertoire {\tt Documents}. Donner l'effet des commandes suivantes (exécutées dans l'ordre)}
+\subQuestion{\tt touch new.txt}
+\subQuestion{\tt ls }
+\subQuestion{\tt mkdir Todo}
+\subQuestion{\tt cd Todo}
+\subQuestion{\tt cp \~{}/Public/img1-cp.jpg .}
+\subQuestion{\tt ln \~{}/Public/img2.jpg img1-ln.jpg}
+\subQuestion{\tt ln -s \~{}/Public/img3.jpg img3-ls.jpg}
+\Question{En supposant qu'on se retrouve dans le dossier {\tt Cours}, donner les chemins relatifs pour accéder aux dossiers suivants :}
+\subQuestion{\tt Travail}
+\subQuestion{\tt Documents}
+\Question{On suppose maintenant que dans le dossier {\tt Cours}, se trouvent (entre autres) des fichiers portant l'extension {\tt .pdf}. Ecrire les commandes permettant de créer un dossier {\tt Sauvegarde} dans le répertoire personnel de John et d'y copier tous ces fichiers.}
+\end{Exercise}
+
+\begin{Exercise}[title={Droits sur les fichiers}]\\
+On donne ci-dessous le résultat de la commande {\tt ls -l -i} dans un répertoire : 
+\begin{minted}{shell}
+9726850 -r-xr-xr-x 2 neo geek 5 juil.  9 10:16 fic1.txt
+9726851 -rw-rw-r-- 1 neo geek 0 août  26  2021 fic2.txt
+9726849 -rw-rw-r-- 1 neo geek 0 août  26  2021 fic3.txt
+9726850 -r-xr-xr-x 2 neo geek 5 juil.  9 10:16 fic4.txt
+9750174 lrwxrwxrwx 1 neo geek 8 juil. 10 17:32 fic5.txt -> fic3.txt
+\end{minted}
+\Question{Qui est le propriétaire de ces fichiers ? Dans quel groupe se trouve-t-il ?}
+\Question{Quelle est la signification de {\tt r}, {\tt w} et {\tt x} ?}
+\Question{Traduire en notation octale les droits sur chacun des fichiers}
+\Question{Repérer les liens physiques et les liens symboliques}
+\Question{Ecrire les commandes permettant de :}
+\subQuestion{rajouter le droit d'écriture pour le propriétaire sur {\tt fic1.txt}}
+\subQuestion{retirer le droit d'exécution à tous le monde sur {\tt fic4.txt}}
+\subQuestion{changer les droits sur {\tt fic2.txt} en {\tt r-x\;r-{}-\;-{}-{}-}}
+\subQuestion{changer les droits sur {\tt fic3.txt} en {\tt rwx\;r-{}x\;-{}-x}}
+\end{Exercise}
+
+\begin{Exercise}[title={Motifs glob}]\\
+Pour chacun des motifs ci-dessous, donner une suite de caractères de longueur au moins 2 reconnue par le motif 
+\Question{*pdf}
+\Question{fic?.txt}
+\Question{*.???}
+\Question{doc202[12345].txt}
+\end{Exercise}
+
+\end{document}

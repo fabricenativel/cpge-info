@@ -1,0 +1,3002 @@
+<!--
+pyodide-mkdocs-theme
+Copyleft GNU GPLv3 🄯 2024 Frédéric Zinelli
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.
+If not, see <https://www.gnu.org/licenses/>.
+-->
+
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cours de la filière MP2I et cours d'Informatique de tronc commun (Lycée Leconte de Lisle - Académie de la Réunion)">
+      
+      
+      
+        <link rel="canonical" href="https://fabricenativel.github.io/cpge-info/mp2i/Evaluations/DM/DM5/DM5/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>DM5 - Cours d'informatique en CPGE</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+
+<script type="importmap">{"imports": {"functools": "../../../../../js-libs/functools.js", "jsLogger": "../../../../../js-libs/jsLogger.js", "process_and_gui": "../../../../../js-libs/process_and_gui.js", "0-generic-python-snippets-pyodide": "../../../../../js-per-pages/0-generic-python-snippets-pyodide.js", "1-error_logs-pyodide": "../../../../../js-per-pages/1-error_logs-pyodide.js", "1-packagesInstaller-install-pyodide": "../../../../../js-per-pages/1-packagesInstaller-install-pyodide.js", "1-runtimeManager-runtime-pyodide": "../../../../../js-per-pages/1-runtimeManager-runtime-pyodide.js", "2-0-runnersManager-runners": "../../../../../js-per-pages/2-0-runnersManager-runners.js", "2-pyodideSectionsRunner-runner-pyodide": "../../../../../js-per-pages/2-pyodideSectionsRunner-runner-pyodide.js", "3-btnRunner-py_btn": "../../../../../js-per-pages/3-btnRunner-py_btn.js", "3-terminalRunner-term": "../../../../../js-per-pages/3-terminalRunner-term.js", "4-0-idesManager-ide": "../../../../../js-per-pages/4-0-idesManager-ide.js", "4-ideLogistic-ide": "../../../../../js-per-pages/4-ideLogistic-ide.js", "4-ideRunner-ide": "../../../../../js-per-pages/4-ideRunner-ide.js", "5-ideTester-ides_test": "../../../../../js-per-pages/5-ideTester-ides_test.js", "6-2-init-playground": "../../../../../js-per-pages/6-2-init-playground.js", "6-idePlayground-playground": "../../../../../js-per-pages/6-idePlayground-playground.js", "qcms-qcm": "../../../../../js-per-pages/qcms-qcm.js", "start-pyodide": "../../../../../js-per-pages/start-pyodide.js", "overlord": "../../../../../js-scripts/overlord.js", "subscriptions": "../../../../../js-scripts/subscriptions.js"}}</script>
+
+
+
+      
+    
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/jquery.terminal@2.43.1/css/jquery.terminal.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<script src="../../../../../js-libs/0-config.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script type="text/javascript">
+if(!window.CONFIG) window.CONFIG={}
+CONFIG.argsFigureDivId="figure1"
+CONFIG.baseUrl="../../../../.."
+CONFIG.buttonIconsDirectory="../../../../../assets/images"
+CONFIG.editorFontFamily="monospace"
+CONFIG.editorFontSize=15
+CONFIG.exportZipPrefix=""
+CONFIG.exportZipWithNames=false
+CONFIG.inServe=false
+CONFIG.keyStrokesAutoSave=30
+CONFIG.language="fr"
+CONFIG.pmtUrl="https://gitlab.com/frederic-zinelli/pyodide-mkdocs-theme"
+CONFIG.projectId=null
+CONFIG.projectMoveFromOldId=null
+CONFIG.projectNoJsWarning=false
+CONFIG.pythonLibs=['turtle']
+CONFIG.siteUrl="https://fabricenativel.github.io/cpge-info/"
+CONFIG.version="5.4.16"
+CONFIG.lang={"allOthersTrash": {"msg": "1 entr\u00e9e non associ\u00e9e au projet en cours a \u00e9t\u00e9 trouv\u00e9e. Voulez-vous la supprimer ?\n(Vous risquez de perdre des donn\u00e9es d'un site voisin !)", "plural": "{N} entr\u00e9es non associ\u00e9es au projet en cours ont \u00e9t\u00e9 trouv\u00e9es. Voulez-vous toutes les supprimer ?\n(Vous risquez de perdre des donn\u00e9es d'un site voisin !)"}, "attemptsLeft": {"msg": "\u00c9valuations restantes"}, "check": {"msg": "Valider<br><kbd>Ctrl</kbd>+<kbd>Enter</kbd><br>(Clic droit pour l'historique)", "em": 9, "kbd": ""}, "comments": {"msg": "(D\u00e9s-)Active le code apr\u00e8s la ligne <code># Tests</code> (insensible \u00e0 la casse)<br>(<kbd>Ctrl</kbd>+<kbd>I</kbd>)", "em": 17, "kbd": "Ctrl+I"}, "complementTrash": {"msg": "Nota : 1 entr\u00e9e non associ\u00e9e \u00e0 ce projet", "plural": "Nota : {N} entr\u00e9es non associ\u00e9es \u00e0 ce projet"}, "corr": {"msg": "\ud83d\udc0d Proposition de correction"}, "corrBtn": {"msg": "Tester la correction (serve)", "em": 0, "kbd": ""}, "delayedReveal": {"msg": "Solution affich\u00e9e dans {N} essai(s).", "format": "info"}, "download": {"msg": "T\u00e9l\u00e9charger", "em": 0, "kbd": ""}, "editorCode": {"msg": "\u00c9diteur", "format": "info"}, "failHead": {"msg": "Dommage !", "format": "warning"}, "failTail": {"msg": "est maintenant disponible", "plural": "sont maintenant disponibles"}, "feedback": {"msg": "Tronquer ou non le feedback dans les terminaux (sortie standard & stacktrace / relancer le code pour appliquer)", "em": 19, "kbd": ""}, "figureAdmoTitle": {"msg": "Votre figure"}, "figureText": {"msg": "Votre trac\u00e9 sera ici"}, "fullScreen": {"msg": "Entrer ou sortir du mode \"plein \u00e9cran\"<br>(<kbd>Esc</kbd>)", "em": 10, "kbd": "Esc"}, "installDone": {"msg": "Installations termin\u00e9es !", "format": "info"}, "installStart": {"msg": "Installation de paquets python. Ceci peut prendre un certain temps...", "format": "info"}, "loadIde": {"msg": "Configure l'IDE avec ces donn\u00e9es", "em": 10, "kbd": ""}, "noCodesTrash": {"msg": "Pas de codes trouv\u00e9s pour le projet en cours sur ce navigateur."}, "p5Start": {"msg": "D\u00e9marre l'animation", "em": 0, "kbd": ""}, "p5Step": {"msg": "Avance d'une image", "em": 0, "kbd": ""}, "p5Stop": {"msg": "Arr\u00eate l'animation", "em": 0, "kbd": ""}, "pickerFailure": {"msg": "Veuillez cliquer sur la page entre deux utilisations des raccourcis clavier ou utiliser un bouton, afin de pouvoir t\u00e9l\u00e9verser un fichier."}, "play": {"msg": "Ex\u00e9cuter le code<br>(<kbd>Ctrl</kbd>+<kbd>S</kbd>)", "em": 9, "kbd": "Ctrl+S"}, "publicTests": {"msg": "Tests publics", "format": "info"}, "pyBtn": {"msg": "Ex\u00e9cuter le code", "em": 9, "kbd": ""}, "qcmCheckTip": {"msg": "V\u00e9rifier les r\u00e9ponses", "em": 11, "kbd": ""}, "qcmMaskTip": {"msg": "Les r\u00e9ponses resteront cach\u00e9es...", "em": 11, "kbd": ""}, "qcmRedoTip": {"msg": "Recommencer", "em": 9, "kbd": ""}, "qcmTitle": {"msg": "Question", "plural": "Questions"}, "refresh": {"msg": "Une version plus r\u00e9cente du code existe.\nVeuillez copier vos \u00e9ventuelles modifications puis r\u00e9initialiser l'IDE.", "format": "warning"}, "rem": {"msg": "Remarques"}, "removeTrash": {"msg": "Il y a actuellement 1 r\u00e9f\u00e9rence enregistr\u00e9e sur ce navigateur.\nVoulez-vous l'effacer ?", "plural": "Il y a actuellement {N} r\u00e9f\u00e9rences enregistr\u00e9es sur ce navigateur.\nVoulez-vous toutes les effacer ?"}, "restart": {"msg": "R\u00e9initialiser l'\u00e9diteur", "em": 0, "kbd": ""}, "restartConfirm": {"msg": "ATTENTION: r\u00e9initialiser l'\u00e9diteur fera perdre les anciens codes, status de validation et historiques.", "em": 0, "kbd": ""}, "revealCorr": {"msg": "le corrig\u00e9"}, "revealJoin": {"msg": "et"}, "revealRem": {"msg": "les commentaires"}, "runScript": {"msg": "Script lanc\u00e9...", "format": "info"}, "save": {"msg": "Sauvegarder dans le navigateur", "em": 0, "kbd": ""}, "secretTests": {"msg": "Tests secrets", "format": "info"}, "show": {"msg": "Afficher corr & REMs", "em": 0, "kbd": ""}, "splitModePlaceholder": {"msg": "\u00c9diteur dans l'autre colonne"}, "splitScreen": {"msg": "Entrer ou sortir du mode \"deux colonnes\"<br>(<kbd>Alt+:</kbd> ; <kbd>Ctrl</kbd> pour inverser les colonnes)", "em": 23, "kbd": ""}, "storageIdCollision": {"msg": "Contacter l'auteur du site web en lui fournissant ce message complet. Une collision potentielle d'ids entre plusieurs projets \u00e0 \u00e9t\u00e9 rencontr\u00e9e. Il faut ajouter ou modifier l'argument ID pour l'IDE suivant:"}, "successHead": {"msg": "Bravo !", "format": "success"}, "successHeadExtra": {"msg": "Vous avez r\u00e9ussi tous les tests !"}, "successMsg": {"msg": "OK", "format": "success"}, "successMsgNoTests": {"msg": "Termin\u00e9 sans erreur.", "format": "info"}, "successTail": {"msg": "Pensez \u00e0 lire"}, "test1Ide": {"msg": "Lance ce test", "em": 7, "kbd": ""}, "testIdes": {"msg": "Lance tous les tests...", "em": 7, "kbd": ""}, "testStop": {"msg": "Arr\u00eate les tests", "em": 6, "kbd": ""}, "tests": {"msg": "\n\n# Tests\n\n", "as_pattern": "^#\\s*Tests"}, "testsDone": {"msg": "Tests termin\u00e9s", "format": "info"}, "tipTrash": {"msg": "Supprimer du navigateur les codes enregistr\u00e9s pour Cours d'informatique en CPGE", "em": 15, "kbd": ""}, "titleCorr": {"msg": "Solution"}, "titleRem": {"msg": "Remarques"}, "unforgettable": {"msg": "N'oubliez pas de faire une validation !", "format": "warning"}, "upload": {"msg": "T\u00e9l\u00e9verser", "em": 0, "kbd": ""}, "validation": {"msg": "Validation - ", "format": "info"}, "wrapTerm": {"msg": "Si activ\u00e9, le texte copi\u00e9 dans le terminal est joint sur une seule ligne avant d'\u00eatre copi\u00e9 dans le presse-papier", "em": 19, "kbd": ""}, "zip": {"msg": "Archiver les codes des IDEs exportables de la page", "em": 14, "kbd": ""}, "zipAskForNames": {"msg": "Veuillez pr\u00e9ciser votre/vos noms (cha\u00eene vide interdite) :"}}
+</script>
+<script src="../../../../../js-libs/0-legacy-subscriber.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="../../../../../js-libs/functools.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../../../../js-libs/jsLogger.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../../../../js-libs/mathjax-libs.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<script src="../../../../../js-libs/process_and_gui.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<link href="../../../../../pyodide-css/0-generic.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../../../../pyodide-css/btns-header.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../../../../pyodide-css/history.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../../../../pyodide-css/hourglass.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../../../../pyodide-css/ide.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../../../../pyodide-css/qcm.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../../../../pyodide-css/terminal.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<link href="../../../../../pyodide-css/testing.css" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" rel="stylesheet"/>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="text/javascript"></script>
+
+<input type="checkbox" id="ace_palette" autocomplete="off" class="md-toggle" data-ace-dark-mode="tomorrow_night_bright" data-ace-light-mode="crimson_editor">
+
+
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/fenarius.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dm5-resolution-de-sudoku-mis-sous-forme-normale-conjonctive" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../../../.." title="Cours d&#39;informatique en CPGE" class="md-header__button md-logo" aria-label="Cours d'informatique en CPGE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M241.3-13c-11.4-2.3-23.1-2.3-34.5 0L19.3 24.5C8.1 26.7 0 36.6 0 48c0 10.3 6.5 19.3 16 22.6V144L.3 222.6c-.2.9-.3 1.9-.3 2.9 0 8 6.5 14.6 14.6 14.6h34.9c8 0 14.6-6.5 14.6-14.6 0-1-.1-1.9-.3-2.9L48 144V77.3l48 9.6V144c0 70.7 57.3 128 128 128s128-57.3 128-128V86.9l76.7-15.3C439.9 69.3 448 59.4 448 48s-8.1-21.3-19.3-23.5zM224 224c-44.2 0-80-35.8-80-80h160c0 44.2-35.8 80-80 80m-103.9 96.1C58.7 348.3 16 410.3 16 482.3c0 16.4 13.3 29.7 29.7 29.7H200V366l-57.4-43c-6.5-4.9-15.2-6.2-22.6-2.8zM248 512h154.3c16.4 0 29.7-13.3 29.7-29.7 0-72-42.7-134-104.1-162.1-7.4-3.4-16.1-2.1-22.6 2.8l-57.4 43v146z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cours d'informatique en CPGE
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DM5
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../progression/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../itc/progression/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../evaluations/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../colles/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/chalkboard-user.svg' width=16px height=16px>&thinsp; Colles
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../programmes/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../annales/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/graduation-cap.svg' width=16px height=16px>&thinsp; Annales PC
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../liens/" class="md-tabs__link">
+          
+  
+  
+  <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Cours d&#39;informatique en CPGE" class="md-nav__button md-logo" aria-label="Cours d'informatique en CPGE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M241.3-13c-11.4-2.3-23.1-2.3-34.5 0L19.3 24.5C8.1 26.7 0 36.6 0 48c0 10.3 6.5 19.3 16 22.6V144L.3 222.6c-.2.9-.3 1.9-.3 2.9 0 8 6.5 14.6 14.6 14.6h34.9c8 0 14.6-6.5 14.6-14.6 0-1-.1-1.9-.3-2.9L48 144V77.3l48 9.6V144c0 70.7 57.3 128 128 128s128-57.3 128-128V86.9l76.7-15.3C439.9 69.3 448 59.4 448 48s-8.1-21.3-19.3-23.5zM224 224c-44.2 0-80-35.8-80-80h160c0 44.2-35.8 80-80 80m-103.9 96.1C58.7 348.3 16 410.3 16 482.3c0 16.4 13.3 29.7 29.7 29.7H200V366l-57.4-43c-6.5-4.9-15.2-6.2-22.6-2.8zM248 512h154.3c16.4 0 29.7-13.3 29.7-29.7 0-72-42.7-134-104.1-162.1-7.4-3.4-16.1-2.1-22.6 2.8l-57.4 43v146z"/></svg>
+
+    </a>
+    Cours d'informatique en CPGE
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/home.svg' width=16px height=16px>&thinsp; Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours de MP2I
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../progression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index des chapitres
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../systemes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C0-Notions d'architecture et de systèmes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../introC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C1-Premiers pas en langage C
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../discipline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C2-Discipline de programmation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../pointeurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C3-Pointeurs et types structurés
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../arithmetique/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C4-Arithmétique des ordinateurs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../recursivite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C5-Récursivité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../introOCaml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C6-OCaml : aspects fonctionnels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../terminaison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C7-Terminaison, correction, complexité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C8-Structures de données séquentielles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../OCamlimp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C9-Ocaml : aspects impératifs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../hash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C10-Tableau associatif, hachage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../introbd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C11-Introduction aux bases de données
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../arbres/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C12-Arbres binaires
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../forcebrute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C13-Force brute, retour sur trace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../induction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C14-Induction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../decomposition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C15-Décomposition en sous problèmes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../logique/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C16-Logique
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../graphes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C17-Graphes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mea/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C18-Modèle entité-association
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../textes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C19-Algorithmes des textes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algographes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C20-Algorithmes des graphes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../complement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C21-Compléments sur les arbres
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/list-ordered-16.svg' width=16px height=16px>&thinsp; Cours d'ITC
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/progression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/point/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C0-Faire le point
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/bases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C1-Bases de Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/listes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C2-Listes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/fichiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C3-Fichiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/discipline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C4-Discipline de programmation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/dictionnaires/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C5-Dictionnaires
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/recursivite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C6-Récursivité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/gloutons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C7-Algorithmes gloutons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/tris/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C8-Tris
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/entiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C9-Représentation des entiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/terminaison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C10-Terminaison et corrections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/graphes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C11-Graphes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/complexite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C12-Complexité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/flottants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C13-Représentation des flottants
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/parcours/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C14-Plus courts chemins dans un graphe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C15-Manipulation d'images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Semestre 3
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Semestre 3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/revisions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C16-Un peu de Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/introbd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C17-Introduction aux bases de données
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/progdyn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C18-Programmation dynamique
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/jointures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C19-Jointures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/knn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C20-k plus proches voisins, k-moyennes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../itc/algojeux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C21-Algorithme pour l'étude des jeux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/check.svg' width=16px height=16px>&thinsp; Evaluations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../evaluations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/chalkboard-user.svg' width=16px height=16px>&thinsp; Colles
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/chalkboard-user.svg' width=16px height=16px>&thinsp; Colles
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../colles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programme de colles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/file-badge-16.svg' width=16px height=16px>&thinsp; Programmes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../programmes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programme d'informatique en MP2I
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/graduation-cap.svg' width=16px height=16px>&thinsp; Annales PC
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/graduation-cap.svg' width=16px height=16px>&thinsp; Annales PC
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../annales/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sujets corrigés
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../annales/CCINP2024/CCINP2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024 - CCINP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../annales/CCMP2024/CCMP2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024 - CCMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../annales/CCINP2025/CCINP2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025 - CCINP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <img src='https://fabricenativel.github.io/cpge-info/icones/links.svg' width=16px height=16px>&thinsp; Liens
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../liens/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Liens
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#partie-i-implementation-de-lalgorithme-de-quine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partie I : Implémentation de l'algorithme de Quine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partie-ii-application-a-la-resolution-de-sudoku" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partie II : Application à la résolution de sudoku
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partie-iii-resolution-dans-des-cas-particuliers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partie III : Résolution dans des cas particuliers
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+
+
+                  
+
+
+<p>Le corrigé du sujet de concours blanc donné pendant les vacances peut-être télécharger ci-dessous :
+<span class='centre'><a class="md-button" href="../CorrigeCB.pdf">Corrigé Concours Blanc 2025 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7z"/></svg></span></a></span></p>
+<hr />
+<h1 id="dm5-resolution-de-sudoku-mis-sous-forme-normale-conjonctive"><span class='numchapitre'>DM5</span> Résolution de sudoku mis sous forme normale conjonctive <span style='float:right;'><span class="twemoji" title="Devoir maison"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.31 18.9c.44-.69.69-1.52.69-2.4 0-2.5-2-4.5-4.5-4.5S11 14 11 16.5s2 4.5 4.5 4.5c.87 0 1.69-.25 2.38-.68L21 23.39 22.39 22zm-3.81.1a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5M5 20v-8H2l10-9 10 9h-1.82c-1.18-1.23-2.84-2-4.68-2-3.58 0-6.5 2.92-6.5 6.5 0 1.29.38 2.5 1.03 3.5z"/></svg></span></span><a class="headerlink" href="#dm5-resolution-de-sudoku-mis-sous-forme-normale-conjonctive" title="Permanent link">&para;</a></h1>
+<p>Le but de l'exercice est de résoudre un <a href="https://en.wikipedia.org/wiki/Sudoku" target="_blank">sudoku</a> en :</p>
+<ul>
+<li>le transformant en un problème de satisfiabilité d'une formule logique (mise sous forme normale conjonctive)</li>
+<li>d'utiliser une implémentation de l'algorithme de Quine afin de résoudre ce problème de satisfiabilité</li>
+</ul>
+<p>La première partie concerne l'implémentation de l'algorithme de Quine qu'on testera sur un exemple simple. La transformation du sudoku en un problème de satisfiabilité s'effectue dans le seconde partie. Le langage d'implémentation proposé est OCaml, mais on pourra éventuellement dans un second temps effectuer aussi une implémentation en C.</p>
+<h2 id="partie-i-implementation-de-lalgorithme-de-quine">Partie I : Implémentation de l'algorithme de Quine<a class="headerlink" href="#partie-i-implementation-de-lalgorithme-de-quine" title="Permanent link">&para;</a></h2>
+<p>Etant donné un ensemble <span class="arithmatex">\(\mathcal{V}\)</span> de <span class="arithmatex">\(n\)</span> variables logiques  numérotées à partir de <strong>1</strong> c'est à dire <span class="arithmatex">\(\mathcal{V} = \left(p_i\right)_{i \leqslant 1 \leqslant n}\)</span> on représente en OCaml :</p>
+<ul>
+<li>un <em>littéral</em> <span class="arithmatex">\(p_i\)</span> par l'entier <span class="arithmatex">\(i\)</span> et un littéral <span class="arithmatex">\(\neg p_i\)</span> par <span class="arithmatex">\(-i\)</span>.</li>
+<li>une <em>clause</em> par une liste d'entiers</li>
+<li>une <em>forme normale conjonctive</em> par une liste de liste d'entiers</li>
+</ul>
+<p>Par exemple avec 3 variables logiques <span class="arithmatex">\(p_1, p_2\)</span> et <span class="arithmatex">\(p_3\)</span>, la forme normale conjonctive <span class="arithmatex">\((p_1 \vee p_2 \vee \neg p_3) \wedge (\neg p_2 \vee \neg p_3) \wedge (\neg p_1 \vee p_3)\)</span> est représentée par la liste de liste d'entiers : <code>[[1; 2; -3]; [-2; -3]; [1; 3]]</code></p>
+<ol>
+<li>
+<p>Nombre de variables dans la formule logique</p>
+<p>Ecrire une fonction qui renvoie le maximum <em>en valeur absolue</em> d'une liste d'entier et en déduire une fonction <code>maxvar : int list list -&gt; int</code> qui renvoie le maximum en valeur absolue d'une liste de liste d'entiers. Par exemple <code>maxvar [[2; 3]; [1; -4]]</code> doit renvoyer 4.</p>
+</li>
+<li>
+<p>Choix d'une variable à instancier<br />
+    La première étape de l'algorithme de Quine est de choisir une variable à instancier, dans le cas particulier du sudoku nous verrons que certaines clauses ne contiennent qu'un unique littéral. On propose donc d'instancier en premier les variables logiques correspondantes. C'est à dire qu'on est amené à rechercher dans une liste de liste d'entiers l'un des entiers apparaissant dans une liste contenant un seul élément. Si aucune liste ne contient qu'un élément, on choisit (arbitrairement) d'instancier une variable se trouvant dans une liste de longueur minimale. Par exemple :</p>
+<ul>
+<li>Le choix du littéral dans <code>[[1; -4]; [2; -3; 4]; [-3]; [1; -3]]</code> doit renvoyer <code>-3</code>  en effet c'est l'unique clause contenant un seul littéral</li>
+<li>Le choix du littéral dans <code>[[3]; [1; 2; 3; -5]; [-2]; [-1; 5]]</code> peut renvoyer <code>3</code> ou <code>-2</code> (on renvoie l'un des littéraux figurant dans une clause de longueur minimale)</li>
+<li>Le choix du littéral dans <code>[[2; 6; 1]; [-1; 3 ; 4]; [5; 6]; [2; 3; -4]]</code> peut renvoyer <code>5</code> ou <code>6</code> (l'un des littéraux se trouvant dans la clause contenant le minimum de littéraux)</li>
+<li>Le choix du littéral dans <code>[[-1; -2]; [3; 4]]</code> peut renvoyer <code>-1</code>, <code>-2</code>, <code>3</code> ou <code>4</code> car les deux clauses sont de longueur minimal</li>
+</ul>
+<p>Ecrire une fonction, <code>choix_litteral : int list list -&gt; int</code> qui choisit un littéral dans une forme normale conjonctive.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On pourra procéder récursivement de la façon suivante :</p>
+<ul>
+<li>Dès qu'on rencontre une clause contenant un seul littéral on renvoie ce littéral</li>
+<li>Sinon on maintient à jour dans les paramètres d'appel de la fonction la taille minimale des clauses déjà rencontrées ainsi qu'un littéral d'une de ces clauses. On renvoie cette valeur si on atteint la fin de la liste.</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Substitution d'un littéral dans une forme normal conjonctive</p>
+<p>A présent qu'on a choisit un littéral, on doit instancier la variable correspondante dans la forme normale conjonctive (voir le cours sur l'algorithme de Quine). On rappelle que lorsqu'on instancie un littéral dans une clause :</p>
+<ul>
+<li>si le littéral est vrai alors la clause devient vraie (une clause est une disjonction de littéraux, dont un littéral vraie rend la clause vraie). Lorsque la clause est vraie, elle peut être <em>entièrement supprimée</em> de la forme normale conjonctive.</li>
+<li>si le littéral est faux alors il peut être supprimée de la clause. Si la clause obtenue est vide alors cela signifie que la forme normale conjonctive n'est pas satisfiable.</li>
+</ul>
+<p>Par exemple, si on substitue le littéral <span class="arithmatex">\(p_1\)</span> par vraie dans <code>[1; 2; -3]; [-1; 3]; [2; 3]</code> alors la première clause est satisfaite et est supprimée, la seconde clause devient <code>[3]</code> (car <span class="arithmatex">\(\neg p_1\)</span> est faux) et la dernière clause n'est pas affectée car elle ne contient pas <span class="arithmatex">\(p_1\)</span>. La nouvelle forme normale conjonctive est <code>[[3]; [2; 3]]</code>.</p>
+<p>Ecrire la fonction <code>substitue : int list list -&gt; int -&gt; bool -&gt; int list list</code> qui substitue un littéral dans une forme normale conjonctive et renvoie la nouvelle forme normale conjonctive obtenue.</p>
+</li>
+<li>
+<p>Algorithme de Quine</p>
+<p>En utilisant les deux fonctions précédentes, écrire une implémentation de l'algorithme de Quine sous la forme d'une fonction <code>quine : int list list -&gt; bool * bool array</code> qui prend en argument une liste de liste d'entiers (représentant une forme normale conjonctive) et renvoie <code>true</code> et une valuation (sous la forme d'un tableau de booléens <code>bool array</code>) qui satisfait cette <em>fnc</em> si elle est satisfiable et <code>false</code> et une valuation quelconque sinon.</p>
+<div class="admonition aide">
+<p class="admonition-title">Aide</p>
+<p>On pourra éventuellement :</p>
+<ul>
+<li>Utiliser <code>maxvar</code> afin de déterminer le nombre de variables logiques dans la <code>fnc</code></li>
+<li>créer la valuation sous la forme d'un tableau de booléens tel que le booléen à l'indice <span class="arithmatex">\(i\)</span> représente la valuation de la variable logique <span class="arithmatex">\(p_{i+1}\)</span>.</li>
+</ul>
+<p>On rappelle que si la <em>fnc</em> est vide alors elle est vraie, si elle contient une clause vide alors elle est fausse. </p>
+</div>
+</li>
+<li>
+<p>Test de l'algorithme de Quine</p>
+<p>Tester votre algorithme sur la formule logique <code>[[-2; -3]; [-1; 3]; [2; -3]; [2; 3]]</code>, vous devriez obtenir que cette formule est satisfiable, la seule valuation la rendant vraie est <code>[|false; true; false |]</code>.</p>
+</li>
+</ol>
+<h2 id="partie-ii-application-a-la-resolution-de-sudoku">Partie II : Application à la résolution de sudoku<a class="headerlink" href="#partie-ii-application-a-la-resolution-de-sudoku" title="Permanent link">&para;</a></h2>
+<p>Le <a href="https://en.wikipedia.org/wiki/Sudoku" target="_blank">sudoku</a> est un célèbre jeu de réflexion dans lequel on doit placer les chiffres de 1 à 9 dans une grille de façon à ce qu'une ligne, une colonne ou une sous grille de dimension 3x3 contienne un unique exemplaire de chacun des chiffres.</p>
+<p>Voici un exemple de sudoku, ou les sous grilles (de taille 3x3) appelées <em>blocs</em> sont délimitées par des traits en gras (credits : <a href="https://commons.wikimedia.org/w/index.php?curid=57831926" target="_blank">Wikipedia,Tim Stellmach</a>):
+<img alt="img" class="imgcentre" src="../ex_sudoku.svg" width="300px" /></p>
+<p>La solution est :
+<img alt="img" class="imgcentre" src="../solution_sudoku.svg" width="300px" /></p>
+<p>Le problème de remplissage du sudoku peut se ramener à celui de la satisfiabilité d'une formule logique. On commence par noter pour <span class="arithmatex">\(0 \leqslant i \leqslant 8\)</span>, <span class="arithmatex">\(0 \leqslant j \leqslant 8\)</span> et <span class="arithmatex">\(1 \leqslant k \leqslant 9\)</span>, <span class="arithmatex">\(p_{i,j,k}\)</span> la variable logique qui vaut vrai si la valeur <span class="arithmatex">\(k\)</span> se trouve à la ligne <span class="arithmatex">\(i\)</span> et à la colonne <span class="arithmatex">\(j\)</span>. Dans le sudoku donné en exemple ci-dessus <span class="arithmatex">\(5\)</span> se trouve en <span class="arithmatex">\((0,0)\)</span> et donc <span class="arithmatex">\(p_{0,0,5}\)</span> est vraie. </p>
+<ol>
+<li>
+<p>Numérotation des variables</p>
+<p>On adopte une numérotation avec un seul indice, la variable <span class="arithmatex">\(p_{i,j,k}\)</span> sera celle de numéro <span class="arithmatex">\(81i + 9j+ k\)</span>. On a donc en tout <strong>729</strong> variables logiques, numérotées de 1 à 730. Ecrire la fonction qui associe au triplet <span class="arithmatex">\((i,j,k)\)</span> l'indice correspondant.</p>
+</li>
+<li>
+<p>Présence d'au moins une valeur dans chaque case du Sudoku</p>
+<p>Chaque case de la grille doit contenir une valeur. C'est à dire que, par exemple, pour la case <span class="arithmatex">\((0,0)\)</span> on doit avoir l'un des <span class="arithmatex">\(p_{0,0,k}\)</span> pour <span class="arithmatex">\(1 \leqslant k \leqslant 9\)</span> qui est vrai. Ce qui donne pour la case <span class="arithmatex">\((0,0)\)</span> la clause <code>[1; 2; 3; 4; 5; 6; 7; 8; 9]</code>. Ecrire la fonction  <code>au_moins : () -&gt; int list list</code> qui ne prend aucun argument et renvoie la <em>fnc</em> indiquant que chacune des 81 cases du sudoku contient au moins une valeur.</p>
+</li>
+<li>
+<p>Présence d'au plus une valeur dans chaque case du Sudoku</p>
+<p>Une case du Sudoku ne peut pas contenir deux valeurs simultanément. Prenons de nouveau l'exemple de la case <span class="arithmatex">\((0,0)\)</span>, pour deux valeurs distinctes <span class="arithmatex">\(k_1\)</span> et <span class="arithmatex">\(k_2\)</span> on ne peut pas avoir simultanément les variables <span class="arithmatex">\(p_{0,0,k_1}\)</span> et <span class="arithmatex">\(p_{0,0,k_2}\)</span> vraies, autrement dit l'une ou l'autre doit être fausse. C'est à dire qu'on obtient, toujours dans l'exemple de la case <span class="arithmatex">\((0,0)\)</span>, que pour toute couple <span class="arithmatex">\((k_1,k_2)\)</span>, <span class="arithmatex">\(1 \leqslant k_1 &lt; k_2 \leqslant 9\)</span> la clause <code>[-k1; -k2]</code>. Ecrire une fonction <code>au_plus : () -&gt; int list list</code> qui ne prend aucun argument et renvoie la <em>fnc</em> indiquant que chacune des 81 cases du sudoku contient au plus une valeur.</p>
+</li>
+<li>
+<p>Valeur différentes dans une ligne, une colonne ou un bloc</p>
+<p>Il reste à exprimer que si nous prenons une liste de 9 cases constituant une ligne, une colonne ou un bloc du sudoku alors une même valeur ne peut pas apparaitre deux fois sur ces 9 cases. Prenons l'exemple de la première ligne, dont les indices des cases sont <code>[(0,0); (0,1); (0,2); (0,3); (0,4); (0;5); (0;6); (0;7); (0;8)]</code> si on choisit deux cases distinctes dans cette liste par exemple les deux premières, alors pour toute valeur <span class="arithmatex">\(1 \leqslant k \leqslant 9\)</span> on ne doit pas avoir <span class="arithmatex">\(p_{0,0,k}\)</span> et <span class="arithmatex">\(p_{0,1,k}\)</span> vraies en même temps. </p>
+<ol>
+<li>
+<p>Ecrire la fonction  <code>ligne : int -&gt; int list</code> qui renvoie la liste des cases de la ligne <code>i</code></p>
+</li>
+<li>
+<p>Ecrire la fonction  <code>colonne : int -&gt; int list</code> qui renvoie la liste des cases de la colonne <code>i</code></p>
+</li>
+<li>
+<p>Ecrire la fonction  <code>bloc : int -&gt; int list</code> qui renvoie la liste des cases du bloc <code>i</code> (on peut numéroter les bloc du sudoku de gauche à droite et de haut en bas)</p>
+</li>
+<li>
+<p>Ecrire la fonction <code>differents : int list -&gt; int list list</code> qui prend en argument une liste de case et renvoie la <em>fnc</em> indiquant que deux cases distinctes d'une liste de cases ne peuvent pas avoir la même valeur</p>
+</li>
+<li>
+<p>En appliquant la fonction <code>differents</code> aux lignes, colonnes et blocs, produire la <em>fnc</em> qui indique que deux cases situées  dans une même ligne, colonne ou bloc n'ont pas la même valeur.</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="partie-iii-resolution-dans-des-cas-particuliers">Partie III : Résolution dans des cas particuliers<a class="headerlink" href="#partie-iii-resolution-dans-des-cas-particuliers" title="Permanent link">&para;</a></h2>
+<p>Dans un sudoku, certaines valeurs sont déjà placées, ainsi dans le sudoku donné en exemple, la valeur 5 est déjà placée dans  la case <span class="arithmatex">\((0,0)\)</span> ce qui signifie <span class="arithmatex">\(p_{0,0,5}\)</span> est vrai et que donc la clause <code>[5]</code> doit faire partie de ce sudoku. On donne de façon classique un sudoku sous la forme d'une chaine de 81 caractères, celle qui représente le sudoku donnée en exemple est <code>"530070000600195000098000060800060003400803001700020006060000280000419005000080079"</code>, c'est à dire qu'on lit le sudoku dans l'ordre de gauche à droite et de haut en bas et qu'on indique par un <code>0</code> une valeur manquante.</p>
+<ol>
+<li>
+<p>Ecrire une fonction <code>initialisation : str -&gt; int list list</code> qui prend en entrée une chaine de caractères représentant un sudoku et renvoie la liste des clauses (ne comprenant chacune qu'un unique littéral) représentant les valeurs déjà placées dans ce sudoku.</p>
+</li>
+<li>
+<p>Ecrire la fonction de résolution qui concatène toutes les contraintes écrites plus haut (<code>au_moins</code>, <code>au_plus</code>, <code>differents</code>) ainsi que la contrainte d'initialisation du sudoku de la question précédente et renvoie la valuation qui rend vraie le sudoku.</p>
+</li>
+<li>
+<p>Ecrire une fonction exploitant la valuation afin d'afficher le sudoku résolu.</p>
+</li>
+</ol><script type="text/javascript">
+CONFIG.needMermaid = false;
+CONFIG.overlordClasses = [];
+globalThis.PAGE_IDES_CONFIG = '.\x1e}{\x1e0b0a.'
+</script>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+                
+
+
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  <div class="md-copyright_pyodide">
+    
+    
+  </div>
+  
+    <div class="md-copyright_pyodide">
+      <div>
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      <div id="pyodide-footer">
+        <a href="https://gitlab.com/frederic-zinelli/pyodide-mkdocs-theme" target="_blank" rel="noopener">
+          Pyodide MkDocs Theme
+        </a> v.5.4.16
+      </div>
+    </div>
+  
+</div>
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.tabs", "navigation.tabs.sticky", "navigation.expand"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+    
+    
+
+
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../../../javascript/check.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+      
+    
+<script src="../../../../../js-scripts/overlord.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+<script src="../../../../../js-scripts/subscriptions.js" crossorigin="anonymous" referrerpolicy="no-referrer" charset="utf-8" type="module"></script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,360 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeConcours
+\DS{MP2I}{6}{Mai 2025}
+
+\setboolean{corrige}{false}
+\newcommand{\non}{\neg}
+\newcommand{\et}{\wedge}
+\newcommand{\ou}{\vee}
+\newcommand{\imp}{\to}
+\newcommand{\eq}{\leftrightarrow}
+\setlength{\algomargin}{0em}
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$e_0$}} \\
+		\hline
+	\end{tabular}
+}
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] Les programmes demandés doivent être écrits en C ou en OCaml suivant l'exercice. Dans le cas du C, on suppose que les librairies standards usuelles ({\tt <stdio.h>}, {\tt <stdlib.h>}, {\tt <stdbool.h>}) sont déjà importées.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+\begin{Exercise}[title = {Algorithme de recherche de la majorité absolue} ]
+
+
+    
+Le langage utilisé dans cet exercice est le langage C.
+
+\medskip
+
+
+
+On considère un scrutin avec $m$ candidats numérotés de $0$ à $m-1$ et $n$ votes exprimés. Chaque vote est représenté par un entier indiquant le candidat choisi. 
+L'objectif est de déterminer si un candidat a obtenu une majorité \textit{absolue}, c'est-à-dire strictement plus de la moitié des voix. La sortie doit être :
+\begin{itemize}
+    \item l'indice du candidat ayant la majorité absolue, si un tel candidat existe ;
+    \item $-1$ sinon.
+\end{itemize}
+
+Par exemple,
+\begin{itemize}
+    \item avec $m=3$ et $n=5$, si le tableau de votes est $\{1, 0, 2, 0, 0\}$, on renvoie $0$ car le candidat $0$ obtient 3 voix sur 5 ;
+    \item avec $m=3$ et $n=5$, si le tableau de votes est $\{1, 0, 2, 1, 0\}$, on renvoie $-1$ car aucun candidat n'a plus de 2 voix ;
+    \item avec $m=3$ et $n=6$, si le tableau de votes est $\{1, 0, 1, 2, 1, 2\}$, on renvoie $-1$ car le candidat $1$ a 3 voix sur 6 et n'a pas la majorité absolue.
+\end{itemize}
+
+On donne ci-dessous une fonction de signature \mintinline{c}{int vote_majoritaire_bug(int votes[], int nb_votes)} censée répondre au problème, cette fonction utilise un tableau annexe {\tt voix} afin de comptabiliser le nombre de voix de chaque candidat puis recherche si l'un des candidats a strictement plus que la moitié des voix.
+\inputpartC{majoritaire.c}{}{}{18}{34}
+Cette fonction utilise une fonction {\tt maximum} de signature \mintinline{c}{int maximum(int tab[], int n)} qui prend en entrée un tableau d'entiers non vide et sa taille et renvoie le maximum des éléments de ce tableau.
+
+\Question{Cette fonction renvoie des résultats erronés aux tests, déterminer l'erreur commise par le programmeur et proposer une correction.}
+
+\Question{Un programme C peut stocker des données dans différentes régions de la mémoire. Citer ces régions. Dans quelle région est stocké le tableau d'entiers {\tt voix} déclaré à la ligne 4 ? Expliquer en quoi cela peut poser problème et proposer une correction.}
+\Question{Donner les complexités en temps et en espace de la fonction précédente en fonction du nombre $n$ de votes et $m$ de candidats. On pourra supposer que $n>m$.}
+
+\medskip{}\NRet
+On s'intéresse maintenant à l'algorithme suivant proposé par Boyer-Moore en  1981 :
+
+\begin{algorithm}[H]
+    \SetAlgoVlined
+    \begin{minipage}{\linewidth}
+		\DontPrintSemicolon
+		\caption{Vote majoritaire absolue}
+		\Entree{Un tableau de $n$ entiers tous compris entre $0$ et $m-1$}
+		\Sortie{$-1$ si aucun entier n'a la majorité absolue sinon l'entier apparaissant plus de $n/2$ fois.}
+		\everypar={\footnotesize \textcolor{gray}{\nl \hspace{0.25cm}}}
+		$cpt \leftarrow 0$\;
+        $cm$ \;
+		\Pour{$i \leftarrow 0$ à $n-1$  }
+			{\Si{$cpt=0$}
+            {
+                $cm \leftarrow tab[i]$ \;
+                $cpt \leftarrow 1$ \;
+            }
+            \SinonSi{$cm=tab[i]$}
+            {
+                $cpt \leftarrow cpt + 1$\;
+            }
+            \Sinon
+            {
+                $cpt \leftarrow cpt -1 $\;
+            }
+		}
+        $cpt \leftarrow 0$\;
+		\Pour{$i \leftarrow 0$ à $n-1$  }
+        {
+            \Si{$tab[i]=cm$}
+            {
+                $cpt \leftarrow cpt + 1$\;
+            }
+        }
+        \Si {$cpt > n/2$}
+        {
+            \Return{$cm$}\;
+        }
+        \Sinon
+        {
+            \Return{$-1$}\;
+        }
+    \end{minipage}
+\end{algorithm}
+Cet algorithme parcourt une première fois le tableau en maintenant à jour une variable $cm$ contenant le numéro d'un candidat \textit{potentiellement} majoritaire (de façon absolue) puis une seconde fois afin de vérifier si ce candidat a bien la majorité absolue ou non.
+\medskip \Ret
+\Question{Donner une implémentation de ce nouvel algorithme en langage C.}
+\Question{Quelles sont les complexités en temps et en espace de cet algorithme ?}
+\Question{Prouver la correction de la première boucle à l'aide de l'invariant suivant : \og{}\textit{après avoir parcouru les i premiers éléments, ceux-ci se décomposent en cpt exemplaires de cm et de paires formées chacune de deux éléments distincts}\fg{}. En déduire que si un candidat a la majorité absolue, il est nécessairement retenu comme $cm$ à la fin de la première boucle, ce qui justifie la nécessité de la seconde boucle de vérification.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Logique et calcul des propositions}, origin = {\bac \; {\sc ccinp 2018 - mp}}]
+	Vous avez été sélectionné(e) pour participer au jeu ``Cherchez les Clés du Paradis (CCP)".
+	Le jeu se déroule en trois épreuves, au cours desquelles vous devez collecter des clés vertes.
+	A l'issue de chacune d'entre elles, vous passez à l'épreuve suivante en cas de succès et êtes éliminé(e) en cas d'échec.\\
+
+	\ExePart[name = {Première épreuve}]\\
+	Jean-Pierre Pendule, le célèbre animateur, vous accueille pour la première épreuve.
+	Il vous explique la règle du jeu.
+	Devant vous, deux boîtes et sur chacune d'entre elles une inscription.
+	Chacune des boîtes contient soit une clé verte, soit une clé rouge.
+	Vous devez choisir l'une des boîtes~: si le résultat est une clé rouge, alors vous quittez le jeu, si c'est une clé verte vous êtes qualifié(e) pour l'épreuve suivante.
+
+	Jean-Pierre Pendule dévoile les inscriptions sur chacune des boîtes et vous affirme qu'elles sont soit vraies toutes les deux, soit fausses toutes les deux~:
+	\begin{itemize}
+		\item sur la boîte $1$, il est écrit \og{}Une au moins des deux boîtes contient une clé verte\fg{};
+		\item  sur la boîte $2$, il est écrit \og{}Il y a une clé rouge dans l'autre boîte\fg{}.
+	\end{itemize}
+	Dans toute cette partie, on note $P_i$ la proposition affirmant qu'il y a une clé verte dans la boîte $i$.
+	\Question{Donner une formule de la logique des propositions représentant la phrase écrite sur la boîte 1.}
+	\tcor{La formule logique associée à la phrase de la boîte 1 est $P_1 \ou P_2$}
+	\Question{Donner de même une formule de la logique des propositions pour l'inscription de la boîte 2.}
+	\tcor{La formule logique associée à la phrase de la boîte 2 est $\non P_1$}
+	\Question{Donner une formule représentant l'affirmation de l'animateur. Simplifier cette formule de sorte à n'obtenir qu'une seule occurrence de chaque $P_i$.}
+	\tcor{L'affirmation de l'animateur se traduit par \\ 
+	$\begin{array}{lll}
+		Q &= &((P_1 \ou P_2) \et \non P_1) \ou (\non(P_1 \ou P_2) \et \non \non P_1) \\
+		Q 	& = & ((P_1 \et \non P_1) \ou P_2 \et \non P_1) \ou (\non P_1 \et \non P_2 \et P_1) \\
+			& = & P_2 \et \non P_1
+	\end{array}$
+	}
+	\Question{Quel choix devez-vous faire pour continuer le jeu à coup sûr~?}\\
+	\tcor{D'après la question précédente, la clé verte se trouve dans la boîte 2, il faut donc choisir cette boîte.}
+
+	\ExePart[name = {Deuxième épreuve}]\\
+	Bravo, vous avez obtenu la première clé verte.
+	Jean-Pierre Pendule vous félicite et vous annonce que cette première épreuve n'était qu'une mise en jambe.
+	Avec les mêmes règles du jeu, l'animateur vous propose alors deux nouvelles boîtes portant les inscriptions suivantes~:
+	\begin{itemize}
+		\item sur la boîte $1$, il est écrit \og{}Il y a une clé rouge dans cette boîte, ou bien il y a une clé verte dans la boîte 2\fg{};
+		\item  sur la boîte $2$, il est écrit \og{}Il y a une clé verte dans la boîte 1\fg{}.
+	\end{itemize}
+	\Question{Donner une formule de la logique des propositions pour chaque affirmation.}
+	\tcor{
+		L'affirmation de la boîte $1$ se traduit par $\non P_1 \ou P_2$ et celle de la boîte 2 par $P_1$
+	}
+	\Question{Sachant qu'encore une fois les deux affirmations sont soit vraies toutes les deux, soit fausses toutes les deux, donner le contenu de chaque boîte. En déduire votre choix pour remporter la deuxième clé verte.}\\
+	\tcor{
+	Cette fois l'affirmation de l'animateur se traduit par \\
+	$\begin{array}{lll}
+		R 	& = & ((\non P_1 \ou P_2) \et P_1) \ou (\non (\non P_1 \ou P_2) \et \non P_1)\\
+			& = & (P_1 \et P_2) \ou (P_1 \et \non P_2 \et \non P_1) \\
+			& = & P_1 \et P_2
+	\end{array}$\\
+	Les deux boîtes contiennent une clé verte, on peut donc choisir n'importe laquelle des deux.
+	}
+
+
+	\ExePart[name = {Troisième épreuve}]\\
+	Le suspense est à son comble, vous voici arrivé(e) à la dernière épreuve.
+	A votre grande surprise, Jean-Pierre Pendule vous dévoile une troisième boîte et vous explique les règles du jeu.
+	Dans une des boîtes se cache la clé qui vous permet de remporter la victoire finale.
+	Dans une autre boîte se cache une clé rouge qui vous fait tout perdre.
+	La dernière boîte est vide.
+	Encore une fois, chacune des boîtes porte une inscription~:
+	\begin{itemize}
+		\item sur la boîte $1$, il est écrit \og{}La boîte 3 est vide\fg{};
+		\item  sur la boîte $2$, il est écrit \og{}La clé rouge est dans la boîte 1\fg{}~;
+		\item  sur la boîte $3$, il est écrit \og{}Cette boîte est vide\fg{}.
+	\end{itemize}
+	L'animateur affirme que l'inscription portée sur la boîte contenant la clé verte est vraie, celle portée par la boîte contenant la clé rouge est fausse.
+	L'inscription affichée sur la boîte vide est aussi vraie.
+	\Question{Donner une formule de la logique des propositions pour chaque inscription.}
+	\tcor{Pour $i \in \intN{1}{3}$, on note $Q_i$ la proposition \og{} la boîte $i$ contient la clé rouge \fg{}. Le fait que la boîte $i$ soit vide se traduit alors par $\non P_i \et \non Q_i$. Les inscriptions se traduisent alors par :
+	\begin{itemize}
+		\item boîte 1 : $\non P_3 \et \non Q_3$,
+		\item boîte 2 : $Q_1$,
+		\item boîte 3 : $\non P_3 \et \non Q_3$.
+	\end{itemize}}
+	\Question{Donner une formule de la logique des propositions synthétisant l'information que vous a apportée l'animateur.}
+	\tcor{
+		Une boîte ne pouvant contenir les deux clés, $P_i$ et $Q_i$ ne peuvent être vraies en même temps, c'est à dire : \\
+		 $P_i \et Q_i \equiv \bot$ pour $i \in \intN{1}{3}$.\\
+		 D'autre part, une  unique boîte contient la clé verte, donc : \\
+		$(P_1 \et \non P_2 \et \non P_3) \ou (\non P_1 \et P_2 \et \non P_3)  \ou (\non P_1 \et \non P_2 \et P_3) \equiv \top $\\
+		de la même une unique boîte contient la clé rouge,\\
+		$(Q_1 \et \non Q_2 \et \non Q_3) \ou (\non Q_1 \et Q_2 \et \non Q_3)  \ou (\non Q_1 \et \non Q_2 \et Q_3) \equiv \top $. \\
+		La fait qu'une unique boîte soit vide peut se traduire par : $\non P_i \et \non Q_i$ pour un unique $i \in \intN{1}{3}$.
+	}
+	\Question{En supposant que la clé verte est dans la boîte 2, montrer que l'on aboutit à une incohérence.}
+	\tcor{
+		Si on suppose que $P_2 \equiv \top$ (alors $Q_2 \equiv \bot$), l'affirmation de la boîte 2 est vraie, donc $Q_1 \equiv \top$ (et $P_1 \equiv \bot$). Cela impose que la boîte 3 soit vide. Par conséquent l'affirmation de la boîte 1 est fausse et celle de la boîte 3 est vraie. Ces deux informations étant identiques, on aboutit à une contradiction.
+	}
+	\Question{Donner alors la composition des trois boîtes.}
+	\tcor{
+		D'après la question précédente, la clé verte ne peut pas se trouver dans la boîte 2 , elle ne peut pas non plus être dans la boîte 3 (car sinon l'affirmation de cette boîte serait vraie et elle serait vide). La clé verte est donc dans la boîte 1 et donc la boîte 3 est vide et la clé rouge est dans la boîte 2.
+	}
+
+\end{Exercise}
+
+
+
+\begin{Exercise}[title = {Gestions de randonnées},origin = {\bac\; {\sc ccinp pc 2025}}]\\
+	Les applications de randonnées permettent à un utilisateur de stocker les données de ses randonnées effectuées ou d'avoir accès à celles effectuées par d'autres utilisateurs. Ces données sont stockées dans une base contenant notamment les tables suivantes :
+
+	La table {\tt Randonnee} contenant :
+	\begin{itemize}
+	\item {\tt Id} : entier identifiant de la randonnée.
+	\item {\tt Titre} : chaine de caractères, titre de la randonnée.
+	\item {\tt Type} : chaine de caractère du type de la randonnée : \textit{"Pied", "VTT", "Cheval"}.
+	\item {\tt Lieu} : chaine de caractères, coordonnées {\sc gps} du point de départ.
+	\item {\tt Distance} : flottant, longueur en kilomètres de la randonnée.
+	\item {\tt DenP} : entier, dénivelé positif en mètres.
+	\item {\tt DenN} : entier, dénivelé négatif en mètres.
+	\item {\tt Duree} : entier, durée comprise entre 1 (facile) et 5 (difficile).
+	\item {\tt IdAuteur} : entier, identifiant de l'auteur de la randonnée.
+	\item {\tt Trace} : chaine de caractères, lien internet vers la trace {\sc gpx}. 
+	\end{itemize}
+
+	La table {\tt Auteur} contenant :
+	\begin{itemize}
+	\item {\tt Id} : entier, identifiant de l'auteur (le randonneur).
+	\item {\tt Nom} : chaine de caractères, nom de l'auteur.
+	\item {\tt Prenom} : chaine de caractères, prénom de l'auteur.
+	\item {\tt Pseudo} : chaine de caractères, pseudo de l'auteur.
+	\item {\tt Mail} : chaine de caractères, mail de l'auteur.
+	\end{itemize}
+	\Question{Expliquer en quoi l'attribut {\tt Titre} ne peut probablement pas être une clé primaire pour la table {\tt Randonnee}. Proposer un attribut de la table {\tt Randonnee} qui puisse être une clé primaire.}
+    \tcor{Plusieurs randonnées peuvent avoir le même titre or une clé primaire doit être unique pour chaque enregistrement.}
+	\Question{Identifier un attribut qui soit une clé étrangère de la table {\tt Randonnee}.}
+    \tcor{L'attribut {\tt IdAuteur} est une clé étrangère de la table {\tt Randonnee}, il référence l'attribut {\tt Id} de la table {\tt Auteur}.}
+	\Question{Ecrire une requête {\sc sql} dont l'évaluation renvoie le titre, les coordonnées {\sc gps} du point de départ et la longueur des dix randonnées à pied les plus longues.}
+    \ifcorrige
+    \begin{minted}{sql}
+SELECT Titre, Lieu, Distance FROM Randonnee
+WHERE Type="Pied"
+ORDER BY Distance DESC LIMIT 10
+    \end{minted}
+    \fi
+	\Question{Ecrire une requête {\sc sql} dont l'évaluation renvoie l'identifiant de l'auteur et son nombre de randonnées de type \textit{VTT}, classés par ordre décroissant du nombre d'activités de chaque auteur.}
+    \ifcorrige
+    \begin{minted}{sql}
+SELECT IdAuteur, count(*) as nb FROM Randonnee
+WHERE Type="VTT"
+GROUP BY IdAuteur
+ORDER BY nb DESC
+    \end{minted}
+    \fi
+	\Question{Ecrire une requête {\sc sql} dont l'évaluation renvoie le {\tt Pseudo} de l'auteur et le {\tt Titre} des randonnées stockées dans la base.}
+    \ifcorrige
+    \begin{minted}{sql}
+SELECT Randonnee.Titre, Auteur.Nom  FROM Randonnee
+JOIN Auteur ON Randonnee.IdAuteur = Auteur.Id
+    \end{minted}
+    \fi
+	\Question{Ecrire une requête {\sc sql} dont l'évaluation renvoie les nom et prénom d'un des auteurs ayant posté le plus de randonnées à cheval.}
+    \ifcorrige
+SELECT Auteur.Nom, Auteur.Prenom  FROM Auteur
+JOIN Randonnee ON Randonnee.IdAuteur = Auteur.Id
+WHERE Type="Cheval"
+GROUP BY Auteur.id
+ORDER BY COUNT(Randonnee.Id) DESC LIMIT 1
+    \fi
+    \Question{Ecrire une requête {\sc sql} qui renvoie le titre et la distance des randonnées dont la distance est strictement plus grande que la moyenne des randonnées à pied.}
+    \ifcorrige
+SELECT Randonnee.titre FROM Randonnee
+WHERE Randonnee.Distance > (
+SELECT AVG(Distance) FROM Randonnee)
+    \fi
+\end{Exercise}
+
+\begin{Exercise}[title={Planification de rendez-vous optimale}]\\
+    Le langage utilisé dans cet exercice est OCaml et on s'interdit l'utilisation des aspects impératifs de ce langage (références et boucles). \smallskip{} \\
+    Une plateforme de prise de rendez-vous doit associer les requêtes de $n$ clients à des créneaux disponibles. Chaque client demande un créneau horaire spécifique (représenté par un entier), et on dispose de $m$ créneaux disponibles (avec $m \geqslant n$). L'objectif est d'assigner à chaque client un créneau disponible en minimisant l'\textit{écart total}, défini comme la somme des écarts (en valeur absolue) entre le créneau demandé et le créneau assigné. On notera $(r_i)_{0 \leqslant i < n}$ les $n$ requêtes et $(c_j)_{0 \leqslant j < m}$ les $m$ créneaux disponibles. Une attribution est donc une application injective de $\intN{0}{n-1}$ dans $\intN{0}{m-1}$ qui associe à chaque requête un créneau. Pour l'implémentation, on représente les requêtes et les créneaux disponibles sous la forme de liste d'entiers de OCaml et une attribution possible sous la forme d'une liste de couples d'entiers. 
+    
+    \textbf{Exemple :} Les clients demandent les créneaux {\tt [12; 9; 17]} et les créneaux disponibles sont {\tt [15; 29; 20; 13; 11]}. Une attribution possible est {\tt [(12,11); (9, 13); (17, 15)]} avec un coût total de $|12-11| + |9-13| + |17-15| = 1+4+2 = 7$. \\
+    
+    \Question{Ecrire une fonction {\tt ecart\_total : (int*int) list -> int } qui prend en argument une attribution et renvoie son écart total, par exemple {\tt ecart\_total [(12,11); (9, 13); (17, 15)]} renvoie 7.}
+    \Question{Un algorithme d'attribution naïf, que l'on notera $\mathcal{N}$, consiste à traiter la liste des demandes dans l'ordre et à attribuer au client le créneau disponible le plus proche de sa demande. Par exemple si la liste des demandes est {\tt [7, 3, 10]} et que la liste des créneaux disponibles est {\tt [4, 9, 11]} alors on effectue les attributions suivantes : {\tt 7} $\rightarrow$ {\tt 9}, puis {\tt 3} $\rightarrow$ {\tt 4} et enfin {\tt 10} $\rightarrow$ {\tt 11}. Dans quelle famille d'algorithmes peut se ranger ce procédé ? Justifier.}
+    \tcor{C'est un algorithme glouton car on fait un choix optimal local (le meilleur créneau possible pour le client en cours) sans se soucier de l'impact de ce choix sur l'écart total.}
+    \Question{Montrer, sur un exemple de votre choix, que  l'algorithme $\mathcal{N}$ ne fournit pas toujours la solution optimale au problème.}
+    \tcor{On peut prendre les demandes  {\tt [9, 11]} avec les disponibilités {\tt [10, 7, 16]} l'algorithme fournit alors l'attribution {\tt [(9,10), (11, 7)]} pour un écart total de 5 alors que l'attribution {\tt [(9,7),(11,10)]} a un écart total de 3.}
+    \Question{Ecrire une fonction {\tt plus\_proche : int -> int list -> (int*int list)} qui prend en argument un entier {\tt cible} ainsi qu'une liste d'entiers {\tt disponibles} et renvoie un couple formé d'un des entiers de la liste {\tt disponibles} le plus proche en valeur absolue de {\tt cible} et de la liste {\tt disponibles} privée d'une occurrence de cet entier.}
+    \Question{En utilisant la fonction écrite à la question précédente, écrire une fonction {\tt naif : int list -> int list -> (int*int) list} qui renvoie l'attribution obtenue en utilisant l'algorithme $\mathcal{N}$.}
+	\Question{On suppose maintenant que les listes des demandes et des créneaux sont triées par ordre décroissant (\(r_0\) est la plus grande demande et \(c_0\) le plus grand créneau). Montrer que, dans une attribution optimale, si le plus grand créneau \(c_0\) est utilisé alors il peut être attribué à la plus grande demande \(r_0\). (Indication : considérer une attribution optimale où \(c_0\) est attribué à \(r_i\) avec \(i\neq 0\), échanger les créneaux attribués à \(r_0\) et \(r_i\) et comparer les coûts.)}
+
+	\Question{Pour \(0\le i< n\) et \(0\le j< m\), on note \(S_{i,j}\) le coût minimal pour satisfaire les demandes \(r_i,\dots,r_{n-1}\) avec des créneaux choisis parmi \(c_j,\dots,c_{m-1}\). En vous appuyant sur la question précédente, établir la relation de récurrence
+	$S_{i,j}=\min \{\,S_{i,j+1}\; ;\; |r_i-c_j|+S_{i+1,j+1}\,\}$.}
+    
+	\Question{Donner les conditions aux limites pour la récurrence : préciser notamment les valeurs de \(S_{n,j}\) et la valeur de \(S_{i,j}\) lorsque le nombre de demandes restantes est égal au nombre de créneaux restants (c'est-à-dire \(n-i=m-j\)).}
+    \Question{Ecrire une fonction {\tt somme\_ecart : int list -> int list -> int} qui prend en argument deux listes (supposées de même longueur) et renvoie la somme des écarts en valeur absolue entre les élements situés aux mêmes positions dans ces deux listes.}
+    \Question{Ecrire une fonction récursive {\tt dynamique : int list -> int list -> int} qui renvoie l'écart minimal d'une attribution en utilisant la programmation dynamique.}
+    \Question{Dessiner les premiers niveaux d'appels récursifs de la fonction {\tt dynamique} en indiquant les valeurs de $i$ et $j$ correspondant à ces appels. Que constate-t-on ?}
+    \Question{La mémoïsation est une méthode permettant de pallier le problème mis en évidence à la question précédente, expliquer brièvement en quoi cela consiste (on ne demande pas de programmer cette méthode mais simplement d'en expliciter le principe).}
+	\tcor{La mémoïsation consiste à stocker les résultats  déjà calculés afin d'en disposer rapidement si le même appel intervient de nouveau. La structure de données adaptée est une table de hachage, les clés sont les paramètres d'appel et les valeurs associées le résultat de la fonction. Ici on peut simplement utiliser une matrice de dimension $n \times n$ car les paramètres d'appel sont des entiers $i,j$ appartenant à $\intN{0}{n}$.}
+	\Question{Déterminer la complexité de la méthode par programmation dynamique si on suppose qu'on utilise la mémoïsation.}
+	\tcor{La complexité est quadratique en la taille $n$ de la matrice, en effet on calcule les valeurs de la matrice des $S_{ij}$ en $O(1)$ et chaque terme est calculé en une seule fois.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Triangle dans un graphe}]\\
+Le langage utilisé dans cet exercice est le langage C.\smallskip{}
+
+On considère un graphe non orienté $G = (S,A)$ où $S = \{0, \dots, n-1 \}$. On dit qu'un sous-ensemble de $S$ à trois éléments $\{s,t,u\}$ est un \textit{triangle} de $G$ lorsque les arêtes $\{s,t\}$, $\{t,u\}$ et $\{s,u\}$ appartiennent à $A$.
+Par exemple, dans le graphe $g$ suivant, $\{0, 1, 3\}$ est un triangle, par contre $\{0, 1, 2\}$ n'est pas un triangle car $\{0, 2\}$ n'est pas une arête.
+\begin{center}
+    \begin{pspicture}(0,-2.2)(5,1)
+		\rput(1,0){\circlenode{x1}{$0$}}
+		\rput(3,0){\circlenode{x2}{$1$}}
+		\rput(5,-1){\circlenode{x3}{$2$}}
+		\rput(1,-2){\circlenode{x4}{$3$}}
+	   \rput(3,-2){\circlenode{x5}{$4$}}
+       \ncline{-}{x1}{x2}
+       \ncline{-}{x1}{x4}
+       \ncline{-}{x1}{x5}
+       \ncline{-}{x2}{x1}
+       \ncline{-}{x2}{x5}
+       \ncline{-}{x2}{x4}
+       \ncline{-}{x2}{x3}
+       \ncline{-}{x3}{x2}
+       \ncline{-}{x3}{x5}
+       \ncline{-}{x4}{x5}
+    \end{pspicture}
+\end{center}
+
+\Question{Donner une borne supérieure du nombre de triangles possibles dans un graphe  à $n$ sommets.}
+\tcor{Un graphe complet est un graphe dans lequel pour toute paire de sommets $(i,j)$, on a $ij$ qui est un arc c'est à dire $ij \in A$. Donc tous les triplets de sommets sont des triangles, donc il y a autant de triplets de sommets que de triangle, c'est à dire $\displaystyle{\binom{n}{3}}$ triangles}
+
+\Question{On dit qu'un graphe est bipartite lorsqu'il existe une partition de l'ensemble des sommets $S$ en deux ensembles $S_1$ et $S_2$ tel que toute arête ait un élément dans $S_1$ et l'autre dans $S_2$. Montrer qu'un graphe bipartite ne contient pas de triangles.}
+    \tcor{Soit $ij \in A$, et quitte à échanger leurs rôles supposons $i \in S_1$ et $j \in S_2$, alors pour tout autre sommet $k$ du graphe, soit $k \in S_1$ et donc $ik \notin A$ , soit $k \in S_2$ et donc $kj \notin A$. Donc $ijk$ n'est pas un triangle.}
+\Question{Montrer que pour un graphe $G = \{(0,\dots,n-1),A\}$ à $n$ sommets de matrice d'adjacence $M$, le nombre de chemins de longueur $k, (k \in \N^{*})$ entre le sommet $i$ ($0 \leqslant i < n$) et le sommet $j$ ($0 \leqslant j < n$) noté $c_{i,j,k}$ est le coefficient situé ligne $i$ colonne $j$ de $M^k$. On pourra procéder par récurrence sur $k$.}
+\Question{Déduire de la question précédente que le nombre de triangles d'un graphe $G$ de matrice d'adjacence $M$ est la trace (somme des éléments diagonaux) de $M^3$  divisée par 6.}
+\Question{Ecrire en langage C, une fonction de signature \mintinline{c}{int* produit_matriciel(int* a, int* b, int n)} qui prend en argument deux matrices carrées de taille $n$ linéarisées et renvoie leur produit.}
+\Question{On suppose qu'on a représenté en C, les graphes par matrice d'adjacence à l'aide du type structuré suivant :
+\inputpartC{triangles.c}{}{}{5}{10}
+Ecrire une fonction de signature \mintinline{c}{int nb_triangles(graphe g)} qui renvoie le nombre de triangles de ce graphe en utilisant le résultat de la question \textbf{Q40}.}
+
+
+\end{Exercise}
+\end{document}

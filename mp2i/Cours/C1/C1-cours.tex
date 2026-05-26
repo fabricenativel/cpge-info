@@ -1,0 +1,552 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{1}
+\newcommand{\Ctitle}{\cnum {Introduction au langage C}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
+
+\makess{Historique}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Bref historique}
+		\begin{itemize}
+			\item<1-> 1972 : début du développement du langage C par Dennis Ritchie et Ken Thompson aux laboratoires Bell parallèlement à la création du système d'exploitation {\sc unix}.
+			\item<2-> 1978 : première édition du livre "The C programming language" (Kernighan \& Ritchie)
+			\item<3-> 1983 : première standardisation du langage par l'{\sc ansi} qui assure la compatibilité et la portabilité entre différentes plateformes. La dernière standardisation date de 2018 (C18)
+			\item<4-> A partir de 1983 : développement de plusieurs dérivés de C, parmi lesquels C++ (B. Strousrtup, 1983), C\# (Microsoft, 2000), Go (Google, 2007), Rust (Mozilla, 2010)
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Et aujourd'hui ...}
+		\begin{itemize}
+		\item<1-> Le C reste un des langages les plus utilisés au monde, en juillet 2025 le classement de l'index {\sc tiobe} était le suivant :\\
+		\begin{tabular}{|l|l|l|}
+			\hline
+			1 & Python & 27 \% \\
+			\hline
+			2 & C++ & 9.8 \% \\
+			\hline
+			3 & C & 9.7 \% \\
+			\hline
+			4 & Java & 8.8 \% \\
+			\hline
+			5 & C\# & 4.87 \% \\
+			\hline
+		\end{tabular}
+		\item<2-> Le C est notamment très utilisé pour la programmation système, le développement d'applications embarquées, de \textit{drivers} et les systèmes d'exploitation.
+		\item<3-> Pour de multiples raisons, Le C est l'un des langages les plus rapides (certains nouveaux langages comme \textit{Rust} ont des performances similaires).
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Caractéristiques du C}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Instructions et expressions}
+		\begin{itemize}
+			\item<1-> En informatique, on distingue :
+			\begin{itemize}
+			\item <1-> Les \textcolor{blue}{instructions} qui modifient l'état des variables du programme. Par exemple, en Python \mintinline{python}{a = 5}, est une instruction qui modifie la variable {\tt a} en lui donnant la valeur {\tt 5}.
+			\item <1-> Les \textcolor{blue}{expressions} qui \textit{renvoient} une valeur après un processus d'évaluation. Par exemple, en Python \mintinline{python}{2**10} est une expression qui après évaluation renvoie {\tt 1024}.
+			\end{itemize}
+			\item <2-> Le C est typiquement un langage \textcolor{blue}{impératif}, c'est à dire qu'un programme est une séquence d'instructions exécutées par l'ordinateur. C n'est ni orienté objet, ni fonctionnel. \\
+			\textcolor{BrickRed}{\small \danger \;} Cependant, certaines instructions du C sont aussi des expressions dans le sens où elles renverront une valeur.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Compilation}
+		Le langage C est \textcolor{blue}{compilé} : \\ \medskip
+		\begin{tabular}{ccccc}
+			\rnode{CS}{\begin{rcadre}{lightgray}{Plum}{2.4}{1.4}
+					           \textcolor{Plum}{\small \faFile\; Code source \\
+					           {\footnotesize (fichier(s) texte .c)}}
+				           \end{rcadre}} & \hspace{0.8cm} & \onslide<3->{\rnode{{CO}}{\begin{cadre}{white}{black}{2.8}{1.4}  {\small \textbf{\faCog\;} Compilateur} \\ {\footnotesize (gcc, clang, ..)} \end{cadre}}} & \hspace{0.8cm} &
+			\onslide<5->{\rnode{EX}{\begin{rcadre}{lightgray}{blue}{2.4}{1.4}
+						                        \textcolor{blue}{\small \faFileArchive\; Exécutable \\ {\footnotesize (fichier binaire)}}
+					                        \end{rcadre}}}                                                                                                             \\
+		\end{tabular}
+		\onslide<3->{\ncline[doubleline=true,doublesep=2pt,doublecolor=OliveGreen,linecolor=OliveGreen,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{CS}{CO}}
+		\onslide<6->{\ncline[doubleline=true,doublesep=2pt,doublecolor=OliveGreen,linecolor=OliveGreen,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{CO}{EX}}
+		\begin{enumerate}
+			\item<2-> Les IDE comme VS Code signalent certaines erreurs dans le code.
+			\item<4-> La compilation peut produire des erreurs ou des avertissements (\textit{warning}) \\
+				\textcolor{gray}{\small La compilation se déroule en 4 étapes : préprocesseur, compilation, assemblage, editions des liens}
+			\item<6-> Une compilation sans erreur (mais éventuellement des \textit{warning}) produit un exécutable.
+			\item<7-> Les erreurs dans l'exécution ne feront pas référence aux instructions du code source.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+
+
+\makess{Exemples de programmes}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Programme minimal}
+		\begin{overprint}
+			\onslide<1>
+			\inputC{\SPATH/helloword.c}{}{\small}
+			\medskip
+			Si le fichier texte s'appelle \fn{hello.c}, on lance la compilation avec le compilateur \kw{gcc} avec la commande :
+			\begin{mdframed}[backgroundcolor=codebg]\kw{gcc} \fn{hello.c}\end{mdframed}
+			le fichier exécutable produit s'appelle par défaut \fn{a.out}, on peut modifier ce nom avec l'option \on{-o} du compilateur. Par exemple :
+			\begin{mdframed}[backgroundcolor=codebg]\kw{gcc} \on{-o} \fn {hello} \fn{hello.c}\end{mdframed}
+			\onslide<2>
+			\inputC{\SPATH/helloword.c}{1}{\small}
+			\medskip
+			Le langage C est doté d'une \textit{bibliothèque standard} de fonctions appelée \kw{libc} qui permet de réaliser des opérations courantes : entrées sorties, gestion de fichiers gestion de la mémoire, \dots \\
+			On inclut à la ligne 1, les fonctions \textcolor{blue}{\textbf{st}}andar\textcolor{blue}{\textbf d} d'entrées et de sorties (\textcolor{blue}{\textbf i}nput et \textcolor{blue}{\textbf o}utput)  de la libc. Ce qui permettra plus loin d'utiliser la fonction \mintinline{c}{printf}.
+			\onslide<3>
+			\inputC{\SPATH/helloword.c}{3}{\small}
+			\medskip
+			Un programme C contient \textit{obligatoirement} une fonction appelée \kw{main} par laquelle l'exécution du programme commence. L'absence de fonction \kw{main} dans un programme C produit une erreur à la compilation : \og{} \textcolor{gray}{référence indéfinie vers \textit{main}} \fg{}. \\
+			Les fonctions en C sont définies avec la syntaxe suivante :\\ \on{<type de la valeur renvoyée>} \kw{<nom>}{\tt(<type et nom des paramètres>)} \\
+			Ici la fonction s'appelle \kw{main}, renvoie un entier \on{int} et n'a pas d'arguments.
+			\onslide<4>
+			\inputC{\SPATH/helloword.c}{4,7}{\small}
+			\medskip
+			Les blocs d'instructions sont délimités par des accolades : \kw{\{} et \kw{\}}, ici c'est donc le bloc d'instruction de la fonction \kw{main}. A noter que les espaces, sauts de ligne et indentation sont ignorés par le compilateur, mais sont nécessaires pour une bonne lisibilité.
+			\onslide<5>
+			\inputC{\SPATH/helloword.c}{5}{\small}
+			\medskip
+			L'instruction \kw{ printf} permet d'afficher dans le terminal. On notera les guillemets (\textcolor{blue}{"}) pour délimiter une chaîne de caractères et le caractère \kw{ \textbackslash n} pour indiquer un retour à la ligne. Une instruction en C se termine par un point virgule \kw{;}.
+			\onslide<6>
+			\inputC{\SPATH/helloword.c}{6}{\small}
+			\medskip
+			L'instruction \kw{return} quitte la fonction en renvoyant la valeur donnée. Ici, on renvoie {\tt 0} (on rappelle que la fonction doit renvoyer un entier), qui indique traditionnellement que le programme se  termine sans erreurs.
+		\end{overprint}
+	\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple de boucle}
+		\begin{overprint}
+		\onslide<1>
+		\inputC{\SPATH/cours_ex2.c}{5}{\footnotesize}
+		\medskip
+		Déclaration de la variable \fn{somme} de type \kw{int} et initialisation à zéro.
+		\onslide<2>
+		\inputC{\SPATH/cours_ex2.c}{6}{\footnotesize}
+		\medskip
+		Une variable dont la valeur ne sera pas modifiée peut être déclarée  en faisant précédé son type de \kw{const}.\\
+		\textcolor{gray}{On peut aussi utiliser une directive de précompilation : {\tt \#define NMAX 100}}
+		\onslide<3>
+		\inputC{\SPATH/cours_ex2.c}{7}{\footnotesize}
+		\medskip
+		On remarque que la boucle \kw{for} est de la forme {\tt for} {\tt(<init>; <fin>; <incr>)}.
+		\onslide<4>
+		\inputC{\SPATH/cours_ex2.c}{11}{\footnotesize}
+		L'affichage en C utilise un système de \textit{format}. Ici, on veut afficher un \kw{int} dans la réponse, on utilise \kw{\%{}d} appelé \textit{spécificateur de format} dans \kw{printf} à l'emplacement souhaité.
+		\medskip
+		\end{overprint}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple de fonction et d'instruction conditionnelle}
+		\begin{overprint}
+		\onslide<1>
+		\inputC{\SPATH/cours_ex3.c}{2}{\scriptsize}
+		\medskip
+		{\small Une ligne de commentaire commence avec \kw{//}, un commentaire multiligne est encadré par \kw{/*} et \kw{*/}}
+		\onslide<2>
+		\inputC{\SPATH/cours_ex3.c}{3}{\scriptsize}
+		\medskip
+		{\small Signature (ou prototype) de la fonction. \\
+		\textcolor{BrickRed}{\important} En C, les paramètres sont passés par \textcolor{blue}{valeur} (on dit aussi par \textcolor{blue}{copie}).}
+		\onslide<3>
+		\inputC{\SPATH/cours_ex3.c}{5,9}{\scriptsize}
+		\medskip
+		{\small Instruction conditionnelle : on exécute le bloc qui suit la condition si celle-ci est vérifiée et sinon le bloc qui suit le \kw{else} (s'il est présent).
+		Noter les parenthèses autour de la condition.}
+		\onslide<4>
+		\inputC{\SPATH/cours_ex3.c}{17}{\scriptsize}
+		\medskip
+		{\small Appel à la fonction \kw{syracuse}, c'est une \textit{copie} du {\tt n} définie dans le \kw{main} qui est envoyé à la fonction, elle renvoie un entier.}
+		\end{overprint}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Types de base en C}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|p{1.8cm}|>{\footnotesize}X|}
+			\hline
+			Type                                        & Opérations                                                                                                & Commentaires                                                                                                                                       \\
+			\hline
+			\leavevmode\onslide<2-> {\kw{int} et \kw{unsigned int}}               & \leavevmode\onslide<3->{\kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{\%}  \newline} \leavevmode\onslide<4->{\textcolor{BrickRed}{\small \danger}\textcolor{gray}{{\tt ++},{\tt -{}-}}} & \leavevmode\onslide<5->{Entiers signés ou non signés codés sur un minimum de 16 bits.}                                                                                      \\
+			\leavevmode\onslide<6-> {\kw{int}\textcolor{Plum}{$N$}\kw{\_t} et \kw{uint}\textcolor{Plum}{$N$}\kw{\_t}} &                                                                                                           & \leavevmode\onslide<7->{Entiers codés sur \textcolor{Plum}{$N$} bits accessibles dans \kw{stdint.h} ($\textcolor{Plum}{N=8}$, \textcolor{Plum}{$32$} ou \textcolor{Plum}{$64$}).}                                                                        \\
+			\hline
+			\leavevmode\onslide<8-> {\kw{float} et \kw{double}}                   & \leavevmode\onslide<8->{\kw{+}, \kw{-}, \kw{*}, \kw{/}}                                                                            & \leavevmode\onslide<8->{Représentation des nombres en virgules flottantes en simple ou double précision de la norme {\sc ieee754}. Fonctions élémentaires dans \kw{math.h}} \\
+			\hline
+			\leavevmode\onslide<9-> {\kw{bool} : \kw{true} ou \kw{false}.}                                   & \leavevmode\onslide<9->{\kw{||},  \kw{\&\&}, \kw{!}}                                                                                & \leavevmode\onslide<9->{Booléens accessibles dans \kw{stdbool.h}. Evaluation \og{}\textit{séquentielle}\fg{} des expressions.}                                                                 \\
+			\hline
+			\leavevmode\onslide<10-> {\kw{char}}                                   & \leavevmode\onslide<10->{\textcolor{gray}{\tt +, -}}                                                                                & \leavevmode\onslide<10->{Caractères noté entre quotes : \kw{'}, uniquement ceux de la table {\sc ascii}. Caractère nul : \kw{'\textbackslash{}0'}}                           \\
+			\hline
+			\leavevmode\onslide<11-> {\kw{void}}                                   &                                                                                                           & \leavevmode\onslide<11->{Type vide, utilisé notamment pour les fonctions ne renvoyant rien.}                                                                                              \\
+			\hline
+		\end{tabularx}
+		
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{enumerate}
+		\item<1-> Déclarer deux variables entières \kw{a} et \kw{b} initialisées respectivement à 2024 et 137. Déclarer \kw{c} ayant comme valeur le reste dans division euclidienne de \kw{a} par \kw{b}.
+		\item<2-> Déclarer et initialiser \kw{d} ayant comme valeur $b^2 - 4ac$, en supposant que $a$, $b$ et $c$ sont des variables flottantes existantes et initialisées.
+		\item<3-> On suppose déjà déclarées deux variables booléennes \kw{x} et \kw{y}, écrire une expression booléenne correspondant à \kw{x} {\tt xor} \kw{y}. 
+		\item<4-> La déclaration de variable suivante est-elle correcte ? \mintinline{c}{char c = "a";} 
+		\item<5-> Quelle est selon vous la cause du message : \textit{\textcolor{darkgray}{warning: ‘return’ with a value, in function returning void}} lors d'une compilation ?
+		\item<6-> On suppose que {\tt a} et {\tt b} sont des {\kw int}, les instructions \mintinline{c}{if (b>0 && a/b < 1)} et \mintinline{c}{if (a/b<1 && b>0)} sont-elles rigoureusement équivalentes ? Sinon, donner des valeurs de {\tt a} et {\tt b} pour lesquelles elles ne produisent pas le même effet.
+	\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Affichage et spécificateur de format}
+		En C, l'affichage des variables se fait à l'aide de spécificateurs de format suivant le type de la variable \\
+		\textcolor{black}{
+			\begin{tabular}{|l|l|}
+				\hline
+				Type                                               & Spécificateur \\
+				\hline
+				\kw{char}                                          & \kw{\%{}c}    \\
+				\hline
+				\kw{unsigned int}, \kw{uint8\_t} et \kw{uint32\_t} & \kw{\%{}u}    \\
+				\hline
+				\kw{int}, \kw{int8\_t} et \kw{int32\_t}            & \kw{\%{}d}    \\
+				\hline
+				\kw{float}                                         & \kw{\%{}f}    \\
+				\hline
+				\kw{double}                                         & \kw{\%{}lf}    \\
+				\hline
+				\kw{uint64\_t}                                     & \kw{\%{}lu}   \\
+				\hline
+				\kw{int64\_t}                                      & \kw{\%{}ld}   \\
+				\hline
+			\end{tabular}}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		Si \kw{a} et \kw{b} sont des \kw{int}, écrire une instruction \kw{printf} permettant d'afficher {\tt a+b=} suivie de leur somme.
+	\end{exampleblock}
+\end{frame}
+
+\makess{Portée des variables, conversion de types}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		\begin{itemize}
+			\item<1-> La \textcolor{blue}{portée} d'une variable est la partie du programme  dans laquelle cette variable est visible (on peut y faire référence).
+			\item<2-> La portée peut-être :
+				\begin{itemize}
+					\item<3-> \textcolor{blue}{globale}, c'est-à-dire que la variable est accessible depuis tout le programme. En C, c'est le cas des variables déclarées en début de programme en dehors de tout bloc d'instructions.
+					\item<4-> \textcolor{blue}{locale} lorsque la variable est déclarée dans un bloc d'instruction alors sa portée est limitée à ce bloc. C'est le cas des paramètres d'une fonction ou d'une variable de boucle.
+				\end{itemize}
+			\item<5-> Lorsque deux variables ont le même identifiant, c'est la variable ayant la plus petite portée (celle définie dans le bloc le plus intérieur) qui est accessible.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{enumerate}
+		\item<1->{\small Dans le programme suivant, donner les portées de \kw{maxn}, \kw{n}, \kw{somme}, \kw{i}}
+		\inputC{\SPATH/cours_portee.c}{}{\tiny}
+		\item<2->{\small On définit une variable entière {\tt i}, juste après la ligne 7, donner la portée de cette nouvelle variable. Le programme fonctionne-t-il encore correctement ?}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+
+	\begin{block}{Conversion implicite de type}
+		La ligne \mintinline{c}{double somme = 0;} est une \textcolor{blue}{conversion implicite de type}. En effet, 0 est de type entier mais est converti en flottant pour être affecté à la variable \kw{somme} qui est de type double.
+	\end{block}
+	\onslide<2->{
+		\begin{block}{Conversion explicite : \textit{cast}}
+			On aurait pu réaliser une \textcolor{blue}{conversion explicite} ou \textit{cast} en spécifiant le type de destination entre parenthèses : \mintinline{c}{double somme = (double) 0;}
+		\end{block}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\inputC{\SPATH/cast.c}{}{\footnotesize}
+		\begin{itemize}
+			\item<2-> Quel est le résultat de ce programme ? Pourquoi ?
+			\item<3-> Comment afficher le résultat de la division décimale ?
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Prévoir (et éventuellement observer) le résultat du programme suivant, expliquer.
+		\inputC{\SPATH/pvaleur.c}{}{\small}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Comportement indéfini}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		Un \textcolor{blue}{comportement indéfini} (en anglais \textcolor{blue}{undefined behavior} souvent abrégé en \textcolor{blue}{\sc ub}) est le résultat d'une suite d'instructions dont le résultat n'est pas spécifié par la norme du langage C. \\
+		Par conséquent, le résultat est alors \textit{\textcolor{BrickRed}{totalement imprévisible}} et peut varier d'un compilateur ou d'un ordinateur à l'autre et même changer d'une exécution à l'autre sur un même ordinateur.
+	\end{alertblock}
+	\onslide<2->
+	{\begin{block}{Conséquences}
+		Un comportement indéfini peut avoir des conséquences graves et doit donc être évité à tout prix. :
+		\begin{itemize}
+			\item Le programme peut planter (se terminer brutalement)
+			\item Le programme peut produire un résultat incorrect
+			\item Le programme peut fonctionner correctement mais de manière aléatoire, c'est à dire que le résultat peut varier d'une exécution à l'autre.
+		\end{itemize}
+	\end{block}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples de comportements indéfinis}
+		\begin{itemize}
+			\item<1-> Accéder à une variable non initialisée.
+			\inputC{\SPATH/ub1.c}{}{\footnotesize}
+			\item<2-> Effectuer une division \textit{entière} par zéro.
+			\inputC{\SPATH/ub2.c}{}{\footnotesize}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		Afin de repérer \textit{dès la compilation} le maximum de problèmes potentiels, il est \textcolor{BrickRed}{très fortement recommandé} de toujours utiliser \kw{gcc} avec les options :
+		\begin{itemize}
+			\item<2->\kw{-Wall} affichage de tous les \textit{warning}
+			\item<3->\kw{-Wextra} affichage de \textit{warning} supplémentaires
+			\item<4-> on pourra éventuellement ajouter \kw{-Wconversion} pour signaler les problèmes éventuels de conversion implicite
+		\end{itemize}
+		\onslide<5-> D'autre part, il est préférable de spécifier un nom pour l'exécutable produit grâce à l'option \kw{-o}
+	\end{block}
+	\onslide<6->{
+		\begin{exampleblock}{Exemple}
+			Pour compiler le programme {\tt exemple.c}, la ligne de compilation devrait donc être : \\
+			\kw{gcc} {\tt exemple.c}  \on{-o} {\tt exemple.exe} \on{-Wall -Wextra}
+		\end{exampleblock}}
+\end{frame}
+
+
+\makess{Structures de contrôle}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Conditionnelle}
+		\begin{itemize}
+			\item<1-> \kw{if} \kw{(}\textit{condition}\kw{)}  \kw{\{} \textit{instruction} \kw{\}}
+			\item<2-> \kw{if} \kw{(}\textit{condition}\kw{)}  \kw{\{} \textit{instruction} \kw{\}} else \kw{\{} \textit{instruction} \kw{\}}
+		\end{itemize}
+	\onslide<3-> \textcolor{BrickRed}{\small \danger} Pas de {\kw ;} après la condition !
+	\end{alertblock}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{Ecrire une fonction \kw{compare} en C, prenant comme paramètre deux entiers \tt{a} et \tt{b} et renvoyant \tt{-1} si \tt{a<b}, \tt{0} si \tt{a=b} et 1 sinon.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		Ecrire les instructions conditionnelles suivantes (les variables utilisées sont supposées déjà déclarées):
+		\begin{enumerate}
+			\item<1-> Affiche "Ok" si \kw{a} est positif.
+			\item<2-> Affecte \kw{nb} à 2 si \kw{d} est strictement positif, 1 si \kw{d} est nul et 0 sinon.
+			\item<3-> Affecte \kw{e} à 1 si \kw{a} et \kw{b} ont la même parité et 0 sinon.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Boucles}
+		\begin{itemize}
+			\item<1-> \kw{for} \kw{(}\textit{init}\kw{;}\textit{fin};\textit{increment}\kw{)}  \kw{\{} \textit{instruction} \kw{\}} \\
+			permet de répéter le bloc d'instruction pour chaque valeur prise par la variable de boucle.
+				\onslide<2->{Généralement utilisé sous la forme : \mintinline{c}{for (int i=0; i<n; i=i+1)} {\tt\{} \dots {\tt\} }}\\
+			\onslide<3->{\textcolor{gray}{On tolère {\tt i++} pour l'incrémentation, on recommande fortement de ne \textit{pas} utiliser cet opérateur dans un autre contexte.}}
+			\item<4-> \kw{while} \kw{(}\textit{condition}\kw{)}  \kw{\{} \textit{instruction} \kw{\}} \\
+			permet de répéter le bloc d'instruction tant que la condition est vérifiée.
+			\item<5-> Lorsqu'une boucle se trouve dans le corps d'une fonction, une instruction \kw{return} a pour effet de quitter immédiatement cette boucle (et le corps de la fonction) et de revenir au point d'appel de la fonction.
+			\item<6-> Une boucle peut être interrompue avec l'instruction \kw{break}.
+			\item<7-> \textcolor{BrickRed}{\small \danger \;} Pas de \kw{;} après la condition.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Le type \kw{char} correspond en fait à une valeur entière, les caractères imprimables vont de 32 (l'espace) à 127 ({\sc del}). Sachant que l'affichage d'un caractère avec \kw{printf} se fait à l'aide de \kw{\%c}
+		\begin{itemize}
+			\item<2-> Ecrire une boucle \kw{for} permettant d'afficher ces caractères.
+			\item<3-> Faire de même avec une boucle \kw{while}.
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercices}
+	Ecrire une boucle permettant :
+	\begin{enumerate}
+		\item<1-> d'afficher les 10 premiers multiples de 42.
+		\item<2-> d'afficher les entiers de 10 à 1 (dans cet ordre).
+		\item<3-> de calculer la somme des entiers impairs de 1 à 999.
+		\item<4-> de déterminer le plus petit entier $n$ tel que $1 + \dfrac{1}{2} + \dfrac{1}{3} + \dots +\dfrac{1}{n} > 7$.
+	\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\makess{Tableaux à une dimension, chaines de caractères}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Tableaux}
+		\textcolor{BrickRed}{\small \important} \textit{\footnotesize La notion de tableau en C est intimement liée à celle de \textit{pointeur}. Ces derniers seront abordés plus tard, aussi on fait ici une présentation élémentaire des tableaux, en particulier, on s'interdit pour le moment d'écrire des fonctions qui renvoient un tableau.}
+		\begin{itemize}
+			\item<1-> Un tableau se déclare en donnant sa longueur et le type de ses éléments. \\
+				\onslide<2->{\mintinline[fontsize=\small]{c}{bool est_premier[1000]; //un tableau de 1000 booléens}}
+			\item<3-> On peut initialiser le tableau en donnant une liste de valeurs entre accolades. \\
+				\onslide<4->{\mintinline[fontsize=\small]{c}{double notes[4]={5.5, 12.0, 13.5, 7.0}; //un tableau de 4 flottants}}
+			\item<5-> Les éléments sont numérotés à partir de 0
+			\item<6-> On accède à un élément en donnant son numéro (son indice) entre crochet.\\
+				\onslide<7->{\mintinline[fontsize=\small]{c}{est_premier[0]; //Le premier élément du tableau est_premier}}
+		\end{itemize}
+		\end{block}
+	\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{\textcolor{Yellow}{\small \danger \; } Quelques points de vigilance !}
+		\begin{itemize}
+			\item<2-> Un accès en dehors des bornes du tableau est un \textcolor{blue}{comportement indéfini}
+			\inputpartC{\SPATH/danger_tableau.c}{}{\small}{5}{6}
+			\item<3-> On ne peut pas directement affecter un tableau.
+			 \inputpartC{\SPATH/danger_tableau.c}{}{\small}{8}{9}
+			\item<4-> Une fonction recevant en argument un tableau ne peut pas en déterminer la taille, par conséquent elle doit également recevoir la taille du tableau en argument.
+			\inputpartC{\SPATH/danger_tableau.c}{}{\small}{10}{11}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\onslide<1-> Ecrire une fonction \kw{croissant} qui prend un argument un tableau et sa taille et renvoie \kw{true} si le tableau est trié et false sinon.
+		\onslide<2->{\inputpartC{\SPATH/cours_ex7.c}{}{}{4}{14}}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\onslide<1-> Ecrire une fonction \kw{echange} qui prend un argument un tableau et deux indices  \kw{i} et \kw{j} ne renvoie rien et échange les éléments d'indice \kw{i} et \kw{j} de ce tableau.\\
+		\onslide<2->{\inputpartC{\SPATH/cours_ex9.c}{}{}{4}{9}}
+		\onslide<3->\textcolor{gray}{Mais .... en C, les paramètres sont passés par valeur non ?}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercices}
+		\begin{enumerate}
+		\item<1-> Déclarer un tableau {\tt tab} de 20 entiers.
+		\item<2-> Déclarer un tableau {\tt test} de 5 booléens initialisé aux valeurs {\tt false, true, false, true, false}.
+		\item<3-> Déclarer un tableau de 100 entiers, écrire une boucle permettant d'initialiser {\tt t[i]} à la valeur {\tt 2*i}.
+		\item<4-> Commenter le programme suivant :
+		\inputpartC{\SPATH/ub_tab.c}{}{\small}{3}{8}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Chaines de caractères}
+		\begin{itemize}
+			\item<1-> En C, les chaines de caractères (notées entre guillemets \kw{"}) sont des tableaux de caractères (type \kw{char[]}) dont le dernier élément est le caractère spécial \kw{'\textbackslash{}0'} qui marque la fin de la chaine.
+			\item<2-> Par exemple \mintinline{c}{char exemple[] = "Hello !";} crée le tableau :\\
+				\begin{tabular}{|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
+					\hline
+					H & e & l & l & o & \; & ! & \textbackslash{}0 \\
+					\hline
+					\multicolumn{1}{c}{\footnotesize \textcolor{gray}{0}} & \multicolumn{1}{c}{\footnotesize \textcolor{gray}{1}}& \multicolumn{1}{c}{\footnotesize \textcolor{gray}{2}}& \multicolumn{1}{c}{\footnotesize \textcolor{gray}{3}} & \multicolumn{1}{c}{\footnotesize \textcolor{gray}{4}} &\multicolumn{1}{c}{\footnotesize \textcolor{gray}{5}} & \multicolumn{1}{c}{\footnotesize \textcolor{gray}{6}}& \multicolumn{1}{c}{\footnotesize \textcolor{gray}{7}} \\
+				\end{tabular}
+			\item<3-> Le module \kw{string.h} fournit des fonctions usuelles de manipulation de caractères, notamment :
+				\begin{itemize}
+					\item<4-> \kw{strlen} : renvoie la longueur de la chaine de caractères
+					\item<5-> \kw{strcpy} : copie une chaine de caractères
+					\item<6-> \kw{strcat} : concaténation de chaines de caractères
+				\end{itemize}
+			\item<7-> Contrairement à un tableau \og{}classique\fg{}, on peut donc connaitre la longueur d'une chaine de caractères, grâce à la présence du caractère sentinelle \kw{'\textbackslash{0}'} qui en indique la fin.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{enumerate}
+		\item<1->Quel affichage est produit par le programme suivant ?
+		\onslide<2->{\inputC{\SPATH/cours_ex10.c}{}{}}
+		\item<2->Quel affichage est produit en remplaçant la ligne 8 par \mintinline{c}{test[3]='\0';} ?
+	\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Tableaux multidimensionnels}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définition}
+		On peut aussi déclarer en C des tableaux à plusieurs dimensions, par exemple :
+		\inputpartC{\SPATH/multidim.c}{}{}{25}{25}
+		L'accès à un élément se fait alors en donnant successivement les deux indices entre crochets :
+		\inputpartC{\SPATH/multidim.c}{}{}{26}{26}
+		Ce qui a été vu pour les tableaux à une dimension reste vrai (numérotation à partir de 0 et les accès hors bornes sont {\sc ub}).\\ \medskip
+		\textcolor{BrickRed}{\small \danger } Quand un tableau multidimensionnel est passé à une fonction, toutes les dimensions sauf (éventuellement) la \textit{première} doivent figurées ! :
+		Par exemple, la signature de la fonction suivante n'est \textit{pas} correcte : \\
+		\mintinline{c}{void affiche(bool m[][], int l, int c)} \\
+		On devrait écrire : \\
+		\mintinline{c}{void affiche(bool m[][10], int l, int c)}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Ecrire en C une fonction de signature \mintinline{c}{void identite(int n)} qui ne prend pas d'argument et affiche la trice identité d'ordre {\tt n} (c'est à dire qu'elle contient des 1 sur sa diagonale principale et des 0 partout ailleurs). On déclarera un tableau à deux dimensions dans la fonction et on le remplira correctement avant d'effectuer son affichage.
+	\end{exampleblock}
+\end{frame}
+
+\makess{Saisie de valeurs au clavier}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Fonction {\tt scanf}}
+		\begin{itemize}
+			\item<1-> La fonction \kw{scanf} permet la saisie de valeurs des variables depuis le clavier.
+			\item<2-> Elle prend en argument un \textcolor{blue}{spécificateur de format} (comme \kw{printf}) qui permet de préciser le type de la variable attendue.
+			\item<3-> On fera précéder la variable qui reçoit la valeur saisie au clavier du caractère \kw{\&} \\
+				\onslide<4-> Ce point sera expliqué plus loin dans le cours.
+			\item<5-> Cette fonction renvoie le nombre de valeurs correctement lues.
+		\end{itemize}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\begin{itemize}
+			\item<6-> Ecrire un programme qui demande à l'utilisateur de saisir au clavier deux entiers {\tt a} et {\tt b} puis affiche leur somme.
+			\item<7-> Modifier ce programme pour que les valeurs saisies soient des flottants.
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\inputC{\SPATH/somme.c}{}{\small}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\inputC{\SPATH/sommef.c}{}{\small}
+	\end{exampleblock}
+\end{frame}
+
+\end{document}

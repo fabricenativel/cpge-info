@@ -1,0 +1,521 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{8}
+\newcommand{\Ctitle}{\cnum {Structures de données séquentielles}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap}
+
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$e_0$}} \\
+		\hline
+	\end{tabular}
+}
+
+% Définition d'une structure de données
+\makess{Généralités}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition : structure de données}
+		\begin{itemize}
+			\item<1-> En informatique, une \textcolor{blue}{structure de données} est une façon d'organiser, de gérer et de stocker des données permettant d'accéder et de modifier ces données de façon efficace. \\
+				\onslide<2->\textcolor{gray}{\small Les tableaux fixes du C sont un exemple de structure de données.}
+			\item<3-> L'\textcolor{blue}{interface} de la structure de données est l'ensemble des opérations accessibles à un utilisateur de la structure de données. \\
+				\onslide<4->\textcolor{gray}{\small Par exemple, la notation {\tt []} permet d'accéder à un élément du tableau, pour le lire ou le modifier. Par contre, en C, la taille du tableau ne fait pas partie de l'interface.}\\
+			\item<5-> L'\textcolor{blue}{implémentation} de la structure de données est la façon dont elle est représentée et codée en mémoire et n'est pas forcément accessible à l'utilisateur.\\
+				\onslide<6>\textcolor{gray}{\small On peut utiliser les listes de OCaml via leur interface sans savoir comment elles sont représentées en mémoire par le langage. }
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+% Interface et implémentation
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Caractérisation par l'interface}
+		\begin{itemize}
+			\item<1-> La différence entre \textcolor{blue}{interface} et \textcolor{blue}{implémentation} est fondamentale et doit être bien comprise. En effet une même structure de données peut avoir plusieurs implémentations. L'idée est que l'utilisation de la structure de données  doit se faire indépendamment de son implémentation ce qui permet la séparation des programmes en composants indépendants (modularité).\\
+				\textcolor{gray}{On utilise la même interface (les opérations arithmétiques) pour manipuler les entiers du C et de Python mais ils ne sont pas implémentés de la même manière.}
+			\item<2-> Lorsqu'on définit un \textit{cahier des charges} pour une structure de données (ensemble des données et opérations possibles), on définit ce qu'on appelle un \textcolor{blue}{type abstrait de données}.  Ainsi, une structure de données peut être vue comme une implémentation d'un type abstrait de données.
+			\item<3-> La définition complète d'un type abstrait de données inclus généralement la complexité des opérations de l'interface. \\
+				\textcolor{gray}{L'ajout d'un élément en tête d'une liste de OCaml est une opération en $O(1)$.}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Opérations de l'interface}
+		\begin{itemize}
+			\item<1-> La création d'une structure de données se fait à l'aide d'une opération de l'interface appelé \textcolor{blue}{constructeur} \\
+				\onslide<2->\textcolor{gray}{Par exemple en C, \mintinline{c}{double tab[10];}}
+			\item<3-> La récupération d'une valeur dans la structure se fait à l'aide d'\textcolor{blue}{accesseur} (en anglais \textit{getter}).\\
+				\onslide<4->\textcolor{gray}{Par exemple en C, \mintinline{c}{double e =  tab[3];}}
+			\item<5-> La modification d'une valeur dans la structure se fait à l'aide de \textcolor{blue}{transformateur} (en anglais \textit{setter}).\\
+				\onslide<6->\textcolor{gray}{Par exemple en C, \mintinline{c}{tab[3] = 7.5;}\\}
+				\onslide<7->{\textcolor{BrickRed}{\small \danger} On distingue les structures de données mutables (comme les tableaux du C) des structures de données immuables (comme les listes de OCaml). En cas de non mutabilité, \textit{pour modifier une structure de données on doit en construire une nouvelle}.}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% Tableaux 
+\makess{Tableaux}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		un tableau est une séquence de $n$ valeurs de même type \textcolor{blue}{consécutives en mémoire}. \\
+		\begin{tabularx}{0.9\textwidth}{|Y|Y|Y|Y|Y|Y|}
+			\hline
+			{\tt tab[0]}                              & {\tt tab[1]}         & \dots                                     & {\tt tab[i]}         & \dots & {\tt tab[n-1]} \\
+			\hline
+			\multicolumn{1}{c}{$\uparrow$}            & \multicolumn{2}{c}{} & \multicolumn{1}{c}{$\uparrow$}            & \multicolumn{2}{c}{}                          \\
+			\multicolumn{1}{c}{\rnode{a0}{\tt adr 0}} & \multicolumn{2}{c}{} & \multicolumn{1}{c}{\rnode{ai}{\tt adr i}} & \multicolumn{2}{c}{}                          \\
+		\end{tabularx} \\
+	\end{alertblock}
+	\begin{block}{Complexité des opérations}
+		\begin{itemize}
+			\item<2-> L'accès à un élément se fait \textcolor{blue}{temps constant}, en effet il suffit  de connaitre la taille \textcolor{OliveGreen}{\tt t} d'une case et de disposer de l'adresse du premier élément du tableau {\tt adr0}. L'adresse de l'élément d'indice {\tt i} s'obtient alors en ajoutant à l'adresse du premier élément $i$ fois la taille d'une case.
+				\onslide<3->{\ncline[linecolor=blue,nodesep=0.1]{->}{a0}{ai} \naput{\tt + i * \textcolor{OliveGreen}{t}}}
+			\item<4-> La suppression ou l'insertion d'un élément demande par contre la recopie des éléments et ce sont donc des opérations en $\mathcal{O}(n)$.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		\begin{itemize}
+			\item<1-> Les tableaux sont des structures de données mutables par nature, ceux de OCaml seront donc vus dans les aspects impératifs de ce langage. On notera cependant la syntaxe pour l'accès à un élément : \textcolor{blue}{\tt tab.(i)} pour l'élément d'indice {\tt i} du tableau {\tt tab}.
+			\item<2-> En C, l'accès au ième par addition à l'adresse du premier de $i \times t$ où $t$ est la taille d'une case est masqué par le \og sucre syntaxique \fg{}  \mintinline{c}{tab[i]}. On notera cependant, que les deux syntaxes suivantes sont tout à fait équivalentes ! :
+				\inputpartC{\SPATH/syntaxe.c}{\small}{}{3}{8}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Tableaux dynamiques}
+		\begin{itemize}
+			\item<1-> Les tableaux ont une taille fixée au moment de leur création de façon à réserver l'espace mémoire nécessaire.
+			\item<2-> On peut créer des tableaux dynamiques (ou redimensionnables) à la façon des listes de Python, une implémentation en C sera vue en TP.
+			\item<3-> On retiendra dès maintenant que dans le cas d'un redimensionnement, la stratégie efficace est alors de \textcolor{blue}{doubler} la taille courante du tableau car cela conduit à une complexité \textcolor{blue}{amortie} en $\mathcal{O}(1)$ lors de l'ajout.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\makess{Liste chainées}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		\begin{center}
+			\rnode{head}{\phantom{Y}}  \quad \maillon{$e_5$}{v0}{p0} \  \maillon{$e_4$}{v1}{p1}  \maillon{$e_3$}{v2}{p2}  \maillon{$e_2$}{v3}{p3}  \maillon{$e_1$}{v4}{p4} \maillon{$e_0$}{v5}{p5} \  \rnode{null}{\raisebox{-2pt}{$\bot$}}
+			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p0}{v1}
+			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
+			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p2}{v3}
+			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p3}{v4}
+			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p4}{v5}
+			\ncline[nodesepB=0.05cm,nodesepA=-0.25cm]{*->}{p5}{null}
+		\end{center}
+		\begin{itemize}
+			\item<2-> Contrairement aux tableaux, les différentes valeurs ne sont pas stockés de façon contiguës en mémoire.
+			\item<3-> Avec chaque élément, on stocke aussi dans un \og{} maillon \fg{} l'emplacement de son successeur. Le successeur du dernier élément se note $\bot$ (\mintinline{c}{NULL} en C).
+			\item<6-> Les listes chainées peuvent être définies de façon \textcolor{blue}{récursive} :
+				\begin{itemize}
+					\item<7-> Une liste est soit vide (référence vers $\bot$)
+					\item<8-> Soit c'est la donnée d'un maillon constitué d'une valeur et d'une référence vers une liste.
+				\end{itemize}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Complexités des opérations}
+		\begin{center}
+			\rnode{head}{\raisebox{-2pt}{\phantom{Y}}}  \quad \maillon{$e_3$}{v0}{p0} \  \maillon{$e_2$}{v1}{p1}  \maillon{$e_1$}{v2}{p2}  \maillon{$e_0$}{v3}{p3}   \rnode{null}{\raisebox{-2pt}{$\bot$}}
+			\ncline[nodesepB=0.85cm]{->}{head}{p0}
+			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p0}{v1}
+			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
+			\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p2}{v3}
+			\ncline[nodesepB=0.05cm,nodesepA=-0.25cm]{*->}{p3}{null}
+		\end{center}
+		\onslide<4->{\quad \rnode{head2}{\raisebox{-2pt}{\phantom{Z}}} \quad \maillon{$e_4$}{v4}{p4}}
+		\begin{itemize}
+			\item<2-> Pour accéder à un élément, on doit parcourir tout ceux qui le précèdent. L'accès à un élément est donc une opération en $\mathcal{O}(n)$.
+			\item<3-> L'ajout  ou la suppression en tête de liste est en $\mathcal{O}(1)$ car aucune recopie n'est nécessaire :
+				\begin{enumerate}
+					\item<4-> On crée un maillon avec la nouvelle valeur.
+					\item<5-> Le suivant de ce maillon est l'ancienne tête.
+						\onslide<5->{\ncline[nodesepB=0.25cm,nodesepA=-0.25cm,linecolor=red]{*->}{p4}{v0}}
+					\item<6-> La nouvelle tête pointe sur le nouveau maillon.
+						\onslide<6->{\ncline[nodesepB=0.25cm,linecolor=red]{->}{head2}{v4}
+							\ncline[nodesepB=0.85cm,linecolor=hideblue,linewidth=1pt]{->}{head}{p0}}
+				\end{enumerate}
+			\item<7-> La taille de la structure de données n'est pas fixée à la construction contrairement aux tableaux.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% Liste chainée : implémentation
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation en C}
+		On peut définir un maillon comme un \mintinline{c}{struct} avec les champs {\tt valeur} et pointeur vers un {\tt maillon} :
+		\onslide<2->{
+			\inputpartC{\SPATH/liste_chainee.c}{\small}{}{7}{13}}
+	\end{block}
+	\begin{block}{Implémentation en OCaml}
+		\begin{itemize}
+			\item<3-> Le type {\tt 'a list} est prédéfini dans le langage
+			\item<4-> Attention, les listes de OCaml ne sont pas mutables
+			\item<5-> Tous les éléments doivent être du même type
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Interface des {\tt list} de OCaml}
+		\begin{tabularx}{\textwidth}{|>{\footnotesize}X|>{\footnotesize}l|}
+			\hline
+			\textcolor{blue}{Fonction}                              & \textcolor{blue}{Rôle}                       \\
+			\hline
+			{\tt List.mem a -> 'a list -> bool}                     & Teste l'appartenance à la liste             \\
+			\hline
+			{\tt List.length : 'a list -> int}                      & Renvoie la longueur de la liste             \\
+			\hline
+			{\tt List.map : ('a -> 'b) -> 'a list -> 'b list }      & Application d'une fonction    \\
+			\hline
+			{\tt List.for\_all : ('a -> bool) -> 'a list -> bool }  & Vérification d'un prédicat  \\
+			\hline
+			{\tt List.rev : 'a list -> 'a }                         & Retourne la liste                           \\
+			\hline
+			{\tt List.filter : ('a -> bool) -> 'a list -> 'a list } & Filtrage suivant un prédicat                \\
+			\hline
+			{\tt List.iter : ('a -> unit) -> 'a list -> unit }      & Applique une fonction renvoyant {\tt ()}    \\
+			\hline
+		\end{tabularx}
+		Toutes ces fonctions sont de complexité $\mathcal{O}(n)$ où $n$ est la longueur de la liste.\\
+		\onslide<2->{La concaténation de deux listes {\tt \string@ : 'a list -> 'a list -> 'a list} est de complexité $\mathcal{O}(n_1)$ où $n_1$ est la longueur de la \textit{première} liste.\\}
+		\onslide<3->{On rappelle que {\tt List.fold\_left} et {\tt List.fold\_right} permettent de parcourir une liste (depuis la gauche ou depuis la droite) en accumulant les résultats successifs trouvés.}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		On rappelle l'implémentation d'une liste chainée en C ;
+		\inputpartC{\SPATH/liste_chainee.c}{}{\footnotesize}{7}{13}
+		\begin{enumerate}
+			\item<2-> Ecrire une fonction {\tt affiche} de signature \mintinline{c}{void affiche(liste l)} qui affiche les éléments de la liste chainée {\tt l}.
+			\item<3-> Donner la signature d'une fonction {\tt ajoute} qui ajoute une valeur en tête d'une liste.
+			\item<4-> Donner l'implémentation de cette fonction.\\
+				{\small \aide \; On pourra traduire en C les  étapes  de l'ajout : création du nouveau maillon en le faisant pointer vers l'ancienne tête, modification de la liste dont la tête est le nouveau maillon.}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+% Piles : approche sémantique
+\makess{Piles}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Piles}
+		\begin{itemize}
+			\item<1-> Au niveau sémantique, une \textcolor{blue}{pile} est semblable à une pile d'objet dans la vie de tous les jours.
+				\onslide<2->{\begin{center}
+					\hspace{-2.5cm} \onslide<6->{\rnode{emp}{\framebox[1cm]{\textcolor{OliveGreen}{\tt elt5}}}} \qquad \qquad \qquad \qquad \qquad \onslide<9->{\rnode{dep}{\framebox[1cm]{\textcolor{BrickRed}{\tt elt5}}}} \\
+					\begin{tabular}{|p{1cm}|c}
+						\cline{1-1}
+						\rnode{sommet}{\tt elt4} & \onslide<4->{$\leftarrow$ \textcolor{blue}{sommet}} \\
+						\cline{1-1}
+						{\tt elt3}               &                                                     \\
+						\cline{1-1}
+						{\tt elt2}               &                                                     \\
+						\cline{1-1}
+						{\tt elt1}               &                                                     \\
+						\cline{1-1}
+					\end{tabular}}
+					\onslide<6->{\ncangle[angleB=90, armB=0,offsetB=-0.1cm,linestyle=dashed,linecolor=OliveGreen]{->}{emp}{sommet}}
+					\onslide<7->{\rput(-4.2,1.4){{\footnotesize \textcolor{OliveGreen}{empiler}}}}
+					\onslide<9->{\ncangle[angleB=90, armB=0, offsetB=0.4cm, nodesepA=-1cm,linestyle=dashed,linecolor=BrickRed]{<-}{dep}{sommet}}
+					\onslide<10->{\rput(-1.8,1.4){{\footnotesize \textcolor{BrickRed}{dépiler}}}}
+				\end{center}
+				\item<3->{L'élément situé en haut de la pile s'appelle le \textcolor{blue}{sommet}.}
+			\item<5-> \textcolor{OliveGreen}{Empiler} signifie ajouter un élément au sommet de la pile
+			\item<8-> \textcolor{BrickRed}{Dépiler} signifie retirer l'élément situé au sommet de la pile
+			\item<11-> Ainsi le premier élément entré dans la pile sera aussi le dernier à en sortir, on dit qu'une pile est une structure \textcolor{blue}{\sc lifo} \textit{Last In First Out}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+% Piles
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Piles comme structures de données}
+		L'interface d'une structure de données Pile se limite donc aux opérations suivantes :
+		\begin{itemize}
+			\item<2-> \textcolor{blue}{\tt est\_vide} qui renvoie un booléen indiquant si la pile est vide ou non.
+			\item<3-> \textcolor{blue}{\tt empiler} (en anglais \textit{push}) qui ajoute un élément au sommet de la pile.
+			\item<4-> \textcolor{blue}{\tt depiler} (en anglais \textit{pop}) qui retire l'élément situé au sommet (cela n'est possible que si la pile n'est pas vide).
+		\end{itemize}
+	\end{alertblock}
+	\onslide<5->{
+		\begin{block}{Utilisation}
+			En dépit de sa simplicité, cette structure de données a de nombreuses applications en informatique : pile d'appel récursif, pile d'évaluation d'une expression, \dots
+		\end{block}}
+\end{frame}
+
+% Piles : EX1
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Manipulation de piles}
+		\begin{itemize}
+			\item<2-> On considère la pile : {\tt P = |"A","L","I","X">} (le sommet est {\tt "X"}). Quelle suite d'opération permet d'obtenir {\tt P=|"A","L","E","X">} ?
+			\item<3-> Un programmeur décide d'utiliser une pile afin de stocker une réponse entrée au clavier. Chaque caractère tapé doit être empiler. Traduire en terme d'opérations sur cette pile les actions suivantes :
+				\begin{enumerate}
+					\item<4-> Appuie sur la touche "o"
+					\item<5-> Appuie sur la touche "i"
+					\item<6-> Appuie sur la touche \framebox{$\longleftarrow$} (\textit{backspace})
+					\item<7-> Appuie sur la touche "k"
+				\end{enumerate}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+% Piles : EX2
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Manipulation de piles}
+		Au jeu des tours des Hanoï, on gère les trois tours {\tt T1, T2 et T3} à l'aide de trois piles.
+		\begin{enumerate}
+			\item<2-> Quel est le contenu de chacune des piles dans la situation ci-dessous ? (un disque est réprésenté dans la pile par sa taille)
+				\begin{center}
+					\includegraphics[scale=0.14]{hanoi_dep.eps}
+				\end{center}
+			\item<3-> Ecrire les opérations permettant de passer la situation précédente à celle ci-dessous :
+				\begin{center}
+					\includegraphics[scale=0.18]{hanoi_fin.eps}
+				\end{center}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation des piles}
+		Plusieurs implémentations sont possibles :
+		\begin{itemize}
+			\item<1-> A l'aide d'une liste chaînée, la tête de la liste représente alors le sommet de la pile.
+				\onslide<2->{\begin{center}
+						\begin{tabular}{cclllll}
+							\rnode{head}{\raisebox{-2pt}{\phantom{Y}}} & \maillon{$e_0$}{v0}{p0}                                   & \maillon{$e_1$}{v1}{p1} & \maillon{$e_2$}{v2}{p2} & \maillon{$e_3$}{v3}{p3} & \maillon{$e_4$}{v4}{p4} & \rnode{null}{\raisebox{-2pt}{$\bot$}} \\
+							                                           & \leavevmode \onslide<3->{\textcolor{blue}{\small sommet}} &                         &                         &                         &                         &                                       \\
+						\end{tabular}
+						\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p0}{v1}
+						\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
+						\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p2}{v3}
+						\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p3}{v4}
+						\ncline[nodesepB=0.05cm,nodesepA=-0.25cm]{*->}{p4}{null}
+						\onslide<4->{\ncline[offset=2pt,nodesepA=-0.25cm,nodesepB=0.25cm,linecolor=OliveGreen]{->}{head}{v0} \naput[labelsep=1pt]{\textcolor{OliveGreen}{\tiny empiler}}}
+						\onslide<5->{\ncline[offset=-2pt,nodesepA=-0.25cm,nodesepB=0.25cm,linecolor=BrickRed]{<-}{head}{v0} \nbput[labelsep=1pt]{\textcolor{BrickRed}{\tiny dépiler}}}
+					\end{center}}
+			\item<6-> Si la capacité de la pile $n$ est bornée et connue en amont, on peut aussi utiliser un tableau de taille $n$ et mémoriser la taille courante \textcolor{blue}{\tt t} de la pile.
+				\onslide<7->{\begin{tabularx}{0.9\textwidth}{|Y|Y|Y|Y|Y|Y|}
+						\hline
+						{\tt tab[0]}         & {\tt tab[1]}         & \dots                                          & {\tt tab[t-1]}                                                 & \textcolor{gray}{\dots}                                                  & \textcolor{gray}{\tt tab[n-1]} \\
+						\hline
+						\multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\rnode{h}{\phantom{\tt t}}} & \multicolumn{1}{c}{\rnode{s}{\textcolor{blue}{\small sommet}}} & \multicolumn{2}{c}{\rnode{t}{\textcolor{gray}{\small valeurs ignorées}}}                                  \\
+					\end{tabularx}
+				}
+				\begin{itemize}
+					\item<8-> pour tester si la pile est vide on teste si \textcolor{blue}{\tt t} est égal à 0,
+					\item<9-> pour empiler une valeur {\tt v}, on affecte {\tt tab[t]=v} et on incrémente \textcolor{blue}{\tt t},
+						\onslide<10->{\ncline[linecolor=OliveGreen,nodesepA=0.1cm,nodesepB=0.4cm,offset=-2pt]{->}{s}{t} \naput[labelsep=0.1pt]{\textcolor{OliveGreen}{\tiny empiler}}}
+					\item<11-> pour dépiler on renvoie {\tt tab[t-1]} et décrémente \textcolor{blue}{\tt t}.
+						\onslide<12->{\ncline[linecolor=BrickRed,nodesepA=0.1cm,nodesepB=0.4cm,offset=2pt]{->}{s}{h} \nbput[labelsep=0.1pt]{\textcolor{BrickRed}{\tiny dépiler}}}
+				\end{itemize}
+				\onslide<13->{Ainsi, le sommet de la pile est toujours l'élément d'indice {\tt t-1} du tableau.}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		\begin{itemize}
+			\item {\small \textcolor{BrickRed}{\danger}} Une pile peut-être implémentée par un tableau ou par une liste chainée, mais une pile n'est ni l'un ni l'autre ! \\
+			      \onslide<2->{\small  \textcolor{gray}{Par exemple en OCaml, même si la pile est implémentée par une {\tt list}, on n'utilisera pas {\tt List.length} car la taille ne fait pas partie de l'interface d'une pile.}}
+			\item<3-> En Ocaml, on se limite pour le moment à des structures de données \textit{non mutables}, par conséquent, la modificiation d'une pile renvoie une nouvelle pile.\\
+				\onslide<4->{\small  \textcolor{gray}{Par exemple, en implémentant les piles avec le type {\tt 'a list} la fonction
+						dépiler renvoie une l'élément dépilé et une nouvelle pile {\tt depiler : 'a list -> 'a * 'a list}}}
+			\item<5-> En Ocaml, le module {\tt Stack} accessible avec \mintinline{ocaml}{open Stack} sera vu plus tard et permet de manipuler des piles mutables via l'interface :
+				\begin{itemize}
+					\item<6-> \mintinline{ocaml}{Stack.create} de signature {\tt () -> 'a t} qui crée une pile vide d'éléments de type {\tt 'a}.
+					\item<7-> \mintinline{ocaml}{Stack.push} de signature {\tt 'a 'a t -> ()} qui empile un élément.
+					\item<8-> \mintinline{ocaml}{Stack.pop} de signature {\tt 'a t -> 'a} qui dépile un élément.
+				\end{itemize}
+		\end{itemize}
+
+	\end{block}
+\end{frame}
+
+% Files : approche sémantique
+\makess{Files}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Files}
+		\begin{itemize}
+			\item<1-> Au niveau sémantique, une \textcolor{blue}{file} est semblable à une file d'attente dans la vie de tous les jours.
+				\onslide<2->{\begin{center}
+					\onslide<4->{\rnode{enf}{\framebox[1cm]{\textcolor{OliveGreen}{\tt elt}}}}  \hspace{1cm}
+					\begin{tabular}{|p{1cm}|p{1cm}|p{1cm}|p{1cm}|}
+						\hline
+						\rnode{in}{\tt elt4} & {\tt elt3} & {\tt elt2} & \rnode{out}{\tt elt1} \\
+						\hline
+					\end{tabular}
+					\hspace{1cm} \onslide<9->{\rnode{def}{\framebox[1cm]{\textcolor{BrickRed}{\tt elt}}}}
+					}
+					\onslide<5->{\ncline[linestyle=dashed,nodesepB=0.2cm,linecolor=OliveGreen]{->}{enf}{in}}
+					\onslide<6->{\naput{{\footnotesize \textcolor{OliveGreen}{enfiler}}}}
+					\onslide<9->{\ncline[linestyle=dashed,nodesepA=0.4cm,linecolor=BrickRed]{->}{out}{def}}
+					\onslide<10->{\naput{{\footnotesize \textcolor{BrickRed}{défiler}}}}
+				\end{center}
+			\item<3-> \textcolor{OliveGreen}{Enfiler} signifie ajouter un élément en fin de file
+			\item<7-> \textcolor{BrickRed}{Défiler} signifie retirer l'élément situé au début de la file.
+			\item<11-> Ainsi le premier élément entré dans la file sera aussi le premier à en sortir, on dit qu'une file est une structure \textcolor{blue}{\sc fifo} \textit{First In First Out}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+
+% Files
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Files comme structures de données}
+		L'interface d'une structure de données File se limite donc aux opérations suivantes :
+		\begin{itemize}
+			\item<2-> \textcolor{blue}{\tt est\_vide} qui renvoie un booléen indiquant si la file est vide ou non.
+			\item<3-> \textcolor{blue}{\tt enfiler} qui ajoute un élément à la fin de la file.
+			\item<4-> \textcolor{blue}{\tt defiler} qui retire l'élément situé au début de la file (cela n'est possible que si la file n'est pas vide).
+		\end{itemize}
+	\end{alertblock}
+	\onslide<5->{
+		\begin{block}{Utilisation}
+			Comme pour les piles, cette structure de données a de nombreuses applications en informatique : file d'attente d'une imprimante, simulation de files d'attentes réelles, \dots
+		\end{block}}
+\end{frame}
+
+% Piles : EX1
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Manipulation de files}
+		\begin{itemize}
+			\item<2-> On considère la file : {\tt F = >"E","L","S","A">}. Quelle suite d'opération permet d'obtenir {\tt F= >"N","O","E","L">} ?
+			\item<3-> On simule la file d'attente d'une imprimante à l'aide d'une file. A quelle opération sur cette file correspond l'envoie d'une nouvelle impression ? La fin de l'impression en cours ? Dans quel ordre seront effectuées les impressions ?
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation avec une liste chainée}
+		L'une des implémentations possibles, afin d'obtenir des opérations en $\mathcal{O}(1)$ est de disposer d'un accès au premier maillon (pour défiler en $\mathcal{O}(1)$) et au dernier maillon (pour enfiler en $\mathcal{O}(1)$).
+		\onslide<2->{\begin{center}
+				\begin{tabular}{cclllcc}
+					\rnode{head}{\raisebox{-2pt}{\phantom{Y}}} & \maillon{$e_0$}{v0}{p0}                                                  & \maillon{$e_1$}{v1}{p1} & \maillon{$e_2$}{v2}{p2} & \maillon{$e_3$}{v3}{p3} & \maillon{$e_4$}{v4}{p4}                                         & \rnode{null}{\raisebox{-2pt}{$\bot$}} \\
+					                                           & \leavevmode \onslide<3->{\rnode{h}{\textcolor{BrickRed}{\small sortie}}} &                         &                         &                         & \leavevmode \onslide<4->{\textcolor{OliveGreen}{\small entrée}} &                                       \\
+				\end{tabular}\\
+				\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p0}{v1}
+				\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p1}{v2}
+				\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p2}{v3}
+				\ncline[nodesepB=0.25cm,nodesepA=-0.25cm]{*->}{p3}{v4}
+				\ncline[nodesepB=0.05cm,nodesepA=-0.25cm]{*->}{p4}{null}
+				\onslide<5->{\begin{tabular}{|c|c|}
+						\hline
+						\rnode{debut}{\phantom{M}} & \rnode{fin}{\phantom{M}} \\
+						\hline
+						\multicolumn{2}{c}{\textcolor{blue}{file}}
+					\end{tabular}}\\
+				\onslide<6->\ncbar[angleA=180,linecolor=BrickRed,nodesepB=0.2cm,nodesepA=-0.2cm]{*->}{debut}{v0}
+				\onslide<7->\ncangle[angleA=0, angleB=-90,linecolor=OliveGreen,nodesepB=0.1cm,nodesepA=-0.2cm,offsetB=0.2cm]{*->}{fin}{v4}
+				\onslide<8-> \textcolor{BrickRed}{\danger \; Le sens de parcours de la file est l'inverse de celui des maillons.}
+			\end{center}}
+		\onslide<9->{
+			\inputpartC{\SPATH/joseph.c}{\small}{}{11}{16}
+		}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Implémentation avec un tableau}
+		Si la capacité de la file  $n$ est bornée, on peut utiliser  un tableau {\tt f} qu'on traite circulairement (\textit{ring buffer}). Pour cela, on maintient à jour une variable \textcolor{blue}{\tt t} contenant le nombre d'éléments de la file et une variable \textcolor{OliveGreen}{\tt d} contenant l'indice du prochain élément à défiler.
+		\begin{itemize}
+			\item<2-> pour défiler, on renvoie l'élément d'indice \textcolor{OliveGreen}{\tt d}, on décremente \textcolor{blue}{\tt t} et on incrémente \textcolor{OliveGreen}{\tt d} (modulo n).
+			\item<3-> pour enfiler une valeur {\tt v} \textit{lorsque la file n'est pas pleine}, on affecte {\tt tab[(d+t)\%n]=v} et on incrémente \textcolor{blue}{\tt t} (modulo n).
+		\end{itemize}
+		\onslide<4->{
+		Illustration :\\
+		{\begin{tabularx}{\textwidth}{|Y|c|Y|Y|Y|c|Y|}
+			\hline
+			{\small \tt f[0]}    & \dots                & {\small \tt f[(d+t)\%n]}                  & \textcolor{gray}{\dots}                                              & {\small \tt f[d]}                                             & \textcolor{gray}{\dots} & {\small \tt f[n-1]} \\
+			\hline
+			\multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\textcolor{blue}{fin}} & \multicolumn{1}{c}{\textcolor{gray}{\footnotesize valeurs ignorées}} & \multicolumn{1}{c}{\rnode{s}{\textcolor{blue}{\small debut}}} & \multicolumn{2}{c}{}                          \\
+		\end{tabularx}
+		}
+		}
+
+	\end{block}
+\end{frame}
+
+\makess{Complexité amortie}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple introductif}
+		\begin{itemize}
+		\item<1-> Rappeler les opérations  de l'interface usuelle d'une pile et leur complexité.
+		\item<2-> On suppose qu'on ajoute à cette interface une opération {\tt multipop} qui dépile la totalité des éléments de la pile. En notant $n$ le nombre d'éléments de la pile, donner un grand $\mathcal{O}$ de cette nouvelle opération.
+		\item<3-> On considère une pile initialement vide $S_0$, sur laquelle on effectue une suite d'opérations $p_1,\dots p_m$, donner un $\mathcal{O}$ de cette suite d'opérations. Que penser de cette majoration ?
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définitions}
+		\begin{itemize}
+		\item On considère une structure de données $\mathcal{S}$ munie d'un ensemble d'opérations $\mathcal{P}$. Sur une instance $\mathcal{S}_0$ de cette structure de données on effectue une suite d'opérations $\{p_1, \dots, p_n\}$ où $p_i \in \mathcal{P}$ pour $i \in \intN{1}{n}$ : \\
+		 $\mathcal{S}_0 \xrightarrow{p_1} \mathcal{S}_1 \xrightarrow{p_2} \mathcal{S}_2 \dots \xrightarrow{p_{n}} \mathcal{S}_n$ \\
+		\onslide<2->{En notant $c_i$ le coût  de $p_i$,la \textcolor{blue}{complexité amortie} de chacune des opérations $p_i$ est  la moyenne arithmétique des $\left(c_i\right)_{1\leqslant i \leqslant n}$ : 
+		$$\displaystyle\dfrac{1}{n}{\sum_{k=1}^n c_i}$$.} 
+		\item<3-> Une fonction qui associe à chacune des instances $\mathcal{S}_i$ de la structure de données un nombre réel \textit{positif} et telle que $\Phi({S}_0)=0$ est appelée \textcolor{blue}{fonction de potentiel}.
+		\item<4-> On définit le \textcolor{blue}{coût amorti} $\widehat{c_i}$ d'une opération $p_i$ par : \\
+		$\widehat{c_i} = c_i + \Phi(\mathcal{S}_i) - \Phi(\mathcal{S}_{i-1})$
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Théorème d'amortissement}
+		La somme des coût des opérations $\left(p_i\right)_{1\leqslant i \leqslant n}$ est majoré par la somme de leur coût amorti :
+		$$\displaystyle{\sum_{k=1}^n c_i} \leqslant \displaystyle{\sum_{k=1}^n \widehat{c_i}}$$
+	\end{block}
+	\onslide<2->{\begin{exampleblock}{Exemple de la pile avec {\tt multipop}}
+		On définit la fonction de potentiel $\Phi(S_i) =$ nombre d'éléments dans $S_i$ (noté $n_i$), $\Phi$ est bien à valeur positives et $\Phi(S_0)=0$. Alors, puisque $\widehat{c_i} = \Phi(S_i) - \Phi(S_{i-1})$,
+		\begin{itemize}
+		 \item<3-> Si $c_i = ${\tt push} , $\widehat{c_i} = 1 + (n_i - n_{i-1}) = 2$ 
+		 \item<4-> Si $c_i = ${\tt pop} , $\widehat{c_i} = 1 + (n_i - n_{i-1}) = 0$ 
+		 \item<5-> Si $c_i = ${\tt multipop}, $\widehat{c_i} = n_{i-1} + (0 - n_{i-1}) = 0$  
+		\end{itemize}}
+		\onslide<6-> Par conséquent, la complexité amortie d'une suite de $m$ opérations sur cette structure de données est proportionnel au nombre d'opérations (c'est un $\mathcal{O}(m)$), tout se passe comme si chaque opération avait un coût constant.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : file implémentée par deux piles}
+		On implémente une file à l'aide de deux piles initialement vides, $P_e$ (pile d'entrée) et $P_s$ (pile de sortie) de la façon suivante :
+		\begin{itemize}
+		\item L'opération {\tt enfiler} consiste à empiler un élément dans $P_e$,
+		\item L'opération {\tt défiler} consiste à dépiler un élément de $P_s$, si cette pile est vide alors on dépile la totalité de $P_e$ dans $P_s$.
+		\end{itemize}
+		\begin{enumerate}
+		\item<2-> Executer quelques opérations {\tt enfiler} et {\tt defiler} (illustrer éventuellement par un schéma).
+		\item<3-> Quelle est la complexité dans le pire des cas des opérations ? 
+		\item<4-> Etudier la complexité amortie d'une suite d'opérations sur cette structure de données. \\
+		\textcolor{OliveGreen}{\small \aide} On pourra considérer la fonction $\Phi$ renvoyant le nombre d'éléments de $P_e$.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\end{document}

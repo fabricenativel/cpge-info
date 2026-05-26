@@ -1,0 +1,169 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt,french]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{14}
+\newcommand{\Ctitle}{\cnum {Plus court chemin dans un graphe}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C\thenumchap/}
+\newcommand{\ar}[1]{\{#1\}}
+\newcommand{\normal}[1]{\circlenode{#1}{#1}}
+\newcommand{\todo}[1]{\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{#1}{#1}}
+\newcommand{\visited}[1]{\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{#1}{#1}}
+
+\makess{File de priorité}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Définition}
+		Une file de priorité est une structure de données,  :
+		\begin{itemize}
+			\item<1-> qui permet d'\textit{enfiler} (ajouter) des éléments  et de \textit{défiler} (retirer) des éléments (comme une file classique).
+			\item<2-> mais de plus, chaque élément enfilé possède une priorité.
+			\item<3-> lorsqu'on défile un élément, on enlève l'élément le plus prioritaire (et donc pas forcément le premier enfilé comme dans une file classique).
+		\end{itemize}
+	\end{block}
+	\onslide<3->{
+		\begin{exampleblock}{Exemple}
+			{\small On convient de noter les éléments par des lettres et leur priorité par un entier. Par exemple $(3,X)$ est l'élément $X$ avec priorité $3$ et on considère que la priorité maximale est \textit{la plus petite priorité}.
+				Représenter l'évolution de la file de priorité et donner les éléments extraits lors de l'exécution des opérations suivantes :\\
+				Enfiler $(5,A)$, Enfiler $(2,B)$, Enfiler $(4,C)$, Enfiler $(1,D)$, Enfiler $(3,E)$, Enfiler $(6,F)$, Défiler, Défiler, Enfiler $(2,G)$, Défiler.}
+		\end{exampleblock}
+	}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation avec une liste}
+		Pour implémenter une file de priorité, on peut utiliser une liste de Python :
+		\begin{itemize}
+			\item l'opération enfiler correspond à l'ajout d'un élément à la fin de la liste (avec \kw{append}).
+			\item l'opération défiler correspond à la recherche de \textit{l'indice} de l'élément de priorité maximale, puis à sa suppression de la liste (avec \kw{pop}).
+		\end{itemize}
+	\end{block}
+
+	\begin{exampleblock}{Exercice}
+		\begin{enumerate}
+			\item Ecrire la fonction {\tt enfile} qui prend en paramètre une file de priorité (une liste) et un élément $(p,x)$ et qui ajoute l'élément à la file.
+			\item Ecrire la fonction {\tt defile} qui prend en paramètre une file de priorité (une liste) et qui retire l'élément de priorité maximale de la file et le renvoie. On pourra écrire au préalable une fonction {\tt indice\_prio} qui renvoie l'indice de l'élément de plus petite priorité
+			\item Quelle est la complexité de ces deux fonctions ?
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Utilisation du module \texttt{heapq}}
+		Le module \texttt{heapq} de Python permet de manipuler des files de priorité de manière efficace (les complexité des deux opérations sont logarithmiques)
+		\begin{itemize}
+			\item Si {\tt f} est une liste vide, \mintinline{python}{heapify(f)} permet de transformer {\tt f} en une file de priorité.
+			\item La fonction \texttt{heappush} permet d'enfiler un élément dans la file.
+			\item La fonction \texttt{heappop} permet de défiler l'élément de priorité maximale.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Algorithme de Djikstra}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Algorithme de Djikstra : exemple}
+		\begin{center}
+			\begin{pspicture}(5,2.7)
+				\rput(0,2.2){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
+				\alt<15->{\rput(5,1.2){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}}{\rput(5,1.2){\circlenode{E}{E}}}
+				\alt<11->{\rput(1.5,1.1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}}{\rput(1.5,1.1){\circlenode{B}{B}}}
+				\alt<22->{\rput(4,0.4){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}}{\rput(4,0.4){\circlenode{D}{D}}}
+				\alt<6->{\rput(3,2.3){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}}{\rput(3,2.3){\circlenode{C}{C}}}
+				\alt<19->{\rput(7,1.3){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{F}{F}}}{\rput(7,1.3){\circlenode{F}{F}}}
+				\alt<5->{\ncarc[linecolor=red,linewidth=1pt]{A}{C}}{\ncarc{A}{C}} \naput{1}
+				\alt<4->{\ncarc[arcangle=-10,linecolor=red,linewidth=1pt]{A}{B}}{\ncarc[arcangle=-10]{A}{B}} \naput{5}
+				\alt<8->{\ncarc[linecolor=red,linewidth=1pt]{B}{C}}{\ncarc{B}{C}} \naput{3}
+				\alt<14->{\ncarc[linewidth=1pt,linecolor=red]{B}{E}}{\ncarc{B}{E}} \naput{2}
+				\alt<10->{\ncarc[linecolor=red,linewidth=1pt]{C}{F}}{\ncarc{C}{F}} \naput{7}
+				\alt<9->{\ncarc[arcangle=-5,linecolor=red,linewidth=1pt]{C}{E}}{\ncarc[arcangle=-5]{C}{E}} \naput{5}
+				\alt<13->{\ncarc[arcangle=-10,linecolor=red,linewidth=1pt]{B}{D}}{\ncarc[arcangle=-10]{B}{D}} \nbput{4}
+				\alt<21->{\ncarc[arcangle=-10,linecolor=red,linewidth=1pt]{D}{F}}{\ncarc[arcangle=-10]{D}{F}} \nbput{3}
+				\alt<18->{\ncarc[linecolor=red,linewidth=1pt]{E}{F}}{\ncarc{E}{F}} \naput{1}
+			\end{pspicture}
+		\end{center}
+		\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|}
+			\hline
+			A                                        & B                                         & C                                        & D                                      & E                                         & F                                         &                                    \\
+			\hline
+			\alt<2->{\textcolor{red}{(0,A)} }{ }     & \alt<4->{(5,B)}{}                         & \alt<5->{(1,C)}{ }                       &                                        &                                           &                                           & \alt<3->{ \textcolor{blue}{A}}{ }  \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<8->{(4,B)}{ }                        & \alt<6->{\textcolor{red}{(1,C)}}{ }      &                                        & \alt<9->{(6,E)}{ }                        & \alt<10->{(8,F)}{ }                       & \alt<7->{ \textcolor{blue}{C}}{ }  \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<11->{\textcolor{red}{(4,B)}}{ }      & \alt<7->{\textcolor{blue}{\ding{52}}}{ } & \alt<13->{(8,D)}{ }                    & \alt<14->{(6,E)}{ }                       & \alt<13->{(8,F)}{ }                       & \alt<12->{ \textcolor{blue}{B}}{ } \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<12->{\textcolor{blue}{\ding{52}}}{ } & \alt<7->{\textcolor{blue}{\ding{52}}}{ } & \alt<15->{(8,D)}{ }                    & \alt<15->{\textcolor{red}{(6,E)}}{ }      & \alt<15->{(7,F)}{}                        & \alt<16->{ \textcolor{blue}{E}}{ } \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<12->{\textcolor{blue}{\ding{52}}}{ } & \alt<7->{\textcolor{blue}{\ding{52}}}{ } & \alt<21->{(8,D)}{ }                    & \alt<16->{\textcolor{blue}{\ding{52}}}{ } & \alt<19->{\textcolor{red}{(7,F)}}{ }      & \alt<20->{ \textcolor{blue}{F}}{ } \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<12->{\textcolor{blue}{\ding{52}}}{ } & \alt<7->{\textcolor{blue}{\ding{52}}}{ } & \alt<22->{\textcolor{red}{{8 (B)}}}{ } & \alt<16->{\textcolor{blue}{\ding{52}}}{ } & \alt<19->{\textcolor{blue}{\ding{52}}}{ } & \alt<23->{ \textcolor{blue}{D}}{ } \\
+			\hline
+		\end{tabularx}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Principe}
+		\begin{itemize}
+			\item<1-> L'algorithme de Djikstra recherche le plus court chemin depuis un sommet de départ $s$ vers \textit{tous les autres} sommets du graphe.
+			\item<2-> Les poids sont supposés \textcolor{BrickRed}{positifs}.
+			\item<3-> C'est un adaptation du parcours en largeur, dans laquelle la file des sommets en attente de traitement est une \textcolor{blue}{file de priorité}.
+			\item<4->  La priorité est la distance minimale trouvée pour le moment depuis le sommet de départ. \\
+				\textcolor{gray}{\small Idéalement, on doit donc disposer d'une file de priorité où la mise à jour de la priorité d'un élément est disponible. Pour notre implémentation, par souci de simplicité, on adoptera une file de priorité \og{} traditionnelle \fg{} et on enfilera plusieurs fois le même sommet (avec des priorités différentes). Et on utilisera un tableau de booléens afin de ne pas traiter deux fois le même sommet. Cela a des conséquences en terme de complexité mais non significatives à notre niveau.}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Description de l'algorithme}
+		\begin{enumerate}
+			\item<1-> Initialiser la file de priorité avec le sommet de départ $s$ et la distance $0$.
+			\item<2-> Tant que la file de priorité n'est pas vide :
+			\begin{enumerate}
+				\item<3-> Défiler le sommet $u$ de priorité minimale.
+				\item<4-> Si il n'a encore été traité le marquer comme traité et enfiler chacun de ses fils en leur donnant comme priorité celle de $u$ ajouté à la pondération de l'arc les joignant.
+			\end{enumerate}
+			\item La distance finale vers chaque sommet est donnée par le tableau des distances.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+		\begin{pspicture}(0,-1.9)(10,1.9)
+				\psset{arrowsize=0.15}
+				\rput(3,1.7){\circlenode{x0}{$x_0$}}
+				\rput(1,0){\circlenode{x1}{$x_1$}}
+				\rput(3,0){\circlenode{x2}{$x_2$}}
+				\rput(5,1.7){\circlenode{x7}{$x_7$}}
+				\rput(5,0){\circlenode{x3}{$x_3$}}
+				\rput(7,0){\circlenode{x4}{$x_4$}}
+				\rput(3,-1.7){\circlenode{x5}{$x_5$}}
+				\rput(7,-1.7){\circlenode{x6}{$x_6$}}
+				\ncline{-}{x1}{x2} \naput{\textcolor{blue}{$2$}}
+				\ncline{-}{x1}{x0} \naput{\textcolor{blue}{$4$}}
+				\ncline{-}{x0}{x2} \nbput{\textcolor{blue}{$1$}}
+				\ncline{-}{x0}{x7} \naput{\textcolor{blue}{$8$}}
+				\ncline{-}{x2}{x7} \naput{\textcolor{blue}{$5$}}
+				\ncline{-}{x2}{x5}	\naput{\textcolor{blue}{$3$}}
+				\ncline{-}{x1}{x5} \nbput{\textcolor{blue}{$1$}}
+				\ncline{-}{x3}{x4} \naput{\textcolor{blue}{$3$}}
+				\ncline{-}{x6}{x4} \nbput{\textcolor{blue}{$5$}}
+				\ncline{-}{x2}{x3} \naput{\textcolor{blue}{$2$}}
+				\ncline{-}{x7}{x4} \naput{\textcolor{blue}{$1$}}
+				\ncline{-}{x5}{x3} \nbput{\textcolor{blue}{$2$}}
+				\ncline{-}{x3}{x6} \nbput{\textcolor{blue}{$6$}}
+				\ncline{-}{x3}{x7} \naput{\textcolor{blue}{$4$}}
+			\end{pspicture}
+		\end{center}
+			Déterminer les plus courtes distances depuis le sommet $x_0$ vers les autres sommets du graphe en utilisant l'algorithme de Djikstra.
+	\end{exampleblock}
+\end{frame}
+
+\end{document}
+

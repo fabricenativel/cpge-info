@@ -1,0 +1,175 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{15}{Décompostion en sous problèmes}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C15/}
+
+\setboolean{corrige}{false}
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise}[title = {Maximum}] \\
+    On s'intéresse au problème de la recherche du maximum des éléments du liste non vide {\tt l}.
+    \Question{Ecrire en OCaml une fonction {\tt max int list -> int} qui renvoie le maximum de la liste donnée en argument. Donner sa complexité en nombre de comparaisons effectuées.}
+    \ifcorrige
+    \inputpartOCaml{\SPATH/max_dpr.ml}{}{}{1}{5}
+    \tcor{En notant $n$ la longueur de la liste, il y a $n-1$ appels récursifs et chacun d'eux effectue une comparaison, il y donc $n-1$ comparaisons.}
+    \fi
+    \Question{Mettre en place une stratégie \textit{diviser pour régner} afin de résoudre ce problème.}
+    \tcor{On sépare la liste en deux listes de longueurs égales (à une unité près), on recherche le maximum de chacune des deux listes et on les compare afin de trouver le maximum de la liste initiale.}
+    \Question{En donner l'implémentation en OCaml.}
+    \ifcorrige
+    \inputpartOCaml{\SPATH/max_dpr.ml}{}{}{8}{21}
+    \fi
+    \Question{Déterminer sa complexité en nombre de comparaison effectuées et conclure.}
+    \tcor{On note $C(n)$ le nombre de comparaisons pour une liste de taille $n$ et on suppose  que $n = 2^k$, alors $C(2^k) = 2\times C({2^{k-1}})+1$. En effet le calcul du maximum d'une liste de taille $2^k$ demande le calcul du maximum de deux listes de tailles $2^{k-1}$ plus la comparaison finale. Comme de plus $C(1)=0$, on obtient : \\
+    $\left\{
+    \begin{array}{lll}
+    C(1) &=& 0 \\
+    C(n) &=& 2C\left(\frac{n}{2}\right) + 1 \text{ pour } n \geq 2\\
+    \end{array}
+    \right.$\\
+    C'est à dire $C(n) = n - 1$, on retrouve le nombre de comparaisons de la première méthode.
+    }
+\end{Exercise}
+
+\begin{Exercise}[title = {Algorithme de Kadane}]\\
+    Le problème de la recherche de la tranche maximale dans un tableau a été résolu en complexité linéarithmique avec une méthode diviser pour régner (voir cours), on considère dans cet exercice l'algorithme suivant du Jay Kadane : \\
+    \setlength{\algomargin}{8pt}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Tranche maximale dans un tableau non vide}
+		\Entree{Un tableu $t$ de taille $n>0$ d'entiers}
+		\Sortie{La somme d'une tranche maximale dans $t$.}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$smax \leftarrow t[0]$\\
+        $si \leftarrow t[0]$\\
+		\Pour{$i \leftarrow 1$ à $n-1$ }{
+			\Si {$si>0$} {$si = si + t_i$} \Sinon {$si = t_i$}
+			\Si {$si>s$} {$s = si$} 
+		}
+		\Return $s$
+	  \end{algorithm}
+    \Question{Quel est la complexité de cet algorithme ?}
+    \Question{Ecrire une implémentation en langage C de cet algorithme.}
+    \Question{Montrer que cet algorithme est correct. On pourra prouver l'invariant de boucle suivant $si$ contient le maximum des tranches qui se terminent en $t_i$.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Algorithme de Karatsuba}]\\
+    On considère deux nombres $M$ et $N$ ayant $n$ chiffres en base 10, on suppose $n$ paire et on note $k=n/2$. Ces deux nombres peuvent donc s'écrire $M = a\times 10^k + b$ et $N = c \times 10^k +d$ où $a,b,c$ et $d$ sont des nombres à $k$ chiffres.
+    \Question{Si on développe "normalement" $(a\times 10^k + b)(c \times 10^k +d)$, combien de produits de nombres à $k$ chiffres sont nécessaires pour calculer $MN$ ? }
+    \tcor{En developpant on obtient :\\
+    $MN = a c\times 10^{2k} + (ad +bc) \times 10^k + bd$ \\
+    On doit donc calculer \textbf{4} produits de nombres à $k$ chiffres.
+    }
+    \Question{Vérifier que $MN = ac \times 10^{2k} + (ac + bd - (a-b)(c-d)) \times 10^k +bd$. L'algorithme de Karatsuba, consiste à utiliser récursivement cette expression afin de calculer $MN$.}
+    \tcor{
+        Il suffit de constater que  $ac + bd - (a-b)(c-d) = ad + bc$
+    }
+    \Question{Combien de produits de nombres à $k$ chiffres sont nécessaires dans le calcul de cette expression ?}
+    \tcor{Cette fois il ne faut que trois produits : $ac$, $bd$ et $(a-b)(c-d)$}
+    \Question{On considère maintenant que les additions, soustractions et décalages d'exposant sur un nombre à $2^i$ chiffres s'effectue en $\mathcal{O}(2^i)$ et on note $T(2^i)$ le temps nécessaire au calcul du produit de deux nombres à $2^i$ chiffres en utilisant l'algorithme de Karatsuba. En déduire qu'il existe un entier $A$ tel que $T(2^i) \leqslant 3T(2^{i-1}) + A2^i$}
+    \tcor{Comme on doit effectuer seulement 3 multiplications de nombres ayant deux fois moins de chiffres et des additions/soustractions/décalages d'exposant tous en $\mathcal{O}(i)$, on a $T(2^i) = 3T(2^{i-1}) + \mathcal{O}(2^i)$, donc il existe une $A \in \N$ tel que $T(2^i) \leqslant 3T(2^{i-1}) + A2^i$.}
+    \Question{En divisant par $3^i$ et en sommant pour $i=1$ à $k$, montrer que $T(2^k) \leq C3^k$}
+    \tcor{Les termes s'annulent et en remultiplicant par $3^k$, on obtient $T(2^k) \leq C3^k$}
+    \Question{En déduire que l'algorithme de Karatsuba a une complexité $O(n^{\log_2 3}$)}
+\end{Exercise}
+
+\begin{Exercise}[title = {Recherche d'un élément dans une matrice}]\\
+    On considère une matrice $A$ de taille $m \times n$ et on suppose que chaque ligne et chaque colonne est rangée par ordre croissant. Par exemple : \\
+    $\begin{pmatrix}
+        12 & 20 & 21 & 22 & 28 & 32 \\
+        15 & 21 & 27 & 28 & 31 & 34 \\
+        18 & 24 & 29 & 33 & 42 & 44 \\
+        30 & 27 & 37 & 45 & 47 & 50 \\
+    \end{pmatrix}$\\
+    Le but de l'exercise est de mettre en place une stratégie \textit{diviser pour régner} afin de rechercher si un entier $e$ est présent ou non dans la matrice.
+    \Question{Montrer qu'en comparant $e$ avec l'élément situé en ligne $m/2$, colonne $n/2$ on peut limiter la recherche à trois sous matrices de taille $m/2 \times n/2$}
+    \tcor{\begin{itemize}
+        \item Si $e>M_{m/2,n/2}$ alors on élimine le premier quadrant car il ne contient que des nombres inférieurs strictement à $e$.
+        \item Si $e>M_{m/2,n/2}$ alors on élimine le quatrième quadrant car il ne contient que des nombres strictement supérieurs à $e$.
+    \end{itemize}
+    }
+    \Question{En déduire une stratégie du type \textit{diviser pour régner} permettant de résoudre une problème (on donnera les étapes de l'algorithme sans le programmer)}
+    \tcor{Si la matrice est de taille 1 alors on termine en effectuant une comparaison, sinon soit $2^k$ la taille de la matrice on la découpe en 4 quadrants et on se ramène à une recherche dans trois matrices de tailles $2^{k-1}$.}
+    \Question{Déterminer le coût maximal $C_n$ en nombre de comparaison de cet algorithme dans le cas où $n=m=2^k$ ($k \in \N$). \\
+    \aide \; On pourra supposer que $(C_n)_{(n \in \N)}$ vérifie $C_{n} = 3\, C_{\frac{n}{2}} + \alpha$ où $\alpha$ est une constante représentant les coûts des opérations autre que les comparaisons.}
+    \tcor{On écrit pour tout $i \in \intN{1}{k}$, $\dfrac{C(2^i)}{3^i} = \dfrac{C(2^{i-1})}{3^{i-1}} + \dfrac{\alpha}{3^{i}}$ puis en sommant, on obtient : \\
+    $\displaystyle{\dfrac{C(2^k)}{3^k} = 1 +  \alpha \times \sum_{i=2}^{k} \dfrac{1}{3^i}}$ et donc,
+    $C(n) \in \mathcal{O}(3^{\log_2(n)})$
+    }
+\end{Exercise}
+
+\begin{Exercise}[title = {Parenthésage optimal de multiplications matricielles}] \\
+    On rappelle  que le nombre de multiplications nécessaires à la multiplication de deux matrices $A$ de dimension $m \times n$
+    et $B$ de dimension $n \times p$ est $nmp$.
+    \Question{On considère 4 matrices $A_1$ ($5 \times 2$), $A_2 (2, 10)$, $A_3 (10, 4)$ et $A_4(4,1)$. Pour chacun des parenthésages suivant déterminer le nombre de multiplications nécessaire :
+    \begin{itemize}
+        \item $(A_1A_2)(A_3A_4)$
+        \item $A_1(A_2(A_3A_4))$
+        \item $A_1((A_2A_3)A_4)$
+        \item $((A_1A_2)A_3)A_4$
+        \item $(A_1(A_2A_3))A_4$
+    \end{itemize}
+    }
+    \tcor
+    {
+        Pour multiplier $A(m,n)$ par $B(n,p)$ on calcule $mp$ termes et chacun demande $n$ multiplications donc au total $mnp$ multiplications.
+        \begin{itemize}
+            \item $(A_1A_2)(A_3A_4)$ : $100 + 40 + 5\times 10\times 1 = 190$
+            \item $A_1(A_2(A_3A_4))$ : $40 + 20 + 5 \times 2\times 1 = 70$
+            \item $A_1((A_2A_3)A_4)$ : $80 + 8 + 10 = 98$
+            \item $((A_1A_2)A_3)A_4$ : $100 + 5 \times 10 \times 4 + 5 \times 4 \times 1 = 320$
+            \item $(A_1(A_2A_3))A_4$ : $80 + 5 \times 2 \times 4 + 5 \times 4 \times 1 = 140$
+        \end{itemize}
+    }
+    \Question{Montrer que le problème de la recherche d'un parenthésage minimisant le nombre de multiplication possède la propriété de sous structure optimale.}
+    \tcor{
+        Soit $P$ un parenthésage optimal alors il s'écrit comme un produit $B\times C$ où $B$ est un produit des $k$ premières matrices et $C$ un produit des $n-k$ autres ($k \in \intN{1}{n-1}$). Si $B$ n'est pas un parenthésage optimal alors on pourrait le remplacer par un parenthésage optimal $B'$ ayant moins de multiplications donc $B' \times C$ aurait moins de multiplications que $P$ ce qui contredit $P$ optimal. Donc $B$ (et $C$) sont des parenthésages optimaux et on a bien la propriété de sous structure optimale.
+    }
+    \Question{Se trouve-t-on dans une situation de chevauchement des sous problèmes ?}
+    \tcor{Dans l'exemple, on s'aperçoit qu'on doit calculer à plusieurs reprises le nombre de multiplications dans $A_1A_2$, il y a bien chevauchement de sous problèmes.}
+    \Question{On note $(l_i,c_i)$ les dimensions des matrices  $(A_i)_{1 \leq i \leq N}$ et $m(i,j)$ $(1 \leq i < j \leq N)$ le nombre minimal d'opérations dans le calcul du produit des $A_i \dots A_j$. Ecrire la relation de récurrence liant $m(i,j)$ aux $m(i,k)$ et aux $m(k+1,j)$ pour $i \leq k < j$}
+    \tcor{On peut écrire les relations suivantes : \\
+    $\begin{array}{lll}
+        m(i,i) &=& 0 \text{ pour tout } i \in \intN{1}{n}\\
+        m(i,j) &=& \min \{ m(i,k) + m(k+1,j) + l_ic_ic_j; i \leqslant k < j\}\\
+    \end{array}$
+    }
+\end{Exercise}
+
+
+
+\begin{Exercise}[title = {Problème du lâcher d'oeuf}] \\
+    On considère un immeuble de $N$ étages (numérotées de 1 à $N$), et on dispose de $p$ oeufs. Le but du problème est de déterminer le plus petit entier $k$ ($1 \leq k \leq N$) tel qu'un oeuf  lancé depuis l'étage $k$ se brise en touchant le sol, on appellera cet étage l'étage \textit{critique} et on le note $k_c$. Si les oeufs ne se brisent pas en étant lancé de l'étage $N$, on posera par convention $k_c = N+1$. On fait les hypothèses suivantes : 
+    \begin{itemize}
+        \item Si un oeuf se brise en étant lancé depuis l'étage $k$ alors il se brise depuis tous les étages situés au dessus 
+        \item Si un oeuf ne se brise pas en étant lancé depuis l'étage $k$ alors il en est de même pour un lancer depuis un étage inférieur
+        \item Un oeuf qui ne s'est pas brisé lors d'un lancer peut-être réutilisé pour un lancer suivant sans en affecter le résultat.
+    \end{itemize}
+    On veut résoudre ce problème en minimisant le nombre de lancers à effectuer pour déterminer l'étage critique $k_c$ à partir duquel les oeuf se brisent. On note $\varphi(N, p)$ le nombre minimal de lancers à effectuer \textit{dans le pire des cas} afin de déterminer $k_c$. 
+    \Question{Donner les valeurs de $\varphi(0,p)$ et $\varphi(1,p)$.}
+    \tcor{S'il n'y a pas d'étage aucun lancer n'est nécessaire et avec un seul étage, un seul lancer suffit donc :
+    $\varphi(0,p)=0$ et $\varphi(1,p)=1$
+    }
+    \Question{Quelle est la seule stratégie possible dans le cas où $p=1$ ? En déduire $\varphi(N,1)$.}
+    \tcor{La seule stratégie possible est de tester l'étage 1 puis l'étage 2, 3,  \dots. En effet si on teste un étage $n$ sans avoir tester les étages inférieurs et que l'oeuf se brise on ne peut plus faire de tests. Comme il y a $N$ étages, $\varphi(N,1) = N$ }
+    \Question{On suppose maintenant qu'on dispose de $p > 1$ oeuf, et on lance un oeuf depuis un étage $k$ avec $1 \leqslant k \leqslant N$. En envisageant les deux possibilités (l'oeuf se casse ou non), montrer que \\
+    $\displaystyle{\varphi(N,p) = 1 + \min_{1 \leqslant k \leqslant N} \{ \max \left(   \varphi(k-1,p-1), \varphi(N-k,p) \right) \}} $.  }
+    \tcor{
+        On a deux possibilités :
+        \begin{itemize}
+        \item l'oeuf se brise, donc on dispose d'un oeuf en moins mais on n'a plus que $k-1$ étages à tester (ceux qui se trouvent en dessous)
+        \item l'oeuf ne se brise pas, et on doit tester les étages supérieurs et il y en a $N-k$.
+        \end{itemize}
+        Comme on cherche dans le \textit{pire des cas} on a donc :\\ $\displaystyle{\varphi(N,p) = \min_{1<=k<N} \{ 1 + \max \left(   \varphi(k-1,p-1), \varphi(N-k,p) \right) \}} $
+    }
+    \Question{Donner une implémentation en OCaml la fonction $\varphi$.}
+\end{Exercise}
+
+\end{document}

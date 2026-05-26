@@ -1,0 +1,131 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\setboolean{corrige}{false}
+\ICX{Devoir ITC}{1}{pcsi}{Bases de Python}{10}
+\setcounter{Exercise}{0}
+
+
+\begin{Exercise} \points{10}\\
+    Une réponse brève d'une ligne est attendue dans le cadre qui suit immédiatemment la question, on ne \textit{demande pas} de justification.
+	\Question{En Python, quelle est la valeur de la variable {\tt a} après exécution de l'instruction suivante \mintinline{python}{a = (9//2)**3}}
+	\rep{0}
+	\tcor{\tt 64}
+	\Question{Si la variable {\tt x} vaut 2025, quelle est la valeur de l'expression \mintinline{python}{x % 2 == 0 or x % 10==5} ?}
+	\rep{0}
+	\tcor{\tt True}
+
+	\Question{Si la variable {\tt lst} est la liste {\tt [2, 3, 5, 7, 11]}, alors que vaut l'expression \mintinline{python}{len(lst) + lst[1]} ?}
+	\rep{0}
+	\tcor{\tt 8}
+
+	\Question{Pour quelle(s) valeurs de la variable {\tt i} sera effectuée la boucle \mintinline{python}{for i in range(2, 17,3)}}
+	\rep{0}
+	\tcor{{\tt 2, 5, 8, 11, 14}}
+
+	\Question{Si {\tt s} est la chaine de caractères {\tt "Bug !"} quel est l'affichage produit par \mintinline{Python}{print(s*2 + s[4] + s[4])}}
+	\rep{0}
+	\tcor{{\tt "Bug !Bug !!!"}}
+	\Question{Si {\tt point} est un tuple de longueur 3, écrire l'instruction permettant de décompacter ce tuple en récupérant les 3 valeurs dans 3 variables {\tt x,y} et {\tt z}}
+	\rep{0}
+	\tcor{{\tt x, y, z = point}}
+	\Question{Expliquer l'origine de l'erreur {\tt IndexError: list index out of range} lorsqu'on manipule une liste en Python.}
+	\rep{0}
+	\tcor{Cela signifie qu'on accède à un indice non valide de la liste.}
+	\Question{Ecrire l'instuction conditionnelle permettant de tester si une variable {\tt n} est non nulle ou supérieure ou égale à 42.}
+	\rep{0}
+	\tcor{\mintinline{python}{if n!=0 or n>=42:}}
+
+	\Question{Ecrire une instruction permettant de créer \textit{par compréhension} la liste {\tt l=[0, 5, 10, 15, 20, 25, 30]}}
+	\rep{0}
+	\tcor{\mintinline{python}{l = [5*n for n in range(7)]}}
+
+	\Question{Quelle sera le contenu de la liste {\tt lst2} après exécution des instructions suivantes :
+		\inputpartPython{qcm1.py}{}{}{1}{3}
+	}
+	\rep{0}
+	\tcor{\mintinline{python}{[1, 3, 9, 27, 81]}}
+\end{Exercise}
+
+\begin{Exercise}[title={QCM}] \points{10}\\
+	Dans cette exercise, une question peut avoir \textit{zéro une ou plusieurs bonnes réponses}. Pour chaque question, cocher les cases correspondantes aux bonnes réponses.
+	\Question{Que peut-on dire de la variable définie par l'instruction \mintinline{python}{a = 21/4} ?}\\
+	\begin{tabularx}{\textwidth}{@{}XXXX@{}}
+		\bc {\tt a} est de type {\tt int} & \gc {\tt a} est de type {\tt float} & \bc {\tt a} vaut 5 & \gc {\tt a} vaut 5.25 \\
+	\end{tabularx}
+    \Question{Quelles sont les propositions exactes concernant les fonctions en Python ?}
+    \begin{itemize}
+    \item[\gc] Leur définition commence par {\tt def}
+    \item[\bc] Elles contiennent toujours au moins une instruction {\tt return}
+    \item[\gc] Elles peuvent prendre zéro argument
+    \item[\bc] Elles doivent contenir un test ou une boucle   
+    \end{itemize}
+	\Question{Quel(s) test(s) sont vraies si et seulement si l'entier {\tt n} est paire ?}\\
+	\begin{tabularx}{\linewidth}{@{}XXXXX@{}}
+		\bc {\tt 2\%n==0} & \bc {\tt n//2==0} & \gc {\tt n\%2==0} & \bc {\tt n\%10 == 2} & \gc {\tt n\%2!=1} \\
+	\end{tabularx}
+	\Question{Si {\tt s} est une chaine de caractère (type {\tt str}), cocher les instructions valides (celles qui ne déclenchent pas d'erreur)} \\
+	\begin{tabularx}{\linewidth}{@{}XXXXX@{}}
+		\gc {\tt s + s} & \bc {\tt s + 2} & \gc {\tt s*3} & \gc {\tt s + "2"} & \bc {\tt s*"3"} \\
+	\end{tabularx}
+	\Question{Parmi les types de Python suivants lesquels sont itérables ?}\\
+	\begin{tabularx}{\linewidth}{@{}XXXXX@{}}
+		\bc {\tt int} & \bc {\tt float} & \bc {\tt bool} & \gc {\tt tuple} & \gc {\tt str} \\
+	\end{tabularx}
+	\Question{On suppose que {\tt c} est un entier valant 5, quelles expressions seront évaluées à {\tt True} ?}\\
+	\begin{tabularx}{\linewidth}{@{}XXXX@{}}
+		\bc {\tt 3!=c and 7>2*c} & \gc {\tt not (4==c)} & \gc {\tt True or (c==12)} & \gc {\tt 5>=c>=5} \\
+	\end{tabularx}
+	\Question{Si {\tt lst} une du type {\tt list}  parmi les programmes suivants, quels sont ceux qui vont afficher les éléments de {\tt lst} ?} \\
+	\begin{minipage}[b][3 cm][t]{7 cm}
+        \begin{itemize}
+		\item[\bc \ \ ]\ipp{qcm1.py}{7}{8}
+		\item[\gc \ \ ]\ipp{qcm1.py}{10}{11}
+		\end{itemize}
+	\end{minipage}\hfill
+	\begin{minipage}[b][3 cm][t]{7 cm}
+		\begin{itemize}
+		\item[\gc \ \ ]\ipp{qcm1.py}{13}{14}
+		\item[\bc \ \ ]\ipp{qcm1.py}{16}{17}
+		\end{itemize}
+	\end{minipage}\par
+    \Question{Quels sont les affirmations vraies concernant le type {\tt tuple} de Python ?}
+    \begin{itemize}
+    \item[\bc] On peut modifier un élément d'un tuple après sa création
+    \item[\bc] Tous les éléments d'un tuple doivent être du même type
+    \item[\gc] On peut accéder à l'élément d'indice {\tt i} du tuple {\tt t} avec  {\tt t[i]}
+    \item[\bc] On peut utiliser {\tt append} sur un {\tt tuple}
+    \item[\gc] La variable {\tt var = ("PCSI",2025,"Python")} permet de définir un tuple  
+    \end{itemize}
+    \Question{Si {\tt s} est la chaine de caractère {\tt "cet exercice"}, quelles tranches contiennent {\tt "ce"} ?} \\
+    \begin{tabularx}{\linewidth}{@{}XXXX@{}}
+		\gc {\tt s[:2]} & \gc {\tt s[0:2]} & \gc {\tt s[10:]}  & \gc {\tt s[len(ex)-2:]} \\
+	\end{tabularx}
+    \Question{Après exécution de l'instruction {\tt l = [7*i for i in range(10)]}, quelles affirmations concernant {\tt l} sont vraies ?}
+    \begin{itemize}
+    \item[\gc] {\tt len(l)} vaut 10 
+    \item[\bc] {\tt l} est la liste {\tt [7, 14, 21, 28, 35, 42, 49, 56, 63, 70]} 
+    \item[\gc] {\tt l} est un itérable
+    \item[\gc] {\tt 0} est l'un des éléments de {\tt l} 
+    \end{itemize}
+\end{Exercise}
+
+\begin{Exercise}[title = {Définir une fonction}]\\
+    Ecrire en Python une fonction {\tt nb\_occ} qui prend en argument un caractère {\tt car} et une chaine de caractères {\tt chaine} et renvoie le nombre d'apparitions de  {\tt car} dans {\tt chaine}. Par exemple, {\tt nb\_occ("o","toto")} doit renvoyer 2, et {\tt nb\_occ("o","PCSI")} doit renvoyer 0.
+    \reponse{9}{5}
+	\ifcorrige
+	\corpartPython{qcm1.py}{}{}{19}{24}
+	\fi
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Exercice bonus}]\\
+	Ecrire une fonction {\tt deuxmin} qui prend en argument une liste d'entiers contenant au moins deux éléments et qui renvoie les deux plus petits éléments de cette liste. Par exemple {\tt deuxmin([-1, 6, 0, 2, -3, 8])} renvoie {\tt -3, -1}.
+\end{Exercise}
+    \rep{14}
+
+\end{document}

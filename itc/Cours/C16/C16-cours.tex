@@ -1,0 +1,802 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{16}
+\newcommand{\Ctitle}{\cnum Un peu de Python}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C\thenumchap}
+
+\makess{Types de base et opérateurs associés}
+% Types de bases
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de base}
+		\begin{tabularx}{\linewidth}{|l|p{3cm}|>{\footnotesize}X|}
+			\hline
+			Type       & Opérations                                                                                                   & Commentaires                                                                                                                                                                   \\
+			\hline
+			\kw{int}   & \leavevmode\onslide<2->{\kw{+}, \kw{-}, \kw{*}, \kw{/},\newline \kw{**}, \kw{//}, \kw{\%}.}                  & \leavevmode\onslide<2->{Entiers de taille dynamique (limitée par la mémoire)}.                                                                                                 \\
+			\hline
+			\kw{float} & \leavevmode\onslide<3->{\kw{+}, \kw{-}, \kw{*}, \kw{/}, \kw{**}.}                                            & \leavevmode\onslide<3->{Représentation des nombres en virgule flottante (norme ieee754 : mantisse sur 53 bits, exposant sur 11 bits). Fonctions élémentaires dans \kw{math}}   \\
+			\hline
+			\kw{bool}  & \leavevmode\onslide<4->{\kw{or},  \kw{and}, \kw{not}, \textcolor{gray}{\tt all}, \textcolor{gray}{\tt any}.} & \leavevmode\onslide<4->{Les deux valeurs possibles sont \kw{True} et \kw{False}. Evaluation séquentielle des expressions.}                                                     \\
+			\hline
+			\kw{str}   & \leavevmode\onslide<5->{\kw{+}, \kw{*}, \kw{len}, \kw{[]}}                                                   & \leavevmode\onslide<5->{Chaines de caractères.\newline {\small \textcolor{BrickRed}{\danger}} La numérotation commence à 0. Extraction de tranches avec {\tt [debut:fin:pas]}} \\
+			\hline
+		\end{tabularx}
+		\onslide<6-> {Des conversions sont possibles entre ces différents types, par exemple \mintinline{python}{int("2024")} est l'entier {\tt 2024}.\leavevmode\onslide<2->}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{enumerate}
+			\item<1-> Quel est le reste dans la division euclidienne de $1970^{54}$ par $1515$ ?
+			\item<2-> Quel est le nombre de chiffres de $2024^{42}$ ?
+			\item<3-> Comment obtenir le dernier caractère d'une chaine de caractère ?
+			\item<4-> On a dissimulé un message dans la chaine de caractères suivante, pour le retrouver il faut lire un caractère sur 2. Quel est le message ?
+				\mintinline{python}{"TArooapV cbbiqernz QlCeC JPEyItUhroknT"}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+% Fonction
+\makess{Fonctions}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définir une fonction en Python}
+		Pour définir une fonction en Python :
+		\begin{itemize}
+			\item<2-> qui ne renvoie pas de valeur :
+				\inputpartPython{ex_cours.py}{}{}{1}{2}
+			\item<2-> qui renvoie une valeur :
+				\	\inputpartPython{ex_cours.py}{}{}{4}{6}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\makess{Importation de librairies}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Utilisation de librairies}
+		\begin{itemize}
+			\item<1-> On peut importer la totalité de la librairie \kw{<lib>} à l'aide de \mintinline{python}{import <lib>}. Dans ce cas les fonctions de cette librairie doivent être utilisées en les faisant précéder du nom de la librairie
+			\item<2-> Cet import peut se faire en donnant un \textit{alias} : \mintinline{python}{import <lib> as <alias>}
+			\item<3-> Pour importer simple la fonction \kw{<fonc>} de la librairie \kw{<lib>}, on utilise \mintinline{python}{from <lib> import <fonc>}. Le nom de la fonction est alors utilisé directement.
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemple}
+		\onslide<4-> \inputpartPython{ex_cours.py}{}{}{8}{9}
+		\onslide<5-> \inputpartPython{ex_cours.py}{}{}{11}{12}
+	\end{exampleblock}
+\end{frame}
+
+
+% Instructions conditionnelles
+\makess{Instructions conditionnelles}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Instructions conditionnelles}
+		\begin{itemize}
+			\item<1-> Sans clause \kw{else}
+				\inputpartPython{ex_cours.py}{}{}{14}{15}
+				Exécute les {\tt <instructions>} si la {\tt condition} est vérifiée.
+			\item<2-> Avec clause \kw{else}
+				\inputpartPython{ex_cours.py}{}{}{17}{20}
+				Cela permet d'exécuter les {\tt <instructions1>} si la {\tt condition} est vérifiée, sinon on exécute les {\tt <instructions2>}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Opérateurs de comparaison}
+		\begin{itemize}
+			\item<1-> L'égalité se teste avec \kw{==}
+			\item<2-> La différence avec \kw{!=}
+			\item<3-> Plus grand ou égal avec \kw{>=}, plus petit ou égal avec \kw{<=}
+			\item<4-> Plus grand strictement avec \kw{>}, plus petit strictement avec \kw{<}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% boucle while
+\makess{Boucles}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Boucles {\tt while}}
+		\begin{itemize}
+			\item<2-> La syntaxe d'une boucle \textcolor{red}{\tt while}  en Python est :
+				\inputpartPython{ex_cours.py}{}{}{23}{24}
+				Cela permet d'exécuter les {\tt <instructions>} tant que la {\tt <condition>} est  vérifiée.
+			\item<3-> L'instruction \kw{break} permet de sortir de la boucle de façon anticipée.
+			\item<4->  On ne sait pas a priori combien de fois cette boucle sera exécutée (et elle peut même être infinie), on dit que c'est une boucle \textcolor{blue}{non bornée}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% boucle for
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Boucles {\tt for} avec {\tt range}}
+		\begin{itemize}
+			\item<2-> Les instructions :
+				\inputpartPython{ex_cours.py}{}{}{26}{27}
+				créent une variable parcourant les entiers de 0 à {\tt <entier>} (exclu).
+			\item<3-> Les {\tt <instructions>} indentées qui suivent seront exécutées pour chaque valeur prise par la variable.
+			\item<4-> L'instruction \kw{break} permet de sortir de la boucle de façon anticipée.
+			\item<5-> La boucle {\tt for} permet donc de répéter un nombre prédéfini de fois des instructions, on dit que c'est une boucle bornée.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Boucles {\tt for} pour parcourir un itérable}
+		\begin{itemize}
+			\item<2-> Les instructions :
+				\inputpartPython{ex_cours.py}{}{}{29}{30}
+				permet à {\tt <variable>} de prendre les valeurs présentes dans {\tt <iterable>}.
+			\item<3-> Les {\tt <instructions>} indentées qui suivent seront exécutées pour chaque valeur prise par la variable.
+			\item<4-> Une chaine de ce caractère est un itérable, la variable prend alors comme valeur chacun des caractères de la chaine.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\makess{Quelques exemples}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 1}
+		Ecrire et tester une fonction {\tt syracuse} qui prend en argument un entier naturel $n$ et renvoie $n/2$ si $n$ est pair et $3n+1$ sinon. \\
+		\onslide<2->\inputpython{\SPATH/syracuse.py}{}{}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 2}
+		Ecrire une fonction {\tt serie\_harmonique} qui prend en argument un entier $n$ et renvoie la somme $\displaystyle{\sum_{k=1}^n \frac{1}{k}}$
+		\onslide<2->\inputpython{\SPATH/harmo.py}{}{}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 3}
+		Ecrire  une fonction {\tt pgcd} qui prend en argument deux entiers naturels $a$ et $b$ et renvoie leur {\sc pgcd}. \\
+		\onslide<2->{\small \textcolor{OliveGreen}{\aide} on rappelle que l'algorithme consiste --tant que $b$ n'est pas nul- à effectuer la division euclidienne de $a$ par $b$. En remplaçant à chaque étape $a$ par $b$ et $b$ par $r$.}
+		\begin{itemize}
+			\item \onslide<3->{Version 1 : }\onslide<5->{\textcolor{BrickRed}{iterative}}
+			      \onslide<3->{\inputpython{\SPATH/pgcd.py}{}{\small}}
+			\item \onslide<4->{Version 2 : }\onslide<5->{\textcolor{BrickRed}{récursive}}
+			      \onslide<4->{\inputpython{\SPATH/pgcd_rec.py}{}{\small}}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+% Définition des listes
+\makess{Les listes}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{center}
+		\begin{alertblock}{Les listes de Python}
+			\begin{itemize}
+				\item<1-> Les listes de Python sont des structures contenant  zéro, une ou plusieurs valeurs (pas forcément du mêmte type).
+				\item<2-> Une liste se note entre crochets : \kw{[} et \kw{]}
+				\item<3-> Les éléments sont séparés par des virgules
+				\item<4-> Les éléments d'une liste sont repérés par leur position dans la liste, on dit leur \textcolor{blue}{indice}. Attention, la numérotation commence à zéro.
+				\item<6-> On peut accéder à un élément en indiquant le nom de la liste puis  l'indice de cet élément entre crochet
+				\item<7-> L'erreur {\tt IndexError} indique qu'on tente d'accéder à un indice qui n'existe pas.
+				\item<8-> La longueur d'une liste (ie. son nombre d'éléments) s'obtient à l'aide de la fonction \kw{len}.
+			\end{itemize}
+		\end{alertblock}
+	\end{center}
+\end{frame}
+
+
+% Manipulation des listes
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Opérations sur les listes}
+		Les opérations suivantes permettent de manipuler les listes (ajout, suppression, insertion d'éléments). On fera bien attention à la syntaxe on met le nom de la liste suivi d'un point suivi de l'opération à effectuer (voir exemples)
+		\begin{itemize}
+			\item<1-> \textcolor{blue}{\tt append} : permet d'ajouter un élément à la fin d'une liste. Par exemple : {\tt ma\_liste.append(elt)} va ajouter {\tt elt} à la fin de {\tt ma\_liste}.
+			\item<2-> \textcolor{blue}{\tt pop} permet de récupérer un élement de la liste tout en le supprimant de la liste. Par exemple {\tt elt=ma\_liste.pop(2)} va mettre dans {\tt elt} {\tt ma\_liste[2]} et dans le même temps supprimer cet élément de la liste. \\
+				\onslide<3->{\textcolor{BrickRed}{\important} On utilisera le plus souvent \kw{pop} sans argument, dans ce cas c'est le dernier élément de la liste qui est supprimé}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{\textcolor{yellow}{\small \important} Spécificité de Python}
+		En Python, on manipule des \textit{objets}, une variable est l'association entre un nom et l'objet qu'il référence. Certains objets, sont \textit{mutables} et d'autres non et cela à des conséquences importantes :
+		\begin{itemize}
+			\item Cas \textit{non mutable}, l'objet ne peut pas être modifié, c'est le cas des entiers, des chaines de caractères, des flottants, des booléens. Par exemple,
+			      \begin{codepython*}{fontsize=\footnotesize,tabsize=0}
+				      x = 5     #x référence l'objet 5
+				      y = x	  #y référence aussi l'objet 5
+				      x = x + 2 #en faisant x+2 on crée un nouvel objet, x référence ce nouvel objet (mais pas y)
+			      \end{codepython*}
+			\item Cas \textit{mutable}, l'objet peut être modifié et donc dans ce cas, toutes les références à cet objet vont désignés l'objet modifié. Par exemple,
+			      \begin{codepython*}{fontsize=\footnotesize,tabsize=0}
+				      x = [5]  #x référence [5]
+				      y = x    #y référence aussi [5]
+				      x.append(2) #On modifie [5] (on ne crée pas un nouvel objet, donc y contient aussi [5,2])
+			      \end{codepython*}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+
+% Génération de listes
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Création de listes}
+		On peut créer des listes de diverses façons en Python :
+		\begin{itemize}
+			\item<2-> \textcolor{red}{Par ajout succesif d'élement} on part alors d'une liste (éventuellement vide) et on ajoute chaque élément à l'aide d'instruction \textcolor{blue}{\tt append}.
+			\item<3-> \textcolor{red}{Par répétition du même élément} on utilise alors le caractère \textcolor{blue}{\tt *} pour indiquer le nombre de répétitions. \\
+				\onslide<4-> {Par exemple : \textcolor{blue}{\tt hesitation = ["euh"]*4}}
+			\item<6->	 \textcolor{red}{Par compréhension}, c'est-à-dire en indiquant la définition des éléments qui composent la liste. \\
+				\onslide<7-> {Par exemple la liste {\tt puissances2 = [1, 2, 4, 8, 16, 32, 64, 128]} est constitué des huits premières puissances de 2} \\
+				\onslide<8-> {Elle contient donc $2^0, 2^1, 2^2, \dots 2^7$, ce qui se traduit en Python par :}\\
+				\onslide<9-> \textcolor{blue}{\tt puissances2 = [2**k for k in range(8)]}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+%Tranches
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Tranches (\textit{slices})}
+		\begin{itemize}
+			\item<1->On peut extraire une tranche d'une liste en donnant entre crochets l'indice du premier élément puis l'indice du dernier (qui sera exclu) séparé par un \kw{:}.\\
+			\onslide<2->\textcolor{gray}{\small Par exemple si la liste est {\tt l=[2,3,5,7,11,13,17,19]}} alors {\tt l[2:4]} est une liste qui contient {\tt [5,7]}.
+			\item<3-> Si l'indice du premier est omis alors la tranche commmence à l'indice 0.\\
+				\onslide<4->\textcolor{gray}{\small Avec la même liste {\tt l}, on a {\tt l[:5]} est une liste qui contient {\tt [2,3,5,7,11]}.}
+			\item<5-> Si l'indice du dernier est omis alors la tranche va jusqu'à la fin de la liste.\\
+				\onslide<6->\textcolor{gray}{\small Avec la même liste {\tt l}, on a {\tt l[7:]} est une liste qui contient {\tt [19]}.}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\makess{Chaine de caractères et tuples}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Tuples}
+		\begin{itemize}
+			\item<1-> Les \textcolor{blue}{tuples} sont le pendant non mutables des listes. Ils se notent entre parenthèses \kw{(} et \kw{)}, les éléments sont aussi séparés par des virgules.
+			\item<1-> De même que pour les listes, on peut accéder à la longueur avec \kw{len}, aux éléments avec la notation crochet et le parcours avec une boucle \kw{for} est aussi possible.
+			\item<1-> La modification par contre n'est pas possible
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemple}
+		\begin{codepython*}{fontsize=\small, tabsize=0}
+			anniv = (31,"Janvier",1956)
+			print("Mois de naissance = ",anniv[1])
+			anniv[2] = 1970 #provoque une erreur
+		\end{codepython*}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Chaines de caractères}
+		\begin{itemize}
+			\item<1-> La notation avec les crochets permettant d'accéder aux éléments d'une liste s'utilise aussi avec les chaines de caractères. \\
+				\onslide<2-> Par exemple si \mintinline{python}{mot = "Génial"} alors \mintinline{python}{mot[2]} contient la lettre \mintinline{python}{"n"}
+			\item<3-> Le parcours par élément peut aussi se faire sur une chaine de caractères. \\
+				\onslide<4-> Pour afficher chaque lettre du mot "Génial", on peut donc écrire :
+				\onslide<5->\inputpartPython{ex_cours.py}{}{}{32}{33}
+			\item<6-> Comme les tuples, les chaines de caractères sont non mutables.
+			\item<7-> \textcolor{blue}{\small \important} Les variables lues au clavier (instruction \kw{input}) ou issues de la lecture d'un fichier sont des chaines de caractères. On doit les convertir dans le type approprié pour les utiliser comme nombre.
+			\item<8-> La fonction \kw{split} permet de renvoyer une liste de sous chaines en utilisant le séparateur donné en argument.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Ecrire une fonction {\tt check\_date} qui prend en argument une chaine de caractères et renvoie \kw{True} si cette chaine est une date valide au format {\sc jj/mm/aaaa} et \kw{False} sinon. Pour simplifier on testera simplement que le jour est entre 1 et 31 et le mois entre 1 et 12.
+		\onslide<2->{\inputpython{\SPATH/check_date.py}{}{\small}}
+	\end{exampleblock}
+\end{frame}
+
+% Parcours d'une liste
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Parcours d'une liste}
+		On rappelle qu'une liste \textcolor{blue}{\tt L}, en Python peut se représenter par le schéma suivant : \\
+		\begin{tabularx}{0.8\textwidth}{lc|Y|Y|Y|Y|Y|}
+			\cline{3-7}
+			\textcolor{blue}{Eléments}                    & \textcolor{blue}{$\blacktriangleright $}                     & {\tt L[0]}                     & {\tt L[1]}                     & {\tt L[2]}                     & {\tt L[3]}                     & {\dots}                   \\
+			\cline{3-7}
+			\multicolumn{1}{c}{ }                         & \multicolumn{1}{c}{ }                                        & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$}                             \\
+			\multicolumn{1}{c}{\textcolor{blue}{Indices}} & \multicolumn{1}{c}{\textcolor{blue}{$\blacktriangleright $}} & \multicolumn{1}{c}{0}          & \multicolumn{1}{c}{1}          & \multicolumn{1}{c}{2}          & \multicolumn{1}{c}{3}          & \multicolumn{1}{c}{\dots} \\
+		\end{tabularx} \\
+		On peut parcourir cette liste :
+		\begin{itemize}
+			\item<2-> \textcolor{red}{Par indice} (on se place sur la seconde ligne du schéma ci-dessus) et on crée une variable (un entier) qui va parcourir la liste des indices : \\
+				\textcolor{blue}{\tt for indice in range(len(L))} \\
+				Il faut alors accéder aux éléments en utilisant leurs indices.
+			\item <3->\textcolor{red}{Par élément} (on se place sur la première ligne du schéma ci-dessus) et on crée une variable qui va parcourir directement la liste des éléments : \\
+			      \textcolor{blue}{\tt for element in L} \\
+			      La variable de parcours (ici {\tt element}) contient alors directement les éléments).
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 1}
+		Ecrire une fonction {\tt est\_dans} qui prend en argument un entier {\tt n}  et une liste d'entiers {\tt l}  et renvoie {\tt True} si {\tt n} est dans {\tt l} et {\tt False} sinon. On écrira une version utilisant un parcours par valeur et une version utilisant un parcours par indice.
+		\begin{itemize}
+			\item<2-> Parcours par élément :
+				\onslide<2->{\inputpython{\SPATH/est_dans.py}{}{\small}}
+			\item<3-> Parcours par indice :
+				\onslide<2->{\inputpython{\SPATH/est_dans_ind.py}{}{\small}}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 2}
+		Ecrire une fonction {\tt max\_liste} qui prend en argument une liste non vide d'entiers {\tt l}  et renvoie le maximum des éléments de cette liste
+		\onslide<2->{\inputpython{\SPATH/max_liste.py}{}{\small}}
+	\end{exampleblock}
+\end{frame}
+
+
+
+% Descripteur de fichiers
+\makess{Opérations sur les fichiers}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Gestions des fichiers en Python}
+		En python, on peut ouvrir un fichier présent sur l'ordinateur à l'aide de l'instruction \textcolor{blue}{\tt open}. Cette instruction renvoie une variable appelée \textcolor{blue}{descripteur de fichier} et prend un paramètre indiquant le mode d'ouverture du fichier :
+		\begin{itemize}
+			\item<2-> \textcolor{red}{"r"} (read) pour ouvrir le fichier en lecture. C'est le mode par défaut.
+			\item<3-> \textcolor{red}{"w"} (write) pour ouvrir le fichier en écriture. Attention, le contenu initial du fichier est alors perdu.
+			\item<4-> \textcolor{red}{"a"} (append) pour ouvrir le fichier en ajout.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Opérations sur les descripteurs de fichiers}
+		Les opérations suivantes sont possibles sur un descripteur de fichier crée à l'aide de l'instruction {\tt open} :
+		\begin{itemize}
+			\item<2-> Lecture du contenu complet du fichier avec \textcolor{blue}{\tt read}
+			\item<3-> Lecture du contenu ligne par ligne avec \textcolor{blue}{\tt readline}
+			\item<4-> Ecriture avec de \textcolor{blue}{\tt write}
+			\item<5-> Fermeture avec \textcolor{blue}{\tt close}
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemples}
+		\onslide<7->{Ouvrir le fichier "truc.txt", lire sa première ligne puis le refermer. \\}
+		\onslide<8->{\textcolor{OliveGreen}{\tt fic = open("truc.txt","r")}\\}
+		\onslide<9->{\textcolor{OliveGreen}{\tt lig1 = fic.readline()}\\}
+		\onslide<10->{\textcolor{OliveGreen}{\tt fic.close()}\\}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Rappels d'algorithmique : généralités}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Algorithmique}
+		Dans l'étude des algorithmes (\textcolor{blue}{algorithmique}), on s'intéresse aux trois problèmes suivants :
+		\begin{enumerate}
+			\item<2-> \textcolor{blue}{terminaison} : peut-on garantir que l'algorithme se termine en un temps fini ? (ne concerne que les algorithmes avec des boucles non bornées et les récursions.)
+			\item<3-> \textcolor{blue}{correction} : peut-on garantir que l'algorithme fournit la réponse attendue ?
+			\item<4-> \textcolor{blue}{complexité} : evolution du temps d'exécution de l'algorithme en fonction de la taille des données. En particulier, le temps d'exécution d'un algorithme sur une entrée donnée sera-t-il \og raisonnable \fg ?
+		\end{enumerate}
+		\onslide<5->{L'algorithme étudié doit avoir une \textcolor{blue}{spécification} précise (entrées, sorties, préconditions, postconditions, effets de bord). On parle d'algorithmes (et non de programmes) car ces questions sont indépendantes de l'implémentation dans un langage de programmation quelconque.}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Nous avons déjà rencontrés plusieurs algorithmes de tri (tri par insertion, tri par sélection, tri fusion). On cherche maintenant :
+		\begin{itemize}
+			\item <2-> A obtenir une \textcolor{blue}{preuve mathématique} que ces algorithmes se terminent et donc n'entrent jamais dans une boucle infinie quelques soient les données.
+			\item <3-> A obtenir une \textcolor{blue}{preuve mathématique} que ces algorithmes trient effectivement les listes de nombres données en argument et ce quelques soient leur taille et les valeurs qu'elles contiennent.
+			\item <4-> A comparer ces algorithmes en quantifiant leur efficacité (qui peut être mesuré de diverses façons).
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Rappels d'algorithmique : terminaison}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définitions}
+		\begin{itemize}
+			\item On dit qu'un algorithme \textcolor{blue}{termine} si il renvoie un résultat en un nombre fini d'étapes quels que soient les valeurs des entrées.
+			\item<2-> Un \textcolor{blue}{variant de boucle} est une quantité :
+				\begin{itemize}
+					\item<3-> à valeurs dans $\N$.
+					\item<4-> qui décroît strictement à chaque passage dans la boucle.
+				\end{itemize}
+			\item<5-> Pour un algorithme récursif, un \textcolor{blue}{variant} est une quantité :
+				\begin{itemize}
+					\item<6-> à valeurs dans $\N$.
+					\item<7-> qui décroît strictement à chaque appel récursif.
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+	\onslide<8->{
+		\begin{alertblock}{Preuve de la terminaison d'un algorithme}
+			Pour prouver la terminaison d'un algorithme, il suffit de trouver un \textcolor{blue}{variant de boucle} pour chaque boucle non bornée qu'il contient. Et un \textcolor{blue}{variant} pour chaque fonction récursive.
+		\end{alertblock}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 1}
+		On considère la fonction ci-dessous :
+		\inputpartPython{\SPATH/terminaison.py}{}{\small}{1}{8}
+		\onslide<2-> En trouvant un variant de boucle, prouver la terminaison de cette fonction.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction de l'exemple 1}
+		\textcolor{OliveGreen}{Montrons que la variable {\tt a} est un variant de boucle, c'est-à-dire qu'elle prend ses valeurs dans $\N$ et  décroît strictement à chaque passage dans la boucle.}
+		\begin{itemize}
+			\item<2->{\textcolor{OliveGreen}{La valeur initiale de \texttt{a} est un entier naturel (précondition)}}
+			\item<3->{\textcolor{OliveGreen}{A chaque tour de boucle la valeur de \texttt{a} diminue (de \texttt{b}$>0$).}}
+			\item<4->{\textcolor{OliveGreen}{La nouvelle valeur de \texttt{a} est \texttt{a-b} qui est garantie positive par condition d'entrée dans la boucle}}
+		\end{itemize}
+		\onslide<5->\textcolor{OliveGreen}{Les trois éléments ci-dessus prouvent que la variable {\tt a} est un variant de la boucle \kw{while} de ce programme, par conséquent cette boucle se termine.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 2}
+		On considère la fonction ci-dessous :
+		\inputpartPython{\SPATH/terminaison.py}{}{\small}{10}{14}
+		\onslide<2-> Prouver que cette fonction récursive termine
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction de l'exemple 2}
+		\textcolor{OliveGreen}{Montrons que la longueur de la liste \kw{liste} est un variant, c'est-à-dire qu'elle prend ses valeurs dans $\N$ et  décroît strictement à chaque appel récursif.}
+		\begin{itemize}
+			\item<2->{\textcolor{OliveGreen}{La longueur d'une liste est à valeur dans $\N$}}
+			\item<3->{\textcolor{OliveGreen}{A chaque appel récursif, on enlève un élément de \kw{liste} (sa tête) et donc la taille de la liste diminue de 1.}}
+		\end{itemize}
+		\onslide<4->\textcolor{OliveGreen}{Les deux éléments ci-dessus prouvent que la longueur de la liste est un variant et que donc cette fonction récursive termine.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Remarque}
+		Dans les exemples ci-dessus la mise en évidence du variant est facile (et ce sera le cas en général dans nos algorithmes). Mais, les preuves de terminaison sont loin d'être toujours aussi évidentes.\\
+		\onslide<2->{Par exemple, si on considère la fonction suivante :
+			\inputpartPython{\SPATH/terminaison.py}{}{\small}{17}{23}}
+		\onslide<3-> Prouver sa terminaison reviendrait à prouver la conjecture de syracuse qui résiste aux mathématiciens depuis un siècle !
+	\end{block}
+\end{frame}
+
+\makess{Rappels d'algorithmique : Correction}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Correction d'un algorithme}
+		On dira qu'un algorithme est \textcolor{red}{correct}
+		\onslide<2-> lorsqu'il renvoie la réponse attendue pour n'importe quel donnée en entrée.\\
+		\onslide<3-> On parle de \textcolor{blue}{correction partielle} quand le résultat est correct lorsque l'algorithme s'arrête. Et de \textcolor{blue}{correction totale} lorsque la correction est partielle et que l'algorithme se termine.
+	\end{alertblock}
+	\onslide<3->{\begin{block}{Tests et correction}
+			\onslide<4->{Des tests ne permettent \textcolor{red}{pas} de prouver qu'un algorithme est correct.}
+			\onslide<5->{En effet, ils ne permettent de valider le comportement de l'algorithme que dans quelques cas particuliers et jamais dans le cas général}
+		\end{block}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Preuve de la correction d'un algorithme}
+		Pour prouver la correction d'un algorithme itératif, on utilise la notion \textcolor{red}{d'invariant de boucle}. C'est une propriété du programme qui
+		\begin{itemize}
+			\item<2-> est vraie à l'entrée dans la boucle.
+			\item<3-> reste vraie à chaque itération si elle l'était à l'itération précédente.
+		\end{itemize}
+		\onslide<4->{La méthode est similaire à une récurrence mathématique (les deux étapes précédentes correspondent à l’initialisation et à l'hérédité).}
+	\end{alertblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 1}
+		On considère la fonction ci-dessous :
+		\inputpartPython{\SPATH/terminaison.py}{}{\small}{1}{8}
+		\onslide<2-> En trouvant un invariant de boucle, prouver la correction de cette fonction.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction de l'exemple 1}
+		\textcolor{OliveGreen}{On note  $a_0$ la valeur initiale de la variable {\tt a}.}
+		\onslide<2->{\textcolor{OliveGreen}{Montrons que la propriété : \\}   \og{} $a_0 = bq + a$ \fg{}  \textcolor{OliveGreen}{est un invariant de boucle.}}
+		\begin{itemize}
+			\item<4-> \textcolor{OliveGreen}{La propriété est vraie avant d'entrer dans la boucle puisqu'on a alors $q=0$ et $a = a_0$ et donc $bq + a = a_0$.}
+			\item<5-> \textcolor{OliveGreen}{Supposons la propriété vraie au début d'une itération de la boucle et montrons qu'elle est conservée à l'itération suivante. En notant $a'$ (resp. $q'$) la valeur de $a$ (resp. $q$) après l'itération, on a : \\
+					$b \times q' + a' = b \times (q+1) + a - b$ \\
+					$b \times q' + a' = b \times q + a $ \\ et puisque la propriété est supposé vraie au début de l'itération
+					$b \times q' + a' = a_0$\\
+				}
+		\end{itemize}
+		\onslide<6->\textcolor{OliveGreen}{En sortie de boucle, on on a donc $bq + a = a_0$ avec $a <b$ (condition de sortie), puisqu'on a déja prouvé par ailleurs que $a \geqslant 0$, cela prouve que $q$ est le quotient dans la division euclidienne de $a_0$ par $b$. Donc la fonction est correcte.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Principe}
+		La preuve de correction d'une fonction récursive peut peut s'obtenir par récurrence :
+		\begin{itemize}
+			\item<2-> (initialisation)on vérifie que la fonction est correcte pour le cas de base
+			\item<3-> (hérédité) on prouve que si la fonction est correcte à un range $n \in \N$ alors elle l'est aussi au range $n+1$.
+		\end{itemize}
+	\end{block}
+	\onslide<4->
+	{
+		\begin{exampleblock}{Exemple}
+			\inputpartPython{\SPATH/factorielle.py}{}{\footnotesize}{1}{5}
+			\begin{itemize}
+				\item<5-> est correcte pour $n=0$ puisqu'elle renvoie 1 et que $0!=1$.
+				\item<6-> si elle est correcte au rang {\tt n}, alors {\tt fact(n)}=$n!$. Et comme, {\tt fact(n+1) = (n+1) * fact(n)}, on en déduit {\tt fact(n+1) =}$(n+1)!$.
+			\end{itemize}
+		\end{exampleblock}
+	}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 2 : duplication des éléménts d'un liste}
+		{\small On considère la fonction suivante qui renvoie la liste où chaque élément est dupliqué.}
+		\onslide<2->\inputpartPython{\SPATH/correction.py}{}{\small}{15}{19}
+		\onslide<3->{\small Pour prouver  que cette fonction est correcte on peut faire le raisonnement inductif suivant :}
+		\onslide<4->{\small On note $P(n)$, la propriété : \og{} \textit{pour une liste de taille $n$, \kw{duplique} renvoie la liste (de taille $2n$) où chaque élément est dupliqué.} \fg{}. Alors :}
+		\begin{itemize}
+			\item<5-> {\small $P(0)$ est vérifiée d'après le cas de base}
+			\item<6-> {\small On suppose  $P(n)$ vérifié au rang $n$, et on considère une liste \kw{L} de taille $n+1$, alors, comme  {\tt L[1:]} est de taille $n$, on lui applique l'hypothèse de récurrence et {\tt duplique(L[1:])} renvoie bien la liste avec chaque élément dupliqué.}
+				\onslide<7->{\small  La formule de récursivité permet alors de conclure que $P(n+1)$ est vérifiée puisqu'on renvoie le premier élément en double suivie de {\tt duplique(L[1:])}.}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Rappels d'algorithmique : Complexité}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		La \textcolor{red}{complexité} d'un algorithme est une mesure de son efficacité.
+		\onslide<2-> On parle notamment de :
+		\begin{itemize}
+			\item<3-> Complexité en temps : le nombre d'opérations nécessaire à l'exécution d'un algorithme.
+			\item<4-> Complexité en mémoire : l'occupation mémoire en fonction de la taille des données.
+		\end{itemize}
+		\onslide<5->{Ces deux éléments varient en fonction de la taille et de la nature des données.}
+	\end{alertblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : recherche simple dans un tableau}
+		{\small On considère la fonction ci dessous qui recherche si l'\kw{elt} est ou non dans {\kw{liste}}}
+		\inputpartPython{\SPATH/complexite.py}{}{\small}{1}{6}
+		\begin{enumerate}
+			\item<3-> {\small En donnant un exemple, montrer que cette fonction peut renvoyer le résultat en effectuant une seule comparaison.}
+			\item<4-> {\small En donnant un exemple, montrer que cette fonction peut renvoyer le résultat en effectuant $n$ comparaison.}
+			\item<5-> {\small On suppose à présent qu'on cherche un élément $a$ qui se trouve à un seul exemplaire dans le tableau et que les positions sont équiprobables. c'est-à-dire que pour tout $i \in \intN{0}{n-1}$ $a$ se trouve à l'indice $i$ avec la probabilité $\dfrac{1}{n}$. Quel sera le nombre \textit{moyen} de comparaison à effectuer avec de renvoyer le résultat ?}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : recherche simple dans un tableau}
+		\begin{enumerate}
+			\item<2-> \textcolor{OliveGreen}{\small Si l'élément cherché est en première position dans le tableau on effectue une seule comparaison.}
+			\item<3-> \textcolor{OliveGreen}{\small Si l'élément cherché n'est pas dans le tableau (ou qu'il y figure en dernière position) on effectue $n$ comparaison.}
+			\item<4-> \textcolor{OliveGreen}{\small on note $X$ le nombre de comparaisons avant de trouver $a$, alors $p(X=k) = \dfrac{1}{n}$. Donc,\\
+					$\begin{array}{lll}
+							\onslide<5->{E(X) & = & \displaystyle{\sum_{k=1}^{n} k\,\dfrac{1}{n}} \\}
+							\onslide<6->{E(X) & = & \dfrac{n+1}{2}}
+						\end{array}$
+				}
+		\end{enumerate}
+		\onslide<7->\textcolor{OliveGreen}{Le nombre de comparaisons varie donc avec les données du problème.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Types de complexité}
+		On appelle :
+		\begin{itemize}
+			\item<2-> \textcolor{blue}{complexité dans le meilleur cas}, le nombre minimal d'operations effectuées par un algorithme sur une entrée de taille $n$.
+			\item<3-> \textcolor{blue}{complexité dans le pire cas}, le nombre maximal d'operations effectuées par un algorithme sur une entrée de taille $n$.
+			\item<4-> \textcolor{blue}{complexité en moyenne}, le nombre moyen d'operations effectuées par un algorithme sur un ensemble d'entrées de taille $n$.
+		\end{itemize}
+		\onslide<5->{En général, on s'intéresse à la \textcolor{blue}{complexité dans le pire cas}, car on cherche à \textcolor{blue}{majorer} le nombre d'opérations effectués par l'algorithme.}
+	\end{alertblock}
+	\begin{block}{Remarque}
+		\small {Dans un calcul de complexité on ne fera pas de différences entres les différentes opérations (additions, soustractions, divisions, \dots) ou tests (\kw{if}) ou autres instructions (affectation, \kw{return}) et on considère que toutes ont le même coût.}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Calcul de complexité}
+		\begin{itemize}
+			\item<1-> Donner la complexité d'un algorithme qui effectue $C(n)$ opérations pour une entrée de taille de $n$ c'est trouver un majorant \textcolor{blue}{asymptotique} de $C(n)$. c'est-à-dire qu'on cherche à trouver une fonction qui majore la \og{} vitesse de croissance \fg{} de $C$.
+			\item<2-> L'outil mathématique associé est la notion de \textcolor{blue}{domination} d'une suite : \\
+				On dit qu'une suite $(u_n)_{n \in \N}$ est dominé par une suite $(v_n)_{n \in \N}$ lorsqu'il existe un entier $K>0$ et un rang $N \in \N$ tel que : \\ \onslide<3->{$\forall n \in \N, n>N$, on a  $|u_n| \leq k |v_n|$.\\}
+				\onslide<4->{On note alors \textcolor{BrickRed}{$u = O(v)$} et on dit que $u$ est un grand $O$ de $v$.}
+			\item<5-> Dans le cas de suite à valeurs positives (ce qui est la cas dans les calculs de complexités), on a : \\
+				\onslide<6->{\textcolor{BrickRed}{$u = O(v)$ ssi $\exists\, K \in N$ tel que $\forall n \in \N, \ u_n \leq k v_n$.}}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		Calculer le nombre d'opérations $C(n)$ des fonctions suivantes en fonction de la taille des entrées $n$, et donner leur complexité avec la notation $O$.
+		\begin{enumerate}
+			\item<1-> Fonction \kw{f}
+				\inputpartPython{\SPATH/complexite.py}{}{\small}{9}{10}
+			\item<2-> Fonction \kw{somme\_f}
+				\inputpartPython{\SPATH/complexite.py}{}{\small}{12}{16}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\begin{enumerate}
+			\item<1-> Fonction \kw{f} \\
+				\onslide<2->{$C = 5$ quelque soit l'entrée $x$, et donc $C$ est un grand $O(1)$, c'est-à-dire que le temps d'exécution est majoré par une constante quelque soit la taille des entrées.}
+			\item<3-> Fonction \kw{somme\_f}\\
+				\onslide<4->{$ C = 8n + 2$, et donc $C$ est un grand $O(n)$, c'est-à-dire que le temps d'exécution est majoré par une fonction linéaire quelque soit la taille des entrées}
+		\end{enumerate}
+	\end{exampleblock}
+	\onslide<5->{\begin{block}{A retenir}
+		le nombre précis d'opérations effectué par l'algorithme n'est pas pertinent. On donnera toujours la complexité sous la forme d'un grand $O$, c'est-à-dire d'une majoration asymptotique du coût de l'algorithme.}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Tri par sélection}
+		\begin{enumerate}
+			\item<1-> Rappeler le principe de l'algorithme du tri par sélection.
+			\item<2-> Donner une implémentation itérative en Python.
+			\item<3-> Prouver la correction de cet algorithme.
+			\item<4-> Donner sa complexité.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction : tri par sélection}
+		\begin{enumerate}
+			\item<1-> Rappeler le principe de l'algorithme du tri par sélection.\\
+				\onslide<2->\textcolor{OliveGreen}{\small A chaque étape d'indice $i$ (pour $i= 0 \dots n-1$), on échange l'élément d'indice $i$ avec le minimum des éléments de la liste depuis l'indice $i$.}
+			\item<3-> Donner une implémentation itérative en Python.
+				\inputpartPython{\SPATH/complexite.py}{}{\footnotesize}{18}{30}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction : tri par sélection}
+		\begin{enumerate}
+			\addtocounter{enumi}{2}
+			\item<1-> Prouver la correction de cet algorithme.\\
+				\onslide<2->\textcolor{OliveGreen}{\small Montrons que l'invariant $I$ \og{} Le sous tableau formé des $i$ premiers éléments de {\tt liste} est trié et contient les $i$ plus petits éléments de {\tt liste} \fg{}}
+				\begin{itemize}
+					\item<3-> \textcolor{OliveGreen}{Cette propriété est vraie à l'entrée dans la boucle (le sous tableau est alors vide)}
+					\item<4-> \textcolor{OliveGreen}{Si on la suppose vraie au rang $i$ alors au rang $i+1$, on place à l'indice $i+1$ le minimum des éléments d'indice $i+1 \dots n$. Cet élément étant forcément supérieur à ceux d'indice $0,\dots, i-1$, la propriété est vraie au rang $i+1$.}
+				\end{itemize}
+			\item<5-> Donner sa complexité. \\
+				\onslide<6->\textcolor{OliveGreen}{\small On peut se contenter de raisonner sur le nombre de comparaison, pour chaque recherche de minimum on fait $n-i$ comparaisons, et on doit chercher le minimum pour $i=0 \dots n-1$. Donc, en notant $C(n)$ le nombres de comparaisons \\}
+				\onslide<7->\textcolor{OliveGreen}{$C(n)=\displaystyle{\sum_{i=0}^{n-1} n-i}$}
+				\onslide<8->\textcolor{OliveGreen}{$=\displaystyle{\sum_{k=1}^{n} k}$\\}
+				\onslide<9->\textcolor{OliveGreen}{$C(n)=\dfrac{n(n+1)}{2}$ et donc cet algorithme est en $O(n^2)$.}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Complexités usuelles}
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabularx}{\textwidth}{|c|l|X|}
+			\hline
+			\textcolor{blue}{Complexité}   & \textcolor{blue}{Nom}                  & \textcolor{blue}{Exemple}                                             \\
+			\hline
+			\onslide<2->{$O(1)$}           & \leavevmode\onslide<2->{Constant}      & \leavevmode\onslide<2->{Accéder à un élément d'une liste}             \\
+			\hline
+			\onslide<3->{$O(\log(n))$}     & \leavevmode\onslide<3->Logarithmique   & \leavevmode\onslide<3->{Recherche dichotomique dans une liste}        \\
+			\hline
+			\onslide<4->{$O(n)$          } & \leavevmode\onslide<4->{Linéaire     } & \leavevmode\onslide<4->{Recherche simple dans une liste}              \\
+			\hline
+			\onslide<5->{$O(n\log(n))$   } & \leavevmode\onslide<5->{Linéaritmique} & \leavevmode\onslide<5->{Tri fusion}                                   \\
+			\hline
+			\onslide<6->{$O(n^2)$        } & \leavevmode\onslide<6->{Quadratique  } & \leavevmode\onslide<6->{Tri par insertion d'une liste }               \\
+			\hline
+			\onslide<7->{$O(2^n)$        } & \leavevmode\onslide<7->{Exponentielle} & \leavevmode\onslide<7->{Algorithme par force brute pour le sac à dos} \\
+			\hline
+		\end{tabularx}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Représentation graphique}
+		\begin{center}
+			\includegraphics[height=6cm]{complexite.eps}
+		\end{center}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Temps de calcul effectif}
+		Sur un ordinateur réalisant 100 million d'opérations par seconde :
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{|c|c|c|c|c|c|}
+			\hline
+			\textcolor{blue}{Complexité} & $n=10$                      & $n=100$                     & $n=1000$                    & $n=10^6$                    & $n=10^9$                    \\
+			\hline
+			$O(\log(n))$                 & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} \\
+			\hline
+			$O(n)$                       & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & $\simeq 10$s                \\
+			\hline
+			$O(n)\log(n)$                & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & $\simeq 1,5$ mn             \\
+			\hline
+			$O(n^2)$                     & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & \textcolor{green}{\faCheck} & $\simeq 3$ h                & $\simeq 300$ ans            \\
+			\hline
+			$O(2^n)$                     & \textcolor{green}{\faCheck} & \textcolor{red}{\faTimes}   & \textcolor{red}{\faTimes}   & \textcolor{red}{\faTimes}   & \textcolor{red}{\faTimes}   \\
+			\hline
+		\end{tabular}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<1-> On suppose qu'on dispose d'un algorithme de complexité linéaire travaillant sur une liste, il traite une liste de \numprint{1000} éléments en \numprint{0.015} secondes. Donner une estimation du temps de calcul pour une liste de \numprint{250000} éléments.\\
+				\onslide<2-> {\textcolor{OliveGreen}{La taille des données a été multiplié par 250, la complexité étant lineaire le temps de calcul sera aussi approximativement multiplié par 250. \\}}
+				\onslide<3->{\textcolor{OliveGreen}{$0.015 \times 250 = 3.75$, on peut donc prévoir un temps de calcul d'environ 3,75 secondes}}
+			\item<4-> Même question pour un algorithme de complexité quadratique qui traite une liste de \numprint{1000} éléments en \numprint{0.07} secondes.\\
+				\onslide<5-> {\textcolor{OliveGreen}{La taille des données a été multiplié par 250, la complexité étant quadratique le temps de calcul sera  approximativement multiplié par $250^2=62500$ \\}}
+				\onslide<6->{\textcolor{OliveGreen}{$0.07 \times 62\,500 = 4375$, on peut donc prévoir un temps de calcul d'environ $4\,375$ secondes, c'est-à-dire près d'une heure et 15 minutes !}}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : exponentiation rapide}
+		\begin{enumerate}
+			\item<1->{\small Combien faut-il faire de multiplications pour calculer $a^{13}$ avec la fonction}
+			\inputpartPython{\SPATH/puissance.py}{}{\footnotesize}{1}{6}
+			\item<2-> {\small Combien en faut-il si on procède de la façon suivante :}
+				\begin{itemize}
+					\item<3-> Calculer $a^6$, l'élever au carré et le multiplier par $a$.
+					\item<4-> Pour calculer $a^6$,calculer $a^3$ et l'élever au carré.
+					\item<5-> Pour calculer $a^3$, élever $a$ au carré et multiplier par $a$.
+				\end{itemize}
+			\item<6-> {\small Généraliser la méthode précédente au cas d'un exposant quelconque et en déduire une relation de récurrence entre $a^n$ et $a^\frac{n}{2}$ si $n$ et pair et $a^\frac{n-1}{2}$ sinon.}
+			\item<7-> {\small Proposer une implémentation récursive de ce nouvel algorithme.}
+			\item<8-> {\small Déterminer la complexité de chacun des deux algorithmes, conclure.}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : exponentiation rapide}
+		\begin{enumerate}
+			\item<1-> \textcolor{OliveGreen}{Il faut faire 13 multiplications, puisque $a^{13}$ est calculé avec :\\
+					$a^{13} = 1 \textcolor{BrickRed}{\times} a \textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a$}
+			\item<2-> \textcolor{OliveGreen}{Dans ce cas, il ne faut que 5 multiplications en effet, on calcul $a^{13}$ avec : \\
+					$a^{13} = \left( \left(a^{\textcolor{BrickRed}{2}} \textcolor{BrickRed}{\times} a \right)^{\textcolor{BrickRed}{2}} \right)^{\textcolor{BrickRed}{2}} \textcolor{BrickRed}{\times} a$}
+			\item<3-> \textcolor{OliveGreen}{$\left\{ \begin{array}{lll}
+							a^n & = & \left(a^\frac{n}{2}\right)^2, \ \mathrm{si\ } n  \mathrm{\ est\ paire} \\
+							a^n & = & \left(a^\frac{n-1}{2}\right)^2\times a, \ \mathrm{sinon\ }\end{array} \right. $}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exponentiation rapide}
+		\begin{enumerate}
+			\addtocounter{enumi}{3}
+			\item<1-> \textcolor{OliveGreen}{Implémentation en Python:}
+				\inputpartC{\SPATH/puissance.py}{}{\footnotesize}{8}{15}
+				\item<2->\textcolor{OliveGreen}{Le premier algorithme a une complexité linéaire, celui-ci a une complexité logarithmique. En effet, l'exposant est divisé par 2 à chaque appel récursif}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\end{document}

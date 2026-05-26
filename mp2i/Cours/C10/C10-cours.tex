@@ -1,0 +1,341 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{10}
+\newcommand{\Ctitle}{\cnum {Tableaux associatifs, hachage}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
+
+% Exemple introductif
+\makess{Exemple introductif}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Nombre d'occurence des mots d'un texte}
+		A partir du texte de l'oeuvre de J. Verne, \textit{\og{} \numprint{20000} lieux sous les mers \fg{}}, on a construit la liste des mots (sans accent, ni majuscules) qui apparaissent dans cet oeuvre. A titre d'exemple voici un extrait du fichier obtenu
+		\begin{langageC*}{fontsize=\footnotesize,tabsize=0}
+			cetace
+			extraordinaire
+			pouvait
+			se
+			transporter
+			un
+			endroit
+			un
+			autre
+		\end{langageC*}
+		\onslide<2->{Le but du problème est de trouver une méthode \textcolor{blue}{efficace} afin d'obtenir le nombre d'occurrence de chaque mot}
+	\end{block}
+\end{frame}
+
+\makess{Définition}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définition}
+		Un \textcolor{BrickRed}{tableau associatif} (ou \textcolor{BrickRed}{dictionnaire}) est une structure de données constituée d'un ensemble de \textcolor{blue}{clés} $C$ et d'un ensemble de \textcolor{blue}{valeurs} $V$. Chaque clé n'apparait qu'une fois dans la structure et est associée à un élément de $V$.\\
+		\textcolor{gray}{Les dictionnaires étendent en quelque sorte la notion de tableau, les indices des éléments d'un tableau associatif de taille $n$ n'étant plus nécessairement les entiers $\intN{0}{n-1}$ comme pour les tableaux classiques.}
+	\end{block}
+	\onslide<2->{
+		\begin{exampleblock}{Exemple}
+			On peut associer à chaque mot d'un texte, son nombre d'occurrence dans ce texte :
+			\begin{itemize}
+				\item<3-> L'ensemble des clés est l'ensemble des mots du texte.
+				\item<4-> L'ensemble des valeurs est $\mathbb{N}$.
+			\end{itemize}
+			\onslide<5->{Ce tableau associatif peut se noter :
+				\mintinline{c}{{("un",10), ("cours",3), ("exercice",7) ...}}}
+		\end{exampleblock}}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Interface d'un tableau associatif}
+		En notant $T$ un tableau associatif d'ensemble de clé $C$ et de valeur $V$,  $c \in C$ et $v \in V$ :
+		\begin{itemize}
+			\item<2-> Tester si une clé $c$ appartient à $T$
+			\item<3-> Ajouter à $T$ une association $(c,v)$
+			\item<4-> Supprimer une association $(c,v)$ de $T$
+			\item<5-> Obtenir la valeur $v$ associée à une clé $c$.
+			\item<6-> Modifier la valeur associée à une clé.
+		\end{itemize}
+		\onslide<7->{\textcolor{BrickRed}{On veut effectuer ces opérations \textit{rapidement} }
+	\end{block}
+	\onslide<7->{
+		\begin{exampleblock}{Exemple}
+		La recherche du nombre d'occurrence de chacun des mots d'un texte est donc une application classique de cette structure de donnée. A chaque mot rencontré, s'il se trouve dans le dictionnaire on incrémente la valeur associée de 1 sinon on rajoute ce mot avec comme valeur 1.
+		\end{exampleblock}
+	}
+\end{frame}
+
+\makess{Techniques d'implémentation}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Possibilités d'implémentation}
+		\begin{itemize}
+			\item<1-> Une implémentation naïve à l'aide d'une liste chainée de maillons contenant les couples (clé, valeur) est possible mais clairement inefficace \onslide<2->(le test d'appartenance est alors en $\mathcal{O}(n)$)
+			\item<3-> Une implémentation utilisant les arbres sera vue ultérieurement.
+			\item<4-> Lorsque l'ensemble des clés est inclus dans $\intN{0}{N-1}$, on peut utiliser un tableau de taille $N$, pour un couple $(c,v)$, on stocke alors la valeur $v$ dans la case d'indice $c$ du tableau.
+			\item<5-> Pour un ensemble de clés quelconque $C$, on se ramène au cas précédent en deux étapes :
+				\begin{itemize}
+					\item<6-> On utilise une fonction $h : C \rightarrow \N$, dite \textcolor{BrickRed}{fonction de hachage} (\textit{hash function}).
+					\item<7-> L'indice de la clé $c$ dans le tableau s'obtient alors en prenant $h(c) \mod N$.
+				\end{itemize}
+				\onslide<8->{\textcolor{BrickRed}{\small \danger} Deux clés différentes peuvent alors donner le \textit{même} indice dans le tableau, on parle alors de \textcolor{BrickRed}{collision}.}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Visualisation}
+		\mintinline{c}{{ "dans":12 , "le" : 8, "un" : 16, "bol" : 10} } \\ \vspace{0.2cm}
+		\begin{tabularx}{\textwidth}{X|c|X}
+			\multicolumn{1}{l}{\quad {\textcolor{blue}{Clés}}}                                     & \multicolumn{1}{c}{\textcolor{blue}{Indice}} & \multicolumn{1}{c}{\textcolor{blue}{Contenu}}                      \\
+			\cline{2-2}
+			{\rnode{dans}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "dans"}\end{cadre}}} & 0                                            &                                                                    \\
+			\cline{2-2}
+			                                                                                       & \rnode{i1}{1}                                & \leavevmode{\onslide<3->{\quad \quad \rnode{v1}{\tt ("dans",12)}}} \\
+			\cline{2-2}
+			                                                                                       & \rnode{i2}{2}                                & \leavevmode{\onslide<5->{\quad \quad \rnode{v2}{\tt ("un",16)}}}   \\
+			\cline{2-2}
+			{\rnode{le}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "le"}\end{cadre}}}     & \vdots                                       &                                                                    \\
+			\cline{2-2}
+			                                                                                       & \rnode{i42}{42}                              & \leavevmode{\onslide<4->{\quad \quad \rnode{v42}{\tt ("le",8)}}}   \\
+			\cline{2-2}
+			{\rnode{un}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "un"}\end{cadre}}}     & \vdots                                       &                                                                    \\
+			\cline{2-2}
+			                                                                                       & $N$-1                                        &                                                                    \\
+			\cline{2-2}
+		\end{tabularx}
+		\onslide<2->{\ncline[nodesepB=0.45,offsetA=0.1,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{dans}{i1} \naput[nrot=:U,labelsep=0.05]{\textcolor{brown}{\footnotesize hash + mod}}}
+		\onslide<5->{\ncline[nodesepB=0.42,nodesepA=0.13,offsetA=-0.35,offsetB=0.15,linewidth=0.8pt,linecolor=brown]{->}{un}{i2}}
+		\onslide<4->{\ncline[nodesepB=0.42,offsetA=0.1,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{le}{i42}}
+		\onslide<3->{\ncline[nodesepA=0.3]{o->}{i1}{v1}}
+		\onslide<5->{\ncline[nodesepA=0.3]{o->}{i2}{v2}}
+		\onslide<4->{\ncline[nodesepA=0.3]{o->}{i42}{v42}}
+		\vspace{0.2cm}\\
+		\onslide<6->{Certaines cases du tableau peuvent restées vides ! Le \textit{taux de charge} de la table est défini comme le rapport entre le nombres de cases occupés et $N$.}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Collision}
+		\mintinline{c}{{ "dans":12 , "le" : 8, "un" : 16, "bol" : 10} } \\ \vspace{0.2cm}
+		\begin{tabularx}{\textwidth}{X|c|X}
+			\multicolumn{1}{l}{\quad {\textcolor{blue}{Clés}}}                                                            & \multicolumn{1}{c}{\textcolor{blue}{Indice}} & \multicolumn{1}{c}{\textcolor{blue}{Contenu}}                                                                                          \\
+			\cline{2-2}
+			{\rnode{dans}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "dans"}\end{cadre}}}                        & 0                                            &                                                                                                                                        \\
+			\cline{2-2}
+			                                                                                                              & \rnode{i1}{1}                                & \quad \quad \rnode{v1}{\tt ("dans",12)}                                                                                                \\
+			\cline{2-2}
+			                                                                                                              & \rnode{i2}{2}                                & \quad \quad \rnode{v2}{\tt ("un",16)}                                                                                                  \\
+			\cline{2-2}
+			{\rnode{le}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "le"}\end{cadre}}}                            & \vdots                                       &                                                                                                                                        \\
+			\cline{2-2}
+			                                                                                                              & \rnode{i42}{42}                              & \alt<7->{\quad \quad \rnode{v42}{\textcolor{BrickRed}{\tt ("bol",10) $\rightarrow$ ("le",8) }}}{\quad \quad \rnode{v42}{\tt ("le",8)}} \\
+			\cline{2-2}
+			{\rnode{un}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "un"}\end{cadre}}}                            & \vdots                                       &                                                                                                                                        \\
+			\cline{2-2}
+			\leavevmode{\onslide<2->{\rnode{bol}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "bol"}\end{cadre}}}} & $N$-1                                        &                                                                                                                                        \\
+			\cline{2-2}
+		\end{tabularx}
+		\ncline[nodesepB=0.45,offsetA=0.1,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{dans}{i1} \naput[nrot=:U,labelsep=0.05]{\textcolor{brown}{\footnotesize hash + mod}}
+		\ncline[nodesepB=0.42,nodesepA=0.13,offsetA=-0.35,offsetB=0.15,linewidth=0.8pt,linecolor=brown]{->}{un}{i2}
+		\ncline[nodesepB=0.42,offsetA=0.1,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{le}{i42}
+		\ncline[nodesepA=0.3]{o->}{i1}{v1}
+		\ncline[nodesepA=0.3]{o->}{i2}{v2}
+		\ncline[nodesepA=0.3]{o->}{i42}{v42}
+		\onslide<3->{\ncline[nodesepB=0.42,offsetA=-0.2,nodesepA=0.04,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{bol}{i42}}
+		\begin{itemize}
+			\item<4->{\small Deux clés différentes ("bol" et "le"), doivent être rangées au même indice, c'est une \textcolor{BrickRed}{collision}.}
+			\item<5->{\small La résolution par chaînage consiste à stocker des listes chaînées, dans le tableau. On dit alors que chaque case du tableau est un \textcolor{blue}{seau} (ou \textcolor{gray}{bucket} en anglais) .}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Complexité}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Complexité des opérations}
+		\textcolor{BrickRed}{\small \danger} On se place dans le cas d'une \textit{résolution des collisions par chainage}.
+		\begin{itemize}
+			\item<1-> Le nombre de collisions influence directement la complexité des opérations \\
+			\onslide<2->\textcolor{gray}{\small Dans le cas extrême où toutes les valeurs sont en collision, le tableau associatif est représentée par une liste chainée et les opérations sont en $\mathcal{O}(n)$}
+			\item<3-> On s'intéresse donc à la probabilité d'apparitions de collisions dans le cas d'un \textcolor{blue}{hachage uniforme}, c'est à dire dans le cas où les valeurs de hachage ont la même probabilité d'apparition.
+		\end{itemize}
+	\end{block}
+	\onslide<4->{
+	\begin{block}{Probabilité de collision}
+		On considère $n$ clés hachées uniformément sur $N$ valeurs ($N \geqslant n$), alors la probabilité d'absence de collision est :
+		$$ P_0 = \dfrac{N!}{N^n\,(N-n)!}$$
+	\end{block}}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Applications numériques}
+		\renewcommand{\arraystretch}{1.4}
+		En notant $P$ la probabilité qu'au moins une collisions survienne :
+		\begin{tabular}{|c|c|c|c|c}
+			\cline{1-4}
+			$n$ & $N$ & $P_0$ & $P = 1 - P_0$ & \\
+			\cline{1-4}
+			$23$ & $365$ & $0.49$ & $0.51$ & \textcolor{gray}{\small (paradoxe des anniversaires)} \\
+			\cline{1-4}
+			$1000$ & $10^6$ & $0.6$  & $0.4$ & \\
+			\cline{1-4}
+			$5000$ & $10^6$ & $0.3\,10^{-6}$ &  $0.999996$ &\\
+			\cline{1-4}
+		\end{tabular} \\
+	Les collisions sont donc difficilement évitables, ceci dit on dispose du résultat suivant (admis)
+	\end{exampleblock}
+	\onslide<2->\begin{alertblock}{Complexité d'une recherche}
+		Si on suppose le hachage uniforme et les collisions résolues par chainage, le temps moyen d'une recherche est $\mathcal{O}(1+\alpha)$, où $\alpha = \frac{n}{N}$ est le taux de charge de la table.
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{A retenir ...}
+			Dans le cas d'une résolution des collisions par chainage, sous les hypothèses suivantes :
+			\begin{itemize}
+			\item<2-> le calcul de la fonction de hachage  est en $\mathcal{O}(1)$,
+			\item<2-> le hachage est uniforme,
+			\item<2-> le taux de charge de la table est majoré indépendamment de $n$ (par exemple $N$ proportionnel à $n$),
+			\end{itemize}
+			\onslide<3->la complexité moyenne des opérations (appartenance, ajout, suppression, \dots) est en $\mathcal{O}(1)$.
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Résolution des collisions par sondage}
+		Une autre méthode de résolution des collision consiste lorsqu'elles se produisent à rechercher plus loin dans la table (\textit{à sonder}) jusqu'à trouver un emplacement vide. On parle de \textit{sondage linéaire} lorsqu'on recherche séquentiellement dans la table. On admettra que dans ce cas on retrouve pour les opérations, une complexité similaire à celle de la résolution par chainage. Un exemple d'implémentation sera vue en TP. 
+	\end{block}
+\end{frame}
+
+\makess{Implémentation en langage C}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Cas des occurrences des mots d'un texte}
+		\begin{itemize}
+			\item<1-> On commence par créer des listes chaînées de clés/valeurs. Les clés sont des chaines de caractères, et les valeurs des entiers positifs. Pour simplifier, on suppose qu'un mot a au maximum 26 lettres :
+				\onslide<2->{\inputpartC{\SPATH/count.c}{}{\scriptsize}{9}{16}}
+			\item<3-> Les prototypes des fonctions nécessaires :
+				\begin{itemize}
+					\item<4-> Test si une clé est présente : \mintinline{c}{bool is_in(list l, char w[26])}
+					\item<5-> Ajout d'une nouvelle clé : \mintinline{c}{void insert(list *l, char w[26])}
+					\item<6-> Récupérer la valeur associée à une clé : \mintinline{c}{int value(list l, char w[26])}
+					\item<7-> Modification d'une valeur: \mintinline{c}{void update(list *l, char w[26],int v)}
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{La table de hachage}
+		On définit alors la table de hachage comme un tableau de {\sc size} alvéoles contenant chacune une liste chainée (la constante {\sc size} pouvant être définie en début de programme) les prototypes des fonctions à écrire sont :
+		\begin{itemize}
+			\item<1-> \mintinline{c}{bool is_in_hashtable(list ht[SIZE], char w[26])}
+			\item<2-> \mintinline{c}{void insert_in_hashtable(list ht[SIZE], char w[26])}
+			\item<3-> \mintinline{c}{void update_hashtable(list ht[SIZE], char w[26], int n)}
+			\item<4-> \mintinline{c}{int get_val_hashtable(list ht[SIZE], char w[26])}
+		\end{itemize}
+		\onslide<5->{Cette implémentation sera vue en détail en TP.}
+	\end{block}
+\end{frame}
+
+\makess{Implémentation en OCaml}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation avec le type \textcolor{yellow}{\tt array}}
+		On peut créer un type représentant un tableau de liste. Les éléments des listes étant des couples ($c$,$v$) où $c$ est de type \kw{string} et $v$ de type \kw{int} :
+		\inputpartOCaml{\SPATH/count2.ml}{}{\small}{1}{1}
+		\onslide<2->{Sur les listes, les opérations nécessaires sont les mêmes que celles vu sur l'implémentation en C :}
+		\begin{itemize}
+			\item<3-> Le test d'appartenance :
+				\inputpartOCaml{\SPATH/count2.ml}{}{\small}{14}{17}
+			\item<4-> La mise à jour de la valeur associée à une clé (on utilise \kw{failwith} en cas d'absence de la clé).
+			\item<5-> La récupération de la valeur associée à une clé.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation avec le type \textcolor{yellow}{\tt array}}
+		\begin{itemize}
+			\item<1->On se fixe une taille pour la table de hachage et la définit comme un tableau de liste de couples \mintinline{ocaml}{string*int} :
+			\inputpartOCaml{\SPATH/count2.ml}{}{\small}{2}{3}
+			\item<2-> La fonction de hachage {\tt string -> int} transforme une chaine de caractère en un entier compris entre 0 (inclus) et {\tt size} (exclus)
+			\item<3-> On doit alors écrire les fonctions pour :
+				\begin{itemize}
+					\item<4->  test si la clé $c$ est présente ({\tt hashtable -> string -> bool}) : \\
+						\mintinline{ocaml}{let is_in_ht (ht:hashtable) c}
+					\item<5-> ajout de ($c$,$v$) dans la table ({\tt hashtable -> string -> int -> unit}) : \\
+						\mintinline{ocaml}{let add_ht (ht:hashtable) c v}
+					\item<6-> renvoie la valeur associé à $c$ ({\tt hastable -> string -> int}) : \\
+						\mintinline{ocaml}{let get_value_ht (ht:hashtable) c}
+					\item<7-> met à jour la valeur associée  à c ({\tt hashtable -> string -> int -> unit}) : \\
+						\mintinline{ocaml}{let update_ht (ht:hashtable) c v}
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Module {\tt Hashtbl}}
+		La bibliothèque standard d'OCaml propose une implémentation des tables de hachage via le module \kw{Hashtbl}.
+		\begin{itemize}
+			\item<2-> La fonction de hachage (\kw{Hashtbl.hash}) est prédéfinie par OCaml et s'applique à une valeur de n'importe quel type.
+			\item<3-> On doit donner une taille initiale lors de la création de la table de hachage :
+				\inputpartOCaml{\SPATH/count.ml}{}{\small}{2}{2}
+				A noter que lorsque le taux de remplissage de cette table devient trop important, elle est redimensionnée (la taille double), c'est donc un tableau dynamique.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Fonctions du module {\tt Hashtbl}}
+		Parmi les fonctions disponibles, on retrouve celles vues dans l'implémentation en langage C :
+		\begin{itemize}
+			\item<2-> \mintinline{ocaml}{Hashtbl.mem} pour le test d'appartenance.
+			\item<3-> \mintinline{ocaml}{Hashtbl.add} pour ajouter une couple (clé, valeur).
+			\item<4-> \mintinline{ocaml}{Hashtbl.find} pour trouver la valeur associée à une clé.
+			\item<5-> \mintinline{ocaml}{Hashtbl.replace} pour modifier la valeur associée à une clé.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Une application}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Calcul des coefficients du binôme}
+		\begin{enumerate}
+			\item<1-> Rappeler la définition des coefficients binomiaux à l'aide de factoriel ainsi que la relation de récurrence liant les coefficients binomiaux
+			\item<2-> Ecrire une fonction en OCaml utilisant la définition à base de factoriels permettant de calculer $\binom{n}{k}$ (avec $n$ et $k$ deux entiers naturels $n\geq k$). Donner sa complexité.
+			\item<3-> Proposer une version récursive utilisant la relation de récurrence vue à la question 1.
+			\item<4-> On note $N(n,k)$ le nombre d'appels  nécessaires pour calculer $\binom{n}{k}$. Donner $N(n,0)$, $N(n,n)$ et une relation de récurrence liant $N(n,k), N(n-1,k)$ et $N(n-1,k-1)$.
+			\item<5-> Prouver par récurrence que $N(n,k) = 2\binom{n}{k} -1$. En déduire la complexité de la fonction récursive écrite à la question 3.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Mémoïsation avec une table de hachage}
+		\begin{itemize}
+			\item<1-> La complexité exponentielle de la version récursive est lié à l'apparition de nombreux appels récursifs identiques.
+			\item<2-> L'idée est donc de mémoriser les résultats des appels récursifs déjà effectués afin d'en avoir le résultat sans les relancer. Cette technique de programmation s'appelle la \textcolor{blue}{mémoïsation}
+			\item<3-> Quelle structure de données vous paraît adaptée ?
+			\item<4-> Proposer une implémentation en OCaml
+			\item<5-> Donner la complexité de cette nouvelle implémentation.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Mémoïsation}
+		\begin{itemize}
+			\item<1-> La \textcolor{blue}{mémoïsation} consiste à stocker dans une structure de données les valeurs renvoyées par une fonction afin de ne pas les recalculer lors des appels identiques suivant.\\
+			\item<2-> Les tableaux associatifs sont alors des structures de données adaptées, les clés sont les paramètres d'appels de la fonction et les valeurs le résultat de l'appel.
+			\item<3-> On peut alors tester si la valeur a déjà été calculée (présence de la clé) en $\mathcal{O}(1)$ et suivant le cas de figure calculer la valeur associée puis la stocker ($\mathcal{O}(1)$) ou alors la récupérer ($\mathcal{O}(1)$).
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+\end{document}

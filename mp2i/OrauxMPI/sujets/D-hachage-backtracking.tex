@@ -1,0 +1,107 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/}
+
+\ModeExercice
+
+\lhead{{\sc mpi --} {\bf Préparation aux oraux}}
+\rhead{2024}
+\setboolean{corrige}{false}
+\begin{center}
+    \textbf{\Large Sujet D}
+\end{center}
+
+
+\setcounter{Exercise}{0}
+
+\newcommand{\cn}[1]{\TCircle{\tt #1}}
+\psset{arrows=->,treesep=1cm,levelsep=1cm}
+
+\begin{Exercise*}[title = type A]
+    \Question{Rappeler le principe de l'implémentation d'un tableau associatif (ou dictionnaire) à l'aide d'une table de hachage.}
+    \tcor{On utilise un tableau de taille $M$ et une fonction de hachage à valeur dans $\intN{0}{M-1}$ (par exemple en prenant le modulo $M$), un couple clé, valeur $(c,v)$ est alors stocké dans la case d'indice $h(c)$ du tableau.}    
+    \Question{Donner la définition des \textit{collisions} et donner brièvement (au moins) un moyen de résoudre le problème qu'elles posent.}
+    \tcor{Une collision est l'obtention de la même valeur de \textit{hash} pour deux clés différentes $c_1$ et $c_2$. On peut les résoudre par chainage c'est à dire qu'une case du tableau contient une liste chainée de couples clé valeur ou encore par sondage linéaire}
+    
+    \NRet \smallskip
+    Pour une chaine de caractères $s = c_0\dots c_{n-1}$, on considère la fonction de hachage :
+	$$ h(s) = \sum_{i=0}^{n-1} 31^i \times c_i$$
+
+    \Ret \smallskip
+	\Question{Calculer le hash de la chaine {\tt "AB"}.}
+	\tcor{$31\times 65 + 66 = 2081$}
+	\Question{Montrer qu'il existe deux chaines de caractères de longueur 2, formées de lettres minuscules (code 97 à 122) ou majuscules (code 65 à 90) et produisant la même valeur pour $h$.}
+	\tcor{En notant $E = \intN{65}{90} \cup \intN{97}{122}$, on cherche $(a,b) \in E^2$ et $(a',b') \in E^2$ tels que : $(a,b) \neq (a',b')$ et $31a + b = 31a' + b'$. Cette équation se ramène à $b-b' = 31(a'-a)$. Donc $b-b'$ est un multiple non nul de 31. l'écart entre $b'$ et $b$ étant au maximum en valeur absolue de $122-65 =  57$ les seules possiblités sont :
+	\begin{itemize}
+		\item[\textbullet] $b-b' = 31$ et donc $a'-a=1$. Ce qui donne $a' = a + 1$ (donc $a'$ et $a$ sont dans le même intervalle) et $b' = b-31$ donc ils ne sont pas dans le même intervalle. On peut prendre par exemple la solution $a = 65$ donc $a'=66$ et $b = 97$ donc $b' = 66$ c'est-à-dire les chaines {\tt "Aa"} et {\tt "BB"}.
+		\item[\textbullet] $b-b' = -31$ et donc $a'-a=-1$.  Ce qui donne $a' = a-1$ et $b' = b+31$, par exemple la solution $a=66$, $a'=65$, $b = 67$ et $b'=98$ convient (c'est-à-dire les chaines {\tt "BC"} et {\tt "Ab"})
+	\end{itemize}}
+	
+	\Question{En déduire une façon de construire un nombre arbitraire de chaînes de caractères de longueurs quelconques ayant la même valeur pour la fonction $h$. \label{qu}}
+	\tcor{En concaténant plusieurs chaines de caractères de longueur deux ayant le même hash on obtient des chaine de caractère de longueur paire arbitrairement grande et ayant le même hash. Par exemple (en utilisant les exemples de longueur deux donnés à la question précédente), {\tt "AaBC"} et {\tt "BBAb"}. Pour la longueur impaire on rajoute le même caractère aux deux chaines.}
+	\Question{Proposer un prototype pour une fonction en C qui calcule cette fonction de hachage (type de la valeur renvoyée, argument(s) et leur(s) type(s)).}
+	\tcor{Les chaines de caractères "connaissent" leur longueur en C grâce au caractère sentinelle, on a donc pas besoin de passer la longueur de la chaine de caractère en paramètre. Par contre, cette fonction risque fort de provoquer un dépassement de capacité sur le type {\tt int} ce qui est un comportement indéfini en C. On devrait plutôt utiliser la librairie {\tt stdint.h} et renvoyer un {\tt uint}. On peut donc proposer \mintinline{c}{uint hash(char* s)}}
+\end{Exercise*}
+
+\begin{Exercise*}[title = {type B}]\\
+    Pour un entier $n$ quelconque, le but de l'exercice est de programmer en C une recherche en \textit{backtracking} d'une solution au problème du placement des entiers $1,\dots,n^2$ entiers dans un carré de côté $n$ afin de former un carré magique (c'est-à-dire un carré dont la somme des lignes, colonnes ou diagonales est la même)
+    \Question{Vérifier que dans le cas $n=3$ le carré suivant est une solution : \\
+    \begin{tabular}{|c|c|c|}
+        \hline
+        2 & 7 & 6 \\
+        \hline
+        9 & 5 & 1 \\
+        \hline 
+        4 & 3 & 8 \\
+        \hline
+    \end{tabular}
+    }
+    \tcor{On trouve bien  15 en additionnant chaque ligne, colonne ou diagonale.}
+    \Question{Quelle serait la somme de chacune des lignes, colonnes ou diagonales dans le cas $n=4$ ? }
+    \tcor{Les entiers de 1 à 16 de somme $8 \times 17 = 136$ sont placés dans le carré et la somme des 4 lignes est identique, donc chacune de ces sommes vaut $136 /4 = 34$.}
+    \Question{Donner l'expression de la somme de chacune des lignes, colonnes, ou diagonales pour un entier $n$ quelconque.}    
+    \tcor{On reprendre le raisonnement précédent, on en déduit rapidement que la somme commune est $\dfrac{n \times (n^2+1)}{2}$.}
+    
+    \NRet \smallskip
+    Afin d'implémenter la résolution en C, on propose de linéariser le carré en le représentant par un tableau à une seule dimension. Le carré ci-dessus est par exemple représenté par :\\ \mintinline{c}{int carre[9] = {2, 7, 6, 9, 5, 1, 4, 3, 8}}\\
+    Un fichier contenant le code compagnon de cet exercice est à télécharger à l'adresse :\\ {\tt https://fabricenativel.github.io/cpge-info/oraux/}.\\ Il contient notamment une fonction \mintinline{c}{void affiche_carre(int carre[], int n)} permettant de d'afficher les valeurs contenues dans un carré.
+
+    \Ret \smallskip
+    \Question{Donner l'expression de l'indice d'un élément situé en ligne $i$, colonne $j$ dans le tableau linéarisé (on rappelle qu'on a noté $n$ le côté du carré). }
+    \tcor{L'indice de l'élément situé ligne $i$ colonne $j$ est $i \times n + j$}
+    \Question{Inversement, donner la ligne et la colonne dans le carré initial d'un élément situé à l'indice $k$ dans le tableau linéarisé.}
+    \tcor{L'élément d'indice $k$ dans le tableau linéarisé est situé à la ligne $\PE{\dfrac{k}{n}}$ et à la colonne $k \mod n$.}
+
+    \NRet \smallskip
+    On représente par l'entier 0 une case non encore rempli du tableau, par exemple : \\ \mintinline{c}{int carre[9] = {1, 8, 4, 0, 0, 0, 0, 0, 0}} représente un carré ayant simplement la première ligne complète
+
+    \Ret \smallskip
+    \Question{Ecrire une fonction \mintinline{c}{bool valide_ligne(int carre[], int i, int n, int somme)} qui vérifie que la ligne {\tt i} d'un carré en cours de construction est encore valide, c'est le cas si cette ligne contient un zéro (car elle est alors incomplète) ou si elle ne contient aucun zéro et que sa somme est égale à la variable {\tt somme} fournie en argument.}
+    \ifcorrige
+    \corpartC{carremagique.c}{}{}{16}{28}
+    \fi
+
+    \Question{Ecrire de même la fonction \mintinline{c}{bool valide_colonne(int carre[], int j, int n, int somme)} permettant de vérifier que la colonne {\tt j} d'un carré en cours de construction est encore valide.}
+    \ifcorrige
+    \corpartC{carremagique.c}{}{}{30}{42}
+    \fi
+
+    \NRet \smallskip
+    Les fonctions permettant de vérifier que les deux diagonales sont valides ainsi que la fonction de prototype \mintinline{c}{bool valide_carre(int carre[], int size, int somme)} vérifiant globalement que le carré en cours de construction est encore valide sont déjà écrites dans le fichier compagnon de cet exercice. 
+     
+    
+    \Ret \smallskip
+    \Question{En vous aidant des commentaires, compléter le code de la fonction permettant de rechercher par backtracking un carré magique solution du problème posé et disponible dans le fichier compagnon. Cette fonction a pour signature :\\ \mintinline{c}{bool resolution(int carre[], int n, int somme, int k, bool utilise[])}\\ en effet, elle prend aussi en argument le tableau de booléens {\tt utilise} de taille $n^2$ dont l'élément d'indice $i$ indique si l'entier $i+1$ a déjà été placé ou non dans le carré.}
+    \ifcorrige
+    \corpartC{carremagique.c}{}{}{84}{113}
+    \fi
+\end{Exercise*}
+
+
+\end{document}
