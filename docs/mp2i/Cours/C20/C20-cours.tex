@@ -226,7 +226,7 @@
 			\item<3-> Pour la \textcolor{blue}{correction}, on note $G = (V,E)$ le graphe, $s \in V$ le sommet source, $d[v]$ le tableau des distances et $Q$ la file et $\delta(v)$ la distance minimale du sommet source $s$ au sommet $v$. Puis on prouve : 
 			\begin{itemize}
 				\item<4-> L'invariant noté $(I)$ : \og{}\textit{La file $Q$ contient $k$ sommets $v_1, \dots v_k$ avec $d[v_1] \leqslant \dots \leqslant d[v_k]$ et $d[v_k] \leqslant d[v_1] +1$} \fg{} (envisager l'évolution de la file suivant les cas enfiler ou défiler). 
-				\item Et par récurrence sur la propriété $\mathcal{P}(n)$ : \og{}\textit{pour tout sommet $v$ à distance $n$ de $s$, on a $d[v]=\delta(v)$} \fg{}.
+				\item<5->Et par récurrence sur la propriété $\mathcal{P}(n)$ : \og{}\textit{pour tout sommet $v$ à distance $n$ de $s$, on a $d[v]=\delta(v)$} \fg{}.
 			\end{itemize} 
 			\item<6-> La boucle {\tt while} s'exécute au plus $|S|$ fois et l'itération sur les voisins sortants d'un sommet permet d'examiner chaque arête au plus une fois. La complexité du parcours en largeur est donc un $O(|S|+|A|)$
 		\end{itemize}
@@ -317,7 +317,8 @@
 		\onslide<3->{\textcolor{gray}{\small Par exemple, si le graphe représente les tâches nécessaires à la construction d'une maison, on doit faire la tâche \og{} peindre les murs \fg{} \textit{après} la tache \og {monter les murs} \fg{}.}}
 	\end{block}
 	\onslide<4->{\begin{alertblock}{Définition}
-			Le \textcolor{blue}{tri topologique} d'un graphe orienté \textcolor{BrickRed}{acyclique} est une liste ordonnée de ses sommets tels que pour tout arc $u \rightarrow v$, le sommet $u$ apparaît avant le sommet $v$ dans la liste.
+			Le \textcolor{blue}{tri topologique} d'un graphe orienté \textcolor{BrickRed}{acyclique} est une liste ordonnée de ses sommets tels que pour tout arc $u \rightarrow v$, le sommet $u$ apparaît avant le sommet $v$ dans la liste.\\
+		\onslide<5->{\textcolor{gray}{Pourquoi précise-t-on que le graphe est acyclique ?}}
 		\end{alertblock}
 	}
 \end{frame}
@@ -365,6 +366,12 @@
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+	On suppose (dans le langage de votre choix), un graphe représenté par sa matrice d'adjacence. Ecrire une fonction qui prend en argument un graphe (à $n$ sommets) ainsi qu'un tableau à $n$ éléments et renvoie un booléen indiquant si ce tableau est un tri topologique valide ou non de ce graphe.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Ordre postfixe d'un parcours en profondeur}
 		On peut modifier le parcours en profondeur afin de garder la trace dans une liste de l'ordre dans lequel les sommets ont été visités.
 		\begin{itemize}
@@ -375,7 +382,7 @@
 	\end{block}
 	\onslide<5->{
 	\begin{exampleblock}{Exemple}
-		Dérouler soigneusement l'algorithme {\tt bfs} sur le graphe suivant \textit{pour chaque sommet} de $s_0$ à $s_5$. Quel est l'ordre postfixe obtenu ?
+		Dérouler soigneusement l'algorithme {\tt dfs} sur le graphe suivant \textit{pour chaque sommet} de $s_0$ à $s_5$. Quel est l'ordre postfixe obtenu ?
 		\begin{pspicture}(0,-1)(10,1)
 			\rput(2,0.7){\circlenode{S0}{$s_0$}}
 			\rput(2,-0.7){\circlenode{S3}{$s_3$}}
