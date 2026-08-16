@@ -534,7 +534,7 @@ def define_env(env):
         return res
 
     @env.macro
-    def ide(fname='default.py'):
+    def ide(fname='scripts/default.py'):
         res = f'''<iframe 
             src="https://fabricenativel.github.io/cpge-info/itc/mini_ide.html?fichier={fname}" 
             width="100%" 

@@ -1,4 +1,3 @@
-# --------- PYODIDE:code --------- #
 texte = "En PCSI, on fait du Python, c'est génial !"
 
 # Complétez les lignes suivantes pour obtenir les résultats demandés :

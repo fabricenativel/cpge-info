@@ -1,4 +1,3 @@
-# --------- PYODIDE:code --------- #
 def compte_voyelle(chaine):
     nb_voyelles = 0
     for i in range(len(chaine)):
