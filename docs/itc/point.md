@@ -173,7 +173,7 @@ Quel est l'élément restant dans le cas $k=100$ ?
 
 {{ exo("",[])}}
 Dans votre IDE ci-dessous, est déjà définie une liste de points du plan, chaque point est représenté par un *tuple* de python à deux éléments : son abscisse et son ordonnée. Par exemple `points = [ (2,-1), (3,5)]` contient les points de coordonnées $(2,-1)$ et $(3,5)$. Quelle est la plus courte distance entre deux points de la liste de points définie dans l'éditeur ci-dessous (valeur arrondie au centième) ?
-
+{{ide("scripts/points.py")}}
 
 
 Véfifier votre réponse : {{check_reponse("1.41")}}

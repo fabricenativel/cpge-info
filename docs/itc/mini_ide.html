@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mini IDE Python</title>
+    <title>Mon Mini IDE Python</title>
     
     <!-- 1. Importation de CodeMirror (Design de l'éditeur) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
@@ -16,8 +16,11 @@
     <style>
         body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; }
         #output { background-color: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; font-family: monospace; min-height: 50px;}
-        button { background-color: #28a745; color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 10px; border-radius: 4px;}
+        
+        button { background-color: #28a745; color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 10px; border-radius: 4px; transition: 0.3s;}
         button:hover { background-color: #218838; }
+        button:disabled { background-color: #6c757d; cursor: not-allowed; }
+        
         .CodeMirror { height: auto; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;}
     </style>
 </head>
@@ -26,13 +29,7 @@
     <h2>Éditeur Python en ligne</h2>
     
     <!-- Zone où l'utilisateur tape son code -->
-    <textarea id="code">
-# Tapez votre code Python ici !
-def dire_bonjour(nom):
-    return f"Bonjour {nom}, bienvenue sur mon site !"
-
-print(dire_bonjour("visiteur"))
-    </textarea>
+    <textarea id="code"># Initialisation de l'éditeur...</textarea>
 
     <!-- Bouton pour lancer le code -->
     <button id="run-btn" disabled>Chargement de Python...</button>
@@ -42,7 +39,7 @@ print(dire_bonjour("visiteur"))
     <div id="output"></div>
 
     <script>
-        // Initialisation de l'interface CodeMirror
+        // --- ÉTAPE 1 : Initialisation de l'interface CodeMirror ---
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             mode: "python",
             theme: "monokai",
@@ -50,38 +47,63 @@ print(dire_bonjour("visiteur"))
             viewportMargin: Infinity
         });
 
-        let pyodideInstance;
+        // --- ÉTAPE 2 : Chargement du fichier depuis l'URL ---
+        async function chargerScriptDepuisURL() {
+            // On analyse l'URL (ex: ide.html?fichier=script.py)
+            const parametres = new URLSearchParams(window.location.search);
+            const cheminFichier = parametres.get("fichier");
 
-        // Fonction pour initialiser Pyodide en arrière-plan
+            if (cheminFichier) {
+                editor.setValue("# Chargement du script en cours...\n");
+                try {
+                    const reponse = await fetch(cheminFichier);
+                    if (!reponse.ok) {
+                        throw new Error(`Erreur HTTP ${reponse.status}`);
+                    }
+                    const codeTexte = await reponse.text();
+                    editor.setValue(codeTexte); // On injecte le code du fichier
+                } catch (erreur) {
+                    editor.setValue(`# Erreur : Impossible de charger le fichier '${cheminFichier}'\n# Détail : ${erreur.message}`);
+                }
+            } else {
+                // S'il n'y a pas de paramètre dans l'URL, on met un code par défaut
+                editor.setValue("# Tapez votre code Python ici !\ndef dire_bonjour(nom):\n    return f\"Bonjour {nom} !\"\n\nprint(dire_bonjour('visiteur'))");
+            }
+        }
+
+        chargerScriptDepuisURL(); // On lance la fonction immédiatement
+
+        // --- ÉTAPE 3 : Initialisation de Pyodide ---
+        let pyodideInstance;
         async function initPyodide() {
             pyodideInstance = await loadPyodide();
             
-            // On redirige la fonction 'print()' de Python vers notre div #output HTML
+            // On redirige print() vers la div #output
             pyodideInstance.setStdout({ batched: (msg) => {
                 document.getElementById("output").innerText += msg + "\n";
             }});
 
-            // Activer le bouton une fois Python chargé
+            // On active le bouton
             const btn = document.getElementById("run-btn");
             btn.innerText = "▶ Exécuter le code";
             btn.disabled = false;
         }
 
-        initPyodide();
+        initPyodide(); // On lance le chargement de Python
 
-        // Que se passe-t-il quand on clique sur "Exécuter" ?
+        // --- ÉTAPE 4 : Exécution du code au clic ---
         document.getElementById("run-btn").addEventListener("click", async () => {
             const outputDiv = document.getElementById("output");
-            outputDiv.innerText = ""; // On nettoie la console
+            outputDiv.innerText = ""; // On nettoie l'ancien résultat
+            outputDiv.style.color = "black"; // On remet la couleur par défaut
             
-            // On récupère le code tapé par l'utilisateur
-            const code = editor.getValue();
+            const code = editor.getValue(); // Récupère le code de l'éditeur
             
             try {
-                // On demande à Pyodide d'exécuter le code
+                // On exécute le code Python
                 await pyodideInstance.runPythonAsync(code);
             } catch (err) {
-                // S'il y a une erreur dans le code Python (ex: SyntaxError), on l'affiche en rouge
+                // En cas d'erreur de syntaxe Python, on l'affiche en rouge
                 outputDiv.style.color = "red";
                 outputDiv.innerText = err.message;
             }
