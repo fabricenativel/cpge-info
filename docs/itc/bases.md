@@ -29,7 +29,7 @@ De nombreux environnement intégré de développement (*IDE* pour *I*ntegratred 
 
 Le mini IDE déjà rencontré au chapitre précédent ne nécessite aucune installation et sera toujours disponible ci-dessous :
 
-{{IDE(MIN_SIZE=7)}}
+{{ide()}}
 
 ## Premiers pas dans la console
 
@@ -238,7 +238,7 @@ print("Après, ",annee," années, le capital aura doublé")
 
 {{ exo("Quelques boucles à écrire",[])}}
 
-{{IDE()}}
+{{ide()}}
 
 1. Ecrire un programme utilisant une boucle et affichant :
 ```title=""
@@ -294,7 +294,7 @@ Par exemple, si on souhaite simplement afficher le nombre de degrés Fahrenheit 
 
 {{ exo("Quelques fonctions élémentaires",[])}}
 
-{{IDE()}}
+{{ide()}}
 
 1. Ecrire une fonction qui prend en argument une valeur numérique `x` et renvoie son carré.
 2. Ecrire une fonction qui prend trois arguments `a,b` et `c` et calcule $b^2 - 4ac$.

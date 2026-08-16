@@ -533,3 +533,25 @@ def define_env(env):
                     res += "\n"
         return res
 
+    @env.macro
+    def ide():
+        res = '''<iframe 
+            src="https://fabricenativel.github.io/cpge-info/itc/mini_ide.html" 
+            width="100%" 
+            height="500px" 
+            style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+            title="Mini Ide Python"
+            allow="clipboard-read; clipboard-write">
+        </iframe>'''
+        return res
+
+    def terminal():
+        res = '''<iframe 
+                    src="https://fabricenativel.github.io/cpge-info/itc/mini_terminal.html" 
+                    width="100%" 
+                    height="500px" 
+                    style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+                    title="Mini Ide Python"
+                    allow="clipboard-read; clipboard-write">
+                </iframe>'''
+        return res

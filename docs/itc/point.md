@@ -16,7 +16,7 @@ Vous pouvez vérifier votre réponse en la tapant dans le formulaire associé à
 
 {{ exo("",[],0) }}
 Quel est le reste dans la division euclidienne de $2024^{42}$ par $1815$ ?
-{{IDE(MIN_SIZE=7)}}
+{{ide()}}
 
 
 ??? aide "Indice"
@@ -39,7 +39,7 @@ On note $a = 10001$, $b = 7777$ et $c = 145$, on calcule ensuite :
 * $f = e + d$ si $e$ et $d$ ont le même signe sinon $f = ed$
 
 Quelle est la valeur de $f$ ?
-{{IDE(MIN_SIZE=7)}}
+{{ide()}}
 
 ??? aide "Indice"
     En Python, la structure suivante :
@@ -63,7 +63,7 @@ Vérifier votre réponse : {{check_reponse("115722051")}}
 
 {{ exo("",[]) }}
 On considère la suite $(u_n)_{n \in \mathbb{N}}$ définie par $u_0 = 0.7$ et $u_{n+1} = 3.5 u_n(1-u_n)$. Calculer $u_{2024}$ (on donnera la valeur arrondie au centième).
-{{ IDE(MIN_SIZE=7) }}
+{{ ide() }}
 
 ??? aide "Indice"
     En Python, une boucle `for` permet (notamment) de répéter le bloc d'instruction indenté qui suit. La syntaxe est : `#!python for variable in range(nombre_de_répétions):`
@@ -78,7 +78,7 @@ En informatique, chaque caractère est associé à un entier : son code *unicode
     * En tapant `#!python3 ord("A")` dans le terminal ci-dessous vous pouvez vérifier qu'on obtient bien 65.
     * L'unicode étend le code {{sc("ascii")}} qui est parfois plus connu. En effet, lorsque le code {{sc("ascii")}} d'un caractère existe, il correspond à son code unicode. Ainsi le code {{sc("ascii")}} de `A` existe (et vaut donc aussi 65), mais `ù` n'est pas un caractère {{sc("ascii")}} et n'a donc pas de code {{sc("ascii")}} mais a bien un code unicode : 249.
 
-{{ IDE(MIN_SIZE=7) }}
+{{ ide() }}
 ??? aide "Indice"
     En Python, une boucle `for` permet (aussi) de *parcourir* un *itérable* (comme par exemple une chaine de caractère). La syntaxe est : `#!python for variable in iterable:` et permet de faire prendre à la variable chaque valeur présente dans l'*itérable*.
 
@@ -86,14 +86,14 @@ Vérifier votre réponse : {{ check_reponse("4491")}}
 
 {{ exo("",[]) }}
 Combien il y a-t-il de chiffres dans le nombre $42^{2024}$ ?
-{{ IDE(MIN_SIZE=7) }}
+{{ ide() }}
 
 
 Vérifier votre réponse : {{check_reponse("3286")}}
 
 {{ exo("",[]) }}
 On rappelle que la factorielle d'un entier naturelle $n$, notée $n!$, est le produit des entiers *strictement* positifs inférieurs ou égaux à $n$. Par exemple $5! = 5 \times 4 \times 3 \times 2 \times 1 = 120$. Quel est le nombre de 2 dans l'écriture décimale de $100!$ ?
-{{ IDE(MIN_SIZE=7) }}
+{{ ide() }}
 
 Vérifier votre réponse : {{check_reponse("19")}}
 
@@ -116,7 +116,7 @@ Par exemple dans le cas $k=5$ : les étapes successives d'évolution sont :
 
 Dans le cas $k=256$, et à l'étape 1000, combien de `#` contient la chaine ?
 
-{{ IDE(MIN_SIZE=7) }}
+{{ ide() }}
 
 Vérifier votre réponse : {{check_reponse("263")}}
 
@@ -136,7 +136,7 @@ Quel est le dénivelé cumulé positif total de la liste des altitudes donnée d
 
 {{ check_reponse("1792") }}
 
-{{IDE("scripts/denivele.py",MIN_SIZE=7)}}
+
 
 ??? aide "Indice"
     * Pour obtenir la valeur d'un élément dans une liste de Python, on peut utiliser la syntaxe `liste[indice]`. Par exemple si `noel = [25,12,2024]` alors `noel[1] = 12` (l'indice du premier élément est 0).
@@ -161,7 +161,7 @@ Quel est l'élément restant dans le cas $k=100$ ?
 
 {{ check_reponse("18910")}}
 
-{{IDE(MIN_SIZE=7)}}
+{{ide()}}
 
 ??? aide "Indice"
     En python `append` et `pop` permettent d'effectuer les opérations suivantes sur une liste:
@@ -174,6 +174,6 @@ Quel est l'élément restant dans le cas $k=100$ ?
 {{ exo("",[])}}
 Dans votre IDE ci-dessous, est déjà définie une liste de points du plan, chaque point est représenté par un *tuple* de python à deux éléments : son abscisse et son ordonnée. Par exemple `points = [ (2,-1), (3,5)]` contient les points de coordonnées $(2,-1)$ et $(3,5)$. Quelle est la plus courte distance entre deux points de la liste de points définie dans l'éditeur ci-dessous (valeur arrondie au centième) ?
 
-{{IDE("scripts/points.py",MIN_SIZE=7)}}
+
 
 Véfifier votre réponse : {{check_reponse("1.41")}}

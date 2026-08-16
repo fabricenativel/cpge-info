@@ -23,7 +23,7 @@ def triangle(n):
     for i in range(1,n+1):
         print("*"*i)
 ```
-{{IDE()}}
+{{ide()}}
 
 En observant la représentation ci-dessous, on constate aussi qu'il est possible de définir un triangle de `5` lignes par rappport à un triangle de `4` lignes, et plus généralement un triangle de `n` lignes par rapport à un triangle de `n-1` lignes : 
 
