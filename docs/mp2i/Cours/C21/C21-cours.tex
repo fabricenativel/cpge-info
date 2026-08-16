@@ -249,7 +249,7 @@
 					}
 				}
 				\\
-				\leavevmode\onslide<3->{\textcolor{OliveGreen}{\small \ding{182} \faCheck \quad \ding{183} \faCheck  \quad \ding{184} \faCheck}} & \leavevmode\onslide<4->{\textcolor{OliveGreen}{\small \ding{182} \faCheck \quad  \ding{183}} \textcolor{BrickRed}{\small \faTimesCircle} \textcolor{OliveGreen}{\small \quad \ding{184} \faCheck}} & \leavevmode\onslide<5->{\textcolor{OliveGreen}{\small \ding{182}}  \textcolor{BrickRed}{\small \faTimesCircle} \textcolor{OliveGreen}{\small \quad\ding{183} \faTimesCircle \quad \ding{184} \faCheck}} \\
+				\leavevmode\onslide<3->{\textcolor{OliveGreen}{\small \ding{182} \faCheck \quad \ding{183} \faCheck  \quad \ding{184} \faCheck}} & \leavevmode\onslide<4->{\textcolor{OliveGreen}{\small \ding{182} \faCheck \quad  \ding{183}} \textcolor{BrickRed}{\small \faTimesCircle} \textcolor{OliveGreen}{\small \quad \ding{184} \faCheck}} & \leavevmode\onslide<5->{\textcolor{OliveGreen}{\small \ding{182}}  \textcolor{BrickRed}{\small \faTimesCircle} \textcolor{OliveGreen}{\small \quad\ding{183} \faCheck \quad \ding{184} \faCheck}} \\
 			\end{tabularx}
 
 		\end{exampleblock}
@@ -263,7 +263,8 @@
 			\item<2-> $h(t) \leqslant 2b(t)$
 			\item<3-> $2^{b(t)} \leqslant n(t) +1$
 		\end{itemize}
-		\onslide<4->{Conséquence : les arbres rouge-noir forment un ensemble d'arbres équilibrés.}
+		\onslide<4->{\textcolor{gray}{Pour démontrer ces inégalités, on procède par induction structurelle sur un arbre bicolore $t$ en effectuant une disjonction de cas sur la couleur de la racine.\\}}
+		\onslide<4->{\textcolor{blue}{Conséquence : les arbres rouge-noir forment un ensemble d'arbres équilibrés.}}
 	\end{block}
 	\onslide<5->{\begin{block}{Implémentation}
 			Une implémentation en OCaml sera vue en TP, les opérations d'insertion et de suppression sont difficiles et reposent sur les rotations droite et gauche des {\sc abr}.
@@ -669,7 +670,7 @@
 			\item<2-> \textcolor{blue}{en largeur} : on visite les noeuds par niveau.
 		\end{itemize}	
 	\end{block}
-	\begin{exampleblock}{Exemples}
+	\onslide<3>{\begin{exampleblock}{Exemples}
 	Donner les parcours prefixe, suffixe et en largeur de l'arbre généralisé 
 		\begin{center}
 			\begin{pspicture}(-5,2.8)(5,6.2)
@@ -696,7 +697,7 @@
 			\ncline{->}{F}{K}
 			\end{pspicture}
 		\end{center}
-	\end{exampleblock}
+	\end{exampleblock}}
 \end{frame}
 
 \makess{Point de vue des graphes}
@@ -707,9 +708,9 @@
 		\item<2-> $S$ est l'ensemble des noeuds de l'arbre,
 		\item<3-> $A$ est l'ensemble des arêtes de l'arbre, chaque arête est de la forme $(x,y)$ où $x$ est le père de $y$.
 		\item<4-> \textcolor{blue}{Connexité} : il existe un chemin entre deux noeuds quelconques de l'arbre., $\forall (x,y) \in S^2, x \neq y$, il existe $x_1, \dots x_n$ tels que $\{x,x_1\}, \{x_1,x_2\}, \dots, \{x_{n-1},y\} \in A$.
-		\item \textcolor{blue}{Acyclique}: il n'existe pas de cycle dans l'arbre, c'est à dire qu'il n'existe pas de suite de noeuds $x_1, \dots, x_n$ tels que $\{x_1,x_2\}, \{x_2,x_3\}, \dots, \{x_{n-1},x_n\}, \{x_n,x_1\} \in A$.
+		\item<5-> \textcolor{blue}{Acyclique}: il n'existe pas de cycle dans l'arbre, c'est à dire qu'il n'existe pas de suite de noeuds $x_1, \dots, x_n$ tels que $\{x_1,x_2\}, \{x_2,x_3\}, \dots, \{x_{n-1},x_n\}, \{x_n,x_1\} \in A$.
 	\end{itemize}
-	\textcolor{BrickRed}{\small \danger \;} On peut choisir n'importe quel noeud comme racine.
+	\onslide<6->{\textcolor{BrickRed}{\small \danger \;} On peut choisir n'importe quel noeud comme racine.}
 	\end{block}
 \end{frame}
 

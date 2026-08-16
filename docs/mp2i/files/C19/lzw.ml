@@ -82,6 +82,7 @@ let () =  let ascii = cree_code_ascii() in
           let tti = (String.length texte)*8 in
           Printf.printf "Taille initiale du texte : %d \n" tti;
           let tc, nmax = compresse texte ascii nbchar in
+          List.iter (fun n -> Printf.printf "%d; " n) tc;
           let ttc = (List.length tc)*maxbits in
           Printf.printf "Taille du texte compressé : %d \n" ttc;
           Printf.printf "Nombre de codes générés : %d \n" nmax;

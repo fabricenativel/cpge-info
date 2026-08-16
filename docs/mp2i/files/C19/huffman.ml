@@ -150,6 +150,7 @@ let taux  txt code =
   let original = l*8 in
   let compresse = ref 0 in
   for i=0 to l-1 do 
+    if int_of_char txt.[i]>31 then
     compresse := !compresse + String.length code.(int_of_char txt.[i]);
   done;
   float_of_int !compresse /. float_of_int original;;
