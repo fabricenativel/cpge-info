@@ -1,0 +1,397 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeConcours
+\DS{MP2I}{4}{Février 2026}
+
+\setboolean{corrige}{true}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C12}
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$e_0$}} \\
+		\hline
+	\end{tabular}
+}
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] Les programmes demandés doivent être écrits en C ou en OCaml. Dans le cas du C, on suppose que les librairies standards usuelles ({\tt <stdio.h>}, {\tt <stdlib.h>}, {\tt <stdbool.h>}, {\tt <stdassert.h>}, \dots) sont déjà importées.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+\psset{arrows=->,treesep=0.8cm,levelsep=0.8cm, radius=0.3cm}
+\begin{Exercise}[title={Questions de cours}]
+	\Question{Donner la définition d'un arbre binaire.}
+	\tcor{Un arbre binaire est une structure de données hiérarchique composée de noeuds définie récursivement, en effet un arbre binaire est :
+		\begin{itemize}
+			\item soit vide, on le note alors $\varnothing$
+			\item soit un noeud c'est à dire un triplet $(g, v, d)$ où $g$ et $d$ sont deux arbres binaires et $v$ l'étiquette.
+		\end{itemize}
+	}
+	\Question{Donner les définitions de la hauteur et de la taille d'un arbre binaire.}
+	\tcor{
+		\begin{itemize}
+			\item[\textbullet] Le nombre de noeuds d'un arbre binaire $A$, noté $n(A)$, se définit récursivement par :\\
+				$ \left\{
+					\begin{array}{llll}
+						n(A) & = & 0               & \text{si $A$ est vide}  \\
+						n(A) & = & 1 + n(g) + n(d) & \text{si $A = (g,a,d)$} \\
+					\end{array}
+					\right.
+				$
+			\item[\textbullet] La hauteur d'un arbre binaire $A$, noté $h(A)$, se définit récursivement par : \\
+				$\left\{
+					\begin{array}{llll}
+						h(A) & = & -1                  & \text{si $A$ est vide}  \\
+						h(A) & = & 1 + \max(h(g),h(d)) & \text{si $A = (g,a,d)$} \\
+					\end{array}
+					\right.
+				$
+		\end{itemize}}
+	\Question{Donner la définition d'un arbre binaire de recherche.}
+	\tcor{Un arbre binaire de recherche (noté {\sc abr}), est un arbre binaire tel que :
+	\begin{itemize}
+		\item Les étiquettes des noeuds, appelées clés sont toutes comparables entre elles.
+		\item Pour tous les noeuds $(g,v,d)$ l'ensemble des clés présentes dans le sous arbre gauche $g$ (resp. droit $d$) sont strictement inférieures (resp. supérieures) à $v$.
+		\item Les clés sont uniques.
+	\end{itemize}}
+	\Question{Prouver le parcours infixe d'un arbre binaire de recherche fournit les clés dans l'ordre croissant. \\
+	{\small \aide \;} Indication : on pourra raisonner par récurrence sur la taille de l'arbre.}
+	\tcor{
+		Pour tout $n \in \N$, on note $\mathcal{P}(n)$ la propriété : \og{} le parcours infixe d'un {\sc abr} de taille $n$ fournit les clés dans l'ordre croissant \fg.\\
+		\textbullet Initialisation : $\mathcal{P}(0)$ est vraie puisque le parcours infixe d'un arbre vide est vide et donc rangé dans l'ordre croissant.\\
+		\textbullet Hérédité : soit $n \in \N$, tel que pour tout $k \leqslant n$, $\mathcal{P}(k)$ est vrai, montrons alors que $\mathcal{P}(n+1)$ est vraie. Soit un arbre binaire de taille $n+1$, alors cet arbre n'est pas vide et donc c'est un triplet $(g, e, d)$ où $g$ et $d$ sont des arbres binaires de taille inférieure ou égale à $n$. En notant $p(a)$ le parcours prefixe d'un arbre $a$, on a par définition du parcours infixe :
+		$p((g,e,d)) = (p(g), e, p(d))$, on considère maintenant $x,y$ deux éléments apparaissant \textit{dans cet ordre} dans $(p(g), e, p(d))$ et on raisonne par disjonction de cas :
+		\begin{itemize}
+		\item $x \in p(g)$ et $y \in p(g)$, par hypothèse de récurrence le parcours infixe de $g$ est rangé dans l'ordre croissant et donc $x < y$.
+		\item $x \in p(g)$ et $y = e$, par la propriété des {\sc abr} les clés du sous arbres gauche sont strictement inférieur à la racine donc $x < y$.
+		\item $x \in p(g)$ et $y \in p(d)$, par la propriété des {\sc abr}, $x < e$ et $e <y$, donc $x < y$.
+		\item $x = e$ et $y \in p(d)$, par la propriété des {\sc abr}, $y > e$  donc $x < y$.
+		\item $x \in p(d)$ et $y \in p(d)$, par hypothèse de récurrence le parcours infixe de $d$ est rangé dans l'ordre croissant et donc $x < y$.
+		\end{itemize}
+		Donc $P(n+1)$ est vraie.
+		}
+	\Question{Donner l'ordre des noeuds lors des parcours prefixe, infixe et suffixe de l'arbre suivant :
+		\begin{center}
+			\pstree{\TCircle{42}}
+			{\pstree{\TCircle{28}}
+				{\pstree{\TCircle{10}}
+					{ \Tn{}
+						\TCircle{17}
+					}\TCircle{31}
+				}\pstree{\TCircle{31}}
+				{ \Tn{}
+					\pstree{\TCircle{24}}
+					{
+						\TCircle{27}
+						\Tn{}
+					}
+					\Tn{} \Tn{} }}
+		\end{center}}
+	\tcor{
+		Voici l'ordre des noeuds dans chacun des parcours :
+		\begin{itemize}
+		\item Prefixe : $42, 28, 10, 17, 31, 31, 24, 27$
+		\item Infixe : $10, 17, 28, 31, 42, 27, 24, 31$ 
+		\item Suffixe : $17, 10, 31, 28, 27, 24, 31, 42$ 
+		\end{itemize}
+	}
+	\Question{On considère l'arbre binaire suivant :
+		\begin{center}
+			\pstree{\TCircle{26}}
+			{\pstree{\TCircle{16}}
+				{\pstree{\TCircle{12}}
+					{ \Tn{}
+						\TCircle{15}
+					}\pstree{\TCircle{21}}
+					{\TCircle{$x$}
+						\TCircle{24}
+					}}{\pstree{\TCircle{30}}{\Tn{} \TCircle{32}}}
+			}
+		\end{center}
+		Donner les valeurs de l'étiquette $x$ pour lesquelles cet arbre est un arbre binaire de recherche.
+	}
+	\tcor{On peut écrire le parcours infixe de cet arbre : $12, 15, 16, x, 21, 24, 26, 30, 32$ et donc les valeurs de $x$ pour lesquelles cet arbre est un {\sc abr} sont celles de l'intervalle $]16,21[$ en supposant $x$ entier, les valeurs possibles de $x$ sont donc $17, 18, 29$ et $20$.
+	}
+	\Question{On implémente les arbres binaires de recherche en OCaml à l'aide du type suivant :
+	\inputpartOCaml{abr.ml}{}{}{1}{3}
+	Ecrire une fonction {\tt insere : int -> abr -> abr} qui prend en argument un entier $x$ et un arbre binaire de recherche $a$ et renvoie un arbre binaire de recherche contenant $x$ et tous les éléments de $a$.}
+	\ifcorrige
+	\corOCaml{\SPATH/insereml.ml}{}{}
+	\fi
+\end{Exercise}
+
+\begin{Exercise}[title = {Valeur plus petite la plus proche}]\\
+On considère un tableau d'entiers \textit{positifs} et on s'intéresse au problème de la recherche pour chacun de ces entiers de la valeur plus petite la plus proche  située à gauche dans le tableau. Dans le cas où aucune valeur située à gauche dans le tableau n'est plus petite que la valeur considérée alors on  renverra $-1$.\\
+Par exemple dans le tableau $\{2, 1, 7, 9, 8, 3\}$ :
+\begin{itemize}
+	\item Il n'y a aucune valeur à gauche de 2, donc la valeur plus petite la plus proche est $-1$,
+	\item Pour 1, aucune valeur située à gauche n'est plus petite, donc on renvoie aussi $-1$,
+	\item Pour 7, la valeur plus petite la plus proche est 1.
+	\item Pour 9, c'est 7.
+	\item Pour 8 c'est 7.
+	\item Pour 3, c'est 1.
+\end{itemize}
+Et donc le tableau des valeurs plus petites les plus proches dans cet exemple est $\{-1, -1, 1, 7, 7, 1\}$
+\Question{Donner le tableau des valeurs plus petites les plus proches pour le tableau $\{5, 7, 11, 6, 9, 2 \}$}
+\tcor{On obtient : $\{-1, 5, 7, 5, 6, -1\}$}
+\Question{On propose l'algorithme suivant pour résoudre ce problème : pour chaque élément {\tt tab[i]} du tableau on parcourt  les valeurs {\tt tab[i-1], \dots, tab[0]} \textit{dans cet ordre}, si on trouve un élément strictement inférieur à {\tt tab[i]} alors c'est la valeur plus petite la plus proche, sinon la valeur plus petite la plus proche est $-1$. Ecrire une implémentation de cet algorithme en C sous la forme d'une fonction de signature \mintinline{c}{int *vpp_naif(int tab[], int size)} qui prend en argument un tableau d'entiers {\tt tab} ainsi que sa taille {\tt size} et un renvoie un tableau de taille {\tt size} contenant à l'indice {\tt i} la valeur strictement inférieure la plus proche de {\tt tab[i]}.}
+\ifcorrige
+\corpartC{nsv.c}{}{}{59}{82}
+\fi
+\Question{Justifier rapidement que l'algorithme précédent a une complexité quadratique}  
+\tcor{Pour chaque indice {\tt i} du tableau, on parcourt dans le pire cas, le sous tableau {\tt i-1, \dots, 0} en effectuant des opérations élémentaires. On effectue donc au plus $1 + 2 + \dots (n-1)$ opérations élémentaires. Et donc la complexité est quadratique.} 
+
+
+ \smallskip
+On considère maintenant l'algorithme suivant qui utilise une pile dotée de son interface usuelle ({\tt est\_vide, empiler, depiler}) et de la fonction {\tt sommet} qui renvoie la valeur située au sommet de la pile sans la dépiler. \\
+\SetAlFnt{\small}
+\setlength{\algomargin}{8pt}
+\begin{algorithm}[H]
+	\DontPrintSemicolon
+	\caption{Valeurs plus petites les plus proches}
+	\Entree{Un tableau $t$ d'entiers positifs de taille $n$}
+	\Sortie{Un tableau $s$ d'entiers positifs de taille $n$ tel que $s[i]$ soit la valeur plus petite la plus proche de $t[i]$}
+	\everypar={\footnotesize \textcolor{gray}{\nl}}
+	$s \leftarrow$ tableau de taille n\\
+	$p \leftarrow$ pile de taille maximale n\\
+	\Pour{$i \leftarrow 0$ à $p-1$ }{
+		\Tq{$p$ n'est pas vide et sommet($p) \geqslant t[i]$}{
+			depiler($p$);
+		}
+		\Si{$p$ est vide}{
+			$s[i] \leftarrow -1$
+		}
+		\Sinon
+		{
+			$s[i] \leftarrow sommet(p)$
+		}
+		empiler $t[i]$ dans $p$
+	}
+	\Return $s$
+\end{algorithm}
+ \smallskip
+
+\Question{On fait fonctionncer cet algorithme sur le tableau $\{2, 7, 5, 8, 6, 3\}$. Recopier et compléter le tableau suivant qui indique pour chaque valeur de l'indice {\tt i} de la boucle {\tt for} l'état de la pile et du tableau $s$ après l'exécution de la boucle pour les valeurs de {\tt i} de 0 à 5 (on note une pile avec les extrémités {\tt |} et {\tt >} pour indiquer le sommet de la pile)
+\begin{center}
+	\begin{tabular}{|c|l|c|}
+		\hline
+		$i$          & État de la pile & État du tableau $s$      \\
+		\hline
+		Initialement & {\tt |>}              & $\{-1, -1, -1, -1, -1, -1\}$ \\
+		\hline
+		0            & {\tt |2>}             & $\{-1, -1, -1, -1, -1, -1\}$ \\
+		\hline
+		1            & {\tt |2, 7>}          & $\{-1, 2, -1, -1, -1, -1\}$  \\
+		\hline
+		2            & \comp{\tt |2, 5>}          & \comp{[-1, 2, 2, -1, -1, -1]}   \\
+		\hline
+		3            & \comp{\tt |2, 5, 8>}       & \comp{[-1, 2, 2, 5, -1, -1]}    \\
+		\hline
+		4            & \comp{|2, 5, 6>}       & \comp{[-1, 2, 2, 5, 5, -1]}     \\
+		\hline
+		5            & \comp{|2, 3>}          & \comp{[-1, 2, 2, 5, 5, 2]}      \\
+		\hline
+	\end{tabular}
+\end{center}}
+
+\Question{On suppose qu'on a \textit{déjà implémentée} en C une structure de donnée de pile qu'on manipule à l'aide des fonctions suivantes :
+	\begin{itemize}
+		\item {\tt est\_vide} de signature \mintinline{c}{bool est_vide(pile p)},
+		\item {\tt empiler} de signature \mintinline{c}{void empiler(pile *p, int v)},
+		\item {\tt depiler} de signature \mintinline{c}{int depiler(pile *p)}.
+	\end{itemize}
+	Ecrire en utilisant ces fonctions une fonction {\tt sommet} de signature \mintinline{c}{int sommet(pile *p)} qui renvoie le sommet de la pile sans le depiler si la pile n'est pas vide et $-1$ sinon.
+}
+\ifcorrige
+\corpartC{nsv.c}{}{}{43}{52}
+\fi
+\Question{Ecrire une implémentation en C de l'algorithme des valeurs plus petites les plus proches donné ci-dessus et utilisant une pile sous la forme d'une fonction de signature \mintinline{c}{int *vpp_pile(int tab[], int size)} qui renvoie le tableau des valeurs plus petites les plus proches.} 
+\ifcorrige
+\corpartC{nsv.c}{}{}{84}{98}
+\fi
+\Question{Prouver que cet algorithme est de complexité linéaire, on pourra vérifier que chaque élément du tableau $t$ est empilé une fois et dépilé au plus une fois.}
+\tcor{
+	La boucle {\tt for} ne contient que des instructions depiler, empiler et d'affectation dans le tableau {\tt nsv}, chaque élément n'est empilé qu'une seule fois il y en donc {\tt n} opérations {\tt empiler} en tout, on ne peut donc pas dépiler plus de {\tt n} fois et donc l'algorithme est de complexité linéaire. 
+}
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Base de données de publications scientifiques}] \\
+	On utilise le schéma relationnel suivant afin de modéliser une base de données de publications scientifiques. Chaque article publié ayant un ou plusieurs auteurs.
+	\begin{itemize}
+		\item[\textbullet] \textbf{Article} (\underline{IdArticle}, titre, revue, volume, annee)
+		\item[\textbullet] \textbf{Auteur} (\underline{IdAuteur}, nom, prenom)
+		\item[\textbullet] \textbf{Publie} (\underline{\#Article,\#Auteur})
+	\end{itemize}
+	La clé étrangère \#Article de la table \textbf{Publie} fait référence à la clé primaire de la table \textbf{Article} et la clé étrangère \#Auteur de la table \textbf{Publie} fait référence à la clé primaire de la table \textbf{Auteur}. Les attributs titre, revue, nom et prenom sont des chaines de caractères, les autres sont des entiers.
+	\Question{Justifier que l'attribut \#Article de la table \textbf{Publie} seul, ne peut pas servir de clé primaire pour cette table.}
+    \tcor{L'énonce indique qu'un article peut avoir plusieurs auteurs, par conséquent dans la table publie, plusieurs enregistrements peuvent avoir la même valeur pour le champ Article. Donc cette valeur n'est pas unique pour chaque enregistrement et donc ne peut pas servir de clé primaire.}
+	\Question{Expliquer ce qu'affiche la requête suivante :
+		\begin{minted}{sql}
+SELECT nom, prenom
+FROM Auteur
+JOIN Publie ON Auteur.IdAuteur = Publie.Auteur
+WHERE Publie.Article = 42
+\end{minted}
+	}
+    \tcor{Cet requête affiche les noms et prénoms des auteurs de l'article ayant l'IdArticle 42.}
+	\Question{Ecrire une requête permettant d'obtenir la liste des titres des articles parus en 2022 listé par ordre alphabétique.}
+	\ifcorrige
+    \begin{minted}{sql}
+SELECT titre
+FROM Article
+WHERE annee = 2022
+ORDER BY titre ASC ;
+        \end{minted}
+	\fi
+	\Question{Ecrire une requête permettant d'obtenir les noms des revues listé par ordre alphabétique. On souhaite obtenir cette liste \textit{sans répétition} des noms de revues.}
+	\ifcorrige
+    \begin{minted}{sql}
+SELECT DISTINCT revue 
+FROM Article
+ORDER BY titre ASC ;
+    \end{minted}
+	\fi
+	\Question{Ecrire une requête permettant d'obtenir les noms et prénoms des auteurs qui ont publié dans la revue "Nature" en 2000.}
+	\ifcorrige
+    \begin{minted}{sql}
+SELECT nom, prenom FROM Auteur 
+JOIN Publie ON Publie.Article = Auteur.IdAuteur
+JOIN Article ON Article.IdArticle = Publie.Article
+WHERE Article.revue = "Nature" AND Article.annee = 2000
+    \end{minted}
+	\fi
+	\Question{Ecrire une requête permettant d'obtenir les titres et revues des articles écrits (ou co-écrit) par Donald {\sc Knuth} en 2010.}
+	\ifcorrige
+    \begin{minted}{sql}
+SELECT titre, revues FROM Article 
+JOIN Publie ON Publie.Article = Auteur.IdAuteur
+JOIN Article ON Article.IdArticle = Publie.Article
+WHERE Auteur.prenom = "Donald" AND Auteur.nom= "Knuth" AND Article.annee = 2010
+    \end{minted}
+	\fi
+	\Question{Ecrire une requête permettant d'obtenir la liste des volumes de la revue "Nature" en 2020 avec le nombre d'article qu'il contient.}
+	\ifcorrige
+    \begin{minted}{sql}
+SELECT volume, COUNT(*) FROM Article 
+GROUPE BY volume
+WHERE Article.annee = 2020 and Article.revue = "Nature"
+    \end{minted}
+	\fi
+	\Question{Ecrire une requête permettant d'obtenir pour chaque revue, son nom et l'année de publication de son article le plus ancien.}
+	\ifcorrige
+    \begin{minted}{sql}
+SELECT revue, MIN(annee) FROM Article 
+GROUPE BY revue
+    \end{minted}
+	\fi
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Hachage de chaine de caractères}]
+
+	Le langage d'implémentation dans cet exercice est le langage C, on suppose déjà importées les librairies {\tt <stdint.h>} et {\tt <string.h>} et  on s'intéresse aux fonction de hachages sur des chaines de caractères constituées uniquement des lettres de l'alphabet (minuscules ou majuscules), des chiffres de 0 à 9 et des caractères spéciaux {\tt \_} et {\tt *}. On remarquera que cela fait un total de \textbf{64} caractères possibles. 
+
+	\Question{Justifier rapidement qu'il est préférable d'utiliser un type entier non signé du langage C ({\tt uint8\_t, uint32\_t, uint64\_t}) comme type de retour de la fonction de hachage.}
+	\tcor{La fonction de hachage risque de provoquer un dépassement de capacité, sur un type signé c'est un comportement indéfini en C. Il est donc préférable d'utiliser un type non signé sur lequel les dépassements de capacité sont calculés modulo le plus petit entier non représentable sur le nombre de bits du type. Par exemple sur le type {\tt uint8\_t} c'est modulo 256}
+	\Question{On suppose que les chaines de caractères ont une longueur fixe de huit caractères. Montrer que si la valeur de hachage est stockée sous la forme du type {\tt uint32\_t} du langage C, alors il est certain que deux valeurs distinctes entrent en collision.}
+	\tcor{Le nombre possible de chaines de caractères de longueur 8 avec 64 possibilités pour chaque caractères est $64^8 = 2^{48}$ cela dépasse $2^{32}$, le nombre d'entiers représentable sur un {\tt uint32\_t} donc par le principe des tiroirs il est certains que deux chaines distinctes entrent en collision}
+	\Question{Toujours en supposant des chaines de longueur fixe de huit caractères, montrer que si la valeur de hachage est stockée sous la forme du type {\tt uint64\_t} du langage C, alors on peut trouver une fonction de hachage ne provoquant aucune collision.}
+	\tcor{Comme $2^{64}$ > $2^{48}$, on peut trouver une fonction de hachage donnant une valeur distincte pour chaque chaine, on peut par exemple numéroter dans l'ordre lexicographique les chaines et leur attribuer comme valeur de hachage leur numéro.}
+	 \smallskip
+	Dans la suite de l'exercice, les chaines de caractères à hacher peuvent être de n'importe quelle longueur et on numérote les 64 caractères possibles de la façon suivante :
+	\begin{itemize}
+	 \item les lettres majuscules portent les numéros 1 à 26,
+	 \item les lettres minuscules 27 à 52, 
+	 \item les chiffres portent les numéros 53 à 62 
+	 \item la caractère  {\tt \_} a le numéro 63 et {\tt *} le 64. 
+	\end{itemize}
+	 Et on propose la fonction de hachage suivant pour une chaine $s$ de longueur $n$ constituée des caractères $c_0,\dots,c_{n-1}$ : \\
+	$\displaystyle{h(s) = \sum_{i=0}^{n-1} N(c_i) \times 32^i}$\\
+	où $N(c_i)$ est le numéro du caractère $c_i$.\\
+	On suppose déjà écrite une fonction de signature \mintinline{c}{int num(char c)} qui renvoie le numéro attribué à un des 64 caractères possibles, par exemple {\tt num('A')} renvoie 1, {\tt num('a')} renvoie 27.
+	 \smallskip
+\Question{
+	Expliquer pourquoi l'implémentation suivante de la fonction de hachage est de complexité quadratique en la longueur de la chaine {\tt s} et proposer une correction afin de rendre cette complexité linéaire.
+	\inputpartC{hash.c}{}{}{26}{34}
+}
+\tcor{A la ligne 4, chaque passage dans la boucle fait appel à la fonction {\tt strlen} qui est de complexité linéaire en la longueur de la chaine car elle doit parcourir la chaine afin de déterminer la position du caractère sentinelle {\tt \textbackslash 0}. Ce qui donne une complexité quadratique, pour obtenir une complexité linéaire il suffit de calculer la longueur de la chaine une seule fois avant d'entrer dans la boucle.}
+\Question{Déterminer deux chaines de longueur 2 qui entrent en collision.}
+\tcor{
+	On considère deux chaines composées de deux caractères $s = xy$ et $s'=x'y'$ entrant en collision, alors $x + 32 y = x' + 32 y'$. C'est à dire $x-x' = 32(y'-y)$. C'est à dire que $32 | (x-x')$ . Comme de plus $x \in \intN{1}{64}$ et $x' \in \intN{1}{64}$, cela signifie que $x-x' = 32$ et donc $y' = y + 1$, on peut choisir n'importe quelle valeur respectant ces conditions par exemple : $x = 52$, $x'=20$, $y = 1$ et $y'=2$ c'est à dire les chaines {\tt 'zA'} et {'TB'}
+}
+\Question{Montrer qu'il est possible de construire des chaines de longueurs arbitraires entrant en collision.}
+\tcor{ 
+	Supposons que $s$ et $s'$ entrent en collision ($s \neq s'$) et soient $xy$, $x'y'$ deux chaines de longueurs deux entrant en collision tel que déterminé à la question précédente alors en notant $sxy$ la chaine obtenue en concaténant $s$ et $xy$ : \\
+	$\displaystyle{h(sxy) = \sum_{i=0}^{n-1} N(c_i) \times 32^i}$ \\
+	$\displaystyle{h(sxy) = \sum_{i=0}^{n-3} N(c_i) \times 32^i + 32^{n-2}(x + 32y)}$ \\
+	$\displaystyle{h(sxy) = h(s)+ 32^{n-2}h(xy)}$ \\
+	$\displaystyle{h(sxy) = h(s')+ 32^{n-2}h(x'y')}$ car $s$ et $s'$ sont en collision et $xy$ et $x'y'$ aussi.
+	Donc $h(sxy)=h(s'x'y')$, c'est à dire que si deux chaines sont en collision alors on peut obtenir une nouvelle collision en concaténant à ces chaines deux chaines de longueur deux entrant en collision. 
+}
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Détection de cycle}]\\
+Le langage d'implémentation dans cet exercice est OCaml. \smallskip \\
+Etant donné un entier $N \in \N^*$, on considère la fonction :\\
+$\begin{array}{llll}
+f_N : & \Z^2 & \mapsto & \Z^2 \\
+	& (x, y)& \longrightarrow & ((x + 2y^2) \mod N, (3x^2+y) \mod N) \\
+\end{array}
+$\\
+Pour un couple $(x_0,y_0) \in \Z^2$, on définit la suite $(u_n)_{n \in \N}$ par $u_0 =(x_0,y_0)$ et $u_{n+1} = f_N(u_n)$.
+
+\Question{Vérifier sur l'exemple $N = 10$ et $(x_0, y_0) = (1, 8)$ en calculant manuellement les premiers termes que la suite contient un cycle. Quelle est la longueur de ce cycle ?}
+\tcor{On obtient successivement les couples {\tt (1,8) (9,1) (1,4) (3,7) (1,4)} donc un cycle de longueur 2 {\tt (1,4) (3,7)} après deux itérations}
+\Question{Justifier que pour toute valeur de $N$ fixée et tout couple initial $(x_0, y_0)$, la suite $(u_n)$ contient nécessairement un cycle. On pourra remarquer que l'ensemble des couples possibles est fini.}
+\tcor{L'ensemble $\Z^2 / N\Z^2$ est fini puisqu'il contient exactement $N^2$ éléments. Comme la suite $(u_n)$ reste dans cet ensemble fini et a une infinité de termes, par le principe des tiroirs, au moins deux éléments de la suite doivent être identiques. Par conséquent, la suite est périodique à partir d'un certain rang.}
+\Question{Ecrire la fonction $f_N$ en OCaml avec la signature : \mintinline{ocaml}{f : int -> int -> int-> int * int} en donnant les paramètres dans cet ordre : {\tt x}, {\tt y} et {\tt N}.}
+\ifcorrige
+\corpartOCaml{cycle.ml}{}{}{1}{4}
+\fi
+\Question{Ecrire une fonction \mintinline{ocaml}{appartient : 'a -> 'a list -> bool} qui teste si un élément appartient à une liste. Donner la complexité de cette fonction en fonction de la taille de la liste.}
+\ifcorrige
+\corpartOCaml{cycle.ml}{}{}{14}{17}
+\fi
+\tcor{La complexité est linéaire.}
+\Question{Ecrire une fonction \mintinline{ocaml}{cycle_naif : int -> int -> int -> int * int} qui prend en argument (dans cet ordre) $x_0$, $y_0$ et $N$ et détecte le cycle en maintenant à jour une liste des couples déjà rencontrés, et renvoie le premier couple qui apparaît deux fois.}
+\ifcorrige
+\corpartOCaml{cycle.ml}{}{}{19}{25}
+\fi
+\Question{Quelle est la complexité dans le pire cas de la fonction {\tt cycle\_naif} en fonction du nombre de termes à parcourir avant de trouver le premier couple apparaissant deux fois ?} 
+\tcor{La complexité est quadratique.}
+\smallskip
+On propose maintenant d'utiliser une table de hachage afin de stocker les termes déjà rencontrés, les clés sont les couples rencontrés et la valeur associée est l'indice dans la suite de ce couple. Par exemple si les trois premiers termes de la suite sont $(1,5), (4,3), (7, 7)$ alors la table de hachage doit contenir les clés $(1,5), (4,3)$, et $(7,7)$ associées respectivement aux valeurs $0, 1$ et $2$ (c'est à dire aux indices auxquels sont apparus ces couples).
+On rappelle ci-dessous  les fonctions de manipulation d'une table de hachage en OCaml :
+\begin{itemize}
+\item{\tt Hashtbl.create : int -> ('a,'b) Hashtbl.t} renvoie une table de hachage dont on donne la taille initiale.
+\item{\tt Hashtbl.mem ('a, 'b) Hashtbl.t -> 'a -> bool} renvoie {\tt true} si la clé donnée en argument apparait dans la table de hachage.
+\item{\tt Hashtbl.add ('a, 'b) Hashtbl.t -> 'a -> 'b -> unit} pour ajouter un couple (clé, valeur)  à une table de hachage.
+\item{\tt Hashtbl.find ('a, 'b) Hashtbl.t -> 'a -> 'b} renvoie  la valeur associée à une clé.
+\end{itemize}
+\smallskip
+
+
+\Question{Justifier rapidement que l'utilisation d'une table de hachage pour stocker les couples déjà rencontrés permet d'obtenir une complexité meilleure que celle de la fonction {\tt cycle\_naif}.}
+\tcor{Le test d'appartenance à la table de hachage est en temps constant.}
+\Question{En utilisant une table de hachage de OCaml, écrire une version de la fonction de recherche de cycle. Cette fonction devra renvoyé le premier élément rencontré à deux reprises \textit{ainsi que la longueur du cycle}.}
+\ifcorrige
+\corpartOCaml{cycle.ml}{}{}{27}{35}
+\fi
+
+
+\end{Exercise}
+
+\end{document}

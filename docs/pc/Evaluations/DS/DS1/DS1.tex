@@ -1,0 +1,208 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeConcours
+\setboolean{corrige}{false}
+
+
+\DS{PC}{1}{Décembre 2025}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/pc/Evaluations/DS/DS2}
+
+\alertbox{\danger}{Remarques et consignes importantes}{
+	\begin{itemize}
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+\begin{Exercise}[title={Programmes divers et saut de taille maximale},origin={\bac \; d'après {\sc CAPES 2023} (Partie 1)}]
+
+\medskip
+\textbf{Notes de programmation }: Vous disposez pour répondre aux questions de cet exercice des fonctions Python de manipulation de listes  suivantes :
+\begin{itemize}
+	\item[\textbullet] On peut créer une liste de taille $n$ remplie avec la valeur $x$ avec {\tt li = [x] * n}
+	\item[\textbullet] On peut obtenir la taille d'une liste {\tt li} avec {\tt len(li)}.
+	\item[\textbullet] Si {\tt li} est une liste de $n$ éléments, on peut accéder au k-ème élément (pour $0 \leq k <$ {\tt len(li)}) avec { li[k]}. On peut définir sa valeur avec {li[k] = x}.
+	\item[\textbullet] On peut concaténer deux listes {\tt li1} et {\tt li2} en utilisant l'opération {\tt li1 + li2}. On utilisera aussi cette opération dans des expressions mathématiques.
+	\item[\textbullet] {\tt li[a:b]} désigne la liste des éléments d'indice compris entre $a$ et $b-1$ dans {\tt li}. On utilisera aussi cette opération dans des expressions mathématiques.
+\end{itemize}
+
+Les autres fonctions sur les listes ({\tt sort}, {\tt index}, {\tt max}, etc.) sont interdites à moins de les réécrire explicitement. L'opérateur {\tt in} d'appartenance à une liste est interdit, mais on peut utiliser ce mot-clé dans les autres contextes (par exemple dans une boucle {\tt for}).
+
+\medskip
+\textbf{Complexité} : Par \textit{complexité} d'un algorithme, on entend le nombre d'opérations élémentaires nécessaires à l'exécution de cet algorithme dans le pire cas. Lorsque cette complexité dépend d'un ou plusieurs paramètres $k_0, \dots, k_{r-1}$, on dit que la complexité est $\mathcal{O}\left( f(k_0,\dots,k_{r-1}) \right)$ s'il existe une constante $C>0$ telle que, pour toutes les valeurs $k_0, \dots, k_{r-1}$ suffisamment grandes, ce nombre d'opérations élémentaires est majoré par $C \times f(k_0, \dots, k_{r-1})$.
+
+\medskip
+\ExePart[name = Programmes divers]
+
+\Question{Ecrire une fonction {\tt fibonacci}} qui prend en argument un entier {\tt n} supérieur ou égal à 2 et renvoie la liste des {\tt n} premiers termes de la suite de Fibonacci $(F_n)_{n \in \N}$ définie par $F_0=0$, $F_1 = 1$ et $\forall n\geq 2, F_n = F_{n-1} + F_{n-2}$ (chaque terme est la somme des deux précédents).
+\ifcorrige
+\corpartPython{capes.py}{}{}{1}{5}
+\fi
+
+\Question{Ecrire une fonction {\tt indice\_min} qui prend en argument une liste d'entiers {\tt li} et renvoie l'indice d'un de ses minimums.}
+\ifcorrige
+\corpartPython{capes.py}{}{}{8}{13}
+\fi
+
+\Question{Que renverra {\tt indice\_min([1, 0, 2, 0])} avec votre programme ?}
+\tcor{Dans la fonction précédente le minimum (et son indice) ne sont mis à jour qu'en cas d'infériorité strict, donc la fonction affichera l'indice du premier minimum c'est-à-dire 1.}
+
+
+\Question{Ecrire une fonction {\tt lettre\_majoritaire} qui prend en argument une chaîne de caractères non vide et renvoie le caractère qui apparait le plus fréquemment. Ainsi, {\tt lettre\_majoritaire('abcdedde')} devrait renvoyer {\tt 'd'}}.\\
+\textit{Note : l'utilisation efficace d'un dictionnaire sera valorisée. On pourra alors utiliser l'opérateur {\tt in}}
+\ifcorrige
+\corpartPython{capes.py}{}{}{15}{26}
+\fi
+
+\medskip
+\ExePart[name = Saut de valeur maximale]
+Dans une liste de flottants {\tt li}, on appelle \textit{saut} un couple $(i,j)$ avec $0 \leq i \leq j <$ {\tt len(li)  } et la \textit{valeur} d'un saut est la valeur {\tt li[j]-li[i]}. On va ici programmer plusieurs manières de trouver un saut de valeur maximale dans une liste. Par exemple, dans la liste {\tt [2.0, 0.2, 3.0, 5.3, 2.0]}, un tel saut est {\tt (1, 3)} (car {\tt 0.2} et {\tt 5.3} sont aux indices 1 et 3 respectivement).
+
+\Question{Ecrire une fonction {\tt valeur} qui prend en argument une liste et un saut et renvoie la valeur de ce saut. Par exemple  {\tt valeur([2.0, 0.2, 3.0, 5.3, 2.0],(0,2))} renvoie {\tt 1.0} (car {\tt li[2]-li[0] = 1.0}).} 
+\ifcorrige
+\corpartPython{saut_max.py}{}{}{1}{3}
+\fi
+\Question{Donner un exemple de liste avec exactement deux sauts de valeur maximale et préciser ces sauts.}
+\tcor{La liste {\tt [2, 6, 1, 5]} possède deux sauts de valeurs maximale : {\tt (0,1)} et {\tt (2,3)} (ces deux sauts ont une valeur de 4)} 
+\Question{À l'aide d'un contre-exemple, montrer qu'on ne peut pas se contenter de chercher le minimum et le maximum d'une liste pour trouver un saut de valeur maximale.}
+\tcor{Dans la liste {\tt [2, 6, 1, 5]} le minimum est à l'indice 2 (c'est 1) et le maximum à l'indice 1 (c'est 3) et comme le minimum est après le maximum ce n'est pas le saut maximal.} 
+\Question{Écrire une fonction {\tt saut\_max\_naif} qui renvoie un saut de valeur maximale en testant tous les couples $(i,j)$ tels que $0 \leq i \leq j <$ {\tt len(li)}.}
+\ifcorrige
+\corpartPython{saut_max.py}{}{}{6}{12}
+\fi
+
+\leftskip -\QuestionIndent
+On décrit ici un algorithme utilisant le paradigme de la programmation dynamique pour résoudre ce problème : pour chaque $k$ entre 1 et {\tt len(li)}, on va calculer $m_k$ l'indice du minimum de {\tt li[0:k]}, et le couple $(i_k, j_k)$ un saut de valeur maximale dans {\tt li[0:k]}. Ainsi, on aura $m_1 = i_1 = j_1 = 0$ car {\tt li[0:1]} ne comporte qu'un seul élément.
+
+\leftskip 0pt
+
+\Question{ Pour $k <${\tt len(li)}, expliquer comment on peut calculer efficacement $m_{k+1}$ à partir de $m_k$ et des valeurs dans {\tt li}.}
+
+\tcor{On sait que $(i_k;j_k)$ est le saut maximal de {\tt li[0:k]} pour déterminer le saut de valeur maximal dans {\tt li[0:k+1]} on doit prendre le saut maximal entre :
+	$(i_k,j_k)$ et le nouveau saut maximal disponible qui est $(mk, k)$ ce dernier a pour valeur li[$k$]-li[$m_k$]. On doit donc comparer la valeur de ce saut à la valeur du saut $(i_k,j_k)$ ce qui correspond bien à la relation précédente.
+}
+\Question{Justifier que la relation suivante est correcte.}
+$$ (i_{k+1}, j_{k+1}) = \left\{ 
+	\begin{array}{l} 
+		(i_k,j_k) \text{ si {\tt li[$k$]-li[$m_k$] $<$ li[$j_k$]-li[$i_k$]}} \\
+		(m_k,k) \text{ sinon }
+	\end{array}\right. $$
+\tcor{On sait que $(i_k;j_k)$ est le saut maximal de {\tt li[0:k]} pour déterminer le saut de valeur maximal dans {\tt li[0:k+1]} on doit prendre le saut maximal entre :
+	$(i_k,j_k)$ et le nouveau saut maximal disponible qui est $(mk, k)$ ce dernier a pour valeur li[$k$]-li[$m_k$]. On doit donc comparer la valeur de ce saut à la valeur du saut $(i_k,j_k)$ ce qui correspond bien à la relation précédente.
+}
+\Question{Ecrire une fonction {\tt saut\_max\_dynamique} qui prend en argument une liste {\tt li} et renvoie un saut de valeur maximale en utilisant la relation de la question précédente.}
+\ifcorrige
+\corpartPython{saut_max.py}{}{}{14}{21}
+\fi
+\Question{Déterminer la complexité de votre programme dans le pire cas, puis comparer cette complexité avec celle de la fonction {\tt saut\_max\_naif}}
+\tcor{En notant $n$ la longueur de la liste, la boucle est executée $n-1$ fois et ne contient que des opérations élémentaires donc la complexité est en $O(n)$. Pour le programme de la question 4, par contre on a deux boucles imbriquées et donc une complexité en $O(n^2)$.}
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Base de données et {\sc sql}}, origin = {\bac \; {\sc capes nsi 2021}, épreuve 1} ]\\
+	On s'intéresse dans cette partie à un site Internet d'échange de supports de cours entre enseignants  de {\sc mp2i/mpi}. Chaque personne désirant proposer ou récupérer du contenu doit commencer par se créer un compte sur ce site et peut ensuite accéder à du contenu ou en proposer.
+
+	Ce site repose sur une base de données contenant en particulier une table, nommée {\tt ressources}. Elle possède un enregistrement par document téléversé sur le site. Ses attributs sont :
+	\begin{itemize}
+		\item {\tt id}, un identifiant numérique, unique pour chaque ressource ;
+		\item {\tt owner}, le pseudo de la personne ayant créé la ressource ;
+		\item {\tt annee}, l'année de publication de la ressource ;
+		\item {\tt titre}, une chaine de caractères décrivant la ressource ;
+		\item {\tt type}, chaine de caractères pouvant être cours, ds, tp ou td.
+	\end{itemize}
+
+	Voici un extrait de cette table :
+
+	\medskip
+
+	\begin{center}
+		\begin{tabular}{|l|l|c|c|r|}
+			\hline
+			{\tt id} & {\tt owner} & {\tt annee} & {\tt titre}               & {\tt type} \\
+			\hline
+			4        & dknuth      & 2020        & Machine à décalage        & cours      \\
+			13       & alovelace   & 2022        & Intelligence artificielle & td         \\
+			$\cdots$ & $\cdots$    & $\cdots$    & $\cdots$                  & $\cdots$   \\
+			\hline
+		\end{tabular}
+	\end{center}
+
+
+	\Question{Écrire une requête SQL permettant de connaitre tous les titres des ressources déposées par \og{}{\tt jclarke}\fg{} classées par année de publication croissante.}
+	\ifcorrige
+		\begin{minted}{sql}
+SELECT titre 
+FROM ressources 
+WHERE owner="jclarke"
+ORDER BY annee ASC;
+\end{minted}
+	\fi
+	\Question{Écrire une requête SQL permettant de connaitre le nombre total de ressources de type cours présentes sur le site.}
+	\ifcorrige
+		\begin{minted}{sql}
+SELECT COUNT(*)
+FROM ressources
+WHERE type = "cours";
+\end{minted}
+	\fi
+	\Question{Que fait la requête suivante : ?
+		\begin{minted}{sql}
+SELECT R.owner
+FROM Ressources AS R
+WHERE R.type = 'td'
+GROUP BY R.owner
+ORDER BY COUNT(*) DESC
+LIMIT 3
+\end{minted}
+	}
+	\tcor{Cette requête permet d'afficher les trois premiers propriétaires de ressources ayant posté le plus de ressources de type {\tt td}}
+
+	\NRet
+	Cette base de données contient également une table {\tt utilisateurs} qui contient les informations sur les utilisateurs du site. Elle possède un enregistrement par utilisateur. Ses attributs sont :
+	\begin{itemize}
+		\item {\tt nom}, le nom de l'utilisateur (clé primaire) ;
+		\item {\tt mdp}, le mot de passe de l'utilisateur.
+		\item {\tt email}, l'adresse email de l'utilisateur.
+		\item {\tt naissance}, l'année de naissance de l'utilisateur.
+	\end{itemize}
+	Voici un extrait de cette table :
+	\medskip
+	\begin{center}
+		\begin{tabular}{|l|l|l|l|}
+			\hline
+			{\tt nom} & {\tt mdp} & {\tt email}        & {\tt naissance } \\
+			\hline
+			dknuth    & chepas123 & dknuth@bigboss.com & 1938             \\
+			\hline
+			\dots     & \dots     & \dots              & \dots            \\
+		\end{tabular}
+	\end{center}
+	L'attribut {\tt owner} de la table {\tt ressources} est une clé étrangère qui référence l'attribut {\tt nom} de la table {\tt utilisateurs}.
+	\Ret
+	\Question{Ecrire une requête SQL permettant de lister toutes les ressources déposées par des utilisateurs nés après 2000.}
+	\ifcorrige
+		\begin{minted}{sql}
+SELECT * FROM ressources
+JOIN utilisateurs
+ON ressources.owner = utilisateurs.nom
+WHERE utilisateurs.naissance>2000
+\end{minted}
+	\fi
+	\Question{Ecrire une requête SQL permettant de lister tous les utilisateurs n'ayant déposé aucune ressource.}
+	\ifcorrige
+		\begin{minted}{sql}
+SELECT nom FROM utilisateurs
+EXCEPT 
+SELECT owner FROM ressources
+\end{minted}
+	\fi
+\end{Exercise}
+
+
+\end{document}

@@ -1,0 +1,252 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeConcours
+\DS{MP2I}{2}{Novembre 2025}
+
+\setboolean{corrige}{false}
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$e_0$}} \\
+		\hline
+	\end{tabular}
+}
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] Les programmes demandés doivent être écrits en C ou en OCaml suivant l'exercice. Dans le cas du C, on suppose que les librairies standards usuelles ({\tt <stdio.h>}, {\tt <stdlib.h>}, {\tt <stdbool.h>}) sont déjà importées.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+
+\begin{Exercise}[title = {Questions de cours}] \\
+	On donne ci-dessous l'algorithme d'exponentiation rapide en version itérative : \\
+    \begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Exponentiation rapide}
+		\Entree{$a \in \R, n \in \N$}
+		\Sortie{$a^n$}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$p \leftarrow 1$\;
+		\Tq{$n \neq 0$}{
+			\Si{$n$ est impair}
+			{$p \leftarrow p\times a$ \;}
+			$a \leftarrow a*a$ \;
+			$n \leftarrow \lfloor\frac{n}{2}\rfloor$ \;
+		}
+		\Return $p$
+	\end{algorithm}
+      \Question{Donner les valeurs successives prises par les variables $a$, $n$ et $p$ si on fait fonctionner cet algorithme avec $a=2$ et $n=13$. On pourra recopier et compléter le tableau suivant et donner les valeurs de $a$ et de $p$ sous la forme de puissance de 2 :\\
+      \begin{tabular}{|l|c|c|c|}
+        \cline{2-4}
+        \multicolumn{1}{l|}{} & $a$ & $n$ & $p$ \\
+        \hline
+        valeurs initiales & 2 & 13 & 1 \\
+        \hline
+        après un tour de boucle & \comp{$2^2$} &\comp{6} & \comp{$2$} \\
+        \hline
+        après deux tours de boucle & \comp{$2^4$} &\comp{3} & \comp{$2$} \\
+		\hline
+		après trois tours de boucle & \comp{$2^8$} &\comp{1} & \comp{$2^5$} \\
+		\hline
+        après quatre tours de boucle & \comp{$2^{16}$} &\comp{0} & \comp{$2^{13}$} \\
+		\hline
+      \end{tabular}
+      }
+      \Question{Donner une implémentation de cet algorithme en langage C sous la forme d'une fonction {\tt exp\_rapide} de signature \mintinline{c}{double exp_rapide(double a, int n)}. On précisera soigneusement la spécification de cette fonction en commentaire dans le code et on vérifiera les préconditions à l'aide d'instructions {\tt assert}.}
+	  \ifcorrige
+	  \corpartC{exp_rapide.c}{}{}{4}{19}
+	  \fi
+      \Question{Prouver que cet algorithme termine.}
+	  \tcor{
+	 Dans l'algorithme ci-dessus, la quantité $n$ est un variant de boucle, en effet :
+	 \begin{enumerate}
+		\item $n \in \N$ par précondition.
+		\item $n$ reste  positif  par condition d'entrée dans la boucle.
+		\item $n$ décroit strictement car $n$ est divisé par 2  lors de chaque passage dans la boucle.
+	  \end{enumerate}
+	  L'algorithme termine car on a trouvé un variant de boucle.
+	  }
+      \Question{Prouver que cet algorithme est correct. En notant $a_0$ (resp. $n_0$) la valeur initiale de $a$ (resp. $n$), on pourra prouver l'invariant $p \times a^{n} = a_0^{n_0}$.}
+	  \tcor{
+	  On note, $a_0$ la valeur initiale de $a$ et $n_0$ la valeur initiale de $n$, montrons que la propriété $I$ : \og{} $p \times a^{n} = a_0^{n_0}$ \fg est un invariant de boucle.
+	  \begin{enumerate}
+		\item Avant d'entrée dans la boucle $p=1$, $a= a_0$ et $n=n_0$ donc $p \times a^{n} = a_0^{n_0}$ et  $I$ est vérifiée.
+		\item On suppose $I$ vérifié à l'entrée de la boucle et on note $a'$ (resp. $n'$, resp. $p'$) les valeurs prises par $a$ (resp. $n$, resp. $p$) au tour de boucle suivant, alors : \\
+		\begin{itemize}
+            \item Si $n$ est paire, $n'=n/2$, $p'=p$ et $a' = a^2$ donc \\
+            $p' \times a'^{n'} = p \times (a^2)^{n/2}$ \\
+            $p' \times a'^{n'} = p \times a^{n}$ \\ et puisque $I$ était vraie en entrée de boucle,
+            $p' \times a'^{n'} = a_0 ^ {n_0}$\\
+            \item Sinon, $n'=(n-1)/2$, $p'=p \times a $ et $a' = a^2$ donc \\
+            $p' \times a'^{n'} = p \times a \times (a^2)^{(n-1)/2}$ \\
+            $p' \times a'^{n'} = p \times a^{n}$ \\ et puisque $I$ était vraie en entrée de boucle,
+            $p' \times a'^{n'} = a_0 ^ {n_0}$\\
+        \end{itemize}
+	  \end{enumerate}
+	  En sortie de boucle, puisque $n=0$, cet invariant donne $p \times a^0 = a_0 ^ {n_0}$ et donc $p =a_0 ^ {n_0}$ et donc l'algorithme est correcte.
+	  }
+    \Question{Donner une implémentation récursive de l'algorithme d'exponentiation rapide en OCaml sous la forme d'une fonction  {\tt exp\_rapide float -> int -> float}.}
+    \ifcorrige
+	  \corpartOCaml{exp_rapide.ml}{}{}{1}{4}
+	\fi
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Quelques expression en OCaml}]\\
+Pour chacune des expressions ci-dessous,  indiquer son type et sa valeur lorsqu'elle s'évalue sans erreur. Sinon indiquer la cause de l'erreur rencontrée.
+\Question{\mintinline{ocaml}{let n = 24 mod 7;;}}
+\tcor{{\tt n} est un entier (type {\tt int}) valant 3 (reste dans la division euclidienne de 24 par 7.)}
+\Question{\mintinline{ocaml}{let perimetre = 4 *. 2.5;;}}
+\tcor{L'évaluation donne une erreur car l'opérateur {\tt *.} est la multiplication entre deux opérandes de type {\tt float}, ici l'une des opérandes ({\tt 4}) est un {\tt int}.}
+\Question{\mintinline{ocaml}{let v = 2.0**10;;}}
+\tcor{En OCaml l'opérateur {\tt **} est l'exponentiation, mais il n'est défini que pour deux opérandes de type {\tt float}, on obtient de nouveau une erreur puisque l'une des opérandes est entière. Pour calculer $2^{10}$, il faudrait écrire \mintinline{ocaml}{let v = 2.0**10.;;} }
+\Question{\mintinline{ocaml}{let at = '@' in print_char at;;}}
+\tcor{Cette expression s'évalue correctement ({\tt at} est bien de type {\tt char} car entre simple quotes), elle renvoie {\tt ()} de type {\tt unit} car c'est un affichage.}
+\Question{\mintinline{ocaml}{let coucou = let message = "Bonjour " + "tout le monde" in print_string message;;}}
+\tcor{L'opérateur {\tt +} est l'addition de deux entiers, on obtient donc une erreur, l'opérateur de concaténation entre deux chaines de caractères est {\tt \textasciicircum}.}
+\Question{\mintinline{ocaml}{let peri = let cote = 5 in 4*cote;;}}
+\tcor{L'expression s'évalue correctement et vaut l'entier {\tt 20}.}
+\Question{\mintinline{ocaml}{let langage = "OCaml" in langage.[1];;}}
+\tcor{L'expression s'évalue correctement est de type {\tt char} et vaut {\tt 'C'}, c'est la caractère d'indice 1 de la chaine {\tt "OCaml"}.}
+\Question{\mintinline{ocaml}{let x = 42 in (x / 10 > 4) && (x <= 21 || x>=42) ;;}}
+\tcor{L'expression s'évalue correctement et vaut {\tt false}, en effet la première condition du {\tt if} est fausse puisque {\tt 42/10} vaut 4}
+\Question{\mintinline{ocaml}{let k = if 2=1+1 then 'A' else 'B';;}}
+\tcor{L'expression s'évalue correctement et vaut {\tt 'A'} (type {\tt char}).}
+\Question{\mintinline{ocaml}{let rec fact n = if n=0 then 1 else n* fact (n-1);;}}
+\tcor{L'expression s'évalue correctement,  c'est une fonction (type {\tt fun}) {\tt fact : int -> int} (qui calcule la factorielle de {\tt n})}
+\end{Exercise}
+
+
+
+\begin{Exercise}[title = {Un tableau qui connait sa taille et des nombres fourchette}] \\
+    En C, on propose le type structuré suivant afin de représenter un \og{} tableau d'entiers qui connaît sa taille \fg{} :
+    \inputpartC{fourchette.c}{}{}{6}{11}
+    La champ {\tt taille} contient la taille du tableau et le champ {\tt valeurs} est un pointeur vers une zone mémoire contenant la liste des valeurs du tableau.
+	\Question{Ecrire une fonction {\tt somme} de signature \mintinline{c}{int somme(tableau t)} qui renvoie la somme des valeurs contenus dans {\tt t}.}
+	\ifcorrige
+	\corpartC{fourchette.c}{}{}{69}{77}
+	\fi
+    \Question{On veut écrire une fonction {\tt cree\_tableau} de signature \mintinline{c}{tableau cree_tableau(int val, int taille)} qui renvoie un {\tt tableau} de taille {\tt taille} dont toutes les valeurs sont initialisées à {\tt val}. La solution proposée ci-dessous (appelée {\tt cree\_tableau\_bug}) compile sans erreur et sans avertissement (avec les options {\tt -Wall} et {\tt -Wextra}) mais ne fonctionne pas correctement (on obtient une erreur à l'exécution ou les valeurs présentes dans le tableau ne sont pas égales à {\tt val}).
+    \inputpartC{fourchette.c}{}{}{25}{36}
+	Expliquer ce comportement en utilisant vos connaissances sur le modèle mémoire du langage C.}
+	\tcor{
+		Le tableau {\tt tab} déclaré à la ligne 5 est stocké sur la pile car c'est une variable locale à la fonction, aussi {\tt t.valeurs} pointe sur la pile dans une zone mémoire qui sera libéré à la sortie de la fonction car le contexte d'appel de la fonction (et donc les variables locales) est alors désalloué. Pour éviter ce problème, on doit allouer sur le tas à la ligne 5 à l'aide d'une instruction {\tt malloc}. Cela permettra de {\tt t.valeurs} vers un zone mémoire qui sera conservée intacte à la sortie de la fonction.
+	}
+	\Question{Proposer une version correcte de la fonction {\tt cree\_tableau} en indiquant simplement le ou les numéros de ligne à modifier et leur nouveau contenu.}
+	\ifcorrige
+	\corpartC{fourchette.c}{}{}{13}{23}
+	\fi
+
+	\NRet \smallskip
+	On dit qu'un nombre entier positif ayant au moins trois chiffres est un \textit{nombre fourchette} (\textit{gapful number}) lorsqu'il est divisible par le nombre formé en concaténant son premier et son dernier chiffre. Par exemple,
+	\begin{itemize}
+	\item $2025$ est un nombre fourchette car $2025$ est divisible par 25 (nombre formé par le premier et le dernier chiffre).
+	\item $1972$ n'est pas un nombre fourchette car $1972$ n'est pas divisible par 12.
+	\item $42$ n'est pas un nombre fourchette car il possède moins de 3 chiffres.
+	\item $462$ est un nombre fourchette car $462$ est divisible par $42$ ($ 462 = 11 \times 42$).
+	\end{itemize}
+	\Ret \smallskip
+
+	\Question{Ecrire une fonction de signature \mintinline{c}{bool est_fourchette(int n)} qui renvoie {\tt true} si et seulement si {\tt n} est un nombre fourchette.}
+	\ifcorrige
+	\corpartC{fourchette.c}{}{}{106}{115}
+	\fi
+	\Question{Ecrire une fonction de signature \mintinline{c}{tableau fourchette(int deb, int fin)} qui renvoie une variable de type tableau, contenant les nombres fourchettes compris entre {\tt deb} (inclus) et {\tt fin} (exclu). Par exemple, {\tt fourchette(500, 600)} renvoie un tableau de taille 6 et contenant les valeurs $\{500, 550, 561, 572, 583, 594\}$ car ces six nombres sont les seuls nombres fourchettes compris entre 500 et 600 (exclu).} 
+	\ifcorrige
+	\corpartC{fourchette.c}{}{}{117}{138}
+	\fi
+\end{Exercise}
+
+\begin{Exercise}[title = {Implémentation des entiers par représentation binaire}]
+
+On rappelle qu'en C, le type {\tt uint64\_t} (disponible dans {\tt stdint.h} qu'on suppose déjà importée dans la suite de l'exercice) représente des entiers \textit{positifs} (non signés) sur 64 bits. D'autre part on rappelle que le spécificateur de format permettant d'afficher un entier de type {\tt uint64\_t} est {\tt \%lu}.
+
+
+\Question{Donner l'intervalle d'entiers représentable avec le format {\tt uint64\_t}.}
+\tcor{Les entiers représentables avec ce format sont $\intN{0}{2^{64}-1}$.}
+\Question{En compilant puis en exécutant le programme suivant sur un ordinateur (les librairies {\tt <stdio.h>} et {\tt <stdint.h>}  sont supposées importées):
+\inputpartC{ex2.c}{}{}{4}{9}
+
+on a obtenu l'affichage suivant dans le terminal : {\tt a= 18446744073709551615}. Donner en utilisant une puissance de 2 la valeur du nombre affiché, justifier votre réponse en utilisant vos connaissances sur le type {\tt uint64\_t} et les dépassement de capacité en C.}
+\tcor{Comme {\tt a} est un entier non signé initialisé à 0, l'instruction {\tt a = a -1} est un dépassement de capacité. Ce n'est pas un comportement indéfini, sur les entiers non signés les calculs sont faits modulo le plus grand entier représentable plus un et donc ici on obtient donc $2^{64}-1$.}
+
+\NRet \smallskip 
+On utilise à présent les entiers au format {\tt uint64\_t} afin de représenter des ensembles. A chaque entier écrit en base 2 on associe l'ensemble dont les éléments sont les positions des bits égaux à 1. Par exemple :
+\begin{itemize}
+	\item L'entier $\base{11001}{2}$(=$\base{25}{10}$) a des bits égaux à 1 aux positions 0,3 et 4 et donc représente l'ensemble $\{0,3,4\}$.
+	\item L'entier $\base{10000000}{2}$(=$\base{128}{10}$) a un seul bit égal à 1 en position 7 et donc représente l'ensemble $\{7\}$.
+	\item L'ensemble $\{1,5\}$ est représenté par l'entier ayant des bits égaux à 1 en position 1 et 5, c'est à dire $\base{100010}{2}=\base{34}{10}$.
+\end{itemize}
+\Ret \smallskip 
+\Question{Quels sont les ensembles ainsi représentables ?}
+\tcor{Les ensembles répresentables sont les parties de $\intN{0}{63}$}
+\Question{Donner l'écriture en base 10 de l'entier représentant l'ensemble $\{ 2,7\}$}
+\tcor{L'entier représentant $\{ 2,7\}$ est $\base{10000100}{2} = \base{132}{10}$.}
+\Question{Quel est l'ensemble codé par l'entier $\base{76}{10}$ ?}
+\tcor{ $\base{76}{10} = \base{1001100}{2}$ et donc code l'ensemble $\{ 2, 3, 6 \}$. }
+\Question{Donner la caractérisation des ensembles représentés par une puissance exacte de 2 (on ne demande pas de justification).}
+\tcor{ Les ensembles représentés par une puissance exacte de 2 sont les singletons.}
+
+
+\Question{Ecrire une fonction {\tt encode} en C de signature \mintinline{c}{uint64_t encode(bool tab[])}, qui prend en argument un tableau {\tt tab} de 64 booléens et renvoie l'entier au format {\tt uint64\_t} qui représente l'ensemble dont les éléments sont les entiers {\tt i} tels que {\tt tab[i]=true}. Par exemple, si {\tt tab} est le tableau de booléens de taille 64 ne contenant que des {\tt false} sauf {\tt tab[3]} et {\tt tab[10]} qui valent {\tt true} alors, {\tt encode(tab)} doit renvoyer l'entier qui représente l'ensemble {\tt \{3, 10\}}.}
+\ifcorrige
+\corpartC{code_entiers.c}{}{}{22}{35}
+\fi
+\Question{Ecrire une fonction {\tt decode} de signature \mintinline{c}{bool *decode(uint64_t n)}, qui prend en argument un entier {\tt n} au format {\tt uint64\_t} et renvoie l'ensemble qu'il représente sous la forme d'un tableau {\tt tab} de 64 booléens tels que {\tt tab[i]=true} si et seulement si {\tt i} appartient à l'ensemble représenté par {\tt n}. Par exemple {\tt decode(34)} doit renvoyer un tableau {\tt tab} de booléens dont toutes les valeurs sont {\tt false} sauf {\tt tab[1]} et {\tt tab[5]} qui valent {\tt true}.}
+\ifcorrige
+\corpartC{code_entiers.c}{}{}{37}{46}
+\fi
+
+\NRet \smallskip
+En langage C, les opérateurs bit à bit (\textit{bitwise operators}) fonctionnent sur les entiers et permettent de manipuler directement leurs bits :
+\begin{itemize}
+\item L'opérateur unaire {\tt \textasciitilde} renvoie l'entier obtenu en inversant tous les bits de l'opérande. Par exemple, sur le type {\tt uint8\_t}, {\tt \textasciitilde 5} vaut {\tt 250}. En effet, comme sur 8 bits, $5 = \base{00001001}{2}$ on inverse tous les bites pour obtenir {\tt \textasciitilde 5} = $\base{11110110}{2} = 250$.
+\item L'opérateur binaire {\tt \&} renvoie l'entier obtenu en effectuant un et logique sur chaque paire de bit correspondant (le et logique vaut 1 si et seulement si les deux bits valent 1). Par exemple, sur le type {\tt uint8\_t}, comme {\tt 42} = $\base{00101010}{2}$ et {\tt 57} = $\base{00111001}{2}$ on obtient : \\
+\begin{tabular}{cccccccclc}
+	0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & \quad & (42) \\
+	0 & 0 & 1 & 1 & 1 & 0 & 0 & 1 & \quad & (57) \\
+	\cline{1-8}
+	0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & \quad & (42 \& 57) \\
+\end{tabular} \\
+Et donc, {\tt 42 \& 57 = 40}.
+\item L'opérateur binaire {\tt |} renvoie l'entier obtenu en effectuant un ou logique sur chaque paire de bit correspondant (le ou logique vaut 0 si et seulement si les deux bits valent 0). Par exemple, \\
+\begin{tabular}{cccccccclc}
+	0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & \quad & (42) \\
+	0 & 0 & 1 & 1 & 1 & 0 & 0 & 1 & \quad & (57) \\
+	\cline{1-8}
+	0 & 0 & 1 & 1 & 1 & 0 & 1 & 1 & \quad & (42 | 57) \\
+\end{tabular} \\
+Et donc, {\tt 42 | 57 = 59}
+\end{itemize}
+\Ret \smallskip
+
+\Question{On considère une variable {\tt n} de type {\tt uint64\_t} qui représente un ensemble $A$, en justifiant votre réponse, indiquer quel ensemble représente {\tt \textasciitilde n}.}
+\tcor{La variable {\tt \textasciitilde n} représente le complémentaire de $A$ dans $\intN{0}{63}$ en effet puisqu'on inverse tous les bits de {\tt n} le bit de rang {\tt i} dans {\tt \textasciitilde n} vaut 1 si et seulement si il valait 0 dans {\tt n}.}
+\Question{On considère deux variables {\tt n} et {\tt m} de type {\tt uint64\_t} représentant deux ensemble $A$ et $B$, en justifiant votre réponse, indiquer quel ensemble représente {\tt n \& m}. Même question pour {\tt n | m} .}
+\tcor{{\tt n \& m} représente $A \bigcup B$ en effet il y a un 1 au rang {\tt i} dans la décomposition binaire de cet entier si et seulement si il y a un 1 dans celle de {\tt n}.}
+
+\NRet \smallskip
+Deux autres opérateurs bit à bit, {\tt >\,>} et {\tt <\,<}, appelés opérateurs de décalage (\textit{shift operators}) permettent de décaler vers la droite (ou la gauche) l'écriture binaire de l'entier donné d'un certain nombre de positions. Par exemple {\tt 42 >\,> 3} décale à droite de 3 rangs les bits de l'écriture de 42, les 3 bits les plus à droite sont perdus et on complète à gauche par des zéros. Ainsi, comme $42 = 
+\base{00101010}{2}$, $42 >> 3 = \base{00000101}{2}$ et donc $42 >> 3 = 5$. 
+
+\Ret \smallskip
+
+\Question{En utilisant les opérateurs bit à bit, écrire une fonction {\tt appartient} de signature \\ \mintinline{c}{bool appartient(uint64_t s, int e)} qui prend en argument un entier {\tt s} (type {\tt uint64\_t}) représentant un ensemble et un entier {\tt e} et renvoie {\tt true} si {\tt e} appartient à l'ensemble représenté par {\tt s} et {\tt false sinon}. Par exemple puisque l'ensemble $\{1,5\}$ est codé par $34$, {\tt appartient(34,1)} doit renvoyer {\tt true} tandis que {\tt appartient(34,2)} doit renvoyer {\tt false}.}
+\ifcorrige
+\corpartC{code_entiers.c}{}{}{7}{10}
+\fi
+
+\end{Exercise}
+
+\end{document}

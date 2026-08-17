@@ -1,0 +1,43 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\setboolean{corrige}{false}
+\IC{3}{Pointeurs}
+\setcounter{Exercise}{0}
+
+\begin{Exercise}[title = pointeurs] \\
+    Le programme suivant produit un \textit{warning} à la compilation \og{}\textit{‘p’ is used uninitialized}\fg{} et une erreur de segmentation à l'exécution.
+    \inputpartC{p1.c}{}{}{1}{9}
+    
+    \Question{Proposer une correction afin d'initialiser le pointeur {\tt p} vers une adresse se trouvant dans le tas avant de l'utiliser, quel {\tt include} est alors nécessaire ?}
+    \reponse{1}{2}
+    \tcor{On remplace la ligne 6 par \mintinline{c}{int *p = malloc(sizeof(int));} et on ajoute \mintinline{c}{#include <stdlib.h>} en début de fichier.}
+    \Question{On suppose le pointeur {\tt p} correctement initialisé, quel affichage produit le programme ?}
+    \reponse{0}{1}
+    \tcor{Le programme affiche : \mintinline{c}{Valeur pointé par p :  42}.}
+    \Question{Quel est le rôle de l'opérateur {\tt \&} en C ? Que contient {\tt \&n} ?}
+    \reponse{1}{2}
+    \tcor{Cette variable contient l'adresse mémoire de la variable {\tt n}.}
+    \Question{Les variables {\tt \&n} et {\tt p} sont-elles égales ?}
+    \reponse{2}{2}
+    \tcor{Non, elles ne sont pas égales car {\tt p} est un pointeur vers une adresse mémoire dans le tas alors que {\tt n} est une variable locale dans la pile. Par contre le contenu de ces deux adresses est le même (l'entier 42).}
+\end{Exercise}
+
+\begin{Exercise}[title = pointeurs] \\
+    Le programme suivant ne produit aucun \textit{warning} à la compilation et s'exécute sans erreur.
+    \inputpartC{p2.c}{}{}{1}{9}
+    \Question{Quel est l'affichage produit par le programme ?}
+    \reponse{0}{1}
+    \tcor{Le programme affiche : \mintinline{c}{Valeur de n = 2025}.}
+    \Question{Les variables {\tt \&n} et {\tt p} sont-elles égales ?}
+    \reponse{1}{2}
+    \tcor{Oui, elles sont égales car {\tt p} est un pointeur vers l'adresse mémoire de la variable {\tt n}.}
+\end{Exercise}
+
+
+
+\end{document}
