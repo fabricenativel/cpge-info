@@ -38,6 +38,7 @@ Pour accéder à une *console* Python, taper la commande `python` dans un termin
 {{ terminal() }}
 
 
+
 ### Expressions arithmétiques
 Taper dans le terminal `6*7` puis la touche ++return++ pour voir apparaître la réponse à [*la grande question sur la vie, l'Univers et le reste*](https://fr.wikipedia.org/wiki/La_grande_question_sur_la_vie,_l%27Univers_et_le_reste){target=_blank}. En mode *console* Python évalue donc les expressions arithmétiques entrées au clavier et affiche leur valeur dans la console. Les opérateurs utilisés dans ces expressions sont rappelés ci-dessous
 
@@ -61,7 +62,7 @@ Calculer les expressions suivantes (vous pouvez vérifier vos résultats en les 
 * Donner les 5 derniers chiffres de $2024^{30}$  {{check_reponse("17376")}}
 
 
-{{ terminal() }}
+
 
 ### Entiers et flottants
 
@@ -111,7 +112,7 @@ Cette variable peut être utilisé dans d'autre calculs, par exemple `age = anne
 
 {{exo("Manipulations de variables",[])}}
 
-{{terminal()}}
+
 
 1. Créer une variable `pi` de valeur  `3.14`, calculer l'aire d'un disque de rayon $7,5$ en utilisant cette valeur de `pi`.
 
@@ -142,7 +143,7 @@ Les opérateurs suivants sont définis sur les chaines de caractères :
 
 Vous pouvez tester les programmes ci-dessous en les recopiant dans la partie supérieure du mini IDE :
 
-{{ IDE() }}
+{{ ide() }}
 
 ### Instruction `print`
 Le mode *programme* consiste à écrire une séquence d'instructions puis à la faire executer par Python. Dans ce mode, les valeurs calculées ne sont **pas** affichées directement, une instruction spécifique permet de demander un affichage, c'est l'instruction `#!python print`. Par exemple, dans le programme suivant, seule la valeur de `d` sera affichée (grâce à l'instruction `print` de la ligne 5.)
@@ -194,7 +195,7 @@ Affichera `Bon week-end !` si la variable `jour` vaut `"Samedi"` ou `"Dimanche"`
     La condition de la ligne 1 ci-dessous, pourrait s'écrire en français, "Si le jour est samedi ou dimanche". Ce qu'on pourrait vouloir traduire en Python par `#!python if jour=="Samedi" or "Dimanche"`. Cette construction bien qu'acceptée par Python n'est **PAS** le test désiré (et s'évalue en fait toujours à `True`). On fera donc attention à **toujours** avoir une comparaison dans les deux opérandes d'un `and` (ou d'un `or`).
 
 {{ exo("Instructions conditionnelles",[])}}
-{{IDE(MIN_SIZE=7)}}
+{{ide()}}
 
 1. On suppose déjà définie une variable `reponse` et une variable `points`, écrire une instruction conditionnelle qui affiche `Bonne réponse` lorsque `reponse` vaut 2 et incrémente la variable `points`. Dans le cas contraire `points` est décrémenté et on affiche `Erreur`
 2. On suppose déjà définies deux variables `a` et `b`, écrire une instruction conditionnelle qui permet de définir la variable `c` égale au maximum entre `a` et `b`

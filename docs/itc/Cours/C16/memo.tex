@@ -7,12 +7,12 @@
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
 
 % Entête de la fiche (à modifier avec la macro correspondante dans le fichier macros)
-\Fiche{Bases de Python}{\sc pcsi}
+\Fiche{Bases de Python}{\sc itc}
 
 \pythonmode
 
 
-\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Types de bases et opérateurs associés},colbacktitle=cfond]
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Types de base et opérateurs associés},colbacktitle=cfond]
 \begin{itemize}
  \item [\textbullet] \mintinline{python}{int} : nombres entiers de taille \textit{non limitée} \strut \\
  \begin{tabularx}{\linewidth}{|>{\tt}l|l|X|}
@@ -23,9 +23,9 @@
 	\hline
 	* & multiplication & \\
 	\hline
-	/ & division \textit{décimale} &  ex : {\tt 13/5} vaut {\tt 2.6}. \\
+	/ & division \textit{décimale} & ex : {\tt 13/5} vaut {\tt 2.6}. \\
 	\hline
-	** & exponentiation & ex : {\tt 3**4} vaut 81 \\
+	** & exponentiation & ex : {\tt 3**4} vaut 81. \\
 	\hline
 	// & quotient dans la division euclidienne & ex : {\tt 13//5} vaut 2. \\
 	\hline
@@ -44,20 +44,20 @@
 	and & et (binaire) & vaut {\tt True} si les deux arguments valent {\tt True}. \\
 	\hline
  \end{tabularx}
-	\item [\textbullet] \mintinline{python}{str} : chaines de caractères \\
+	\item [\textbullet] \mintinline{python}{str} : chaînes de caractères \\
 	\begin{tabularx}{\linewidth}{|>{\tt}l|l|X|}
 		\hline
-		+ & concaténation & ex : {\tt "Hello"+"World"} vaut {\tt "HelloWorld"}\\
+		+ & concaténation & ex : {\tt "Hello" + "World"} vaut {\tt "HelloWorld"}\\
 		\hline
-		* & répétition & ex : {\tt "Euh"*4} vaut {\tt "EuhEuhEuhEuh"} \\
+		* & répétition & ex : {\tt "Euh" * 4} vaut {\tt "EuhEuhEuhEuh"} \\
 		\hline
 		len & longueur & ex : {\tt len("Python")} vaut 6 \\
 		\hline
-		[] & ième caractères & numérotation depuis 0, ex : {\tt "Hello"[1]} vaut {\tt "e"}\\
+		[] & $i$-ème caractère & numérotation depuis 0, ex : {\tt "Hello"[1]} vaut {\tt "e"}\\
 		\hline
 	 \end{tabularx}
 \end{itemize}
-Des conversions sont possibles entre ces divers types, par exemple, \mintinline{python}{int("34")} transforme la chaine de caractères {\tt "34"} en l'entier {\tt 34}, \mintinline{python}{float(34)} transforme l'entier 34 en flottant {\tt 34.0}.
+Des conversions sont possibles entre ces divers types, par exemple, \mintinline{python}{int("34")} transforme la chaîne de caractères {\tt "34"} en l'entier {\tt 34}, \mintinline{python}{float(34)} transforme l'entier 34 en flottant {\tt 34.0}.
 \end{tcolorbox}
 
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Comparaison},colbacktitle=cfond]
@@ -67,20 +67,20 @@ Des conversions sont possibles entre ces divers types, par exemple, \mintinline{
 		\hline
 		< & strictement inférieur & \\
 		\hline
-		>= & supérieur ou égal & les symboles sont dans l'ordre de leur lecture\\
+		>= & supérieur ou égal & les symboles sont dans l'ordre de leur lecture.\\
 		\hline
 		<= & inférieur ou égal & \\
 		\hline
-		== & égal & {\small \danger} à ne pas confondre avec {\tt =} utilisé pour l'affectation des variables \\
+		== & égal & {\small \danger} à ne pas confondre avec {\tt =} utilisé pour l'affectation des variables. \\
 		\hline
-		!= & différent & \\
+		!= & différent & \\
 		\hline
 	\end{tabularx}
 \end{tcolorbox}
 
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Instructions conditionnelles},colbacktitle=cfond]
 	\begin{itemize}
-		\item[\textbullet] Pour exécuter des {\tt <instructions>} si une {\tt condition} est vérifiée:
+		\item[\textbullet] Pour exécuter des {\tt <instructions>} si une {\tt condition} est vérifiée :
 	\setlength{\multicolsep}{0pt}
 	\begin{multicols}{2}
 	Syntaxe :
@@ -90,11 +90,11 @@ if <condition>:
 	\end{python} 
 	Exemple : 
 	\begin{python} 
-if a!=0:
-	b = 1/a
+if a != 0:
+	b = 1 / a
 	\end{python} 
 \end{multicols}
-\item[\textbullet] Pour exécuter {\tt <instructions1>} si une {\tt condition} est vérifiée et {\tt <instructions2>} sinon:
+\item[\textbullet] Pour exécuter {\tt <instructions1>} si une {\tt condition} est vérifiée et {\tt <instructions2>} sinon :
 \begin{multicols}{2}
 	Syntaxe :
 	\begin{python} 
@@ -111,12 +111,32 @@ else:
 	minimum = y
 	\end{python} 
 \end{multicols}
+\item[\textbullet] Pour tester plusieurs conditions exclusives, on enchaîne avec la clause \mintinline{python}{elif} (\textit{else if}) :
+\begin{multicols}{2}
+	Syntaxe :
+	\begin{python}
+if <cond1>:
+	<inst1>
+elif <cond2>:
+	<inst2>
+else:
+	<inst3>
+	\end{python}
+	Exemple :
+	\begin{python}
+if note >= 16:
+	mention = "TB"
+elif note >= 14:
+	mention = "B"
+else:
+	mention = "AB ou passable"
+	\end{python}
+\end{multicols}
 \end{itemize}
-Pour imbriquer plusieurs {\tt if ... else}, on utilise {\tt elif}.
 \end{tcolorbox}
 
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Boucles {\tt while}},colbacktitle=cfond]
-	Les boucles {\tt while} répètent un bloc d'instruction tant qu'une condition est vraie.
+	Les boucles {\tt while} répètent un bloc d'instructions tant qu'une condition est vraie.
 	\setlength{\multicolsep}{0pt}
 	\begin{multicols}{2}
 		Syntaxe :
@@ -127,7 +147,7 @@ while <condition>:
 		Exemple : 
 		\begin{python}
 rep = "" 
-while rep!='O' and rep!='N':
+while rep != 'O' and rep != 'N':
 	rep = input("O/N ?")
 		\end{python}
 	\end{multicols}
@@ -142,7 +162,7 @@ while rep!='O' and rep!='N':
 		\hline
 		range(m,n) & génère les entiers de l'intervalle $\intN{m}{n-1}$ \\
 		\hline
-		range(m,n,s) & génère les entiers de l'intervalle $\intN{m}{n-1} \cap \{m+ks, s \in \N\}$ \\
+		range(m,n,s) & génère les entiers de l'intervalle $\intN{m}{n-1} \cap \{m+ks, k \in \N\}$ \\
 		\hline
 	\end{tabularx}
 	{\small \danger \;} Dans les trois cas, la valeur {\tt n} n'est pas prise.
@@ -156,40 +176,63 @@ for <variable> in range(...):
 		\end{python} 
 		Exemple : 
 		\begin{python} 
-for i in range(1,9):
-	print(i) # va afficher 1, 2,... 8
+for i in range(1, 9):
+	print(i) # va afficher 1, 2, ... 8
 		\end{python}
 	\end{multicols}
 Une boucle {\tt for} permet donc en particulier de \textit{répéter} un nombre donné de fois des instructions.
 \end{itemize}
 \end{tcolorbox}
 
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Parcours d'une liste ou d'une chaîne},colbacktitle=cfond]
+\setlength{\multicolsep}{0pt}
+\begin{multicols}{2}
+	\textbf{Par élément} (à privilégier si l'indice n'est pas utile) :
+	\begin{python}
+for x in ma_liste:
+	print(x) # x prend la valeur de chaque élément
+	\end{python}
+	\textbf{Par indice} (nécessaire pour modifier la liste ou accéder aux voisins) :
+	\begin{python}
+for i in range(len(ma_liste)):
+	print(ma_liste[i]) # accès par indice
+	\end{python}
+\end{multicols}
+\end{tcolorbox}
+
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Fonctions},colbacktitle=cfond]
 \begin{itemize}
-\item[\textbullet] Les fonctions sont des blocs d'instructions réutilisables (chaque appel à la fonction exécute son bloc d'instruction), leur définition commence par le mot clé {\tt def} puis ont écrit le nom de la fonction puis la liste de ses arguments entre parenthèses (séparés par des virgules).
+\item[\textbullet] Les fonctions sont des blocs d'instructions réutilisables (chaque appel à la fonction exécute son bloc d'instructions), leur définition commence par le mot-clé {\tt def} puis on écrit le nom de la fonction puis la liste de ses arguments entre parenthèses (séparés par des virgules).
 \item[\textbullet] Une fonction peut prendre zéro, un ou plusieurs arguments.
 \item[\textbullet] Une fonction \textit{peut} renvoyer un résultat à l'aide d'une instruction {\tt return}.
 \item[\textbullet] Exemple : une fonction à 3 arguments et qui renvoie une valeur 
 \begin{python}
-def discriminant(a,b,c):
+def discriminant(a, b, c):
 	return b**2 - 4*a*c
 \end{python}
 \item[\textbullet] Exemple : une fonction à un argument et qui ne renvoie rien (elle produit un affichage)
 \begin{python}
 def triangle(n):
-	for i in range(1,n):
-		print("*"*i) 
+	for i in range(1, n):
+		print("*" * i) 
 \end{python}
 \end{itemize}
-{\small \danger} Ne pas confondre  {\tt print} et {\tt return}. La fonction {\tt discriminant} ci-dessus \textit{renvoie} un résultat, donc on pourrait écrire {\tt d = discriminant(1,-11,30)} afin de récupérer dans {\tt d} la valeur calculée. La fonction {\tt triangle} ne renvoie rien, elle produit un affichage, il serait donc illogique d'écrire {\tt t~=~triangle(4)}. Par contre {\tt triangle(4)} fera appel à cette fonction et affichera un triangle de 3 lignes d'étoiles.
+{\small \danger} Ne pas confondre {\tt print} et {\tt return}. La fonction {\tt discriminant} ci-dessus \textit{renvoie} un résultat, donc on pourrait écrire {\tt d = discriminant(1, -11, 30)} afin de récupérer dans {\tt d} la valeur calculée. La fonction {\tt triangle} ne renvoie rien, elle produit un affichage, il serait donc illogique d'écrire {\tt t = triangle(4)}. Par contre {\tt triangle(4)} fera appel à cette fonction et affichera un triangle de 3 lignes d'étoiles.
 \end{tcolorbox}
 
-
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Spécification et assertions},colbacktitle=cfond]
+L'instruction \mintinline{python}{assert <condition>} valide une précondition. Si la condition est fausse, le programme s'arrête immédiatement en levant une exception \mintinline{python}{AssertionError} :
+\begin{python}
+def quotient(a, b):
+	assert b != 0 # Précondition : b doit être non nul
+	return a // b
+\end{python}
+\end{tcolorbox}
 
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Tranches},colbacktitle=cfond]
 	\begin{enumerate}
 	 \item[\ding{182}] Accès à un caractère par son indice \\
-	 La notation {\tt [i]} déjà rencontrée sur les chaines de caractères permet d'accéder au {\tt i}-ème caractère d'une chaine où les caractères sont numérotés \textit{à partir de 0}. Par exemple,
+	 La notation {\tt [i]} déjà rencontrée sur les chaînes de caractères permet d'accéder au {\tt i}-ème caractère d'une chaîne où les caractères sont numérotés \textit{à partir de 0}. Par exemple,
 	 si \mintinline{python}{exemple = "Un petit exemple"} : \\
 	 \newcommand{\ind}[1]{\multicolumn{1}{c}{\textbf{\tt \footnotesize #1}}}
 	 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
@@ -199,16 +242,16 @@ def triangle(n):
 		\ind{0} & \ind{1}& \ind{2}& \ind{3}& \ind{4}& \ind{5}& \ind{6}& \ind{7}& \ind{8}& \ind{9}& \ind{10}& \ind{11}& \ind{12}& \ind{13}& \ind{14} & \ind{15}
 	 \end{tabular}\\
 	 alors : \mintinline{python}{exemple[0]} est {\tt 'U'}, \mintinline{python}{exemple[1]} est {\tt 'n'}, \dots \\
-	 {\small \important} \; On remarquera que l'indice du dernier élément est  \textit{la longueur de la chaine moins 1}. La longueur s'obtenant avec {\tt len}, ici on a par exemple \mintinline{python}{exemple[len(exemple)-1]} qui vaut {\tt 'e'}.
+	 {\small \important} \; On remarquera que l'indice du dernier élément est \textit{la longueur de la chaîne moins 1}. La longueur s'obtenant avec {\tt len}, ici on a par exemple \mintinline{python}{exemple[len(exemple)-1]} qui vaut {\tt 'e'}.
 	 \item[\ding{183}] Tranches \\
-	 On peut aussi prendre une tranche en précisant dans les {\tt []} le début de la tranche (inclus) et sa fin (exclue) séparé par le caractère {\tt :} si le début ou la fin sont absents alors ils correspondent respectivement au premier et au dernier indice. Par exemples :
+	 On peut aussi prendre une tranche en précisant dans les {\tt []} le début de la tranche (inclus) et sa fin (exclue) séparés par le caractère {\tt :} ; si le début ou la fin sont absents alors ils correspondent respectivement au premier et au dernier indice. Par exemple :
 	 \begin{itemize}
 	  \item[\textbullet] \mintinline{python}{exemple[3:8]} est {\tt "petit"}
 	  \item[\textbullet] \mintinline{python}{exemple[:2]} est {\tt "Un"} (le début étant absent, on commence au premier caractère)
 	  \item[\textbullet] \mintinline{python}{exemple[13:]} est {\tt "ple"} (la fin étant absente, on termine au dernier caractère)
 	 \end{itemize}	
 	\item[\ding{184}] Pas de progression \\
-	Une tranche peut prendre un troisième paramètre qui indique alors un \textit{pas de progression}, par exemple si ce pas vaut 2, on ne prend qu'un caractère sur 2. D'autre part si le pas est négatif alors on progresse de la fin de la chaine vers le début. Par exemples :
+	Une tranche peut prendre un troisième paramètre qui indique alors un \textit{pas de progression}, par exemple si ce pas vaut 2, on ne prend qu'un caractère sur 2. D'autre part si le pas est négatif alors on progresse de la fin de la chaîne vers le début. Par exemple :
 	\begin{itemize}
 		\item[\textbullet] \mintinline{python}{exemple[4:10:2]} est {\tt "ei "}
 		\item[\textbullet] \mintinline{python}{exemple[15:8:-1]} est {\tt "elpmexe"} 
@@ -219,42 +262,42 @@ def triangle(n):
 	
 	\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Tuples},colbacktitle=cfond]
 		\begin{enumerate}
-			\item[\ding{182}] Un tuple est une suite de valeurs repérées par leur indice (à la façon des caractères d'une chaine). Un tuple se note entre {\tt ()} et les valeurs sont séparées par des virgules. Par exemple \mintinline{python}{date = (2, "décembre", 1815)} est un tuple constituées de trois valeurs.
-			\item[\ding{183}] On retrouve pour les tuples, la fonction {\tt len}, l'accès au  ième élément avec {\tt [i]} et les tranches déjà vues sur les chaines de caractères.
-			\item[\ding{184}] Les valeurs d'un tuple ne sont \textit{pas modifiables} (comme les caractères d'une chaines), une tentative en ce sens produit un {\tt TypeError}
-			\item[\ding{185}] Un tuple peut être décompacté afin d'affecter chacune de ses valeurs à une variable. Par exemple \mintinline{python}{jour, mois, annee = date}.
+			\item[\ding{182}] Un tuple est une suite de valeurs repérées par leur indice (à la façon des caractères d'une chaîne). Un tuple se note entre {\tt ()} et les valeurs sont séparées par des virgules. Par exemple \mintinline{python}{date = (2, "décembre", 1815)} est un tuple constitué de trois valeurs.
+			\item[\ding{183}] On retrouve pour les tuples, la fonction {\tt len}, l'accès au $i$-ème élément avec {\tt [i]} et les tranches déjà vues sur les chaînes de caractères.
+			\item[\ding{184}] Les valeurs d'un tuple ne sont \textit{pas modifiables} (comme les caractères d'une chaîne), une tentative en ce sens produit un {\tt TypeError}.
+			\item[\ding{185}] Un tuple peut être dépaqueté afin d'affecter chacune de ses valeurs à une variable. Par exemple \mintinline{python}{jour, mois, annee = date}.
 		\end{enumerate}
 	\end{tcolorbox}
 	
 	\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Importation de fonctions},colbacktitle=cfond]
 		En Python, on peut importer des fonctions se trouvant dans d'autres modules, deux syntaxes sont possibles :
 		\begin{itemize}
-			\item[\textbullet] {\tt from <module> import <fonction>}, cela rend directement utilisable {\tt <fonction>} dans la suite du programme. Par exemple la fonction racine carrée s'appelle \mintinline{python}{sqrt} et doit être importé depuis le module \mintinline{python}{math} avec \mintinline{python}{from math import sqrt} pour être utilisable.
+			\item[\textbullet] {\tt from <module> import <fonction>}, cela rend directement utilisable {\tt <fonction>} dans la suite du programme. Par exemple la fonction racine carrée s'appelle \mintinline{python}{sqrt} et doit être importée depuis le module \mintinline{python}{math} avec \mintinline{python}{from math import sqrt} pour être utilisable.
 			\item[\textbullet] {\tt import <module>}, dans ce cas, toutes les fonctions du module sont utilisables mais on doit préfixer leur nom par celui du module. Par exemple après un \mintinline{python}{import math} pour utiliser la fonction racine carrée, on doit écrire \mintinline{python}{math.sqrt}.
 		\end{itemize}
 	\end{tcolorbox}
 	
 	\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Listes},colbacktitle=cfond]
 		\begin{enumerate}
-			\item[\ding{182}] Une liste est une suite de valeurs repérées par leur indice. Une liste se note entre {\tt [} et {\tt]} et les valeurs sont séparées par des virgules. Par exemple \mintinline{python}{premiers = [2, 3, 5, 7, 11, 13, 15]} est une liste. La liste vide est {\tt []}.
-			\item[\ding{183}] On retrouve pour les listes, la fonction {\tt len}, l'accès au  ième élément avec {\tt [i]} et les tranches déjà vues sur les chaines de caractères et les tuples.
-			\item[\ding{184}] Les valeurs d'une liste, à la différence de celles d'un tuple,sont \textit{modifiables}, on peut donc écrire \mintinline{python}{premiers[6]=17} afin que la liste ci-dessus devienne \mintinline{python}{premiers = [2, 3, 5, 7, 11, 13, 17]}.
+			\item[\ding{182}] Une liste est une suite de valeurs repérées par leur indice. Une liste se note entre {\tt [} et {\tt]} et les valeurs sont séparées par des virgules. Par exemple \mintinline{python}{premiers = [2, 3, 5, 7, 11, 13, 15]} est une liste (qui contient une erreur en dernière position). La liste vide est {\tt []}.
+			\item[\ding{183}] On retrouve pour les listes, la fonction {\tt len}, l'accès au $i$-ème élément avec {\tt [i]} et les tranches déjà vues sur les chaînes de caractères et les tuples.
+			\item[\ding{184}] Les valeurs d'une liste, à la différence de celles d'un tuple, sont \textit{modifiables}, on peut donc écrire \mintinline{python}{premiers[6] = 17} afin que la liste ci-dessus devienne \mintinline{python}{premiers = [2, 3, 5, 7, 11, 13, 17]}.
 			\item[\ding{185}] On peut ajouter un élément à une liste avec {\tt append}, la syntaxe est {\tt <liste>.append(<element>)}. Par exemple, après exécution de \mintinline{python}{premiers.append(19)} la liste ci-dessus devient \mintinline{python}{premiers = [2, 3, 5, 7, 11, 13, 17, 19]}.
-			\item[\ding{186}] On peut retirer le dernier élément d'une liste avec {\tt pop}, la syntaxe est {\tt <liste>.pop()}. L'élément retiré est renvoyé par cette instruction et peut-être récupéré, ainsi \mintinline{python}{n = premiers.pop()} aura deux effets : supprimer 19 de la liste {\tt premiers} et affecter cette valeur à {\tt n}.
+			\item[\ding{186}] On peut retirer le dernier élément d'une liste avec {\tt pop}, la syntaxe est {\tt <liste>.pop()}. L'élément retiré est renvoyé par cette instruction et peut être récupéré, ainsi \mintinline{python}{n = premiers.pop()} aura deux effets : supprimer 19 de la liste {\tt premiers} et affecter cette valeur à {\tt n}.
 			\item[\ding{187}] Création de listes :
 			\begin{itemize}
 				\item[\textbullet] en donnant explicitement ses éléments (comme la liste {\tt premiers} ci-dessus).
-				\item[\textbullet] par répétition avec {\tt *}, par exemple {\tt [77]*10} est la liste constitué de 10 fois le nombre {\tt 77}.
-				\item[\textbullet] par ajout successif, on part d'une liste vide et on ajoute (généralement à l'aide d'une boucle {\tt for}) successivement avec {\tt append} les éléments à la liste.
+				\item[\textbullet] par répétition avec {\tt *}, par exemple {\tt [77] * 10} est la liste constituée de 10 fois le nombre {\tt 77}.
+				\item[\textbullet] par ajouts successifs, on part d'une liste vide et on ajoute (généralement à l'aide d'une boucle {\tt for}) successivement avec {\tt append} les éléments à la liste.
 				\item[\textbullet] par compréhension, à la façon dont on définit parfois les ensembles en mathématiques. Par exemple,
-				\mintinline{python}{[i for i in range(50) if i%10==7]} est la liste {\tt [7, 17, 27, 37, 47]} (les nombres entre 0 et 49 dont le reste dans la division euclidienne par 10 est 7).
+				\mintinline{python}{[i for i in range(50) if i % 10 == 7]} est la liste {\tt [7, 17, 27, 37, 47]} (les nombres entre 0 et 49 dont le reste dans la division euclidienne par 10 est 7).
 			\end{itemize}
 		\end{enumerate}
 	\end{tcolorbox}
 	
 	
 	\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Mutables et non mutables},colbacktitle=cfond]
-		En Python, on manipule des objets, certains sont \textit{mutables} et d'autres non. Une variable est l'association entre une étiquette (le nom) et l'objet qu'il référence. Les listes de Python sont mutables au contraire de tous les autres rencontrés jusqu'ici ({\tt int}, {\tt float}, {\tt bool}, {\tt str}, {\tt tuple}). Lorsqu'on modifie un objet mutable, cela modifie toutes ses \textit{références}.
+		En Python, on manipule des objets, certains sont \textit{mutables} et d'autres non. Une variable est l'association entre une étiquette (le nom) et l'objet qu'elle référence. Les listes de Python sont mutables au contraire de tous les autres types rencontrés jusqu'ici ({\tt int}, {\tt float}, {\tt bool}, {\tt str}, {\tt tuple}). Lorsqu'on modifie un objet mutable, cela modifie toutes ses \textit{références}.
 			
 		\setlength{\multicolsep}{0pt}
 		\begin{multicols}{2}
@@ -266,16 +309,35 @@ def triangle(n):
 	# n vaut toujours 42
 	# m et n référencent deux objets différents
 	\end{python}
-			Cas mutable: 
+			Cas mutable : 
 			\begin{python} 
 	n = [12, 15]
 	m = n
 	m.append(17)
-	#m référence maintenant [12, 15, 17]
-	#m et n référencent le même objet
+	# m référence maintenant [12, 15, 17]
+	# m et n référencent le même objet
 			\end{python}
 		\end{multicols}
-		Les fonctions qui modifient un objet mutable le font généralement sans faire apparaître le signe {\tt =}, par exemple \mintinline{c}{liste.pop()}.
+		Les fonctions qui modifient un objet mutable le font généralement sans faire apparaître le signe {\tt =}, par exemple \mintinline{python}{liste.pop()}.
+	\end{tcolorbox}
+
+	\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Fichiers textes},colbacktitle=cfond]
+		\begin{itemize}
+			\item[\textbullet] \textbf{Lecture :} \mintinline{python}{f = open("data.txt", "r")}, puis \mintinline{python}{f.read()} (tout le contenu sous forme de \mintinline{python}{str}) ou \mintinline{python}{f.readline()} (une ligne), puis fermeture \mintinline{python}{f.close()}.
+			\item[\textbullet] \textbf{Écriture :} \mintinline{python}{f = open("sortie.txt", "w")}, puis \mintinline{python}{f.write("texte\n")}, puis fermeture \mintinline{python}{f.close()}. (Le mode \mintinline{python}{"a"} permet d'écrire en ajout sans écraser).
+			\item[\textbullet] Découpage d'une ligne lue avec séparateur : \mintinline{python}{mots = ligne.split(";")}.
+		\end{itemize}
+	\end{tcolorbox}
+
+	\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Mémo Algorithmique : Terminaison, Correction, Complexité},colbacktitle=cfond]
+		\begin{itemize}
+			\item[\textbullet] \textbf{Terminaison :} Se démontre à l'aide d'un \textbf{variant} (quantité entière positive qui décroît strictement à chaque passage dans la boucle non bornée ou appel récursif).
+			\item[\textbullet] \textbf{Correction :} Se démontre à l'aide d'un \textbf{invariant de boucle} (propriété vraie avant la boucle et conservée à chaque itération) ou par récurrence sur les appels récursifs.
+			\item[\textbullet] \textbf{Complexités usuelles ($\mathcal{O}$) :} Majoration asymptotique du nombre d'opérations dans le pire cas :
+			\begin{center}
+			$\mathcal{O}(1) \ll \mathcal{O}(\log n) \ll \mathcal{O}(n) \ll \mathcal{O}(n\log n) \ll \mathcal{O}(n^2) \ll \mathcal{O}(2^n)$
+			\end{center}
+		\end{itemize}
 	\end{tcolorbox}
 
 \end{document}

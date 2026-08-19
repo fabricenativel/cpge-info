@@ -545,9 +545,10 @@ def define_env(env):
         </iframe>'''
         return res
 
+    @env.macro
     def terminal():
         res = '''<iframe 
-                    src="https://fabricenativel.github.io/cpge-info/itc/mini_terminal.html" 
+                    src="https://fabricenativel.github.io/cpge-info/itc/mini_console.html" 
                     width="100%" 
                     height="500px" 
                     style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
