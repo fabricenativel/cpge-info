@@ -1,0 +1,508 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+
+% Entête de la fiche
+\Fiche{Erreurs fréquentes en Python}{\sc itc}
+
+\pythonmode
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faSearch \; Méthode : Comprendre un message d'erreur (Traceback)},colbacktitle=cfond]
+Lorsqu'une exception survient, Python interrompt l'exécution et affiche une trace d'appels (\textit{traceback}) qui se lit \textbf{de bas en haut} :
+\begin{enumerate}
+	\item[\ding{182}] \textbf{Lire la dernière ligne en premier :} elle donne le \textbf{type de l'exception} et un message explicatif précis (ex : \mintinline{python}{IndexError: list index out of range}).
+	\item[\ding{183}] \textbf{Remonter à la ligne incriminée :} repérer la ligne \mintinline{python}{File "programme.py", line X, in ...} correspondant à \textit{votre} fichier (et non aux fichiers internes de la bibliothèque standard).
+	\item[\ding{184}] {\small \danger \;} \textbf{Cas particulier du {\tt SyntaxError} :} l'erreur réelle se situe très souvent à la ligne \textbf{précédente} (ex : parenthèse ou guillemet non fermé à la ligne $X-1$, l'interpréteur ne détecte l'anomalie qu'à la ligne $X$).
+\end{enumerate}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faBug \; 1. Erreurs de syntaxe (SyntaxError)},colbacktitle=cfond]
+Une erreur de syntaxe empêche l'exécution du script avant même son démarrage (phase d'analyse lexicale et syntaxique).
+\begin{itemize}
+	\item[\textbullet] \textbf{Oubli des deux-points {\tt :}} à la fin d'un en-tête d'instruction conditionnelle, de boucle ou de fonction :
+	\setlength{\multicolsep}{0pt}
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+if x > 0
+    print("positif")
+def carre(n)
+    return n * n
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+if x > 0:
+    print("positif")
+def carre(n):
+    return n * n
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{Confusion entre affectation {\tt =} et comparaison {\tt ==}} :
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+if a = 3:
+    print("égal à 3")
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+if a == 3:
+    print("égal à 3")
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{Parenthèse, crochet ou guillemet non fermé} :
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+val = (2 * x + 1
+print(val) # SyntaxError ici !
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+val = (2 * x + 1)
+print(val)
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{Mots-clés erronés ou syntaxe empruntée à d'autres langages} :
+	\begin{tabularx}{\linewidth}{|>{\tt}l|>{\tt}l|X|}
+		\hline
+		\textbf{Syntaxe erronée} & \textbf{Syntaxe Python} & \textbf{Explication / Contexte} \\
+		\hline
+		else if / elsif & elif & Branche alternative conditionnelle. \\
+		\hline
+		true / false & True / False & Les booléens prennent obligatoirement une majuscule. \\
+		\hline
+		null & None & Valeur / objet représentant l'absence de valeur. \\
+		\hline
+		\&\& / || / ! & and / or / not & Opérateurs logiques booléens en toutes lettres. \\
+		\hline
+		function / let / var & def / (direct) & Définition de fonction ou affectation de variable. \\
+		\hline
+	\end{tabularx}
+
+	\item[\textbullet] \textbf{Noms de variables invalides} : un identificateur ne peut ni commencer par un chiffre (ex : {\tt 1ere\_valeur}), ni contenir de tiret (ex : {\tt total-points} confondu avec une soustraction), ni être un mot réservé Python ({\tt for}, {\tt in}, {\tt def}, {\tt class}, {\tt return}, {\tt pass}, {\tt while}, {\tt import}, \dots).
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faBug \; 2. Erreurs d'indentation (IndentationError)},colbacktitle=cfond]
+En Python, l'indentation structure les blocs de code. Toute incohérence bloque l'exécution.
+\begin{itemize}
+	\item[\textbullet] \textbf{\mintinline{python}{expected an indented block}} : un bloc vide suit un deux-points {\tt :}. Si le bloc doit rester vide (temporairement), utiliser le mot-clé \mintinline{python}{pass}.
+	\setlength{\multicolsep}{0pt}
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+def a_completer(x):
+# Bloc vide -> Erreur !
+def suivante(y):
+    return y + 1
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+def a_completer(x):
+    pass  # Corps temporaire
+def suivante(y):
+    return y + 1
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{\mintinline{python}{unindent does not match any outer indentation level}} : décalage d'indentation incohérent ou mélange imperceptible d'espaces et de tabulations. \\
+	{\small \important} Toujours configurer son éditeur de code pour insérer \textbf{4 espaces} lors de l'appui sur la touche \keys{\tab}.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faBug \; 3. Erreurs de type (TypeError)},colbacktitle=cfond]
+Survient lors de l'application d'un opérateur ou d'une fonction à un objet d'un type non approprié.
+\begin{itemize}
+	\item[\textbullet] \textbf{\mintinline{python}{unsupported operand type(s)}} : opération interdite entre types incompatibles :
+	\setlength{\multicolsep}{0pt}
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+s = "Total : " + 42
+# Concaténation str + int
+L = [1, 2, 3] - [2]
+# Soustraction sur listes
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+s = "Total : " + str(42)
+# Conversion explicite
+L.remove(2)
+# Méthode appropriée
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{Flottant utilisé comme indice ou paramètre de \mintinline{python}{range}} :
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+milieu = len(L) / 2
+val = L[milieu] # float !
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+milieu = len(L) // 2
+val = L[milieu] # int !
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{\mintinline{python}{'NoneType' object is not ...}} : utilisation du résultat d'une fonction sans \mintinline{python}{return} ou réassignation du résultat d'une méthode modifiant en place :
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+L = [3, 1, 2]
+L = L.append(4)
+# L vaut maintenant None !
+print(len(L)) # TypeError !
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+L = [3, 1, 2]
+L.append(4)
+# append modifie L en place
+print(len(L)) # Affiche 4
+		\end{python}
+	\end{multicols}
+	{\small \danger} Même piège avec \mintinline{python}{L.sort()} (modifie en place et renvoie \mintinline{python}{None}) à distinguer de \mintinline{python}{sorted(L)} (renvoie une nouvelle liste triée).
+
+	\item[\textbullet] \textbf{\mintinline{python}{'...' object is not callable}} :
+	\begin{itemize}
+		\item[\ding{226}] Oubli du signe de multiplication : écrire \mintinline{python}{2 * (x + 1)} et non \mintinline{python}{2(x + 1)}.
+		\item[\ding{226}] Utilisation de parenthèses au lieu de crochets pour accéder à un élément : \mintinline{python}{tab[i]} et non \mintinline{python}{tab(i)}.
+		\item[\ding{226}] Écrasement d'une fonction native par une variable locale :
+		\begin{python}
+list = [1, 2, 3]       # Variable masquant la fonction intégrée list
+autre = list("abc")    # TypeError: 'list' object is not callable !
+		\end{python}
+	\end{itemize}
+
+	\item[\textbullet] \textbf{\mintinline{python}{takes X positional arguments but Y were given}} : mauvais nombre d'arguments passés lors de l'appel d'une fonction.
+
+	\item[\textbullet] \textbf{\mintinline{python}{'tuple' / 'str' object does not support item assignment}} : tentative de modification d'un élément d'un type \textbf{immuable} (ex : \mintinline{python}{texte[0] = 'A'} ou \mintinline{python}{mon_tuple[1] = 10}).
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faBug \; 4. Erreurs d'indice (IndexError)},colbacktitle=cfond]
+L'exception \mintinline{python}{IndexError: list index out of range} survient lorsqu'on tente d'accéder à un élément avec un indice $i \notin \intN{-\text{len}(L)}{\text{len}(L)-1}$.
+\begin{itemize}
+	\item[\textbullet] \textbf{Boucle allant un cran trop loin} :
+	\setlength{\multicolsep}{0pt}
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+# Indice len(L) inexistant !
+for i in range(len(L) + 1):
+    print(L[i])
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+# Indices de 0 à len(L)-1
+for i in range(len(L)):
+    print(L[i])
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{Accès au successeur \mintinline{python}{L[i+1]}} : la borne supérieure de la boucle doit être réduite d'une unité :
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+# Pour i = len(L)-1, i+1 déborde !
+for i in range(len(L)):
+    if L[i] == L[i+1]:
+        print("doublon")
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+# Arrêt à len(L)-2
+for i in range(len(L) - 1):
+    if L[i] == L[i+1]:
+        print("doublon")
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{Affectation directe sur une liste vide / non dimensionnée} :
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+carres = []
+for i in range(10):
+    carres[i] = i**2 # IndexError !
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+carres = []
+for i in range(10):
+    carres.append(i**2)
+		\end{python}
+	\end{multicols}
+	{\small \important} Pour pré-allouer une liste de taille $n$, écrire \mintinline{python}{carres = [0] * 10}, puis \mintinline{python}{carres[i] = i**2}.
+	
+	\item[\textbullet] \textbf{Remarque sur les tranches} : les tranches \mintinline{python}{L[debut:fin]} ne lèvent \textbf{jamais} d'\mintinline{python}{IndexError}, même si \mintinline{python}{fin} dépasse la longueur de la liste (l'extraction s'arrête simplement au dernier élément).
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faBug \; 5. Erreurs de nom et portée (NameError, UnboundLocalError)},colbacktitle=cfond]
+Survient lorsqu'on utilise un identificateur non défini ou non accessible dans la portée courante.
+\begin{itemize}
+	\item[\textbullet] \textbf{\mintinline{python}{NameError: name '...' is not defined}} :
+	\begin{itemize}
+		\item[\ding{226}] \textbf{Faute de frappe ou casse non respectée :} Python est sensible à la casse (\mintinline{python}{total}, \mintinline{python}{Total} et \mintinline{python}{TOTAL} sont 3 variables distinctes).
+		\item[\ding{226}] \textbf{Utilisation avant affectation :} variable manipulée avant sa ligne d'initialisation.
+		\item[\ding{226}] \textbf{Oubli d'un import :} utiliser \mintinline{python}{sqrt(x)} sans \mintinline{python}{from math import sqrt} préalable.
+		\item[\ding{226}] \textbf{Variable locale inaccessible hors de sa fonction :}
+		\setlength{\multicolsep}{0pt}
+		\begin{multicols}{2}
+			\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+			\begin{python}
+def moyenne(a, b):
+    res = (a + b) / 2
+    return res
+
+moyenne(12, 16)
+print(res) # NameError !
+			\end{python}
+			\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+			\begin{python}
+def moyenne(a, b):
+    res = (a + b) / 2
+    return res
+
+m = moyenne(12, 16)
+print(m) # Récupérer le résultat
+			\end{python}
+		\end{multicols}
+		\item[\ding{226}] \textbf{Variable définie dans un bloc conditionnel non exécuté :} si une variable n'est affectée que dans un \mintinline{python}{if}, elle n'existera pas si la condition est fausse (lui donner une valeur par défaut avant le test).
+	\end{itemize}
+
+	\item[\textbullet] \textbf{\mintinline{python}{ModuleNotFoundError: No module named '...'}} : nom de bibliothèque mal orthographié (ex : \mintinline{python}{import maths} au lieu de \mintinline{python}{math}).
+
+	\item[\textbullet] \textbf{\mintinline{python}{UnboundLocalError: local variable referenced before assignment}} : survient lorsqu'une fonction tente de modifier une variable sans préciser qu'elle est globale, ou lorsqu'elle lit une variable locale avant son affectation :
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+compteur = 0
+def incrementer():
+    compteur = compteur + 1
+# Python considère compteur local
+# mais il n'est pas encore assigné
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+def incrementer(compteur):
+    return compteur + 1
+
+compteur = 0
+compteur = incrementer(compteur)
+		\end{python}
+	\end{multicols}
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faBug \; 6. Valeurs, arithmétique et assertions (ValueError, ZeroDivisionError)},colbacktitle=cfond]
+L'argument est du bon type, mais sa valeur est invalide ou non acceptée pour l'opération demandée.
+\begin{itemize}
+	\item[\textbullet] \textbf{\mintinline{python}{ZeroDivisionError: division by zero}} : division \mintinline{python}{/}, quotient entier \mintinline{python}{//} ou modulo \mintinline{python}{%} avec un dénominateur nul (cas d'une liste vide lors du calcul d'une moyenne, ou d'un pivot nul).
+	
+	\item[\textbullet] \textbf{\mintinline{python}{ValueError: invalid literal for int()}} : tentative de conversion d'une chaîne ne représentant pas un entier :
+	\setlength{\multicolsep}{0pt}
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+n = int("3.14") # ValueError !
+m = int("dix")  # ValueError !
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+n = int(float("3.14")) # Vaut 3
+m = 10
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{\mintinline{python}{ValueError: math domain error}} : argument hors du domaine de validité mathématique d'une fonction (ex : \mintinline{python}{math.sqrt(-4)}, \mintinline{python}{math.log(0)}, \mintinline{python}{math.asin(2)}).
+
+	\item[\textbullet] \textbf{\mintinline{python}{ValueError: not enough / too many values to unpack}} : déballage d'un tuple ou d'une liste avec un nombre incompatible de variables à gauche de l'affectation :
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+x, y = (1, 2, 3) # Trop de valeurs
+a, b, c = [10, 20] # Pas assez
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+x, y, z = (1, 2, 3)
+a, b = [10, 20]
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{\mintinline{python}{AssertionError}} : levé lorsqu'une instruction \mintinline{python}{assert <condition>} échoue (la précondition testée n'est pas vérifiée lors de l'appel).
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faBug \; 7. Fichiers, dictionnaires et attributs (KeyError, AttributeError)},colbacktitle=cfond]
+\begin{itemize}
+	\item[\textbullet] \textbf{\mintinline{python}{FileNotFoundError: [Errno 2] No such file or directory}} : tentative d'ouverture avec \mintinline{python}{open("fichier.txt")} d'un fichier inexistant, mal nommé (ex : faute dans l'extension) ou situé dans un autre répertoire (problème de chemin relatif).
+
+	\item[\textbullet] \textbf{\mintinline{python}{KeyError: 'cle'}} : accès direct à une clé qui n'existe pas dans le dictionnaire :
+	\setlength{\multicolsep}{0pt}
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+d = {"a": 1, "b": 2}
+val = d["c"] # KeyError !
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+if "c" in d:
+    val = d["c"]
+val = d.get("c", 0) # Avec défaut
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{\mintinline{python}{AttributeError: '...' object has no attribute '...'}} :
+	\begin{itemize}
+		\item[\ding{226}] Utilisation d'une méthode inexistante sur le type manipulé (ex : \mintinline{python}{L.push(5)} au lieu de \mintinline{python}{L.append(5)}, \mintinline{python}{s.append("a")} sur une chaîne, ou \mintinline{python}{tab.length} au lieu de \mintinline{python}{len(tab)}).
+		\item[\ding{226}] Appel de méthode sur \mintinline{python}{None} consécutif à une fonction sans \mintinline{python}{return} : \mintinline{python}{AttributeError: 'NoneType' object has no attribute 'split'}.
+	\end{itemize}
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faBug \; 8. Récursion et boucles infinies (RecursionError et terminaison)},colbacktitle=cfond]
+\begin{itemize}
+	\item[\textbullet] \textbf{\mintinline{python}{RecursionError: maximum recursion depth exceeded}} : trop grand nombre d'appels récursifs imbriqués (limite par défaut à 1000) :
+	\begin{itemize}
+		\item[\ding{226}] \textbf{Oubli du cas de base (condition d'arrêt) :} la fonction s'appelle indéfiniment.
+		\item[\ding{226}] \textbf{Pas de récurrence incorrect :} l'argument ne converge pas vers le cas de base (ex : appel \mintinline{python}{f(n)} au lieu de \mintinline{python}{f(n - 1)}).
+	\end{itemize}
+	\setlength{\multicolsep}{0pt}
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+def fact(n):
+    # Oubli du cas de base !
+    return n * fact(n - 1)
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+def fact(n):
+    if n == 0:
+        return 1
+    return n * fact(n - 1)
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{Boucle \mintinline{python}{while} infinie} : le programme s'exécute sans fin et bloque sans message d'erreur :
+	\begin{itemize}
+		\item[\ding{226}] Oubli de la mise à jour de la variable de contrôle dans le corps du \mintinline{python}{while} (ex : omission de \mintinline{python}{i += 1}).
+		\item[\ding{226}] Condition d'arrêt stricte sur un flottant : \mintinline{python}{while x != 1.0:} avec un pas \mintinline{python}{x += 0.1} peut ne jamais s'arrêter en raison des erreurs d'arrondi de l'arithmétique flottante.
+	\end{itemize}
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faExclamationTriangle \; 9. Pièges logiques classiques (Aucune exception mais résultat faux !)},colbacktitle=cfond]
+\begin{itemize}
+	\item[\textbullet] \textbf{Aliasing et duplication de listes (partage de références)} :
+	\setlength{\multicolsep}{0pt}
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+a = [1, 2, 3]
+b = a # Même objet en mémoire !
+b.append(4)
+# a vaut aussi [1, 2, 3, 4] !
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+a = [1, 2, 3]
+b = list(a) # ou b = a[:] / a.copy()
+b.append(4)
+# a reste [1, 2, 3]
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{Création de matrices / grilles 2D avec \mintinline{python}{*}} :
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+# 3 fois la MÊME ligne !
+grille = [[0] * 3] * 3
+grille[0][0] = 1
+# Modifie toute la colonne 0 !
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+# 3 lignes indépendantes
+grille = [[0]*3 for _ in range(3)]
+grille[0][0] = 1
+# Seule la case (0,0) vaut 1
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{Modification d'une liste pendant son parcours} :
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+L = [1, 2, 2, 3]
+for x in L:
+    if x == 2:
+        L.remove(x) # Saute un '2' !
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+L = [1, 2, 2, 3]
+# Filtrer par compréhension :
+L = [x for x in L if x != 2]
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{Oubli de \mintinline{python}{return} dans une fonction récursive} :
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+def recherche(x, L, i=0):
+    if i >= len(L):
+        return False
+    if L[i] == x:
+        return True
+    # Oubli du return !
+    recherche(x, L, i + 1)
+# Renvoie None si trouvé plus loin
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+def recherche(x, L, i=0):
+    if i >= len(L):
+        return False
+    if L[i] == x:
+        return True
+    return recherche(x, L, i + 1)
+		\end{python}
+	\end{multicols}
+
+	\item[\textbullet] \textbf{Test d'égalité exacte sur les flottants} :
+	\begin{multicols}{2}
+		\textcolor{BrickRed}{\faTimesCircle \; Code erroné :}
+		\begin{python}
+if 0.1 + 0.2 == 0.3:
+    print("Égal") # N'affiche RIEN !
+# Car 0.1+0.2=0.30000000000000004
+		\end{python}
+		\textcolor{OliveGreen}{\faCheckCircle \; Code corrigé :}
+		\begin{python}
+import math
+# Ou abs(a - b) < 1e-9 :
+if math.isclose(0.1 + 0.2, 0.3):
+    print("Égal")
+		\end{python}
+	\end{multicols}
+\end{itemize}
+\end{tcolorbox}
+
+\end{document}

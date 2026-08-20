@@ -33,7 +33,8 @@
 	\hline
  \end{tabularx}
  \item [\textbullet] \mintinline{python}{float} : nombres en virgule flottante de taille limitée \\
- S'écrivent toujours avec le séparateur décimal \textbf{\tt .}, mêmes opérateurs que sur les entiers (à l'exception de {\tt //} et {\tt \%}).
+ S'écrivent toujours avec le séparateur décimal \textbf{\tt .}, mêmes opérateurs que sur les entiers (à l'exception de {\tt //} et {\tt \%}).\\
+  Les fonctions mathématiques usuelles telles que $\sin, \cos, \exp, \dots$ renvoient des valeurs de type {\tt float}. Elles doivent être importées depuis la bibliothèque {\tt math} (voir plus loin).
  \item [\textbullet] \mintinline{python}{bool} : deux valeurs possibles {\tt True} et {\tt False} \\
  \begin{tabularx}{\linewidth}{|>{\tt}l|l|X|}
 	\hline
@@ -76,7 +77,16 @@ Des conversions sont possibles entre ces divers types, par exemple, \mintinline{
 		!= & différent & \\
 		\hline
 	\end{tabularx}
+	On peut combiner avec les opérateurs logiques par exemple, la condition $n$ plus grand que 2 ou égal à $-3$ s'écrira \mintinline{python}{(n>2) or (n==-3)}.
 \end{tcolorbox}
+
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Importation de fonctions},colbacktitle=cfond]
+		En Python, on peut importer des fonctions se trouvant dans d'autres modules, deux syntaxes sont possibles :
+		\begin{itemize}
+			\item[\textbullet] {\tt from <module> import <fonction>}, cela rend directement utilisable {\tt <fonction>} dans la suite du programme. Par exemple la fonction racine carrée s'appelle \mintinline{python}{sqrt} et doit être importée depuis le module \mintinline{python}{math} avec \mintinline{python}{from math import sqrt} pour être utilisable.
+			\item[\textbullet] {\tt import <module>}, dans ce cas, toutes les fonctions du module sont utilisables mais on doit préfixer leur nom par celui du module. Par exemple après un \mintinline{python}{import math} pour utiliser la fonction racine carrée, on doit écrire \mintinline{python}{math.sqrt}.
+		\end{itemize}
+	\end{tcolorbox}
 
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Instructions conditionnelles},colbacktitle=cfond]
 	\begin{itemize}
@@ -187,17 +197,20 @@ Une boucle {\tt for} permet donc en particulier de \textit{répéter} un nombre 
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Parcours d'une liste ou d'une chaîne},colbacktitle=cfond]
 \setlength{\multicolsep}{0pt}
 \begin{multicols}{2}
-	\textbf{Par élément} (à privilégier si l'indice n'est pas utile) :
+	\textbf{Par élément}:
 	\begin{python}
 for x in ma_liste:
-	print(x) # x prend la valeur de chaque élément
+	# x est un élément
+	print(x) 
 	\end{python}
-	\textbf{Par indice} (nécessaire pour modifier la liste ou accéder aux voisins) :
+	\textbf{Par indice} :
 	\begin{python}
 for i in range(len(ma_liste)):
-	print(ma_liste[i]) # accès par indice
+	# i est l'indice d'un élément
+	print(ma_liste[i]) 
 	\end{python}
 \end{multicols}
+Le parcours par élément est à privilégier lorsque l'indice n'est pas nécessaire (par exemple lorsqu'on désire simplement faire la somme des éléments d'une liste). Le parcours par indice est nécessaire par exemple lorsqu'on a besoin de comparer un élément à son successeur ou lorsqu'on recherche l'\textit{indice} d'un élément particulier.
 \end{tcolorbox}
 
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Fonctions},colbacktitle=cfond]
@@ -217,7 +230,8 @@ def triangle(n):
 		print("*" * i) 
 \end{python}
 \end{itemize}
-{\small \danger} Ne pas confondre {\tt print} et {\tt return}. La fonction {\tt discriminant} ci-dessus \textit{renvoie} un résultat, donc on pourrait écrire {\tt d = discriminant(1, -11, 30)} afin de récupérer dans {\tt d} la valeur calculée. La fonction {\tt triangle} ne renvoie rien, elle produit un affichage, il serait donc illogique d'écrire {\tt t = triangle(4)}. Par contre {\tt triangle(4)} fera appel à cette fonction et affichera un triangle de 3 lignes d'étoiles.
+{\small \danger} Ne pas confondre {\tt print} et {\tt return}. La fonction {\tt discriminant} ci-dessus \textit{renvoie} un résultat, donc on pourrait écrire {\tt d = discriminant(1, -11, 30)} afin de récupérer dans {\tt d} la valeur calculée pour par exemple la réutiliser dans un calcul comme ({\tt (-b + sqrt(d))/(2*a)}). La fonction {\tt triangle} ne renvoie rien, elle produit un affichage, il serait donc illogique d'écrire {\tt t = triangle(4)}. Par contre {\tt triangle(4)} fera appel à cette fonction et affichera un triangle de 3 lignes d'étoiles.\\
+{\small \danger} En réalité, une fonction ne renvoyant rien, renvoie une valeur particulière en Python appelée {\tt None} (et qui possède son propre type : {\tt NoneType})
 \end{tcolorbox}
 
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Spécification et assertions},colbacktitle=cfond]
@@ -269,13 +283,6 @@ def quotient(a, b):
 		\end{enumerate}
 	\end{tcolorbox}
 	
-	\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Importation de fonctions},colbacktitle=cfond]
-		En Python, on peut importer des fonctions se trouvant dans d'autres modules, deux syntaxes sont possibles :
-		\begin{itemize}
-			\item[\textbullet] {\tt from <module> import <fonction>}, cela rend directement utilisable {\tt <fonction>} dans la suite du programme. Par exemple la fonction racine carrée s'appelle \mintinline{python}{sqrt} et doit être importée depuis le module \mintinline{python}{math} avec \mintinline{python}{from math import sqrt} pour être utilisable.
-			\item[\textbullet] {\tt import <module>}, dans ce cas, toutes les fonctions du module sont utilisables mais on doit préfixer leur nom par celui du module. Par exemple après un \mintinline{python}{import math} pour utiliser la fonction racine carrée, on doit écrire \mintinline{python}{math.sqrt}.
-		\end{itemize}
-	\end{tcolorbox}
 	
 	\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Listes},colbacktitle=cfond]
 		\begin{enumerate}
@@ -307,7 +314,8 @@ def quotient(a, b):
 	m = n
 	m = m + 1
 	# n vaut toujours 42
-	# m et n référencent deux objets différents
+	# m et n font référence à
+	# deux objets distinct
 	\end{python}
 			Cas mutable : 
 			\begin{python} 
@@ -316,6 +324,7 @@ def quotient(a, b):
 	m.append(17)
 	# m référence maintenant [12, 15, 17]
 	# m et n référencent le même objet
+	# donc n vaut [12, 15, 17]
 			\end{python}
 		\end{multicols}
 		Les fonctions qui modifient un objet mutable le font généralement sans faire apparaître le signe {\tt =}, par exemple \mintinline{python}{liste.pop()}.
