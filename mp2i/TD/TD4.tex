@@ -1,0 +1,118 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{4}{Arithmétique des ordinateurs}
+
+\begin{Exercise}[title={Conversions}]\\
+	Recopier et compléter : \\
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		Décimal          & Binaire               & Hexadécimal      \\
+		\hline
+		$\base{199}{10}$ & \dots                 & \dots            \\
+		\hline
+		\dots            & $\base{100110101}{2}$ & \dots            \\
+		\hline
+		\dots            & \dots                 & $\base{7AF}{16}$ \\
+		\hline    
+        \dots            & $\base{11100010110}{2}$ & \dots            \\
+        \hline
+        $\base{2023}{10}$ & \dots                 & \dots            \\
+        \hline 
+        \dots            & \dots                 & $\base{1B2C}{16}$ \\
+        \hline
+	\end{tabular}
+\end{Exercise}
+
+\begin{Exercise}[title ={Dépassement de capacité}] \\
+On suppose que {\tt n = 100} est un entier non signé représenté sur 8 bits en C (type {\tt uint8\_t})
+\Question{Quelle sont les plus grandes et les plus petites valeurs possibles de {\tt n } ?}
+\Question{Après l'instruction {\tt n = n + 50}, quelle sera la valeur de {\tt n} ? Justifier.}
+\Question{On suppose que n vaut de nouveau 100, quelle sera sa valeur après l'instruction {\tt n = n - 200 ?}}
+\Question{On suppose que n vaut de nouveau 100, quelle sera sa valeur après l'instruction {\tt n = n - 150 ?}}
+\end{Exercise}
+
+\begin{Exercise}[title={Bug !} (d'après un exercice proposé par A. Domenech)] \\
+    Dans un jeu vidéo, les points de vie d'un boss sont représentés par un {\tt uint8\_t}. Le boss démarre avec 199 points de vie. A chaque tour, le joueur inflige des dégâts au boss puis ce dernier se régénère de 60 points de vie. Cette régénération est codée de la façon suivante : \\
+    \mintinline{c}{pv_boss = min(pv_boss+60,199);}
+    \Question{Donner les points de vie du boss, si le joueur lui inflige 100 points de dégâts.}
+    \Question{Donner les points de vie du boss, si le joueur lui infige 0 point de dégâts.}
+    \Question{Montrer qu'il est facile de tuer le boss dès le premier tour de jeu, en lui infligeant pourtant moins de dégâts qu'il n'a de points de vie.}
+    \Question{Proposer une modification de la régénération du boss afin de corriger ce bug.}
+\end{Exercise}
+
+\begin{Exercise}[title={Méthode pratique pour le complément à deux}] \\
+Le but de l'exercice est de justifier la méthode vue en cours pour calculer la représentation en complément à deux d'un entier $n$ sur $p$ bits.
+\Question{Rappeler cette méthode.}
+\Question{Etant donné un entier $-b_{p-1}<n<0$, on note $b_{p-1}\dots b_0$ la suite de bits de la représentation binaire de $-n$. c'est-à-dire qu'on a : \\
+$\displaystyle{-n = \sum_{k=0}^{p-1} b_k \,2^k}$ avec $b_{p-1}=0$ \\
+Montrer que $\displaystyle{n = -2^{p-1} + \sum_{k=0}^{p-2} b'_k \,2^k + 1}$ où $b'_k=1-b_k$ pour $k \in \intN{0}{p-2}$}
+\end{Exercise}
+
+\begin{Exercise}[title={Représentation en complément à deux}]
+\Question{Quel est le nombre représenté en complément à 2 sur 8 bits par $10001111$ ?}
+\Question{Quel est le nombre représenté en complément à 2 sur 8 bits par $11001101$ ?}
+\Question{Donner la représentation en complément à deux sur 8 bits de $-121$.}
+\Question{Donner la représentation en complément à deux sur 8 bits de $-77$.}
+\end{Exercise}
+
+\begin{Exercise}[title={Capacité maximale}]
+	\Question{En supposant qu'on code les entiers non signés sur 10 bits, quel sera le plus grand entier représentable ?}
+	\Question{Si on code les entiers signés en complément à 2 sur 10 bits, donner le plus petit et le plus grand entier représentable ainsi que leur écriture binaire.}
+\end{Exercise}
+
+\begin{Exercise}[title={Addition en complément à deux}]
+\Question{Coder en binaire sur un octet en complément à deux $\base{177}{10}$}
+\Question{Même question pour  $\base{-135}{10}$}
+\Question{Faire l'addition binaire de ces deux nombres.}
+\Question{Convertir en décimal pour vérifier qu'on obtient bien 42.}
+\end{Exercise}
+
+\begin{Exercise}[title={D'une écriture à l'autre}]
+	\Question{Donner l'écriture décimale de $\base{11000,011}{2}$}
+	\Question{Donner l'écriture décimale de $\base{0,11011011}{2}$}
+	\Question{Donner l'écriture dyadique de $\base{33,40625}{10}$}
+	\Question{Donner l'écriture dyadique de $\base{0,7}{10}$}
+\end{Exercise}
+
+\begin{Exercise}[title={Représentation des flottants}]
+
+\Question{Donner la valeur décimale des nombres suivants codé sous le format simple précision de la norme IEEE-754 :}
+
+    \subQuestion{$\underbrace{1}_{\mathrm{signe}} \quad \underbrace{01111101}_{\text{exposant décalé}} \quad \underbrace{01101100000000000000000}_{\mathrm{mantisse}}$}
+    \subQuestion{$1  \quad 10001001 \quad 11000000000000000000000$}
+
+\Question{Donner la représentation flottante en simple précision au format de la norme IEEE-754 des nombres suivants:}
+    \subQuestion{$-16,75$.}
+    \subQuestion{$-0,2$.}
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Convergence d'une suite}]\\
+On considère la suite : \\
+$\left\{ \begin{array}{ll} u_0=e-1 \\ u_{n+1} = (n+1)\,u_n - 1 \end{array}\right.$ \\
+Le but de l'exercice est d'établir que cette suite converge vers 0. \\
+On note $$S_n = \displaystyle{\sum_{k=0}^n \frac{1}{k!}}$$ 
+On pourra utiliser sans justification le résultat suivant (qui sera démontré en mathématiques) : pour tout $n \in \N$: \mbox{$S_n \leq e \leq S_n + \dfrac{1}{n\,n!}$}
+
+\Question{Montrer que $ e = \displaystyle{\lim_{n \rightarrow +\infty} S_n}$}
+\Question{Monter que pour tout $n\in \N$, $u_n = n!(e-S_n)$}
+\Question{En déduire que $(u_n)_{n \in \N}$ converge et donner sa limite.}
+\Question{Calculer les premiers termes de cette suite à l'aide de votre calculatrice. Commenter.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Converge "numérique" et converge mathématique}]\\
+On considère la suite: \\
+	$\left\{ \begin{array}{ll} u_1= \dfrac{5}{4} \\ u_2 = \dfrac{7}{5} \\ u_{n+2} = 10 - \dfrac{23}{u_{n+1}} + \dfrac{14}{u_nu_{n+1}} \end{array}\right.$
+
+\Question{Montrer que le terme général de $(u_n)_{n \in \mathbb{N}}$ est $u_n = \dfrac{2^n+3}{2^{n-1}+3}$.}
+\Question{Déterminer la limite de $(u_n)_{n \in \mathbb{N}}$.}
+\Question{Calculer les premiers termes de cette suite à l'aide de votre calculatrice. Commenter.}
+\end{Exercise}
+
+\end{document}

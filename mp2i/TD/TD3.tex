@@ -1,0 +1,104 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+
+
+\ModeExercice
+\newcounter{numtd}
+\setcounter{numtd}{3}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumtd}
+\TD{\thenumtd}{Pointeurs}
+
+\setcounter{Exercise}{0}
+\begin{Exercise}[title={Pointeurs}]\\
+	On considère le programme suivant :
+	\begin{langageC*}{fontsize=\small, tabsize=0}
+		int a = 4;
+		int b = 1;
+		int c = 2;
+		int* p;
+		int* q;
+		p = &a;
+		q = &c;
+		*p = *q + 1;
+		p = q;
+		q = &b;
+		*p = *p - *q;
+		*q = *q + 1;
+		*p *= *q;
+	\end{langageC*}
+	Compléter le tableau suivant afin de donner l'état des variables au cours de l'exécution du programme :
+	\begin{center}
+		\def\arraystretch{1.2}
+		\setlength\tabcolsep{0.5cm}
+		\begin{tabular}{l|c|c|c|c|c}
+			                    & a & b & c & p   & q \\
+			\hline
+			initialisation      & 4 & 1 & 2 & ?   & ? \\
+			{\tt p = \&a;}      & 4 & 1 & 2 & \&a & ? \\
+			{\tt q = \&c;}      &   &   &   &         \\
+			{\tt *p = *q + 1;}  &   &   &   &         \\
+			{\tt p = q;}        &   &   &   &         \\
+			{\tt q = \&b;}      &   &   &   &         \\
+			{\tt *p = *p - *q;} &   &   &   &         \\
+			{\tt *q = *q + 1;}  &   &   &   &         \\
+			{\tt *p *= *q;}     &   &   &   &         \\
+		\end{tabular}
+	\end{center}
+\end{Exercise}
+
+\begin{Exercise}[title={{\tt printf} et {\tt scanf}}]
+	\Question{Ecrire l'instruction permettant d'afficher une variable {\tt n} de type entier avec {\tt printf}}
+	\Question{Ecrire l'instruction permettant de saisir au clavier une variable {\tt n} de type entier avec {\tt scanf}}
+	\Question{Expliquer la différence entre le mode de passage de {\tt n} dans ces deux fonctions}
+\end{Exercise}
+
+\begin{Exercise}[title={ Pointeurs}] \\
+	On considère le programme suivant :
+	\inputC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C3/pointeur.c}{\small}
+	\Question{Ce programme est-il correct ?}
+	\Question{Proposer une correction.}
+\end{Exercise}
+\begin{Exercise}[title={Incrémenter une variable}]\\
+	La fonction suivante doit incrémenter la variable {\tt n} donnée en argument :
+	\begin{langageC*}{fontsize=\small, tabsize=0}
+		void incremente(int x) {
+			    x = x + 1;
+			}
+	\end{langageC*}
+	\Question{Commenter}
+	\Question{Proposer une correction.}
+\end{Exercise}
+
+\begin{Exercise}[title={Fonction modifiant un paramètre}]\\
+Ecrire en C une fonction {\tt inverse} qui prend en argument un pointeur vers un booléen, ne renvoie rien et inverse la valeur de ce booléen ({\tt true} devient {\tt false} et inversement).
+\end{Exercise}
+
+\begin{Exercise}[title={Renvoyer un tableau}]
+	\inputpartC{ret_local.c}{}{\small}{3}{12}
+	\Question{Lors de la compilation de la fonction ci-dessus, on obtient l'avertissement (\textit{warning}) suivant : \og{} \textit{function returns address of local variable}\fg{}. Expliquer cet avertissement.}
+    \Question{Dans quelle partie de la mémoire est stockée le tableau {\tt tab\_entiers} défini à la ligne 6 ?}
+	\Question{Remplacer la ligne 6 par une allocation sur le tas.}
+\end{Exercise}
+
+
+
+\begin{Exercise}[title = {Deux plus grandes valeurs}]\\
+    On souhaite écrire une fonction en C qui prend en argument un tableau d'entiers (de taille $n \geqslant 2$) et renvoie les deux plus grandes valeurs de ce tableau.
+    \Question{Proposer une solution utilisant un type structuré que l'on définira et donner alors la signature de la fonction.}
+    \Question{Proposer une solution avec une fonction ne renvoyant rien mais modifiant deux paramètres passés par adresse. Donner la signature de la fonction dans ce cas.}
+    \Question{Ecrire les deux implémentations.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Passer un pointeur}] \\
+	On considère le programme suivant :
+	\inputpartC{\SPATH/ppointeur.c}{}{}{1}{16}
+	Ce programme produit un \textit{warning} à la compilation : \textit{ parameter ‘p’ set but not used} et une erreur de segmentation à l'exécution.
+	\Question{Expliquer ces deux résultats}
+	\Question{Proposer une correction afin que {\tt init\_pointer} soit conforme à sa spécification.}
+\end{Exercise}
+
+\end{document}
