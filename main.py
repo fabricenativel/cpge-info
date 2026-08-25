@@ -276,7 +276,10 @@ def define_env(env):
     
     @env.macro
     def affiche_eval(niveau):
-        ttypes = ["DS","IC","TP"]
+        if niveau=="mp2i":
+            ttypes = ["DS","IC","TP"]
+        else:
+            ttypes = ["DS", "TP"]
         noms = {"IC":"Interrogation de cours", "DS": "Devoirs surveillés", "DM" : "Devoirs maison", "TP": "Travaux pratiques"}
         entete = "|N° |Date| Thèmes| Titre | Enoncé| Corrigé |\n"
         entete+= "|:-:|:---|:-----:|-------|:-----:|:-------:|\n"

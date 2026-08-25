@@ -10,7 +10,7 @@ Cette première séance a pour objectif de faire le point sur vos acquis du seco
 * vous pouvez utiliser votre ordinateur personnel et votre environnement habituel de programmation Python
 * vous pouvez utiliser le mini environnement intégré dans le navigateur et disponible à chaque exercice 
 
-Vous pouvez vérifier votre réponse en la tapant dans le formulaire associé à chaque exercice
+Chaque exercice est accompagné d'un petit formulaire dans lequel entrer votre réponse afin de vérifier qu'elle est correcte.
 
 ## Exercices 
 

@@ -6,11 +6,9 @@ hide: - navigation  in liens.md
 {{ liste_dm("mp2i")}}
 
 
-
 ## PCSI
 
 {{ affiche_eval("pcsi") }}
-
 
 ## PC
 

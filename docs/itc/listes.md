@@ -23,7 +23,7 @@ L'accès aux caractères via la notation `[]` associé à une boucle {{mpy('for'
 
 Par exemple, supposons qu'on veuille écrire une fonction permettant de compter le nombre de voyelles dans une chaine de caractères (écrite en majuscules), on pourrait écrire :
 
-{{ IDE("scripts/compte_voyelle.py")}}
+{{ ide("scripts/compte_voyelle.py")}}
 
 {{ exo("Test de présence",[],0) }}
 1. Ecrire une fonction `est_dans` qui prend en argument une chaine de caractères `chaine` et un caractère `c` et qui renvoie `True` si  `c` est dans chaine et `False` sinon.
@@ -45,7 +45,7 @@ En informatique, chaque caractère est associé à un entier : son code *unicode
     * En tapant `#!python3 ord("A")` dans le terminal ci-dessous vous pouvez vérifier qu'on obtient bien 65.
     * L'unicode étend le code {{sc("ascii")}} qui est parfois plus connu. En effet, lorsque le code {{sc("ascii")}} d'un caractère existe, il correspond à son code unicode. Ainsi le code {{sc("ascii")}} de `A` existe (et vaut donc aussi 65), mais `ù` n'est pas un caractère {{sc("ascii")}} et n'a donc pas de code {{sc("ascii")}} mais a bien un code unicode : 249.
 
-{{ IDE(MIN_SIZE=7) }}
+{{ ide() }}
 
 Vérifier votre réponse : {{check_reponse("4118")}}
 
@@ -83,7 +83,7 @@ De la même façon que l'instruction `range`, une tranche accepte un troisième 
 
 {{ exo("Extraire des tranches",[])}}
 
-{{ IDE("scripts/tranches.py")}}
+{{ ide("scripts/tranches.py")}}
 
 ## Tuples
 
@@ -168,7 +168,7 @@ D'autre part les deux opérations suivantes sont possibles sur les listes (on fe
 
 {{exo("Manipulation de liste",[])}}
 On considère la liste de courses ci-dessous :
-{{ IDE("scripts/apop.py")}}
+{{ ide("scripts/apop.py")}}
 
 1. En utilisant la notation `[]`, remplacer les oranges par des pommes.
 2. Ecrire une instruction permettant d'ajouter `"riz"` à cette liste.
@@ -327,7 +327,7 @@ Par exemple dans le cas $k=5$ : les étapes successives d'évolution sont :
 
 Dans le cas $k=256$, et à l'étape 1000, combien de `#` contient la chaine ?
 
-{{ IDE(MIN_SIZE=7) }}
+{{ ide() }}
 
 Vérifier votre réponse : {{check_reponse("263")}}
 
@@ -347,7 +347,7 @@ Quel est le dénivelé cumulé positif total de la liste des altitudes donnée d
 
 {{ check_reponse("1792") }}
 
-{{IDE("scripts/denivele.py",MIN_SIZE=7, ID=1)}}
+{{ide("scripts/denivele.py")}}
 
 ??? aide "Indice"
     * Pour obtenir la valeur d'un élément dans une liste de Python, on peut utiliser la syntaxe `liste[indice]`. Par exemple, si `noel = [25,12,2024]` alors `noel[1] = 12` (l'indice du premier élément est 0).
@@ -372,7 +372,7 @@ Quel est l'élément restant dans le cas $k=100$ ?
 
 {{ check_reponse("18910")}}
 
-{{IDE(MIN_SIZE=7)}}
+{{ide()}}
 
 ??? aide "Indice"
     En python `append` et `pop` permettent d'effectuer les opérations suivantes sur une liste:
@@ -385,6 +385,6 @@ Quel est l'élément restant dans le cas $k=100$ ?
 {{ exo("Points du plan",[])}}
 Dans votre IDE ci-dessous, est déjà définie une liste de points du plan, chaque point est représenté par un *tuple* de python à deux éléments : son abscisse et son ordonnée. Par exemple `points = [ (2,-1), (3,5)]` contient les points de coordonnées $(2,-1)$ et $(3,5)$. Quelle est la plus courte distance entre deux points de la liste de points définie dans l'éditeur ci-dessous (valeur arrondie au centième) ?
 
-{{IDE("scripts/points.py",MIN_SIZE=7, ID=3)}}
+{{ide("scripts/points.py")}}
 
 Véfifier votre réponse : {{check_reponse("1.41")}}
