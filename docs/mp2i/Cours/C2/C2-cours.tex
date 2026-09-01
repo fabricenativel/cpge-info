@@ -17,10 +17,10 @@
 		\begin{itemize}
 			\item<1-> Un \textcolor{blue}{algorithme} est une suite d'instructions et d'opérations permettant de résoudre un problème. \\
 			\onslide<2->{\textcolor{gray}{Par exemple pour résoudre le problème du tri d'une liste de valeurs, on peut utiliser l'algorithme du tri par insertion. Cela consiste à prendre une à une chaque valeur et à l'insérer au bon emplacement dans une liste initialement vide.}}
-			\item<3-> Un \textcolor{blue}{programme} est la traduction d'un algorithme dans un langage informatique. On dit qu'un programme est la mise en oeuvre d'un algorithme.\\
+			\item<3-> Un \textcolor{blue}{programme} est la traduction d'un algorithme dans un langage informatique. On dit qu'un programme est la mise en \oe{}uvre d'un algorithme.\\
 			\onslide<4->{\textcolor{gray}{L'algorithme du tri par insertion peut être écrit en Python, en C, \dots}}
-			\item<5-> Un \textcolor{blue}{paradigme} de programmation est une façon de d'approcher un problème et d'en concevoir et  modéliser une solution.\\
-			\onslide<6->{\textcolor{gray}{Le langage C est une illustration du paradigme de programmation impérative. Le langage OCaml nous permettra d'illustrer le paradigme fonctionnel}}
+			\item<5-> Un \textcolor{blue}{paradigme} de programmation est une façon d'approcher un problème, d'en concevoir et d'en modéliser une solution.\\
+			\onslide<6->{\textcolor{gray}{Le langage C est une illustration du paradigme de programmation impérative. Le langage OCaml nous permettra d'illustrer le paradigme fonctionnel.}}
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -29,12 +29,12 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple introductif}
 		On considère le programme C suivant :
-		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/get_max.c}{}{\small}{3}{10}
+		\inputpartC{\SPATH get_max.c}{}{\small}{3}{10}
 	\begin{enumerate}
 		\item<1-> Quel est le résultat renvoyé si le tableau fourni en argument contient dans cet ordre les valeurs : {\tt 12, 18, 11, 9, 10} ?
-		\item<2-> Même question avec le tableau  {\tt 12, 18, 11, 18, 10}
-		\item<3-> Même question avec le tableau {\tt -12, -15, -7}
-		\item<4-> Même question si le tableau est vide (c'est-à-dire que {\tt size =0})
+		\item<2-> Même question avec le tableau {\tt 12, 18, 11, 18, 10}.
+		\item<3-> Même question avec le tableau {\tt -12, -15, -7}.
+		\item<4-> Même question si le tableau est vide (c'est-à-dire que {\tt size == 0}).
 	\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -42,17 +42,17 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Correction}
 		\begin{enumerate}
-			\item<1-> \textcolor{OliveGreen} {La fonction renvoie 1 (indice de l'élément maximal du tableau)}
-			\item<2-> \textcolor{OliveGreen}{la fonction renvoie 3, c'est l'indice de la dernière occurence du maximum des éléments du tablea }
+			\item<1-> \textcolor{OliveGreen}{La fonction renvoie 1 (indice de l'élément maximal du tableau).}
+			\item<2-> \textcolor{OliveGreen}{La fonction renvoie 3, c'est l'indice de la dernière occurrence du maximum des éléments du tableau.}
 			\item<3-> \textcolor{OliveGreen}{C'est un comportement indéfini, la variable {\tt imax} n'est pas initialisée.}
 			\item<4-> \textcolor{OliveGreen}{Une nouvelle fois, le comportement est indéfini car on renvoie la variable {\tt imax} qui n'a jamais été initialisée.}
 		\end{enumerate}
 	\end{exampleblock}
 	\begin{alertblock}{Définition}
-		\onslide<5->{Ecrire la \textcolor{blue}{spécification} d'une fonction c'est donné une description formelle et détaillée de ses caractéristiques. En particulier :}
+		\onslide<5->{Écrire la \textcolor{blue}{spécification} d'une fonction, c'est donner une description formelle et détaillée de ses caractéristiques. En particulier :}
 		\begin{itemize}
 			\item<6-> les entrées admissibles : types et valeurs possibles des arguments (\textcolor{blue}{préconditions}), 
-			\item<7-> ce que renvoie la fonction  et les  les effets de bords (\textit{side effects}) éventuels : modification des arguments, affichage, \dots . Ce sont les (\textcolor{blue}{postconditions}).
+			\item<7-> ce que renvoie la fonction et les effets de bord (\textit{side effects}) éventuels : modification des arguments, affichage, \dots{} (ce sont les \textcolor{blue}{postconditions}).
 		\end{itemize}
 	\end{alertblock}
 \end{frame}
@@ -61,15 +61,15 @@
 \begin{block}{Remarques}
 \begin{itemize}
 \item<1-> La spécification est souvent donnée en commentaire dans le code source. \\
-\onslide<2-> \textcolor{gray}{Les commentaires en C s'écrivent entre \kw{/*} et \kw{*/} et en OCaml entre \kw{(*} et \kw{*)}}
-\item<3-> La vérification des préconditions peut s'effectuer à l'aide d'instructions \kw{assert}. Elles sont de la forme \kw{assert (condition)} en C, et nécessitent d'importer \kw{assert.h}. Si la condition échoue le programme s'arrête et affiche une erreur, c'est ce qu'on appelle de la programmation défensive (anticipation des erreurs).
+\onslide<2-> \textcolor{gray}{Les commentaires en C s'écrivent entre \kw{/*} et \kw{*/} et en OCaml entre \kw{(*} et \kw{*)}.}
+\item<3-> La vérification des préconditions peut s'effectuer à l'aide d'instructions \kw{assert}. Elles sont de la forme \kw{assert(condition)} en C, et nécessitent d'importer \kw{assert.h}. Si la condition échoue, le programme s'arrête et affiche une erreur, c'est ce qu'on appelle de la programmation défensive (anticipation des erreurs).
 \end{itemize}
 \end{block}
 \begin{exampleblock}{Exemples}
-\onslide<4->{Ecrire en C, une fonction qui :}
+\onslide<4->{Écrire en C une fonction qui :}
 \begin{itemize}
-	\item<5-> Accepte en argument un tablau \textit{non vide} d'entiers.
-	\item<6-> Renvoie l'indice de la première occurence du maximum des éléments de ce tableau.
+	\item<5-> Accepte en argument un tableau \textit{non vide} d'entiers.
+	\item<6-> Renvoie l'indice de la première occurrence du maximum des éléments de ce tableau.
 \end{itemize}
 \end{exampleblock}
 \end{frame}
@@ -77,19 +77,19 @@
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Correction}
-		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/get_max_ok.c}{}{\small}{2}{14}
+		\inputpartC{\SPATH get_max_ok.c}{}{\small}{2}{14}
 	\end{exampleblock}
 \end{frame}
 
 \makess{Validation, test}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{block}{Jeu de tests}
-		\onslide<1->Le comportement correct d'une fonction peut être "validé" (mais pas prouvé), par l'utilisation d'un \textcolor{blue}{jeu de test}. c'est-à-dire un ensemble de couple d'entrées du programme et de sorties attendues. \\
-		\onslide<2->\textcolor{gray}{Dans la fonction précédente, on pourrait tester (entre autres) des cas limites (\textit{edge cases}), comme par exemple un tableau à un seul élément, ou vide ou des situations ou le maximum se trouve en première ou dernière position du tableau.}
+		\onslide<1->Le comportement correct d'une fonction peut être \og validé \fg{} (mais pas prouvé), par l'utilisation d'un \textcolor{blue}{jeu de tests}, c'est-à-dire un ensemble de couples d'entrées du programme et de sorties attendues. \\
+		\onslide<2->\textcolor{gray}{Dans la fonction précédente, on pourrait tester (entre autres) des cas limites (\textit{edge cases}), comme par exemple un tableau à un seul élément, ou vide, ou des situations où le maximum se trouve en première ou dernière position du tableau.}
 	\end{block}
 	\begin{exampleblock}{Exemple}
 		\begin{enumerate}
-		\item<3-> Ecrire une fonction {\tt contient\_double} qui prend en argument un tableau d'entiers et renvoie {\tt true} si ce tableau contient deux éléments consécutifs égaux.
+		\item<3-> Écrire une fonction {\tt contient\_double} qui prend en argument un tableau d'entiers et renvoie {\tt true} si ce tableau contient deux éléments consécutifs égaux.
 		\item<4-> Proposer un jeu de tests pour cette fonction.
 		\end{enumerate}
 	\end{exampleblock}
@@ -99,24 +99,34 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Correction}
 		\begin{enumerate}
-		\item<1-> \ \\ \inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/contient_double.c}{}{\small}{4}{8}
+		\item<1-> \ \\ \inputpartC{\SPATH contient_double.c}{}{\small}{4}{8}
 		\item<2-> On pourrait tester les cas suivants :
 		\begin{itemize}
-			\item<3-> Tableau vide ou à un seul élément
-			\item<4-> Même élément mais non consécutifs
-			\item<5-> Elément présent en plus de deux exemplaires consécutifs
-			\item<6-> Présence du double en tout début ou toute fin de tableau
+			\item<3-> Tableau vide ou à un seul élément ;
+			\item<4-> Mêmes éléments mais non consécutifs ;
+			\item<5-> Élément présent en plus de deux exemplaires consécutifs ;
+			\item<6-> Présence du double en tout début ou toute fin de tableau.
 		\end{itemize}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
 
-\makess{Graphe de flot de contôle}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Partitionnement du domaine d'entrée}
+		\begin{itemize}
+			\item<1-> Pour concevoir un jeu de tests représentatif, on \textcolor{blue}{partitionne} le domaine des données d'entrée en \textcolor{blue}{classes d'équivalence} (sous-ensembles d'entrées pour lesquels le programme est censé adopter le même comportement).
+			\item<2-> On sélectionne au moins une valeur représentative par classe d'équivalence.
+			\item<3-> On teste systématiquement les \textcolor{blue}{valeurs limites} (\textit{edge cases} ou frontières) : cas extrêmes, entrées nulles, tableaux vides ou à un élément, début/fin de structure, etc.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Graphe de flot de contrôle}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple introductif}
-		Ecrire la fonction {\tt duree\_vol} qui prend en argument un entier positif {\tt n} et renvoie le nombre d'itérations nécessaires avant d'atteindre 1 en prenant cet entier comme valeur initiale dans la suite de syracuse. On rappelle que : \\
-		$s_{n+1} = \left\{ \begin{array}{ll} \dfrac{s_n}{2} & \mathrm{\ si\ } n \mathrm{\ est \ paire} \\ 3s_n+1 & \mathrm{\ sinon} \end{array}\right.$
-		\onslide<2->\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/syracuse.c}{}{\small}{3}{11}
+		Écrire la fonction {\tt duree\_vol} qui prend en argument un entier positif {\tt n} et renvoie le nombre d'itérations nécessaires avant d'atteindre 1 en prenant cet entier comme valeur initiale dans la suite de Syracuse. On rappelle que : \\
+		$s_{n+1} = \left\{ \begin{array}{ll} \dfrac{s_n}{2} & \mathrm{si\ } n \mathrm{\ est\ pair} \\ 3s_n+1 & \mathrm{sinon} \end{array}\right.$
+		\onslide<2->\inputpartC{\SPATH syracuse.c}{}{\small}{3}{11}
 	\end{exampleblock}
 \end{frame}
 
@@ -146,35 +156,46 @@
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
-	\begin{block}{Définitions}
+	\begin{block}{Graphe de flot de contrôle}
 		Le \textcolor{blue}{graphe de flot de contrôle} représente les exécutions possibles d'un programme.
 		\begin{itemize}
-			\item<1-> Les sommets \kw{E} et \kw{S} représentent l'entrée et la sortie
-			\item<2-> Les autres noeuds sont les blocs d'instructions
-			\item<3-> On dessine un arc entre deux noeuds {\tt A} et {\tt B} lorsque l'exécution de {\tt B} peut suivre celle de {\tt A}
-			\item<4-> Les noeuds quittant les instructions conditionnelle sont étiquetés par {\tt V} ou {\tt F}.
-			\item<5-> On dira qu'un chemin dans le graphe est \textcolor{blue}{faisable} lorsqu'il existe des valeurs d'entrées pour lesquels l'exécution passe par tous les noeuds de ce chemin.
+			\item<1-> Les sommets \kw{E} et \kw{S} représentent l'entrée et la sortie ;
+			\item<2-> Les autres nœuds sont les blocs d'instructions ;
+			\item<3-> On dessine un arc entre deux nœuds {\tt A} et {\tt B} lorsque l'exécution de {\tt B} peut suivre celle de {\tt A} ;
+			\item<4-> Les arcs quittant les instructions conditionnelles sont étiquetés par {\tt V} ou {\tt F} ;
+			\item<5-> On dira qu'un chemin dans le graphe est \textcolor{blue}{faisable} lorsqu'il existe des valeurs d'entrées pour lesquelles l'exécution passe par tous les nœuds de ce chemin.
 		\end{itemize}
 	\end{block}
-	\begin{alertblock}{Définition}
-		\onslide<6->{On dit qu'un jeu de test couvre tous les sommets (resp. tous les arcs) lorsque son exécution permet de passer par tous les noeuds (resp. tous les arcs)}
+\end{frame}
+
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Critères de couverture}
+		Un jeu de tests peut viser plusieurs niveaux de couverture :
+		\begin{itemize}
+			\item<1-> \textcolor{blue}{Couverture des sommets (instructions) :} passer au moins une fois par chaque nœud d'instruction.
+			\item<2-> \textcolor{blue}{Couverture des arcs (branches) :} emprunter au moins une fois chaque arc (teste chaque issue des branchements conditionnels).
+			\item<3-> \textcolor{blue}{Couverture des chemins :} parcourir tous les chemins d'exécution possibles. En présence de boucles, le nombre de chemins est potentiellement infini : on se limite en pratique aux \textit{chemins sans cycle} ou à un nombre borné d'itérations.
+		\end{itemize}
 	\end{alertblock}
 \end{frame}
+
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple}
 		\begin{enumerate}
-			\item<1-> Montrer que Le jeu de test \kw{\{n=1, n=8\}} ne couvre ni tous les arcs, ni tous les sommets. \\
-			\onslide<2->\textcolor{OliveGreen}{On ne passe jamais par le noeud représentant l'instruction {\tt n=3*n+1}, en effet pour {\tt n=1} on atteint directement la sortie {\tt S} et pour {\tt n=8}, tous les valeurs de la suite sont paires.}
-			\item<3-> Proposer un jeu de test permettant de couvrir tous les arcs. \\
-			\onslide<4->\textcolor{OliveGreen}{On peut ajouter par exemple le test \kw{n=5}}
+			\item<1-> Montrer que le jeu de tests \kw{\{n=1, n=8\}} ne couvre ni tous les arcs, ni tous les sommets. \\
+			\onslide<2->\textcolor{OliveGreen}{On ne passe jamais par le nœud représentant l'instruction {\tt n=3*n+1}, en effet pour {\tt n=1} on atteint directement la sortie {\tt S} et pour {\tt n=8}, toutes les valeurs de la suite sont paires.}
+			\item<3-> Proposer un jeu de tests permettant de couvrir tous les arcs. \\
+			\onslide<4->\textcolor{OliveGreen}{On peut ajouter par exemple le test \kw{n=5}.}
 		\end{enumerate}
 	\end{exampleblock}
 	\begin{exampleblock}{Exercice}
 		\begin{enumerate}
-			\item<5-> Ecrire une fonction prenant en argument un flottant {\tt x} et un entier positif ou nul {\tt n} et qui renvoie {\tt x} puissance {\tt n}.
+			\item<5-> Écrire une fonction prenant en argument un flottant {\tt x} et un entier positif ou nul {\tt n} et qui renvoie {\tt x} puissance {\tt n}.
 			\item<6-> Tracer son graphe de flot de contrôle.
-			\item<7-> Proposer un jeu de test.
+			\item<7-> Proposer un jeu de tests.
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -186,7 +207,7 @@
 		\begin{tabularx}{\textwidth}{XX}
 		\begin{minipage}{0.6\textwidth}
 			\vspace{0.5cm}
-			\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/puissance.c}{}{\small}{5}{10}
+			\inputpartC{\SPATH puissance.c}{}{\small}{5}{10}
 			\vspace{0.8cm}
 		\end{minipage} &
 	\end{tabularx}
@@ -199,7 +220,7 @@
 			\begin{tabularx}{\textwidth}{XX}
 			\begin{minipage}{0.6\textwidth}
 				\vspace{0.5cm}
-				\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/puissance.c}{}{\small}{5}{10}
+				\inputpartC{\SPATH puissance.c}{}{\small}{5}{10}
 				\vspace{0.8cm}
 			\end{minipage} &
 			\rput(3,1.8){\circlenode[linecolor=red]{E}{\textcolor{red}{E}}}
@@ -221,7 +242,7 @@
 	\begin{tabularx}{\textwidth}{XX}
 	\begin{minipage}{0.6\textwidth}
 		\vspace{0.5cm}
-		\inputpartC{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C2/puissance.c}{}{\small}{5}{10}
+		\inputpartC{\SPATH puissance.c}{}{\small}{5}{10}
 		\vspace{0.8cm}
 	\end{minipage} &
 	\rput(3,1.8){\circlenode[linecolor=red]{E}{\textcolor{red}{E}}}
@@ -235,7 +256,7 @@
 	\ncline{->}{W}{D} \naput[labelsep=1pt]{\small \textcolor{OliveGreen}{V}}
 	\ncbar[angle=180]{->}{D}{W}
 \end{tabularx}
-On peut proposer le jeu de test suivant :
+On peut proposer le jeu de tests suivant :
 \begin{itemize}
   \item<1-> \kw{x=2.0, n=0}
   \item<2-> \kw{x=2.0, n=3}
@@ -249,10 +270,10 @@ On peut proposer le jeu de test suivant :
 		Lorsqu'une instruction conditionnelle comporte des conjonctions ou des disjonctions, on peut formuler des tests qui prévoient toutes les possibilités de la satisfaire.
 	\end{block} 
 	\begin{exampleblock}{Exemple}
-		Une année est bissextile si elle est divisible par 4 mais pas par 100 ou s'il est divisible par 400.
+		Une année est bissextile si elle est divisible par 4 mais pas par 100 ou si elle est divisible par 400.
 		\begin{enumerate}
-			\item<1-> Ecrire une fonction bissextile qui prend en argument un entier positif {\tt annee} et renvoie \kw{true} si l'année est bissextile et \kw{false} sinon.
-			\item<2-> Proposer un jeu de test pour cette fonction qui prévoit toutes les possibilités de satisfaire la condition d'être bissextile.
+			\item<1-> Écrire une fonction {\tt bissextile} qui prend en argument un entier positif {\tt annee} et renvoie \kw{true} si l'année est bissextile et \kw{false} sinon.
+			\item<2-> Proposer un jeu de tests pour cette fonction qui prévoit toutes les possibilités de satisfaire la condition d'être bissextile.
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -263,13 +284,13 @@ On peut proposer le jeu de test suivant :
 	\item<1-> \ \\
 	\begin{langageC}
 bool bissextile(int annee) {
-	return ((annee%4==0 && annee%100!=0) || (annee%400==0))
+	return ((annee % 4 == 0 && annee % 100 != 0) || (annee % 400 == 0));
 }
 	\end{langageC}
 	\item<2-> On peut proposer les tests suivants :
 	\begin{itemize}
-		\item<3-> \kw{n=2004} qui permet de valider la première condition
-		\item<4-> \kw{n=2000} qui permet de valider la deuxième
+		\item<3-> \kw{annee = 2004} qui permet de valider la première condition ;
+		\item<4-> \kw{annee = 2000} qui permet de valider la deuxième condition.
 	\end{itemize}
 \end{enumerate}
 \end{exampleblock}
@@ -295,10 +316,10 @@ bool bissextile(int annee) {
 	  \end{algorithm}
 	  \begin{enumerate}
 	  \item<2-> Donner une implémentation en C de cet algorithme.
-	  \item<3-> Montrer que dans la boucle "tant que":
+	  \item<3-> Montrer que dans la boucle \og tant que \fg{} :
 	  \begin{itemize}
-		\item<3-> $m$ ne prend que des valeurs entières
-		\item<4-> $m$ prend des valeurs positives
+		\item<3-> $m$ ne prend que des valeurs entières ;
+		\item<4-> $m$ prend des valeurs positives ;
 		\item<5-> les valeurs prises par $m$ sont \textit{strictement} décroissantes.
 	  \end{itemize}
 	  \end{enumerate}
@@ -308,7 +329,7 @@ bool bissextile(int annee) {
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Définitions}
     \begin{itemize}
-        \item<2-> On dit qu'un algorithme \textcolor{blue}{termine} lorsqu'il renvoie un résultat en un nombre fini d'étapes quels que soient les valeurs des entrées.
+        \item<2-> On dit qu'un algorithme \textcolor{blue}{termine} lorsqu'il renvoie un résultat en un nombre fini d'étapes quelles que soient les valeurs des entrées.
         \item<3-> Un \textcolor{blue}{variant de boucle} est une quantité :
             \begin{enumerate}
             \item<4-> à valeurs entières,
@@ -337,7 +358,7 @@ bool bissextile(int annee) {
 		\DontPrintSemicolon
 		\caption{Nombre de chiffres en base 10}
 		\Entree{$n \in \N$}
-		\Sortie{$p$ nombre de chiffres de $n$ dans son écriture en base 10.}
+		\Sortie{$p$, nombre de chiffres de $n$ dans son écriture en base 10.}
 		\everypar={\footnotesize \textcolor{gray}{\nl}}
 		\Si{$n=0$}{\Return 1}
 		$p \leftarrow 0$\;
@@ -356,17 +377,17 @@ bool bissextile(int annee) {
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Implémentation en C}
-		\inputpartC{\SPATH/nbchiffres.c}{}{\small}{4}{18}
+		\inputpartC{\SPATH nbchiffres.c}{}{\small}{4}{18}
 	\end{exampleblock}
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Preuve de terminaison}
-		Montrons que $n$ est un variant de la boucle {\tt tant que} de l'algorithme :
+		Montrons que $n$ est un variant de la boucle \og tant que \fg{} de l'algorithme :
 		\begin{enumerate}
-		\item<1-> $n$ ne prend que des valeurs entières, en effet, $n \in \N$  en entrée et $\PE{\dfrac{n}{10}}$ est entier.
-		\item<2-> $n$ est positif  par condition d'entrée dans la boucle. 
-		\item<3-> $n$ décroît strictement à chaque passage dans la boucle car comme $n > 0$, $\PE{\dfrac{n}{10}} < n$
+		\item<1-> $n$ ne prend que des valeurs entières, en effet, $n \in \N$ en entrée et $\PE{\dfrac{n}{10}}$ est entier.
+		\item<2-> $n$ est positif par condition d'entrée dans la boucle. 
+		\item<3-> $n$ décroît strictement à chaque passage dans la boucle car comme $n > 0$, $\PE{\dfrac{n}{10}} < n$.
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -374,7 +395,7 @@ bool bissextile(int annee) {
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exercice}
 		\begin{enumerate}
-		\item<1-> Ecrire un algorithme qui prend en entrée un entier $n>1$ et renvoie le premier diviseur strictement supérieur à 1 de cet entier. Par exemple pour $n=7$ l'algorithme renvoie 7 et pour $n=15$, l'algorithme renvoie $3$.
+		\item<1-> Écrire un algorithme qui prend en entrée un entier $n>1$ et renvoie le premier diviseur strictement supérieur à 1 de cet entier. Par exemple pour $n=7$ l'algorithme renvoie 7 et pour $n=15$, l'algorithme renvoie $3$.
 		\item<2-> Donner une implémentation en C de cet algorithme sous la forme d'une fonction dont on précisera soigneusement la spécification.
 		\item<3-> Prouver la terminaison de cet algorithme.
 		\end{enumerate}
@@ -399,9 +420,9 @@ bool bissextile(int annee) {
 		}
 		\Return $r$
 	  \end{algorithm}
-	  On note $m_0$ la valeur initiale de $m$ et on considère la propriété suivante suivante noté $I$ : \og{} $r = (m_0-m)n$ \fg{}. Montrer que cette propriété est vraie :
+	  On note $m_0$ la valeur initiale de $m$ et on considère la propriété suivante, notée $I$ : \og{} $r = (m_0-m)n$ \fg{}. Montrer que cette propriété est vraie :
 	  \begin{enumerate}
-	  \item<2-> avant d'entrée dans la boucle,
+	  \item<2-> avant d'entrer dans la boucle ;
 	  \item<3-> qu'elle reste vraie à chaque tour de boucle.
 	  \end{enumerate}
 	  \onslide<4->{Que peut-on en conclure ?}
@@ -417,7 +438,7 @@ bool bissextile(int annee) {
             \item<3-> reste vraie à chaque itération si elle l'était à l'itération précédente (\textcolor{blue}{conservation}).
             \end{itemize}
 		\item<4-> Un algorithme est dit \textcolor{blue}{partiellement correct} lorsqu'il renvoie la réponse attendue quand il se termine.
-		\item<5-> Un algorithme est dit \textcolor{blue}{totalement correct} lorsqu'il est partiellement correcte et que sa terminaison est prouvée.
+		\item<5-> Un algorithme est dit \textcolor{blue}{totalement correct} lorsqu'il est partiellement correct et que sa terminaison est prouvée.
 		\end{itemize}
 	\end{block}
 	\onslide<7->
@@ -436,7 +457,7 @@ bool bissextile(int annee) {
 		\DontPrintSemicolon
 		\caption{Nombre de chiffres en base 10}
 		\Entree{$n \in \N$}
-		\Sortie{$p$ nombre de chiffres de $n$ dans son écriture en base 10.}
+		\Sortie{$p$, nombre de chiffres de $n$ dans son écriture en base 10.}
 		\everypar={\footnotesize \textcolor{gray}{\nl}}
 		\Si{$n=0$}{\Return 1}
 		$p \leftarrow 0$\;
@@ -453,15 +474,15 @@ bool bissextile(int annee) {
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 \begin{exampleblock}{Correction}
 	\textcolor{gray}{Idée : à chaque tour de boucle, on incrémente $p$ et $n$ perd un chiffre. La somme de $p$ et du nombre de chiffres de $n$ est donc constante. C'est l'invariant de boucle ! \\ \medskip}
-	\onslide<2->{Le cas $n=0$ est trivial, on note $n_0$ la valeur initiale de $n$ et on suppose donc $n_0>0$,  on considère la propriété $I$ : \og{} $c(n_0) = p + c(n)$ \fg{}. Où $c(m)$ vaut 0 si $m=0$ et le nombre de chiffres de $m$ en base 10 sinon.}
+	\onslide<2->{Le cas $n=0$ est trivial, on note $n_0$ la valeur initiale de $n$ et on suppose donc $n_0>0$. On considère la propriété $I$ : \og{} $c(n_0) = p + c(n)$ \fg{}, où $c(m)$ vaut 0 si $m=0$ et le nombre de chiffres de $m$ en base 10 sinon.}
 	\begin{itemize}
-	\item<3-> initialisation : $I$ est vraie avant d'entrer dans la boucle puisque $p=0$ et $n=n_0$.
-	\item<4-> conservation : on suppose $I$ vraie du début d'un tour de boucle et  on note $n'$ (resp. $p'$) la valeur de $n$ (resp $p'$) après ce tour de boucle  \\
+	\item<3-> Initialisation : $I$ est vraie avant d'entrer dans la boucle puisque $p=0$ et $n=n_0$.
+	\item<4-> Conservation : on suppose $I$ vraie au début d'un tour de boucle et on note $n'$ (resp. $p'$) la valeur de $n$ (resp. $p$) après ce tour de boucle : \\
 	\onslide<5->{$p' + c(n') = p + 1 + c\left(\PE{\dfrac{n}{10}}\right)$ \\}
 	\onslide<6->{$p' + c(n') = p + 1 + c\left(n\right) - 1$ \\}
-	\onslide<7->{$p' + c(n') = c(n_0)$, par $I$ est vraie à l'entrée de la boucle.}
+	\onslide<7->{$p' + c(n') = c(n_0)$, car $I$ est vraie au début du tour de boucle.}
 	\end{itemize}
-	\onslide<8->{En sortie de boucle, on a  $n'=0$ et donc $p = c(n_0)$ et l'algorithme est correct.}
+	\onslide<8->{En sortie de boucle, on a $n=0$ et donc $p = c(n_0)$ et l'algorithme est correct.}
 \end{exampleblock}
 \end{frame}
 
@@ -473,7 +494,7 @@ bool bissextile(int annee) {
 		\DontPrintSemicolon
 		\caption{Premier diviseur}
 		\Entree{$n \in \N, n > 1$}
-		\Sortie{$d$ premier diviseur de $n$ strictement supérieur à $1$.}
+		\Sortie{$d$, premier diviseur de $n$ strictement supérieur à $1$.}
 		\everypar={\footnotesize \textcolor{gray}{\nl}}
 		$d \leftarrow 2$\;
 		\Tq{$n \mod d \neq 0$}{

@@ -13,7 +13,7 @@ int main()
     if (contient_double(test_tab,5))
     {printf("Contient un double");}
     else
-    {printf("N'en contient par");}
+    {printf("N'en contient pas");}
 
     return 0;
 }
