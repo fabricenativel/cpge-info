@@ -102,6 +102,26 @@ On rappelle que la fonction `atoi` (disponible sans `stblib.h`) permet de conver
 * `myatoi("MPI")` renvoie `0` (aucun chiffre)
 
 
+{{ exo("Code de César",[]) }}
+
+Le [chiffrement de César](https://fr.wikipedia.org/wiki/Chiffrement_par_d%C3%A9calage){target=_blank} est une des plus anciennes méthodes de chiffrement connu et aurait été utilisé par César pour transmettre de façon sécurisée des messages à ses armées. La méthode consiste simplement choisir une clé de chiffrement et à décaler chaque lettre du message d'autant d'emplacement dans l'alphabet. L'illustration ci-dessous (credit : wikipedia) illuste le fonctionnement de la méthode avec une clé de décalage de 3 emplacements :  
+![Cesar](./Images/C4/Cesar.png){.imgcentre width=600px}
+Le but de l'exercice est de programmer en C cette méthode de chiffrement, on suppose dans un premier temps que le message ne contient des lettres *majuscules* et autres signes de ponctuation ou espaces.
+
+
+1. Ecrire une fonction de signature `#!c bool est_majuscule(char c)` qui renvoie `true` si le caractère passé en argument est une lettre majuscule.
+
+2. Ecrire une fonction de signature `#!c char cesar_lettre(char c, int d)` qui lorsque `c` est une lettre majuscule renvoie son décalage de `d` emplacements et sinon renvoie `c`.
+
+3. Ecrire une fonction de signature `#!c char* cesar_texte(char *texte)` qui renvoie le chiffrement de `texte` par le code de césar avec le decalage `d`.
+
+4. Tester votre fonction en chiffrant la phrase `"BIENVENUE EN CPGE !"` avec un décalage de 9 et tester votre réponse dans : {{check_reponse("KRNWENWDN NW LYPN !")}}
+
+5. Proposer une solution pour déchiffrer un texte, puis déchiffrer le message `"IYHCV CVBZ HCLG YLBZZP"` sachant que la clé de décalage est 7.
+
+!!! note
+    L'[analyse fréquentielle](https://en.wikipedia.org/wiki/Frequency_analysis){target=_blank} permet de facilement déchiffrer un code de César.
+
 {{ exo("Attention aux flottants !",[]) }}
 
 1. On considère le programme suivant :

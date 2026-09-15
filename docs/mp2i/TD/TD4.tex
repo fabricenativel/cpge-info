@@ -1,9 +1,11 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
 \documentclass[11pt,a4paper]{article}
 
 \usepackage{Act}
 
 \begin{document}
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\setboolean{corrige}{true}
 \ModeExercice
 \TD{4}{Arithmétique des ordinateurs}
 
@@ -30,18 +32,18 @@
 \end{Exercise}
 
 \begin{Exercise}[title ={Dépassement de capacité}] \\
-On suppose que {\tt n = 100} est un entier non signé représenté sur 8 bits en C (type {\tt uint8\_t})
-\Question{Quelle sont les plus grandes et les plus petites valeurs possibles de {\tt n } ?}
+On suppose que {\tt n = 100} est un entier non signé représenté sur 8 bits en C (type {\tt uint8\_t}).
+\Question{Quelles sont la plus grande et la plus petite valeur possibles de {\tt n} ?}
 \Question{Après l'instruction {\tt n = n + 50}, quelle sera la valeur de {\tt n} ? Justifier.}
-\Question{On suppose que n vaut de nouveau 100, quelle sera sa valeur après l'instruction {\tt n = n - 200 ?}}
-\Question{On suppose que n vaut de nouveau 100, quelle sera sa valeur après l'instruction {\tt n = n - 150 ?}}
+\Question{On suppose que {\tt n} vaut de nouveau 100, quelle sera sa valeur après l'instruction {\tt n = n - 200} ?}
+\Question{On suppose que {\tt n} vaut de nouveau 100, quelle sera sa valeur après l'instruction {\tt n = n - 150} ?}
 \end{Exercise}
 
-\begin{Exercise}[title={Bug !} (d'après un exercice proposé par A. Domenech)] \\
-    Dans un jeu vidéo, les points de vie d'un boss sont représentés par un {\tt uint8\_t}. Le boss démarre avec 199 points de vie. A chaque tour, le joueur inflige des dégâts au boss puis ce dernier se régénère de 60 points de vie. Cette régénération est codée de la façon suivante : \\
+\begin{Exercise}[title={Bug ! (d'après un exercice proposé par A. Domenech)}] \\
+    Dans un jeu vidéo, les points de vie d'un boss sont représentés par un {\tt uint8\_t}. Le boss démarre avec 199 points de vie. À chaque tour, le joueur inflige des dégâts au boss puis ce dernier se régénère de 60 points de vie. Cette régénération est codée de la façon suivante : \\
     \mintinline{c}{pv_boss = min(pv_boss+60,199);}
     \Question{Donner les points de vie du boss, si le joueur lui inflige 100 points de dégâts.}
-    \Question{Donner les points de vie du boss, si le joueur lui infige 0 point de dégâts.}
+    \Question{Donner les points de vie du boss, si le joueur lui inflige 0 point de dégât.}
     \Question{Montrer qu'il est facile de tuer le boss dès le premier tour de jeu, en lui infligeant pourtant moins de dégâts qu'il n'a de points de vie.}
     \Question{Proposer une modification de la régénération du boss afin de corriger ce bug.}
 \end{Exercise}
@@ -49,9 +51,9 @@ On suppose que {\tt n = 100} est un entier non signé représenté sur 8 bits en
 \begin{Exercise}[title={Méthode pratique pour le complément à deux}] \\
 Le but de l'exercice est de justifier la méthode vue en cours pour calculer la représentation en complément à deux d'un entier $n$ sur $p$ bits.
 \Question{Rappeler cette méthode.}
-\Question{Etant donné un entier $-b_{p-1}<n<0$, on note $b_{p-1}\dots b_0$ la suite de bits de la représentation binaire de $-n$. c'est-à-dire qu'on a : \\
+\Question{Étant donné un entier $-2^{p-1} < n < 0$, on note $b_{p-1}\dots b_0$ la suite de bits de la représentation binaire de $-n$, c'est-à-dire qu'on a : \\
 $\displaystyle{-n = \sum_{k=0}^{p-1} b_k \,2^k}$ avec $b_{p-1}=0$ \\
-Montrer que $\displaystyle{n = -2^{p-1} + \sum_{k=0}^{p-2} b'_k \,2^k + 1}$ où $b'_k=1-b_k$ pour $k \in \intN{0}{p-2}$}
+Montrer que $\displaystyle{n = -2^{p-1} + \sum_{k=0}^{p-2} b'_k \,2^k + 1}$ où $b'_k=1-b_k$ pour $k \in \intN{0}{p-2}$.}
 \end{Exercise}
 
 \begin{Exercise}[title={Représentation en complément à deux}]
@@ -63,12 +65,12 @@ Montrer que $\displaystyle{n = -2^{p-1} + \sum_{k=0}^{p-2} b'_k \,2^k + 1}$ où 
 
 \begin{Exercise}[title={Capacité maximale}]
 	\Question{En supposant qu'on code les entiers non signés sur 10 bits, quel sera le plus grand entier représentable ?}
-	\Question{Si on code les entiers signés en complément à 2 sur 10 bits, donner le plus petit et le plus grand entier représentable ainsi que leur écriture binaire.}
+	\Question{Si on code les entiers signés en complément à 2 sur 10 bits, donner le plus petit et le plus grand entier représentables ainsi que leur écriture binaire.}
 \end{Exercise}
 
 \begin{Exercise}[title={Addition en complément à deux}]
-\Question{Coder en binaire sur un octet en complément à deux $\base{177}{10}$}
-\Question{Même question pour  $\base{-135}{10}$}
+\Question{Coder en binaire sur un octet en complément à deux $\base{75}{10}$.}
+\Question{Même question pour $\base{-33}{10}$.}
 \Question{Faire l'addition binaire de ces deux nombres.}
 \Question{Convertir en décimal pour vérifier qu'on obtient bien 42.}
 \end{Exercise}
@@ -82,12 +84,12 @@ Montrer que $\displaystyle{n = -2^{p-1} + \sum_{k=0}^{p-2} b'_k \,2^k + 1}$ où 
 
 \begin{Exercise}[title={Représentation des flottants}]
 
-\Question{Donner la valeur décimale des nombres suivants codé sous le format simple précision de la norme IEEE-754 :}
+\Question{Donner la valeur décimale des nombres suivants codés sous le format simple précision de la norme IEEE-754 :}
 
     \subQuestion{$\underbrace{1}_{\mathrm{signe}} \quad \underbrace{01111101}_{\text{exposant décalé}} \quad \underbrace{01101100000000000000000}_{\mathrm{mantisse}}$}
     \subQuestion{$1  \quad 10001001 \quad 11000000000000000000000$}
 
-\Question{Donner la représentation flottante en simple précision au format de la norme IEEE-754 des nombres suivants:}
+\Question{Donner la représentation flottante en simple précision au format de la norme IEEE-754 des nombres suivants :}
     \subQuestion{$-16,75$.}
     \subQuestion{$-0,2$.}
 \end{Exercise}
@@ -98,21 +100,111 @@ On considère la suite : \\
 $\left\{ \begin{array}{ll} u_0=e-1 \\ u_{n+1} = (n+1)\,u_n - 1 \end{array}\right.$ \\
 Le but de l'exercice est d'établir que cette suite converge vers 0. \\
 On note $$S_n = \displaystyle{\sum_{k=0}^n \frac{1}{k!}}$$ 
-On pourra utiliser sans justification le résultat suivant (qui sera démontré en mathématiques) : pour tout $n \in \N$: \mbox{$S_n \leq e \leq S_n + \dfrac{1}{n\,n!}$}
+On pourra utiliser sans justification le résultat suivant (qui sera démontré en mathématiques) : pour tout $n \in \N^*$ : \mbox{$S_n \leq e \leq S_n + \dfrac{1}{n\,n!}$}
 
 \Question{Montrer que $ e = \displaystyle{\lim_{n \rightarrow +\infty} S_n}$}
-\Question{Monter que pour tout $n\in \N$, $u_n = n!(e-S_n)$}
+\Question{Montrer que pour tout $n\in \N$, $u_n = n!(e-S_n)$}
 \Question{En déduire que $(u_n)_{n \in \N}$ converge et donner sa limite.}
 \Question{Calculer les premiers termes de cette suite à l'aide de votre calculatrice. Commenter.}
 \end{Exercise}
 
-\begin{Exercise}[title = {Converge "numérique" et converge mathématique}]\\
-On considère la suite: \\
+\begin{Exercise}[title = {Convergence \og{}numérique\fg{} et convergence mathématique}]\\
+On considère la suite : \\
 	$\left\{ \begin{array}{ll} u_1= \dfrac{5}{4} \\ u_2 = \dfrac{7}{5} \\ u_{n+2} = 10 - \dfrac{23}{u_{n+1}} + \dfrac{14}{u_nu_{n+1}} \end{array}\right.$
 
-\Question{Montrer que le terme général de $(u_n)_{n \in \mathbb{N}}$ est $u_n = \dfrac{2^n+3}{2^{n-1}+3}$.}
-\Question{Déterminer la limite de $(u_n)_{n \in \mathbb{N}}$.}
+\Question{Montrer que le terme général de $(u_n)_{n \in \mathbb{N}^*}$ est $u_n = \dfrac{2^n+3}{2^{n-1}+3}$.}
+\Question{Déterminer la limite de $(u_n)_{n \in \mathbb{N}^*}$.}
 \Question{Calculer les premiers termes de cette suite à l'aide de votre calculatrice. Commenter.}
+\end{Exercise}
+
+\begin{Exercise}[title={Caractérisation des nombres dyadiques}]\\
+Un nombre réel $x \in [0, 1[$ est dit dyadique s'il admet une écriture binaire finie, c'est-à-dire qu'il existe un entier $p \in \N^*$ et des bits $b_1, \dots, b_p \in \{0, 1\}$ tels que :
+$$x = \sum_{k=1}^p b_k \, 2^{-k}$$
+\Question{Montrer qu'un nombre rationnel $x = \dfrac{a}{b}$ sous forme irréductible ($a, b \in \N^*$, $\mathrm{pgcd}(a, b) = 1$) est dyadique si et seulement si son dénominateur $b$ est une puissance de 2 (c'est-à-dire qu'il existe $k \in \N$ tel que $b = 2^k$).}
+\tcor{
+$\bullet$ Si $x$ est dyadique, alors :
+$$x = \sum_{k=1}^p b_k \, 2^{-k} = \frac{\sum_{k=1}^p b_k 2^{p-k}}{2^p} = \frac{N}{2^p} \quad \text{avec } N \in \N$$
+La fraction irréductible $\dfrac{a}{b}$ s'obtient en simplifiant $\dfrac{N}{2^p}$ par $\mathrm{pgcd}(N, 2^p)$. Comme les seuls diviseurs de $2^p$ sont des puissances de 2, le dénominateur $b$ est nécessairement de la forme $2^k$ (avec $k \leqslant p$).\\
+$\bullet$ Réciproquement, si $b = 2^k$, alors $x = \dfrac{a}{2^k} = a \times 2^{-k}$. En écrivant la décomposition binaire de l'entier $a$ : $a = \sum_{j=0}^m c_j 2^j$, on obtient :
+$$x = \sum_{j=0}^m c_j 2^{j-k}$$
+Comme $x \in [0, 1[$, on a $a < 2^k$, donc $m < k$ et les exposants $j-k$ sont tous strictement négatifs. Cela constitue bien une écriture binaire finie, donc $x$ est dyadique.
+}
+\Question{Parmi les nombres suivants, déterminer ceux qui possèdent une écriture dyadique finie :
+$$x_1 = \frac{7}{16} \qquad x_2 = \frac{3}{25} \qquad x_3 = 0{,}1 = \frac{1}{10} \qquad x_4 = \frac{13}{64}$$}
+\tcor{
+$\bullet$ $x_1 = \dfrac{7}{16} = \dfrac{7}{2^4}$ : le dénominateur est une puissance de 2, l'écriture dyadique est finie ($x_1 = \base{0,0111}{2}$).\\
+$\bullet$ $x_2 = \dfrac{3}{25} = \dfrac{3}{5^2}$ : le dénominateur admet 5 comme facteur premier, l'écriture est donc infinie.\\
+$\bullet$ $x_3 = \dfrac{1}{10} = \dfrac{1}{2 \times 5}$ : le dénominateur admet 5 comme facteur premier, l'écriture est infinie (périodique : $\base{0,000110011\dots}{2}$).\\
+$\bullet$ $x_4 = \dfrac{13}{64} = \dfrac{13}{2^6}$ : le dénominateur est une puissance de 2, l'écriture est finie ($x_4 = \base{0,001101}{2}$).
+}
+\Question{En déduire pourquoi aucun ordinateur travaillant en base 2 ne peut représenter exactement le nombre $0{,}1$, même en augmentant la taille de la mantisse.}
+\tcor{
+Puisque $0{,}1 = \frac{1}{10}$ n'est pas un rationnel dyadique, son écriture en base 2 nécessite une infinité de bits. Tout format flottant (qu'il soit codé sur 32 bits, 64 bits ou davantage) ne disposant que d'un nombre fini de bits pour stocker la mantisse, le nombre $0{,}1$ subit obligatoirement un arrondi, ce qui introduit une erreur de représentation intrinsèque.
+}
+\end{Exercise}
+
+\begin{Exercise}[title={Codage ASCII et bit de parité}]\\
+Le standard ASCII d'origine n'utilise que 7 bits par caractère (codes de 0 à 127). Dans les télécommunications, le 8\textsuperscript{e} bit (bit de poids fort) servait historiquement de \textit{bit de parité} pour détecter d'éventuelles erreurs de transmission sur la ligne.\\
+Dans un protocole à \textbf{parité paire}, on choisit le bit de poids fort de sorte que le nombre total de bits à 1 dans l'octet soit \textbf{pair}.
+\Question{Donner la suite d'octets en hexadécimal représentant la chaîne {\tt "MP2I"} en ASCII standard sur 7 bits (avec le bit de poids fort à 0).}
+\tcor{
+D'après les codes ASCII :\\
+$\bullet$ {\tt 'M'} a pour code décimal $77 = 4 \times 16 + 13 = \base{4D}{16}$.\\
+$\bullet$ {\tt 'P'} a pour code décimal $80 = 5 \times 16 + 0 = \base{50}{16}$.\\
+$\bullet$ {\tt '2'} a pour code décimal $50 = 3 \times 16 + 2 = \base{32}{16}$.\\
+$\bullet$ {\tt 'I'} a pour code décimal $73 = 4 \times 16 + 9 = \base{49}{16}$.\\
+La suite d'octets en hexadécimal est donc : {\tt 4D 50 32 49}.
+}
+\Question{Pour chacun des caractères suivants, donner son code ASCII sur 7 bits en binaire, puis déterminer la valeur de l'octet complet (sur 8 bits) avec bit de parité paire :}
+\begin{enumerate}
+    \item Le caractère {\tt 'A'} (code décimal 65).
+    \item Le caractère {\tt 'C'} (code décimal 67).
+\end{enumerate}
+\tcor{
+\begin{enumerate}
+    \item $65 = 64 + 1 = \base{1000001}{2}$. Cette séquence de 7 bits contient 2 bits à 1, ce qui est déjà pair. Le bit de parité (de poids fort) est donc mis à 0. L'octet complet est $\base{01000001}{2}$ ({\tt 0x41}).
+    \item $67 = 64 + 2 + 1 = \base{1000011}{2}$. Cette séquence contient 3 bits à 1 (nombre impair). Le bit de parité est donc mis à 1 pour obtenir un total pair (4 bits à 1). L'octet complet est $\base{11000011}{2}$ ({\tt 0xC3}).
+\end{enumerate}
+}
+\Question{Un récepteur reçoit l'octet $\base{11000101}{2}$. Détecte-t-il une erreur de transmission ? Justifier.}
+\tcor{
+L'octet reçu $\base{11000101}{2}$ contient 4 bits valant 1. Le nombre de bits à 1 étant pair, la règle de parité est vérifiée : le récepteur ne détecte pas d'erreur simple.
+}
+\Question{Quelle est la limite de cette méthode de détection d'erreur ? Que se passe-t-il si deux bits sont altérés simultanément lors du transfert ?}
+\tcor{
+Si deux bits (ou plus généralement un nombre pair de bits) sont simultanément modifiés par le bruit lors de la transmission, la parité du nombre de bits à 1 reste inchangée. L'erreur n'est donc pas détectée par le récepteur. Le bit de parité ne permet de détecter que les erreurs portant sur un nombre impair de bits (et en particulier les erreurs isolées d'un unique bit).
+}
+\end{Exercise}
+
+\begin{Exercise}[title={Annulation catastrophique}]\\
+On s'intéresse au calcul de la fonction $f(x) = \sqrt{x+1} - \sqrt{x}$ pour de grandes valeurs de $x$.
+On suppose qu'un système calcule avec une précision limitée à \textbf{4 chiffres significatifs} en base 10 (c'est-à-dire que chaque résultat intermédiaire est arrondi à 4 chiffres significatifs).
+On souhaite évaluer $f(1000)$.
+\Question{Sachant que $\sqrt{1001} \approx 31{,}63858$ et $\sqrt{1000} \approx 31{,}62277$, donner les représentations arrondies à 4 chiffres significatifs de ces deux nombres.}
+\tcor{
+Avec 4 chiffres significatifs :
+$$\sqrt{1001} \approx 31{,}64 \qquad \text{et} \qquad \sqrt{1000} \approx 31{,}62$$
+}
+\Question{Effectuer la soustraction de ces deux valeurs arrondies. Combien de chiffres significatifs le résultat obtenu comporte-t-il ? Que constatez-vous ?}
+\tcor{
+On calcule la différence :
+$$31{,}64 - 31{,}62 = 0{,}02 = 2 \times 10^{-2}$$
+Le résultat ne comporte plus qu'\textbf{un seul chiffre significatif} ! Les trois autres ont été complètement perdus lors de la soustraction de deux grandeurs très proches (phénomène d'\textit{annulation catastrophique}).\\
+La valeur exacte étant $f(1000) \approx 0{,}0158074$, l'erreur relative commise est énorme :
+$$\left|\frac{0{,}02 - 0{,}01581}{0{,}01581}\right| \approx 26{,}5\,\%$$
+}
+\Question{En multipliant par la quantité conjuguée, donner une autre expression de $f(x)$.}
+\tcor{
+En multipliant et en divisant par $\sqrt{x+1} + \sqrt{x}$ :
+$$f(x) = \frac{(\sqrt{x+1} - \sqrt{x})(\sqrt{x+1} + \sqrt{x})}{\sqrt{x+1} + \sqrt{x}} = \frac{(x+1) - x}{\sqrt{x+1} + \sqrt{x}} = \frac{1}{\sqrt{x+1} + \sqrt{x}}$$
+}
+\Question{Calculer à nouveau $f(1000)$ avec cette nouvelle formule en utilisant la même précision de 4 chiffres significatifs. Comparer avec la valeur exacte $f(1000) \approx 0{,}0158074$.}
+\tcor{
+Avec la nouvelle formule :\\
+$\bullet$ Dénominateur : $31{,}64 + 31{,}62 = 63{,}26$ (addition de deux nombres positifs, aucun chiffre significatif n'est perdu).\\
+$\bullet$ Inverse : $\dfrac{1}{63{,}26} \approx 0{,}0158077$, qui s'arrondit à 4 chiffres significatifs en $0{,}01581$.\\
+Le résultat conserve bien ses 4 chiffres significatifs et l'erreur relative par rapport à la valeur exacte est inférieure à $0{,}02\,\%$.
+}
 \end{Exercise}
 
 \end{document}
