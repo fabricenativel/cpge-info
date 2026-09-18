@@ -1,3 +1,4 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
 \documentclass[11pt,a4paper]{article}
 
 \usepackage{Act}
@@ -5,78 +6,117 @@
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
 \ModeExercice
 \setboolean{corrige}{true}
-\IC{1}{Ligne de commande - Premiers pas en C}
+\IC{1}{Ligne de commande -- Premiers pas en C}
 \setcounter{Exercise}{0}
 
-\begin{Exercise}[title={un peu de ligne de commande}]\\
-Dans un dossier {\tt A\_ranger} de son répertoire utilisateur, Alice a notamment des fichiers dont les noms se terminent par   {\tt .c} ou {\tt .html}. On suppose qu'on se trouve actuellement dans ce dossier. 
-\Question{Ecrire les commandes permettant :}
-\subQuestion{De créer deux dossiers : {\tt LangageC} et {\tt Web}}
-\reponse{0}{0,5}
-\tcor{\mintinline{bash}{mkdir LangageC Web}}
-\subQuestion{De déplacer tous les fichiers portant l'extension {\tt .c} dans {\tt LangageC} et tous ceux portant l'extension 
-{\tt .html} dans {\tt Web}}
-\reponse{1}{1}
-\tcor{\mintinline{bash}{mv *.c LangageC} \\ \mintinline{bash}{mv *.html Web}}
-\subQuestion{D'afficher les fichiers restants dans le dossier (y compris les fichiers cachés).}
-\tcor{\mintinline{bash}{ls -a}}
-\reponse{0}{1}
-\Question{Grâce à la commande précédente, Alice s'aperçoit qu'elle a dans ce répertoire un fichier {\tt notes.txt}, quelle commande permet d'afficher le contenu de ce fichier dans le terminal ?}
-\reponse{0}{0,5}
-\tcor{\mintinline{bash}{cat notes.txt}}
-\Question{Alice souhaite créer un lien physique vers {\tt notes.txt}, ce lien doit se trouver dans son répertoire personnelle dans un dossier existant nommé {\tt Important} et elle veut le nommer {\tt notes.sav}, quelle commande doit-elle taper ?}
-\reponse{0}{1}
-\tcor{\mintinline{bash}{ln notes.txt ~/Important/notes.sav}}
+\begin{Exercise}[title={QCM sur le système et le langage C}] \points{4}\\
+	Dans cet exercice, chaque question peut avoir \textit{zéro, une ou plusieurs bonnes réponses}. Pour chaque question, cocher la ou les cases correspondantes aux réponses exactes.
+
+	\Question{À propos du système de fichiers et des commandes Linux :}
+	\begin{itemize}[itemsep=0pt,topsep=1pt,parsep=0pt]
+		\item[\gc] Le chemin {\tt /home/alice/tp1} est un chemin absolu.
+		\item[\bc] La commande {\tt cd ..} permet de revenir dans le répertoire personnel de l'utilisateur.
+		\item[\gc] La commande {\tt ls -a} affiche tous les fichiers du dossier, y compris les fichiers cachés.
+		\item[\bc] La commande {\tt rm} permet de renommer un dossier ou un fichier.
+	\end{itemize}
+
+	\Question{Concernant les liens sous Linux :}
+	\begin{itemize}[itemsep=0pt,topsep=1pt,parsep=0pt]
+		\item[\bc] Lorsqu'on crée un lien physique vers un fichier, on effectue une copie de ce fichier.
+		\item[\bc] La commande {\tt ln source.txt lien} crée un lien symbolique.
+		\item[\gc] Supprimer le fichier source rend un lien symbolique orphelin (inutilisable).
+		\item[\bc] Deux fichiers ne peuvent jamais avoir le même \textit{inode}.
+	\end{itemize}
+
+	\Question{À propos des types de base en langage C :}
+	\begin{itemize}[itemsep=0pt,topsep=1pt,parsep=0pt]
+		\item[\gc] Le type {\tt int} permet de représenter des entiers relatifs.
+		\item[\bc] Les chaînes de caractères possèdent le type natif {\tt str}.
+		\item[\bc] L'opérateur {\tt **} permet d'élever un {\tt float} à une puissance.
+		\item[\gc] Les types {\tt float} et {\tt double} permettent tous les deux de représenter des nombres décimaux.
+	\end{itemize}
+
+	\Question{À propos des types et de la syntaxe en langage C :}
+	\begin{itemize}[itemsep=0pt,topsep=1pt,parsep=0pt]
+		\item[\gc] L'inclusion de l'en-tête {\tt <stdbool.h>} est nécessaire pour utiliser le type {\tt bool}.
+		\item[\gc] Une variable de type {\tt char} s'écrit entre apostrophes simples (ex : {\tt 'a'}), tandis qu'une chaîne de caractères s'écrit entre guillemets (ex : {\tt "a"}).
+		\item[\bc] L'opérateur d'égalité en C s'écrit {\tt =} et l'affectation s'écrit {\tt :=}.
+		\item[\bc] L'opérateur logique \og et \fg{} s'écrit {\tt ||} et l'opérateur logique \og ou \fg{} s'écrit {\tt \&\&}.
+	\end{itemize}
+
+	\Question{Pour se déplacer dans son répertoire personnel, l'utilisateur {\tt toto} peut taper :}
+	\begin{itemize}[itemsep=0pt,topsep=1pt,parsep=0pt]
+		\item[\bc] {\tt cd .}
+		\item[\gc] {\tt cd \textasciitilde}
+		\item[\bc] {\tt cd ..}
+		\item[\gc] {\tt cd /home/toto/}
+	\end{itemize}
+
+	\Question{Que vaut la variable {\tt x} après l'instruction {\tt float x = 7 / 2;} en C ?}\\
+	\begin{tabularx}{\linewidth}{@{}XXXX@{}}
+		\bc {\tt 3.5} & \gc {\tt 3.0} & \bc {\tt 3} & \bc {\tt 1.0} \\
+	\end{tabularx}
+
+	\Question{Quel affichage produit le fragment de code suivant ?}
+	\begin{langageC}
+int s = 0;
+for (int i = 1; i <= 4; i++) {
+    s += i;
+}
+printf("%d\n", s);
+	\end{langageC}
+	\begin{tabularx}{\linewidth}{@{}XXXX@{}}
+		\bc {\tt 4} & \bc {\tt 6} & \gc {\tt 10} & \bc {\tt 15} \\
+	\end{tabularx}
+
+	\Question{À propos des fonctions en langage C :}
+	\begin{itemize}[itemsep=0pt,topsep=1pt,parsep=0pt]
+		\item[\gc] En C, le passage des arguments scalaires se fait par valeur (une copie est transmise).
+		\item[\bc] Une fonction ne peut jamais avoir {\tt void} comme type de retour.
+		\item[\bc] Une fonction doit obligatoirement comporter au moins un argument.
+		\item[\bc] Le mot-clé {\tt return} est obligatoire dans le corps de toute fonction.
+	\end{itemize}
 \end{Exercise}
 
-\begin{Exercise}
-\Question{Ecrire le prototype d'une fonction {\tt verifie}  qui prend en argument un caractère et un entier et renvoie un booléen}
-\reponse{0}{1}
-\ifcorrige
-\begin{langageC}
-bool verifie(char c, int n)
-\end{langageC}
-\fi
-\Question{On veut utiliser cette fonction depuis le {\tt main} d'un programme}
-\subQuestion{écrire les instructions permettant de déclarer un entier {\tt n} initialisé à  42 et un caractère {\tt c} contenant~{\tt @}}
-\reponse{1}{1}
-\ifcorrige
-\begin{langageC} 
-int n = 42;
-int c = '@';
-\end{langageC}
-\fi
+\newpage
+\begin{Exercise}[title={Ligne de commande et arborescence}] \points{6}\\
+	Bob travaille dans un sous-dossier {\tt TP1} de son répertoire personnel. Ce dossier contient des fichiers source C ({\tt .c}) et des fichiers de données texte ({\tt .txt}). Écrire les commandes du shell qui lui permettent de réaliser les opérations suivantes :
+	
+	\Question{Afficher le chemin absolu du répertoire de travail actuel dans la console.}
+	\reponse{0}{0.5}
+	\tcor{\tt pwd}
 
-\subQuestion{écrire une instruction {\tt printf} permettant d'afficher les valeurs de {\tt n} et de {\tt c} dans le terminal}
-\reponse{0}{1}
-\ifcorrige
-\begin{langageC}
-printf("n = %d et c = %c",n,c);
-\end{langageC}
-\fi
-\subQuestion{déclarer un booléen {\tt test} et l'initialiser au résultat de l'appel de {\tt verifie} avec les arguments {\tt c} et {\tt n} définis ci-dessus}
-\reponse{0}{1}
-\ifcorrige
-\begin{langageC}
-bool test = verifie(c,n)
-\end{langageC}
-\fi
-\subQuestion{Ecrire une instructions conditionnelle qui affiche \og{}{\tt Ok !}\fg{} dans le terminal si {\tt test} vaut {\tt true} et \og{}{\tt Bug !}\fg{} sinon.}
-\reponse{3}{2}
-\ifcorrige
-\begin{langageC}
-if (test)
-{
-    printf("Ok !\n");
-}
-else
-{
-    printf("Bug !\n");
-}
-\end{langageC}
-\fi
+	\Question{Créer un nouveau sous-dossier nommé {\tt src} dans le répertoire courant.}
+	\reponse{0}{0.5}
+	\tcor{\tt mkdir src}
+
+	\Question{Déplacer tous les fichiers portant l'extension {\tt .c} du dossier courant dans le sous-dossier {\tt src}.}
+	\reponse{0}{1}
+	\tcor{\tt mv *.c src}
+
+	\Question{Afficher les 10 premières lignes du fichier {\tt data.txt} situé dans le répertoire courant.}
+	\reponse{0}{0.5}
+	\tcor{\tt head -n 10 data.txt}
+
+
+	\Question{Rediriger la liste détaillée des fichiers du répertoire courant (avec {\tt ls -l}) dans un fichier nommé {\tt contenu.txt}.}
+	\reponse{0}{0.5}
+	\tcor{\tt ls -l > contenu.txt}
+
+	\Question{Créer un lien symbolique nommé {\tt raccourci.txt} dans son répertoire personnel ({\tt \textasciitilde}) qui pointe vers le fichier {\tt data.txt} du dossier courant.}
+	\reponse{0}{1}
+	\tcor{\tt ln -s \textasciitilde/TP1/data.txt \textasciitilde/raccourci.txt}
+
+	\Question{En utilisant un tube (\textit{pipe}) {\tt |}, compter le nombre de fichiers et dossiers présents dans le répertoire courant (on rappelle que la commande {\tt wc -l} compte le nombre de lignes reçues en entrée).}
+	\reponse{0}{1}
+	\tcor{\tt ls | wc -l}
+
+	\Question{Afficher la 42\textsuperscript{e} ligne du fichier {\tt prog.c} situé dans le répertoire courant.}
+	\reponse{0}{1}
+	\tcor{\tt head -n 42 prog.c | tail -n 1}
+
+
 \end{Exercise}
-
-
 
 \end{document}
+

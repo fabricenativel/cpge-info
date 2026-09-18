@@ -9,7 +9,7 @@
 \ModeConcours
 \DS{MP2I}{1}{Septembre 2024}
 
-\setboolean{corrige}{false}
+\setboolean{corrige}{true}
 
 \newcommand{\maillon}[3]{
 	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
@@ -21,7 +21,7 @@
 
 \alertbox{\danger}{Consignes}{
 	\begin{itemize}
-		\item[\textbullet] Les programmes demandés doivent être écrits en C, on suppose que les librairies standards usuelles ({\tt <stdio.h>}, {\tt <stdlib.h>}, {\tt <stdbool.h>}, {\tt <stdassert.h>}, \dots) sont déjà importées.
+		\item[\textbullet] Les programmes demandés doivent être écrits en C, on suppose que les bibliothèques standard usuelles ({\tt <stdio.h>}, {\tt <stdlib.h>}, {\tt <stdbool.h>}, {\tt <assert.h>}, \dots) sont déjà importées.
 		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
 		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
 		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
@@ -66,42 +66,42 @@
 		\corpartC{mult.c}{}{}{4}{15}
 	\fi
 	\Question{Donner la définition d'un variant de boucle, puis prouver que cet algorithme termine.}
-	\tcor{Un \textit{variant de boucle} est une quantité qui dépend des variables du programmes et est :
+	\tcor{Un \textit{variant de boucle} est une quantité qui dépend des variables du programme et qui est :
 		\begin{enumerate}
 			\item entière,
 			\item positive,
 			\item strictement décroissante.
-		\end{enumerate}.
+		\end{enumerate}
 		Dans l'algorithme ci-dessus, la quantité $m$ est un variant de boucle, en effet :
 		\begin{enumerate}
-			\item $m \in \N$ par précondition.
-			\item $m \in \N$ par précondition puis $m$ reste  positif car par condition d'entrée dans la boucle $m\geqslant 1$ et dans la boucle on décrémente $m$ donc après un passage dans la boucle $m$ reste positif ou nul.
-			\item $m$ décroit strictement car $m$ est diminué de 1  lors de chaque passage dans la boucle.
+			\item $m \in \N$ (par précondition).
+			\item $m$ reste positif ou nul : par condition d'entrée dans la boucle $m \geqslant 1$, et comme on décrémente $m$ de 1, $m$ reste $\geqslant 0$ après le tour de boucle.
+			\item $m$ décroît strictement car il est diminué de 1 lors de chaque passage dans la boucle.
 		\end{enumerate}
 		L'algorithme termine car on a trouvé un variant de boucle.
 	}
 	\Question{Donner la définition d'un invariant de boucle, puis prouver que cet algorithme est correct.}
-	\tcor{Un \textit{invariant de boucle} est une propriété qui dépend des variables du programme et qui est :
+	\tcor{Un \textit{invariant de boucle} est une propriété qui dépend des variables du programme et qui :
 		\begin{enumerate}
-			\item vraie avant d'entrer dans la boucle (initialisation)
-			\item reste vraie après un tour de boucle si elle l'était au tour précédent (conservation)
+			\item est vraie avant d'entrer dans la boucle (initialisation),
+			\item reste vraie après un tour de boucle si elle l'était au début du tour (conservation).
 		\end{enumerate}
 		En sortie de boucle, la validité d'un invariant permet de prouver la correction de l'algorithme.\\
-		On note, $m_0$ la valeur initiale de $m$, montrons que la propriété $I$ : \og{} $r = (m - m_0)n$ \fg est un invariant de boucle.
+		En notant $m_0$ la valeur initiale de $m$, montrons que la propriété $I$ : \og{} $r = (m_0 - m)n$ \fg{} est un invariant de boucle.
 		\begin{enumerate}
-			\item Avant d'entrée dans la boucle $ m = m_0$ donc $(m - m_0)n = 0$ et comme $r$ est initialisé à $0$ la propriété $I$ est vérifiée.
-			\item On suppose $I$ vérifié à l'entrée de la boucle et on note $r'$ (resp. $m'$) les valeurs prises par $r$ (resp. $m$) au tour de boucle suivant, alors : \\
-			      $(m' - m_0) n = (m + 1 - m_0) n$, or $I$ étant vérifié à l'entrée de boucle $(m-m_0) n = r$ donc \\
-			      $(m' - m_0) n = r + n$ et comme $r' = r +n $ \\
-			      $(m' - m_0) n = r'$ et donc $I$ est vérifiée.
+			\item Avant d'entrer dans la boucle, $m = m_0$ donc $(m_0 - m)n = 0$. Comme $r$ est initialisé à $0$, la propriété $I$ est vérifiée.
+			\item On suppose $I$ vérifiée au début d'un tour de boucle et on note $r'$ (resp. $m'$) les valeurs prises par $r$ (resp. $m$) à la fin de ce tour. On a $m' = m - 1$ et $r' = r + n$.
+			      Calculons : $(m_0 - m')n = (m_0 - (m - 1))n = (m_0 - m + 1)n = (m_0 - m)n + n$. 
+			      Or, par hypothèse de récurrence ($I$ vraie), $(m_0 - m)n = r$. 
+			      Donc $(m_0 - m')n = r + n = r'$. La propriété $I$ est donc conservée.
 		\end{enumerate}
-		En sortie de boucle, puisque $m=0$, cette invariant prouve que $r = m_0n$ et donc l'algorithme est correcte.
+		En sortie de boucle, la condition $m > 0$ est fausse, donc $m = 0$. L'invariant nous assure alors que $r = (m_0 - 0)n = m_0 n$. L'algorithme calcule bien le produit attendu et est donc correct.
 	}
 \end{Exercise}
 
 
 \begin{Exercise}[title = {Retourner un tableau}]\\
-	Dans cet exercice, on s'intéresse à un algorithme permettant de \og{} retourner \fg{} un tableau c'est à dire réorganiser l'ordre de ses éléments de façon à ce que le premier élément devienne le dernier, le second devienne l'avant dernier et ainsi de suite. Par exemple, le tableau {\tt \{2, 7, 1, 9, 3\}}  deviendrait {\tt \{3, 9, 1, 7, 2\}}. En notant, $t_0$ le tableau initial, et $t_r$ le tableau \og{}retourné\fg{} on a donc pour tout  $k \in \intN{0}{n-1},\  t_r[k] = t_0[n-1-k]$. On propose pour cela l'algorithme suivant :\\
+	Dans cet exercice, on s'intéresse à un algorithme permettant de \og{} retourner \fg{} un tableau c'est-à-dire réorganiser l'ordre de ses éléments de façon à ce que le premier élément devienne le dernier, le second devienne l'avant-dernier et ainsi de suite. Par exemple, le tableau {\tt \{2, 7, 1, 9, 3\}}  deviendrait {\tt \{3, 9, 1, 7, 2\}}. En notant, $t_0$ le tableau initial, et $t_r$ le tableau \og{}retourné\fg{} on a donc pour tout  $k \in \intN{0}{n-1},\  t_r[k] = t_0[n-1-k]$. On propose pour cela l'algorithme suivant :\\
 	\SetKw{KwResult}{Résultat : }
 	\begin{algorithm}[H]
 		\DontPrintSemicolon
@@ -129,25 +129,25 @@
 	\Question{Montrer que la propriété suivante notée $I$ est un invariant de l'algorithme : $i+j = n-1$.}
 	\tcor{
 		\begin{itemize}
-		\item Avant d'entrer dans la boucle $i = 0$ et $j=n-1$ et donc  $I$ est vrai.
-		\item On suppose $I$ vraie en entrant dans la boucle, montrant qu'alors $I$ est conservé lors d'un passage dans cette boucle, $i' = i+1$ et $j' = j-1$ sont après ce passage les nouvelles valeurs de $i$ et $j$, on a donc $i'+j' = i +j$ or par hypothèse $i+j = n-1$ donc $I$ est conservée.
+		\item Avant d'entrer dans la boucle $i = 0$ et $j=n-1$, donc $I$ est vraie.
+		\item On suppose $I$ vraie au début d'un tour de boucle. Montrons qu'alors $I$ est conservée à la fin de ce passage. En notant $i' = i+1$ et $j' = j-1$ les nouvelles valeurs, on a $i'+j' = i+1+j-1 = i+j$. Or, par hypothèse $i+j = n-1$, donc $i'+j' = n-1$ et $I$ est conservée.
 		\end{itemize}
 	}
 	\Question{Montrer que cet algorithme est correct, on pourra considérer l'invariant $I'$ : \og{}\textit{Le tableau t contient les valeurs de $t_r$ (le tableau retourné) pour tous les indices $k \in \intN{0}{i-1} \bigcup \intN{j+1}{n-1}$}\fg{} et utiliser l'invariant $I$ de la question précédente.}
-	\tcor{On vérifie que l'invariant proposé est vraie :
+	\tcor{On vérifie que l'invariant proposé est vrai :
 		\begin{itemize}
-			\item Avant d'entrer dans la boucle $\intN{0}{i-1} \bigcup \intN{j+1}{n-1} = \varnothing$ et donc $I'$ est vraie par vacuité.
-			\item Conservé par un passage dans la boucle. Si $I'$ est vrai en entrant dans la boucle, alors on échange $t[i]$ avec $t[j]$ et comme d'après l'invariant $I$ démontré à la question précédente $j = n-1-i$, on echange $t[i]$ avec $t[n-1-i]$. Comme par hypothèse les éléments situés avant $i$ et après $j$ sont déjà correctement échangé ($I'$ supposé vraie) dans le nouveau tableau obtenu $I'$ est vrai.
+			\item Avant d'entrer dans la boucle $\intN{0}{i-1} \bigcup \intN{j+1}{n-1} = \varnothing$ et donc $I'$ est vrai par vacuité.
+			\item Conservé lors d'un passage dans la boucle : si $I'$ est vrai en entrant dans la boucle, alors on échange $t[i]$ avec $t[j]$. D'après l'invariant $I$ démontré à la question précédente, $j = n-1-i$. On échange donc $t[i]$ avec $t[n-1-i]$. Comme, par hypothèse, les éléments situés avant $i$ et après $j$ sont déjà correctement échangés ($I'$ supposé vrai), la propriété $I'$ reste vraie pour les indices s'étendant jusqu'à $i$ et $j$.
 		\end{itemize}
 		En sortie de boucle, on a $j-i \leqslant 0$ et donc $\intN{0}{i-1} \bigcup \intN{j+1}{n-1} = \intN{0}{n-1}$, donc le tableau $t$ contient bien les valeurs du tableau retourné.
 	}
-	\Question{On souhaite utiliser cet algorithme afin d'écrire en langage C une fonction {\tt retourner\_str} qui retourne une chaine de caractères, c'est à dire que par exemple, la chaine {\tt "MP2I"} devient {\tt "I2PM"}. Rappeler la façon dont sont implémentées en C les chaines de caractères et expliquer pour quelle raison il n'est pas utile de fournir la longueur de la chaine en paramètre à la fonction {\tt retourner\_str}.}
-	\tcor{En C, les chaines de caractères sont des tableaux de caractères se terminant par le caractère sentinelle {\tt '\textbackslash 0'}, on peut donc obtenir la taille d'une chaine de caractères en recherchant la position de ce caractère, il n'est pas utile de la passer en paramètre.}
+	\Question{On souhaite utiliser cet algorithme afin d'écrire en langage C une fonction {\tt retourner\_str} qui retourne une chaîne de caractères, c'est-à-dire que, par exemple, la chaîne {\tt "MP2I"} devient {\tt "I2PM"}. Rappeler la façon dont sont implémentées en C les chaînes de caractères et expliquer pour quelle raison il n'est pas utile de fournir la longueur de la chaîne en paramètre à la fonction {\tt retourner\_str}.}
+	\tcor{En C, les chaînes de caractères sont des tableaux de caractères se terminant par le caractère sentinelle {\tt '\textbackslash 0'}, on peut donc obtenir la taille d'une chaîne de caractères en recherchant la position de ce caractère, il n'est pas utile de la passer en paramètre.}
 	\Question{Ecrire une fonction de signature \mintinline{c}{void echange(char s[], int i, int j)} qui échange dans {\tt s} les caractères situés aux indices {\tt i} et {\tt j}.}
 	\ifcorrige
 		\corpartC{retourner_str.c}{}{}{4}{10}
 	\fi
-	\Question{Ecrire une implémentation de la fonction {\tt retourner\_str} sans utiliser les fonctions de la librairie {\tt <string.h>}.}
+	\Question{Ecrire une implémentation de la fonction {\tt retourner\_str} sans utiliser les fonctions de la bibliothèque {\tt <string.h>}.}
 	\ifcorrige
 		\corpartC{retourner_str.c}{}{}{12}{28}
 	\fi
@@ -155,34 +155,12 @@
 	\inputpartC{retourner_str.c}{}{}{30}{36}
 	Ce programme ne compile pas et produit une erreur à la ligne 4 : \textit{\og{} error : invalid initializer \fg{}}. Indiquer la source de cette erreur et expliquer comment la corriger, \textit{on ne demande pas d'écrire une fonction corrigée de la fonction palindrome} mais d'indiquer de façon succinte la source de l'erreur commise à la ligne 4.}
 	\tcor{
-		On peut pas en C affecter directement un tableau, on doit travailler élément par élément, on devrait donc utiliser une boucle \texttt{for} afin de copier un à un les caractères de s dans la chaine {\tt copie}.
+		On ne peut pas affecter directement un tableau en C, on doit travailler élément par élément, on devrait donc utiliser une boucle \texttt{for} afin de copier un à un les caractères de s dans la chaîne {\tt copie}.
 	}
 	\Question{On suppose corrigée l'erreur commise à la ligne 4, cette fonction est-elle correcte ? Justifier votre réponse.}
 	\tcor{
-		On ne peut pas tester l'égalité des éléments de deux tableaux dirrectement comme on tente de le faire à la ligne 6, on doit comparer un à un les éléments dans une boucle {\tt for}.
+		On ne peut pas tester l'égalité des éléments de deux tableaux directement comme on tente de le faire à la ligne 6, on doit comparer un à un les éléments dans une boucle {\tt for}.
 	}
-\end{Exercise}
-
-\begin{Exercise}[title = {Lecture et compréhension d'un code C}]\\
-	On considère la fonction {\tt mystere} suivante :
-	\inputpartC{mystere.c}{}{}{4}{13}
-	\Question{Quelle est la valeurs renvoyée par l'appel {\tt mystere(35)} ? et par {\tt mystere(13)} ?}
-	\tcor{{\tt mystere(35)} renvoie 5 et {\tt mystere(13)} renvoie 13.}
-	\Question{Quel sera le résultat de l'exécution d'un programme effectuant l'appel {\tt mystere(1)} ?}
-	\tcor{Le programme s'arrête sur une erreur d'assertion à  la ligne 3.}
-	\Question{Proposer une spécification aussi précise que possible pour cette fonction.}
-	\tcor{On peut propose la spécification suivante : \og{} \textit{Prend en entrée un entier n>1 et renvoie son premier diviseur strictement plus grand que 1} \fg{}.}
-	\Question{Prouver la terminaison de cette fonction.}
-	\tcor{Montrons que $n-d$ est un variant de boucle :
-		\begin{itemize}
-			\item $n-d \in \N$  car $n$ et $d$ sont des entiers.
-			\item $n-d \geqslant 0$, en effet cela est vrai à l'initialisation ($d=2$ et $n>1$) et reste vrai à chaque passage dans la boucle car comme $n$ divise $n$, par condition d'entrée dans la boucle $d < n$.
-			\item $n-d$ est strictement croissante car $d$ est incrémenté à chaque tour de boucle.
-		\end{itemize}
-		Donc cet algorithme termine.
-	}
-	\Question{En utilisant la fonction précédente, écrire une fonction {\tt est\_premier} de prototype : \\\mintinline{c}{bool est_premier(int n)} qui prend en entrée un entier $n \in \N$ et  qui renvoie {\tt true} si et seulement si {\tt n} est premier.}
-	\ifcorrige \corpartC{mystere.c}{}{}{14}{23} \fi
 \end{Exercise}
 
 \begin{Exercise}[title = {Recherche de minimums}]\\
@@ -200,11 +178,11 @@
 
 	\Ret \smallskip
 
-	\Question{Expliquer succintement, comment mettre à jour {\tt min1} et {\tt min2} de façon à préserver l'invariant suivant : {\tt min1} et {\tt min2} sont les deux plus petites du sous tableau {\tt tab[0] \dots tab[i-1]} et {\tt min1 <= min2} (on pourra distinguer  les cas où {\tt tab[i]} est inférieur à {\tt min1} ou compris entre {\tt min1} et {\tt min2}).}
+	\Question{Expliquer succinctement, comment mettre à jour {\tt min1} et {\tt min2} de façon à préserver l'invariant suivant : {\tt min1} et {\tt min2} sont les deux plus petites du sous tableau {\tt tab[0] \dots tab[i-1]} et {\tt min1 <= min2} (on pourra distinguer  les cas où {\tt tab[i]} est inférieur à {\tt min1} ou compris entre {\tt min1} et {\tt min2}).}
 	\tcor{
 		\begin{itemize}
 			\item Si {\tt tab[i]<min1} alors {\tt min2} prend la valeur de {\tt min1} et {\tt min1} celle de {\tt tab[i]}
-			\item Si {\tt min1<=v<min2} alors {\tt min2} prend la valeur de {\tt tab[i]}
+			\item Si {\tt min1 <= tab[i] < min2} alors {\tt min2} prend la valeur de {\tt tab[i]}
 			\item Sinon {\tt tab[i]} n'est pas l'un des deux minimums, on ne fait rien.
 		\end{itemize}
 	}
@@ -213,7 +191,7 @@
 	\ifcorrige
 		\corpartC{smin.c}{}{}{4}{9}
 	\fi
-	\Question{Ecrire la fonction de signature \mintinline{c}{couple deuxmin(int tab[], int n)} qui prend en argument un tableau et sa taille et renvoie ses deux plus petites valeurs dans une variable de type {\tt couple}.}
+	\Question{Écrire la fonction de signature \mintinline{c}{couple deuxmin(int tab[], int n)} qui prend en argument un tableau et sa taille et renvoie ses deux plus petites valeurs dans une variable de type {\tt couple}.}
 	\ifcorrige
 		\corpartC{smin.c}{}{}{41}{68}
 	\fi
@@ -221,6 +199,58 @@
 		modifiés dans la fonction et à ne rien renvoyer. Donner alors la signature de la fonction ainsi que son implémentation.}
 	\ifcorrige
 		\corpartC{smin.c}{}{}{71}{96}
+	\fi
+\end{Exercise}
+\begin{Exercise}[title = {Plus long plateau d'un tableau}]\\
+	Un \og{} plateau \fg{} dans un tableau est une séquence d'éléments contigus tous égaux. Par exemple, dans le tableau \texttt{\{1, 2, 2, 2, 3, 3, 1\}}, la séquence \texttt{2, 2, 2} est un plateau de longueur 3.
+	\Question{Déterminer la longueur du plus long plateau pour le tableau \texttt{t = \{4, 4, 1, 1, 1, 1, 2, 2\}}.}
+	\tcor{Le plus long plateau est constitué de la suite de \texttt{1}, sa longueur est de 4.}
+	\Question{Écrire une fonction C \mintinline{c}{int max_plateau(int tab[], int n)} qui prend en paramètre un tableau non vide de taille \texttt{n} et renvoie la longueur de son plus long plateau.}
+	\ifcorrige
+\begin{langageC}
+int max_plateau(int tab[], int n) {
+    int max_len = 1;
+    int len_actuelle = 1;
+    for (int i = 1; i < n; i++) {
+        if (tab[i] == tab[i-1]) {
+            len_actuelle++;
+        } else {
+            len_actuelle = 1;
+        }
+        if (len_actuelle > max_len) {
+            max_len = len_actuelle;
+        }
+    }
+    return max_len;
+}
+\end{langageC}
+\fi
+	\Question{Quelle est la complexité temporelle de cette fonction ? Justifiez.}
+	\tcor{La complexité est en $\mathcal{O}(n)$. En effet, l'algorithme parcourt le tableau une seule fois à l'aide d'une boucle \texttt{for} exécutant $n-1$ itérations. Chaque itération n'effectue qu'un nombre constant d'opérations élémentaires (comparaisons de valeurs et d'indices, incrémentations, affectations).}
+
+	\Question{On souhaite désormais, en plus de la longueur du plus long plateau, connaître le nombre de fois où cette longueur maximale apparaît dans le tableau. Écrire une fonction C \mintinline{c}{void info_plateau(int tab[], int n, int *max_len, int *occ)} qui affecte à la variable pointée par \texttt{max\_len} la longueur du plus long plateau, et à la variable pointée par \texttt{occ} le nombre de plateaux ayant cette longueur maximale.}
+	\ifcorrige
+\begin{langageC}
+void info_plateau(int tab[], int n, int *max_len, int *occ) {
+    *max_len = 1;
+    *occ = 1;
+    int len_actuelle = 1;
+    for (int i = 1; i < n; i++) {
+        if (tab[i] == tab[i-1]) {
+            len_actuelle++;
+        } else {
+            len_actuelle = 1;
+        }
+        
+        if (len_actuelle > *max_len) {
+            *max_len = len_actuelle;
+            *occ = 1;
+        } else if (len_actuelle == *max_len) {
+            *occ = *occ + 1;
+        }
+    }
+}
+\end{langageC}
 	\fi
 \end{Exercise}
 

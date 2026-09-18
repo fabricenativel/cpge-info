@@ -17,8 +17,8 @@ hide: - navigation in liens.md
         * [TP](https://fabricenativel.github.io/cpge-info/mp2i/introC/#travaux-pratiques)
 
 ??? rappel "Notions du [programme officiel](https://fabricenativel.github.io/cpge-info/officiel/programme.pdf) abordées"
-    * *Section 5.2* - Gestion des fichiers :  organisation hiérarchique, liens physique et symboliques, accès, droits et attributs. Flux standard (`stdin`, `stdout`, `stderr`). Redirection et tubes (*pipe*).
-    * *Annexe A* et *Section 5.1* - Langage C : Traits généraux, définitions et types de bases, tableaux statiques, chaines de caractères, structures de controle.
+    * *Section 5.2* - Gestion des fichiers : organisation hiérarchique, liens physiques et symboliques, accès, droits et attributs. Flux standard (`stdin`, `stdout`, `stderr`). Redirection et tubes (*pipe*).
+    * *Annexe A* et *Section 5.1* - Langage C : Traits généraux, définitions et types de base, tableaux statiques, chaînes de caractères, structures de contrôle.
 
 
 * **En environnement Linux :**
@@ -36,4 +36,22 @@ hide: - navigation in liens.md
     
 
 ---
+
+## Semaines du 21/09 et du 28/09
+
+??? note "Chapitres concernés"
+    * Les chapitres [C0](https://fabricenativel.github.io/cpge-info/mp2i/systemes/) et [C1](https://fabricenativel.github.io/cpge-info/mp2i/introC/) des semaines précédentes
+    * Le chapitre [**C2 - Discipline de programmation**](https://fabricenativel.github.io/cpge-info/mp2i/discipline/) :
+        * [Cours](https://fabricenativel.github.io/cpge-info/mp2i/Cours/C2/C2-cours.pdf)
+        * [TD](https://fabricenativel.github.io/cpge-info/mp2i/TD/TD2.pdf)
+        * [TP](https://fabricenativel.github.io/cpge-info/mp2i/discipline/#travaux-pratiques)
+
+??? rappel "Notions du [programme officiel](https://fabricenativel.github.io/cpge-info/officiel/programme.pdf) abordées"
+    * *Section 1.1* - Algorithmes et programmes : terminaison, correction partielle et totale, variant, invariant de boucle.
+    * *Section 1.2* - Discipline de programmation : spécification (données attendues en entrée, fournies en sortie/retour), préconditions, postconditions, programmation défensive et assertions (`assert`).
+    * *Section 1.3* - Validation, test : jeu de tests associé à un programme, graphe de flot de contrôle, chemins faisables, critères de couverture (sommets, arcs), test des conditions.
+
+
+* Validation, jeu de tests, graphe de flot de contrôle. Préconditions, instructions `assert`.
+* Terminaison et correction d'algorithmes simples. Les variants et invariants pourront être suggérés aux élèves. Exemples traités en cours/TD : multiplication par additions successives, quotient et reste dans la division euclidienne, recherche du premier diviseur supérieur ou égal à deux d'un entier.
 
