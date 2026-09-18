@@ -1,0 +1,783 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{18}
+\newcommand{\Ctitle}{\cnum Programmation dynamique}
+
+\makess{Les dictionnaires de Python}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Les dictionnaires de Python}
+		\begin{itemize}
+			\item<1-> Les \textcolor{blue}{dictionnaires} de Python permettent de stocker des données sous forme de tableau associant une clé à une valeur : \vspace{0.2cm} \\
+				\begin{tabularx}{0.8\textwidth}{l|Y|Y|Y|Y|Y|Y}
+					\cline{2-6}
+					\textcolor{blue}{Valeurs}                   & {\tt v1}                       & {\tt v2}                       & {\tt v3}                       & {\tt v4}                       & {\tt \dots}                    &                               \\
+					\cline{2-6}
+					\multicolumn{1}{c}{$\uparrow$}              & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} & \multicolumn{1}{c}{$\uparrow$} &                               \\
+					\cline{2-6}
+					\multicolumn{1}{c|}{\textcolor{blue}{Clés}} & {\tt c1 }                      & {\tt c2}                       & {\tt c3}                       & {\tt c4}                       & {\tt \dots}                    & \textcolor{BrickRed}{uniques} \\
+					\cline{2-6}
+				\end{tabularx}
+			\item<2-> Un dictionnaire se note entre accolades : \kw{\{} et \kw{\}}
+			\item<3-> Les paires clés/valeurs sont séparés par des virgules \kw{,}
+			\item<4-> Le caractère \kw{:} sépare une clé de la valeur associée.
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<5-> Un dictionnaire contenant des objets et leurs prix :\\
+				\onslide<6-> {\tt \footnotesize prix = \{ "verre":12 , "tasse" : 8, "assiette" : 16\} }
+			\item<7-> Un dictionnaire traduisant des couleurs du français vers l'anglais \\
+				\onslide<8-> {\tt \footnotesize couleurs = \{ "vert":"green" , "bleu" : "blue", "rouge" : "red" \} }
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+% Opérations sur un dictionnaire
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Opérations sur un dictionnaire}
+		\begin{itemize}
+			\item<1-> On accède aux éléments d'un dictionnaire avec la syntaxe \textcolor{blue}{\tt nom\_dictionnaire[cle]}\\
+				\onslide<2->\textcolor{gray}{\footnotesize {\tt prix = \{ "verre":12 , "tasse" : 8, "assiette" : 16, "plat" : 30 \} } \\
+					Par exemple, {\tt prix["verre"]} contient 12}
+			\item<3-> On peut ajouter une clé à un dictionnaire existant en effectuant une affectation \textcolor{blue}{\tt nom\_dictionnaire[nouvelle\_cle]=nouvelle\_valeur} \\
+				\onslide<4->\textcolor{gray}{\footnotesize On ajoute un nouvel objet avec son prix : \\
+				{\tt prix["couteau"]=20}
+				}
+			\item<5-> On peut modifier la valeur associée à une clé avec une affectation \textcolor{blue}{\tt nom\_dictionnaire[cle]=nouvelle\_valeur}\\
+				\onslide<6->\textcolor{gray}{\footnotesize Le pris d'une tasse passe à 10 : \\
+				{\tt prix["tasse"]=10}
+				}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Présence dans un dictionnaire}
+		\begin{itemize}
+			\item<1-> Attention, essayer d'accéder à une clé qui n'est pas dans un dictionnaire renvoie une erreur !\\
+				\onslide<2->\textcolor{gray}{\footnotesize Il n'y a pas de clé {\tt "fourchette"} dans le dictionnaire prix, donc \textcolor{blue}{\tt prix["fourchette"]} renvoie une erreur ({\tt \textcolor{red}{KeyError}}).}
+			\item<3-> On teste la présence d'une clé dans un dictionnaire avec \textcolor{blue}{\tt cle in nom\_dictionnaire}\\
+				\onslide<4->\textcolor{gray}{\footnotesize la fourchette n'est pas dans le dictionnaire prix \\
+					Le test \textcolor{blue}{\tt fourchette in prix} renvoie \textcolor{blue}{\tt False}\\}
+				\onslide<5->\textcolor{BrickRed}{\footnotesize \important} \textcolor{BrickRed}{Ce test d'appartenance s'effectue en temps constant (indépendant de la taille du dictionnaire)}
+			\item<6-> On peut supprimer une clé existante dans un dictionnaire avec \textcolor{blue}{\tt del nom\_dictionnaire[cle]}\\
+				\onslide<7->\textcolor{gray}{\footnotesize On supprimer le couteau : \\
+					\textcolor{blue}{\tt del prix["couteau"]}
+				}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+% Opérations sur un dictionnaire
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Parcours d'un dictionnaire}
+		\begin{itemize}
+			\item<1-> Le parcours par clé s'effectue directement avec \textcolor{blue}{\tt for cle in nom\_dictionnaire}\\
+				\onslide<2->\textcolor{gray}{{\footnotesize \tt prix = \{ "verre":12 , "tasse" : 8, "assiette" : 16, "plat" : 30 \} } \\
+				{\footnotesize Par exemple, {\tt for objet in prix} permettra à la variable {\tt objet} de prendre successivement les valeurs des clés : {\tt "verre", "tasse", "assiette"} et {\tt "plat"}.}}
+			\item<3-> Le parcours par valeur s'effectue en ajoutant \textcolor{blue}{\tt .values()} au nom du dictionnaire : \textcolor{blue}{\tt for valeur in nom\_dictionnaire.values() \\}
+				\onslide<4->\textcolor{gray}{\footnotesize
+				Par exemple, {\tt for p in prix.values()} permettra à la variable {\tt p} de prendre successivement les valeurs du dictionnaire : {\tt 12, 8 , 16} et {\tt 30}.
+				}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		On dispose d'une liste de nombres entiers et on veut obtenir le nombre d'occurence du (ou des) entiers(s) les plus fréquents dans cette liste. Par exemple si la liste est {\tt [1,7,1,3,4,1,3,4,3,1,5,108,2,3]} alors la réponse est 4, car les entiers les plus fréquents sont 1 et 3 qui apparaissent tous les deux à 4 reprises.
+		\begin{enumerate}
+			\item<1-> Proposer une solution qui pour chaque élément de la liste calcule son nombre d'apparitions à l'aide d'une fonction {\tt compte\_occurence}
+			\item<2-> Proposer une solution utilisant un dictionnaire dont les clés sont les entiers présents dans la liste et les valeurs leurs nombre d'apparitions
+			\item<3-> Commenter l'efficacité de ces deux solutions.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction question 1}
+		\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/plus_frequent1.py}{}{\footnotesize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction question 2}
+		\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/plus_frequent2.py}{}{\footnotesize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction question 2}
+		\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/plus_frequent2.py}{}{\footnotesize}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction question 3}
+		La solution avec les dictionnaires est bien plus efficace car on effectue un seul parcours de la liste et que le test d'appartenance au dictionnaire est une opération élémentaire (temps constant en moyenne).
+
+	\end{exampleblock}
+\end{frame}
+
+\makess{Table de hachage}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation des dictionnaires}
+		\begin{itemize}
+			\item<1-> On crée un tableau $T$ de liste de longueur $N$ (donc indicé par les entiers $\intN{0}{N-1})$.
+			\item<2-> Une \textcolor{blue}{fonction de hachage} $h$ transforme les clés en entier. Les clés doivent donc être \textcolor{blue}{non mutables} (ce qui exclu les listes). Ces entiers sont ramenés dans l'intervalle $\intN{0}{N-1}$ à l'aide d'un modulo.
+			\item<3-> Chaque paire de clé/valeur $(c,v)$ est stockée dans le tableau $T$ à l'indice $h(c)$ (modulo $N$)
+			\item<4-> Le cas où dont deux clés différentes $c1$ et $c2$ produisent le même indice s'appelle une \textcolor{blue}{collision}.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Visualisation}
+		{\tt \footnotesize prix = \{ "verre":12 , "tasse" : 8, "assiette" : 16, "bol" : 10\} } \\ \vspace{0.2cm}
+		\begin{tabularx}{\textwidth}{X|c|X}
+			\cline{2-2}
+			{\rnode{verre}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "verre"}\end{cadre}}} & 0               &                                            \\
+			\cline{2-2}
+			                                                                                         & \rnode{i1}{1}   & \quad \quad \rnode{v1}{\tt [("Verre",12)]} \\
+			\cline{2-2}
+			                                                                                         & \rnode{i2}{2}   &                                            \\
+			\cline{2-2}
+			                                                                                         & \vdots          &                                            \\
+			\cline{2-2}
+			                                                                                         & \rnode{i42}{42} &                                            \\
+			\cline{2-2}
+			                                                                                         & \vdots          &                                            \\
+			\cline{2-2}
+			                                                                                         & $N$-1           &                                            \\
+			\cline{2-2}
+		\end{tabularx}
+		\ncline[nodesepB=0.45,offsetA=0.1,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{verre}{i1} \naput[nrot=:U,labelsep=0.05]{\textcolor{brown}{\footnotesize hash}}
+		\ncline[nodesepA=0.3]{o->}{i1}{v1}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Visualisation}
+		{\tt \footnotesize prix = \{ "verre":12 , "tasse" : 8, "assiette" : 16, "bol" : 10\} } \\ \vspace{0.2cm}
+		\begin{tabularx}{\textwidth}{X|c|X}
+			\cline{2-2}
+			{\rnode{verre}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "verre"}\end{cadre}}}       & 0               &                                               \\
+			\cline{2-2}
+			                                                                                               & \rnode{i1}{1}   & \quad \quad \rnode{v1}{\tt [("Verre",12)]}    \\
+			\cline{2-2}
+			                                                                                               & \rnode{i2}{2}   & \quad \quad \rnode{v2}{\tt [("assiette",16)]} \\
+			\cline{2-2}
+			{\rnode{tasse}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "tasse"}\end{cadre}}}       & \vdots          &                                               \\
+			\cline{2-2}
+			                                                                                               & \rnode{i42}{42} & \quad \quad \rnode{v42}{\tt [("tasse",8)]}    \\
+			\cline{2-2}
+			{\rnode{assiette}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "assiette"}\end{cadre}}} & \vdots          &                                               \\
+			\cline{2-2}
+			                                                                                               & $N$-1           &                                               \\
+			\cline{2-2}
+		\end{tabularx}
+		\ncline[nodesepB=0.45,offsetA=0.1,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{verre}{i1} \naput[nrot=:U,labelsep=0.05]{\textcolor{brown}{\footnotesize hash}}
+		\ncline[nodesepB=0.42,nodesepA=0.13,offsetA=-0.35,offsetB=0.15,linewidth=0.8pt,linecolor=brown]{->}{assiette}{i2}
+		\ncline[nodesepB=0.42,offsetA=0.1,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{tasse}{i42}
+		\ncline[nodesepA=0.3]{o->}{i1}{v1}
+		\ncline[nodesepA=0.3]{o->}{i2}{v2}
+		\ncline[nodesepA=0.3]{o->}{i42}{v42}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Visualisation d'une collision}
+		{\tt \footnotesize prix = \{ "verre":12 , "tasse" : 8, "assiette" : 16, "bol" : 10\} } \\ \vspace{0.2cm}
+		\begin{tabularx}{\textwidth}{X|c|X}
+			\cline{2-2}
+			{\rnode{verre}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "verre"}\end{cadre}}}       & 0                                                                        &                                                       \\
+			\cline{2-2}
+			                                                                                               & \rnode{i1}{1}                                                            & \quad \quad \rnode{v1}{\tt [("Verre",12)]}            \\
+			\cline{2-2}
+			                                                                                               & \rnode{i2}{2}                                                            & \quad \quad \rnode{v2}{\tt [("assiette",16)]}         \\
+			\cline{2-2}
+			{\rnode{tasse}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "tasse"}\end{cadre}}}       & \vdots                                                                   &                                                       \\
+			\cline{2-2}
+			                                                                                               & \rnode[linecolor=BrickRed,linewidth=0.02]{i42}{\textcolor{BrickRed}{42}} & \quad \quad \rnode{v42}{\tt [("tasse",8),("bol",10)]} \\
+			\cline{2-2}
+			{\rnode{assiette}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "assiette"}\end{cadre}}} & \vdots                                                                   &                                                       \\
+			\cline{2-2}
+			{\rnode{bol}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "bol"}\end{cadre}}}           & $N$-1                                                                    &                                                       \\
+			\cline{2-2}
+		\end{tabularx}
+		\ncline[nodesepB=0.45,offsetA=0.1,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{verre}{i1} \naput[nrot=:U,labelsep=0.05]{\textcolor{brown}{\footnotesize hash}}
+		\ncline[nodesepB=0.42,nodesepA=0.13,offsetA=-0.35,offsetB=0.15,linewidth=0.8pt,linecolor=brown]{->}{assiette}{i2}
+		\ncline[nodesepB=0.42,offsetA=0.1,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{tasse}{i42}
+		\ncline[nodesepB=0.42,offsetA=-0.2,nodesepA=0.04,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{bol}{i42}
+		\ncline[nodesepA=0.3]{o->}{i1}{v1}
+		\ncline[nodesepA=0.3]{o->}{i2}{v2}
+		\ncline[nodesepA=0.3]{o->}{i42}{v42} \rput(7.1,1.65){\textcolor{BrickRed}{\scriptsize Collision}}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Visualisation d'une collision}
+		{\tt \footnotesize prix = \{ "verre":12 , "tasse" : 8, "assiette" : 16, "bol" : 10\} } \\ \vspace{0.2cm}
+		\begin{tabularx}{\textwidth}{X|c|X}
+			\cline{2-2}
+			{\rnode{verre}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "verre"}\end{cadre}}}       & 0                                                                        &                                                       \\
+			\cline{2-2}
+			                                                                                               & \rnode{i1}{1}                                                            & \quad \quad \rnode{v1}{\tt [("Verre",12)]}            \\
+			\cline{2-2}
+			                                                                                               & \rnode{i2}{2}                                                            & \quad \quad \rnode{v2}{\tt [("assiette",16)]}         \\
+			\cline{2-2}
+			{\rnode{tasse}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "tasse"}\end{cadre}}}       & \vdots                                                                   &                                                       \\
+			\cline{2-2}
+			                                                                                               & \rnode[linecolor=BrickRed,linewidth=0.02]{i42}{\textcolor{BrickRed}{42}} & \quad \quad \rnode{v42}{\tt [("tasse",8),("bol",10)]} \\
+			\cline{2-2}
+			{\rnode{assiette}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "assiette"}\end{cadre}}} & \vdots                                                                   &                                                       \\
+			\cline{2-2}
+			{\rnode{bol}{\begin{cadre}{codebg}{blue}{2.2}{0.4}{\footnotesize "bol"}\end{cadre}}}           & $N$-1                                                                    &                                                       \\
+			\cline{2-2}
+		\end{tabularx}
+		\ncline[nodesepB=0.45,offsetA=0.1,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{verre}{i1} \naput[nrot=:U,labelsep=0.05]{\textcolor{brown}{\footnotesize hash}}
+		\ncline[nodesepB=0.42,nodesepA=0.13,offsetA=-0.35,offsetB=0.15,linewidth=0.8pt,linecolor=brown]{->}{assiette}{i2}
+		\ncline[nodesepB=0.42,offsetA=0.1,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{tasse}{i42}
+		\ncline[nodesepB=0.42,offsetA=-0.2,nodesepA=0.04,offsetB=-0.05,linewidth=0.8pt,linecolor=brown]{->}{bol}{i42}
+		\ncline[nodesepA=0.3]{o->}{i1}{v1}
+		\ncline[nodesepA=0.3]{o->}{i2}{v2}
+		\ncline[nodesepA=0.3]{o->}{i42}{v42} \rput(7.1,1.85){\textcolor{BrickRed}{\scriptsize Collision}}
+		Pour rechercher si une clé est présente dans le dictionnaire il suffit de calculer son \textit{hash} et de regarder à l'indice correspondant dans le tableau.
+	\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		On dispose d'un fichier contenant des chaines de caractères (une par ligne). On souhaite écrire une fonction  qui renvoie  la première chaine de caractères qui apparaît une seconde fois. Par exemple si le fichier contient :
+		\begin{minted}[fontsize=\footnotesize]{c}
+trkl
+nbf 
+pmoz 
+hgty 
+nbf 
+rss
+		\end{minted}
+		Alors la fonction doit renvoyer \textcolor{gray}{\tt nbf}. Si aucune chaine n'apparaît plus d'une fois alors le programme renvoie la chaine vide.
+		\begin{enumerate}
+			\item Proposer une version utilisant une liste  \kw{deja\_vu} dans laquelle on enregistre au fur et à mesure du parcours les chaines de caractères déjà rencontrées.
+			\item Proposer une version \textit{ayant une meilleur complexité}, utilisant un dictionnaire.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Mémoïsation}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{enumerate}
+			\item<1-> Ecrire une fonction récursive qui prend en argument un entier $n$ et renvoie le $n$ième terme de la suite de Fibonacci défini par :
+				$\left\{ \begin{array}{lll}
+						f_0   & = & 0,                                                  \\
+						f_1   & = & 1,                                                  \\
+						f_{n} & = & f_{n-1}+f_{n-2} \mathrm{\ \ pour\ tout\ \ } n\geq2.\end{array} \right.$
+			\item<2-> Tracer le graphe des appels récursifs de cette fonction pour $n=5$
+			\item<3-> Commenter
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction question 1}
+		\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/fibo_rec.py}{}{\footnotesize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction questions 2}
+		\begin{center}
+			\psset{levelsep=1cm,treesep=0.2cm,linecolor=OliveGreen,linewidth=0.6pt}
+			\pstree{\Toval{\tiny \tt fibo(5)}}{
+				\pstree{\Toval{\tiny \tt fibo(4)}}{
+					\pstree{\Toval{\tiny \tt  fibo(3)}}{
+						\pstree{\Toval{\textcolor{BrickRed}{\tt \tiny fibo(2)}}}{\Toval{\tt \tiny fibo(1)} \Toval{\tiny \tt  fibo(0)}}
+						\Toval{\tiny \tt  fibo(1)}}
+					\pstree{\Toval{\textcolor{BrickRed}{\tt \tiny fibo(2)}}}{\Toval{\tiny  \tt fibo(1)} \Toval{\tiny \tt  fibo(0)}}
+				}
+				\pstree{\Toval{\tiny \tt fibo(3)}}{
+					\pstree{\Toval{\textcolor{BrickRed}{\tt \tiny fibo(2)}}}{\Toval{\tiny \tt  fibo(1)} \Toval{\tiny \tt  fibo(0)}}
+					\Toval{\tiny \tt  fibo(1)}}
+			}
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction questions 3}
+		\begin{center}
+			\psset{levelsep=1cm,treesep=0.2cm,linecolor=OliveGreen,linewidth=0.6pt}
+			\pstree{\Toval{\tiny \tt fibo(5)}}{
+				\pstree{\Toval{\tiny \tt fibo(4)}}{
+					\pstree{\Toval{\tiny \tt  fibo(3)}}{
+						\pstree{\Toval{\textcolor{BrickRed}{\tt \tiny fibo(2)}}}{\Toval{\tt \tiny fibo(1)} \Toval{\tiny \tt  fibo(0)}}
+						\Toval{\tiny \tt  fibo(1)}}
+					\pstree{\Toval{\textcolor{BrickRed}{\tt \tiny fibo(2)}}}{\Toval{\tiny  \tt fibo(1)} \Toval{\tiny \tt  fibo(0)}}
+				}
+				\pstree{\Toval{\tiny \tt fibo(3)}}{
+					\pstree{\Toval{\textcolor{BrickRed}{\tt \tiny fibo(2)}}}{\Toval{\tiny \tt  fibo(1)} \Toval{\tiny \tt  fibo(0)}}
+					\Toval{\tiny \tt  fibo(1)}}
+			}
+		\end{center} \medskip
+		{\small On calcule à plusieurs reprises les \textit{mêmes valeurs}, ici par exemple \textcolor{BrickRed}{\tt fibo(2)} est calculé à trois reprises.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Mémoïsation}
+		\begin{itemize}
+			\item<1-> La \textcolor{blue}{mémoïsation} consiste à stocker dans une structure de données les valeurs renvoyées par une fonction afin de ne pas les recalculer lors des appels identiques suivant.\\
+			\item<2-> En Python, on utilise un dictionnaire dont les clés sont les arguments de la fonction et les valeurs les résultats de la fonction.
+		\end{itemize}
+	\end{alertblock}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{Par exemple, si on stocke dans un dictionnaire la valeur de {\tt fibo(2)} (clé : 2, valeur: 1), on n'a plus besoin de la recalculer lors des futurs appels.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Fibonnaci avec mémoïsation}
+		\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/fibo_rec_memo.py}{}{\footnotesize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Remarque}
+		En python, la mémoïsation peut-être effectuée de façon automatique à l'aide du décorateur \kw{lru\_cache} du module \kw{ functools}. Après importation, on écrira simplement \kw{@lru\_cache} avant la définition de la fonction dont on veut mémoïser les appels.
+	\end{block}
+	\onslide<2->{
+		\begin{exampleblock}{Fibonacci mémoïsation automatique}
+			\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/fibo_rec_memo2.py}{}{\footnotesize}
+		\end{exampleblock}}
+\end{frame}
+
+\makess{Programmation dynamique : exemple introductif}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Position du problème}
+		\onslide<1->{\small On considère une barre de métal de longueur entière 12 et pouvant être découpée en morceaux de longueurs entières ayant chacun un prix comme indiqué ci-dessous :
+			\begin{center}
+				\begin{tabular}{|l|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|p{0.2cm}|}
+					\hline
+					longueur & 1 & 2 & 3 & 4 & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 \\
+					\hline
+					prix     & 2 & 4 & 7 & 8 & 12 & 14 & 18 & 23 & 24 & 25 & 26 & 31 \\
+					\hline
+				\end{tabular}
+			\end{center}}
+		\onslide<2->{\small Le prix de vente des différents morceaux varie donc suivant la découpe utilisée, par exemples :
+			la découpe $(2, 4, 6)$ a un prix de vente de $4+8+14=26$, tandis que la découpe $(7, 5)$ a un prix de vente de $18+12=30$\\}
+		\onslide<3->\textcolor{blue}{\small Le but du problème est de trouver la valeur maximale des découpes possibles.\\}
+		\onslide<4->{\small On note $N$ la longueur de la barre, $(v_i)_{0\leq i \leq N}$, la valeur maximale de la découpe d'une barre de taille $i$ et $(p_i)_{0 \leq i \leq N}$ le prix d'un morceaux de longueur $i$.}
+		\begin{enumerate}
+			\item<5-> Donner les valeurs de $v_0$ et $v_1$.
+			\item<6-> Etablir une relation de récurrence liant les $(v_i)_{0\leq i \leq N}$.
+			\item<7-> En déduire une fonction Python récursive calculant la valeur de la découpe maximale.
+			\item<8-> Utiliser la mémoïsation dans cette fonction.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		\begin{enumerate}
+			\item<1-> \textcolor{OliveGreen}{$v_0=0$ et $v_1=1$}
+			\item<2-> \textcolor{OliveGreen}{En supposant qu'on connaisse les valeurs maximales de découpe pour les tailles inférieurs $n$, la découpe maximale pour la taille $n$ s'en déduit en prenant le maximum parmi les découpes maximales d'une barre de longueur $k \leq n-1$  et d'un morceau de taille $n-k$, c'est-à-dire :
+					$v_n = \max\left\{ v_k + p_{n-k},  0 \leq k \leq n-1\right\}$}
+			\item<3-> \textcolor{OliveGreen}{Programme Python :}
+				\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/decoupe.py}{}{\scriptsize}
+				\onslide<4->\textcolor{OliveGreen}{Le programme affiche 32.}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Version avec mémoïsation}
+		\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/decoupe_memo.py}{}{\scriptsize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Calcul de bas en haut (\textit{bottom up})}
+		\onslide<1->{La mémoïsation construit la solution de façon "descendante", on lance les appels récursif sur les plus grandes valeurs de taille de la barre. Une autre stratégie dite \textcolor{blue}{ascendante} ou \textcolor{blue}{de bas en haut (\textit{bottom up})} consiste à construire la solution en partant des instances les plus petites du problème.\\}
+		\onslide<2->{Pour la découpe de la barre on part donc des valeurs connues $v_0$ et $v_1$ et on construit $v_2$ puis $v_3$, en utilisant la relation de récurrence $v_n = \max\left\{ v_k + p_{n-k},  0 \leq k \leq n-1\right\}$}\\
+		\onslide<3->{Ce qui se traduit en Python par une solution \textcolor{blue}{itérative} :}
+		\onslide<4->{\inputpython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/decoupe_iter.py}{}{\footnotesize}}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Construction d'une solution}
+		On a pour le moment déterminé la valeur maximale de la découpe, mais pas la découpe elle-même. D'autre part, plusieurs découpes différentes peuvent avoir cette même valeur maximale. Pour rechercher \textit{une} découpe de valeur maximale, on peut par exemple :
+		\begin{itemize}
+			\item<1-> construire le tableau $(v_k)_{0\leq k \leq\N}$  et l'utiliser afin d'en déduire la découpe. \\
+				\onslide<2->{\textcolor{gray}{\small Par exemple, si $v_{12} = v_8 + p_4$, cela signifie que pour avoir la valeur maximale de la découpe d'une barre de taille 12, une possibilité est d'utiliser une découpe  maximale d'une barre de taille 8 et un morceau de taille 4. En remontant ainsi de proche en proche, on obtient une découpe maximale possible}}
+			\item<3-> Modifier notre fonction afin qu'elle renvoie la découpe maximale et non pas la valeur de cette découpe. \\
+		\end{itemize}
+		\onslide<4->{Ces deux possibilités seront abordées en TP.}
+	\end{exampleblock}
+\end{frame}
+
+
+\makess{Programmation dynamique}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Principes généraux}
+		La programmation dynamique s'applique généralement à la résolution d'un problème d'optimisation vérifiant les conditions suivantes :
+		\begin{enumerate}
+			\item<2-> \textcolor{blue}{Sous structure optimale} : ce problème peut-être résolu à partir de problèmes similaires mais plus petits \\
+				\onslide<3->\textcolor{gray}{\small La découpe maximale d'une barre de taille $N$ s'obtient comme découpe maximale  d'une barre de taille strictement inférieure $k$ et d'un morceau de taille $N-k$.}
+				\item<4->\textcolor{blue}{Chevauchement de sous problème} : une solution récursive produit des appels identiques. Pour pallier ce problème, on utilise la mémoïsation dans les solutions récursives.\\
+				\onslide<5->\textcolor{gray}{\small Pour rechercher la découpe maximale d'un barre de taille 5, on est amené à chercher celle d'une barre de taille 4,3,2,1. Et pour chercher celle d'une barre de taille 4, on fera de nouveau appel à celle d'une barre de taille 3,2,1 ...}
+		\end{enumerate}
+		\onslide<6->{\textcolor{BrickRed}{\small \important} L'étape cruciale est de déterminer les relations de récurrence entre les différentes instances du problème. Les différentes méthodes d'implémentation relèvent du choix du programmeur.}
+	\end{alertblock}
+\end{frame}
+
+
+\makess{Exemple résolu : plus longue sous séquence commune}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Position du problème}
+		On considère deux chaines de caractères $u$ et $v$ de longueurs respectives $n$ et $m$. On cherche à déterminer la longueur de leur \textcolor{blue}{p}lus \textcolor{blue}{l}ongue \textcolor{blue}{s}ous \textcolor{blue}{s}équence \textcolor{blue}{c}ommune (\textcolor{blue}{plssc}), c'est-à-dire la chaine $w$ telle que :
+		\begin{itemize}
+			\item<2-> $w$ est une sous séquence (c'est-à-dire une suite extraite) de $u$,
+			\item<3-> $w$ est une sous séquence de $w$,
+			\item<4-> $w$ est de longueur maximale.
+		\end{itemize}
+		\onslide<5->{Par exemple,  $u$="{\sc programmation}" et $v$="{\sc dynamique}" ont comme sous séquence commune "{\sc ami}" (et c'est la plus longue)}
+		\begin{itemize}
+			\item<6-> {\sc progr\textcolor{BrickRed}{a}m\textcolor{BrickRed}{m}at\textcolor{BrickRed}{i}on}
+			\item<7-> {\sc dyn\textcolor{BrickRed}{ami}que}
+		\end{itemize}
+		\onslide<8->{Donc ici, la longueur de la plssc est 3.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		On cherche les relations de récurrence entre des instances du sous-problème. Pour cela on note $u_i$ ($0\leq i \leq n$) la chaine composée des $i$ premiers caractères de $u$, et $v_j$ ($0\leq j \leq m$) celle composée des $j$ premiers caractères de $v$. Et on note $\mathrm{lplssc}(u_i,v_j)$ la longueur de la plssc de $u_i$ et de $v_j$.
+		\begin{itemize}
+			\item<2->{Si $u[i] = v[j]$ alors, quelle est la relation entre $\mathrm{lplssc}(u_i,v_j)$ et $\mathrm{lplssc}(u_{i-1},v_{j-1})$ ? \\}
+			\onslide<5->{\textcolor{OliveGreen}{$\mathrm{lplssc}(u_i,v_j) = 1 + \mathrm{lplssc}(u_{i-1},v_{j-1})$}}
+			\item<3->{Sinon, exprimer $\mathrm{plssc}(u_i,v_j)$ en fonction de  $\mathrm{plssc}(u_{i},v_{j-1})$  et $\mathrm{plssc}(u_{i-1},v_j)$}
+			\onslide<6->{\textcolor{OliveGreen}{$\mathrm{lplssc}(u_i,v_j) = \max\left(\mathrm{lplssc}(u_{i},v_{j-1}) ,\mathrm{lplssc}(u_{i-1},v_{j})\right)$}}
+			\item<4->{Déterminer les cas de base (ceux où $u$ et $v$ sont des chaines vides notés ""):\\}
+			\onslide<7->{\textcolor{OliveGreen}{$\mathrm{lplssc}(u_{i},"") = 0$} \\
+				\textcolor{OliveGreen}{$\mathrm{lplssc}("",v_j) = 0$} }
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Programme Python pour plssc}
+		{\inputpartPython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/plssc.py}{}{\footnotesize}{1}{9}}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Construction effective d'une solution}
+		On peut modifier notre programme donnant la longueur de la plssc afin d'obtenir la plssc :
+		\begin{itemize}
+			\item<1-> {\small Si le dernier caractère est commun, il fait partie de la plssc et on relance la récursion sur les parties restantes de chaque chaîne}
+			\item<2-> {\small Sinon on regarde quel appel produit la plssc et on renvoie le résultat de cet appel}
+		\end{itemize}
+		\onslide<3->{\inputpartPython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/plssc.py}{}{\footnotesize}{13}{22}}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Reconstruction de la solution}
+		{\small On peut construire la matrice obtenue pour les mots  : {\sc imperial} et {\sc empire} est : \\}
+		\renewcommand{\arraystretch}{1.2}
+		\quad \quad \begin{tabular}{|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
+
+			\cline{2-8}
+			\multicolumn{1}{c|}{}        & \textcolor{blue}{$\epsilon$} & \textcolor{blue}{E} & \textcolor{blue}{M} & \textcolor{blue}{P} & \textcolor{blue}{I} & \textcolor{blue}{R} & \textcolor{blue}{E} \\
+			\hline
+			\textcolor{blue}{$\epsilon$} &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{I}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{M}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{P}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{E}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{R}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{I}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{A}          &                              &                     &                     &                     &                     &                     &                     \\
+			\textcolor{blue}{L}          &                              &                     &                     &                     &                     &                     &                     \\
+			\hline
+		\end{tabular}\\
+		Cette matrice permet de reconstruire \textit{une} solution, c'est à dire de déterminer une plus longue sous séquence commune.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Reconstruction de la solution}
+		{\small La matrice obtenue pour les mots : {\sc imperial} et {\sc empire} est : \\}
+		\quad \quad \begin{tabular}{|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|>{\tt}c|}
+
+			\cline{2-8}
+			\multicolumn{1}{c|}{}                              & \textcolor{blue}{$\epsilon$} & \textcolor{blue}{E}              & \alt<17->{\textcolor{red}{M}}{\textcolor{blue}{M}} & \alt<15->{\textcolor{red}{P}}{\textcolor{blue}{P}} & \alt<11->{\textcolor{red}{I}}{\textcolor{blue}{I}} & \textcolor{blue}{R}             & \textcolor{blue}{E}             \\
+			\hline
+			\textcolor{blue}{$\epsilon$}                       & 0                            & 0                                & 0                                                  & 0                                                  & 0                                                  & 0                               & 0                               \\
+			\textcolor{blue}{I}                                & 0                            & \alt<18->{\textcolor{red}{0}}{0} & 0                                                  & 0                                                  & 1                                                  & 1                               & 1                               \\
+			\alt<17->{\textcolor{red}{M}}{\textcolor{blue}{M}} & 0                            & 0                                & \alt<16->{\textcolor{red}{\underline 1}}{1}        & 1                                                  & 1                                                  & 1                               & 1                               \\
+			\alt<15->{\textcolor{red}{P}}{\textcolor{blue}{P}} & 0                            & 0                                & 1                                                  & \alt<14->{\textcolor{red}{\underline 2}}{2}        & 2                                                  & 2                               & 2                               \\
+			\textcolor{blue}{E}                                & 0                            & 1                                & 1                                                  & \alt<13->{\textcolor{red}{2}}{2}                   & 2                                                  & 2                               & 3                               \\
+			\textcolor{blue}{R}                                & 0                            & 1                                & 1                                                  & \alt<12->{\textcolor{red}{2}}{2}                   & 2                                                  & 3                               & 3                               \\
+			\alt<11->{\textcolor{red}{I}}{\textcolor{blue}{I}} & 0                            & 1                                & 1                                                  & 2                                                  & \alt<10->{\textcolor{red}{\underline 3}}{3}        & 3                               & 3                               \\
+			\textcolor{blue}{A}                                & 0                            & 1                                & 1                                                  & 2                                                  & \alt<9->{\textcolor{red}{3}}{3}                    & 3                               & 3                               \\
+			\textcolor{blue}{L}                                & 0                            & 1                                & 1                                                  & 2                                                  & \alt<8->{\textcolor{red}{3}}{3}                    & \alt<7->{\textcolor{red}{3}}{3} & \alt<6->{\textcolor{red}{3}}{3} \\
+			\hline
+		\end{tabular}\\
+		\onslide<2->{\small On peut utiliser ce résultat pour construire la {\sc plssc} :}
+		\begin{itemize}
+			\item<3-> {\small on part de la dernière case en bas et à droite}
+			\item<4-> {\small si les lettres sur la ligne et la colonne sont identiques on ajoute à la {\sc plssc} et on remonte en diagonale}
+			\item<5-> {\small sinon on va à gauche ou en haut suivant la case qui a plus grande valeur}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Exemple résolu : chemin de somme maximale dans une pyramide}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Position du problème}
+		Rechercher le chemin de somme maximale partant du haut d'une pyramide d'entiers à sa base :
+		\begin{center}
+				\begin{pspicture}(0,-2.2)(6,0.5) % Ajuster la taille de la figure selon les besoins
+				  % Niveau 1
+				  \rput(3,0){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 5}}{5}}}
+				  % Niveau 2
+				  \rput(2.5,-0.52){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 3}}{3}}}
+				  \rput(3.5,-0.52){\psframebox[framesep=4pt]{4}}
+				  % Niveau 3
+				  \rput(2,-1.04){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 9}}{9}}}
+				  \rput(3,-1.04){\psframebox[framesep=4pt]{2}}
+				  \rput(4,-1.04){\psframebox[framesep=4pt]{6}}
+				  % Niveau 4
+				  \rput(1.5,-1.56){\psframebox[framesep=4pt]{4}}
+				  \rput(2.5,-1.56){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 6}}{6}}}
+				  \rput(3.5,-1.56){\psframebox[framesep=4pt]{8}}
+				  \rput(4.5,-1.56){\psframebox[framesep=4pt]{4}}
+				  % Niveau 5
+				  \rput(1,-2.08){\psframebox[framesep=4pt]{3}}
+				  \rput(2,-2.08){\psframebox[framesep=4pt]{\alt<6->{\textcolor{BrickRed}{\bf 9}}{9}}}
+				  \rput(3,-2.08){\psframebox[framesep=4pt]{2}}
+				  \rput(4,-2.08){\psframebox[framesep=4pt]{5}}
+				  \rput(5,-2.08){\psframebox[framesep=4pt]{7}}
+				  \onslide<6->{\rput(5.7,-1.25){\textcolor{BrickRed}{\bf Max = 32}}}
+				\end{pspicture}
+				\end{center}
+			\begin{enumerate}
+			\item<2-> {\small déterminer cette somme et un chemin possible sur l'exemple ci-dessus.}
+			\item<3-> {\small que penser d'une solution qui testerait toutes les possibilités ?\\}
+			\item<7-> {\small obtient-on la solution optimale en choisissant l'entier maximal à chaque étape ?}
+			\item<7-> {\small vérifier qu'on retrouve les caractéristiques d'un problème soluble par programmation dynamique.}
+			\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\addtocounter{enumi}{1}
+		\begin{enumerate}
+			\item<1->\textcolor{OliveGreen}{\small Pour tester chaque possibilité on doit énumérer tous les chemins possibles depuis le sommet vers un point de la base, en notant $n$ le nombre de niveau, on a deux choix à chaque niveau (excepté le premier), le nombre de chemins est donc $2^{n-1}$. La complexité est donc en $\mathcal{O}(2^n)$ c'est à dire \textit{exponentielle}. Cette méthode n'est donc pas utilisable pour des valeurs de $n$ importantes.}
+			\item<2->\textcolor{OliveGreen}{\small Sur l'exemple ci-dessus on constate que prendre le maximum à chaque étape (c'est à dire adopter un \textcolor{blue}{algorithme glouton}) ne conduit pas à la solution optimale.}
+			\item<3->\textcolor{OliveGreen}{\small C'est bien un problème d'\textit{d'optimisation} et résoudre un problème pour une pyramide de $n$ niveau et de sommets $S$, c'est :}
+			\begin{itemize}
+			\item \textcolor{OliveGreen}{\small résoudre le même problème sur  les \textit{deux} pyramides de $n-1$ niveaux et de sommets respectifs $S_g$ et $S_d$ (fils gauche et droit de $S$). Puis prendre le maximum des deux résultats, on trouve la propriété de \textit{sous structure optimale}.}
+			\item \textcolor{OliveGreen}{\small Les sous problèmes se \textit{chevauchent} car on retrouve bien la même pyramide centrale en traitant celle de sommet $S_g$ ou celle de sommet $S_d$ comme illustré ci-dessous.}
+			\end{itemize}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Position du problème}
+		\begin{center}
+				\begin{pspicture}(0,-2.7)(6,0.5) % Ajuster la taille de la figure selon les besoins
+				  % Niveau 1
+				  \rput(3,0){\psframebox[framesep=4pt]{5}}
+				  % Niveau 2
+				  \rput(2.5,-0.52){\psframebox[framesep=4pt]{3}}
+				  \rput(3.5,-0.52){\psframebox[framesep=4pt]{4}}
+				  % Niveau 3
+				  \rput(2,-1.04){\psframebox[framesep=4pt]{9}}
+				  \rput(3,-1.04){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 2}}}
+				  \rput(4,-1.04){\psframebox[framesep=4pt]{6}}
+				  % Niveau 4
+				  \rput(1.5,-1.56){\psframebox[framesep=4pt]{4}}
+				  \rput(2.5,-1.56){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 6}}}
+				  \rput(3.5,-1.56){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 8}}}
+				  \rput(4.5,-1.56){\psframebox[framesep=4pt]{4}}
+				  % Niveau 5
+				  \rput(1,-2.08){\psframebox[framesep=4pt]{3}}
+				  \rput(2,-2.08){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 9}}}
+				  \rput(3,-2.08){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 2}}}
+				  \rput(4,-2.08){\psframebox[framesep=4pt]{\textcolor{OliveGreen}{\bf 5}}}
+				  \rput(5,-2.08){\psframebox[framesep=4pt]{7}}
+				  \psline[linecolor=OliveGreen,linewidth=0.7pt](3,-0.5)(1.2,-2.5)(4.8,-2.5)(3,-0.5)
+				\end{pspicture}
+				\end{center}
+				Ce sous problème apparaît dans la résolution du sous problème la pyramide droite \textit{et} celui de la pyramide gauche.
+			\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+\begin{exampleblock}{Eléments de résolution}
+	\begin{itemize}
+		\item<1-> On représente la pyramide de façon matricielle par une liste de liste. Par exemple la pyramide ci-dessous est la liste : \mintinline{python}{[[5], [3, 4], [9, 2, 6], [4, 6, 8, 4], [3, 9, 2, 5, 7]]}. On note $p_{i,j}$ le coefficient de cette matrice situé en ligne $i$ et en colonne $j$. 
+		\item<2-> Toute sous pyramide est alors identifiée par les indices de ligne et de colonne de son sommet dans cette liste. Par exemple le sommet de la pyramide initial est {\tt (0,0)}.
+		\item<3-> D'après l'étude qui précède en notant $M_{i,j}$ la somme d'un chemin maximal pour la pyramide de sommet $(i,j)$, on obtient immédiatement l'équation suivante :
+		\textcolor{blue}{$M_{i,j} = p_{i,j} + \max \left\{M_{i+1,j} \, ; \,  M_{i+1,j+1} \right\}$.}
+		\item<4-> Le cas de base est lorsque $i=n-1$ (on atteint la base de la pyramide).
+		\item<5-> Voir l'exercice de TP pour une résolution complète.
+	\end{itemize}
+	
+\end{exampleblock}
+\end{frame}
+
+\makess{Exemple résolu : rendu de monnaie}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Position du problème}
+		On dispose d'un \textit{système monétaire} c'est-à-dire d'un ensemble de valeurs possibles pour les pièces et les billets. Le problème du rendu de monnaie consiste à déterminer le nombre minimal de pièces à utiliser pour former une somme donnée. \\
+		\onslide<2->{Par exemple si le système monétaire est $\{ 5, 4, 3, 1 \}$ et la somme 7,}
+		\onslide<3->{alors on peut utiliser au minimum 2 pièces ($4+3$).}\\
+		\onslide<5->{\textcolor{blue}{\small \rappel \; Rappel : }{\textcolor{gray}{ l'algorithme glouton qui consiste à rendre à tout moment la pièce de plus forte valeur possible ne fournit pas toujours la solution optimale. Ici, on obtiendrait $5, 1, 1$ et donc 3 pièces.}}}
+		\begin{enumerate}
+			\item<6-> Ecrire une relation de récurrence entre les différentes instances du problème en donnant les solutions des cas de base.
+			\item<7-> Ecrire un programme python permettant de répondre au problème.
+			\item<8-> Construire la liste effective des pièces à rendre.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		\begin{enumerate}
+			\item<2->\textcolor{OliveGreen}{On note} :
+			\begin{itemize}
+				\item<3->\textcolor{OliveGreen}{$S$ la somme à rendre,}
+				\item<4->\textcolor{OliveGreen}{$(p_i)_{0 \leq i \leq n}$ les valeurs des pièces rangées dans l'ordre décroissant}
+				\item<5->\textcolor{OliveGreen}{$m(S,k)$ le nombre minimal de pièce pour rendre la somme~$S$ en utilisant les pièces à partir de la $k$-ième.}
+			\end{itemize}
+			\onslide<6->\textcolor{OliveGreen}{Avec ces notations, on doit donc trouver $m(S,0)$ et on dispose des relations suivantes :}
+			\onslide<7->{\textcolor{OliveGreen}{$\left\{ \begin{array}{lll}
+							m(0,k)   & = & 0 \text{ pour tout } 0\leq k \leq n,                         \\
+							m(S,n+1) & = & +\infty                                                      \\
+							m(S,k)   & = & m(S,k+1)    \text{ si }  S<p_k,                              \\
+							m(S,k)   & = & min\left\{ 1 + m(S-p_k,k), m(S,k+1) \text{  }\right\} sinon.\end{array} \right.$}\medskip \\}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		\begin{enumerate}
+			\addtocounter{enumi}{1}
+			\item Programme Python (avec mémoïsation dans le dictionnaire \kw{memo})
+			      {\inputpartPython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/rm.py}{}{\footnotesize}{3}{13}}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		\begin{enumerate}
+			\addtocounter{enumi}{2}
+			\item \textcolor{OliveGreen}{Pour construire la liste des pièces à rendre, on peut partir des valeurs de $m(S,k)$ : \\}
+			      \renewcommand{\arraystretch}{1.3}
+			      \begin{tabular}{|c|c|c|c|c|c|c|}
+				      \hline
+				      \backslashbox{$S$}{$k$} & $0$                          & $1$                          & $2$                          & $3$                          & $4$                        \\
+				      \hline
+				      $0$                     & \textcolor{gray}{0}          & \textcolor{gray}{0}          & \textcolor{gray}{0}          & \textcolor{gray}{0}          & \textcolor{gray}{$\infty$} \\
+				      $1$                     & \leavevmode\onslide<2->{$1$} & \leavevmode\onslide<2->{$1$} & \leavevmode\onslide<2->{$1$} & \leavevmode\onslide<2->{$1$} & \textcolor{gray}{$\infty$} \\
+				      $2$                     & \leavevmode\onslide<3->{$2$} & \leavevmode\onslide<3->{$2$} & \leavevmode\onslide<3->{$2$} & \leavevmode\onslide<3->{$2$} & \textcolor{gray}{$\infty$} \\
+				      $3$                     & \leavevmode\onslide<4->{$1$} & \leavevmode\onslide<4->{$1$} & \leavevmode\onslide<4->{$1$} & \leavevmode\onslide<4->{$3$} & \textcolor{gray}{$\infty$} \\
+				      $4$                     & \leavevmode\onslide<5->{$1$} & \leavevmode\onslide<5->{$1$} & \leavevmode\onslide<5->{$2$} & \leavevmode\onslide<5->{$4$} & \textcolor{gray}{$\infty$} \\
+				      $5$                     & \leavevmode\onslide<6->{$1$} & \leavevmode\onslide<6->{$2$} & \leavevmode\onslide<6->{$3$} & \leavevmode\onslide<6->{$5$} & \textcolor{gray}{$\infty$} \\
+				      $6$                     & \leavevmode\onslide<7->{$2$} & \leavevmode\onslide<7->{$2$} & \leavevmode\onslide<7->{$2$} & \leavevmode\onslide<7->{$6$} & \textcolor{gray}{$\infty$} \\
+				      $7$                     & \leavevmode\onslide<8->{$2$} & \leavevmode\onslide<8->{$2$} & \leavevmode\onslide<8->{$3$} & \leavevmode\onslide<8->{$7$} & \textcolor{gray}{$\infty$} \\
+				      \hline
+			      \end{tabular} \quad \textcolor{blue}{$\boxed{p_0=5, p_1=4, p_2=3, p_3 =1}$}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		\begin{enumerate}
+			\addtocounter{enumi}{2}
+			\item \textcolor{OliveGreen}{Pour construire la liste des pièces à rendre, on peut partir des valeurs de $m(S,k)$ : \\}
+			      \renewcommand{\arraystretch}{1.3}
+			      \begin{tabular}{|c|c|c|c|c|c|c|}
+				      \hline
+				      \backslashbox{$S$}{$k$} & $0$                 & \alt<2->{\textcolor{blue}{$\boxed{1}$}}{$1$} & \alt<5->{\textcolor{blue}{$\boxed{2}$}}{$2$}     & $3$                 & $4$                        \\
+				      \hline
+				      $0$                     & \textcolor{gray}{0} & \textcolor{gray}{0}                          & \textcolor{gray}{0}                              & \textcolor{gray}{0} & \textcolor{gray}{$\infty$} \\
+				      $1$                     & $1$                 & $1$                                          & $1$                                              & $1$                 & \textcolor{gray}{$\infty$} \\
+				      $2$                     & $2$                 & $2$                                          & $2$                                              & $2$                 & \textcolor{gray}{$\infty$} \\
+				      \rnode{A}{$3$}          & $1$                 & $1$                                          & \alt<4->{\textcolor{BrickRed}{$\boxed{1}$}}{$1$} & $3$                 & \textcolor{gray}{$\infty$} \\
+				      $4$                     & $1$                 & $1$                                          & $2$                                              & $4$                 & \textcolor{gray}{$\infty$} \\
+				      $5$                     & $1$                 & $2$                                          & $3$                                              & $5$                 & \textcolor{gray}{$\infty$} \\
+				      $6$                     & $2$                 & $2$                                          & $2$                                              & $6$                 & \textcolor{gray}{$\infty$} \\
+				      \rnode{D}{$7$}          & $2$                 & \textcolor{BrickRed}{$\boxed{2}$}            & $3$                                              & $7$                 & \textcolor{gray}{$\infty$} \\
+				      \hline
+			      \end{tabular} \quad \textcolor{blue}{$\boxed{p_0=5, p_1=4, p_2=3, p_3 =1}$}
+			      \onslide<3->\ncbar[angleA=180]{->}{D}{A}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		\begin{enumerate}
+			\addtocounter{enumi}{2}
+			\item Cette méthode correspond au programme suivant :
+			      {\inputpartPython{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C18/rm.py}{}{\footnotesize}{15}{26}}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Résolution}
+		Remarque : sur cet exemple, les appels récursifs depuis $m(7,0)$ ne construisent pas la totalité de la matrice des valeurs de $m(S,k)$. En effet, le calcul de $m(7,0)$ se fait à partir de celui de $m(7,1)$ et de $m(7-p_0,0)$ et ainsi de suite en remontant dans la matrice : \\
+		\begin{tabular}{|c|c|c|c|c|c|c|}
+			\hline
+			\backslashbox{$S$}{$k$} & $0$                                                     & $1$                                                     & $2$                                                     & $3$                                                     & $4$                        \\
+			\hline
+			$0$                     & \textcolor{gray}{0}                                     & \textcolor{gray}{0}                                     & \textcolor{gray}{0}                                     & \textcolor{gray}{0}                                     & \textcolor{gray}{$\infty$} \\
+			$1$                     &                                                         &                                                         &                                                         & \leavevmode\onslide<7->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$2$                     & \leavevmode\onslide<2->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$3$                     &                                                         & \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$4$                     &                                                         &                                                         & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$5$                     &                                                         &                                                         &                                                         & \leavevmode\onslide<5->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$6$                     &                                                         &                                                         &                                                         & \leavevmode\onslide<6->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			$7$                     & \textcolor{BrickRed}{\faCheck}                          & \leavevmode\onslide<2->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<3->{\textcolor{BrickRed}{\faCheck}} & \leavevmode\onslide<4->{\textcolor{BrickRed}{\faCheck}} & \textcolor{gray}{$\infty$} \\
+			\hline
+		\end{tabular} \quad \textcolor{blue}{$\boxed{p_0=5, p_1=4, p_2=3, p_3 =1}$}
+	\end{exampleblock}
+\end{frame}
+
+
+
+\end{document}

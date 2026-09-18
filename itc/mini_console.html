@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Console Python Interactive</title>
+    
+    <!-- 1. jQuery et jQuery Terminal (Interface visuelle de la console) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/2.35.2/js/jquery.terminal.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/2.35.2/css/jquery.terminal.min.css" rel="stylesheet"/>
+    
+    <!-- 2. Pyodide (Le moteur Python en WebAssembly) -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+
+    <style>
+        /* Un fond sombre pour le style "hacker/terminal" */
+        body { 
+            background-color: #1a1a1a; 
+            margin: 0; 
+            padding: 40px; 
+            font-family: sans-serif;
+        }
+        
+        /* Dimension et style de notre terminal */
+        #terminal { 
+            width: 100%; 
+            max-width: 800px; 
+            height: 450px; 
+            margin: 0 auto; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border-radius: 6px;
+        }
+        h2 { text-align: center; color: white; }
+    </style>
+</head>
+<body>
+
+    <h2>Console Python (REPL)</h2>
+    
+    <!-- La balise div qui va être transformée en console -->
+    <div id="terminal"></div>
+
+    <script>
+        async function main() {
+            // ÉTAPE 1 : Création de l'interface du terminal
+            const term = $('#terminal').terminal(async function(command) {
+                if (command !== '') {
+                    try {
+                        // On donne la commande tapée à Pyodide
+                        let result = await window.pyodide.runPythonAsync(command);
+                        
+                        // Si la commande renvoie un résultat (ex: "2+2"), on l'affiche
+                        if (result !== undefined) {
+                            this.echo(String(result));
+                        }
+                    } catch (e) {
+                        // On nettoie un peu le message d'erreur pour qu'il ressemble à Python
+                        // plutôt qu'à une erreur JavaScript interne à Pyodide
+                        let errorMsg = e.message.split('\n').slice(-2).join('\n');
+                        this.error(errorMsg || e.message);
+                    }
+                }
+            }, {
+                greetings: 'Initialisation du moteur Python, veuillez patienter...',
+                prompt: '>>> ',     // Le fameux prompt !
+                name: 'python_console'
+            });
+
+            // ÉTAPE 2 : Chargement de Python en arrière-plan
+            window.pyodide = await loadPyodide();
+            
+            // ÉTAPE 3 : Redirection des sorties standard
+            // Quand on utilise print() en Python, ça doit s'écrire dans le terminal web
+            window.pyodide.setStdout({ batched: (msg) => term.echo(msg) });
+            // Pareil pour les erreurs standard
+            window.pyodide.setStderr({ batched: (msg) => term.error(msg) });
+
+            // ÉTAPE 4 : Message de bienvenue
+            term.clear(); // On efface le message de chargement
+            
+            // On demande à Python sa propre version pour l'afficher
+            let version = window.pyodide.runPython("import sys; sys.version.split(' ')[0]");
+            term.echo(`Python ${version} (WebAssembly)`);
+            term.echo(`Tapez "help", "copyright", "credits" ou "license" pour plus d'informations.`);
+        }
+
+        main();
+    </script>
+</body>
+</html>

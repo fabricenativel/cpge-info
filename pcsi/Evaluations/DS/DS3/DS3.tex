@@ -1,0 +1,207 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeConcours
+\CB{PCSI}{Mai 2026}
+
+\setboolean{corrige}{false}
+
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] La calculatrice n'est \textbf{pas autorisée}.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+
+
+\begin{Exercise}[title={Représentation et manipulation de l'{\sc adn}}, origin={\bac \; \sc capes nsi L3}]\\
+	L'{\sc adn} est une molécule formée d'une chaîne de nucléotides, chacun contenant l'une des quatre bases azotées suivantes :
+	\begin{itemize}
+		\item l'adénine, notée {\tt A};
+		\item la thymine, notée {\tt T};
+		\item la cytosine, notée {\tt C};
+		\item la guanine, notée {\tt G}.
+	\end{itemize}
+	Ces petites molécules, appelées nucléotides, servent de \og{} \textit{lettres} \fg{} pour écrire le code génétique. Trois bases consécutives forment ce qu'on appelle un \textit{codon}. Par exemple, {\tt ATC} ou encore {\tt GTT} sont des codons.
+	\medskip
+
+	On définit en Python la variable \mintinline{python}{adn = "ATCGTACGT"}
+
+	\Question{Quel est le type de la variable {\tt adn} ?}
+    \tcor{{\tt adn} est du type chaine de caractères {\tt str}}
+    \Question{Quels sont le type et la valeur de la variable \mintinline{python}{longueur = len(adn)} ?}
+    \tcor{{\tt longueur} est du type {\tt int} et vaut 9, c'est le nombre de caractère de la chaine {\tt adn}.}
+	\Question{Quels sont le type et la valeur de la variable \mintinline{python}{morceau = adn[1:6]} ?}
+    \tcor{{\tt morceau} est de type {\tt str} et contient {\tt TCGTA} car elle commence en position 1 de la chaine {\tt adn} et se termine en position {\tt 6} \textit{exclu}.}
+	\Question{Écrire une fonction {\tt est\_adn} qui prend en argument une chaîne de caractères et renvoie un booléen indiquant si cette chaîne de caractères représente bien un morceau d'{\sc adn}, c'est-à-dire si cette chaîne ne contient que les quatre nucléotides {\tt A}, {\tt T}, {\tt C} et {\tt G}. Par exemple,
+    \begin{itemize}
+    \item {\tt est\_adn("ATCGGTA")} renvoie {\tt True};
+    \item {\tt est\_adn("ATCBGTA")} renvoie {\tt False};
+    \item {\tt est\_adn("ATCgGTA")} renvoie {\tt False};
+    \end{itemize}
+    }
+    \ifcorrige
+    \corpartPython{adn.py}{}{}{36}{40}
+    \fi
+    \Question{Écrire une fonction {\tt occurrences} qui prend en argument une chaîne de caractères et renvoie un dictionnaire associant à chaque caractère représentant un nucléotide son nombre d'occurrences dans le brin d'{\sc adn}. On supposera que la chaîne de caractères fournie en argument est bien un brin d'{\sc adn}. Par exemple,
+    \begin{itemize}
+        \item {\tt occurrences("ATCGTACGT")} renvoie le dictionnaire {\tt \{"A" : 2, "C" : 2, "G" : 2, "T" : 3 \}};
+        \item {\tt occurrences("TTTTGGTG")} renvoie le dictionnaire {{\tt \{"A" : 0, "C" : 0, "G" : 3, "T" : 5 \}}};
+    \end{itemize}
+    }
+    \ifcorrige
+    \corpartPython{adn.py}{}{}{42}{47}
+    \fi
+    
+    \bigskip{}
+    On veut adopter une représentation plus compacte d'un brin d'{\sc adn} notamment dans le cas où un même nucléotide apparait plusieurs fois successivement, pour cela on code en base 2 sur deux bits les nucléotides~:\phantom{\strut} \\
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+        Nucléotide & {\tt A} & {\tt C} & {\tt G} & {\tt T} \\
+        \hline
+        Code sur 2 bits & {\tt 00} & {\tt 01} & {\tt 10} & {\tt 11} \\
+        \hline
+    \end{tabular}\\
+    Un entier sur 8 bits représente alors un nucléotide répété un certain nombre de fois, les deux premiers bits de l'entier représentent le nucléotide et les 6 bits suivants indiquent le nombre de répétitions. Par exemple
+    \begin{itemize}
+    \item l'entier $10$ s'écrit en binaire sur un octet $(00001010)_2$, les deux premiers bits sont $00$ et donc représentent le nucléotide {\tt A}, les 6 bits suivants donnent le nombre de répétitions $(001010)_2 = (10)_{10}$ et donc cet entier code {\tt AAAAAAAAAA}.
+    \item l'entier $167$ s'écrit en binaire sur un octet $(10100111)_2$, comme $10$ (les deux premiers bits) code le nucléotide {\tt G} et que les 6 bits suivants représentent $(100111)_2 = (39)_{10}$ en décimale, cet entier représente le nucléotide {\tt G} répété 39 fois.
+    \item l'entier $200$ s'écrit en binaire sur un octet $(11001000)_2$ et donc représente 8 répétitions du nucléotide~{\tt T}.
+    \end{itemize}
+    \Question{Que représente l'entier 101 ?}
+    \tcor{$(101)_{10} = (01100101)_2$ et donc cet entier représente le nucléotide $C$ répété 37 fois.} 
+    \Question{Par quel entier peut-on représenter {\tt TTTTTTTTTT} (10 répétitions de {\tt T}) ?}
+    \tcor{On doit représenter le nucléotide {\tt T} donc les premiers bits sont $11$ puis on écrit 10 en base 2 sur les 6 bits restants ce qui donne $(11001010)_2 = (202)_{10}$.}
+    \Question{Avec ce codage, quel est le nombre maximal de répétitions d'un nucléotide que l'on peut coder avec un entier sur 8 bits ?}
+    \tcor{Le nombre de répétitions est codé sur 6 bits et donc le nombre maximal de répétitions est $(111111)_2 = (63)_{10}$.}
+    \Question{Écrire la fonction {\tt encode} qui prend en entrée un nucléotide et son nombre de répétitions et renvoie l'entier qui le représente. Par exemple, {\tt encode('A',10)} renvoie 10, {\tt encode('G',39)} renvoie 167, {\tt encode('T',8)} renvoie 200.}
+    \ifcorrige
+    \corpartPython{adn.py}{}{}{49}{57}
+    \fi
+\end{Exercise}
+
+\begin{Exercise}[title={Planification de rendez-vous optimale}]
+    
+    Une plateforme de prise de rendez-vous doit associer les requêtes de $n$ clients à des créneaux disponibles. Chaque client demande un créneau horaire spécifique (représenté par un entier), et on dispose de $m$ créneaux disponibles (avec $m \geqslant n$). L'objectif est d'assigner à chaque client un créneau disponible en minimisant l'\textit{écart total}, défini comme la somme des écarts (en valeur absolue) entre le créneau demandé et le créneau assigné.
+    
+    \textbf{Exemple :} Il y a 3 clients qui demandent les créneaux {\tt [12, 9, 17]} et cinq créneaux sont disponibles : {\tt [18, 4, 10, 14, 11]}. Une attribution possible est d'affecter le créneau {\tt 10} à la demande {\tt 12}, le créneau {\tt 11} à la demande {\tt 9} et le créneau {\tt 18} à la demande {\tt 17}, ce que l'on peut représenter en Python par la liste de tuples {\tt [(12,10), (9, 11), (17, 18)]}. Cette attribution a un écart total de $|12-10| + |9-11| + |17-18| = 2+2+1 = 5$.
+
+    \Question{Dans l'exemple précédent, proposer une meilleure attribution, c'est-à-dire ayant un écart total strictement inférieur à 5.}
+    \tcor{On peut faire l'attribution suivante : {\tt [(12,11), (9, 10), (17,18)]} qui a un écart total de 3.}
+    \Question{Écrire une fonction {\tt ecart\_total} qui prend en argument une liste de tuples de deux entiers représentant une attribution et renvoie son écart total. Par exemple \mintinline{python}{ecart_total([(7,10), (5,4), (9,9)])} doit renvoyer 4 ($|7-10|+|5-4|+|9-9|$).}
+    \ifcorrige
+    \corpartPython{attribution.py}{}{}{1}{6}
+    \fi
+    \Question{On suppose, dans cette question uniquement, que $n=m$. Afin de rechercher l'attribution optimale (celle ayant l'écart total le plus faible), on propose l'algorithme qui consiste à tester toutes les attributions possibles et à renvoyer celle ayant le plus petit écart total. Quelle est la complexité de cette méthode en fonction de $n$ ? Que peut-on en conclure ?}
+    \tcor{On doit tester toutes les attributions possibles, c'est à dire toutes les permutations possibles de la liste des $n$ créneaux. On doit donc tester $n!$ attributions, pour chacune de ces attributions la fonction précédente qui calcule l'écart total a une complexité en $\mathcal{O}(n)$ car la boucle est parcourue $n$ fois et ne contient que des opérations élémentaires. Le complexité finale de cet algorithme est donc en $\mathcal{O}(n\times n!)$, il est donc inutilisable en pratique sauf sur de petites valeurs de $n$.}
+    \Question{Un autre algorithme consiste à traiter la liste des demandes dans l'ordre et à attribuer au client le créneau disponible le plus proche de sa demande. Par exemple si la liste des demandes est {\tt [7, 3, 10]} et que la liste des créneaux disponibles est {\tt [4, 9, 11]} alors on effectue les attributions suivantes : {\tt 7} $\rightarrow$ {\tt 9}, puis {\tt 3} $\rightarrow$ {\tt 4} et enfin {\tt 10} $\rightarrow$ {\tt 11}. En justifiant votre réponse, indiquer dans quelle famille d'algorithmes peut se ranger ce procédé.}
+    \tcor{C'est un algorithme glouton car on fait un choix optimal local (le meilleur créneau possible pour le client en cours) sans se soucier de l'impact de ce choix sur l'écart total.}
+    \Question{Montrer, sur un exemple de votre choix, que  cet algorithme ne fournit pas toujours la solution optimale au problème.}
+    \tcor{On peut prendre les demandes  {\tt [9, 11]} avec les disponibilités {\tt [10, 7, 16]} l'algorithme fournit alors l'attribution {\tt [(9,10), (11, 7)]} pour un écart total de 5 alors que l'attribution {\tt [(9,7),(11,10)]} a un écart total de 3.}
+    \Question{Écrire une fonction {\tt attribue} qui prend en argument un entier {\tt cible} ainsi qu'une liste {\tt disponibles} et qui renvoie un entier de la liste {\tt disponibles} le plus proche (en valeur absolue) de {\tt cible}. Par exemple {\tt attribue(12, [7, 11, 14, 9, 3])} renvoie {\tt 11}.}
+    \ifcorrige
+    \corpartPython{attribution.py}{}{}{8}{13}
+    \fi
+    \Question{Écrire une fonction {\tt supprime} qui prend en argument un entier {\tt n} ainsi qu'une liste d'entiers {\tt lst} et renvoie la liste obtenue en supprimant la première occurrence de {\tt n} dans {\tt lst}. Par exemple {\tt supprime(11, [7, 11, 14, 9, 3])} renvoie {\tt [7, 14, 9, 3]}.}
+    \ifcorrige
+    \corpartPython{attribution.py}{}{}{15}{23}
+    \fi
+    \Question{En utilisant les fonctions écrites aux deux questions précédentes, écrire une implémentation de l'algorithme d'attribution décrit à la question \textbf{Q13}. C'est-à-dire une fonction {\tt attribution} qui prend en argument une liste d'entiers {\tt demandes} et une liste de créneaux {\tt créneaux} et renvoie l'attribution (sous la forme d'une liste de tuples) obtenue par la méthode décrite à la question \textbf{Q13}.}
+    \ifcorrige
+    \corpartPython{attribution.py}{}{}{25}{32}
+    \fi
+  
+\end{Exercise}
+
+
+
+
+
+\begin{Exercise}[title = {Triangle dans un graphe}]\\
+On considère un graphe non orienté $G = (S,A)$ où $S = \{0, \dots, n-1 \}$. On dit qu'un sous-ensemble de $S$ à trois éléments $\{s,t,u\}$ est un \textit{triangle} de $G$ lorsque les arêtes $\{s,t\}$, $\{t,u\}$ et $\{s,u\}$ appartiennent à $A$.
+Par exemple, dans le graphe $g$ suivant, $\{0, 1, 3\}$ est un triangle, par contre $\{0, 1, 2\}$ n'est pas un triangle car $\{0, 2\}$ n'est pas une arête.
+\begin{center}
+    \begin{pspicture}(0,-2.2)(5,1)
+		\rput(1,0){\circlenode{x1}{$0$}}
+		\rput(3,0){\circlenode{x2}{$1$}}
+		\rput(5,-1){\circlenode{x3}{$2$}}
+		\rput(1,-2){\circlenode{x4}{$3$}}
+	   \rput(3,-2){\circlenode{x5}{$4$}}
+       \ncline{-}{x1}{x2}
+       \ncline{-}{x1}{x4}
+       \ncline{-}{x1}{x5}
+       \ncline{-}{x2}{x1}
+       \ncline{-}{x2}{x5}
+       \ncline{-}{x2}{x4}
+       \ncline{-}{x2}{x3}
+       \ncline{-}{x3}{x2}
+       \ncline{-}{x3}{x5}
+       \ncline{-}{x4}{x5}
+    \end{pspicture}
+\end{center}
+\Question{Donner tous les triangles du graphe $g$.}
+\tcor{Les  triangles du graphe $g$ sont : {\tt \{0, 1, 3\}, \{0, 1, 4\}, \{0, 3, 4\}, \{1, 2, 4\} et \{1, 3, 4\}}}
+\Question{Rappeler la définition d'un graphe complet. Donner, en le justifiant rapidement, le nombre de triangles d'un graphe complet à $n$ sommets.}
+\tcor{Un graphe complet est un graphe dans lequel pour toute paire de sommets $(i,j)$, on a $ij$ qui est un arc c'est à dire $ij \in A$. Donc tous les triplets de sommets sont des triangles, donc il y a autant de triplets de sommets que de triangle, c'est à dire $\displaystyle{\binom{n}{3}}$ triangles}
+
+\Question{On dit qu'un graphe est bipartite lorsqu'il existe une partition de l'ensemble des sommets $S$ en deux ensembles $S_1$ et $S_2$ tels que toute arête ait un élément dans $S_1$ et l'autre dans $S_2$. Dessiner un graphe bipartite à $6$ sommets et $9$ arêtes.}
+\tcor{
+    Les sommets $0, 1$ et $2$ sont dans $S_1$ et les sommets $3, 4 $ et $5$ dans $S_2$.
+    \begin{center}
+    \begin{pspicture}(0,-2.2)(5,1)
+		\rput(1,0){\circlenode{x0}{$0$}}
+		\rput(3,0){\circlenode{x1}{$1$}}
+		\rput(5,0){\circlenode{x2}{$2$}}
+        \rput(1,-2){\circlenode{x3}{$3$}}
+		\rput(3,-2){\circlenode{x4}{$4$}}
+	   \rput(5,-2){\circlenode{x5}{$5$}}
+       \ncline{-}{x1}{x3}
+       \ncline{-}{x1}{x4}
+       \ncline{-}{x1}{x5}
+       \ncline{-}{x2}{x3}
+       \ncline{-}{x2}{x4}
+       \ncline{-}{x2}{x5}
+       \ncline{-}{x0}{x3}
+       \ncline{-}{x0}{x4}
+       \ncline{-}{x0}{x5}
+    \end{pspicture}
+\end{center}
+}
+	\Question{Montrer qu'un graphe bipartite ne contient pas de triangles.}
+    \tcor{Soit $ij \in A$, et quitte à échanger leurs rôles supposons $i \in S_1$ et $j \in S_2$, alors pour tout autre sommet $k$ du graphe, soit $k \in S_1$ et donc $ik \notin A$ , soit $k \in S_2$ et donc $kj \notin A$. Donc $ijk$ n'est pas un triangle.}
+
+\bigskip{}
+On suppose maintenant que les graphes sont représentés en Python par \textit{listes d'adjacence} c'est à dire qu'un graphe est la donnée d'un dictionnaire dans lequel les clés sont les numéros de chacun des sommets. La valeur associée à la clé {\tt s} est la liste des voisins du sommet {\tt s}. Les graphes étant \textit{non orientés}, pour tout sommet $s$, si $t$ apparaît dans la liste d'adjacence de $s$ alors $s$ apparaît dans celle de $t$.
+
+\Question{Donner le dictionnaire de Python qui représente le graphe $g$ donné en exemple ci-dessus.}
+\ifcorrige
+\corpartPython{triangle.py}{}{}{1}{7}
+\fi
+\Question{Écrire la fonction {\tt est\_arete} qui prend en argument un graphe (représenté par un dictionnaire) ainsi que deux sommets {\tt s} et {\tt t} et renvoie un booléen indiquant si {\tt \{s,t\}} est une arête de ce graphe.}
+\ifcorrige
+\corpartPython{triangle.py}{}{}{9}{13}
+\fi
+\medskip{}\\
+Afin de lister les triangles d'un graphe on propose l'algorithme suivant : pour chaque arête {\tt \{s,t\}} du graphe, on recherche l'intersection des listes d'adjacence de {\tt s} et de {\tt t}.
+
+\Question{Écrire une fonction {\tt intersection} qui prend en argument deux listes d'entiers \textit{supposées triées} (dans l'ordre croissant) et renvoie leur intersection. On souhaite une fonction de complexité linéaire par rapport à la taille de ces listes.}
+\ifcorrige
+\corpartPython{triangle.py}{}{}{15}{28}
+\fi
+\Question{En déduire une implémentation de l'algorithme de recherche des triangles d'un graphe sous la forme d'une fonction {\tt triangles} qui prend en argument un graphe {\tt g} dont on suppose les listes d'adjacence triées et renvoie la liste des triangles de ce graphe.}
+\ifcorrige
+\corpartPython{triangle.py}{}{}{30}{38}
+\fi
+\end{Exercise}
+
+
+\end{document}

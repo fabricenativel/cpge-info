@@ -1,0 +1,70 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\PC{MP2I}{Mines-Pont sujet zéro}{2023}
+\newcommand{\SPATH}{\FPATH Corrigés/MP-S0/}
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.6cm}|p{0.6cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$e_0$}} \\
+		\hline
+	\end{tabular}
+}
+
+\mq{Ecriture de la fonction d'initialisation}
+\inputpartC{sol.c}{}{}{31}{40}
+
+\mq{Ecriture de la fonction de localisation}
+\inputpartC{sol.c}{}{}{43}{51}
+
+\mq{Jeu de test pour l'insertion}
+\tcor{L'énoncé indique que les valeurs à insérer sont toujours \textit{strictement} comprises entre {\sc int\_min} et {\sc int\_max}. Si on part de la liste de départ donnée dans l'énoncé : \\
+\maillon{{$-\infty$}}{v0}{p0} \quad \maillon{-7}{v1}{p1} \quad \maillon{-2}{v2}{p2} \quad \maillon{9}{v3}{p3} \quad \maillon{$+\infty$}{v4}{p4}
+\ncline[nodesepB=0.2cm,offsetB=-0.05cm]{*->}{p0}{v1}
+\ncline[nodesepB=0.2cm,offsetB=-0.05cm]{*->}{p1}{v2}
+\ncline[nodesepB=0.2cm,offsetB=-0.05cm]{*->}{p2}{v3}
+\ncline[nodesepB=0.2cm,offsetB=-0.01cm]{*->}{p3}{v4}
+\\
+On a donc pas besoin de tester l'insertion en toute fin ou en en tout debut les listes, les seuls cas à tester sont  :
+\begin{itemize}
+    \item L'insertion d'un entier $n$ qui ne figure pas encore dans la liste (valeur de retour {\tt true}). Par, exemple, l'insertion de 5 qui doit donner : \\
+    \maillon{{$-\infty$}}{w0}{q0} \quad \maillon{-7}{w1}{q1} \quad \maillon{-2}{w2}{q2} \quad \maillon{5}{w3}{q3} \quad \maillon{9}{w4}{q4} \quad \maillon{$+\infty$}{w5}{q5}
+\ncline[nodesepB=0.2cm,offsetB=-0.05cm]{*->}{q0}{w1}
+\ncline[nodesepB=0.2cm,offsetB=-0.05cm]{*->}{q1}{w2}
+\ncline[nodesepB=0.2cm,offsetB=-0.05cm]{*->}{q2}{w3}
+\ncline[nodesepB=0.2cm,offsetB=-0.05cm]{*->}{q3}{w4}
+\ncline[nodesepB=0.2cm,offsetB=-0.01cm]{*->}{q4}{w5}
+\\
+    \item L'insertion d'un entier déjà présent dans la liste (valeur de retour {\tt false}). Par exemple, l'insertion de 9 qui ne modifie pas la liste et renvoie {\tt false}.
+\end{itemize}
+    }
+
+\mq{Message d'erreur du compilateur et première correction}
+\tcor{La fonction {\tt localise} prend en paramètre un pointeur sur un struct {\tt maillon\_t}, ici on passe l'adresse d'un objet de ce type car on utilise l'opérateur {\tt \&} qui renvoie l'adresse du maillon, ce qui cause l'erreur. On propose la première correction suivante :}
+\inputpartC{sol.c}{}{}{56}{56}
+
+\mq{Correction de la fonction d'insertion}
+\tcor{La fonction {\tt insere} ne prend pas en compte le cas où la valeur est déjà présente dans la liste. On peut aussi éventuellement testé si {\tt malloc} échoue.}
+\inputpartC{sol.c}{}{}{54}{67}
+
+\mq{Fonction de suppression d'un maillon}
+\inputpartC{sol.c}{}{}{70}{80}
+
+\mq{Complexité des fonctions insere et supprime}
+\tcor{Dans les deux cas, on fait appel à {tt localise} qui parcourt dans le pire des cas la totalité des éléments de la liste. Les autres opérations s'effectuent en temps constant. La complexité est donc en $O(n)$ où $n$ désigne le nombre d'éléments de la liste.}
+
+\mq{Modèle mémoire}
+\tcor{Les différentes régions sont :
+\begin{itemize}
+	\item La zone des données  qui contient les données dont la taille est connue à la compilation (notamment les variables globales).
+	\item La pile qui contient les paramètres d'appels à une fonction ainsi que les variables locales à celle ci
+	\item Le tas qui contient les variables alloués dynamiquement par le programme via {\tt malloc}.
+\end{itemize}
+}
+Dans le cas de ce programme, la valeur entière 717, sera stocké dans la zone de données (car {\tt v} est une variable globale initialisée à cette valeur), dans la pile lors de l'appel à {\tt insere(t, v)}, car les paramètres sont passés par valeur et donc copié. Et enfin dans le tas car l'insertion dans la liste crée un maillon contenant la valeur de V donc 717.
+\end{document}
