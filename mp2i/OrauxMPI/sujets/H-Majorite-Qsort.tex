@@ -1,0 +1,124 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/}
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$0$}} \\
+		\hline
+	\end{tabular}
+}
+\ModeExercice
+
+\lhead{{\sc mpi --} {\bf Préparation aux oraux}}
+\rhead{2026}
+\setboolean{corrige}{false}
+\begin{center}
+	\textbf{\Large Sujet $\mathcal{H}$}
+\end{center}
+
+
+\setcounter{Exercise}{0}
+
+\newcommand{\cn}[1]{\TCircle{\tt #1}}
+\psset{arrows=->,treesep=1cm,levelsep=1cm}
+
+\begin{Exercise*}[title = type A]
+ 
+On considère un scrutin avec $m$ candidats numérotés de $0$ à $m-1$ et $n$ votes exprimés. Chaque vote est représenté par un entier indiquant le candidat choisi. 
+L'objectif est de déterminer si un candidat a obtenu une majorité \textit{absolue}, c'est-à-dire strictement plus de la moitié des voix. La sortie doit être :
+\begin{itemize}
+    \item l'indice du candidat ayant la majorité absolue, si un tel candidat existe ;
+    \item $-1$ sinon.
+\end{itemize}
+
+Par exemple,
+\begin{itemize}
+    \item avec $m=3$ et $n=5$, si le tableau de votes est $\{1, 0, 2, 0, 0\}$, on renvoie $0$ car le candidat $0$ obtient 3 voix sur 5 ;
+    \item avec $m=3$ et $n=5$, si le tableau de votes est $\{1, 0, 2, 1, 0\}$, on renvoie $-1$ car aucun candidat n'a plus de 2 voix ;
+    \item avec $m=3$ et $n=6$, si le tableau de votes est $\{1, 0, 1, 2, 1, 2\}$, on renvoie $-1$ car le candidat $1$ a 3 voix sur 6 et n'a pas la majorité absolue.
+\end{itemize}
+
+Afin de résoudre ce problème on propose l'algorithme suivant :
+\begin{itemize}
+ \item initialiser un tableau {\tt voix} de taille $m$ à 0,
+ \item pour chaque vote {\tt v} incrémenter {\tt voix[v]},
+ \item tester si un candidat possède ou non la majorité absolue
+\end{itemize}
+\Question{Donner la complexité en temps et en espace de ce premier algorithme en fonction de $n$ et $m$.}
+
+
+\medskip{}\NRet
+On s'intéresse maintenant à l'algorithme suivant proposé par Boyer-Moore en  1981 :
+
+\begin{algorithm}[H]
+    \SetAlgoVlined
+    \begin{minipage}{\linewidth}
+		\DontPrintSemicolon
+		\caption{Vote majoritaire absolue}
+		\Entree{Un tableau de $n$ entiers tous compris entre $0$ et $m-1$}
+		\Sortie{$-1$ si aucun entier n'a la majorité absolue sinon l'entier apparaissant plus de $n/2$ fois.}
+		\everypar={\footnotesize \textcolor{gray}{\nl \hspace{0.25cm}}}
+		$cpt \leftarrow 0$\;
+        $cm$ \;
+		\Pour{$i \leftarrow 0$ à $n-1$  }
+			{\Si{$cpt=0$}
+            {
+                $cm \leftarrow tab[i]$ \;
+                $cpt \leftarrow 1$ \;
+            }
+            \SinonSi{$cm=tab[i]$}
+            {
+                $cpt \leftarrow cpt + 1$\;
+            }
+            \Sinon
+            {
+                $cpt \leftarrow cpt -1 $\;
+            }
+		}
+        $cpt \leftarrow 0$\;
+		\Pour{$i \leftarrow 0$ à $n-1$  }
+        {
+            \Si{$tab[i]=cm$}
+            {
+                $cpt \leftarrow cpt + 1$\;
+            }
+        }
+        \Si {$cpt > n/2$}
+        {
+            \Return{$cm$}\;
+        }
+        \Sinon
+        {
+            \Return{$-1$}\;
+        }
+    \end{minipage}
+\end{algorithm}
+Cet algorithme parcourt une première fois le tableau en maintenant à jour une variable $cm$ contenant le numéro d'un candidat \textit{potentiellement} majoritaire (de façon absolue) puis une seconde fois afin de vérifier si ce candidat a bien la majorité absolue ou non.
+
+\Ret
+\Question{Quelles sont les complexités en temps et en espace de ce nouvel algorithme ?}
+\Question{Prouver l'invariant suivant valable pour la première boucle {\tt for} : \og{}\textit{Les élements du sous tableau {\tt \{tab[0],\dots,tab[i-1]\}} se décomposent en cpt exemplaires de cm et de paires formées chacune de deux éléments distincts}\fg{}. On notera bien que les paires d'éléments distincts peuvent éventuellement contenir des occurrences de $cm$.}
+\Question{En déduire que si un candidat a la majorité absolue, alors ce candidat ne peut être que $cm$, conclure quant à la correction de cet algorithme.}
+\end{Exercise*}
+
+\begin{Exercise*}[title = {type B}]\\
+	Le tri rapide (\textit{quicksort}) est un algorithme de tri inventé par C. Hoare en 1961. L'algorithme est généralement utilisé sur des tableaux mais peut-être adapté aux listes. Il consiste pour trier une liste {\tt lst}, à choisir un élément {\tt p} comme pivot puis à séparer la liste privée du pivot en deux listes : celle des éléments plus petits ou égaux au pivot et celle des éléments plus grand que le pivot. On trie ensuite récursivement ces deux sous listes puis on les concatène en incluant le pivot entre les deux.
+
+	Par exemple, en supposant que le pivot choisi est le premier élément de la liste. Pour trier {\tt [4; 2; 7; 4; 1; 5]} on sépare cette liste en  {\tt [2; 1; 4]} et {\tt [7; 5]} qu'on trie récursivement la concaténation (en incluant le pivot) donne alors {\tt [1; 2; 4; 4; 5; 7]}.
+
+	\Question{Dans quelle famille d'algorithme peut-on ranger le tri rapide ?}
+	\Question{Donner en la justifiant brièvement la complexité de cet algorithme.}
+	\Question{Ecrire en {\tt OCaml} une fonction {\tt separe : int list -> (int* int list * int list)} qui prend en argument une liste et la sépare en utilisant son premier élément comme pivot puis renvoie le pivot et les deux listes obtenues.}
+	\Question{Ecrire en {\tt OCaml} une fonction {\tt qsort : int list -> int list} qui implémente le tri rapide.}
+\end{Exercise*}
+
+
+\end{document}

@@ -1,0 +1,360 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{13}
+\newcommand{\Ctitle}{\cnum {Force brute, retour sur trace}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumchap/}
+
+\makess{Introduction}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Notion de stratégie algorithmique}
+		\begin{itemize}
+			\item<1-> La recherche d'une solution à un problème peut se faire de différentes manières, on parle de \textcolor{blue}{stratégies algorithmiques}
+			\item<2-> Ce chapitre introduit les stratégies suivantes :
+				\begin{itemize}
+					\item<3-> La \textcolor{blue}{recherche exhaustives} qui consiste à explorer toutes les solutions possibles.
+					\item<4-> La stratégie \textcolor{blue}{gloutonne} qui consiste pour résoudre un problème d'optimisation à faire un choix local optimal à chaque étape \textit{sans garantie que cela conduise à l'optimal global}.
+				\end{itemize}
+			\item<5-> D'autres stratégies consistant à \textcolor{blue}{décomposer le problème en sous problèmes} sera vu plus loin  dans l'année.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\makess{Force brute : généralités}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		La recherche par \textcolor{blue}{force brute} (\textit{brute force}) consiste à parcourir toutes les solutions possibles d'un problème en testant si elles conviennent.\\
+		\onslide<2->{De façon formelle, si on note $V$ l'ensemble des candidats, et $P$ une propriété des éléments de $V$, on teste (en les énumérant) les $x \in V$ jusqu'à en trouver un qui vérifie $P$.}
+	\end{alertblock}
+	\onslide<3->{
+		\begin{block}{Remarques}
+			\begin{itemize}
+				\item<3-> Dans certains problèmes on cherche à déterminer \textit{toutes} les solutions et donc on ne s'arrête pas à la première rencontrée
+				\item<4-> On doit pouvoir \textcolor{blue}{énumérer de façon exhaustive} les éléments de $V$ (ce qui peut être difficile dans certains cas).
+			\end{itemize}
+		\end{block}}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item La recherche d'un mot de passe par force brute : $V$ est l'ensemble des chaines de caractères et $P(x)$ est vérifié si $x$ est le mot de passe cherché. Dans ce cas on pourra réaliser l'énumération des candidats en commençant par les chaines de longueur 1, puis 2, \dots
+			\item<2-> $V$ est l'ensemble des grilles complétées d'un sudoku et $P$ vérifie si la grille est valide.
+			\item<3-> $V$ est l'ensemble des permutations possibles d'une liste d'entiers et $P$ vérifie si la permutation est triée en ordre croissant (\textcolor{blue}{bogosort}).
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Complexité}
+		En supposant l'ensemble $V$ fini, une recherche exhaustive effectue au plus $|V|$ itérations.\\
+		\textcolor{BrickRed}{\small \danger} Cela ne signifie pas que la complexité est toujours en $O(V)$ car tester si une solution vérifie $P$ ou non peut avoir un coût non constant.
+	\end{block}
+	\onslide<2->{
+		\begin{block}{Problème d'optimisation}
+			Dans les problèmes du type \og{} \textit{déterminer $x \in V$ tel que $f(x)$ soit minimale (ou maximale)} \fg{}, l'exploration exhaustive va résoudre le problème en calculant toutes les images par $f$ des éléments de V.
+		\end{block}}
+\end{frame}
+
+\makess{Mot de passe par force brute}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Tableau des temps pour la recherche de mot de passe par force brute :
+		\begin{center}
+			\includegraphics[width=130px]{mdp.eps}
+		\end{center}
+		On s'intéresse à la recherche d'un mot de passe de 8 lettres minusucles.
+		\begin{itemize}
+			\item<2-> Combien il y a-t-il de mots de passes possibles ? Quel est le temps indiqué dans le tableau ?
+			\item<3-> Proposer un algorithme permettant d'énumérer les possibilités.
+			\item<4-> Ecrire en C, une fonction de signature \mintinline{c}{char *bruteforce(char *mdp, char *charset, int size)
+				} qui implémente une recherche de mot de passe par force brute.
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Proposition de solution}
+		\inputpartC{\SPATH/mdp.c}{}{\tiny}{5}{35}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Résolution par retour sur trace}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		Le \textcolor{blue}{retour sur trace} (\textit{backtracking}) est aussi une méthode de recherche par force brute mais on dispose d'une \textcolor{blue}{méthode de validation d'une solution partielle}. Ainsi, si un début de solution s'avère non valide, on n'explore pas les solutions complètes qui en découlent.
+	\end{alertblock}
+	\onslide<2->{
+		\begin{exampleblock}{Exemple}
+			Pour résoudre un Sudoku :
+			\begin{itemize}
+				\item<3-> La force brute parcourt l'ensemble des valeurs possibles pour toutes les cases restantes
+				\item<4-> Le \textit{backtracking} place des valeurs au fur et à mesure et revient en arrière si une impossibilité est rencontrée.
+			\end{itemize}
+		\end{exampleblock}}
+\end{frame}
+
+\makess{Exemple : le problème des n reines}
+\newcommand{\queen}{\textcolor{BrickRed}{\!\faChessQueen}}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		{\small Le problème des $n$ reines consiste à placer $n$ reines sur une échiquier de taille $n$ de façon à ce que deux reines ne soit pas sur la même ligne, même colonne ou même diagonale (c'est-à-dire qu'aucune reine n'en menace une autre) \\}
+		\smallskip
+		\onslide<2->{\small Une solution dans le cas $n=8$ est proposée ci-dessous :
+			\begin{center}
+				\input{\SPATH/sol42}
+			\end{center}}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Représentation du problème}
+		\begin{itemize}
+			\item <1-> On sait qu'il y a une seule reine par colonne, on peut donc représenter une position de jeu par un tableau de taille $n$ contenant les numéros de ligne des $k$ reines déjà placées.
+			\item <2-> L'algorithme va alors consister à tenter de placer la reine $k+1$ sur chacune des lignes $0, \dots, k-1$
+			      \begin{itemize}
+				      \item si cela génère une menace, on essayer la possibilité suivante, en revenant récursivement à la reine précédente si nécesssaire
+				      \item sinon on place la reine suivante, si c'est la dernière reine, une solution est trouvée.
+			      \end{itemize}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Début de l'algorithme ($n=4$)}
+		\begin{tabularx}{\textwidth}{YYY}
+			\renewcommand{\arraystretch}{1.5}
+			\begin{tabular}{|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|}
+				\hline\cellcolor{white}{}    & \cellcolor{black!30}{} & \cellcolor{white}{}    & \cellcolor{black!30}{} \\
+				\hline
+				\cellcolor{black!30}{}       & \cellcolor{white}{}    & \cellcolor{black!30}{} & \cellcolor{white}{}    \\
+				\hline
+				\cellcolor{white}{}          & \cellcolor{black!30}{} & \cellcolor{white}{}    & \cellcolor{black!30}{} \\
+				\hline
+				\cellcolor{black!30}{\queen} & \cellcolor{white}{}    & \cellcolor{black!30}{} & \cellcolor{white}{}    \\
+				\hline
+			\end{tabular}                                            & \leavevmode{\onslide<2->{\renewcommand{\arraystretch}{1.5}\begin{tabular}{|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|}
+						                                                                                                                     \hline\cellcolor{white}{}    & \cellcolor{black!30}{}    & \cellcolor{white}{}    & \cellcolor{black!30}{} \\
+						                                                                                                                     \hline
+						                                                                                                                     \cellcolor{black!30}{}       & \cellcolor{white}{}       & \cellcolor{black!30}{} & \cellcolor{white}{}    \\
+						                                                                                                                     \hline
+						                                                                                                                     \cellcolor{white}{}          & \cellcolor{black!30}{}    & \cellcolor{white}{}    & \cellcolor{black!30}{} \\
+						                                                                                                                     \hline
+						                                                                                                                     \cellcolor{black!30}{\queen} & \cellcolor{white}{\queen} & \cellcolor{black!30}{} & \cellcolor{white}{}    \\
+						                                                                                                                     \hline
+					                                                                                                                     \end{tabular}}} &
+			\leavevmode{\onslide<3->{\renewcommand{\arraystretch}{1.5}\begin{tabular}{|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|}
+						                                                          \hline\cellcolor{white}{}    & \cellcolor{black!30}{}       & \cellcolor{white}{}    & \cellcolor{black!30}{} \\
+						                                                          \hline
+						                                                          \cellcolor{black!30}{}       & \cellcolor{white}{}          & \cellcolor{black!30}{} & \cellcolor{white}{}    \\
+						                                                          \hline
+						                                                          \cellcolor{white}{}          & \cellcolor{black!30}{\queen} & \cellcolor{white}{}    & \cellcolor{black!30}{} \\
+						                                                          \hline
+						                                                          \cellcolor{black!30}{\queen} & \cellcolor{white}{}          & \cellcolor{black!30}{} & \cellcolor{white}{}    \\
+						                                                          \hline
+					                                                          \end{tabular}}}                                                                                                                                         \\
+			                                                                                                                                                      &                                                                                                                                                       & \\
+			\leavevmode{\onslide<4->{\renewcommand{\arraystretch}{1.5}\begin{tabular}{|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|}
+						                                                          \hline\cellcolor{white}{}    & \cellcolor{black!30}{}    & \cellcolor{white}{}    & \cellcolor{black!30}{} \\
+						                                                          \hline
+						                                                          \cellcolor{black!30}{}       & \cellcolor{white}{\queen} & \cellcolor{black!30}{} & \cellcolor{white}{}    \\
+						                                                          \hline
+						                                                          \cellcolor{white}{}          & \cellcolor{black!30}{}    & \cellcolor{white}{}    & \cellcolor{black!30}{} \\
+						                                                          \hline
+						                                                          \cellcolor{black!30}{\queen} & \cellcolor{white}{}       & \cellcolor{black!30}{} & \cellcolor{white}{}    \\
+						                                                          \hline
+					                                                          \end{tabular}}} &
+			\leavevmode{\onslide<5->{\renewcommand{\arraystretch}{1.5}\begin{tabular}{|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|}
+						                                                          \hline\cellcolor{white}{}    & \cellcolor{black!30}{}    & \cellcolor{white}{}          & \cellcolor{black!30}{} \\
+						                                                          \hline
+						                                                          \cellcolor{black!30}{}       & \cellcolor{white}{\queen} & \cellcolor{black!30}{}       & \cellcolor{white}{}    \\
+						                                                          \hline
+						                                                          \cellcolor{white}{}          & \cellcolor{black!30}{}    & \cellcolor{white}{}          & \cellcolor{black!30}{} \\
+						                                                          \hline
+						                                                          \cellcolor{black!30}{\queen} & \cellcolor{white}{}       & \cellcolor{black!30}{\queen} & \cellcolor{white}{}    \\
+						                                                          \hline
+					                                                          \end{tabular}}}
+			                                                                                                                                                      &
+			\leavevmode{\onslide<6->{\renewcommand{\arraystretch}{1.5}\begin{tabular}{|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|P{0.2cm}|}
+						                                                          \hline\cellcolor{white}{}    & \cellcolor{black!30}{}    & \cellcolor{white}{}       & \cellcolor{black!30}{} \\
+						                                                          \hline
+						                                                          \cellcolor{black!30}{}       & \cellcolor{white}{\queen} & \cellcolor{black!30}{}    & \cellcolor{white}{}    \\
+						                                                          \hline
+						                                                          \cellcolor{white}{}          & \cellcolor{black!30}{}    & \cellcolor{white}{\queen} & \cellcolor{black!30}{} \\
+						                                                          \hline
+						                                                          \cellcolor{black!30}{\queen} & \cellcolor{white}{}       & \cellcolor{black!30}{}    & \cellcolor{white}{}    \\
+						                                                          \hline
+					                                                          \end{tabular}}}
+			\\
+		\end{tabularx}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Implémentation en langage C}
+		\begin{enumerate}
+			\item Ecrire une fonction de signature \mintinline{c}{bool menace(int tab[], int idx)} qui renvoie \mintinline{c}{true} si la reine située en colonne {\tt idx} menace l'une des reines situés en colonne {\tt 0, \dots, idx-1}.\\
+			      \onslide<2->{\inputpartC{\SPATH/reines.c}{}{\footnotesize}{63}{73}}
+			\item<3-> Ecrire une fonction qui renvoie la première solution rencontrée sous la forme du tableau des positions par colonne des $n$ reines.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Proposition de solution}
+		\inputpartC{\SPATH/reines.c}{}{\footnotesize}{100}{118}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		Modifier la fonction précédente afin qu'elle calcule le nombre total de solutions au problème.
+		\onslide<2->{\inputpartC{\SPATH/reines.c}{}{\footnotesize}{120}{137}}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Stratégie gloutonne : exemple introductif}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Chemin de somme maximale dans une pyramide}
+		On s'intéresse à la recherche de la somme maximale d'un chemin qui part du haut de la pyramide et atteint sa base.
+		\begin{center}
+				\begin{pspicture}(0,-2.2)(6,0.5) % Ajuster la taille de la figure selon les besoins
+				  % Niveau 1
+				  \rput(3,0){\psframebox[framesep=4pt]{\alt<3->{\textcolor{BrickRed}{\bf 5}}{5}}}
+				  % Niveau 2
+				  \rput(2.5,-0.52){\psframebox[framesep=4pt]{\alt<3->{\textcolor{BrickRed}{\bf 3}}{3}}}
+				  \rput(3.5,-0.52){\psframebox[framesep=4pt]{4}}
+				  % Niveau 3
+				  \rput(2,-1.04){\psframebox[framesep=4pt]{\alt<3->{\textcolor{BrickRed}{\bf 9}}{9}}}
+				  \rput(3,-1.04){\psframebox[framesep=4pt]{2}}
+				  \rput(4,-1.04){\psframebox[framesep=4pt]{6}}
+				  % Niveau 4
+				  \rput(1.5,-1.56){\psframebox[framesep=4pt]{4}}
+				  \rput(2.5,-1.56){\psframebox[framesep=4pt]{\alt<3->{\textcolor{BrickRed}{\bf 6}}{6}}}
+				  \rput(3.5,-1.56){\psframebox[framesep=4pt]{8}}
+				  \rput(4.5,-1.56){\psframebox[framesep=4pt]{4}}
+				  % Niveau 5
+				  \rput(1,-2.08){\psframebox[framesep=4pt]{3}}
+				  \rput(2,-2.08){\psframebox[framesep=4pt]{\alt<3->{\textcolor{BrickRed}{\bf 9}}{9}}}
+				  \rput(3,-2.08){\psframebox[framesep=4pt]{2}}
+				  \rput(4,-2.08){\psframebox[framesep=4pt]{5}}
+				  \rput(5,-2.08){\psframebox[framesep=4pt]{7}}
+				  \onslide<3->{\rput(5.7,-1.25){\textcolor{BrickRed}{\bf Max = 32}}}
+				\end{pspicture}
+				\end{center}
+			\begin{enumerate}
+			\item<2-> {\small déterminer cette somme et un chemin possible sur l'exemple ci-dessus.}
+			\item<4-> {\small On suppose qu'on applique la stratégie suivante : \textit{\og{}à chaque niveau on choisit de descendre vers le cube de plus grand valeur\fg{}}. Quel chemin obtient-on et quelle somme à ce chemin ?}\\
+			\onslide<5->\textcolor{OliveGreen}{\small On obtient le chemin {\tt 5-4-6-8-5} de somme {\tt 28}.}
+			\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Chemin de somme maximale dans une pyramide}
+		Même question pour la pyramide suivante :
+		\begin{center}
+				\begin{pspicture}(0,-2.5)(6,0.5) % Ajuster la taille de la figure selon les besoins
+				  % Niveau 1
+				  \rput(3,0){\psframebox[framesep=4pt]{\alt<2->{\textcolor{BrickRed}{\bf 7}}{7}}}
+				  % Niveau 2
+				  \rput(2.5,-0.52){\psframebox[framesep=4pt]{\alt<2->{\textcolor{BrickRed}{\bf 6}}{6}}}
+				  \rput(3.5,-0.52){\psframebox[framesep=4pt]{4}}
+				  % Niveau 3
+				  \rput(2,-1.04){\psframebox[framesep=4pt]{1}}
+				  \rput(3,-1.04){\psframebox[framesep=4pt]{\alt<2->{\textcolor{BrickRed}{\bf 3}}{3}}}
+				  \rput(4,-1.04){\psframebox[framesep=4pt]{4}}
+				  % Niveau 4
+				  \rput(1.5,-1.56){\psframebox[framesep=4pt]{5}}
+				  \rput(2.5,-1.56){\psframebox[framesep=4pt]{\alt<2->{\textcolor{BrickRed}{\bf 7}}{7}}}
+				  \rput(3.5,-1.56){\psframebox[framesep=4pt]{2}}
+				  \rput(4.5,-1.56){\psframebox[framesep=4pt]{9}}
+				  % Niveau 5
+				  \rput(1,-2.08){\psframebox[framesep=4pt]{4}}
+				  \rput(2,-2.08){\psframebox[framesep=4pt]{7}}
+				  \rput(3,-2.08){\psframebox[framesep=4pt]{\alt<2->{\textcolor{BrickRed}{\bf 8}}{8}}}
+				  \rput(4,-2.08){\psframebox[framesep=4pt]{1}}
+				  \rput(5,-2.08){\psframebox[framesep=4pt]{6}}
+				  \onslide<2->{\rput(5.7,-1.25){\textcolor{BrickRed}{\bf Max = 31}}}
+				\end{pspicture}
+				\end{center}
+			\onslide<3->\textcolor{OliveGreen}{Cette fois l'algorithme qui consiste à choisir de descendre vers le cube de plus grand valeur permet d'obtenir la plus grand somme.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Implémentation en OCaml}
+		\begin{itemize}
+			\item<1-> On représente une pyramide par une \textit{tableau de tableau}, chacune des tableaux contient les coefficients d'un niveau de la pyramide.\\
+			\textcolor{gray}{\small Par exemple, la pyramide  précédente correspond à la liste \mintinline[fontsize=\scriptsize]{ocaml}{[| [| 7 |]; [| 6; 4 |]; [| 1; 3; 4 |] ; [| 5; 7; 2; 9 |]; [| 4; 7; 8; 1; 6 |] |]}}
+			\item<2-> On écrit alors une fonction \mintinline{ocaml}{glouton : int array array -> int} qui prend en argument un tableau de tableaux et renvoie la somme obtenue en suivant la stratégie gloutonne (descendre vers le cube de plus grand valeur). 
+			\item<3-> Pour chaque niveau {\tt i} de la pyramide, on doit donc comparer les deux cubes se trouvant en dessous c'est à dire les cubes :
+			\begin{itemize}
+			\item<3-> Situé juste en dessous c'est à dire en {\tt (i+1,colonne)} 
+			\item<3-> Situé en dessous et à droite c'est à dire en {\tt (i+1,colonne+1)}
+			\end{itemize}
+		\end{itemize}
+	\end{block}
+	\end{frame}
+
+	\makess{Notion d'algorithme glouton}
+	\begin{frame}{\Ctitle}{\stitle}
+		\begin{block}{Stratégie gloutonne}
+			Afin de résoudre un problème d'optimisation, on peut adopter une stratégie dite \textcolor{blue}{gloutonne} :
+			\begin{itemize}
+				\item<2-> à chaque étape on effectue le choix qui correspond à l'optimal \textcolor{BrickRed}{local} d'une grandeur.
+				\item<3-> Ces choix successifs ne conduisent pas forcément à la solution optimale \textcolor{BrickRed}{globale}.
+				\item<4-> Cette stratégie ne fournit donc pas toujours la \textcolor{BrickRed}{meilleure solution}.
+			\end{itemize}
+		\end{block}
+		\onslide<5->
+		{\begin{alertblock}{Définition}
+			Un algorithme est dit \textcolor{blue}{glouton} lorsqu'il procède par choix successifs, en sélectionnant à chaque étape l'option qui correspond à un optimum local sans garantie que cela conduise à l'optimum globale.
+		\end{alertblock}}
+	\end{frame}
+
+	\makess{Exemple résolu : problème du sac à dos}
+	\begin{frame}[fragile]{\Ctitle}{\stitle}
+		\begin{block}{Position du problème}
+			On dispose d'un sac à dos et d'une liste objet ayant chacun un poids et une valeur. Le problème du sac à dos consiste à remplir ce sac en maximisant la valeur des objets qu'il contient tout en respectant une contrainte sur le poids du sac.
+		\end{block}
+		\newcommand{\Objet}[3]{\begin{tabular}{|P{1.5cm}|} \hline \multicolumn{1}{|l|}{\small #2 \euro{}}   \\  {#1}  \\ \multicolumn{1}{|r|}{#3 kg} \\ \hline \end{tabular}}
+		\begin{exampleblock}{Exemple}
+			\begin{center}
+				\begin{tabular}{cccc}
+				\Objet{\faHamburger}{180}{0.3} & \Objet{\faHammer}{2050}{4.1} & \Objet{\faUmbrella}{280}{0.6} &  \Objet{\faFootballBall}{810}{1.7} \\
+				& & &  \\
+				\Objet{\faKey}{990}{2} & \Objet{\faTree}{1275}{2.9}  & \Objet{\faHatCowboy}{2570}{5.7}  & \Objet{\faGuitar}{920}{2.1}  \\
+				\end{tabular}
+				\end{center}
+			Quels objets doit-on prendre pour maximiser la valeur contenu si le poids doit rester inférieur à \textbf{8 kg} ?
+		\end{exampleblock}
+	\end{frame}
+	
+	\begin{frame}[fragile]{\Ctitle}{\stitle}
+		\begin{block}{Mise en place d'une stratégie gloutonne}
+			On propose de résoudre ce problème en adoptant la stratégie gloutonne suivante :
+			\begin{enumerate}
+				\item<1-> On classe les objets selon un critère pertinent\\
+				\onslide<2->{\textcolor{gray}{\small Ici la valeur par unité de poids semble un critère intéressant}}
+				\item<3-> On parcourt dans l'ordre la liste \textit{triée} des objets
+				\item<4-> Si l'objet considéré rentre dans le sac en respectant la contrainte de poids on l'ajoute (en diminuant le poids restant), sinon on passe à l'objet suivant.
+			\end{enumerate}
+		\end{block}
+		\onslide<5->
+		{\begin{exampleblock}{Exemple}
+			Quel résultat fournit cette stratégie sur l'exemple précédent ? Ce résultat est-il optimal ?
+		\end{exampleblock}}
+
+	\end{frame}
+	
+
+\end{document}

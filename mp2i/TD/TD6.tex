@@ -1,0 +1,65 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{6}{OCaml : aspects fonctionnels}
+
+\setcounter{Exercise}{0}
+\begin{Exercise}[title={Evaluation d'expressions}]
+\Question{Pour chacune des expressions ci-dessous, si elle s'évalue sans erreurs indiquer son type et sa valeur. Sinon indiquer la cause de l'erreur.}
+\subQuestion{\mintinline{ocaml}{let t = 7 + 9;;}}
+\subQuestion{\mintinline{ocaml}{let s = -11.6;;}}
+\subQuestion{\mintinline{ocaml}{let at = '@';;}}
+\subQuestion{\mintinline{ocaml}{let perimetre = 4 *. 2.5;;}}
+\subQuestion{\mintinline{ocaml}{let v = 2.0**10;;}}
+\subQuestion{\mintinline{ocaml}{let test1 = (0 < 7.5 && 7.5 < 42);;}}
+\subQuestion{\mintinline{ocaml}{let r = print_int 12;;}}
+\subQuestion{\mintinline{ocaml}{let coucou = "Bonjour " + "tout le monde";;}}
+\subQuestion{\mintinline{ocaml}{let test2 = ("Avant" < "Après");;}}
+\subQuestion{\mintinline{ocaml}{let test3 = true or false;;}}
+\subQuestion{\mintinline{ocaml}{let peri = let cote = 5 in 4*cote;;}}
+\subQuestion{\mintinline{ocaml}{let lang = let p = "OCaml" in p.[1];;}}
+\subQuestion{\mintinline{ocaml}{let test4 = 7.5 > 0;;}}
+\subQuestion{\mintinline{ocaml}{let hesitation = let b = "euh " in b^b^b^b;;}}
+
+\Question{Même question pour les expressions conditionnelles suivantes}
+\subQuestion{\mintinline{ocaml}{let a = if true then 2 else 2.5;;}}
+\subQuestion{\mintinline{ocaml}{let a = if 2=1+1 then 'A' else 'B';;}}
+\subQuestion{\mintinline{ocaml}{let a = if  true then "ok";;}}
+\subQuestion{\mintinline{ocaml}{let a = let b= -2.4 in if (b>0.) then b else -b;;}}
+\subQuestion{\mintinline{ocaml}{let a = if true then print_int 2;;}}
+\end{Exercise}
+
+\begin{Exercise}[title={Calculs}]\\
+Ecrire une expression dont l'évaluation donne :
+\Question{$2^{20}$}
+\Question{le quotient dans la division euclidienne de 756 par 24}
+\Question{{\tt true} si 12564 est divisible par 13 et {\tt false} sinon}
+\Question{ $-2x + 7$ avec $x = -1.7$}
+\Question{le plus petit entier représentable par un {\tt int}}
+\end{Exercise}
+
+\begin{Exercise}[title={Définition de fonctions}]
+\Question{Ecrire une expression permettant de définir les fonctions suivantes :}
+\subQuestion{ $f : n \mapsto n^2 + 5$ (sur les entiers)}
+\subQuestion{ $g : x \mapsto -12x + 3$ (sur les flottants)}
+\subQuestion{ $h : n,p \mapsto \max(n,p)$ (sur les entiers)}
+\subQuestion{ $i : x,y \mapsto \min(x,y)$ (sur les flottants)}
+\subQuestion{ {\tt delta}: $a,b,c \mapsto b^2 - 4ac$ (sur les flottants) }
+\subQuestion{ {\tt signe} qui a un entier $n$ associe 1 si $n$ est positif, 0 si $n$ est nul et -1 si $n$ est négatif }
+\Question{Ecrire une expression permettant de définir les fonctions suivantes :}
+\subQuestion{ Somme des $n$ premiers entiers}
+\subQuestion{ $n!$}
+\subQuestion{ Somme des inverses des $n$ premiers entiers strictement positifs}
+\Question{On rappelle que pour $a \in \R, n \in \N^{*}$,\\
+$\left\{ \begin{array}{lll}
+	a^n & = & \left(a^\frac{n}{2}\right)^2, \ \mathrm{si\ } n  \mathrm{\ est\ paire} \\
+	a^n & = & \left(a^\frac{n-1}{2}\right)^2\times a, \ \mathrm{sinon\ }\end{array} \right. $\\}
+\subQuestion{Définir une fonction récursive puissance sur les entiers correspondant à cette définition.}
+\subQuestion{En utilisant les fonctions de conversion entre entiers et flottants, définir une fonction puissance sur les entiers qui utilise la fonction {\tt **} de puissance sur les flottants.}
+\subQuestion{Ecrire et tester une fonction qui prend en argument deux entiers et vérifie que les deux versions de puissance (exponentiation rapide et conversion) renvoient bien le même résultat.}
+\end{Exercise}
+\end{document}

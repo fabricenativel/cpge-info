@@ -1,0 +1,265 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeConcours
+\DS{PC}{1}{Septembre 2023}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/pc/Evaluations/DS/DS0}
+\setboolean{corrige}{true}
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+\begin{Exercise}[title = {Anagrammes}] \\
+	Deux mots \textit{de même longueur} sont anagrammes l'un de l'autre lorsque l'un est formé en réarrangeant les lettres de l'autre. Par exemple :
+	\begin{itemize}
+		\item \textit{niche} et \textit{chien} sont des anagrammes.
+		\item \textit{epele} et \textit{pelle} ne sont pas des anagrammes. En effet, bien qu'ils soient formés avec les mêmes lettres, la lettre \textit{l} ne figure qu'à un seul exemplaire dans \textit{epele} et il en faut deux pour écrire \textit{pelle}.
+	\end{itemize}
+	Le but de l'exercice est d'écrire une fonction {\tt anagrammes} qui prend en argument deux chaînes de caractères et qui renvoie {\tt True} si ces deux chaînes sont des anagrammes et {\tt False} sinon. 
+
+	\ExePart[name = Sans utilisation de dictionnaires]
+\Question{Écrire une fonction {\tt compte\_occ} qui prend en argument une chaîne de caractères {\tt chaine} et un caractère {\tt car} et renvoie le nombre d'apparitions de {\tt car} dans {\tt chaine}.}
+\ifcorrige
+\corpartPython{\SPATH /anagrammes.py}{}{}{1}{6}
+\fi
+\Question{Montrer à l'aide d'un test approprié que la fonction {\tt anagramme\_bug} ci-dessous n'est pas correcte, c'est-à-dire qu'elle peut renvoyer {\tt True} alors que les deux chaînes passées en argument ne sont pas des anagrammes.
+\inputpartPython{\SPATH /anagrammes.py}{}{}{8}{13}
+}
+\tcor{La fonction teste si tous les caractères de {\tt chaine1} sont bien présents dans {\tt chaine2} avec le bon nombre d'occurrences. En revanche, elle ne vérifie pas que ceux de {\tt chaine2} sont dans {\tt chaine1}. Par conséquent, elle renvoie {\tt True} sur le test {\tt anagramme\_bug("erreur", "erreurs")}.}
+\Question{Corriger la fonction précédente afin de la rendre conforme à sa spécification.}
+\ifcorrige
+\corpartPython{\SPATH /anagrammes.py}{}{}{15}{20}
+\fi
+\ExePart[name = Avec les dictionnaires]
+
+On souhaite écrire une fonction {\tt cree\_dico} qui prend en argument une chaîne de caractères et renvoie un dictionnaire dont les clés sont les caractères composant la chaîne et les valeurs leur nombre d'apparitions.\\ Par exemple, {\tt cree\_dico("epele")} renvoie le dictionnaire {\tt \{'e': 3, 'p': 1, 'l': 1 \}}. En effet, dans le mot {\tt 'epele'}, {\tt 'e'} apparaît à trois reprises et {\tt 'l'} et {\tt 'p'} chacun une fois.
+\Question{Expliquer brièvement pourquoi la solution proposée ci-dessous (qui utilise la fonction {\tt compte\_occ} de la partie précédente) est de complexité quadratique en fonction de la taille $n$ de la chaîne fournie en argument.
+\inputpartPython{\SPATH /anagrammes.py}{}{}{46}{51}
+}
+\Question{Écrire une version de complexité linéaire de la fonction {\tt cree\_dico} puis expliquer brièvement pour quelle raison on obtient cette meilleure complexité.}
+\ifcorrige
+\corpartPython{\SPATH /anagrammes.py}{}{}{22}{31}
+\fi
+\tcor{
+	Le test d'appartenance à un dictionnaire étant de complexité $\mathcal{O}(1)$, la boucle ne contient que des opérations s'effectuant en temps constant et comme elle est parcourue $n$ fois où $n$ est la longueur de la chaîne, la complexité est bien linéaire.
+}
+\Question{Écrire une fonction {\tt egaux} qui prend en argument deux dictionnaires et renvoie {\tt True} si ces deux dictionnaires sont égaux (c'est-à-dire contiennent exactement les mêmes clés avec les mêmes valeurs) et {\tt False} sinon.\\ Par exemple, {\tt egaux(\{'e': 3, 'p': 1, 'l': 1 \}, \{'p': 1, 'e': 2, 'l': 2 \})} renvoie {\tt False}.\\
+\danger \; On s'interdit ici d'utiliser le test d'égalité {\tt ==} entre deux dictionnaires et on écrira un parcours de dictionnaire.
+}
+\ifcorrige
+\corpartPython{\SPATH /anagrammes.py}{}{}{33}{39}
+\fi
+\Question{Écrire une fonction {\tt anagrammes\_dico} qui prend en argument deux chaînes de caractères et renvoie {\tt True} si ce sont des anagrammes et {\tt False} sinon.}
+\ifcorrige
+\corpartPython{\SPATH /anagrammes.py}{}{}{41}{44}
+\fi
+\end{Exercise}
+
+\begin{Exercise}[title={Requêtes \textsc{sql} sur une seule table}]\\
+	On considère la base de données {\tt pays\_du\_monde} contenant une seule table {\tt pays} dont le schéma est donné ci-dessous :
+	\begin{center}
+	\begin{tabular}{|lll|}
+		\hline
+		\multicolumn{3}{|c|}{\textbf{pays}} \\
+		\hline
+		{\tt nom} & : & \textsc{text} \\
+		\hline
+		{\tt region} & : & \textsc{text} \\
+		\hline
+		{\tt population} & : & \textsc{int} \\
+		\hline
+		{\tt surface} & : & \textsc{int} \\
+		\hline
+		{\tt cotes} & : & \textsc{int} \\
+		\hline
+		{\tt pib} & : & \textsc{int} \\
+		\hline
+		\end{tabular}
+	\end{center}
+	D'autre part, on précise la signification des champs suivants : 
+	\begin{itemize}
+		\item {\tt population} : le nombre d'habitants du pays ;
+		\item {\tt region} : la région du pays (par exemple « Europe de l'ouest ») ;
+		\item {\tt surface} : la surface du pays (en $\text{km}^2$) ;
+		\item {\tt cotes} : la longueur côtière du pays, cette valeur vaut 0 lorsque le pays n'a pas d'ouverture sur la mer ;
+		\item {\tt pib} : le produit intérieur brut par habitant, c'est une mesure de la richesse du pays.
+		\end{itemize}
+	Et on indique que la requête \mintinline{sql}{SELECT DISTINCT region FROM pays} a renvoyé le résultat suivant : 
+	\begin{center}
+	\begin{tabular}{|l|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{region}} \\
+		\hline
+		Asie \\
+		Afrique du nord \\
+		Europe de l'est \\
+		Europe de l'ouest \\
+		Océanie \\
+		Afrique subsaharienne \\
+		Proche orient\\
+		Amérique latine\\
+		Amérique du nord\\
+		\hline
+	\end{tabular}
+\end{center}
+Écrire les requêtes permettant de :
+\Question{Trouver la population et le produit intérieur brut de la France.}
+\ifcorrige
+\begin{minted}{sql}
+ SELECT population, pib 
+ FROM pays 
+ WHERE nom = "France";
+\end{minted}
+\fi
+\Question{Trouver les pays d'Europe n'ayant pas d'ouverture sur la mer.}
+\ifcorrige
+\begin{minted}{sql}
+SELECT nom 
+FROM pays 
+WHERE cotes=0 and (region="Europe de l'est" or region = "Europe de l'ouest");
+\end{minted}
+\fi
+\Question{Classer par ordre alphabétique les pays d'Amérique latine.}
+\ifcorrige
+\begin{minted}{sql}
+SELECT nom 
+FROM pays 
+WHERE region="Amérique latine" 
+ORDER BY nom;
+\end{minted}
+\fi
+\Question{Lister par ordre décroissant du nombre d'habitants les cinq pays les plus peuplés.}
+\ifcorrige
+\begin{minted}{sql}
+SELECT nom
+FROM pays
+ORDER BY population DESC
+LIMIT 5;
+\end{minted}
+\fi
+\Question{Trouver le pays du Proche-Orient le plus riche (ayant le {\tt pib} le plus élevé).}
+\ifcorrige
+\begin{minted}{sql}
+SELECT nom, MAX(pib)
+FROM pays
+WHERE region="Proche orient";
+\end{minted}
+\fi
+\Question{Classer les pays d'Afrique du Nord par densité décroissante de population (la densité est le rapport entre le nombre d'habitants et la surface).}
+\ifcorrige
+\begin{minted}{sql}
+SELECT nom, population/surface AS densite
+FROM pays 
+WHERE region="Afrique du nord" 
+ORDER BY densite DESC;
+\end{minted}
+\fi
+\Question{Classer les régions par somme décroissante du PIB des pays qui les composent.}
+\ifcorrige
+\begin{minted}{sql}
+SELECT region, SUM(pib) as total_pib 
+FROM pays 
+GROUP BY region 
+ORDER BY total_pib DESC;
+\end{minted}
+\fi
+
+\end{Exercise}
+
+\begin{Exercise}[title = {Compression par codage par plages (RLE)}] \\
+	Le \textbf{codage par plages} (\textit{Run-Length Encoding} ou RLE) est une méthode classique de compression de données sans perte. Son principe consiste à remplacer les répétitions consécutives d'un même symbole par un couple formé de ce symbole et de son nombre d'apparitions successives.
+	
+	En Python, le résultat compressé est représenté par une liste de couples \mintinline{python}{(caractere, compte)}, où \mintinline{python}{caractere} est de longueur 1 et \mintinline{python}{compte} est un entier strictement positif.\\
+	Par exemple, la chaîne \mintinline{python}{"AAABBCCCCA"} est encodée par la liste :
+	\begin{center}
+		\mintinline{python}{[('A', 3), ('B', 2), ('C', 4), ('A', 1)]}
+	\end{center}
+
+	\Question{Donner le résultat du codage RLE de la chaîne \mintinline{python}{"WWWBWWWWBBBWW"}.\\
+	En supposant qu'un caractère et un entier occupent chacun un octet en mémoire, calculer la taille en octets de la chaîne initiale et celle de la liste encodée. Quel est le gain de compression obtenu ?}
+	\tcor{
+		La chaîne comporte 3 fois \mintinline{python}{'W'}, 1 fois \mintinline{python}{'B'}, 4 fois \mintinline{python}{'W'}, 3 fois \mintinline{python}{'B'} et 2 fois \mintinline{python}{'W'}. Le résultat encodé est donc :
+		\begin{center}
+			\mintinline{python}{[('W', 3), ('B', 1), ('W', 4), ('B', 3), ('W', 2)]}
+		\end{center}
+		La chaîne initiale contient 13 caractères, soit 13 octets. La représentation compressée comporte 5 couples de 2 octets, soit 10 octets au total. Le gain est de $13 - 10 = 3$ octets (soit un taux de réduction d'environ $23{,}1\,\%$).
+	}
+
+	\Question{Donner un exemple de chaîne pour laquelle le codage RLE conduit à une augmentation de la taille des données (expansion au lieu d'une compression). Quel est le pire des cas pour cet algorithme ?}
+	\tcor{
+		Toute chaîne ne comportant aucune répétition consécutive, par exemple \mintinline{python}{"ABCDE"} (ou \mintinline{python}{"WBWBWB"}), sera encodée sous la forme \mintinline{python}{[('A', 1), ('B', 1), ('C', 1), ('D', 1), ('E', 1)]}. Chaque caractère de 1 octet devenant un couple de 2 octets, la taille est alors doublée (taux d'expansion de $200\,\%$). Le pire des cas correspond donc aux chaînes où deux caractères consécutifs sont toujours distincts.
+	}
+
+	\Question{Écrire en Python une fonction \mintinline{python}{rle_encode(texte)} qui prend en argument une chaîne de caractères \mintinline{python}{texte} et renvoie la liste de tuples \mintinline{python}{(caractere, compte)} correspondant à son encodage RLE. Si la chaîne est vide, la fonction renverra la liste vide \mintinline{python}{[]}.}
+	\ifcorrige
+\begin{minted}{python}
+def rle_encode(texte):
+    if len(texte) == 0:
+        return []
+    res = []
+    car_courant = texte[0]
+    compte = 1
+    for i in range(1, len(texte)):
+        if texte[i] == car_courant:
+            compte += 1
+        else:
+            res.append((car_courant, compte))
+            car_courant = texte[i]
+            compte = 1
+    res.append((car_courant, compte))
+    return res
+\end{minted}
+	\fi
+
+	\Question{Écrire en Python la fonction réciproque \mintinline{python}{rle_decode(liste_rle)} qui prend en argument une liste de couples \mintinline{python}{(caractere, compte)} et reconstruit la chaîne de caractères initiale.\\
+	\aide \; On rappelle qu'en Python, l'opérateur \mintinline{python}{*} entre une chaîne et un entier permet de répéter la chaîne (par exemple \mintinline{python}{"A" * 3} s'évalue en \mintinline{python}{"AAA"}).}
+	\ifcorrige
+\begin{minted}{python}
+def rle_decode(liste_rle):
+    res = ""
+    for car, compte in liste_rle:
+        res += car * compte
+    return res
+\end{minted}
+	\fi
+
+	\Question{On considère la boucle \mintinline{python}{for car, compte in liste_rle} de la fonction \mintinline{python}{rle_decode}. Donner un invariant de boucle permettant de prouver la correction partielle de cette fonction, et justifier brièvement pourquoi la terminaison est assurée.}
+	\tcor{
+		\begin{itemize}
+			\item \textbf{Invariant :} À la fin de la $k$-ième itération (pour $0 \le k \le n$ avec $n = \text{len}(\text{liste\_rle})$), la variable \mintinline{python}{res} contient la chaîne de caractères issue du décodage des $k$ premiers couples de \mintinline{python}{liste_rle}.
+			\begin{itemize}
+				\item \textit{Initialisation :} avant la boucle ($k = 0$), \mintinline{python}{res} vaut \mintinline{python}{""}, ce qui est bien le décodage d'une liste vide de couples.
+				\item \textit{Conservation :} si la propriété est vraie au rang $k$, l'itération $k+1$ ajoute \mintinline{python}{car * compte} correspondant au $(k+1)$-ième couple, ce qui prolonge le décodage aux $k+1$ premiers couples.
+				\item \textit{Terminaison :} en sortie de boucle ($k = n$), \mintinline{python}{res} correspond bien au décodage complet de toute la liste.
+			\end{itemize}
+			\item \textbf{Terminaison :} La boucle parcourt une liste finie d'éléments à l'aide d'une instruction \mintinline{python}{for} en Python ; le nombre d'itérations est donc fini (égal à $n$), ce qui garantit la terminaison.
+		\end{itemize}
+	}
+
+	\Question{Écrire une fonction \mintinline{python}{longueur_totale(liste_rle)} qui calcule et renvoie la longueur totale de la chaîne décompressée sans reconstruire la chaîne en mémoire.}
+	\ifcorrige
+\begin{minted}{python}
+def longueur_totale(liste_rle):
+    total = 0
+    for _, compte in liste_rle:
+        total += compte
+    return total
+\end{minted}
+	\fi
+
+	\Question{Déterminer la complexité temporelle de la fonction \mintinline{python}{rle_encode(texte)} en fonction de la longueur $N$ de la chaîne \mintinline{python}{texte}. Justifier la réponse.}
+	\tcor{
+		La fonction parcourt la chaîne de longueur $N$ au moyen d'une unique boucle \mintinline{python}{for} effectuant $N-1$ itérations. Chaque itération n'exécute que des opérations en temps constant $\mathcal{O}(1)$ (comparaisons, affectations, incrémentations et ajout en fin de liste avec \mintinline{python}{append}). La complexité temporelle globale est donc linéaire, en $\mathcal{O}(N)$.
+	}
+
+\end{Exercise}
+
+\end{document}

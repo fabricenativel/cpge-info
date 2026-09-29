@@ -1,0 +1,235 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/}
+
+\ModeExercice
+
+\Colles{S28/S29/S30}{}
+
+\setboolean{corrige}{false}
+
+\setcounter{Exercise}{0}
+
+\newcommand{\cn}[1]{\TCircle{\tt #1}}
+\newcommand{\mn}[1]{\TCircle[radius=0.4cm]{$#1$}}
+
+\psset{arrows=->,treesep=1cm,levelsep=1cm}
+\begin{Exercise}[title = {Doublons autorisés dans un arbre binaire de recherche}, origin = {\bac \; Oraux {\sc ccinp}}]\\
+    Dans cet exercice, on autorise les doublons dans un arbre binaire de recherche et pour le cas d’égalité    on choisira le sous-arbre gauche. On ne cherchera pas à équilibrer les arbres.   
+\Question{Rappeler la définition d’un arbre binaire de recherche.}    
+\tcor{Un arbre binaire de recherche sur un ensemble d'étiquettes $E$ (totalement ordonné), peut se définir inductivement par l'axiome $\varnothing$ (arbre vide), et la règle d'inférence d'arité 2 : $(g,d) \mapsto (g,x,d)$ où $x \in E$ et toute étiquette de $g$ est inférieure à $x$ et toute étiquette de $d$ est supérieure à $x$.}
+\Question{Insérer successivement et une à une dans un arbre binaire de recherche initialement vide toutes les lettres    du mot {\tt bacddabdbae}, en utilisant l’ordre alphabétique sur les lettres. Quelle est la hauteur de l’arbre ainsi    obtenu ?}
+\tcor{ \pstree{\cn{b}}{} \quad
+\pstree{\cn{b}}{\cn{a} \Tn{}} \quad
+\pstree{\cn{b}}{\cn{a} \cn{c}} \quad 
+\pstree{\cn{b}}{\cn{a} \pstree{\cn{c}} {\Tn{} \cn{d}}}
+\pstree{\cn{b}}{\cn{a} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\cn{d} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\cn{d} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\cn{a} \cn{b}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\cn{d} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\cn{a} \cn{b}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\cn{a} \pstree{\cn{b}}{\cn{b} \Tn{}}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \pstree{\cn{b}}{\cn{b} \Tn{}}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \pstree{\cn{b}}{\cn{b} \Tn{}}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \cn{e}}}} \\
+La hauteur de l'arbre obtenu est $4$ (la programme donne $-1$ comme hauteur de l'arbre vide.)
+} 
+\Question{Montrer que le parcours en profondeur infixe d’un arbre binaire de recherche de lettres est un mot dont les    lettres sont rangées dans l’ordre croissant. On pourra procéder par induction structurelle.}
+\tcor{
+    On procède par induction structurelle, pour tout {\sc abr} $a$, on note $P(a)$ la propriété \og{} le parcours infixe de $a$ est un mot dont les lettres sont rangées dans l'ordre croissant\fg{}. 
+    \begin{itemize}
+        \item $P(\varnothing)$ est vraie et donc la propriété $P$ est vérifiée pour tous les axiomes.
+        \item Montrons à présent la conservation de la propriété $P$ par application de la règle d'inférence, si $g$ et $d$ sont deux {\sc abr} vérifiant $P$, et $x$ une lettre telle que toutes les lettres de $g$ sont avant $x$ et toutes les lettres de $d$ sont après $x$ dans l'ordre alphabétique. Le parcours infixe de l'{\sc abr} $(g,x,d)$ est par définition le parcours infixe de $g$ suivi de $x$ suivi du parcours infixe de $d$. Par hypothèse d'induction, les lettres du parcours de $g$ et celles du parcours de $d$ sont rangées par ordre croissant. Comme de plus $x$ est après toute les lettres de $g$ et avant toutes celles de $d$, le parcours de $(g,x,d)$ est bien formé de lettres rangées par ordre croissant.
+    \end{itemize}
+    Par application du principe d'induction structurelle, pour tout {\sc abr} $a$, $P(a)$ est vraie.
+}
+\Question{Proposer un algorithme qui permet de compter le nombre d’occurrences d’une lettre dans un arbre binaire de    recherche de lettres. Quelle est sa complexité ?\label{occ}}
+\tcor{On part de la racine, à chaque étape, on ajoute 1 au nombre d'occurence si l'étiquette est la lettre cherchée et on descend dans le sous arbre gauche si l'étiquette est inférieure ou égale à la racine et dans le sous arbre droit sinon. On s'arrête en rencontrant une feuille. Comme à chaque étape on descend d'un niveau dans l'orbre la complexité est en $O(h)$ où $h$ est la hauteur de l'arbre.}
+\Question{Pour l'implémentation on propose d'utiliser le type {\tt abr} suivant :
+\inputpartOCaml{abr_doublon.ml}{}{}{2}{2}
+ Ecrire la fonction {\tt insere abr -> char -> abr} qui prend en argument un arbre {\tt abr} et une  lettre et renvoie l'arbre obtenu en insérant cette lettre dans {\tt abr}.
+}
+\tcor{\inputpartOCaml{abr_doublon.ml}{}{}{4}{7}}
+\Question{Proposer une implémentation en OCaml pour l'algorithme de la question \ref{occ}}
+\tcor{\inputpartOCaml{abr_doublon.ml}{}{}{16}{21}}
+\end{Exercise}
+
+\begin{Exercise}[title = {Minima locaux dans des arbres}, origin = {\bac \; Oraux {\sc ccinp}}]\\
+Dans cet exercice, on considère des arbres étiquetés par des entiers relatifs deux à deux distincts. On dit qu'un noeud est un \textit{minimum local} d'un arbre si son étiquette est plus petite que celle de son éventuel père et celles de ses éventuels fils.
+
+\Question{Déterminer le ou les minima locaux de l'arbre $A$ suivant : 
+\begin{center}
+\psset{arrows=->,treesep=1.5cm,levelsep=1.2cm}
+\pstree{\mn{0}}{ 
+    \pstree{\mn{3}}{\pstree{\mn{-2}}{\Tn{} \mn{-4}} \Tn{}} 
+    \pstree{\mn{2}}{\mn{8} \pstree{\mn{1}}{\mn{6} \mn{4}}}
+    }
+\end{center}}
+\tcor{
+    \begin{center}
+    \pstree{\textcolor{red}{\mn{0}}}{ 
+    \pstree{\mn{3}}{\pstree{\mn{-2}}{\Tn{} \textcolor{red}{\mn{-4}}} \Tn{}} 
+    \pstree{\mn{2}}{\mn{8} \pstree{\textcolor{red}{\mn{1}}}{\mn{6} \mn{4}}}
+    }
+    \end{center}
+}
+
+\Question{Donner la définition inductive des arbres binaires ainsi que la définition de la hauteur d'un arbre. Quelle est la hauteur de l'arbre $A$ ?}
+\tcor{Un arbre binaire sur un ensemble d'étiquettes $E$, peut se définir inductivement par l'axiome $\varnothing$ (arbre vide), et la règle d'inférence d'arité 2 : $(g,d) \mapsto (g,x,d)$ où $x \in E$. \\
+La hauteur d'un arbre binaire se définit par $h(\varnothing) = -1$ et $h(g,e,d) = 1 + \max\{ h(g), h(d) \}$. L'arbre $A$ a une hauteur de 3.
+}
+\Question{Montrer  que tout arbre non vide possède un minimum local.}
+\tcor{
+On effectue une démonstration par récurrence forte sur la taille notée $n$ de l'arbre, pour tout $n \in \N^*$, soit $P(n)$ la propriété \og un arbre binaire de taille $n$ possède un minimum local \fg{}.
+\begin{itemize}
+    \item Si $n=1$ alors la racine est un minimum local car elle ne possède ni fils ni père.
+    \item Soit $n \in \N^*$ tel que $P(n)$ soit vraie, on considère un arbre $A$ de taille $n+1$ et de racine d'étiquette $r$, alors soit la racine est un minimum local et $P(n+1)$ est vérifiée. Soit la racine possède un fils qui est lui est strictement inférieure, on suppose sans perdre de généralité qu'il s'agit du sous arbre gauche et on note l'étiquette de sa racine $g$. Ce sous arbre gauche est de taille strictement inférieure à $n$ et il possède donc un minimum local. Si ce minimum local est la racine alors il s'agit aussi d'un minimum local de l'arbre $A$ puisque $r>g$. Dans tous les cas $P(n+1)$ est vérifiée.
+\end{itemize}
+Donc, tout arbre binaire non vide possède un minimum local.
+}
+\Question{Proposer un algorithme permettant de trouver un minimum local d'un arbre non vide et déterminer sa complexité.}
+\tcor{
+    On propose un algorithme basé sur le raisonnement de la question précédente :
+    \begin{itemize}
+        \item si l'arbre est réduit a une feuille alors on termine en renvoyant l'étiquette
+        \item sinon, on compare l'etiquette de la racine avec l'étiquette de la racine  du sous arbre gauche, notée $g$, et l'étiquette  de la racine du sous arbre droit notée $d$ (lorsque ces sous arbres existent). Si $r<g$ et $r<d$ alors $r$ est un minimum local et l'algorithme termine. Sinon on effectue un appel récursif sur le sous arbre gauche s'il existe et si $r>g$  et sur le sous arbre droit sinon.
+    \end{itemize}
+}
+\Question{Ecrire une implémentation de cet algorithme en OCaml en utilisant le type arbre binaire suivant :
+\inputpartOCaml{min_locaux.ml}{}{}{1}{3}}
+\tcor{
+    \inputpartOCaml{min_locaux.ml}{}{}{62}{68}
+}
+\Question{Ecrire une fonction  {\tt min\_locaux ab -> int list} qui prend en argument un arbre binaire et renvoie la liste de tous ses minima locaux.}
+\tcor{
+    \inputpartOCaml{min_locaux.ml}{}{}{52}{60}
+}
+\end{Exercise}
+
+\begin{Exercise}[title = {Tableaux autoréférents}, origin = {\bac \; Oraux {\sc ccinp}}]\\
+On dit qu'un tableau {\tt tab} de taille $n$ est \textit{autoréférent} si pour tout entier {\tt i} $\in \intN{0}{n-1}$,  {\tt tab.(i)} est le nombre d'occurences de {\tt i} dans {\tt tab}. Par exemple, le tableau {\tt ex=[| 1; 2; 1; 0 |]} est autoréférent, en effet :
+\begin{itemize}
+    \item {\tt ex.(0) = 1} et {\tt 0} apparaît bien une fois dans le tableau
+    \item {\tt ex.(1) = 2} et {\tt 1} apparaît bien deux fois dans le tableau
+    \item {\tt ex.(2) = 1} et {\tt 3} apparaît bien une fois dans le tableau
+    \item {\tt ex.(3) = 0} et {\tt 3} n'apparaît pas dans le tableau 
+\end{itemize}
+\Question{Justifier rapidement que si {\tt tab} est un tableau autoréférent de taille {\tt n} alors les éléments de {\tt tab} sont tous inférieurs ou égaux à {\tt n}}
+\tcor{Une valeur apparraît au plus $n$ fois dans un tableau de taille $n$.}
+\Question{Montrer que pour $n \in \intN{1}{3}$, il n'existe aucun tableau auto référent de taille $n$.}
+\tcor{
+    Il suffit de tester les possibilités, en utilisant la question précédente.
+}
+\Question{Déterminer un autre tableau autoréférent de taille 4 que celui donné en exemple.}
+\tcor{
+    En testant les possiblités dans le cas $n=4$, on trouve {\tt [| 2; 0; 2; 0 |]}
+}
+\Question{\label{auto} Soit {\tt n}$\geq 7$, on définit le tableau {\tt tab} de taille {\tt n} par :
+ \begin{itemize}
+    \item {\tt tab.(0) = n-4}
+    \item {\tt tab.(1) = 2}
+    \item {\tt tab.(2) = 1}
+    \item {\tt tab.(n-4) = 1}
+    \item {\tt tab.(i) = 0} si {\tt i} $\notin \{0,1,2,n-4\}$
+ \end{itemize}
+ Prouver que {\tt tab} est autoréférent
+}
+\tcor{
+    On vérifie :
+    \begin{itemize}
+    \item {\tt tab.(0) = n-4} et toutes les cases du tableau valent {\tt 0} sauf 4 cases, celles d'indices $0$ (car $n-4 \neq 0), 1, 2$ et $n-4$.
+    \item {\tt tab.(1) = 2} et {\tt 1} apparaît bien deux fois dans le tableau aux indices 2 et $n-4$. (car $n-4 \neq 1$) 
+    \item {\tt tab.(2) = 1} et {\tt 2} apparaît bien une fois dans le tableau (à l'indice 1)
+    \item {\tt tab.(n-4) = 1} et {\tt n-4} apparaît bien une seule fois dans le tableau par comme $n \leqslant 7$, $n-4 \leqslant 3$.
+    \item {\tt tab.(i) = 0} si {\tt i} $\notin \{0,1,2,n-4\}$ et aucune de ces valeurs n'apparaît dans le tableau
+ \end{itemize}
+ Donc ce tableau est bien autoréférent.
+ }
+\Question{\label{stre} Montrer que si {\tt tab} est un tableau autoréférent de taille {\tt n} alors la somme des éléments de {\tt tab} vaut {\tt n}. La réciproque est-elle vraie ?}
+\tcor{
+    Soit $t$ un tableau autoréférent de taille $n$, \\
+    $\displaystyle{ \sum_{k=0}^{n-1} t_k = \sum_{k=0}^{n-1} \text{occ}(k)}$, où $\text{occ}(k)$ est le nombre d'occurences de $k$ dans $t$.\\
+    Et comme les seules valeurs présentes dans $t$ sont les entiers appartenant à $\intN{0}{n-1}$ cette somme vaut $n$.
+    }
+\Question{Ecrire en OCaml une fonction {\tt est\_autoreferent int array -> bool} qui prend en argument un tableau d'entiers et renvoie {\tt true} si ce tableau est autoréférent et {\tt false} sinon. On attend une complexité en $O(n)$ où $n$ est la taille du tableau.}\smallskip \\
+\tcor{\inputpartOCaml{autoreferent.ml}{}{}{9}{22}}
+On cherche maintenant à construire un tableau autoréférent de taille {\tt n} en utilisant un algorithme de recherche par retour sur trace (\textit{backtracking}) qui valide une solution partielle construite jusqu'à un index {\tt idx} donné, on propose pour cela la fonction suivante :
+\inputpartOCaml{autoreferent.ml}{}{}{34}{47} 
+\Question{Ecrire une fonction de validation partielle qui pour le moment renvoie toujours {\tt true} et tester cette fonction pour de petites valeurs de {\tt n} (attention, il faut aussi écrire la fonction d'affichage du tableau), que constater vous ?}
+\tcor{
+\mintinline{ocaml}{let valide_partielle tab idx = true;;} \\
+Ne fonctionne que sur de petites valeurs de $n$ ($n \leq 9$) faute d'une rapidité suffisante.
+}
+\Question{Proposer et implémenter des améliorations de la fonction de validation partielle en utilisant les résultats établis sur les tableaux autoréférents aux questions précédentes.}
+\tcor{
+    On peut proposer diverses améliorations :
+    \begin{itemize}
+        \item Vérifier que la somme partielle jusqu'à l'indice {\tt idx} ne dépasse pas la somme du tableau
+        \item Vérifier après avoir affecté une case qu'il n'y a déjà pas plus d'occurrence de la valeur dans le tableau
+        \item Vérifier qu'en ajoutant à la somme courante le nombres de cases restant à remplir et différentes de 0 on ne dépasse pas la taille du tableau
+    \end{itemize}
+    \inputpartOCaml{autoreferent.ml}{}{}{38}{54}
+    On obtient une réponse quasi immédiate même pour $n \simeq 100$ (et on constate que le tableau autoréférent de la question \ref{auto} est la seule solution.)
+    }
+\end{Exercise}
+
+\begin{Exercise}[title = {Convergence d'une suite}]\\
+On considère la suite $(u_n)_{n \in \N}$ définie par : \\
+$\left\{ \begin{array}{ll} u_0=e-1 \\ u_{n+1} = (n+1)\,u_n - 1 \end{array}\right.$ \\
+On note $$S_n = \displaystyle{\sum_{k=0}^n \frac{1}{k!}}$$ 
+On pourra utiliser sans justification le résultat suivant : pour tout $n \in \N$: \mbox{$S_n \leq e \leq S_n + \dfrac{1}{n\,n!}$}
+\Question{Montrer que $ e = \displaystyle{\lim_{n \rightarrow +\infty} S_n}$}
+\Question{Monter que pour tout $n\in \N$, $u_n = n!(e-S_n)$}
+\Question{En déduire que $(u_n)_{n \in \N}$ converge et donner sa limite.\label{comp}}
+\Question{Ecrire en langage C, une fonction {\tt main} qui prend un entier $n$ en argument sur la ligne de commande  et affiche les $n$ premières valeurs de la suite $u_n$. On utilisera le type {\tt double} pour les flottants et on pourra utiliser la valeur {\tt M\_E} de {\tt <math.h>} pour représenter le nombre $e$.}
+\Question{Tester votre fonction pour $n=17$, le comportement observé est-il conforme à celui établi à la question \ref{comp} ?}
+\Question{Tester votre fonction pour $n=25$, commenter le résultat obtenu.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Triangle dans un graphe}]\\
+On considère un graphe non orienté $G = (S,A)$ où $A = \{1, \dots, n \}$. On dit qu'un sous ensemble de $V$ à trois éléments $\{x,y,z\}$  est un \textit{triangle} de $G$ lorsque $\{x,y\}, \{y, z\}$ et $\{x, z\}$ appartiennent à $A$.
+Par exemple, dans le graphe $g$ suivant, $\{1, 2, 4\}$ est un triangle.
+\begin{center}
+    \begin{pspicture}(0,-2.2)(5,1)
+		\rput(1,0){\circlenode{x1}{$1$}}
+		\rput(3,0){\circlenode{x2}{$2$}}
+		\rput(5,-1){\circlenode{x3}{$3$}}
+		\rput(1,-2){\circlenode{x4}{$4$}}
+	   \rput(3,-2){\circlenode{x5}{$5$}}
+       \ncline{-}{x1}{x2}
+       \ncline{-}{x1}{x4}
+       \ncline{-}{x1}{x5}
+       \ncline{-}{x2}{x1}
+       \ncline{-}{x2}{x5}
+       \ncline{-}{x2}{x4}
+       \ncline{-}{x2}{x3}
+       \ncline{-}{x3}{x2}
+       \ncline{-}{x3}{x5}
+       \ncline{-}{x4}{x5}
+    \end{pspicture}
+\end{center}
+\Question{Donner tous les autres triangles du graphe $g$.}
+\Question{Rappeler la défintion d'un graphe complet. Donner le nombre de triangle d'un graphe complet à $n$ sommets.}
+\Question{On dit qu'un graphe est bipartite lorsqu'on il existe une partition de l'ensemble des sommets $S$ en deux ensembles $S_1$ et $S_2$ tel que tout arête ait un élément dans $S_1$ et l'autre dans $S_2$. Dessiner un graphe bipartite à $6$ sommets et $9$ arêtes.}
+\Question{Montrer qu'un graphe bipartite ne contient pas de triangles.}
+\Question{Afin de lister les triangles d'un graphe, on propose de tester si chaque partie de $A$ à trois éléments est un triangle. Indiquer la complexité d'un tel algorithme.}
+\Question{Dans cette question uniquement, on utilise des graphes représentés par matrice d'adjacence à l'aide du type structuré en C :
+\inputpartC{triangle_graphe.c}{}{}{4}{7}
+la fonction d'ajout d'un arc dans un tel graphe s'écrit :
+\inputpartC{triangle_graphe.c}{}{}{17}{19}
+Ecrire la fonction {\tt liste\_triangle}, de prototype \mintinline{c}{void liste_triangle(graphe g, int n)} qui prend en argument un graphe {\tt g} et son nombre de noeud {\tt g} et affiche sur la sortie standard les triangles de ce graphe en utilisant l'algorithme décrit à la question précédente.}
+\Question{Un autre algorithme possible pour lister les triangles d'un graphe consiste pour chaque arête $\{x,y\}$ à chercher l'intersection de l'ensemble des sommets $z$ adjacent à $x$ et à $y$. Donner la complexité de cet algorithme si on suppose que l'intersection est calculée en temps linéaire du nombre de sommets. \label{ai}}
+\Question{Ecrire en OCaml, une fonction {\tt intersection int list -> int list -> int list} qui calcule en temps linéaire l'intersection de deux listes \textit{en les supposant triées}.}
+\Question{Dans la suite de l'exercice, on utilise des graphes représentés par liste d'adjacence en OCaml avec le type :
+\inputpartOCaml{triangle_graphe.ml}{}{}{2}{4}
+Et on donne la fonction permettant de créer un graphe de taille donnée {\tt n} :
+\inputpartOCaml{triangle_graphe.ml}{}{}{6}{7}
+Ecrire une fonction permettant d'ajouter une arête dans un graphe en \textit{maintenant triée} les listes d'adjacence.
+}
+\Question{Implémenter l'algorithme décrit à la question \ref{ai} pour lister les triangles d'un graphe.}
+\end{Exercise}
+
+\end{document}

@@ -1,0 +1,67 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/}
+
+\ModeExercice
+
+\lhead{{\sc mpi --} {\bf Préparation aux oraux}}
+\rhead{2024}
+\setboolean{corrige}{true}
+
+\setcounter{Exercise}{0}
+
+\newcommand{\cn}[1]{\TCircle{\tt #1}}
+\psset{arrows=->,treesep=1cm,levelsep=1cm}
+\begin{Exercise*}[title = {Doublons autorisés dans un arbre binaire de recherche}, origin = {\bac \; Oraux {\sc ccinp}}]\\
+    Dans cet exercice, on autorise les doublons dans un arbre binaire de recherche et pour le cas d’égalité    on choisira le sous-arbre gauche. On ne cherchera pas à équilibrer les arbres.   
+\Question{Rappeler la définition d’un arbre binaire de recherche.}    
+\tcor{Un arbre binaire sur un ensemble d'étiquettes $E$, peut se définir inductivement par l'axiome $\varnothing$ (arbre vide), et la règle d'inférence d'arité 2 : $(g,d) \mapsto (g,x,d)$ où $x \in E$ et toute étiquette de $g$ est inférieure à $x$ et toute étiquette de $d$ est supérieure à $x$.}
+\Question{Insérer successivement et une à une dans un arbre binaire de recherche initialement vide toutes les lettres    du mot {\tt bacddabdbae}, en utilisant l’ordre alphabétique sur les lettres. Quelle est la hauteur de l’arbre ainsi    obtenu ?}
+\tcor{ \pstree{\cn{b}}{} \quad
+\pstree{\cn{b}}{\cn{a} \Tn{}} \quad
+\pstree{\cn{b}}{\cn{a} \cn{c}} \quad 
+\pstree{\cn{b}}{\cn{a} \pstree{\cn{c}} {\Tn{} \cn{d}}}
+\pstree{\cn{b}}{\cn{a} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\cn{d} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\cn{d} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\cn{a} \cn{b}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\cn{d} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\cn{a} \cn{b}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\cn{a} \pstree{\cn{b}}{\cn{b} \Tn{}}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \pstree{\cn{b}}{\cn{b} \Tn{}}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}}}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \pstree{\cn{b}}{\cn{b} \Tn{}}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \cn{e}}}} \\
+La hauteur de l'arbre obtenu est $4$ (la programme donne $-1$ comme hauteur de l'arbre vide.)
+} 
+\Question{Montrer que le parcours en profondeur infixe d’un arbre binaire de recherche de lettres est un mot dont les    lettres sont rangées dans l’ordre croissant. On pourra procéder par induction structurelle.}
+\tcor{
+    On procède par induction structurelle, pour tout {\sc abr} $a$, on note $P(a)$ la propriété \og{} le parcours infixe de $a$ est un mot dont les lettres sont rangées dans l'ordre croissant\fg{}. 
+    \begin{itemize}
+        \item $P(\varnothing)$ est vraie et donc la propriété $P$ est vérifiée pour tous les axiomes.
+        \item Montrons à présent la conservation de la propriété $P$ par application de la règle d'inférence, si $g$ et $d$ sont deux {\sc abr} vérifiant $P$, et $x$ une lettre telle que toutes les lettres de $g$ sont avant $x$ et toutes les lettres de $d$ sont après $x$ dans l'ordre alphabétique. Le parcours infixe de l'{\sc abr} $(g,x,d)$ est par définition le parcours infixe de $g$ suivi de $x$ suivi du parcours infixe de $d$. Par hypothèse d'induction, les lettres du parcours de $g$ et celles du parcours de $d$ sont rangées par ordre croissant. Comme de plus $x$ est après toute les lettres de $g$ et avant toutes celles de $d$, le parcours de $(g,x,d)$ est bien formé de lettres rangées par ordre croissant.
+    \end{itemize}
+    Par application du principe d'induction structurelle, pour tout {\sc abr} $a$, $P(a)$ est vraie.
+}
+\Question{Proposer un algorithme qui permet de compter le nombre d’occurrences d’une lettre dans un arbre binaire de    recherche de lettres. Quelle est sa complexité ?\label{occ}}
+\tcor{On part de la racine, à chaque étape, on ajoute 1 au nombre d'occurence si l'étiquette est la lettre cherchée et on descend dans le sous arbre gauche si l'étiquette est inférieure ou égale à la racine et dans le sous arbre droit sinon. On s'arrête en rencontrant une feuille. Comme à chaque étape on descend d'un niveau dans l'orbre la complexité est en $O(h)$ où $h$ est la hauteur de l'arbre.}
+\Question{On souhaite supprimer une occurrence d’une lettre donnée d’un arbre binaire de recherche de lettres. Expliquer le principe d’un algorithme permettant de résoudre ce problème et le mettre en œuvre sur l’arbre obtenu à la question 2. en supprimant successivement une occurrence des lettres e, b, b, c et d. Quelle en est la complexité ?}
+\tcor{Afin de supprimer une valeur dans un {\sc abr} on recherche cette valeur dans l'arbre puis, :
+\begin{itemize}
+    \item s'il s'agit d'une feuille, on la supprime de l'arbre
+    \item si le sous arbre gauche est vide alors on remplace par le sous arbre droit
+    \item sinon, on remplace par la plus grande valeur présente dans le sous arbre gauche en y supprimant cette valeur
+\end{itemize}
+\pstree{\cn{b}}{\pstree{\cn{a}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \pstree{\cn{b}}{\cn{b} \Tn{}}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \textcolor{red}{\cn{e}}}}} \quad 
+\pstree{\textcolor{red}{\cn{b}}}{\pstree{\cn{a}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \pstree{\cn{b}}{\cn{b} \Tn{}}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}}} \quad
+\pstree{\textcolor{red}{\cn{b}}}{\pstree{\cn{a}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \cn{b}} \pstree{\cn{c}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}}} \quad
+\pstree{{\cn{b}}}{\pstree{\cn{a}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \Tn{}} \pstree{\textcolor{red}{\cn{c}}} {\Tn{} \pstree{\cn{d}}{\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}}} 
+\pstree{{\cn{b}}}{\pstree{\cn{a}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \Tn{}} \pstree{\textcolor{red}{\cn{d}}} {\pstree{\cn{d}}{\cn{d} \Tn{}} \Tn{}}} \\
+\pstree{{\cn{b}}}{\pstree{\cn{a}}{\pstree{\cn{a}}{\cn{a} \Tn{}} \Tn{}} \pstree{\cn{d}} {\cn{d} \Tn{}}} \\
+La recherche de la valeur dans l'{\sc abr} a une complexité en $O(h)$ de même que la recherche de la plus grand valeur du sous arbre gauche, donc la complexité est en $O(h)$.
+}
+\end{Exercise*}
+
+
+\end{document}

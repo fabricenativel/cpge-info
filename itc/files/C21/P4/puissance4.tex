@@ -1,0 +1,233 @@
+% Auteur : Vincent Picard <vincent.picard1@ac-lyon.fr>
+% Compiler avec la commande "context adn.tex"
+% installation du module t-vim nécessaire
+
+\setuppapersize[A4]
+\setuplayout[
+	width=middle,
+	height=middle,
+	topspace=1.5cm,
+	backspace=2cm
+]
+\setuplanguage[fr]
+
+\setupbodyfont[pagella, 12pt]
+
+\setupheadertexts[Lycée Claude Fauriel][Informatique PC/PC*]
+\setupfootertexts[\pagenumber \, / \, \totalnumberofpages]
+\setuppagenumbering[location=]
+\setupwhitespace[big]
+
+\usecolors[x11]
+
+\setuphead[section][
+	style={\ss \bf \switchtobodyfont[14pt]},
+	color=maroon,
+]
+
+% Definition de l'environnement question
+
+\startuniqueMPgraphic{cadretitre}
+path p; % cadre
+path q; % cadre titre
+z1 = (2mm, OverlayHeight - 7mm);
+z2 = (0, OverlayHeight - 7mm);
+z3 = (0, 0);
+z4 = (OverlayWidth, 0);
+z5 = (OverlayWidth, OverlayHeight - 7mm);
+z6 = (2.9cm, OverlayHeight - 7mm);
+p := z1 -- z2 -- z3 -- z4 -- z5 -- z6; 
+%q := z1 shifted (5mm * up) -- z6 shifted(5mm * up) -- z6 shifted(5mm * down) -- z1 shifted (5mm * down) -- cycle;
+%p := p randomized 0.1cm;
+%q := q smoothed 0.4cm;
+draw p withpen pencircle scaled 2pt withcolor \MPcolor{maroon};
+%draw q withpen pencircle scaled 2pt withcolor \MPcolor{maroon};
+setbounds currentpicture to boundingbox OverlayBox;
+\stopuniqueMPgraphic
+\defineoverlay[CadreTitre][\useMPgraphic{cadretitre}]
+
+\defineframedtext[encadretitre]
+	[frame=off,
+	background=CadreTitre,
+	width=fit,
+	]
+\defineenumeration[question]
+	[text={Question},
+	headcolor=maroon,
+	before=\startencadretitre,
+	after=\stopencadretitre,
+	]
+
+% Definition de l'environnement indications
+\startuniqueMPgraphic{cadrepointille}
+path p;
+p := (0, 0) -- (OverlayWidth, 0) -- (OverlayWidth, OverlayHeight) -- (0, OverlayHeight) -- cycle;
+p := p smoothed 0.5cm;
+draw p withpen pencircle scaled 1pt dashed evenly;
+setbounds currentpicture to boundingbox OverlayBox;
+\stopuniqueMPgraphic
+\defineoverlay[CadrePointille][\useMPgraphic{cadrepointille}]
+
+\defineframedtext[encadrepointille][frame=off, background=CadrePointille, width=fit]
+
+\defineenumeration[indication]
+	[before=\startencadrepointille,
+	 after=\stopencadrepointille,
+	 text={Indications},
+	 headstyle={\cap \bf},
+	 number=no,
+	 alternative=top,
+	 ]
+
+\usemodule[vim]
+\defineframedtext[CadreCode]
+	[
+	frame=on,
+	corner=0,
+	rulethickness=1.5pt,
+	framecolor=sienna,
+	background=color,
+	backgroundcolor=ivory,
+	width=fit,
+	]
+
+\definevimtyping[PYTHON][syntax=python]
+
+\starttext
+
+\startmidaligned
+{\tfb \bf \ss \color[maroon]{Jeu du puissance 4}}
+\stopmidaligned
+
+\blank[1cm]
+
+{\bf \color[blue]{Thèmes} :} théorie des jeux, jeux d'accessibilité, algorithme min-max
+
+\blank[1cm]
+
+Le {\em puissance 4} est un jeu à deux joueurs, le joueur rouge (1) et le joueur jaune (2), se jouant sur une grille de 6 lignes et 7 colonnes. Chacun à son tour, les joueurs laissent tomber un jeton, en haut d'une des 7 colonnes, le jeton vient alors s'empiler en haut des jetons déjà présents dans la colonne. Le joueur qui parvient à créer un alignement de 4 jetons de sa couleur gagne la partie.
+
+\startplacefigure[title={Jeu du puissance 4}, location=here]
+\startmidaligned
+{\externalfigure[puissance4.png][width=8cm]}
+\stopmidaligned
+\stopplacefigure
+
+
+\section{Programmation du jeu}
+
+On modélise la grille de jeu par une matrice d'entiers {\tt numpy} de 6 lignes et 7 colonnes. La ligne d'indice 0 sera la ligne située tout en haut de la grille de puissance 4; ainsi la ligne d'indice 5 est la ligne du bas.
+
+Les entiers de la matrice représentent le contenu des cases selon le code suivant :
+\startCadreCode
+\startPYTHON
+VIDE = 0
+A = 1 // rouge
+B = 2 // jaune
+\stopPYTHON
+\stopCadreCode
+
+Un {\em coup} pour un joueur est un entier entre 0 et 6 représentant le numéro de colonne choisi.
+
+\startquestion
+\'Ecrire une fonction {\tt est_libre(grille, j)} retournant un booléen indiquant s'il est possible de jouer dans la colonne {\tt j} avec la {\tt grille} donnée.
+\stopquestion
+
+\startquestion
+\'Ecrire une fonction {\tt coups_possibles(grille)} retournant la liste des coups qu'il est possible de jouer avec la {\tt grille} donnée.
+\stopquestion
+
+
+\startquestion
+\'Ecrire une fonction {\tt jouer(grille, joueur, j)} qui modifie la {\tt grille} donnée en entrée, en faisant jouer le joueur {\tt joueur} en colonne {\tt j}. À l'aide d'une assertion, on pourra annoter en pré-condition que le coup proposé est jouable.
+\stopquestion
+
+On donne la fonction suivante :
+\startCadreCode
+\startPYTHON
+def diagonale1(grille, joueur):
+    for i in range(3):
+        for j in range(4):
+            if (grille[i][j] == joueur
+                and grille[i+1][j+1] == joueur
+                and grille[i+2][j+2] == joueur
+                and grille[i+3][j+3] == joueur
+                ):
+                return True
+    return False
+\stopPYTHON
+\stopCadreCode
+
+\startquestion
+Quel est le rôle de la fonction {\tt diagonale1} ? \'Ecrire de même les fonctions :
+\startitemize[a, packed, nowhite]
+\item {\tt ligne}
+\item {\tt colonne}
+\item {\tt diagonale2}
+\stopitemize
+\stopquestion
+
+\startquestion
+En déduire une fonction {\tt gagne(grille, joueur)} qui retourne {\tt True} si et seulement si dans la position {\tt grille} le joueur {\tt joueur} a gagné la partie.
+\stopquestion
+
+On pourra tester le jeu en humain contre humain en exécutant la dernière cellule du fichier fourni. Attention, le code de l'interface du jeu a été programmé pour vous, il n'est pas nécessaire de le modifier.
+
+\section{Intelligence artificielle : algorithme min-max}
+
+On souhaite maintenant avoir la possibilité de jouer au puissance 4 contre un {\em bot}. On programmera ce {\em bot} à l'aide de l'algorithme min-max vu en cours. On rappelle que celui-ci repose sur l'utilisation d'une fonction {\em heuristique} qui permet d'estimer les chances de gain de chaque joueur. On considérera qu'une heuristique positive signifie que le joueur A a l'avantage. L'heuristique vaudra $+\infty$ (resp. $-\infty$) lorsque la position est gagnée pour le joueur A (resp. le joueur B).
+
+On donne la fonction heuristique basique suivante :
+
+\startCadreCode
+\startPYTHON
+def h1(grille):
+    if gagne(grille, A):
+        return +float('inf')
+    elif gagne(grille, B):
+        return -float('inf')
+    else:
+        return 0
+\stopPYTHON
+\stopCadreCode
+
+\startquestion
+Compléter la fonction suivante qui retourne une évaluation de la {\tt grille}, dans la situation où c'est au tour du joueur {\tt joueur}. Cette évaluation reposera sur l'algorithme {\em min-max} utilisé avec la profondeur de recherche {\tt profondeur} et la fonction heuristique {\tt heuristique}.
+%\startCadreCode
+\startPYTHON
+def eval(grille, joueur, profondeur, heuristique):
+    coups = coups_possibles(grille)
+    if profondeur==0 or est_final(grille):
+        return (...)
+    if joueur == A: # A veut maximiser
+        max_eval = -float('inf')
+        for c in coups:
+            ng = grille.copy()
+            jouer(ng, joueur, c)
+            e = eval(ng, B, profondeur-1, heuristique)
+            if e > max_eval:
+                (...)
+        return max_eval
+    if joueur == B: # B veut minimiser
+        (...)
+\stopPYTHON
+%\stopCadreCode
+\stopquestion
+
+\startquestion 
+\'Ecrire une fonction
+\blank
+\startmidaligned
+{\tt minmax(grille, joueur, profondeur, heuristique)}
+\stopmidaligned
+\blank
+basée sur le code de la fonction {\tt eval} mais qui retourne cette fois-ci un couple {\tt (eval, best)} où {\tt eval} est l'évaluation de la position et {\tt best} est le meilleur coup à jouer pour le {\tt joueur}.
+\stopquestion
+
+On pourra tester le jeu contre la machine en assignant la valeur {\tt True} à la variable {\tt joueurIA}.
+\blank
+{\bf Pour aller plus loin...}
+%\blank
+Pour améliorer votre IA, vous pouvez définir une meilleure fonction heuristique. Par exemple, on pourra regarder chaque alignement de 4 cases et accorder 1 point si le joueur a placé 2 jetons et que les autres cases sont libres, 3 points s'il a placé 3 jetons.
+\stoptext
+

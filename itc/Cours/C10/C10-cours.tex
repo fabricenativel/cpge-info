@@ -1,0 +1,331 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt,french]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{10}
+\newcommand{\Ctitle}{\cnum {Terminaison et correction}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C\thenumchap/}
+
+\makess{Exemple introductif}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Définitions}
+		\begin{itemize}
+			\item<1-> Un \textcolor{blue}{algorithme} est une suite d'instructions et d'opérations permettant de résoudre un problème. \\
+				\onslide<2->{\textcolor{gray}{\small Par exemple pour résoudre le problème du tri d'une liste de valeurs, on peut utiliser l'algorithme du tri par insertion. Cela consiste à prendre une à une chaque valeur et à l'insérer au bon emplacement dans une liste initialement vide.}}
+			\item<3-> Un \textcolor{blue}{programme} est la traduction d'un algorithme dans un langage informatique. On dit qu'un programme est la mise en oeuvre d'un algorithme.\\
+				\onslide<4->{\textcolor{gray}{\small L'algorithme du tri par insertion peut être écrit en Python, mais aussi dans un autre langage de programmation.}}
+			\item<5-> L'algorithme (la méthode) est donc \textcolor{blue}{indépendante} du langage utilisé pour le mettre en oeuvre sur un ordinateur.
+			\item<6->Pour décrire l'algorithme on utilise parfois un \textit{pseudo langage}, permettant de donner la suite des instructions, tests et opérations de l'algorithme.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\SetAlFnt{\small}
+		\setlength{\algomargin}{8pt}
+		\begin{algorithm}[H]
+			\DontPrintSemicolon
+			\caption{Algorithme mystère}
+			\Entree{$n \in \N, m \in \N$}
+			\Sortie{$?$}
+			\everypar={\footnotesize \textcolor{gray}{\nl}}
+			$r \leftarrow 0$\;
+			\Tq{$m >0$}{
+				$m \leftarrow m-1$ \;
+				$r \leftarrow r+n$ \;
+			}
+			\Return $r$
+		\end{algorithm}
+		\begin{enumerate}
+			\item<2-> Faire fonctionner cet algorithme avec $n=3$ et $m=4$.
+			\item<3-> Quel est le rôle de cet algorithme ? Proposer un nom pour cet algorithme.
+			\item<4-> Donner une implémentation en Python de cet algorithme.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Algorithmique}
+		Dans l'étude des algorithmes (\textcolor{blue}{algorithmique}), on s'intéresse aux trois problèmes suivants :
+		\begin{enumerate}
+			\item<2-> \textcolor{blue}{terminaison} : peut-on garantir que l'algorithme se termine en un temps fini ? (ne concerne que les algorithmes récursifs ou avec des boucles non bornées)
+			\item<3-> \textcolor{blue}{correction} : peut-on garantir que l'algorithme fournit la réponse attendue ?
+			\item<4-> \textcolor{blue}{complexité} : evolution du temps d'exécution de l'algorithme en fonction de la taille des données (prédiction de temps de calcul, comparaisons des performances d'algorithmes résolvant le même problème.)
+		\end{enumerate}
+		\onslide<5->{L'algorithme étudié doit avoir une \textcolor{blue}{spécification} précise (entrées, sorties, préconditions, postconditions, effets de bord). On parle d'algorithmes (et non de programmes) car ces questions sont indépendantes de l'implémentation dans un langage de programmation quelconque.}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Dans le cas de l'algorithme permettant de multiplier deux entiers positifs $m$ et $n$ sans utiliser l'opérateur de multiplication, on veut donc :
+		\begin{itemize}
+		\item<2-> \textit{Prouver} que cet algorithme s'arrête après un nombre fini d'étapes  (\textcolor{blue}{terminaison}).
+		\item<3-> \textit{Prouver} que le résultat renvoyé est bien $n\times m$ (\textcolor{blue}{correction}).
+		\item<4-> Donner une mesure de l'évolution du nombre d'opérations réalisés par l'algorithme en fonction de la taille des entrées $n$ et $m$ (\textcolor{blue}{complexité}).
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Terminaison d'un algorithme}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Exemple introductif}
+		\SetAlFnt{\small}
+		\setlength{\algomargin}{8pt}
+		\begin{algorithm}[H]
+			\DontPrintSemicolon
+			\caption{Multiplier sans utiliser {\tt *}}
+			\Entree{$n \in \N, m \in \N$}
+			\Sortie{$nm$}
+			\everypar={\footnotesize \textcolor{gray}{\nl}}
+			$r \leftarrow 0$\;
+			\Tq{$m >0$}{
+				$m \leftarrow m-1$ \;
+				$r \leftarrow r+n$ \;
+			}
+			\Return $r$
+		\end{algorithm}
+		\begin{enumerate}
+			\item<2-> Montrer que dans la boucle "tant que":
+				\begin{itemize}
+					\item<3-> $m$ ne prend que des valeurs entières
+					\item<4-> $m$ prend des valeurs positives
+					\item<5-> les valeurs prises par $m$ sont \textbf{strictement} décroissantes.
+				\end{itemize}
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définitions}
+		\begin{itemize}
+			\item<2-> On dit qu'un algorithme \textcolor{blue}{termine} lorsqu'il renvoie un résultat en un nombre fini d'étapes quels que soient les valeurs des entrées.
+			\item<3-> Un \textcolor{blue}{variant de boucle} est une quantité :
+				\begin{enumerate}
+					\item<4-> à valeurs entières,
+					\item<5-> positives,
+					\item<6-> qui décroît \textit{strictement} à chaque passage dans la boucle.
+				\end{enumerate}
+		\end{itemize}
+	\end{block}
+	\onslide<7->
+	{\begin{alertblock}{\textcolor{yellow}{\important \;} Propriété}
+			Si une boucle admet un variant, alors cette boucle termine.
+		\end{alertblock}}
+	\onslide<8->
+	{
+		\begin{exampleblock}{Exemple}
+			$m$ est un variant de boucle de l'algorithme de multiplication ci-dessus et donc cet algorithme termine.
+		\end{exampleblock}
+	}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\SetAlFnt{\small}
+		\setlength{\algomargin}{8pt}
+		\begin{algorithm}[H]
+			\DontPrintSemicolon
+			\caption{Nombre de chiffres en base 10}
+			\Entree{$n \in \N$}
+			\Sortie{$p$ nombre de chiffres de $n$ dans son écriture en base 10.}
+			\everypar={\footnotesize \textcolor{gray}{\nl}}
+			\Si{$n=0$}{\Return 1}
+			$p \leftarrow 0$\;
+			\Tq{$n >0$}{
+				$p \leftarrow p+1$ \;
+				$n \leftarrow \lfloor \frac{n}{10} \rfloor $ \;
+			}
+			\Return $p$
+		\end{algorithm}
+		\begin{enumerate}
+			\item<2-> Donner une implémentation en Python de cet algorithme.
+			\item<3-> Prouver la terminaison de cet algorithme.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Implémentation en Python}
+		\inputpartPython{\SPATH/nbchiffres.py}{}{}{1}{10}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Preuve de terminaison}
+		Montrons que $n$ est un variant de la boucle {\tt tant que} de l'algorithme :
+		\begin{enumerate}
+			\item<1-> $n$ ne prend que des valeurs entières, en effet, $n \in \N$  en entrée et $\PE{\dfrac{n}{10}}$ est entier.
+			\item<2-> $n$ est positif  par condition d'entrée dans la boucle.
+			\item<3-> $n$ décroît strictement à chaque passage dans la boucle car comme $n > 0$, $\PE{\dfrac{n}{10}} < n$
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice}
+		\begin{enumerate}
+			\item<1-> Ecrire un algorithme qui prend en entrée un entier $n>1$ et renvoie le premier diviseur strictement supérieur à 1 de cet entier. Par exemple pour $n=7$ l'algorithme renvoie 7 et pour $n=15$, l'algorithme renvoie $3$.
+			\item<2-> Donner une implémentation en Python de cet algorithme sous la forme d'une fonction dont on précisera soigneusement la spécification.
+			\item<3-> Prouver la terminaison de cet algorithme.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Correction d'un algorithme}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Exemple introductif}
+		\SetAlFnt{\small}
+		\setlength{\algomargin}{8pt}
+		\begin{algorithm}[H]
+			\DontPrintSemicolon
+			\caption{Multiplier sans utiliser {\tt *}}
+			\Entree{$n \in \N, m \in \N$}
+			\Sortie{$nm$}
+			\everypar={\footnotesize \textcolor{gray}{\nl}}
+			$r \leftarrow 0$\;
+			\Tq{$m >0$}{
+				$m \leftarrow m-1$ \;
+				$r \leftarrow r+n$ \;
+			}
+			\Return $r$
+		\end{algorithm}
+		On note $m_0$ la valeur initiale de $m$ et on considère la propriété suivante suivante noté $I$ : \og{} $r = (m_0-m)n$ \fg{}. Montrer que cette propriété est vraie :
+		\begin{enumerate}
+			\item<2-> avant d'entrée dans la boucle,
+			\item<3-> qu'elle reste vraie à chaque tour de boucle.
+		\end{enumerate}
+		\onslide<4->{Que peut-on en conclure ?}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définitions}
+		\begin{itemize}
+			\item<1-> Un \textcolor{blue}{invariant de boucle} est une propriété qui :
+				\begin{itemize}
+					\item<2-> est vraie à l'entrée dans la boucle (\textcolor{blue}{initialisation}),
+					\item<3-> reste vraie à chaque itération si elle l'était à l'itération précédente (\textcolor{blue}{conservation}).
+				\end{itemize}
+			\item<4-> Un algorithme est dit \textcolor{blue}{partiellement correct} lorsqu'il renvoie la réponse attendue quand il se termine.
+			\item<5-> Un algorithme est dit \textcolor{blue}{totalement correct} lorsqu'il est partiellement correcte et que sa terminaison est prouvée.
+		\end{itemize}
+	\end{block}
+	\onslide<7->
+	{\begin{alertblock}{\textcolor{yellow}{\important \;} Prouver la correction d'un algorithme}
+			On utilise un invariant de boucle qui en sortie de boucle fournit une propriété permettant de montrer la correction.\\
+			\textcolor{gray}{La méthode est similaire à une récurrence mathématique.}
+		\end{alertblock}}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\SetAlFnt{\small}
+		\setlength{\algomargin}{8pt}
+		\begin{algorithm}[H]
+			\DontPrintSemicolon
+			\caption{Nombre de chiffres en base 10}
+			\Entree{$n \in \N$}
+			\Sortie{$p$ nombre de chiffres de $n$ dans son écriture en base 10.}
+			\everypar={\footnotesize \textcolor{gray}{\nl}}
+			\Si{$n=0$}{\Return 1}
+			$p \leftarrow 0$\;
+			\Tq{$n >0$}{
+				$p \leftarrow p+1$ \;
+				$n \leftarrow \lfloor \frac{n}{10} \rfloor $ \;
+			}
+			\Return $p$
+		\end{algorithm}
+		Prouver que cet algorithme est correct.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Correction}
+		\textcolor{gray}{Idée : à chaque tour de boucle, on incrémente $p$ et $n$ perd un chiffre. La somme de $p$ et du nombre de chiffres de $n$ est donc constante. C'est l'invariant de boucle ! \\ \medskip}
+		\onslide<2->{Le cas $n=0$ est trivial, on note $n_0$ la valeur initiale de $n$ et on suppose donc $n_0>0$,  on considère la propriété $I$ : \og{} $c(n_0) = p + c(n)$ \fg{}. Où $c(m)$ vaut 0 si $m=0$ et le nombre de chiffres de $m$ en base 10 sinon.}
+		\begin{itemize}
+			\item<3-> initialisation : $I$ est vraie avant d'entrer dans la boucle puisque $p=0$ et $n=n_0$.
+			\item<4-> conservation : on suppose $I$ vraie du début d'un tour de boucle et  on note $n'$ (resp. $p'$) la valeur de $n$ (resp $p'$) après ce tour de boucle  \\
+				\onslide<5->{$p' + c(n') = p + 1 + c\left(\PE{\dfrac{n}{10}}\right)$ \\}
+				\onslide<6->{$p' + c(n') = p + 1 + c\left(n\right) - 1$ \\}
+				\onslide<7->{$p' + c(n') = c(n_0)$, car $I$ est vraie à l'entrée de la boucle.}
+		\end{itemize}
+		\onslide<8->{En sortie de boucle, on a  $n'=0$ et donc $p = c(n_0)$ et l'algorithme est correct.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\SetAlFnt{\small}
+		\setlength{\algomargin}{8pt}
+		\begin{algorithm}[H]
+			\DontPrintSemicolon
+			\caption{Premier diviseur}
+			\Entree{$n \in \N, n > 1$}
+			\Sortie{$d$ premier diviseur de $n$ strictement supérieur à $1$.}
+			\everypar={\footnotesize \textcolor{gray}{\nl}}
+			$d \leftarrow 2$\;
+			\Tq{$n \mod d \neq 0$}{
+				$d \leftarrow d+1$ \;
+			}
+			\Return $d$
+		\end{algorithm}
+		Prouver que cet algorithme est correct.
+	\end{exampleblock}
+\end{frame}
+
+\makess{Exercices}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice 1 : fonction mystère}
+		On considère la fonction Python ci-dessous :
+		\inputpartPython{\SPATH/quotient.py}{}{}{1}{7}
+		\begin{enumerate}
+		\item<1-> Proposer un nom et une spécification pour cette fonction
+		\item<2-> Prouver sa terminaison
+		\item<3-> Prouver sa correction par rapport à la spécification proposée à la question 1.
+	\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exercice 2 : exponentiation rapide}
+		
+	\begin{tabularx}{\textwidth}{X|X}
+		On donne ci-dessous l'algorithme d'exponentiation rapide en version itérative : \\
+    \begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{\small Exponentiation rapide}
+		\Entree{$a \in \R, n \in \N$}
+		\Sortie{$a^n$}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$p \leftarrow 1$\;
+		\Tq{$n \neq 0$}{
+			\Si{$n$ est impair}
+			{$p \leftarrow p\times a$ \;}
+			$a \leftarrow a*a$ \;
+			$n \leftarrow \lfloor\frac{n}{2}\rfloor$ \;
+		}
+		\Return $p$
+	\end{algorithm} & 
+	\vspace{-3.7cm}
+	\begin{enumerate}
+		\item Donner les valeurs prises par $a$, $n$ et $p$ lorsqu'on fait fonctionner cet algorithme avec $a=2$ et $n=13$.
+		\item Donner une implémentation de cet algorithme en Python.
+		\item Prouver que cet algorithme termine.
+		\item Prouver qu'il est correct. \\
+		\textcolor{OliveGreen}{\small En notant $a_0$ (resp. $n_0$) la valeur initiale de $a$ (resp. $n$), on pourra prouver l'invariant $p \times a^{n} = a_0^{n_0}$.}
+	\end{enumerate} \\
+\end{tabularx}
+	\end{exampleblock}
+\end{frame}
+
+\end{document}
+

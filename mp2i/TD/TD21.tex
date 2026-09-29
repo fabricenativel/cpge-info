@@ -1,0 +1,172 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{21}{Compléments sur les arbres}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C21/}
+\newcommand{\CR}[1]{\TCircle[radius=0.25]{#1}}
+\newcommand{\CN}[1]{\Tdia[fillstyle=solid,fillcolor=gray!20]{#1}}
+\newcommand{\Tri}[1]{\Ttri[linestyle=dashed]{#1}}
+\setcounter{Exercise}{0}
+\psset{arrows=->,treesep=0.8cm,levelsep=0.8cm, radius=0.3cm}
+
+\begin{Exercise}[title = {Equilibrage d'un arbre rouge-noir}]
+
+	\Question{Pour insérer un noeud dans un arbre rouge-noir, on commence par utiliser l'algorithme d'insertion usuel dans un {\sc abr} et on attribut au nouveau noeud la couleur \textit{rouge}. Quel est alors le seul conflit possible ? (on appellera un tel conflit un \textit{conflit rouge-rouge}).}
+	\Question{Si le conflit rouge-rouge se situe à la racine, donner une méthode simple pour le résoudre.}
+	\Question{Si le conflit n'est pas situé à la racine, justifier qu'on se trouve dans l'un des quatres cas suivants où les noeuds rouges sont représentés dans un cercle et les noeuds noirs dans un losange grisé:}
+	\begin{center}
+		\begin{tabularx}{0.8\textwidth}{Y|Y}
+			\pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$z$}}{
+				\pstree{\CR{$y$}}{
+					\pstree{\CR{$x$}}
+					{
+						\Tri{$t_1$}
+						\Tri{$t_2$}
+					}
+					\Tri{$t_3$}
+				}
+				\Tri{$t_4$}
+			}
+
+			  &
+			\pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$x$}}{
+				\Tri{$t_1$}
+				\pstree{\CR{$y$}}{
+					\Tri{$t_2$}
+					\pstree{\CR{$z$}}
+					{
+						\Tri{$t_3$}
+						\Tri{$t_4$}
+					}
+				}
+
+			}
+			\\
+			\hline
+			  & \\
+			\pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$z$}}{
+				\pstree{\CR{$x$}}{
+					\Tri{$t_1$}
+					\pstree{\CR{$y$}}
+					{
+						\Tri{$t_2$}
+						\Tri{$t_3$}
+					}
+				}
+				\Tri{$t_4$}
+			} &
+			\pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CN{$x$}}{
+				\Tri{$t_1$}
+				\pstree{\CR{$z$}}{
+					\pstree{\CR{$y$}}
+					{
+						\Tri{$t_2$}
+						\Tri{$t_3$}
+					}
+					\Tri{$t_4$}
+
+				}
+
+			}
+			\\
+		\end{tabularx}
+	\end{center}
+	\Question{Montrer qu'en effectuant une ou plusieurs rotations, ces arbres se ramènent à }
+	\begin{center}
+		\pstree[arrows=->,treesep=1cm,levelsep=1cm]{\CR{$y$}}{
+			\pstree{\CN{$x$}}{
+				{
+						\Tri{$t_1$}
+						\Tri{$t_2$}
+					}}
+			\pstree{\CN{$z$}}{
+				{
+						\Tri{$t_3$}
+						\Tri{$t_4$}
+					}
+
+			}
+
+		}
+	\end{center}
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Conversion entre arbre binaire et arbre généralisé}]
+	\Question{Convertir en arbre généralisé l'arbre binaire suivant
+		\begin{center}
+			\pstree{\TCircle{9}}
+			{\pstree{\TCircle{2}}
+				{\TCircle{0}
+					\pstree{\TCircle{6}}
+					{\TCircle{5}
+						\pstree{\TCircle{8}}
+						{
+							\TCircle{7}
+
+							\Tn{} }}}\pstree{\TCircle{12}}
+				{\TCircle{10}
+					\TCircle{13}
+				}}
+		\end{center}
+	}
+	\Question{Convertir en arbre binaire l'arbre généralisé suivant
+		\begin{center}
+			\pstree{\TCircle{9}}
+			{\pstree{\TCircle{2}}
+			{\TCircle{0}
+				\TCircle{8}
+			}
+			\pstree{\TCircle{12}}
+			{\TCircle{6}
+				\TCircle{3}
+				\TCircle{7}
+			}
+			\pstree{\Tcircle{10}}
+			{\pstree{\TCircle{4}}{\TCircle{1} \TCircle{5}}
+				\TCircle{11}
+			}}
+		\end{center}
+	}
+\end{Exercise}
+
+\begin{Exercise}[title = {Sérialisation}]
+	\Question{Donner l'ordre des noeuds lors des parcours prefixe, infixe et postfixe de l'arbre suivant : \\
+		\pstree[arrows=->,treesep=0.8cm,levelsep=1cm]{\TCircle{\tt 29}}
+		{\pstree{\TCircle{\tt 24}}
+			{\pstree{\TCircle{\tt 14}}
+				{ \Tn{}
+					\pstree{\TCircle{\tt 16}}
+					{ \Tn{}
+						\TCircle{\tt 20}
+					}}\TCircle{\tt 28}
+			}\pstree{\TCircle{\tt 31}}
+			{ \Tn{}
+				\TCircle{\tt 30} }}}
+	\tcor{\begin{itemize}
+			\item préfixe : {\tt [ 29; 24; 14; 16; 20; 28; 31; 30 ]}
+			\item infixe : {\tt [ 14; 16; 20; 24; 28; 29; 31; 30 ]}
+			\item postfixe : {\tt [ 20; 16; 14; 28; 24; 30; 31; 29 ]}
+		\end{itemize}
+	}
+	\Question{On cherche à présent à reconstruire un arbre en connaissant un ou plusieurs de ses parcours. Montrer sur un exemple que deux arbres ayant les mêmes parcours prefixe et postfixe peuvent être différents.}
+	\Question{Montrer (en le construisant) qu'un seul arbre a pour préfixe [ 0; 1; 2; 3; 4; 5; 6; 7 ] et pour parcours infixe
+		[ 1; 2; 0; 5; 4; 6; 3; 7 ]}
+	\Question{Comment savoir si deux listes de valeurs correspondent aux parcours prefixe et infixe d'un arbre binaire ?}
+	\tcor{On note $p = [p_0, \dots p_{n-1}]$ et $i = [i_0, \dots i_{n-1}]$ les listes représentant les parcours prefixe et infixe. Comme ce sont les parcours du même arbre, $i$ est une permutation de $p$. On extrait deux sous listes $i_g$ et $i_d$ de $i$, $i_g$ sont les éléments situés à gauche de $p_0$ et $i_d$ ceux situés à droite. On extrait de même deux sous listes de $p$, $p_g$ contient les $|i_g|$ éléments situés après $p_0$ et $p_d$ le reste de la liste. La liste $p_g$ doit être une permutation de $i_g$ et $p_d$ doit être une permutation de $i_d$. Et cette propriété doit rester vraie en reproduisant ce processus récursivement sur les deux listes extraites.}
+	\Question{Ecrire une fonction qui prend en argument deux listes (le parcours prefixe et le parcours infixe) et qui renvoie l'arbre binaire correspondant. On supposera que les étiquettes de l'arbre sont des entiers tous différents.\\
+		\aide \; On pourra commencer par écrire :
+		\begin{itemize}
+			\item Une fonction {\tt separe\_valeur} de signature {\tt int -> int list -> int list * int list} qui prend en argument un entier, une liste contenant cet entier et renvoie un couple de liste : les élément situés avant (resp après) cette valeur
+			\item Une fonction {\tt separe\_nb} de signature {\tt int -> int list -> int list * int list} qui prend en argument un entier {\tt n} et une liste et renvoie un couple de listes : les {\tt n} éléments situés après le premier puis le reste de la liste.
+		\end{itemize}
+	}
+
+\end{Exercise}
+
+
+\end{document}
