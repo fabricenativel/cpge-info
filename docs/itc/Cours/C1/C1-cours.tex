@@ -12,7 +12,7 @@
 \pythonmode
 
 
-\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Types de bases et opérateurs associés},colbacktitle=cfond]
+\begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Types de base et opérateurs associés},colbacktitle=cfond]
 \begin{itemize}
  \item [\textbullet] \mintinline{python}{int} : nombres entiers de taille \textit{non limitée} \strut \\
  \begin{tabularx}{\linewidth}{|>{\tt}l|l|X|}
@@ -44,7 +44,7 @@
 	and & et (binaire) & vaut {\tt True} si les deux arguments valent {\tt True}. \\
 	\hline
  \end{tabularx}
-	\item [\textbullet] \mintinline{python}{str} : chaines de caractères \\
+	\item [\textbullet] \mintinline{python}{str} : chaînes de caractères \\
 	\begin{tabularx}{\linewidth}{|>{\tt}l|l|X|}
 		\hline
 		+ & concaténation & ex : {\tt "Hello"+"World"} vaut {\tt "HelloWorld"}\\
@@ -53,11 +53,11 @@
 		\hline
 		len & longueur & ex : {\tt len("Python")} vaut 6 \\
 		\hline
-		[] & ième caractères & numérotation depuis 0, ex : {\tt "Hello"[1]} vaut {\tt "e"}\\
+		[] & {\tt i}-ème caractère & numérotation depuis 0, ex : {\tt "Hello"[1]} vaut {\tt "e"}\\
 		\hline
 	 \end{tabularx}
 \end{itemize}
-Des conversions sont possibles entre ces divers types, par exemple, \mintinline{python}{int("34")} transforme la chaine de caractères {\tt "34"} en l'entier {\tt 34}, \mintinline{python}{float(34)} transforme l'entier 34 en flottant {\tt 34.0}.
+Des conversions sont possibles entre ces divers types. Par exemple, \mintinline{python}{int("34")} transforme la chaîne de caractères {\tt "34"} en l'entier {\tt 34}, et \mintinline{python}{float(34)} transforme l'entier 34 en flottant {\tt 34.0}.
 \end{tcolorbox}
 
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Comparaison},colbacktitle=cfond]
@@ -67,11 +67,11 @@ Des conversions sont possibles entre ces divers types, par exemple, \mintinline{
 		\hline
 		< & strictement inférieur & \\
 		\hline
-		>= & supérieur ou égal & les symboles sont dans l'ordre de leur lecture\\
+		>= & supérieur ou égal & les symboles sont dans l'ordre de leur lecture.\\
 		\hline
 		<= & inférieur ou égal & \\
 		\hline
-		== & égal & {\small \danger} à ne pas confondre avec {\tt =} utilisé pour l'affectation des variables \\
+		== & égal & {\small \danger} à ne pas confondre avec {\tt =} utilisé pour l'affectation des variables.\\
 		\hline
 		!= & différent & \\
 		\hline
@@ -116,7 +116,7 @@ Pour imbriquer plusieurs {\tt if ... else}, on utilise {\tt elif}.
 \end{tcolorbox}
 
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Boucles {\tt while}},colbacktitle=cfond]
-	Les boucles {\tt while} répètent un bloc d'instruction tant qu'une condition est vraie.
+	Les boucles {\tt while} répètent un bloc d'instructions tant qu'une condition est vraie.
 	\setlength{\multicolsep}{0pt}
 	\begin{multicols}{2}
 		Syntaxe :
@@ -142,7 +142,7 @@ while rep!='O' and rep!='N':
 		\hline
 		range(m,n) & génère les entiers de l'intervalle $\intN{m}{n-1}$ \\
 		\hline
-		range(m,n,s) & génère les entiers de l'intervalle $\intN{m}{n-1} \cap \{m+ks, s \in \N\}$ \\
+		range(m,n,s) & génère les entiers de l'intervalle $\intN{m}{n-1} \cap \{m+ks, k \in \N\}$ \\
 		\hline
 	\end{tabularx}
 	{\small \danger \;} Dans les trois cas, la valeur {\tt n} n'est pas prise.
@@ -166,7 +166,7 @@ Une boucle {\tt for} permet donc en particulier de \textit{répéter} un nombre 
 
 \begin{tcolorbox}[left=0cm,title=\bf{\faPython \; Fonctions},colbacktitle=cfond]
 \begin{itemize}
-\item[\textbullet] Les fonctions sont des blocs d'instructions réutilisables (chaque appel à la fonction exécute son bloc d'instruction), leur définition commence par le mot clé {\tt def} puis ont écrit le nom de la fonction puis la liste de ses arguments entre parenthèses (séparés par des virgules).
+\item[\textbullet] Les fonctions sont des blocs d'instructions réutilisables (chaque appel à la fonction exécute son bloc d'instructions). Leur définition commence par le mot-clé {\tt def}, puis on écrit le nom de la fonction puis la liste de ses arguments entre parenthèses (séparés par des virgules).
 \item[\textbullet] Une fonction peut prendre zéro, un ou plusieurs arguments.
 \item[\textbullet] Une fonction \textit{peut} renvoyer un résultat à l'aide d'une instruction {\tt return}.
 \item[\textbullet] Exemple : une fonction à 3 arguments et qui renvoie une valeur 
@@ -181,7 +181,7 @@ def triangle(n):
 		print("*"*i) 
 \end{python}
 \end{itemize}
-{\small \danger} Ne pas confondre  {\tt print} et {\tt return}. La fonction {\tt discriminant} ci-dessus \textit{renvoie} un résultat, donc on pourrait écrire {\tt d = discriminant(1,-11,30)} afin de récupérer dans {\tt d} la valeur calculée. La fonction {\tt triangle} ne renvoie rien, elle produit un affichage, il serait donc illogique d'écrire {\tt t~=~triangle(4)}. Par contre {\tt triangle(4)} fera appel à cette fonction et affichera un triangle de 3 lignes d'étoiles.
+{\small \danger} Ne pas confondre {\tt print} et {\tt return}. La fonction {\tt discriminant} ci-dessus \textit{renvoie} un résultat, donc on pourrait écrire {\tt d = discriminant(1,-11,30)} afin de récupérer dans {\tt d} la valeur calculée. La fonction {\tt triangle} ne renvoie rien : elle produit un affichage, il serait donc illogique d'écrire {\tt t~=~triangle(4)}. Par contre, {\tt triangle(4)} fera appel à cette fonction et affichera un triangle de 3 lignes d'étoiles.
 \end{tcolorbox}
 
 \end{document}

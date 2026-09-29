@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-// Prends en entrée deux entiers positifs n et m et renvoie leur produit nm
+// Prend en entrée deux entiers positifs n et m et renvoie leur produit nm
 int multiplie(int n, int m)
 {
     assert(n >= 0 && m >= 0);

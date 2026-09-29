@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <string.h>
 
 int main()
 {
-    double big_array[1500000];
+    char exemple[100] = "";
+    printf("%s \n", longue);
     return 0;
 }

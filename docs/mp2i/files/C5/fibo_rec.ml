@@ -1,2 +1,2 @@
 let rec fibo n =
-  if n<2 then 1 else fibo (n-1) + fibo (n-2)
+  if n <= 1 then n else fibo (n - 1) + fibo (n - 2)

@@ -23,7 +23,7 @@
 			\begin{itemize}
 				\item<5-> Une fonction récursive permet donc, \textit{comme une boucle}, de répéter des instructions. Une même fonction peut donc souvent se programmer de façon \textcolor{blue}{itérative} (avec des boucles) ou de façon \textcolor{blue}{récursive} (en s'appelant elle-même).
 				\item<6-> Une fonction récursive doit toujours \textcolor{blue}{contenir une condition d'arrêt}, dans le cas contraire elle s'appelle elle-même à l'infini et le programme ne se termine jamais.
-				\item<7-> Les valeurs passées en paramètres lors des appels successifs doivent être différents, sinon la fonction s'exécute à l'identique à chaque appel et donc boucle à l'infini.
+				\item<7-> Les valeurs passées en paramètres lors des appels successifs doivent être différentes, sinon la fonction s'exécute à l'identique à chaque appel et donc boucle à l'infini.
 			\end{itemize}
 		\end{block}}
 \end{frame}
@@ -34,7 +34,7 @@
 		En mathématiques, pour un nombre quelconque $a$ et un entier positif $n$, on définit $a$ puissance $n$ par :\\
 		$ a^n = a \times a \times \dots \times a $, et on convient que $a^0=1$
 		\begin{itemize}
-			\item<2->{Définir une fonction {\tt puissance} qui prend en argument un flottant $a$ et un entier $n$ et renvoie $a^n$ en effectuant ce calcul de façon itératif}
+			\item<2->{Définir une fonction {\tt puissance} qui prend en argument un flottant $a$ et un entier $n$ et renvoie $a^n$ en effectuant ce calcul de façon itérative}
 			\item<3->{Recopier et compléter : $a^n = \dots \times a^{\dots}$}
 			\item<4->{En déduire une version récursive de la fonction calculant les puissances}
 		\end{itemize}
@@ -55,7 +55,7 @@
 % Récursivité détour par OCaml
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Un petit détour par OCaml}
-		La récursivité est très présente dans le paradigme de programmation fonctionnel que nous verrons en OCaml.
+		La récursivité est très présente dans le paradigme de programmation fonctionnelle que nous verrons en OCaml.
 		On présente donc ici la version récursive des puissances en OCaml (même si nous n'avons pas encore commencé son apprentissage)
 		\onslide<2->\inputpartOCaml{\SPATH/puissance.ml}{}{\small}{1}{2}
 	\end{block}
@@ -64,12 +64,12 @@
 % Récursivité détour par OCaml
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Un petit détour par OCaml}
-		La récursivité est très présente dans le paradigme de programmation fonctionnel que nous verrons en OCaml.
+		La récursivité est très présente dans le paradigme de programmation fonctionnelle que nous verrons en OCaml.
 		On présente donc ici la version récursive des puissances en OCaml (même si nous n'avons pas encore commencé son apprentissage)
 		\inputpartOCaml{\SPATH/puissance.ml}{1}{\small}{1}{2}
 		\begin{itemize}
 			\item <2-> La définition d'une fonction commence par \kw{let}, suivi de \kw{rec} si la fonction est récursive.
-			\item <3-> Remarquer l'absence des parenthèses autour des arguments, et surtout l'absence du type des variables. En effet, OCaml détecte automatiquement le type des variables utilisés (ici des entiers) par un procédé appelé \textcolor{blue}{inférence de types}.
+			\item <3-> Remarquer l'absence des parenthèses autour des arguments, et surtout l'absence du type des variables. En effet, OCaml détecte automatiquement le type des variables utilisées (ici des entiers) par un procédé appelé \textcolor{blue}{inférence de types}.
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -77,12 +77,12 @@
 % Récursivité détour par OCaml
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Un petit détour par OCaml}
-		La récursivité est très présente dans le paradigme de programmation fonctionnel que nous verrons en OCaml.
+		La récursivité est très présente dans le paradigme de programmation fonctionnelle que nous verrons en OCaml.
 		On présente donc ici la version récursive des puissances en OCaml (même si nous n'avons pas encore commencé son apprentissage)
 		\inputpartOCaml{\SPATH/puissance.ml}{2}{\small}{1}{2}
 		\begin{itemize}
 			\item<2-> Le test d'égalité est le \textcolor{blue}{simple} {\tt =}
-			\item<3-> Le mot clé \kw{then} suit le test d'égalité.
+			\item<3-> Le mot-clé \kw{then} suit le test d'égalité.
 			\item<3-> Remarquer l'absence de \kw{return}.
 		\end{itemize}
 	\end{block}
@@ -93,17 +93,17 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple : factorielle}
 		\begin{enumerate}
-			\item<1-> Ecrire une fonction itérative en C permettant de calculer $n!$.
-			\item<2-> Ecrire la relation liant $n!$ et $(n-1)!$.
+			\item<1-> Écrire une fonction itérative en C permettant de calculer $n!$.
+			\item<2-> Écrire la relation liant $n!$ et $(n-1)!$.
 			\item<3-> Donner une fonction récursive en C permettant de calculer $n!$.
-			\item<4-> Même question en Ocaml.
+			\item<4-> Même question en OCaml.
 		\end{enumerate}
 	\end{exampleblock}
 	\begin{exampleblock}{Exemple : dessin d'un triangle}
-		\onslide<5->On suppose qu'on dispose déjà d'une fonction {\tt ligne} qui ne renvoie rien prend en argument un entier {\tt n} et affiche {\tt n} caractères {\tt *} suivi d'un saut de ligne.
+		\onslide<5->On suppose que l'on dispose déjà d'une fonction {\tt ligne} qui ne renvoie rien, prend en argument un entier {\tt n} et affiche {\tt n} caractères {\tt *} suivis d'un saut de ligne.
 		\begin{enumerate}
-			\item<6-> Ecrire une fonction itérative en C qui prend en argument un entier $n$ et dessine un triangle de caractères
-				{\tt *}comme ci-dessous ($n=4$) : \\
+			\item<6-> Écrire une fonction itérative en C qui prend en argument un entier $n$ et dessine un triangle de caractères
+				{\tt *} comme ci-dessous ($n=4$) : \\
 				{\tt ****} \\
 				{\tt ***} \\
 				{\tt **} \\
@@ -119,7 +119,7 @@
 			\item<1-> Version itérative  \inputpartC{\SPATH/fact.c}{}{\footnotesize}{3}{7}
 			\item<2-> $n! = n \times (n-1)!$
 			\item<3-> Version récursive en C \inputpartC{\SPATH/fact.c}{}{\footnotesize}{9}{12}
-			\item<4-> Version récursive en Ocaml \inputpartOCaml{\SPATH/fact.ml}{}{\small}{1}{2}
+			\item<4-> Version récursive en OCaml \inputpartOCaml{\SPATH/fact.ml}{}{\small}{1}{2}
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -136,13 +136,13 @@
 \makess{Récursivité terminale}
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{alertblock}{Définition}
-		Une fonction est dite \textcolor{blue}{récursive terminale} lorsque chaque appel récursif est la dernière instruction a être évaluée. c'est-à-dire qu'aucun calcul n'est effectué avec le résultat de l'appel récursif.
+		Une fonction est dite \textcolor{blue}{récursive terminale} lorsque chaque appel récursif est la dernière instruction à être évaluée, c'est-à-dire qu'aucun calcul n'est effectué avec le résultat de l'appel récursif.
 	\end{alertblock}
 	\begin{exampleblock}{Exemples}
 		\onslide<2->{La fonction \kw{puissance}  vue en début de chapitre :
 			\inputpartC{\SPATH/puissance.c}{1}{\small}{21}{21}}
 		\onslide<3->{n'est \textcolor{BrickRed}{pas} récursive terminale, }
-		\onslide<4->{en effet bien que l'appel récursif soit placé à la fin, le dernier calcul effectué par la fonction est la multiplication.}
+		\onslide<4->{en effet, bien que l'appel récursif soit placé à la fin, le dernier calcul effectué par la fonction est la multiplication.}
 	\end{exampleblock}
 \end{frame}
 
@@ -161,7 +161,7 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Remarque}
-		Dans le cas d'une récursivité non terminale, les appels successifs sont empilés dans la \textcolor{blue}{pile d'exécution}, en effet le résultat de chaque appel doit être renvoyé vers l'appel précédent. Puis être dépilés une fois le cas de base atteint.\\
+		Dans le cas d'une récursivité non terminale, les appels successifs sont empilés dans la \textcolor{blue}{pile d'exécution}, en effet le résultat de chaque appel doit être renvoyé vers l'appel précédent, pour être ensuite dépilés une fois le cas de base atteint.\\
 		\onslide<2->{ Par exemple pour la fonction {\tt factorielle} récursive :}
 		\onslide<3->{\begin{center}
 				\renewcommand{\arraystretch}{1.4}
@@ -190,7 +190,7 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Remarque}
-		Dans le cas d'une récursivité non terminale, les appels successifs sont empilés dans la \textcolor{blue}{pile d'exécution}, en effet le résultat de chaque appel doit être renvoyé vers l'appel précédent. Puis être dépilés une fois le cas de base atteint.\\
+		Dans le cas d'une récursivité non terminale, les appels successifs sont empilés dans la \textcolor{blue}{pile d'exécution}, en effet le résultat de chaque appel doit être renvoyé vers l'appel précédent, pour être ensuite dépilés une fois le cas de base atteint.\\
 		Par exemple pour la fonction {\tt factorielle} récursive :
 		\begin{center}
 			\renewcommand{\arraystretch}{1.4}
@@ -209,8 +209,8 @@
 				\multicolumn{1}{c}{\textcolor{BrickRed}{Pile d'appels}}
 			\end{tabularx}
 		\end{center}
-		\onslide<6->{Le dépassement de capacité de la pile d'appel est le fameux \textit{stackoverflow} (débordement de pile).}
-		\onslide<7->{Pour l'éviter, on peut transformer une fonction récursive non terminale en récursive terminale ce qui évite l'empilement des appels successifs.}
+		\onslide<6->{Le dépassement de capacité de la pile d'appels est le fameux \textit{stack overflow} (débordement de pile).}
+		\onslide<7->{Pour l'éviter, on peut transformer une fonction récursive non terminale en récursive terminale, ce qui évite l'empilement des appels successifs.}
 		\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A4}{A3} \nbput{\textcolor{blue}{\footnotesize appel n=3}}
 		\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A3}{A2} \nbput{\textcolor{blue}{\footnotesize appel n=2}}
 		\ncangle[arm=0.7cm,nodesep=0.5cm,linewidth=0.7pt,linecolor=BrickRed,offsetB=0.1cm,offsetA=0cm]{->}{A2}{A1} \nbput{\textcolor{blue}{\footnotesize appel n=1}}
@@ -253,7 +253,7 @@
 		\begin{itemize}
 			\item<1-> La version récursive terminale ne provoquera pas de débordement de pile en OCaml car elle sera automatiquement optimisée par le compilateur.
 			\item<2-> En C, on utilisera l'option d'optimisation \kw{-O2} pour que cela soit le cas.
-			\item<3-> Le langage Ocaml est plus "adapté" à une programmation fonctionnel (et donc à la récursivité) que le C qui permet la récursivité mais représente avant tout le paradigme impératif.
+			\item<3-> Le langage OCaml est plus \og{}adapté\fg{} à une programmation fonctionnelle (et donc à la récursivité) que le C qui permet la récursivité mais relève avant tout du paradigme impératif.
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -261,18 +261,18 @@
 \makess{Récursivité croisée}
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{alertblock}{Définition}
-		Lorsqu'on définit simultanément plusieurs fonctions qui s'appellent mutuellement on parle de \textcolor{blue}{récursivité croisée} (ou de récursivité mutuelle).
+		Lorsqu'on définit simultanément plusieurs fonctions qui s'appellent mutuellement, on parle de \textcolor{blue}{récursivité croisée} (ou de récursivité mutuelle).
 	\end{alertblock}
 	\onslide<2->{
 		\begin{exampleblock}{Exemple : moyenne arithmético-géométrique}
-			Etant donné $a \in R^+, b \in \R^+$, on définit les suites : \\
+			Étant donné $a \in \R^+, b \in \R^+$, on définit les suites : \\
 			\begin{tabularx}{\linewidth}{XX}
 				$\left\{ \begin{array}{lcl} u_0 &=& a \\ u_{n+1} &=& \sqrt{u_nv_n}\\ \end{array}\right.$ &
 				$\left\{ \begin{array}{lcl} v_0 &=& b \\ v_{n+1} &=& \dfrac{u_n+v_n}{2}\\ \end{array}\right.$ \\
 			\end{tabularx}
-			Ecrire deux fonctions mutuellement récursives {\tt un} et {\tt vn} permettant de calculer les termes de ces deux suites.\\
-			\onslide<3->{\textcolor{BrickRed}{\small \danger} En C, une fonction doit être définie avant d'y faire appel. On doit donc dans le cas d'une récursivité croisée donner la signature d'une des deux fonctions avant la définition complète de l'autre.}\\
-			\onslide<4->{ En OCaml, on définira les deux fonctions dans le même "{\tt let}" en les séparant par \kw{and}.}
+			Écrire deux fonctions mutuellement récursives {\tt un} et {\tt vn} permettant de calculer les termes de ces deux suites.\\
+			\onslide<3->{\textcolor{BrickRed}{\small \danger} En C, une fonction doit être définie avant d'y faire appel. On doit donc, dans le cas d'une récursivité croisée, donner la signature d'une des deux fonctions avant la définition complète de l'autre.}\\
+			\onslide<4->{ En OCaml, on définira les deux fonctions dans le même \og{}{\tt let}\fg{} en les séparant par \kw{and}.}
 		\end{exampleblock}}
 \end{frame}
 
@@ -284,8 +284,8 @@
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Correction : En OCaml}
-		\inputpartC{\SPATH/arithgeo.ml}{}{\small}{1}{5}
-		\onslide<2->On remarquera \kw{+.}, \kw{*.}, et \kw{/.} qui correspondent aux opérations sur les flottants (inférence de type)
+		\inputpartOCaml{\SPATH/arithgeo.ml}{}{\small}{1}{5}
+		\onslide<2->On remarquera \kw{+.}, \kw{*.}, et \kw{/.} qui correspondent aux opérations sur les flottants (inférence de types).
 	\end{exampleblock}
 \end{frame}
 
@@ -294,11 +294,11 @@
 \begin{frame}{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple introductif}
 		\begin{enumerate}
-			\item<1-> Ecrire une fonction récursive qui prend en argument un entier $n$ et renvoie le $n$ième terme de la suite de Fibonacci défini par :
+			\item<1-> Écrire une fonction récursive qui prend en argument un entier $n$ et renvoie le $n$\textsuperscript{e} terme de la suite de Fibonacci définie par :
 				$\left\{ \begin{array}{lll}
 						f_0   & = & 0,                                                  \\
 						f_1   & = & 1,                                                  \\
-						f_{n} & = & f_{n-1}+f_{n-2} \mathrm{\ \ pour\ tout\ \ } n\geq2.\end{array} \right.$
+						f_{n} & = & f_{n-1}+f_{n-2} \mathrm{\ \ pour\ tout\ \ } n \geqslant 2.\end{array} \right.$
 			\item<2-> Tracer le graphe des appels récursifs de cette fonction pour $n=5$
 			\item<3-> Commenter
 		\end{enumerate}
@@ -320,7 +320,7 @@
 \end{frame}
 
 \begin{frame}{\Ctitle}{\stitle}
-	\begin{exampleblock}{Correction questions 2}
+	\begin{exampleblock}{Correction question 2}
 		\begin{center}
 			\psset{levelsep=1cm,treesep=0.2cm,linecolor=OliveGreen,linewidth=0.6pt}
 			\pstree{\Toval{\tiny \tt fibo(5)}}{
@@ -340,7 +340,7 @@
 
 
 \begin{frame}{\Ctitle}{\stitle}
-	\begin{exampleblock}{Correction questions 3}
+	\begin{exampleblock}{Correction question 3}
 		\begin{center}
 			\psset{levelsep=1cm,treesep=0.2cm,linecolor=OliveGreen,linewidth=0.6pt}
 			\pstree{\Toval{\tiny \tt fibo(5)}}{
@@ -355,18 +355,18 @@
 					\Toval{\tiny \tt  fibo(1)}}
 			}
 		\end{center} \medskip
-		{\small On calcule à plusieurs reprises les \textit{mêmes valeurs}, ici par exemple \textcolor{BrickRed}{\tt fibo(2)} est calculé à trois reprises.}
+		{\small On calcule à plusieurs reprises les \textit{mêmes valeurs}, ici, par exemple, \textcolor{BrickRed}{\tt fibo(2)} est calculé à trois reprises.}
 	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Remarque}
 		\begin{itemize}
-			\item<1-> La solution récursive est ici simple à mettre en oeuvre (on traduit directement la définition mathématique de la suite)
+			\item<1-> La solution récursive est ici simple à mettre en œuvre (on traduit directement la définition mathématique de la suite).
 			\item<2-> L'exécution est problématique car on effectue plusieurs fois les mêmes appels récursifs.
 			\item<3-> Pour pallier ce problème :
 				\begin{itemize}
-					\item<4-> On peut stocker les résultats des appels antérieurs dans une structure de données adaptées (c'est le principe de \textcolor{blue}{mémoïsation})
+					\item<4-> On peut stocker les résultats des appels antérieurs dans une structure de données adaptée (c'est le principe de \textcolor{blue}{mémoïsation}).
 					\item<5-> On peut utiliser une formulation itérative.
 				\end{itemize}
 		\end{itemize}
@@ -377,28 +377,52 @@
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{block}{Remarques}
 		\begin{itemize}
-			\item<1->Bien que la programmation récursive soit parfois gourmande en ressource (débordement de pile, chevauchement d'appels récursifs). Certains problèmes ont une solution récursive très lisible et rapide à programmer.
-			\item<2-> La formulation récursive est donc parfois \og plus adaptée \fg{} à un problème et constitue une façon \og{}élégante\fg{} et concise de programmer une résolution.
-			\item<3-> On présente ici un exemple simple mais d'autres seront vus en TP (tours de Hanoï, dessins récursifs)
+			\item<1->Bien que la programmation récursive soit parfois gourmande en ressources (débordement de pile, chevauchement d'appels récursifs), certains problèmes ont une solution récursive très lisible et rapide à programmer.
+			\item<2-> La formulation récursive est donc parfois \og{}plus adaptée\fg{} à un problème et constitue une façon \og{}élégante\fg{} et concise de programmer une résolution.
+			\item<3-> On présente ici deux exemples classiques (d'autres seront vus en TP : tours de Hanoï, dessins récursifs).
 		\end{itemize}
 	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : algorithme d'Euclide (calcul du PGCD)}
+		On rappelle la définition récursive du plus grand commun diviseur ($\mathrm{pgcd}$) de deux entiers $a, b \in \N$ :
+		$$\mathrm{pgcd}(a, b) = \left\{ \begin{array}{ll} a & \mathrm{si\ } b = 0, \\ \mathrm{pgcd}(b, a \bmod b) & \mathrm{sinon.} \end{array} \right.$$
+		\begin{enumerate}
+			\item<2-> Écrire une fonction récursive en C {\tt int pgcd(int a, int b)} qui renvoie le $\mathrm{pgcd}$ de deux entiers $a$ et $b$.
+			\item<3-> Écrire cette même fonction en OCaml.
+			\item<4-> Cette fonction est-elle récursive terminale ?
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Algorithme d'Euclide : correction}
+		\begin{itemize}
+			\item<1-> En C :
+			\inputpartC{\SPATH/pgcd.c}{}{\small}{3}{10}
+			\item<2-> En OCaml :
+			\inputpartOCaml{\SPATH/pgcd.ml}{}{\small}{1}{2}
+			\item<3-> \textcolor{OliveGreen}{Cette fonction est \textbf{naturellement récursive terminale} : le résultat renvoyé est directement celui de l'appel récursif, sans qu'aucun calcul supplémentaire ni accumulateur ne soit nécessaire.}
+		\end{itemize}
+	\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]{\Ctitle}{\stitle}
 	\begin{exampleblock}{Exemple : exponentiation rapide}
 		\begin{enumerate}
 			\item<1-> Combien faut-il faire de multiplications pour calculer $a^{13}$ avec la fonction
-				\inputpartC{\SPATH/puissance.c}{}{\footnotesize}{3}{7}
+				\inputpartC{\SPATH/puissance.c}{}{\footnotesize}{3}{11}
 			\item<2-> Combien en faut-il si on procède de la façon suivante :
 				\begin{itemize}
 					\item<3-> Calculer $a^6$, l'élever au carré et le multiplier par $a$.
-					\item<4-> Pour calculer $a^6$,calculer $a^3$ et l'élever au carré.
+					\item<4-> Pour calculer $a^6$, calculer $a^3$ et l'élever au carré.
 					\item<5-> Pour calculer $a^3$, élever $a$ au carré et multiplier par $a$.
 				\end{itemize}
-			\item<6-> Généraliser la méthode précédente au cas d'un exposant quelconque et en déduire une relation de récurrence entre $a^n$ et $a^\frac{n}{2}$ si $n$ et pair et $a^\frac{n-1}{2}$ sinon.
+			\item<6-> Généraliser la méthode précédente au cas d'un exposant quelconque et en déduire une relation de récurrence entre $a^n$ et $a^\frac{n}{2}$ si $n$ est pair et $a^\frac{n-1}{2}$ sinon.
 			\item<7-> Proposer une implémentation récursive en C.
-			\item<7-> Même question en Ocaml.
-			\item<8-> Donner une version itérative de cet algorithme.
+			\item<8-> Même question en OCaml.
+			\item<9-> Donner une version itérative de cet algorithme.
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -409,10 +433,10 @@
 		\begin{enumerate}
 			\item<1-> \textcolor{OliveGreen}{Il faut faire 13 multiplications, puisque $a^{13}$ est calculé avec :\\
 					$a^{13} = 1 \textcolor{BrickRed}{\times} a \textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a\textcolor{BrickRed}{\times} a$}
-			\item<2-> \textcolor{OliveGreen}{Dans ce cas, il ne faut que 5 multiplications en effet, on calcul $a^{13}$ avec : \\
+			\item<2-> \textcolor{OliveGreen}{Dans ce cas, il ne faut que 5 multiplications. En effet, on calcule $a^{13}$ avec : \\
 					$a^{13} = \left( \left(a^{\textcolor{BrickRed}{2}} \textcolor{BrickRed}{\times} a \right)^{\textcolor{BrickRed}{2}} \right)^{\textcolor{BrickRed}{2}} \textcolor{BrickRed}{\times} a$}
 			\item<3-> \textcolor{OliveGreen}{$\left\{ \begin{array}{lll}
-							a^n & = & \left(a^\frac{n}{2}\right)^2, \ \mathrm{si\ } n  \mathrm{\ est\ paire} \\
+							a^n & = & \left(a^\frac{n}{2}\right)^2, \ \mathrm{si\ } n  \mathrm{\ est\ pair} \\
 							a^n & = & \left(a^\frac{n-1}{2}\right)^2\times a, \ \mathrm{sinon\ }\end{array} \right. $}
 		\end{enumerate}
 	\end{exampleblock}
@@ -459,7 +483,7 @@
 				}
 				\Return $p$
 			  \end{algorithm}	
-		Moins \og{} naturel \fg{} que sa version itérative, cet algorithme sera prouvé totalement correct en TD.
+		Moins \og{}naturel\fg{} que sa version récursive, cet algorithme sera prouvé totalement correct en TD.
 		\end{enumerate}
 	\end{exampleblock}
 \end{frame}
@@ -480,7 +504,7 @@
 		\begin{exampleblock}{Exemple}
 			La fonction factorielle récursive en OCaml rappelée ci-dessous :
 			\inputpartOCaml{\SPATH/fact.ml}{}{\small}{1}{2}
-			Termine car le paramètre d'appel $n$ est positif, décroît strictement et reste positif (par condition d'appel récursif).
+			La fonction termine car le paramètre d'appel $n$ est positif, décroît strictement et reste positif (par condition d'appel récursif).
 		\end{exampleblock}
 	}
 \end{frame}
@@ -491,7 +515,7 @@
 		Pour prouver la correction d'une fonction récursive, on peut utiliser une preuve par récurrence :
 		\begin{itemize}
 		\item<2-> on vérifie que la fonction est correcte pour le cas de base (initialisation)
-		\item<3-> puis, on prouve que si la fonction est correcte à un range $n \in \N$ alors elle l'est aussi au range $n+1$.
+		\item<3-> puis, on prouve que si la fonction est correcte à un rang $n \in \N$, alors elle l'est aussi au rang $n+1$.
 		\end{itemize}
 	\end{block}
 	\onslide<4->
@@ -499,10 +523,10 @@
 		\begin{exampleblock}{Exemple}
 			La fonction factorielle récursive en OCaml rappelée ci-dessous :
 			\inputpartOCaml{\SPATH/fact.ml}{}{\small}{1}{2}
-			est correcte car:
+			est correcte car :
 			\begin{itemize}
 			\item<5-> elle est correcte pour $n=0$ puisqu'elle renvoie 1 et que $0!=1$.
-			\item<6-> si elle est correcte au rang {\tt n}, alors {\tt fact(n)}=$n!$. Et comme, {\tt fact(n+1) = (n+1) * fact(n)}, on en déduit {\tt fact(n+1) =}$(n+1)!$.
+			\item<6-> si elle est correcte au rang {\tt n}, alors {\tt fact(n)}=$n!$. Et comme {\tt fact(n+1) = (n+1) * fact(n)}, on en déduit {\tt fact(n+1) =}$(n+1)!$.
 		\end{itemize}
 		\end{exampleblock}
 	}

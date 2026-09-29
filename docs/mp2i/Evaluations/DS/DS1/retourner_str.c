@@ -3,7 +3,7 @@
 
 void echange(char s[], int i, int j)
 {
-    // echange les caractères situés aux indices i et j dans s
+    // Échange les caractères situés aux indices i et j dans s
     char temp = s[i];
     s[i] = s[j];
     s[j] = temp;
@@ -11,7 +11,7 @@ void echange(char s[], int i, int j)
 
 void retourner_str(char s[])
 {
-    // Retourne en place la chaine de caractère s
+    // Inverse en place la chaîne de caractères s
     int n = 0;
     while (s[n] != '\0')
     {
