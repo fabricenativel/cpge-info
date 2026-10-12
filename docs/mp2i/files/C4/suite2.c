@@ -1,23 +1,34 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <assert.h>
 
-void u(int n)
+void affiche(int n)
 {
-    double v0 = 1.25;
-    double v1 = 1.4;
-    double v2;
-    for (int i=2;i<=n;i++)
+    assert(n > 1);
+    double p = 1.25;
+    double q = 1.4;
+    double r;
+    printf("v0=%lf\n", p);
+    printf("v1=%lf\n", q);
+    for (int i = 2; i <= n; i++)
     {
-        v2 = 10 - 23/v1 + 14/(v0*v1);
-        v0 = v1;
-        v1 = v2;
-        printf("v%d=%.16f\n",i,v2);
+        r = 10 - 23 / q + 14 / (p * q);
+        p = q;
+        q = r;
+        printf("v%d=%lf\n", i, r);
     }
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-    u(atoi(argv[1]));
+    if (argc == 2)
+    {
+        affiche(atoi(argv[1]));
+    }
+    else
+    {
+        printf("Utilisation : %s <entier>\n", argv[0]);
+    }
+    return 0;
 }
-

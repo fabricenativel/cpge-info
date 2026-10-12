@@ -6,15 +6,15 @@
 \begin{document}
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
 \ModeExercice
-\setboolean{corrige}{true}
-\TPnote{1}{Langage C}{10}
+\setboolean{corrige}{false}
+\TPnote{1}{Langage C}{20}
 %Nom de la première activité
 \setcounter{Exercise}{0}
 
 
 \begin{Exercise}[title={Calcul d'une somme}]
-	\Question{Ecrire une fonction {\tt somme} en C de prototype \mintinline{c}{int somme(int n)} qui renvoie la somme des entiers divisibles par 3 ou par 7 de $\intN{1}{n}$. Par exemple {\tt somme(10)} doit renvoyer {\tt 25} ({\tt 3 + 6 + 7 + 9}).}
-	\reponse{8}{4}
+	\Question{Écrire une fonction {\tt somme} en C de prototype \mintinline{c}{int somme(int n)} qui renvoie la somme des entiers divisibles par 3 ou par 7 de $\intN{1}{n}$. Par exemple, {\tt somme(10)} doit renvoyer {\tt 25} ({\tt 3 + 6 + 7 + 9}).}
+	\reponse{7}{2}
 	\ifcorrige
 		\inputpartC{somme.c}{}{\small}{3}{14}
 	\fi
@@ -23,7 +23,76 @@
 	\tcor{\tt   535710714}
 \end{Exercise}
 
+\begin{Exercise}[title={Étendue d'un tableau}]
+	\Question{Écrire une fonction {\tt etendue} qui prend en argument un tableau (supposé non vide) et sa taille et renvoie l'écart maximal entre deux éléments de ce tableau. Par exemple, sur le tableau {\tt int ex[7] = \{1, 5, 3, 0, -1, 4, 8\}}, la fonction {\tt etendue} doit renvoyer {\tt 9}. \textit{Attention} : on souhaite écrire la fonction {\tt etendue} en utilisant une seule boucle {\tt for}.}
+	\reponse{8}{2}
+	\ifcorrige \inputpartC{etendue.c}{}{\small}{3}{19} \fi
+	\Question{Créer un tableau d'entiers {\tt u} de taille 100 et, à l'aide d'une boucle, l'initialiser avec les valeurs prises par la suite $(u_n)_{n \in \N}$ de terme général $u_n = n^2 - 133n + 3822$ pour $n=0 \dots 99$. C'est-à-dire que {\tt u[i]} doit contenir la valeur de $u_i$ (pour $i \in \intN{0}{99}$), par exemple {\tt u[0]=3822}. Déterminer l'écart maximal entre deux éléments du tableau {\tt u} grâce à la fonction {\tt etendue} et donner la réponse trouvée par votre programme :}
+	\ifcorrige \inputpartC{etendue.c}{}{\small}{23}{28} \fi
+	\reponse{0}{1}
+	\tcor{\tt 4422}
+\end{Exercise}
 
+\begin{Exercise}[title={Tri par sélection}]\\
+	On rappelle que le principe du \textit{tri par sélection} est de chercher pour {\tt i=0 \dots i=n-1} le minimum du sous-tableau {\tt tab[i] \dots tab[n-1]} et de l'échanger avec l'élément d'indice {\tt i}.\\
+			      Sur le tableau {\tt \{2, 8, 1, 5\}}, on obtient (en soulignant le minimum de chaque sous-tableau) : \\
+			      \begin{tabular}{l|>{\tt}l}
+				      Étapes                 & \multicolumn{1}{c}{État du tableau} \\
+				      \hline
+				      Initialisation         & \{2, 8, \underline{1}, 5\}          \\
+				      {\tt i=0} 1\ier{} minimum  & \{1, 8, \underline{2}, 5\}          \\
+				      {\tt i=1} 2\ieme{} minimum & \{1, 2, 8, \underline{5}\}          \\
+				      {\tt i=2} 3\ieme{} minimum & \{1, 2, 5, 8\}                      \\
+			      \end{tabular}
+	\Question{Programmer cet algorithme de tri sous la forme d'une fonction de signature :\\  \mintinline{c}{void tri_selection(int tab[], int taille)} \\qui prend en argument un tableau non vide {\tt tab} contenant {\tt taille} éléments et trie en place ce tableau. On pourra écrire des fonctions auxiliaires et préciser leur spécification dans le code.}
+	\reponse{14}{4}
+	\ifcorrige 
+    \corpartC{selection.c}{}{}{12}{38}
+    \fi
+	\Question{Créer un tableau {\tt test} de 5000 entiers et initialiser ce tableau de façon à ce que {\tt test[i] = i*i - 564*i + 77760} pour {\tt i=0 \dots 4999}. Trier ce tableau à l'aide de la fonction {\tt tri\_selection} et donner la valeur de {\tt test[2026]}.}
+	\reponse{0}{1}
+    \ifcorrige
+    \corpartC{selection.c}{}{}{40}{49}
+    \fi
+    \tcor{On obtient la valeur {\tt 3039772}}
+\end{Exercise}
+
+\begin{Exercise}[title={Nombre harshad}]\\
+	On dit qu'un entier strictement positif est un \textit{nombre harshad} (ou nombre de Niven) lorsqu'il est divisible par la somme de ses chiffres dans une base donnée. Dans cet exercice, on s'intéresse aux nombres harshad en base 10. Par exemple, $48$ est un nombre harshad puisque 48 est divisible par $12$, de même $63$ (divisible par 9) ou encore $190$ (divisible par 10) sont aussi des nombres harshad. Par contre, $28$ ou encore $104$ ne sont pas des nombres harshad.
+
+    \Question{Écrire une fonction de signature \mintinline{c}{bool est_harshad(int n)} qui renvoie {\tt true} si et seulement si {\tt n} est un nombre harshad.}
+    \reponse{9}{2}
+    \ifcorrige
+    \corpartC{harshad.c}{}{}{6}{16}
+    \fi
+    \Question{Écrire une fonction {\tt main} qui prend en argument sur la ligne de commande une chaîne de caractères, la convertit en entier (avec la fonction {\tt atoi}) puis affiche {\tt true} si cet entier est harshad et {\tt false} sinon. Si aucun argument n'est donné, on affiche un message d'erreur. Par exemple, voici des comportements attendus en supposant que l'exécutable s'appelle {\tt harshad.exe} :
+    \begin{minted}[gobble=8]{bash}
+        ./harshad.exe 42
+        true
+        ./harshad.exe 53
+        false
+        ./harshad.exe
+        Utilisation : ./harshad.exe <entier positif>
+    \end{minted}
+    }
+    \reponse{6}{2}
+    \ifcorrige
+    \corpartC{harshad.c}{}{}{76}{93}
+    \fi
+    \Question{Écrire une fonction \mintinline{c}{int* get_harshad(int limit, int *nb)} qui prend en argument un entier {\tt limit} et renvoie un tableau contenant les nombres harshad inférieurs ou égaux à {\tt limit}. De plus, {\tt *nb} doit contenir après l'appel le nombre de nombres harshad inférieurs ou égaux à {\tt limit}. Par exemple, comme les nombres harshad inférieurs ou égaux à 20 sont {\tt \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 18, 20\}}, l'appel {\tt get\_harshad(20, \&n)} renvoie un tableau contenant ces entiers, et après l'appel, {\tt n} contient la taille de ce tableau, donc {\tt 13}.}
+    \reponse{10}{3}
+    \ifcorrige
+    \corpartC{harshad.c}{}{}{18}{39}
+    \fi
+    \Question{On recherche à présent des suites de nombres consécutifs qui sont tous harshad ; par exemple, les nombres $110, 111$ et $112$ sont 3 nombres harshad consécutifs. Dans un tableau quelconque de valeurs, on est donc amené à chercher le nombre maximal de valeurs consécutives. Écrire une fonction de signature \mintinline{c}{int consecutifs(int tab[], int size, int *start)} qui renvoie le nombre maximal de valeurs consécutives dans le tableau {\tt tab} de taille {\tt size} et met à jour {\tt *start} afin qu'il contienne la première de ces valeurs. Par exemple, cette fonction sur le tableau {\tt \{2, 7, 8, 13, 14, 15, 17, 18, 21\}} renvoie 3 et {\tt *start} vaut 13. En effet, il y a un maximum de 3 valeurs consécutives et la première est 13.}
+    \reponse{12}{2}
+    \ifcorrige
+    \corpartC{harshad.c}{}{}{41}{64}
+    \fi
+    \Question{Rechercher le nombre maximal de nombres harshad consécutifs parmi ceux qui sont inférieurs à un million \textit{et strictement supérieurs à 9}. Combien y en a-t-il et quel est le premier de cette série ?}
+    \reponse{0}{1}
+    \tcor{En utilisant les fonctions précédentes, on trouve qu'il y a au maximum 5 nombres harshad consécutifs dans l'intervalle considéré. Le premier d'entre eux est \numprint{131052}.}
+\end{Exercise}
 
 
 \end{document}
