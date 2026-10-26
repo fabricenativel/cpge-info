@@ -8,8 +8,8 @@
 \TD{6}{OCaml : aspects fonctionnels}
 
 \setcounter{Exercise}{0}
-\begin{Exercise}[title={Evaluation d'expressions}]
-\Question{Pour chacune des expressions ci-dessous, si elle s'évalue sans erreurs indiquer son type et sa valeur. Sinon indiquer la cause de l'erreur.}
+\begin{Exercise}[title={Évaluation d'expressions}]
+\Question{Pour chacune des expressions ci-dessous, si elle s'évalue sans erreur, indiquer son type et sa valeur. Sinon, indiquer la cause de l'erreur.}
 \subQuestion{\mintinline{ocaml}{let t = 7 + 9;;}}
 \subQuestion{\mintinline{ocaml}{let s = -11.6;;}}
 \subQuestion{\mintinline{ocaml}{let at = '@';;}}
@@ -25,41 +25,107 @@
 \subQuestion{\mintinline{ocaml}{let test4 = 7.5 > 0;;}}
 \subQuestion{\mintinline{ocaml}{let hesitation = let b = "euh " in b^b^b^b;;}}
 
-\Question{Même question pour les expressions conditionnelles suivantes}
+\Question{Même question pour les expressions conditionnelles suivantes :}
 \subQuestion{\mintinline{ocaml}{let a = if true then 2 else 2.5;;}}
 \subQuestion{\mintinline{ocaml}{let a = if 2=1+1 then 'A' else 'B';;}}
-\subQuestion{\mintinline{ocaml}{let a = if  true then "ok";;}}
+\subQuestion{\mintinline{ocaml}{let a = if true then "ok";;}}
 \subQuestion{\mintinline{ocaml}{let a = let b= -2.4 in if (b>0.) then b else -b;;}}
 \subQuestion{\mintinline{ocaml}{let a = if true then print_int 2;;}}
 \end{Exercise}
 
 \begin{Exercise}[title={Calculs}]\\
-Ecrire une expression dont l'évaluation donne :
+Écrire une expression dont l'évaluation donne :
 \Question{$2^{20}$}
-\Question{le quotient dans la division euclidienne de 756 par 24}
-\Question{{\tt true} si 12564 est divisible par 13 et {\tt false} sinon}
-\Question{ $-2x + 7$ avec $x = -1.7$}
-\Question{le plus petit entier représentable par un {\tt int}}
+\Question{Le quotient dans la division euclidienne de 756 par 24}
+\Question{{\tt true} si $12\,564$ est divisible par 13 et {\tt false} sinon}
+\Question{$-2x + 7$ avec $x = -1.7$}
+\Question{Le plus petit entier représentable par un {\tt int}}
 \end{Exercise}
 
 \begin{Exercise}[title={Définition de fonctions}]
-\Question{Ecrire une expression permettant de définir les fonctions suivantes :}
-\subQuestion{ $f : n \mapsto n^2 + 5$ (sur les entiers)}
-\subQuestion{ $g : x \mapsto -12x + 3$ (sur les flottants)}
-\subQuestion{ $h : n,p \mapsto \max(n,p)$ (sur les entiers)}
-\subQuestion{ $i : x,y \mapsto \min(x,y)$ (sur les flottants)}
-\subQuestion{ {\tt delta}: $a,b,c \mapsto b^2 - 4ac$ (sur les flottants) }
-\subQuestion{ {\tt signe} qui a un entier $n$ associe 1 si $n$ est positif, 0 si $n$ est nul et -1 si $n$ est négatif }
-\Question{Ecrire une expression permettant de définir les fonctions suivantes :}
-\subQuestion{ Somme des $n$ premiers entiers}
-\subQuestion{ $n!$}
-\subQuestion{ Somme des inverses des $n$ premiers entiers strictement positifs}
-\Question{On rappelle que pour $a \in \R, n \in \N^{*}$,\\
-$\left\{ \begin{array}{lll}
-	a^n & = & \left(a^\frac{n}{2}\right)^2, \ \mathrm{si\ } n  \mathrm{\ est\ paire} \\
-	a^n & = & \left(a^\frac{n-1}{2}\right)^2\times a, \ \mathrm{sinon\ }\end{array} \right. $\\}
-\subQuestion{Définir une fonction récursive puissance sur les entiers correspondant à cette définition.}
-\subQuestion{En utilisant les fonctions de conversion entre entiers et flottants, définir une fonction puissance sur les entiers qui utilise la fonction {\tt **} de puissance sur les flottants.}
-\subQuestion{Ecrire et tester une fonction qui prend en argument deux entiers et vérifie que les deux versions de puissance (exponentiation rapide et conversion) renvoient bien le même résultat.}
+\Question{Écrire une expression permettant de définir les fonctions suivantes :}
+\subQuestion{$f : n \mapsto n^2 + 5$ (sur les entiers)}
+\subQuestion{$g : x \mapsto -12x + 3$ (sur les flottants)}
+\subQuestion{$h : (n, p) \mapsto \max(n, p)$ (sur les entiers)}
+\subQuestion{$i : (x, y) \mapsto \min(x, y)$ (sur les flottants)}
+\subQuestion{{\tt delta} : $(a, b, c) \mapsto b^2 - 4ac$ (sur les flottants)}
+\subQuestion{{\tt signe} qui à un entier $n$ associe 1 si $n$ est positif, 0 si $n$ est nul et -1 si $n$ est négatif}
+\Question{Écrire une expression permettant de définir les fonctions suivantes :}
+\subQuestion{Somme des $n$ premiers entiers}
+\subQuestion{$n!$}
+\subQuestion{Somme des inverses des $n$ premiers entiers strictement positifs}
+\Question{On rappelle que pour $a \in \R$ et $n \in \N^*$ :
+\[
+\left\{ \begin{array}{lll}
+	a^n & = & \left(a^{n/2}\right)^2 \quad \text{si } n \text{ est pair} \\
+	a^n & = & \left(a^{(n-1)/2}\right)^2 \times a \quad \text{sinon}
+\end{array} \right.
+\]}
+\subQuestion{Définir une fonction récursive {\tt puissance} sur les entiers correspondant à cette définition.}
+\subQuestion{En utilisant les fonctions de conversion entre entiers et flottants, définir une fonction puissance sur les entiers qui utilise l'opérateur {\tt **} de puissance sur les flottants.}
+\subQuestion{Écrire et tester une fonction qui prend en argument deux entiers et vérifie que les deux versions de {\tt puissance} (exponentiation rapide et conversion) renvoient bien le même résultat.}
+\end{Exercise}
+
+\begin{Exercise}[title={Types construits et filtrage par motif}]
+\Question{On souhaite modéliser des cartes à jouer à l'aide de types construits :}
+\subQuestion{Définir un type somme \mintinline{ocaml}{couleur} ayant pour constructeurs \mintinline{ocaml}{Coeur}, \mintinline{ocaml}{Carreau}, \mintinline{ocaml}{Pique} et \mintinline{ocaml}{Trefle}.}
+\subQuestion{Définir un type somme \mintinline{ocaml}{valeur} représentant les valeurs des cartes : \mintinline{ocaml}{As}, \mintinline{ocaml}{Valet}, \mintinline{ocaml}{Dame}, \mintinline{ocaml}{Roi} ou \mintinline{ocaml}{Nombre of int} (pour les cartes de 2 à 10).}
+\subQuestion{Définir le type \mintinline{ocaml}{carte} comme un couple : \mintinline{ocaml}{type carte = valeur * couleur;;}}
+\subQuestion{À l'aide d'un filtrage par motif, écrire une fonction \mintinline{ocaml}{points : carte -> int} qui renvoie le nombre de points d'une carte à la belote (hors atout) : 11 pour un As, 10 pour un 10, 4 pour un Roi, 3 pour une Dame, 2 pour un Valet, et 0 pour les autres cartes.}
+\Question{On souhaite représenter des formes géométriques planes :}
+\subQuestion{Définir un type somme \mintinline{ocaml}{forme} avec deux constructeurs : un cercle \mintinline{ocaml}{Cercle of float} (rayon) et un rectangle \mintinline{ocaml}{Rectangle of (float * float)} (dimensions).}
+\subQuestion{Écrire une fonction \mintinline{ocaml}{perimetre : forme -> float} calculant le périmètre d'une forme (on prendra $\pi \approx 3{,}14159$).}
+\subQuestion{Écrire une fonction \mintinline{ocaml}{aire : forme -> float} calculant l'aire d'une forme.}
+\end{Exercise}
+
+\begin{Exercise}[title={Inférence de types et polymorphisme}]
+\Question{Sans utiliser l'environnement interactif, donner le type inféré par OCaml pour chacune des fonctions suivantes :}
+\subQuestion{\mintinline{ocaml}{let f1 x y = (y, x);;}}
+\subQuestion{\mintinline{ocaml}{let f2 f x = f (f x);;}}
+\subQuestion{\mintinline{ocaml}{let f3 f g x = f (g x);;}}
+\subQuestion{\mintinline{ocaml}{let f4 (b, x, y) = if b then x else y;;}}
+\subQuestion{\mintinline{ocaml}{let f5 x = [x];;}}
+\Question{Inversement, donner la définition d'une fonction valide (sans boucle infinie ni levée d'exception) correspondant à chacune des signatures suivantes :}
+\subQuestion{\mintinline{ocaml}{'a * 'b -> 'b * 'a}}
+\subQuestion{\mintinline{ocaml}{'a -> 'b -> 'a}}
+\subQuestion{\mintinline{ocaml}{('a -> 'b) -> ('b -> 'c) -> ('a -> 'c)}}
+\subQuestion{\mintinline{ocaml}{('a -> 'b) -> 'a * 'a -> 'b * 'b}}
+\end{Exercise}
+
+\begin{Exercise}[title={Fonctions anonymes et ordre supérieur}]
+\Question{Écrire une fonction \mintinline{ocaml}{appliquer_n : int -> ('a -> 'a) -> 'a -> 'a} qui prend en argument un entier $n \ge 0$, une fonction $f$ et une valeur $x$, et renvoie $f^n(x)$ (l'application répétée $n$ fois de $f$ à $x$).}
+\Question{À l'aide de la fonction \mintinline{ocaml}{appliquer_n} et d'une fonction anonyme, écrire une expression en une ligne calculant $2^{10}$.}
+\Question{Écrire une fonction de composition \mintinline{ocaml}{composer : ('b -> 'c) -> ('a -> 'b) -> ('a -> 'c)} qui renvoie la fonction $f \circ g$ sous forme d'une fonction anonyme.}
+\Question{Écrire une fonction d'ordre supérieur \mintinline{ocaml}{derivee} prenant une fonction $f : \R \to \R$ et un pas $dx > 0$ et renvoyant la fonction anonyme $x \mapsto \frac{f(x+dx)-f(x)}{dx}$. Préciser sa signature.}
+\Question{On souhaite approcher la racine d'une fonction continue par dichotomie :}
+\subQuestion{Écrire une fonction d'ordre supérieur \mintinline{ocaml}{dichotomie} prenant en argument une fonction continue $f$, deux réels $a$ et $b$ vérifiant $f(a) \cdot f(b) \le 0$ et une tolérance $\varepsilon > 0$, et renvoyant une approximation du zéro de $f$ sur $[a, b]$. Préciser sa signature.}
+\subQuestion{En déduire une approximation de $\sqrt{2}$ à $10^{-5}$ près en appliquant \mintinline{ocaml}{dichotomie} à une fonction anonyme sur l'intervalle $[1{,}0 \,;\, 2{,}0]$.}
+\end{Exercise}
+
+\begin{Exercise}[title={Les listes et la récursion structurelle}]
+\Question{Sans utiliser les fonctions du module prédéfini \mintinline{ocaml}{List}, écrire les fonctions récursives suivantes sur les listes à l'aide du filtrage par motif (constructeurs \mintinline{ocaml}{[]} et \mintinline{ocaml}{::}) :}
+\subQuestion{\mintinline{ocaml}{longueur : 'a list -> int} qui calcule la longueur d'une liste.}
+\subQuestion{\mintinline{ocaml}{somme : int list -> int} qui calcule la somme des éléments d'une liste d'entiers (la somme de la liste vide valant 0).}
+\subQuestion{\mintinline{ocaml}{appartient : 'a -> 'a list -> bool} qui teste si un élément est présent dans une liste.}
+\subQuestion{\mintinline{ocaml}{n_ieme : int -> 'a list -> 'a} qui renvoie l'élément situé à l'indice $n$ d'une liste ($n \ge 0$, le premier élément étant à l'indice 0). Si $n$ est hors limites, on pourra lever une erreur avec \mintinline{ocaml}{failwith "Indice invalide"}.}
+\Question{Écrire une fonction récursive \mintinline{ocaml}{intervalle : int -> int -> int list} telle que \mintinline{ocaml}{intervalle a b} renvoie la liste des entiers consécutifs de $a$ à $b$ inclus (ou la liste vide si $a > b$). Par exemple, \mintinline{ocaml}{intervalle 3 7} renvoie \mintinline{ocaml}{[3; 4; 5; 6; 7]}.}
+\Question{Inversion d'une liste :}
+\subQuestion{Écrire une fonction récursive naïve \mintinline{ocaml}{renverser : 'a list -> 'a list} utilisant l'opérateur de concaténation {\tt @}. Justifier que sa complexité temporelle est quadratique en la taille $n$ de la liste.}
+\subQuestion{Pour obtenir une complexité linéaire en temps, écrire une fonction auxiliaire récursive terminale \mintinline{ocaml}{rev_acc : 'a list -> 'a list -> 'a list} utilisant un accumulateur, puis en déduire une fonction \mintinline{ocaml}{renverser_rapide : 'a list -> 'a list}.}
+\Question{Écrire une fonction récursive \mintinline{ocaml}{partitionner : ('a -> bool) -> 'a list -> 'a list * 'a list} qui sépare une liste en un couple de deux listes : celle des éléments vérifiant le prédicat, et celle des éléments ne le vérifiant pas.}
+\end{Exercise}
+
+\begin{Exercise}[title={Fonctions d'ordre supérieur sur les listes et type option}]
+\Question{En utilisant les fonctions \mintinline{ocaml}{List.map} et/ou \mintinline{ocaml}{List.filter} de la bibliothèque standard, écrire en une seule ligne (sans récursion explicite) :}
+\subQuestion{La fonction \mintinline{ocaml}{carres : int list -> int list} qui renvoie la liste des carrés des entiers d'une liste.}
+\subQuestion{La fonction \mintinline{ocaml}{pairs : int list -> int list} qui ne conserve que les entiers pairs d'une liste.}
+\subQuestion{La fonction \mintinline{ocaml}{carres_pairs : int list -> int list} qui renvoie la liste des carrés des seuls entiers pairs d'une liste.}
+\Question{La fonction \mintinline{ocaml}{List.fold_left : ('a -> 'b -> 'a) -> 'a -> 'b list -> 'a} applique un opérateur binaire le long d'une liste, de la gauche vers la droite, à partir d'une valeur initiale :}
+\subQuestion{À l'aide de \mintinline{ocaml}{List.fold_left}, calculer en une ligne le produit des éléments d'une liste d'entiers.}
+\subQuestion{Réécrire la fonction \mintinline{ocaml}{longueur : 'a list -> int} uniquement à l'aide de \mintinline{ocaml}{List.fold_left}.}
+\Question{Le type prédéfini polymorphe \mintinline{ocaml}{'a option} (valant \mintinline{ocaml}{None} ou \mintinline{ocaml}{Some v}) permet de sécuriser les fonctions partielles sans lever d'exception :}
+\subQuestion{Écrire une fonction \mintinline{ocaml}{tete_opt : 'a list -> 'a option} qui renvoie \mintinline{ocaml}{Some t} si la liste a pour tête $t$, et \mintinline{ocaml}{None} si la liste est vide.}
+\subQuestion{Écrire une fonction \mintinline{ocaml}{div_opt : int -> int -> int option} qui effectue la division entière de $a$ par $b$ et renvoie \mintinline{ocaml}{None} si $b = 0$.}
+\subQuestion{Écrire une fonction \mintinline{ocaml}{chercher_premier : ('a -> bool) -> 'a list -> 'a option} qui renvoie sous forme d'option le premier élément d'une liste vérifiant le prédicat donné, ou \mintinline{ocaml}{None} s'il n'en existe aucun.}
 \end{Exercise}
 \end{document}

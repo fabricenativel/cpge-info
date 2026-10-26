@@ -29,15 +29,23 @@ void retourner_str(char s[])
 
 bool palindrome(char s[])
 {
-    //renvoie true ssi s est un palindrome
+    // renvoie true ssi s est un palindrome
     char copie[] = s;
     retourner_str(copie);
-    return s==copie;
+    return s == copie;
 }
 
 int main()
 {
-    char test[] = "Ok, tout va bien !";
+    char test[] = "Bonjour";
     retourner_str(test);
     printf("%s \n", test);
+    if (palindrome(test))
+    {
+        printf("%s est un palindrome !\n", test);
+    }
+    else
+    {
+        printf("%s n'est pas un palindrome !\n", test);
+    }
 }

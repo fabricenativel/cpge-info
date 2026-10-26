@@ -22,6 +22,7 @@ let valeur c =
 
   let est_paire c1 c2 = 
     match (c1, c2) with
+    | (As, As) -> true
     | (Roi, Roi) -> true
     | (Dame, Dame) -> true
     | (Valet, Valet) -> true

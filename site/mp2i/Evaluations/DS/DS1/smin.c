@@ -129,7 +129,7 @@ int main()
     assert(min_eleve1((int[]){5, -2, 1}, 3) == -2);
     assert(min_eleve1((int[]){5, 7, 2}, 3) == 0);
     assert(min_eleve2((int[]){5, -2, -3}, 3) == -3);
-    assert(min_eleve2((int[]){-4, -2, -3}, 3) == -3);
+    assert(min_eleve2((int[]){2, 1, 2, 0}, 4) == 0);
 
     assert(min((int[]){5, -2, 1}, 3) == -2);
     assert(min((int[]){5, 7, 2}, 3) == 2);
