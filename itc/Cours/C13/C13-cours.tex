@@ -1,0 +1,206 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt,french]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{13}
+\newcommand{\Ctitle}{\cnum {Représentation des flottants}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/itc/files/C\thenumchap/}
+\newcommand{\ar}[1]{\{#1\}}
+\newcommand{\normal}[1]{\circlenode{#1}{#1}}
+\newcommand{\todo}[1]{\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{#1}{#1}}
+\newcommand{\visited}[1]{\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{#1}{#1}}
+
+\makess{Introduction}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Remarques}
+		On remarque que
+		\begin{itemize}
+			\item<1-> de nombreux calculs impliquant des nombres à virgule ne sont pas correctements calculés par Python.\\
+				\onslide<2-> Un exemple classique est $0.1+0.2$ qui ne donne pas exactement $0.3$, et par conséquent le test d'égalité $0.1+0.2 == 0.3$ renvoie {\tt false}.
+			\item<3-> lorsque des nombres trop grands sont en jeu on obtient un message d'erreur indiquant un dépassement de capacité \textit{OverflowError}.
+		\end{itemize}
+		\onslide<4->{Le but du chapitre est de comprendre la représentation interne des nombres flottants qui conduit à ces résultats.}
+	\end{block}
+\end{frame}
+
+\makess{Nombre en virgule flottante}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Ecriture dyadique}
+		De la même façon que les chiffres après la virgule d'un nombre en écriture décimal utilisent les puissances de 10 négatives, par exemple \smallskip:
+		\onslide<2->{
+			\renewcommand{\arraystretch}{1.1}
+			\begin{tabular}{l|c|c|c|c|c|}
+				\cline{2-6}
+				\multicolumn{1}{c|}{} & \textcolor{BrickRed}{$\scriptstyle{10^{1}}$} & \textcolor{BrickRed}{$\scriptstyle{10^{0}}$} & , & \textcolor{BrickRed}{$\scriptstyle{10^{-1}}$} & \textcolor{BrickRed}{$\scriptstyle{10^{-2}}$} \\
+				\cline{2-6}
+				$\base{14,05}{10}$ =  & \textcolor{blue}{1}                          & \textcolor{blue}{4}                          & , & \textcolor{blue}{0}                           & \textcolor{blue}{5}                           \\
+				\cline{2-6}
+			\end{tabular} \smallskip\\
+		}
+		\onslide<3->{En écriture binaire (ou dyadique) les chiffres après la virgule correspondent aux puissances négatives de 2 : \smallskip \\}
+		\onslide<4->{
+			\renewcommand{\arraystretch}{1.4}
+			\begin{tabular}{l|c|c|c|c|c|}
+				\cline{2-6}
+				\multicolumn{1}{c|}{} & \textcolor{BrickRed}{$\scriptstyle{2^{1}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{0}}$} & , & \textcolor{BrickRed}{$\scriptstyle{2^{-1}}$} & \textcolor{BrickRed}{$\scriptstyle{2^{-2}}$} \\
+				\cline{2-6}
+				$\base{10,01}{2}$ =   & \textcolor{blue}{1}                         & \textcolor{blue}{0}                         & , & \textcolor{blue}{0}                          & \textcolor{blue}{1}                          \\
+				\cline{2-6}
+			\end{tabular} \smallskip \\
+			\onslide<5->{et donc $\base{10,01}{2} = \base{2,25}{10}$}
+		}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Méthode : du décimal au dyadique}
+		Pour traduire une partie décimale en écriture dyadique :
+		\begin{itemize}
+			\item<2-> Multiplier la partie décimale par 2. Si ce produit est supérieur ou égal à 1, ajouter 1 à l'écriture dyadique sinon ajouter 0.
+			\item<3-> Recommencer avec la partie décimale de ce produit tant qu'elle est non nul.
+		\end{itemize}
+	\end{block} \vspace{-0.1cm}
+	\begin{exampleblock}{Exemple}
+		\onslide<4->{\small Par exemple si on veut écrire $\base{0,59375}{10}$ en binaire :}
+		\begin{itemize}
+			\item<5-> {\small $0,59375 \times 2 = 1,1875 \geq 1$ donc on ajoute 1 à l'écriture dyadique}
+			\item<6-> {\small $0,1875 \times 2 = 0,375 < 1$ donc on ajoute 0 à l'écriture dyadique}
+			\item<7-> {\small $0,375 \times 2 = 0,75 < 1$ donc on ajoute 0 à l'écriture dyadique}
+			\item<8-> {\small $0,75 \times 2 = 1,5 \geq 1$ donc on ajoute 1 à l'écriture dyadique}
+			\item<9-> {\small $0,5 \times 2 = 1,0 \geq 1$  donc on ajoute 1 à l'écriture dyadique}
+				\item<10->{\small On s'arrête car la partie décimale du produit est 0 et $\base{0,59375}{10}=\base{0,10011}{2}$}
+		\end{itemize}
+	\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{enumerate}
+			\item<1-> Donner l'écriture décimale de $\base{1101,0111}{2}$ \\
+				\onslide<2-> \textcolor{OliveGreen}{$\base{1101,0111}{2} = 2^3+2^2+2^0+2^{-2}+2^{-3}+2^{-4} = \base{13,4375}{10}$}
+			\item<3-> Donner l'écriture dyadique $3,5$\\
+				\onslide<4-> \textcolor{OliveGreen}{$\base{3,5}{10}=\base{11,1}{2}$}
+			\item<5-> Donner l'écriture dyadique $0,1$
+				\onslide<6->
+				\begin{enumerate}
+					\item<7-> \textcolor{OliveGreen}{$0,1 \times 2 = 0,2 < 1$ donc on ajoute 0 à l'écriture dyadique }
+					\item<8-> \textcolor{OliveGreen}{$0,2 \times 2 = 0,4 < 1$ donc on ajoute 0 à l'écriture dyadique}
+					\item<9-> \textcolor{OliveGreen}{$0,4 \times 2 = 0,8 < 1$ donc on ajoute 0 à l'écriture dyadique}
+						\item<10->\textcolor{OliveGreen}{$0,8 \times 2 = 1,6 \geq 1$ donc on ajoute 1 à l'écriture dyadique}
+						\item<11->\textcolor{OliveGreen}{$0,6 \times 2 = 1,2 \geq 1$  donc on ajoute 1 à l'écriture dyadique}
+						\item<12->\textcolor{OliveGreen}{Le processus se poursuit indéfiniment car on est revenu à l'étape 2.}
+				\end{enumerate}
+				\onslide<13->\textcolor{OliveGreen}{$\base{0,1}{10} = \base{0,0001100110011\dots}{2}$}
+		\end{enumerate}
+
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{\textcolor{yellow}{\small \rappel} Ecriture scientifique}
+		Ecrire un nombre en \textcolor{blue}{notation scientifique} c'est l'écrire sous la forme
+		\onslide<2->\textcolor{red}{$$\boxed{\pm \; a \times 10^n}$$} \vspace{-0.5cm}
+		\begin{itemize}
+			\item<3-> avec $a \in [1;10[$, appelée \textcolor{blue}{mantisse} (l'écriture  décimal de $a$ n'a qu'un seul chiffre non nul à gauche de la virgule)
+			\item<4-> et $n \in \Z$ appelée \textcolor{blue}{exposant}.
+		\end{itemize}
+	\end{block}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<5-> $7200000000000 = 7,2 \times 10^{12}$.
+			\item<6-> $0,0000054 = 5,4 \times 10^{-6}$.
+			\item<7-> 0 ne peut pas s'écrire en notation scientifique.
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Virgule flottante}
+		Les nombres non entiers en informatique, sont représentés en  \textcolor{blue}{virgule flottante}. Cette représentation :
+		\begin{itemize}
+			\item<1-> se fonde sur l'écriture scientifique et utilise la base 2, c'est-à-dire l'écriture dyadique en utilisant une mantisse et un exposant de taille limitée.
+			\item<2-> La norme {\sc ieee-754} définit deux formats codés respectivement sur 32 et 64 bits et stockés dans l'ordre signe/exposant/mantisse. Seul celui sur 64 bits est disponible en Python et correspond au type \kw{float} \\
+				\onslide<3->{
+					\begin{tabular}{|l|c|c|c|c|}
+						\cline{2-5}
+						\multicolumn{1}{l|}{} & Signe & Exposant & Mantisse & Python            \\
+						\hline
+						32 bits               & 1 bit & 8 bits   & 23 bits  & {\small \faTimes} \\
+						\hline
+						64 bits               & 1 bit & 11 bits  & 52 bits  & \kw{float}        \\
+						\hline
+					\end{tabular}
+				}
+				\item<4->L'exposant est décalé de façon à toujours être stocké sous la forme d'un entier positif. \textcolor{gray}{Ce décalage est de 127(=$2^8-1$) pour le format 32 bits et de 1023(=$2^{11}-1$) pour le format 64 bits.}
+			\item<5-> Certaines valeurs spéciales de l'exposant et de la mantisse servent à représenter des valeurs particulières (infinis, zéros, NaN).
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 1}
+		Donner le représentation sur 32 bits du nombre $-168,75$
+		\begin{enumerate}
+			\item<2-> Le nombre est négatif, donc le bit de signe est \textcolor{BrickRed}{$\boxed{1}$}.
+			\item<3-> $\base{168,75}{10} = \base{10101000,11}{2}$
+			\item<4-> La mantisse est décalée de façon à n'avoir qu'un chiffre non nul avant la virgule : \\
+				$\base{168,75}{10} = \base{1,010100011}{2} \times 2^{7}$
+			\item<5-> L'exposant est donc 7, et avec le décalage il est stocké sous la forme 7+127 = 134. c'est-à-dire \textcolor{blue}{$\boxed{\numprint{10000110}}$} en base 2.
+			\item<6-> On complète la mantisse par des zéros de façon à avoir 23 bits et le 1 initial  n'est pas stocké afin d'économiser un bit. La mantisse est donc \textcolor{OliveGreen}{$\boxed{\numprint{01010001100000000000000}}$}
+		\end{enumerate}
+		\onslide<7->{Le nombre $-168,75$ est donc stocké sous la forme : \\
+			\textcolor{BrickRed}{$\boxed{1}$}\textcolor{blue}{$\boxed{\numprint{10000110}}$}\textcolor{OliveGreen}{$\boxed{\numprint{01010001100000000000000}}$}}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 2}
+		Donner le représentation sur 32 bits du nombre $0,1$
+		\begin{enumerate}
+			\item<2-> Le nombre est positif, donc le bit de signe est \textcolor{BrickRed}{$\boxed{0}$}.
+			\item<3-> $\base{0,1}{10} = \base{0,000110011001100\dots}{2}$
+			\item<4-> La mantisse est décalée de façon à n'avoir qu'un chiffre non nul avant la virgule : \\
+				$\base{0,1}{10} = \base{1,10011001100\dots}{2} \times 2^{-4}$
+			\item<5-> L'exposant est donc $-4$, et avec le décalage il est stocké sous la forme $-4+127$ = 123. c'est-à-dire \textcolor{blue}{$\boxed{\numprint{01111011}}$} en base 2.
+			\item<6-> La mantisse est infinie, on la limite au 23 premiers bits (c'est un arrondi et non une troncature) le 1 initial  n'est pas stocké afin d'économiser un bit. La mantisse est donc \textcolor{OliveGreen}{$\boxed{\numprint{10011001100110011001101}}$}
+		\end{enumerate}
+		\onslide<7->{Le nombre $0,1$ est donc stocké sous la forme : \\
+			\textcolor{BrickRed}{$\boxed{0}$}\textcolor{blue}{$\boxed{\numprint{01111011}}$}\textcolor{OliveGreen}{$\boxed{\numprint{10011001100110011001101}}$}}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple 3}
+		Quel nombre est stocké sous la forme :
+		\textcolor{BrickRed}{$\boxed{0}$}\textcolor{blue}{$\boxed{\numprint{10000100}}$}\textcolor{OliveGreen}{$\boxed{\numprint{01010101000000000000000}}$}
+		\begin{enumerate}
+			\item<1-> Le bit de signe est 0, le nombre est positif
+			\item<2-> L'exposant est $\base{10000100}{2} = \base{132}{10}$, c'est-à-dire 5 en soustrayant le décalage de 127.
+			\item<3-> Le 1 initial de la mantisse n'est pas stocké et donc elle est en réalité de $\base{1,01010101000000000000000}{2}=\base{1,33203125}{10}$
+			\item<4-> Ce nombre est donc $1,33203125 \times 2^5 = 42,625$.
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Conséquences de l'arithmétique à virgule flottante}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{\textcolor{yellow}{\important} Attention !}
+		Cette représentation approximative des nombres réels induit des conséquences importantes :
+		\begin{itemize}
+			\item<2-> Les tests d'égalité entre flottants ne sont pas pertinents. On doit les éviter ou les effectuer à un $\varepsilon$ près. \\
+				\onslide<3-> A titre d'exemple le test {\tt 0.1 + 0.2 == 0.3} renvoie faux
+			\item<4-> Les valeurs calculées par un programme peuvent être très éloignés des valeurs théoriques d'un algorithme.\\
+				\onslide<5-> Des exemples seront vus en TP.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+\end{document}
+

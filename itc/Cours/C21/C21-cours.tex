@@ -1,0 +1,639 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{4}
+\newcommand{\Ctitle}{\cnum Algorithmique pour l'IA et l'étude des jeux}
+
+\makess{Rappels sur les graphes}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Aspect historique}
+		\begin{itemize}
+			\item<1-> C'est le mathématicien suisse Leonhard Euler (1707-1783) qui est à l'origine de la création de la théorie des graphes.
+			\item<2-> Il en pose les bases en résolvant le problème des 7 ponts de  Königsberg en 1740.
+			\item<3-> Les graphes interviennent à présent dans de nombreux problèmes (recherche de chemins, réseau, \dots) en informatique comme en mathématiques.
+		\end{itemize}
+	\end{block}
+	\begin{alertblock}{Définition}
+		\onslide<4->{Un \textcolor{red}{graphe orienté} est la donnée :}
+		\begin{itemize}
+			\item<5->{D'un ensemble de \textcolor{blue}{sommets} $S$ (\textcolor{gray}{V pour \textit{vertice} en anglais.}).}
+			\item<6->{D'un ensemble de couples de sommets $A \subseteq S \times S$ appelés \textcolor{blue}{arc} (notés $x \rightarrow y$).(\textcolor{gray}{E pour \textit{edges} en anglais}).}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% Premiers exemples
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{pspicture}(0,0)(5,4)
+			\rput(1,1){\circlenode{S1}{$a$}}
+			\rput(2,3){\circlenode{S2}{$b$}}
+			\rput(4,2){\circlenode{S3}{$c$}}
+			\rput(8,3){\circlenode{S4}{$d$}}
+			\rput(7,2){\circlenode{S5}{$e$}}
+			\rput(6,3){\circlenode{S6}{$f$}}
+			\rput(4,3.5){\circlenode{S7}{$g$}}
+			\ncarc{->}{S5}{S6}
+			\ncarc{->}{S4}{S5}
+			\ncarc{->}{S6}{S4}
+			\ncarc{->}{S1}{S2}
+			\ncarc{->}{S2}{S1}
+			\ncarc{->}{S2}{S3}
+			\ncarc{->}{S2}{S7}
+		\end{pspicture}\\
+		\onslide<2->{$S = \{a,b,c,d,e,f,g\}$ \\}
+		\onslide<3->{$A = \{(e,f),(d,e),(f,d),(a,b),(b,a),(b,c),(b,g)\}$\\}
+		\onslide<4->{\textcolor{BrickRed}{\small \danger} Seule la données de $S$ et $A$ défini le graphe et \textit{pas} les positions des sommets sur le schéma.}
+	\end{exampleblock}
+\end{frame}
+
+% Vocabulaire
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Vocabulaire}
+		\begin{itemize}
+			\item<1-> Le \textcolor{blue}{degré} d'un graphe est son nombre de sommets.
+			\item<2-> Un arc de la forme $(x,x)$ est une \textcolor{blue}{boucle}.
+			\item<2-> Le \textcolor{blue}{degré sortant} d'un sommet $s$ noté $d_+(s)$ est le nombre d'arcs de la forme $(s,x)$.
+			\item<3-> Le \textcolor{blue}{degré entrant} d'un sommet $s$ noté $d_{-}(s)$ est le nombre d'arcs de la forme $(x,s)$.
+			\item<4-> Un \textcolor{blue}{chemin}de longueur $n$ du sommet $s$ au sommet $t$ dans un graphe $(S,A)$ est une séquence $x_0, \dots, x_n$ de sommets tels que $x_0=s$, $x_n=t$ et $(x_i,x_{i+1}) \in A$ pour $i \in \intN{0}{n-1}$.
+			\item<5-> Un chemin est \textcolor{blue}{simple} lorsqu'il est sans répétition d'arcs.
+			\item<6-> Un \textcolor{blue}{cycle} est un chemin simple d'un sommet à lui même.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% Exercices
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{pspicture}(0,0)(5,4)
+			\rput(1,1){\circlenode{S1}{$a$}}
+			\rput(2,3){\circlenode{S2}{$b$}}
+			\rput(4,2){\circlenode{S3}{$c$}}
+			\rput(8,3){\circlenode{S4}{$d$}}
+			\rput(7,2){\circlenode{S5}{$e$}}
+			\rput(6,3){\circlenode{S6}{$f$}}
+			\rput(4,3.5){\circlenode{S7}{$g$}}
+			\ncarc{->}{S5}{S6}
+			\ncarc{->}{S4}{S5}
+			\ncarc{->}{S6}{S4}
+			\ncarc{->}{S1}{S2}
+			\ncarc{->}{S2}{S1}
+			\ncarc{->}{S3}{S2}
+			\ncarc{->}{S7}{S3}
+			\ncarc{->}{S2}{S7}
+			\nccircle{->}{S7}{0.3cm}
+		\end{pspicture}\\
+		\begin{itemize}
+			\item<1-> Donner $d_+(b)$.
+			\item<2-> Donner $d_-(g)$.
+			\item<3-> Donner un chemin sans cycle de $q$ à $a$.
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Définition}
+		\onslide<1->{Un \textcolor{red}{graphe non orienté} est la donnée :}
+		\begin{itemize}
+			\item<2->{D'un ensemble de \textcolor{blue}{sommets ou noeuds} $S$.}
+			\item<3->{D'un ensemble de \textbf{paires} de sommets $A$  appelés \textcolor{blue}{arcs ou arêtes} notés $x \text{ --- } y$.}
+		\end{itemize}
+	\end{alertblock}
+	\begin{block}{Vocabulaire}
+		\begin{itemize}
+			\item<4-> Dans le contexte des graphes orientés cela revient à $(x,y) \in A$ ssi $(y,x) \in A$.
+			\item<5-> Les définitions de chemin, degrés, \dots des graphes orientés s'étendent naturellement aux graphes non orientés.
+			\item<6-> On dit qu'un graphe non orienté $(S,A)$ est \textcolor{blue}{connexe} lorsqu'il existe un chemin entre toute paire de sommets.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+%graphes pondérés
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Graphes pondérés}
+		\begin{itemize}
+			\item<1-> Dans de nombreuses situations, on est amené à attacher une information aux arcs d'un graphe (ex : distance entre deux villes, coût d'une liaison dans un réseau informatique, \dots), on parle alors de \textcolor{blue}{graphe pondéré}.
+			\item<2-> L'information, ou \textcolor{blue}{étiquette} attaché à un noeud est souvent de nature numérique, on parle alors de \textcolor{blue}{poids} ou \textcolor{blue}{longueur} d'un arc.
+				\item<3->Le coût d'un chemin est alors la somme des poids des arcs qui le compose.
+		\end{itemize}
+	\end{block}
+	\onslide<4->{
+		\begin{exampleblock}{Exemple}
+			\begin{pspicture}(0,0)(5,2.2)
+				\rput(1,1){\circlenode{A}{$a$}}
+				\rput(6,1){\circlenode{B}{$b$}}
+				\rput(1,2){\circlenode{C}{$c$}}
+				\rput(6,2){\circlenode{D}{$d$}}
+				\rput(3.5,1.5){\circlenode{E}{$e$}}
+				\ncarc{->}{C}{E} \naput{3}
+				\ncarc{->}{A}{E} \nbput{7}
+				\ncarc{->}{E}{B} \naput{4}
+				\ncarc{->}{B}{D} \nbput{1}
+				\ncarc{->}{B}{A} \naput{3}
+				\ncarc{->}{C}{A} \nbput{2}
+			\end{pspicture}
+		\end{exampleblock}}
+\end{frame}
+
+% Implémentation des graphes par matrice d'adjacence
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Représentation par matrice d'adjacence}
+		On peut représenter un graphe à $n$ sommets par sa \textcolor{blue}{matrice d'adjacence} $M$, c'est-à-dire un tableau de $n$ lignes et $n$ colonnes :
+		\begin{itemize}
+			\item<2-> On numérote les sommets du graphe
+			\item<3-> S'il y a une arête du sommet $i$ vers le sommet $j$ alors on place un 1 à la ligne $i$ et à la colonne $j$ de $M$
+			\item<4-> Sinon on place un 0
+		\end{itemize}
+	\end{alertblock}
+	\begin{block}{Remarques}
+		\begin{itemize}
+			\item<5-> Si le graphe n'est pas orienté alors la matrice est symétrique par rapport à sa première diagonale.
+			\item<6-> On peut représenter les graphes pondérés en écrivant le poids à la place du 1 pour chaque arête.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% Exemple de matrice d'adjacences
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{enumerate}
+			\item<1-> En supposant les sommets numérotés dans l'ordre alphabétique, écrire la matrice d'adjacence du graphe suivant :
+				\begin{center}
+					\begin{pspicture}(5,2)
+						\rput(0,1.8){\circlenode{A}{A}}
+						\rput(1,0.5){\circlenode{E}{E}}
+						\rput(2,1){\circlenode{B}{B}}
+						\rput(4,0.7){\circlenode{D}{D}}
+						\rput(6,1.5){\circlenode{C}{C}}
+						\ncarc{->}{A}{E}
+						\ncarc{->}{A}{B}
+						\ncarc{->}{A}{C}
+						\ncarc[arcangle=-10]{->}{B}{D}
+						\ncarc{->}{C}{B}
+						\ncarc[arcangle=-10]{->}{D}{C}
+						\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+						\ncline{->}{E}{B}
+					\end{pspicture}
+				\end{center}
+			\item<2-> Dessiner le graphe ayant la matrice d'adjacence suivante (on appellera les sommets $S_1, S_2, \dots $) :\\
+				$\begin{pmatrix}
+						0 & 0 & 1 & 1 & 1 \\
+						1 & 0 & 1 & 0 & 0 \\
+						1 & 1 & 0 & 0 & 1 \\
+						1 & 0 & 0 & 1 & 0 \\
+						0 & 0 & 1 & 0 & 0 \\
+					\end{pmatrix}$
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+
+% Implémentation des graphes par liste d'adjacence
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{alertblock}{Représentation par listes d'adjacence}
+		On peut représenter un graphe à l'aide de listes d'adjacences, c'est-à-dire en mémorisant pour chaque sommet du graphe la liste de ses voisins.
+		\begin{itemize}
+			\item<2-> On crée pour chaque sommet du graphe une liste
+			\item<3-> S'il y a une arête du sommet $S_i$ vers le sommet $S_j$ alors  $S_j$ est dans la liste de $S_i$
+		\end{itemize}
+	\end{alertblock}
+	\begin{block}{Remarques}
+		\begin{itemize}
+			\item<5-> Lorsqu'un graphe a "peu" d'arête cette implémentation est plus intéressante en terme d'occupation mémoire que celle par matrice d'adjacence.
+			\item<6-> En Python, on utilisera un dictionnaire pour représenter les listes d'adjacences, les clés sont les sommets et les valeurs les listes associées
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% Exemple de liste d'adjacences
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{enumerate}
+			\item<1-> Ecrire les listes d'adjacences du graphe suivante :
+			\begin{center}
+				\begin{pspicture}(5,2)
+					\rput(0,1.8){\circlenode{A}{A}}
+					\rput(1,0.5){\circlenode{E}{E}}
+					\rput(2,1){\circlenode{B}{B}}
+					\rput(4,0.7){\circlenode{D}{D}}
+					\rput(6,1.5){\circlenode{C}{C}}
+					\ncarc{->}{A}{E}
+					\ncarc{->}{A}{B}
+					\ncarc{->}{A}{C}
+					\ncarc[arcangle=-10]{->}{B}{D}
+					\ncarc{->}{C}{B}
+					\ncarc[arcangle=-10]{->}{D}{C}
+					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+					\ncline{->}{E}{B}
+				\end{pspicture}
+			\end{center}
+			\item<2-> Dessiner le graphe représenté par le dictionnaire Python suivante :
+				\begin{lstlisting}
+{ 	
+	'A' : ['C'],
+ 	'B' : ['D','E'],
+ 	'C' : ['A','B'],
+ 	'D' : ['A','C'],
+ 	'E' : ['B','C','D']
+} 
+\end{lstlisting}
+		\end{enumerate}
+	\end{exampleblock}
+\end{frame}
+
+% Exemple de matrice d'adjacences
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Parcours d'un graphe}
+		A la base des algorithmes sur les graphes, on trouve les parcours de graphe, c'est-à-dire l'exploration des sommets. A partir du sommet de départ, on peut :
+		\begin{itemize}
+			\item<1-> explorer tous ses voisins immédiats, puis les voisins des voisins et ainsi de suite. Le graphe est donc exploré en \og cercle concentrique\fg autour du sommet de départ  \dots, on parle alors de  \textcolor{blue}{parcours en largeur} ou \textcolor{gray}{breadth first search (\textit{BFS})} en anglais.
+			\item<2-> explorer à chaque étape le premier voisin non encore exploré. Lorsque qu'on atteint un sommet dont tous les voisins ont déjà été exploré, on revient en arrière, on parle alors de  \textcolor{blue}{parcours en profondeur} ou \textcolor{gray}{depth first search (\textit{DFS})} en anglais.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+		\begin{exampleblock}{Exemple de parcours en largeur}
+			\begin{center}
+					\begin{pspicture}(5,2)
+						\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
+						\rput(1,0.5){\circlenode{E}{E}}
+						\rput(2,1){\circlenode{B}{B}}
+						\rput(4,0.7){\circlenode{D}{D}}
+						\rput(6,1.5){\circlenode{C}{C}}
+						\ncarc{->}{A}{E}
+						\ncarc{->}{A}{B}
+						\ncarc{->}{A}{C}
+						\ncarc[arcangle=-10]{->}{B}{D}
+						\ncarc{->}{C}{B}
+						\ncarc[arcangle=-10]{->}{D}{C}
+						\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+						\ncline{->}{E}{B}
+					\end{pspicture}
+				\end{center}
+		Sommets explorés : \fbox{A}
+		\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple de parcours en largeur}
+		\begin{center}
+				\begin{pspicture}(5,2)
+					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
+					\rput(1,0.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}
+					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
+					\rput(4,0.7){\circlenode{D}{D}}
+					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
+					\ncarc{->}{A}{E}
+					\ncarc{->}{A}{B}
+					\ncarc{->}{A}{C}
+					\ncarc[arcangle=-10]{->}{B}{D}
+					\ncarc{->}{C}{B}
+					\ncarc[arcangle=-10]{->}{D}{C}
+					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+					\ncline{->}{E}{B}
+				\end{pspicture}
+			\end{center}
+	Sommets explorés : \fbox{A}, \fbox{B,C,E}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple de parcours en largeur}
+		\begin{center}
+				\begin{pspicture}(5,2)
+					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
+					\rput(1,0.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}
+					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
+					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
+					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
+					\ncarc{->}{A}{E}
+					\ncarc{->}{A}{B}
+					\ncarc{->}{A}{C}
+					\ncarc[arcangle=-10]{->}{B}{D}
+					\ncarc{->}{C}{B}
+					\ncarc[arcangle=-10]{->}{D}{C}
+					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+					\ncline{->}{E}{B}
+				\end{pspicture}
+			\end{center}
+	Sommets explorés : \fbox{A}, \fbox{B,C,E}, \fbox{D}.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple de parcours en profondeur}
+		\begin{center}
+				\begin{pspicture}(5,2)
+					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
+					\rput(1,0.5){\circlenode{E}{E}}
+					\rput(2,1){\circlenode{B}{B}}
+					\rput(4,0.7){\circlenode{D}{D}}
+					\rput(6,1.5){\circlenode{C}{C}}
+					\ncarc{->}{A}{E}
+					\ncarc{->}{A}{B}
+					\ncarc{->}{A}{C}
+					\ncarc[arcangle=-10]{->}{B}{D}
+					\ncarc{->}{C}{B}
+					\ncarc[arcangle=-10]{->}{D}{C}
+					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+					\ncline{->}{E}{B}
+				\end{pspicture}
+			\end{center}
+	Sommets explorés : \fbox{A}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple de parcours en profondeur}
+		\begin{center}
+				\begin{pspicture}(5,2)
+					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
+					\rput(1,0.5){\circlenode{E}{E}}
+					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
+					\rput(4,0.7){\circlenode{D}{D}}
+					\rput(6,1.5){\circlenode{C}{C}}
+					\ncarc{->}{A}{E}
+					\ncarc{->}{A}{B}
+					\ncarc{->}{A}{C}
+					\ncarc[arcangle=-10]{->}{B}{D}
+					\ncarc{->}{C}{B}
+					\ncarc[arcangle=-10]{->}{D}{C}
+					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+					\ncline{->}{E}{B}
+				\end{pspicture}
+			\end{center}
+	Sommets explorés : A, B
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple de parcours en profondeur}
+		\begin{center}
+				\begin{pspicture}(5,2)
+					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
+					\rput(1,0.5){\circlenode{E}{E}}
+					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
+					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
+					\rput(6,1.5){\circlenode{C}{C}}
+					\ncarc{->}{A}{E}
+					\ncarc{->}{A}{B}
+					\ncarc{->}{A}{C}
+					\ncarc[arcangle=-10]{->}{B}{D}
+					\ncarc{->}{C}{B}
+					\ncarc[arcangle=-10]{->}{D}{C}
+					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+					\ncline{->}{E}{B}
+				\end{pspicture}
+			\end{center}
+	Sommets explorés : A, B, D
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple de parcours en profondeur}
+		\begin{center}
+				\begin{pspicture}(5,2)
+					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
+					\rput(1,0.5){\circlenode{E}{E}}
+					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
+					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
+					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
+					\ncarc{->}{A}{E}
+					\ncarc{->}{A}{B}
+					\ncarc{->}{A}{C}
+					\ncarc[arcangle=-10]{->}{B}{D}
+					\ncarc{->}{C}{B}
+					\ncarc[arcangle=-10]{->}{D}{C}
+					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+					\ncline{->}{E}{B}
+				\end{pspicture}
+			\end{center}
+	Sommets explorés : A, B, D, C
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple de parcours en profondeur}
+		\begin{center}
+				\begin{pspicture}(5,2)
+					\rput(0,1.8){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
+					\rput(1,0.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}
+					\rput(2,1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}
+					\rput(4,0.7){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}
+					\rput(6,1.5){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}
+					\ncarc{->}{A}{E}
+					\ncarc{->}{A}{B}
+					\ncarc{->}{A}{C}
+					\ncarc[arcangle=-10]{->}{B}{D}
+					\ncarc{->}{C}{B}
+					\ncarc[arcangle=-10]{->}{D}{C}
+					\ncarc[arcangleA=-45,arcangleB=-40]{->}{E}{C}
+					\ncline{->}{E}{B}
+				\end{pspicture}
+			\end{center}
+	Sommets explorés : A, B, D, C, E
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{File et parcours en largeur}
+		\begin{itemize}
+			\item<1-> Pour un parcours en largeur, on doit stocker dans une structure de données les sommets en attente d'être explorés. c'est-à-dire les voisins du sommet de départ, puis les voisins des voisins \dots 
+			Ces sommets doivent être retirés pour exploration, dans leur ordre d'insertion, la structure de données utilisée est donc du type \textcolor{blue}{premier entré, premier sorti} (\textcolor{gray}{first in first out (\textit{FIFO})}).
+			\item<2-> Ce type de structure de données s'appelle une \textcolor{blue}{file}.
+			\item<3-> Pour l'implémentation on doit pouvoir \textcolor{blue}{enfiler} (ajouter un sommet dans la file) et \textcolor{blue}{défiler} (retirer une sommet) de façon efficace donc en $O(1)$. 
+			\item<4-> Les listes de Python ne sont pas adaptées, on utilisera le module \kw{deque} de Python, enfiler correspond alors à \kw{appendleft} et défiler à \kw{pop}.\vspace{0.4cm} \\
+			\onslide<5->{\rnode{enf}{\framebox[1cm]{$F$}}}  \hspace{2cm}
+			\begin{tabular}{|p{0.5cm}|p{0.5cm}|p{0.5cm}|p{0.5cm}|}
+				\hline
+				\rnode{in}{$E$} & {$D$} & {$C$} & \rnode{out}{$B$} \\
+				\hline
+				\multicolumn{4}{c}{File d'attente} \\
+			\end{tabular}
+			\hspace{2cm} \onslide<9->{\rnode{def}{\framebox[1cm]{$B$}}}
+			\onslide<5->{\ncline[linestyle=dashed,nodesepB=0.2cm]{->}{enf}{in}}
+			\onslide<6->{\naput{{\footnotesize \textcolor{blue}{{\tt appendleft}}}}}
+			\onslide<9->{\ncline[linestyle=dashed,nodesepA=0.4cm]{->}{out}{def}}
+			\onslide<10->{\naput{{\footnotesize \textcolor{blue}{\tt pop}}}}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{File et parcours en profondeur}
+		\begin{itemize}
+			\item<1-> Pour un parcours en profondeur, on stocker aussi dans une structure de données les sommets en attente d'être explorés. Mais cette fois, la structure de données utilisée est donc du type \textcolor{blue}{dernier entré, premier sorti} (\textcolor{gray}{last in first out (\textit{LIFO})}).
+			\item<2-> Ce type de structure de données s'appelle une \textcolor{blue}{pile}.
+			\item<3-> Pour l'implémentation, on se contente d'utiliser la récursivité de façon à ce que la pile des sommets en attente d'être exploré soit gérée de façon automatique par les appels récursifs.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Algorithme de Djikstra : exemple}
+		\begin{center}
+			\begin{pspicture}(5,2.7)
+				\rput(0,2.2){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{A}{A}}
+				\alt<15->{\rput(5,1.2){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{E}{E}}}{\rput(5,1.2){\circlenode{E}{E}}}
+				\alt<11->{\rput(1.5,1.1){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{B}{B}}}{\rput(1.5,1.1){\circlenode{B}{B}}}
+				\alt<22->{\rput(4,0.4){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{D}{D}}}{\rput(4,0.4){\circlenode{D}{D}}}
+				\alt<6->{\rput(3,2.3){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{C}{C}}}{\rput(3,2.3){\circlenode{C}{C}}}
+				\alt<19->{\rput(7,1.3){\circlenode[linewidth=1pt,linecolor=red,fillcolor=fluo,fillstyle=solid]{F}{F}}}{\rput(7,1.3){\circlenode{F}{F}}}
+				\alt<5->{\ncarc[linecolor=red,linewidth=1pt]{A}{C}}{\ncarc{A}{C}} \naput{1}
+				\alt<4->{\ncarc[arcangle=-10,linecolor=red,linewidth=1pt]{A}{B}}{\ncarc[arcangle=-10]{A}{B}} \naput{5}
+				\alt<8->{\ncarc[linecolor=red,linewidth=1pt]{B}{C}}{\ncarc{B}{C}} \naput{3}
+				\alt<14->{\ncarc[linewidth=1pt,linecolor=red]{B}{E}}{\ncarc{B}{E}} \naput{2}
+				\alt<10->{\ncarc[linecolor=red,linewidth=1pt]{C}{F}}{\ncarc{C}{F}} \naput{7}
+				\alt<9->{\ncarc[arcangle=-5,linecolor=red,linewidth=1pt]{C}{E}}{\ncarc[arcangle=-5]{C}{E}} \naput{5}
+				\alt<13->{\ncarc[arcangle=-10,linecolor=red,linewidth=1pt]{B}{D}}{\ncarc[arcangle=-10]{B}{D}} \nbput{4}
+				\alt<21->{\ncarc[arcangle=-10,linecolor=red,linewidth=1pt]{D}{F}}{\ncarc[arcangle=-10]{D}{F}} \nbput{3}
+				\alt<18->{\ncarc[linecolor=red,linewidth=1pt]{E}{F}}{\ncarc{E}{F}} \naput{1}
+			\end{pspicture}
+		\end{center}
+		\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|}
+			\hline
+			A                                        & B                                         & C                                        & D                                      & E                                         & F                                         &                                    \\
+			\hline
+			\alt<2->{ 0 (A)}{ }                      & \alt<4->{5 (A)}{}                         & \alt<5->{1 (A)}{ }                       &                                        &                                           &                                           & \alt<3->{ \textcolor{blue}{A}}{ }  \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<8->{4 (C)}{ }                        & \alt<6->{\textcolor{red}{1 (A)}}{ }      &                                        & \alt<9->{6 (C)}{ }                        & \alt<10->{8 (C)}{ }                       & \alt<7->{ \textcolor{blue}{C}}{ }  \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<11->{\textcolor{red}{4 (C)}}{ }      & \alt<7->{\textcolor{blue}{\ding{52}}}{ } & \alt<13->{8 (B)}{ }                    & \alt<14->{6 (B)}{ }                       &                     & \alt<12->{ \textcolor{blue}{B}}{ } \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<12->{\textcolor{blue}{\ding{52}}}{ } & \alt<7->{\textcolor{blue}{\ding{52}}}{ } &                  & \alt<15->{\textcolor{red}{6 (B)}}{ }      & \alt<18->{7 (E)}{}                        & \alt<16->{ \textcolor{blue}{E}}{ } \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<12->{\textcolor{blue}{\ding{52}}}{ } & \alt<7->{\textcolor{blue}{\ding{52}}}{ } & \alt<21->{11 (F)}{ }                    & \alt<16->{\textcolor{blue}{\ding{52}}}{ } & \alt<19->{\textcolor{red}{7 (E)}}{ }      & \alt<20->{ \textcolor{blue}{F}}{ } \\
+			\hline
+			\alt<3->{\textcolor{blue}{\ding{52}}}{ } & \alt<12->{\textcolor{blue}{\ding{52}}}{ } & \alt<7->{\textcolor{blue}{\ding{52}}}{ } & \alt<22->{\textcolor{red}{{8 (B)}}}{ } & \alt<16->{\textcolor{blue}{\ding{52}}}{ } & \alt<19->{\textcolor{blue}{\ding{52}}}{ } & \alt<23->{ \textcolor{blue}{D}}{ } \\
+			\hline
+		\end{tabularx}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Jeux à deux joueurs}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Généralités}
+		\begin{itemize}
+			\item<1-> On s'intéresse maintenant à des jeux à deux joueurs ou chaque joueur joue en alternance jusqu'à la victoire de l'un deux ou un match nul. On supposera que :
+			\begin{itemize}
+				\item<2-> le jeu est à \textcolor{blue}{somme nulle}, c'est-à-dire que la somme des pertes et des gains des deux joueurs vaut 0,
+				\item<3-> le jeu est à \textcolor{blue}{information complète} c'est-à-dire que les joueurs disposent de toutes les informations pour effectuer leur choix.
+			\end{itemize}
+			\onslide<4->{Le jeu du morpion, des dames ou des échecs sont des exemples bien connus.}
+			\item<5-> Un tel jeu se modélise par \textcolor{blue}{un graphe orienté biparti} $G = (S, A)$ c'est-à-dire un graphe dans lequel on peut partitionné l'ensemble des sommets en deux ensembles disjoints  $S_1$ et $S_2$ tels que chaque arc possède une extrémité dans $S_1$ (etats du jeu contrôlé par le joueur 1) et l'autre dans $S_2$ (états du jeu contrôlé par le joueur 2).
+		\end{itemize} 
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple : le jeu de Juniper Green}
+		{\small On choisit un entier $N$, puis le jeu ne comporte que trois règles.}
+		\begin{enumerate}
+			\item<2-> {\small Le joueur 1 choisit un \textit{nombre pair} entre 1 et $N$.}
+			\item<3-> {\small A tour de rôle, chaque joueur doit choisir un nombre dans $\intN{1}{N}$ qui est un multiple ou un diviseur du nombre choisi au tour précédent.}
+			\item<4-> {\small Un nombre ne peut-être joué qu'une seule fois. }
+		\end{enumerate}
+		\onslide<5->{\small Un joueur perd dès qu'il ne peut plus jouer, c'est donc un jeu sans match nul.}
+		\onslide<6->{\small Dans le cas simple ou $N=5$, on peut tracer le graphe complet du jeu}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Graphe de Juniper-Green pour $N=5$}
+		\begin{center}
+			\includegraphics[height=150px]{juniper5.eps}
+		\end{center}
+		\onslide<2->{\small En partant des états finaux, on peut remonter dans le graphe et déterminer les positions gagnantes pour un joueur donné. Ce sont les \textcolor{blue}{attracteurs} pour ce joueur.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Définition des attracteurs}
+		On note $W_1$ l'ensemble des états terminaux gagnants pour le joueur 1, on note $A_i$ l'ensemble des positions gagnantes pour le joueur 1 qui permettent une victoire en au plus $i$ coups. Alors : \\
+		$\left\{ 
+			\begin{array}{lll}
+				A_0 &=& W_1 \\
+				A_{i+1} & = & A_{i} 
+						&  & \bigcup \left\{ v \in V_2 \text{ ayant tous les arcs sortants dans } A_i \right\}\\
+						& &  \bigcup \left\{ v \in V_1 \text{ ayant au moins un arc sortant dans } A_i \right\}
+			\end{array}
+		\right.$
+	\end{block}
+	\begin{alertblock}{Stratégie gagnante}
+		Un \textcolor{blue}{stratégie} pour le joueur $i$ est une application de $V$ dans $V$ et une stratégie est \textcolor{blue}{gagnante} si elle conduit à la victoire du joueur quelle que soit les coups de l'adversaire. Lorsqu'il existe une stratégie gagnante à partir d'un état du jeu, cet état est une \textcolor{blue}{position gagnante}.
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		Dans le jeu de Juniper Green avec $N=5$, la position de départ est gagnante pour le joueur 2 (si le joueur 1 joue 2, il joue 4 et inversement, cela impose au joueur 1 de jouer 1 ce qui conduit à sa défaite). \\
+		\smallskip
+		On voit donc qu'une position gagnante pour le joueur 2, n'est pas forcément une position où c'est à lui de jouer.
+	\end{exampleblock}
+	\onslide<2->{
+	\begin{block}{Remarque}
+		Le calcul explicite des attracteurs et donc la détermination d'une stratégie gagnante n'est plus possible lorsque le nombres de sommet du graphe est trop important. Pour $N=24$, il y a déjà $\numprint{540568}$ sommets dans le graphe du jeu de Juniper Green ! 
+		Pour les échecs le nombre de sommet est estimé à environ $10^{50}$ ...
+	\end{block}}
+\end{frame}
+
+\makess{Algorithme du min-max}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{block}{Principe}
+		\begin{itemize}
+		\item<1-> Lorsqu'il n'est pas envisageable d'explorer la totalité des états du jeu, on se donne une \textcolor{blue}{heuristique} c'est-à-dire une fonction $h$ permettant d'\textit{évaluer} un état du jeu telle que $h(s_1) > h(s_2)$ si le joueur 1 considère que l'état $s_1$ est plus favorable pour lui que l'état $s_2$.
+		\item<2-> Le but du jouer 1 va être alors de rechercher la position qui \textcolor{blue}{maximimise} $h$.
+		\item<3-> Alors que le jouer 2 va  rechercher la position qui \textcolor{blue}{minimise} $h$.
+		\item<4-> L'algorithme fixe un niveau maximal de profondeur de recherche dans le graphe du jeu et remonte à la racine une valeur minmax calculée récursivement par :
+		\begin{itemize}
+		\item<5-> minmax$(s) = h(s)$ si $s$ est une feuille où que $s$ est à la profondeur maximale.
+		\item<6-> minmax$(s) = \max(\text{minmax}(t_1,\dots,t_n))$ si $s \in S_1$ (où $(s,t_i) \in A$)
+		\item<7-> minmax$(s) = \min(\text{minmax}(t_1,\dots,t_n))$ si $s \in S_2$ (où $(s,t_i) \in A$)
+		\end{itemize}
+	\end{itemize}
+	\end{block}
+\end{frame}
+
+\newcommand{\UN}[1]{\TCircle[radius=0.25cm,fillcolor=red!20!white,fillstyle=solid]{#1}}
+\newcommand{\DE}[1]{\TCircle[radius=0.25cm,fillcolor=blue!20!white,fillstyle=solid]{#1}}
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple (profondeur 1)}
+		\begin{center}
+			\pstree[arrows=->,treesep=0.8cm,levelsep=1.2cm]{\UN{}}{
+						      \DE{3} \DE{2} \DE{7} \DE{5}}
+		\end{center}
+		\medskip
+		\onslide<2->{Le joueur 1 maximise l'heuristique, il va donc sélectionner le coup menant à la valeur maximale 7.}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple (profondeur 2)}
+		\begin{center}
+			\pstree[arrows=->,treesep=0.8cm,levelsep=1.2cm]{\UN{}}{
+						    \pstree{\alt<3->{\DE{4}}{\DE{ }}}{ \UN{4} \UN{5}}
+							\pstree{\alt<4->{\DE{3}}{\DE{ }}}{ \UN{3} \UN{7}}
+							\pstree{\alt<5->{\DE{2}}{\DE{ }}}{ \UN{2} \UN{6}}
+							\pstree{\alt<6->{\DE{3}}{\DE{ }}}{ \UN{3} \UN{5}}
+							}
+		\end{center}
+		\medskip
+		\onslide<2->{La valeur \textit{minimale} des feuilles remonte car on suppose que le joueur 2  joue le coup qui minimise l'heuristique\\}
+		\onslide<7->{Le coup menant à la valeur maximale est sélectionné}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\Ctitle}{\stitle}
+	\inputpartPython{puissance4.py}{}{\footnotesize}{168}{189}
+\end{frame}
+
+
+\end{document}

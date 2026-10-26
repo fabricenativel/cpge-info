@@ -1,0 +1,35 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C20/}
+
+
+\psset{treesep=0.5cm,levelsep=0.8cm}
+
+\section{Parcours en largeur}
+
+On note $G = (V,E)$ le graphe, $s \in V$ le sommet source, $d[v]$ le tableau des distances et $Q$ la file et $\delta(v)$ la distance minimale du sommet source $s$ au sommet $v$. 
+
+\begin{itemize}
+
+\item[\textbullet] Montrons l'invariant noté $(I)$ : \og{}\textit{La file $Q$ contient $k$ sommets $v_1, \dots v_k$ avec $d[v_1] \leqslant \dots \leqslant d[v_k]$ et $d[v_k] \leqslant d[v_1] +1$} \fg{} (envisager l'évolution de la file suivant les cas enfiler ou défiler). 
+
+\begin{itemize}
+\item L'invariant est trivialement vraie à l'initialisation puisque la file ne contient que le sommet source.
+\item Si on défile l'élément $v_1$ alors la file devient $v_2, \dots v_k$ puisque $d[v_k] \leqslant d[v_1] + 1$ et $d[v_1] \leqslant d[v_2]$ on a $d[v_k] \leqslant d[v_2]+1$ et donc $(I)$ est préservé.
+\item Si on enfile l'élément $v_{k+1}$ c'est après avoir défilé $v_1$ et en fixant $d[v_{k+1}] = d[v_1] + 1$ la file est alors $v_2, \dots v_{k+1}$ et comme on avait par $(I)$, $d[v_k] \leqslant d[v_1] + 1$ on a bien $d[v_k] \leqslant d[v_{k+1}]$. Comme de plus $d[v_{k+1}] = d[v_1] + 1$ et $d[v_1] \leqslant d[v_2]$, on a aussi $d[v_{k+1}] \leqslant d[v_2] + 1$ et donc $(I)$ est préservé.
+\end{itemize}
+
+\item[\textbullet]Montrons par récurrence sur la propriété $\mathcal{P}(n)$ : \og{}\textit{pour tout sommet $v$ à distance $n$ de $s$, on a $d[v]=\delta(v)$} \fg{}.
+\begin{itemize}
+    \item Pour $n=0$, l'unique sommet à distant $0$ est $s$ et on bien initialisé $d[s]=0$.
+    \item Soit $n \in \N$ tel que $\mathcal{P}(n)$ soit vraie, et montrons $\mathcal{P}(n+1)$. Soit $v$ un sommet tel que $\delta(v) = n+1$. On note $\mathcal{U} = \{ u \in V; uv \in E \text{ et } \delta(u)=n \}$ (prédecesseur de $v$ situé à une distance $n$), cet ensemble est forcément non vide puisqu'il existe un chemin de longueur $n+1$ de $s$ à $v$. On note $u$ le sommet de $\mathcal{U}$ défilé avant tous les autres éléments de $\mathcal{U}$. Comme $\delta(u)=n$, par {\sc hr} $d[u] = \delta(u)$. Lorsque $u$ est défilé, $v$ n'est pas marqué sinon par l'invariant $(I)$ cela signifie que $v$ aurait été marqué par un sommet $t$ tel que $d[t] < n$ (par définition de $u$, on ne peut pas avoir $d[t]=n$) ce qui contredit $\delta(v) = n+1$. Donc lorsque $u$ est défilé, on marque $v$ et on affecte $d[v] = d[u] + 1$ et donc $d[v] = \delta(v)$.
+\end{itemize}
+
+\end{itemize}
+
+\end{document}
