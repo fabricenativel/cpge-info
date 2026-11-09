@@ -1,0 +1,277 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{DS}
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeConcours
+\DS{MP2I}{2}{Novembre 2026}
+
+\setboolean{corrige}{false}
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$e_0$}} \\
+		\hline
+	\end{tabular}
+}
+
+\alertbox{\danger}{Consignes}{
+	\begin{itemize}
+		\item[\textbullet] Les programmes demandés doivent être écrits en C ou en OCaml suivant l'exercice. Dans le cas du C, on suppose que les bibliothèques standard usuelles ({\tt <stdio.h>}, {\tt <stdlib.h>}, {\tt <stdbool.h>}) sont déjà importées.
+		\item[\textbullet] On pourra toujours librement utiliser une fonction demandée à une question précédente même si cette question n'a pas été traitée.
+		\item[\textbullet] Veillez à présenter vos idées et vos réponses partielles même si vous ne trouvez pas la solution complète à une question.
+		\item[\textbullet] La clarté et la lisibilité de la rédaction et des programmes sont des éléments de notation.
+	\end{itemize}
+}
+
+
+\begin{Exercise}[title = {Multiplication à la russe}]\\
+	On donne ci-dessous un algorithme appelé \textit{multiplication à la russe} qui prend en entrée deux nombres entiers positifs et renvoie leur produit en effectuant uniquement des divisions et multiplications par 2 ainsi que des additions et soustractions :\\
+    \begin{algorithm}[H]
+		\DontPrintSemicolon
+		\caption{Multiplication à la russe}
+		\Entree{$a \in \N, b \in \N$}
+		\Sortie{$a\times b$}
+		\everypar={\footnotesize \textcolor{gray}{\nl}}
+		$r \leftarrow 0$\;
+		\Tq{$a \neq 0$}{
+			\Si{$a$ est impair}
+			{$r \leftarrow r+ b$ \;}
+			$a \leftarrow \lfloor a/2 \rfloor$ \;
+			$b \leftarrow b*2$ \;
+		}
+		\Return $r$
+	\end{algorithm}
+      \Question{Donner les valeurs successives prises par les variables $a$, $b$ et $r$ si on fait fonctionner cet algorithme avec $a=57$ et $b=68$ en recopiant et en complétant le tableau suivant (on donne : $57\times68 = 3876$) :\\
+      \begin{tabular}{|l|c|c|c|}
+        \cline{2-4}
+        \multicolumn{1}{l|}{} & $a$ & $b$ & $r$ \\
+        \hline
+        valeurs initiales & 57 & 68 & 0 \\
+        \hline
+        après un tour de boucle & \comp{$28$} &\comp{$136$} & \comp{$68$} \\
+        \hline
+        après deux tours de boucle & \comp{$14$} &\comp{$272$} & \comp{$68$} \\
+		\hline
+		après trois tours de boucle & \comp{$7$} &\comp{$544$} & \comp{$68$} \\
+		\hline
+        après quatre tours de boucle & \comp{$3$} &\comp{$1088$} & \comp{$612$} \\
+		\hline
+		après cinq tours de boucle & \comp{$1$} &\comp{$2176$} & \comp{$1700$} \\
+		\hline
+		après six tours de boucle & \comp{$0$} &\comp{$4352$} & \comp{$3876$} \\
+		\hline
+      \end{tabular}
+      }
+      \Question{Donner une implémentation de cet algorithme en langage C sous la forme d'une fonction {\tt russe} de signature \mintinline{c}{int russe(int a, int b)}.}
+	  \ifcorrige
+	  \inputpartC{mult_russe.c}{}{}{4}{18}
+	  \fi
+      \Question{Prouver que cet algorithme termine.}
+	  \tcor{
+	 Dans l'algorithme ci-dessus, la quantité $a$ est un variant de boucle, en effet :
+	 \begin{enumerate}
+		\item $a \in \N$ par précondition.
+		\item $a$ reste positif car la seule opération effectuée sur $a$ est la division entière par 2.
+		\item $a$ décroît strictement car $a$ est divisé par 2 lors de chaque passage dans la boucle.
+	  \end{enumerate}
+	  L'algorithme termine car on a trouvé un variant de boucle.
+	  }
+      \Question{Prouver que cet algorithme est correct. En notant $a_0$ (resp. $b_0$) la valeur initiale de $a$ (resp. $b$), on pourra prouver l'invariant $r+ab = a_0b_0$.}
+	  \tcor{
+	  On note $a_0$ la valeur initiale de $a$ et $b_0$ la valeur initiale de $b$. Montrons que la propriété $I$ : \og{} $r+ab = a_0b_0$ \fg{} est un invariant de boucle.
+	  \begin{enumerate}
+		\item Avant d'entrer dans la boucle, $r=0$, $a= a_0$ et $b=b_0$ donc $r + ab = 0 + a_0b_0 = a_0b_0$ et $I$ est vérifiée.
+		\item On suppose $I$ vérifiée à l'entrée de la boucle et on note $a'$ (resp. $b'$, resp. $r'$) les valeurs prises par $a$ (resp. $b$, resp. $r$) au tour de boucle suivant, alors :
+		\begin{itemize}
+            \item Si $a$ est pair, $a'=a/2$, $b'=2b$ et $r' = r$ donc \\
+            $r' + a'b' = r + \dfrac{a}{2}\times 2b$ \\
+            $r' + a'b' = r + ab$ et puisque $I$ était supposée vraie en entrée de boucle, $r' + a'b' = a_0b_0$.
+            \item Sinon, $a'=(a-1)/2$, $b'=2b$ et $r' = r+b$ donc \\
+            $r' + a'b' = r + b + \dfrac{a-1}{2}\times 2b$ \\
+            $r' + a'b' = r + ab$ et puisque $I$ était supposée vraie en entrée de boucle, $r' + a'b' = a_0b_0$.
+        \end{itemize}
+	  \end{enumerate}
+	  En sortie de boucle, puisque $a=0$, cet invariant donne $r = a_0b_0$ ce qui prouve la correction de cet algorithme.
+	  }
+    \Question{Pour $a$ et $b$ deux entiers naturels, exprimer le produit $ab$ en fonction du produit de $\lfloor \dfrac{a}{2} \rfloor$ par $2b$ (distinguer les cas pair et impair). En déduire une version récursive de l'algorithme de multiplication à la russe et en donner une implémentation en langage C.}
+	\tcor{
+		En notant $\div$ le quotient dans la division entière, si $a$ est pair, alors $ab = a\div 2 \times 2b$, et sinon $ab = (a\div 2) \times 2b + b$.
+	}
+	\ifcorrige
+	  \inputpartC{mult_russe.c}{}{}{20}{32}
+	\fi
+	\Question{Écrire une version récursive de la multiplication à la russe en OCaml.}
+	\ifcorrige
+	  \inputpartOCaml{mult_russe.ml}{}{}{1}{4}
+	\fi
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Quelques expressions en OCaml}]\\
+Pour chacune des expressions ci-dessous, indiquer son type et sa valeur lorsqu'elle s'évalue sans erreur. Sinon indiquer la cause de l'erreur rencontrée.
+\Question{\mintinline{ocaml}{let n = 24 mod 7;;}}
+\tcor{{\tt n} est un entier (type {\tt int}) valant 3 (reste dans la division euclidienne de 24 par 7).}
+\Question{\mintinline{ocaml}{let perimetre = 4 *. 2.5;;}}
+\tcor{L'évaluation donne une erreur car l'opérateur {\tt *.} est la multiplication entre deux opérandes de type {\tt float}, ici l'un des opérandes ({\tt 4}) est un {\tt int}.}
+\Question{\mintinline{ocaml}{let v = 2.0**10;;}}
+\tcor{En OCaml, l'opérateur {\tt **} est l'exponentiation, mais il n'est défini que pour deux opérandes de type {\tt float} ; on obtient de nouveau une erreur puisque l'un des opérandes est entier. Pour calculer $2^{10}$, il faudrait écrire \mintinline{ocaml}{let v = 2.0**10.;;} }
+\Question{\mintinline{ocaml}{let at = '@' in print_char at;;}}
+\tcor{Cette expression s'évalue correctement ({\tt at} est bien de type {\tt char} car entre simples quotes), elle renvoie {\tt ()} de type {\tt unit} car c'est un affichage.}
+\Question{\mintinline{ocaml}{let coucou = let message = "Bonjour " + "tout le monde" in print_string message;;}}
+\tcor{L'opérateur {\tt +} est l'addition de deux entiers, on obtient donc une erreur ; l'opérateur de concaténation entre deux chaînes de caractères est {\tt \textasciicircum}.}
+\Question{\mintinline{ocaml}{let peri = let cote = 5 in 4*cote;;}}
+\tcor{L'expression s'évalue correctement, est de type {\tt int} et vaut l'entier {\tt 20}.}
+\Question{\mintinline{ocaml}{let langage = "OCaml" in langage.[1];;}}
+\tcor{L'expression s'évalue correctement, elle est de type {\tt char} et vaut {\tt 'C'} : c'est le caractère d'indice 1 de la chaîne {\tt "OCaml"}.}
+\Question{\mintinline{ocaml}{let x = 42 in (x / 10 > 4) && (x <= 21 || x>=42) ;;}}
+\tcor{L'expression s'évalue correctement, est de type {\tt bool} et vaut {\tt false} ; en effet, le premier opérande du {\tt \&\&} est faux puisque {\tt 42/10} vaut 4.}
+\Question{\mintinline{ocaml}{let k = if 2=1+1 then 'A' else 'B';;}}
+\tcor{L'expression s'évalue correctement et vaut {\tt 'A'} (type {\tt char}).}
+\Question{\mintinline{ocaml}{let x = 10 in if x > 0 then 1 else 0.0;;}}
+\tcor{L'évaluation donne une erreur de typage : les deux branches d'un {\tt if ... then ... else} doivent impérativement être du même type, or la branche {\tt then} est de type {\tt int} ({\tt 1}) et la branche {\tt else} est de type {\tt float} ({\tt 0.0}).}
+\Question{\mintinline{ocaml}{let x = 5 in if x > 0 then x + 1;;}}
+\tcor{L'évaluation donne une erreur de typage : en l'absence de {\tt else}, OCaml considère qu'il y a un {\tt else ()} implicite de type {\tt unit}. La branche {\tt then} devrait donc aussi être de type {\tt unit}, mais {\tt x + 1} est de type {\tt int}.}
+\Question{\mintinline{ocaml}{let rec fact n = if n=0 then 1 else n* fact (n-1);;}}
+\tcor{L'expression s'évalue correctement, c'est une fonction (valeur {\tt <fun>}) de type {\tt int -> int} (qui calcule la factorielle de {\tt n}).}
+\Question{\mintinline{ocaml}{let double x = 2 * x in double -3;;}}
+\tcor{L'évaluation donne une erreur de typage : OCaml interprète {\tt double - 3} comme la soustraction entre {\tt double} (de type {\tt int -> int}) et {\tt 3} (de type {\tt int}). Il faut parenthéser l'argument négatif : \mintinline{ocaml}{double (-3)}.}
+\Question{\mintinline{ocaml}{let l = [1; 2] :: [3; 4];;}}
+\tcor{L'évaluation donne une erreur de typage : l'opérateur {\tt ::} ajoute un élément en tête d'une liste. Comme le membre de gauche {\tt [1; 2]} est de type {\tt int list}, OCaml attend à droite une liste de listes ({\tt int list list}), alors que {\tt [3; 4]} est de type {\tt int list} (pour concaténer deux listes, il faut utiliser {\tt @}).}
+\end{Exercise}
+
+
+\begin{Exercise}[title = {Couleurs au format RVB}]\\
+En informatique, une couleur au format RVB (Rouge, Vert, Bleu) est représentée par trois composantes entières comprises entre $0$ et $255$. En langage C, on choisit de représenter chacune de ces composantes par le type {\tt uint8\_t} (entier non signé sur 8 bits, défini dans {\tt <stdint.h>}) et on définit le type structuré suivant :
+\inputpartC{rvb.c}{}{}{6}{12}
+
+\Question{Sur le Web (HTML/CSS), une couleur RVB est souvent notée en hexadécimal sur 6 chiffres sous la forme {\tt \#RRVVBB}, où {\tt RR}, {\tt VV} et {\tt BB} sont les écritures en base 16 sur deux chiffres des composantes {\tt r}, {\tt v} et {\tt b}. Donner les valeurs décimales des champs {\tt r}, {\tt v} et {\tt b} de la couleur codée par {\tt \#3A80FF}.}
+\tcor{
+    En convertissant chaque couple de chiffres hexadécimaux en base 10 :
+    \begin{itemize}
+        \item ${\tt r} = \base{3A}{16} = 3 \times 16 + 10 = 58$ ;
+        \item ${\tt v} = \base{80}{16} = 8 \times 16 + 0 = 128$ ;
+        \item ${\tt b} = \base{FF}{16} = 15 \times 16 + 15 = 255$.
+    \end{itemize}
+}
+\Question{On considère la couleur {\tt c} initialisée par \mintinline{c}{couleur c = {.r = 25, .v = 200, .b = 12};}. Donner l'écriture binaire sur 8 bits de chacune de ses trois composantes, puis en déduire le code hexadécimal {\tt \#RRVVBB} de cette couleur.}
+\tcor{
+    Décomposition en binaire sur 8 bits et conversion en hexadécimal (par blocs de 4 bits) :
+    \begin{itemize}
+        \item ${\tt r} = 25 = 16 + 8 + 1 = \base{0001\,1001}{2} = \base{19}{16}$ ;
+        \item ${\tt v} = 200 = 128 + 64 + 8 = \base{1100\,1000}{2} = \base{C8}{16}$ ;
+        \item ${\tt b} = 12 = 8 + 4 = \base{0000\,1100}{2} = \base{0C}{16}$.
+    \end{itemize}
+    Le code hexadécimal de la couleur {\tt c} est donc {\tt \#19C80C}.
+}
+\Question{La fonction \mintinline{c}{couleur melanger(couleur c1, couleur c2)} ci-dessous doit renvoyer une nouvelle couleur dont chaque composante est la moyenne entière des composantes correspondantes de {\tt c1} et {\tt c2}. Cette fonction est-elle correcte ? Expliquer et proposer une correction si ce n'est pas le cas.
+\inputpartC{rvb.c}{}{}{39}{49}
+}
+\tcor{Cette fonction n'est pas correcte : dans le cas où la somme d'une même composante des deux couleurs dépasse 255, les variables {\tt sr}, {\tt sv} ou {\tt sb} (de type {\tt uint8\_t}) subissent un dépassement de capacité qui fausse le calcul de la moyenne. Par exemple, si les deux composantes valent 160, leur somme stockée dans {\tt sr} donnera $320 \bmod 256 = 64$, soit une moyenne de 32 ! Afin de corriger ce problème, on peut par exemple diviser chaque composante par 2 avant de faire la somme (ou utiliser le type {\tt uint16\_t} pour les sommes intermédiaires).}
+\ifcorrige
+\corpartC{rvb.c}{}{}{51}{58}
+\fi
+
+\Question{Le négatif d'une couleur $(r, v, b)$ est la couleur $(255 - r, 255 - v, 255 - b)$. Écrire une fonction de signature \mintinline{c}{couleur negatif(couleur c)} qui renvoie le négatif de la couleur donnée en argument.}
+\ifcorrige
+\corpartC{rvb.c}{}{}{14}{21}
+\fi
+\Question{Au lieu de \textit{renvoyer} le négatif d'une couleur, on veut écrire une fonction {\tt transforme\_negatif} qui ne renvoie rien mais transforme la couleur donnée en argument en son négatif. Expliquer pourquoi la signature de cette nouvelle fonction est différente de celle de la fonction {\tt negatif} de la question précédente, puis écrire la fonction {\tt transforme\_negatif}.}
+\tcor{
+	La fonction {\tt transforme\_negatif} doit modifier son argument ; les arguments étant passés par \textit{copie} (par valeur) en C, on doit passer une référence (un pointeur) vers l'argument. La signature de cette nouvelle fonction sera donc \mintinline{c}{void transforme_negatif(couleur *c)}.
+}
+\ifcorrige
+\corpartC{rvb.c}{}{}{23}{28}
+\fi
+\Question{Écrire une fonction \mintinline{c}{couleur* palette(int n)} qui alloue dynamiquement et renvoie une palette de {\tt n} couleurs toutes tirées au sort. On rappelle que la fonction {\tt rand()} du langage C (du module {\tt <stdlib.h>}) renvoie un entier compris entre 0 et une constante {\tt RAND\_MAX}.}
+\ifcorrige
+\corpartC{rvb.c}{}{}{60}{70}
+\fi
+\Question{Écrire une fonction de signature \mintinline{c}{bool depuis_hexa(char *chaine, couleur *res)} qui prend en argument une chaîne de caractères {\tt chaine} et un pointeur {\tt res} vers une couleur. La fonction doit vérifier que {\tt chaine} est bien au format {\tt "\#RRVVBB"} (c'est-à-dire qu'elle comporte exactement 7 caractères, commence par {\tt '\#'} et que les 6 caractères suivants sont des chiffres hexadécimaux valides compris entre {\tt '0'} et {\tt '9'} ou entre {\tt 'A'} et {\tt 'F'}). Si le format est valide, la fonction stocke la couleur correspondante à l'adresse pointée par {\tt res} et renvoie {\tt true} ; sinon, elle renvoie {\tt false} sans modifier {\tt *res}.\\
+\textit{(On rappelle que dans la table ASCII, les caractères {\tt '0'} à {\tt '9'} ont des codes consécutifs, tout comme les caractères {\tt 'A'} à {\tt 'F'}).}}
+\tcor{
+On définit deux fonctions auxiliaires : {\tt longueur} qui renvoie la longueur d'une chaîne de caractères, et {\tt valeur\_hexa} qui convertit un caractère hexadécimal en sa valeur entière entre $0$ et $15$ (et renvoie $-1$ si le caractère n'est pas un chiffre hexadécimal valide). On commence par vérifier que la longueur de la chaîne est bien égale à $7$ et que son premier caractère est {\tt '\#'} avant d'examiner les $6$ caractères suivants.
+}
+\ifcorrige
+\corpartC{rvb.c}{}{}{72}{108}
+\fi
+\end{Exercise}
+
+\begin{Exercise}[title = {Rotation droite d'un tableau}]\\
+	Dans cet exercice, on ne tient pas compte des éventuels dépassements de capacité lors des additions ou soustractions sur les entiers et on cherche à écrire, \textit{sans utiliser de variable intermédiaire}, une fonction permettant d'effectuer la rotation droite d'un tableau. Par exemple, en effectuant une rotation droite, le tableau \mintinline{c}{{2, 6, 4, 1}} devient \mintinline{c}{{1, 2, 6, 4}} : c'est-à-dire que tous les éléments sont décalés d'un cran vers la droite, sauf le dernier qui devient le premier. D'un point de vue formel, la rotation droite d'un tableau $T$ (de taille $n \geqslant 1$) est le tableau $T'$ tel que $T'[0] = T[n-1]$ et $T'[k] = T[k-1]$ pour tout $k \in \intN{1}{n-1}$.
+	\Question{Écrire une fonction \mintinline{c}{void echange(int tab[], int i, int j)} qui prend en argument un tableau d'entiers ainsi que deux indices distincts {\tt i} et {\tt j} supposés valides (c'est-à-dire compris entre 0 et la taille du tableau moins 1, avec $i \neq j$) et échange les éléments situés aux indices {\tt i} et {\tt j} \textit{sans utiliser de variable intermédiaire}.}
+	\ifcorrige
+	\corpartC{rotation.c}{}{}{3}{8}
+	\fi
+	\Question{Écrire une fonction de signature \mintinline{c}{void rotation(int tab[], int n)} permettant d'effectuer une rotation droite de tous les éléments d'un tableau \textit{sans utiliser de variable intermédiaire pour stocker un élément du tableau}.}
+	\ifcorrige
+	\corpartC{rotation.c}{}{}{10}{16}
+	\fi
+	\Question{En proposant un invariant de boucle, prouver que la fonction {\tt rotation} est correcte.}
+	\tcor{
+	Si $n \leqslant 1$, la boucle ne s'exécute pas et le tableau est inchangé, ce qui est le résultat attendu.
+	
+	On suppose $n \geqslant 2$. On note $T_0$ le tableau initial avant l'exécution de la boucle.
+	
+	Montrons que la propriété $\mathcal{I}(i)$ suivante est un invariant de boucle pour $i \in \intN{1}{n}$ (au début de chaque tour de boucle d'indice $i$) :
+	\begin{enumerate}
+		\item $\text{tab}[0] = T_0[i-1]$ ;
+		\item $\text{tab}[k] = T_0[k-1]$ pour tout $k \in \intN{1}{i-1}$ (éléments déjà décalés) ;
+		\item $\text{tab}[k] = T_0[k]$ pour tout $k \in \intN{i}{n-1}$ (éléments inchangés).
+	\end{enumerate}
+	
+	Cet état du tableau au début de l'itération $i$ se représente ainsi :
+	\begin{center}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline
+		0 & 1 & 2 & $\dots$ & $i-1$ & $i$ & $\dots$ & $n-1$ \\
+		\hline
+		$T_0[i-1]$ & $T_0[0]$ & $T_0[1]$ & $\dots$ & $T_0[i-2]$ & $T_0[i]$ & $\dots$ & $T_0[n-1]$ \\
+		\hline
+		\multicolumn{1}{c|}{pivot} & \multicolumn{4}{c|}{éléments déjà décalés} & \multicolumn{3}{c|}{éléments inchangés} \\
+		\cline{2-8}
+	\end{tabular}
+	\end{center}
+
+	\textbf{Initialisation ($i = 1$) :}
+	Avant le premier tour, aucun élément n'a été déplacé : le point (1) donne $\text{tab}[0] = T_0[0]$, le point (2) est vérifié par vacuité ($\intN{1}{0} = \emptyset$), et le point (3) assure que $\text{tab}[k] = T_0[k]$ pour tout $k \in \intN{1}{n-1}$. L'invariant $\mathcal{I}(1)$ est donc vérifié.
+
+	\textbf{Conservation :}
+	Supposons $\mathcal{I}(i)$ vraie pour $1 \leqslant i < n$.
+	L'unique opération du corps de boucle est \mintinline{c}{echange(tab, i, 0)}, qui permute $\text{tab}[0]$ et $\text{tab}[i]$ sans modifier les autres cases :
+	\begin{itemize}
+		\item $\text{tab}[i]$ prend l'ancienne valeur de $\text{tab}[0]$, soit $T_0[i-1]$ ;
+		\item $\text{tab}[0]$ prend l'ancienne valeur de $\text{tab}[i]$, soit $T_0[i]$ ;
+		\item les cases d'indices $1$ à $i-1$ et celles d'indices $i+1$ à $n-1$ restent inchangées.
+	\end{itemize}
+	Le tableau devient donc :
+	\begin{center}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline
+		0 & 1 & $\dots$ & $i-1$ & $i$ & $i+1$ & $\dots$ & $n-1$ \\
+		\hline
+		$T_0[i]$ & $T_0[0]$ & $\dots$ & $T_0[i-2]$ & $T_0[i-1]$ & $T_0[i+1]$ & $\dots$ & $T_0[n-1]$ \\
+		\hline
+		\multicolumn{1}{c|}{pivot} & \multicolumn{4}{c|}{éléments déjà décalés} & \multicolumn{3}{c|}{éléments inchangés} \\
+		\cline{2-8}
+	\end{tabular}
+	\end{center}
+	Ce qui correspond exactement à la propriété $\mathcal{I}(i+1)$. L'invariant est conservé.
+
+	\textbf{Terminaison et sortie de boucle :}
+	La variable $i$ augmentant de $1$ à chaque étape, la quantité $n - i$ constitue un variant de boucle strictement décroissant d'entiers naturels, garantissant que la boucle termine après $n-1$ tours, lorsque $i = n$.
+	
+	En sortie de boucle, $\mathcal{I}(n)$ garantit que :
+	\begin{itemize}
+		\item $\text{tab}[0] = T_0[n-1]$ ;
+		\item $\text{tab}[k] = T_0[k-1]$ pour tout $k \in \intN{1}{n-1}$.
+	\end{itemize}
+	Le tableau final contient bien la rotation droite de $T_0$, ce qui prouve la correction de l'algorithme.
+	}
+
+\end{Exercise}
+\end{document}

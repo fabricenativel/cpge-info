@@ -1,0 +1,59 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C20/}
+
+
+\psset{treesep=0.5cm,levelsep=0.8cm}
+
+\section{Inégalités sur les arbres rouge-noirs}
+
+On veut montrer que pour tout arbre rouge-noir $t$ :
+\begin{itemize}
+	\item $h(t) \leqslant 2b(t)$
+	\item $2^{b(t)} \leqslant n+1$
+\end{itemize}
+
+On procède par induction structurelle sur $t$ :
+\begin{itemize}
+	\item Si $t$ est l'arbre vide (seul axiome), alors $h(t)=-1$, $n=0$, $b(t) = 0$ et les inégalités sont vérifiées.
+	\item Montrons la conservation par application de l'unique règle d'inférence. On considère un arbre rouge noire $t=(g, r, d)$ et on suppose les deux inégalités vérifiées pour $g$ et $d$. Alors :
+	      \begin{itemize}
+		      \item Si $r$ est noire, on a alors : d'une part $b(t) = b(l)+ 1$ et $b(t) = b(g) +1$. Par définition de la hauteur : \\
+		            $\begin{array}{llll}
+				            h(t) & =         & 1+\max(h(g),h(d)) & \text{ par hypothèse d'induction, } h(g) \leqslant 2b(g) \text{ et }  h(d) \leqslant 2b(d) \text{ donc, } \\
+				            h(t) & \leqslant & 1 + 2(b(t) -1)    &                                                                                                           \\
+				            h(t) & \leqslant & 2b(t) -1          &                                                                                                           \\
+				            h(t) & \leqslant & 2b(t)             &                                                                                                           \\
+			            \end{array}$
+		            Par définition de la taille d'un arbre binaire : \\
+		            $\begin{array}{llll}
+				            n(t) + 1 & =         & n(g) + n(d) + 2         & \\
+				            n(t) + 1 & =         & (n(g)+1) + (n(d)+1)     & \text{ par hypothèse d'induction }\\
+				            n(t) + 1 & \geqslant & 2^{b(g)} + 2^{b(d)}     &\\
+				            n(t) + 1 & \geqslant & 2^{b(t)-1} + 2^{b(t)-1} & \text{ car la racine est noire}\\
+				            n(t) + 1 & \geqslant & 2^{b(t)}                &\\
+			            \end{array}$
+            \item Si $r$ est rouge, alors $b(t) = b(g) = b(d)$, le cas où l'arbre contient un seul noeud est trivial. Sinon, $t$ a nécessairement deux sous arbres \textit{non vides} sinon la hauteur noire serait différente et ces deux sous arbres ont une racine noire (car leur père est rouge). On note alors $gg$, $gr$, $rg$ et $dd$ les sous arbres des deux sous arbres $g$ et $d$. \\
+            $\begin{array}{llll}
+                h(t) & = & 1 + \max(h(g),h(d)) & \\
+                h(t) & = & 2 + \max(h(gg),h(gd),h(dg),h(dd)) & \text{ or ces 4 arbres ontmême hauteur noire : } b(t)-1\\
+                h(t) & \leqslant & 2 + 2 (b(t)-1) & \\
+                h(t) & \leqslant & 2b(t) & \\
+            \end{array}$
+            Par définition de la taille d'un arbre binaire, \\
+                $\begin{array}{llll}
+				    n(t) + 1 & =         & n(g) + n(d) + 2         & \\
+                    n(t) + 1 & =         & (n(g)+1) + (n(d)+1)     & \text{ par hypothèse d'induction }\\
+				    n(t) + 1 & \geqslant & 2^{b(g)} + 2^{b(d)}     & \text{ or } b(t) = b(g) = b(d)\\ 
+                    n(t) + 1 & \geqslant & 2^{b(t)+1}     &\\
+                    n(t) + 1 & \geqslant & 2^{b(t)}     &\\
+                \end{array}$
+	      \end{itemize}
+\end{itemize}
+
+\end{document}

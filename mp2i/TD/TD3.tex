@@ -1,0 +1,131 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+
+
+\ModeExercice
+\newcounter{numtd}
+\setcounter{numtd}{3}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/C\thenumtd}
+\TD{\thenumtd}{Pointeurs}
+
+\setcounter{Exercise}{0}
+\begin{Exercise}[title={Pointeurs}]\\
+	On considère le programme suivant :
+	\begin{langageC*}{fontsize=\small, tabsize=0}
+		int a = 4;
+		int b = 1;
+		int c = 2;
+		int* p;
+		int* q;
+		p = &a;
+		q = &c;
+		*p = *q + 1;
+		p = q;
+		q = &b;
+		*p = *p - *q;
+		*q = *q + 1;
+		*p *= *q;
+	\end{langageC*}
+	Compléter le tableau suivant afin de donner l'état des variables au cours de l'exécution du programme :
+	\begin{center}
+		\def\arraystretch{1.2}
+		\setlength\tabcolsep{0.5cm}
+		\begin{tabular}{l|c|c|c|c|c}
+			                    & a & b & c & p   & q \\
+			\hline
+			initialisation      & 4 & 1 & 2 & ?   & ? \\
+			{\tt p = \&a;}      & 4 & 1 & 2 & \&a & ? \\
+			{\tt q = \&c;}      &   &   &   &         \\
+			{\tt *p = *q + 1;}  &   &   &   &         \\
+			{\tt p = q;}        &   &   &   &         \\
+			{\tt q = \&b;}      &   &   &   &         \\
+			{\tt *p = *p - *q;} &   &   &   &         \\
+			{\tt *q = *q + 1;}  &   &   &   &         \\
+			{\tt *p *= *q;}     &   &   &   &         \\
+		\end{tabular}
+	\end{center}
+\end{Exercise}
+
+\begin{Exercise}[title={{\tt printf} et {\tt scanf}}]
+	\Question{Écrire l'instruction permettant d'afficher une variable {\tt n} de type entier avec {\tt printf}.}
+	\Question{Écrire l'instruction permettant de saisir au clavier une variable {\tt n} de type entier avec {\tt scanf}.}
+	\Question{Expliquer la différence entre le mode de passage de {\tt n} dans ces deux fonctions.}
+\end{Exercise}
+
+\begin{Exercise}[title={Pointeurs}] \\
+	On considère le programme suivant :
+	\inputC{\SPATH/pointeur.c}{\small}
+	\Question{Ce programme est-il correct ?}
+	\Question{Proposer une correction.}
+\end{Exercise}
+\begin{Exercise}[title={Incrémenter une variable}]\\
+	La fonction suivante doit incrémenter la variable {\tt n} donnée en argument :
+	\begin{langageC*}{fontsize=\small, tabsize=0}
+		void incremente(int x) {
+			    x = x + 1;
+			}
+	\end{langageC*}
+	\Question{Commenter.}
+	\Question{Proposer une correction.}
+\end{Exercise}
+
+\begin{Exercise}[title={Fonction modifiant un paramètre}]\\
+Écrire en C une fonction {\tt inverse} qui prend en argument un pointeur vers un booléen, ne renvoie rien et inverse la valeur de ce booléen ({\tt true} devient {\tt false} et inversement).
+\end{Exercise}
+
+\begin{Exercise}[title={Renvoyer un tableau}]
+	\inputpartC{ret_local.c}{}{\small}{3}{12}
+	\Question{Lors de la compilation de la fonction ci-dessus, on obtient l'avertissement (\textit{warning}) suivant : \og{} \textit{function returns address of local variable}\fg{}. Expliquer cet avertissement.}
+    \Question{Dans quelle partie de la mémoire est stocké le tableau {\tt tab\_entiers} défini à la ligne 6 ?}
+	\Question{Remplacer la ligne 6 par une allocation sur le tas.}
+\end{Exercise}
+
+
+
+\begin{Exercise}[title = {Deux plus grandes valeurs}]\\
+    On souhaite écrire une fonction en C qui prend en argument un tableau d'entiers (de taille $n \geqslant 2$) et renvoie les deux plus grandes valeurs de ce tableau.
+    \Question{Proposer une solution utilisant un type structuré que l'on définira et donner alors la signature de la fonction.}
+    \Question{Proposer une solution avec une fonction ne renvoyant rien mais modifiant deux paramètres passés par adresse. Donner la signature de la fonction dans ce cas.}
+    \Question{Écrire les deux implémentations.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Passer un pointeur}] \\
+	On considère le programme suivant :
+	\inputpartC{\SPATH/ppointeur.c}{}{}{1}{16}
+	Ce programme produit un \textit{warning} à la compilation : \textit{ parameter ‘p’ set but not used} et une erreur de segmentation à l'exécution.
+	\Question{Expliquer ces deux résultats.}
+	\Question{Proposer une correction afin que {\tt init\_pointer} soit conforme à sa spécification.}
+\end{Exercise}
+
+\begin{Exercise}[title={Matrice linéarisée}]\\
+	Pour allouer dynamiquement un tableau à deux dimensions (une matrice), la méthode privilégiée en C consiste à allouer un unique tableau à une dimension de taille $n \times m$ (où $n$ est le nombre de lignes et $m$ le nombre de colonnes).
+	\Question{Dans ce tableau linéarisé, quel indice correspond à l'élément situé à la ligne $i$ et à la colonne $j$ (en supposant que les indices de lignes et de colonnes commencent à $0$) ?}
+	\Question{Écrire une fonction {\tt int* creer\_identite(int n)} qui alloue dynamiquement sur le tas une matrice carrée de taille $n \times n$, l'initialise comme une matrice identité (des $1$ sur la diagonale principale, des $0$ partout ailleurs) et renvoie le pointeur vers cette matrice.}
+	\Question{Écrire une fonction {\tt void affiche\_matrice(int* mat, int n)} permettant d'afficher cette matrice carrée dans le terminal.}
+	\Question{Comment doit-on libérer la mémoire allouée par la fonction {\tt creer\_identite} depuis la fonction appelante ?}
+\end{Exercise}
+
+\begin{Exercise}[title={Fuite mémoire (\textit{Memory leak})}]\\
+	On considère le code C suivant :
+	\begin{langageC*}{fontsize=\small, tabsize=0}
+		#include <stdlib.h>
+		
+		void simulations() {
+		    int *donnees;
+		    for (int i = 0; i < 1000; i++) {
+		        donnees = malloc(10000 * sizeof(int));
+		        // Traitement sur le tableau donnees (non détaillé ici)
+		    }
+		    free(donnees);
+		}
+	\end{langageC*}
+	\Question{Ce programme compile sans erreur. Pourtant, il pose un grave problème de gestion de la mémoire. Lequel ?}
+	\Question{Combien de blocs mémoires ont été alloués ? Combien ont été correctement libérés ?}
+	\Question{Proposer une correction de la fonction {\tt simulations} pour corriger cette erreur.}
+\end{Exercise}
+
+\end{document}

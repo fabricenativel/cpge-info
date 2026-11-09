@@ -1,0 +1,162 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{11}{Modèle relationnel, sql}
+
+\setcounter{Exercise}{0}
+
+\begin{Exercise}[title = {Une seule table}]
+	\Question{Un élève de {\sc cpge} souhaite modéliser son travail à faire sous forme d'une liste de tâches. Une tâche peut être de plusieurs types (exercice, {\sc dm}, révisions, \dots), a une description, un état (à faire, en cours ou terminée), une date de création, une date limite d'achèvement et est liée à une matière (maths, physique, \dots). Donner le schéma relationnel de cette table.}
+	\Question{Ecrire les requêtes {\sc sql} permettant :}
+	\subQuestion{De lister les tâches en cours.}
+	\subQuestion{D'obtenir toutes les tâches liées à la matière informatique.}
+	\subQuestion{De lister toutes les tâches créees depuis au moins une semaine et pas encore commencées.}
+	\subQuestion{De lister les trois tâches pour lesquelles il reste le moins de temps.}
+	\subQuestion{D'obtenir la tâche dont la date d'achèvement est la plus éloignée dans le temps.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Avec plusieurs tables}]
+	\Question{Un restaurant souhaite modéliser ses réservations. Proposer un schéma relationnel basé sur trois tables : les clients, les tables du restaurant et les réservations. Une réservation est faite pour un client, à une table et pour un jour et une heure donnée. Préciser les clés primaires et étrangères de votre schéma relationnel.}
+	\Question{Ecrire les requêtes {\sc sql} permettant :}
+	\subQuestion{D'obtenir le nombre de client de ce restaurant.}
+	\subQuestion{D'obtenir les dates de toutes les réservations faires par un client spécifique.}
+	\subQuestion{D'obtenir la liste des tables non encore réservés à une date donnée}
+	\subQuestion{De lister les trois tables qui ont été le plus réservé.}
+	\subQuestion{De lister les cliens n'ayant jamais fait de réservation.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Gestions de randonnées},origin = {\bac\; {\sc ccinp pc 2025}}]\\
+	Les applications de randonnées permettent à un utilisateur de stocker les données de ses randonnées effectuées ou d'avoir accès à celles effectuées par d'autres utilisateurs. Ces données sont stockées dans une base contenant notamment les tables suivantes :
+
+	La table {\tt Randonnee} contenant :
+	\begin{itemize}
+	\item {\tt Id} : entier identifiant de la randonnée.
+	\item {\tt Titre} : chaine de caractères, titre de la randonnée.
+	\item {\tt Type} : chaine de caractère du type de la randonnée : \textit{"Pied", "VTT", "Cheval"}.
+	\item {\tt Lieu} : chaine de caractères, coordonnées {\sc gps} du point de départ.
+	\item {\tt Distance} : flottant, longueur en kilomètres de la randonnée.
+	\item {\tt DenP} : entier, dénivelé positif en mètres.
+	\item {\tt DenN} : entier, dénivelé négatif en mètres.
+	\item {\tt Duree} : entier, durée compris entre 1 (facile) et 5 (difficile).
+	\item {\tt IdAuteur} : entier, identifiant de l'auteur de la randonnée.
+	\item {\tt Trace} : chaine de caractères, lien internet vers la trace {\sc gpx}. 
+	\end{itemize}
+
+	La table {\tt Auteur} contenant :
+	\begin{itemize}
+	\item {\tt Id} : entier, identifiant de l'auteur (le randonneur).
+	\item {\tt Nom} : chaine de caractères, nom de l'auteur.
+	\item {\tt Prenom} : chaine de caractères, prénom de l'auteur.
+	\item {\tt Pseudo} : chaine de caractères, pseudo de l'auteur.
+	\item {\tt Mail} : chaine de caractères, mail de l'auteur.
+	\end{itemize}
+	\Question{Expliquer en quoi l'attribut {\tt Titre} ne peut probablement pas être une clé primaire pour la table {\tt Randonnee}. Proposer un attribut de la table {\tt Randonnee} qui puisse être une clé primaire.}
+	\Question{Identifier un attribut qui soit une clé étrangère de la table {\tt Randonnee}.}
+	\Question{Ecrire une requête {\sc sql} dont l'évaluation renvoie le titre, les coordonnées {\sc gps} du point de départ et la longueur des randonnées à pied.}
+	\Question{Ecrire une requête {\sc sql} dont l'évaluation renvoie l'identifiant de l'auteur et son nombre d'activités à pied de niveau 3, classées par ordre décroissant du nombre d'activités de chaque auteur.}
+	\Question{Ecrire une requête {\sc sql} dont l'évaluation renvoie le {\tt Pseudo} de l'auteur et le {\tt Titre} des randonnées stockées dans la base.}
+	\Question{Ecrire une requête {\sc sql} dont l'évaluation renvoie les nom et prénom d'un des auteurs ayant posté le plus de randonnées à cheval.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Quelques requêtes {\sc sql}}]\\
+	On considère une base de données des pays et villes du monde, constituée de :
+	\begin{itemize}
+		\item[-] La table \textbf{Pays} (\underline{codepays}, nom, continent, superficie, population, capitale, monnaie, pib)
+		\item[-] La table \textbf{Villes} (\underline{codeville}, nom, population, \#codepays, longitude, latitude)
+	\end{itemize}
+	Le champ codepays de la table Ville fait référence à la clé primaire de la table Pays. Pour chaque question, écrire une requête {\sc sql} permettant d'obtenir le résultat :
+	\Question{La superficie et la population de la France.}
+	\Question{Le nombre de pays.}
+	\Question{La liste alphabétique des pays situés sur le continent américain.}
+	\Question{Les dix pays les plus peuplés au monde}
+	\Question{Le nom de la capitale du Togo.}
+	\Question{La liste des pays dont la capitale est située dans l'hemisphère nord.}
+	\Question{La liste des pays d'Europe avec leur capitale triée par superficie décroissante.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Résultats de requêtes}]\\
+	On considère le schéma relationnel suivant pour une bibliothèque :
+	\begin{itemize}
+		\item[-] \textbf{Livre} (\underline{isbn}, titre, \#id\_auteur, année, stock)
+		\item[-] \textbf{Auteur} (\underline{id\_auteur}, nom, prenom)
+		\item[-] \textbf{Client} (\underline{id\_client}, nom, prenom, adresse, email, telephone)
+		\item[-] \textbf{Emprunt} (\underline{id\_emprunt}, \#id\_client, \#isbn, date, retour)
+	\end{itemize}
+	\Question{Expliquer ce que renvoie chacune des requêtes suivantes :}
+	\begin{enumerate}
+		\item[]
+			\begin{minted}{sql}
+SELECT COUNT(*)
+FROM Emprunt
+WHERE Emprunt.retour IS NULL;
+\end{minted}
+		\item[]
+			\begin{minted}{sql}
+SELECT Livre.titre, Emprunt.date, Emprunt.retour
+FROM Livre
+JOIN Emprunt ON Livre.isbn = Emprunt.isbn
+WHERE Emprunt.id_client = 42;
+\end{minted}
+		\item[]
+			\begin{minted}{sql}
+SELECT Auteur.nom, Auteur.prenom, COUNT(Livre.isbn)
+FROM Auteur
+JOIN Livre ON Auteur.id_auteur = Livre.id_auteur
+GROUP BY Auteur.id_Auteur;    
+\end{minted}
+	\end{enumerate}
+	\Question{Ecrire les requêtes permettant de : }
+	\subQuestion{Lister les livres dont le stock est inférieur ou égal à 1.}
+	\subQuestion{Lister les titres des livres de J. Verne par ordre alphabétique}
+	\subQuestion{Lister les noms et email des clients ayant des livres en retard à rendre.}
+	\subQuestion{Obtenir le nom de l'auteur ayant écrit le plus de livres.}
+\end{Exercise}
+
+\begin{Exercise}[title = {Résultats de requêtes},origin = {\bac\; {\sc ccinp psi 2021}}]\\
+	Les fabricants de montres offrent la possibilité d’enregistrer les activités dans une base de données afin qu’elles soient accessibles sur PC ou tablettes et qu’elles puissent être partagées avec des amis. La base de données est constituée des tables suivantes :
+	\begin{itemize}
+		\item[\textbullet] Table {\tt activite}
+			\begin{itemize}
+				\item {\tt Ida} : entier permettant d’identifier l’activité
+				\item {\tt Idm} : entier correspondant à l’identifiant du membre " propriétaire " de l’activité
+				\item {\tt Date} : correspondant à la date (type date) de l’activité
+				\item {\tt Type} : chaîne de caractères correspondant au type d’activité " course ", " marche "...
+				\item {\tt Distance} : entier correspondant à la distance parcourue en mètre de l’activité
+				\item {\tt Temps} : entier correspondant à la durée en secondes de l’activité
+				\item {\tt Fichier} : contient le lien vers le fichier de l’activité
+			\end{itemize}
+		\item[\textbullet] Table {\tt amis}
+			\begin{itemize}
+				\item {\tt Idl} : entier, identifiant du lien
+				\item {\tt Membre1} : Idm d’un membre
+				\item {\tt Membre2} : Idm d’un second membre
+			\end{itemize}
+
+	\end{itemize}
+
+	Il ne peut pas y avoir de doublons dans la table amis : si A est le membre 1 et B le membre 2 d’une  relation d’amitiés, la ligne membre 1=B et membre 2=A n’existe pas dans la table.
+
+	On considère pour les questions suivantes un membre dont l’identifiant est 1 (Idm = 1).
+
+	\Question{Ecrire une requête {\sc sql} permettant de récupérer la liste des identifiants des activités du membre  dont l’identifiant est 1.}
+	\Question{Ecrire une requête {\sc sql} permettant de donner la date, la distance parcourue et la vitesse
+	moyenne en km/h des activités de type " course " du membre dont l’identifiant est 1.}
+    \Question{On donne la requête suivante :
+    \begin{minted}[tabsize=0]{sql}
+SELECT activite.Ida FROM activite
+JOIN (SELECT membre1 AS idam1 FROM amis WHERE membre2=1
+    UNION
+    SELECT membre2 AS idam1 FROM amis WHERE membre1=1 ) AS amis1
+ON activite.idm=amis1.idam1
+WHERE Type="marche"
+    \end{minted}
+    Décrire chaque instruction de la requête et expliquer ce qu'elle renvoie.
+    }
+
+\end{Exercise}
+
+\end{document}

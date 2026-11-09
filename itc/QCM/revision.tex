@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{enumitem}
+\usepackage{xparse}
+
+\ExplSyntaxOn
+
+\NewDocumentCommand{\qcm}{ m m }
+ {
+   \textbf{Question :}~#1
+
+   \begin{itemize}[label=$\bullet$]
+     \clist_map_inline:nn { #2 }
+       { \item ##1 }
+   \end{itemize}
+ }
+
+\ExplSyntaxOff
+
+\begin{document}
+
+\qcm
+  {Quelle est la capitale de la France ?}
+  {Berlin, Madrid, Paris, Rome}
+
+\end{document}
