@@ -390,7 +390,7 @@ else:
     # Ajout du rang de chaque eleve
     notes = [e[-2] for e in eleves]
     notes.sort(reverse=True)
-    eleves = [(*eleves[i],notes.index(eleves[i][-2])) for i in range(len(notes))]
+    eleves = [(*eleves[i],notes.index(eleves[i][-2])+1) for i in range(len(notes))]
     # Les points part theme
     # Création du fichier tex
     make_tex(rep, date_ds, eleves, notes, lexos, lthemes)

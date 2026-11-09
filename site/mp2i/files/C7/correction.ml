@@ -5,4 +5,4 @@ let rec pairs liste =
   match liste with
   | [] -> []
   | head :: tail -> let ptail = pairs tail in 
-    if head mod 2 = 0 then head::ptail else pairs ptail
+    if head mod 2 = 0 then head::ptail else ptail
