@@ -106,7 +106,7 @@ hide: - navigation in liens.md
 ## Semaines du 09/11 et du 16/11
 
 ??? note "Chapitres concernés"
-    * Les chapitres [C0](https://fabricenativel.github.io/cpge-info/mp2i/systemes/), [C1](https://fabricenativel.github.io/cpge-info/mp2i/introC/), [C2](https://fabricenativel.github.io/cpge-info/mp2i/discipline/), [C3 - Pointeurs et types structurés](https://fabricenativel.github.io/cpge-info/mp2i/pointeurs/) et [C4 - Arithmétique des ordinateurs](https://fabricenativel.github.io/cpge-info/mp2i/arithmetique/) des semaines précédentes
+    * Les chapitres [C0](https://fabricenativel.github.io/cpge-info/mp2i/systemes/), [C1](https://fabricenativel.github.io/cpge-info/mp2i/introC/), [C2](https://fabricenativel.github.io/cpge-info/mp2i/discipline/), [C3](https://fabricenativel.github.io/cpge-info/mp2i/pointeurs/) et [C4](https://fabricenativel.github.io/cpge-info/mp2i/arithmetique/) des semaines précédentes
     * Le chapitre [**C5 - Récursivité**](https://fabricenativel.github.io/cpge-info/mp2i/recursivite/) :
         * [Cours](https://fabricenativel.github.io/cpge-info/mp2i/Cours/C5/C5-cours.pdf)
         * [TD](https://fabricenativel.github.io/cpge-info/mp2i/TD/TD5.pdf)
@@ -117,14 +117,14 @@ hide: - navigation in liens.md
     * *Section 1.1* - Algorithmes et programmes : Preuve de terminaison d'une fonction récursive (variant entier positif strictement décroissant). Preuve de correction partielle et totale par récurrence sur les appels récursifs.
 
 
-* **Concepts fondamentaux et pile d'exécution (C5) :**
+* **Concepts fondamentaux et pile d'exécution :**
     * Expliquer le principe d'une fonction récursive (condition d'arrêt / cas de base, appel récursif) et le fonctionnement de la pile d'exécution (empilement des cadres d'activation lors des appels successifs, dépilement au retour).
     * Définir la récursivité croisée (mutuelle). Expliquer sa mise en œuvre en langage C (nécessité de déclarer au préalable la signature de l'une des fonctions) et en OCaml (mot-clé `and`).
     * Tracer l'arbre des appels récursifs d'une fonction à appels multiples (ex. suite de Fibonacci ou coefficients du binôme $\binom{n}{k}$). Mettre en évidence le chevauchement d'appels (recalculs redondants entraînant une complexité exponentielle) et expliquer le principe de la mémoïsation.
-* **Preuves de programmes récursifs (C5) :**
+* **Preuves de programmes récursifs  :**
     * Prouver la terminaison d'une fonction récursive en exhibant un variant strictement décroissant à valeurs entières positives.
     * Prouver la correction totale d'une fonction récursive par récurrence sur le paramètre d'appel (initialisation sur le cas de base, hérédité sur l'appel récursif).
-* **Exemples à connaître :** Somme et maximum d'un tableau en version récursive. Algorithme d'Euclide, exponentiation rapide, recherche dichotomique, tours de Hanoï.
-    * **Algorithme d'Euclide :** Écrire la version récursive du calcul du $\mathrm{pgcd}$, prouver sa terminaison et sa correction. Justifier qu'elle est naturellement récursive terminale.
+* **Exemples traités :** Somme et maximum d'un tableau en version récursive. Algorithme d'Euclide, exponentiation rapide, recherche dichotomique, tours de Hanoï.
+
 
     
