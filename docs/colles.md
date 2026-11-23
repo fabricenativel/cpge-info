@@ -126,5 +126,41 @@ hide: - navigation in liens.md
     * Prouver la correction totale d'une fonction récursive par récurrence sur le paramètre d'appel (initialisation sur le cas de base, hérédité sur l'appel récursif).
 * **Exemples traités :** Somme et maximum d'un tableau en version récursive. Algorithme d'Euclide, exponentiation rapide, recherche dichotomique, tours de Hanoï.
 
+---
+
+## Semaines du 23/11 et du 30/11
+
+??? note "Chapitres concernés"
+    * Les chapitres [C0](https://fabricenativel.github.io/cpge-info/mp2i/systemes/), [C1](https://fabricenativel.github.io/cpge-info/mp2i/introC/), [C2](https://fabricenativel.github.io/cpge-info/mp2i/discipline/), [C3](https://fabricenativel.github.io/cpge-info/mp2i/pointeurs/), [C4](https://fabricenativel.github.io/cpge-info/mp2i/arithmetique/) et [C5](https://fabricenativel.github.io/cpge-info/mp2i/recursivite/) des semaines précédentes
+    * Le chapitre [**C6 - OCaml : aspects fonctionnels**](https://fabricenativel.github.io/cpge-info/mp2i/introOCaml/) :
+        * [Cours](https://fabricenativel.github.io/cpge-info/mp2i/Cours/C6/C6-cours.pdf)
+        * [TD](https://fabricenativel.github.io/cpge-info/mp2i/TD/TD6.pdf)
+        * [TP](https://fabricenativel.github.io/cpge-info/mp2i/introOCaml/#travaux-pratiques)
+
+??? rappel "Notions du [programme officiel](https://fabricenativel.github.io/cpge-info/officiel/programme.pdf) abordées"
+    * *Section 3.1* - Types et abstraction : types prédéfinis, types composés, inférence pratique de types à la lecture d'un code, distinction entre structure de données mutable et immuable.
+    * *Annexe B.1* - Langage OCaml (traits et éléments à connaître) :
+        * Traits généraux : typage statique, inférence des types, polymorphisme, passage par valeur, portée lexicale, curryfication, fonctions d'ordre supérieur, gestion automatique de la mémoire.
+        * Définitions et types de base : `let`, `let rec`, `let ... in`, `fun`, expression conditionnelle `if ... then ... else ...` ; types `int`, `float`, `bool` (évaluation paresseuse), `char`, `string` (immuabilité, `s.[i]`, `^`, `String.length`), `unit` (`()`, séquenceur `;`, affichages `print_*`), comparaisons (`=`, `<>`, `<`, `<=`, `>`, `>=`).
+        * Types structurés et filtrage : $n$-uplets, listes (`'a list`, constructeurs `[]` et `::`, opérateur `@` et sa complexité, `List.length`), type `'a option`, déclarations de types (types sommes / unions, constructeurs commençant par une majuscule), filtrage par motif (`match ... with ...`, motif universel `_`, linéarité, exhaustivité et ordre des motifs).
+    * *Annexe B.2* - Langage OCaml (éléments utilisables après rappel) : opérateur `**`, fonctions de conversion entre types de base, types enregistrements immuables, fonctions d'ordre supérieur du module `List` (`List.map`, `List.filter`, `List.fold_left`).
+
+
+* **Paradigme fonctionnel, expressions et typage :**
+    * Expliquer les caractéristiques d'OCaml : évaluation d'expressions (absence d'instructions), immuabilité, typage statique, inférence de types, polymorphisme (`'a`, `'b`) et ramasse-miettes (*garbage collector*).
+    * Déterminer le type et la valeur d'une expression OCaml, ou identifier une erreur de typage (opérateurs entiers/flottants `+`/`+.`, `*`/`*.`, `**`, concaténation `^`, absence de conversion implicite, cohérence des types dans `if ... then ... else ...`, clause `else` omise uniquement pour le type `unit`, parenthésage des appels et des arguments négatifs).
+    * Distinguer environnement global (`let`) et environnement local (`let ... in`).
+* **Fonctions, curryfication et ordre supérieur :**
+    * Écrire une fonction simple ou récursive (`let`, `let rec`).
+    * Expliquer et utiliser la **curryfication**, l'**application partielle**, les **fonctions anonymes** (`fun x -> ...`) et les **fonctions d'ordre supérieur** (prenant une fonction en argument ou renvoyant une fonction).
+* **Types construits et filtrage par motif :**
+    * Définir et manipuler des $n$-uplets, des types enregistrements, des types sommes  et le type prédéfini `'a option` (`None` / `Some v`) pour sécuriser les fonctions partielles.
+    * Écrire un filtrage par motif (`match ... with ...`) en respectant l'exhaustivité, la linéarité, l'ordre des motifs et l'usage du motif générique `_`.
+* **Listes et récursion structurelle :**
+    * Écrire des fonctions récursives par filtrage sur les listes : longueur, somme, appartenance, $n$-ième élément, recherche/suppression d'occurrences, partition suivant un prédicat.
+    * Utiliser les fonctions d'ordre supérieur sur les listes (`List.map`, `List.filter`, `List.fold_left`) en les combinant avec des fonctions anonymes.
+* **Exemples traités :** Fonctions numériques (exponentiation rapide, suite de Syracuse), types construits (cartes à jouer, figures géométriques, couleurs, rationnels, étudiants), dérivation numérique et dichotomie par ordre supérieur, manipulations récursives de listes.
+
+
 
     

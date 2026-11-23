@@ -2856,6 +2856,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="4 - Résolution exacte par un algorithme de programmation dynamique">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q12
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q13
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q14
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -3016,6 +3055,36 @@
 <p>L'algorithme glouton va sélectionner les objets par ratio décroissant : d'abord l'objet d'indice 1 (ratio 4), puis l'objet d'indice 0 (ratio 1.5). Le poids total est alors de <span class="arithmatex">\(1+2=3 \leqslant 5\)</span>, et le profit obtenu est de <span class="arithmatex">\(4+3=7\)</span>. Il ne peut plus ajouter l'objet d'indice 2.</p>
 <p>Cependant, en sélectionnant les objets d'indices 1 et 2, le poids total est de <span class="arithmatex">\(1+4=5 \leqslant 5\)</span> et on obtient un profit de <span class="arithmatex">\(4+4=8\)</span>. On vérifie aisément que c'est le choix optimal. La solution fournie par l'algorithme glouton (profit 7) n'est donc pas optimale sur cet exemple, ce qui illustre le fait qu'une stratégie gloutonne ne garantit pas toujours la solution exacte au problème du sac à dos.</p>
 <h2 id="4-resolution-exacte-par-un-algorithme-de-programmation-dynamique">4 - Résolution exacte par un algorithme de programmation dynamique<a class="headerlink" href="#4-resolution-exacte-par-un-algorithme-de-programmation-dynamique" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>La formule de récurrence donnée en début de paragraphe 5 ne tient pas compte du cas où <span class="arithmatex">\(r_i &gt; r\)</span> dans ce cas, il n'est pas possible de prendre l'objet <span class="arithmatex">\(i\)</span> et donc la formule de récurrence correcte serait :</p>
+<ul>
+<li><span class="arithmatex">\(P_{max}(i+1,r) = \max\{P_{max}(i,r), P_{max}(i, r-r_i) + p_i\} \text{ si } r_i \leqslant r\)</span></li>
+<li><span class="arithmatex">\(P_{max}(i+1,r) = P_{max}(i,r)\)</span> sinon</li>
+</ul>
+<p>C'est bien cette formule qui est utilisé à la page suivante dans le code Python donné (ligne 11 à 14)</p>
+</div>
+<h3 id="q12">Q12<a class="headerlink" href="#q12" title="Permanent link">&para;</a></h3>
+<p>La matrice T contient en ligne <code>i</code>, colonne <code>j</code> le profit maximal réalisable en utilisant les objets <code>0, ..., i-1</code>  avec <code>j</code> ressource disponible.</p>
+<ul>
+<li>Sur l'exemple <code>obj = [(2,3), (1,4), (4,4)]</code> et <code>b=5</code> les lignes 2 à 8 initialisent la matrice <span class="arithmatex">\(T\)</span> de 4 lignes et 6 colonnes avec des 0.</li>
+<li>Après la première itération la ligne d'indice 1 de la matrice devient <span class="arithmatex">\([0, 0, 3, 3, 3, 3]\)</span> </li>
+<li>Après la seconde itération la ligne d'indice 2 de la matrice devient <span class="arithmatex">\([0, 4, 4, 7, 7, 7]\)</span></li>
+<li>Après la troisième itération la ligne d'indice 3 de la matrice devient <span class="arithmatex">\([0, 4, 4, 7, 7, 8]\)</span></li>
+</ul>
+<p>La fonction renvoie <code>T[n][b]</code> c'est à dire le profit maximal en utilisant tous les objets et <code>b</code> ressource ici cela donne 8.</p>
+<h3 id="q13">Q13<a class="headerlink" href="#q13" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Les deux boucles imbriquées d'initialisation sont de complexité <span class="arithmatex">\(\mathcal{O}(nb)\)</span> en effet, elles ne contiennent que des opérations élémentaires et sont répétées respectivement <span class="arithmatex">\(n+1\)</span> et <span class="arithmatex">\(b+1\)</span> fois.</li>
+<li>Les deux boucles de calculs des valeurs de la matrice <span class="arithmatex">\(T\)</span> sont de même complexité (pour les mêmes raisons)
+La complexité de la fonction <code>KProgDynamique</code> est donc <span class="arithmatex">\(\mathcal{O}(nb) + \mathcal{O}(nb) = \mathcal{O}(nb)\)</span>.</li>
+</ul>
+<h3 id="q14">Q14<a class="headerlink" href="#q14" title="Permanent link">&para;</a></h3>
+<p>Cette nouvelle fonction reconstruit la liste des objets à prendre à partir de la matrice <span class="arithmatex">\(T\)</span>.</p>
+<ul>
+<li>Initialement <code>S = [0, 0, 0]</code></li>
+<li></li>
+</ul>
 
 
 

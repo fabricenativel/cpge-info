@@ -5,55 +5,121 @@
 \begin{document}
 \input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
 \ModeExercice
-\TD{8}{Structure de données linéaires}
+\TD{8}{Structures de données séquentielles}
 
 \setcounter{Exercise}{0}
 
-\begin{Exercise}[title = {complexité des opérations}]\\
-    On considère les structures de données suivantes :
+\begin{Exercise}[title = {Complexité des opérations}]\\
+    On considère les structures de données suivantes (de taille $n$), manipulées \textbf{uniquement à l'aide de leur interface usuelle} (en s'autorisant éventuellement une structure auxiliaire de même type si nécessaire) :
     \begin{itemize}
-        \item Un tableau de taille fixe
-        \item Une pile implémentée à l'aide d'une liste simplement chainée
-        \item Une file implémentée à l'aide d'une liste simplement chainée ayant un accès sur son dernier élément
+        \item Un tableau de taille fixe ;
+        \item Une pile implémentée à l'aide d'une liste simplement chaînée ;
+        \item Une file implémentée à l'aide d'une liste simplement chaînée ayant un accès à son dernier élément.
     \end{itemize}
     Donner la complexité des opérations suivantes sur chacune de ces structures de données :
-    \Question{Accès au n-ième élément}
-    \Question{Insertion d'un élément au début (au sommet pour la pile)}
-    \Question{Insertion à la fin (tout en bas pour la pile)}
-    \Question{Suppression du premier élément}
-    \Question{Suppression du dernier élément}
-    \Question{Test d'appartenance d'un élément}
+    \Question{Accès au $i$-ième élément.}
+    \Question{Insertion d'un élément au début (au sommet pour la pile).}
+    \Question{Insertion à la fin (tout en bas pour la pile).}
+    \Question{Suppression du premier élément.}
+    \Question{Suppression du dernier élément.}
+    \Question{Test d'appartenance d'un élément.}
 \end{Exercise}
 
 
 \begin{Exercise}[title={Inversion au sommet}]\\
-    On suppose qu'on dispose d'une structure de données de type pile dotée de son interface habituelle c'est-à-dire {\tt empiler}, {\tt dépiler} et {\tt est\_vide}.
+    On suppose qu'on dispose d'une structure de données de type pile dotée de son interface habituelle, c'est-à-dire {\tt empiler}, {\tt depiler} et {\tt est\_vide}.
     Proposer une suite d'opérations permettant d'inverser, lorsqu'ils existent, les deux éléments situés au sommet de cette pile.
     Si la pile contient moins de deux éléments, elle doit rester en l'état.
 \end{Exercise}
 
 \begin{Exercise}[title={Taille d'une file}]\\
-    Ecrire une fonction prenant en entrée une file file $F$ et renvoyant sa taille. La file $F$ ne doit pas être détruite mais restituée à son état initial et on ne dispose que de l'interface usuelle d'une file (qu'on rapellera).
+    Écrire une fonction prenant en entrée une file $F$ et renvoyant sa taille. La file $F$ ne doit pas être détruite mais restituée dans son état initial, et on ne dispose que de l'interface usuelle d'une file (qu'on rappellera). On pourra utiliser une file auxiliaire.
 \end{Exercise}
 
+\begin{Exercise}[title={Pile avec accès au minimum en $\mathcal{O}(1)$}]\\
+    On souhaite concevoir une structure de données de pile d'entiers qui, en plus des opérations usuelles ({\tt est\_vide}, {\tt empiler}, {\tt depiler}), propose une opération {\tt minimum} renvoyant le plus petit élément actuellement contenu dans la pile (sans le retirer). On exige que \textbf{toutes} ces opérations s'exécutent en temps constant $\mathcal{O}(1)$.
+    \Question{Expliquer pourquoi le simple maintien d'une variable entière {\tt min\_courant} ne suffit pas pour assurer le bon fonctionnement lors des appels à {\tt depiler}.}
+    \Question{Proposer une implémentation répondant au cahier des charges en utilisant deux piles (ou une pile de couples). Préciser le comportement de chacune des opérations ({\tt est\_vide}, {\tt empiler}, {\tt depiler}, {\tt minimum}).}
+    \Question{Vérifier la complexité temporelle de chaque opération ainsi que le surcoût en espace mémoire.}
+    \Question{Illustrer le fonctionnement de votre structure sur la suite d'opérations : empiler $5$, $3$, $7$, $3$, $2$, puis dépiler deux fois, en indiquant la valeur renvoyée par {\tt minimum} après chaque étape.}
+\end{Exercise}
 
-\begin{Exercise}[title={list de OCaml}]
-\Question{Rappeler la complexité de l'opérateur {\tt ::} en OCaml. Expliquer cette complexité}
-\Question{Même question pour {\tt @}}
-\Question{On considère deux listes en OCaml : {\tt l1=[2; 4; 8]} et {\tt l2=[2; 3; 5; 7]}. Réprésenter en mémoire la liste {\tt l} obtenue à l'aide de \mintinline{ocaml}{let l = l1@l2;;}}
+\begin{Exercise}[title={Type {\tt list} d'OCaml}]
+\Question{Rappeler la complexité de l'opérateur {\tt ::} en OCaml. Expliquer cette complexité.}
+\Question{Même question pour {\tt @}.}
+\Question{On considère deux listes en OCaml : {\tt l1 = [2; 4; 8]} et {\tt l2 = [2; 3; 5; 7]}. Représenter en mémoire la liste {\tt l} obtenue à l'aide de \mintinline{ocaml}{let l = l1 @ l2;;}.}
+\end{Exercise}
+
+\begin{Exercise}[title={Chasse aux bugs sur les listes chaînées et les files en C}]\\
+    On rappelle les déclarations vues en cours pour représenter une liste simplement chaînée et une file en langage C :
+    \begin{minted}[fontsize=\small]{c}
+struct maillon_s {
+    int valeur;
+    struct maillon_s *suivant;
+};
+typedef struct maillon_s maillon;
+typedef maillon *liste;
+
+struct file_s {
+    maillon *tete;
+    maillon *queue;
+};
+typedef struct file_s file;
+    \end{minted}
+    Chacune des trois fonctions ci-dessous comporte une erreur. Pour chacune, identifier le bug, expliquer ses conséquences (ou exhiber un cas où elle échoue), puis proposer une version corrigée.
+    \Question{Destruction d'une liste chaînée :}
+    \begin{minted}[fontsize=\small]{c}
+void detruit(liste l) {
+    while (l != NULL) {
+        free(l);
+        l = l->suivant;
+    }
+}
+    \end{minted}
+    \Question{Suppression du maillon de tête d'une liste chaînée :}
+    \begin{minted}[fontsize=\small]{c}
+void supprime_tete(liste *l) {
+    if (l != NULL) {
+        liste suivant = (*l)->suivant;
+        free(*l);
+        *l = suivant;
+    }
+}
+    \end{minted}
+    \Question{Défilement d'une file non vide :}
+    \begin{minted}[fontsize=\small]{c}
+int defiler(file *f) {
+    int v = f->tete->valeur;
+    maillon *ancien = f->tete;
+    f->tete = f->tete->suivant;
+    free(ancien);
+    return v;
+}
+    \end{minted}
+\end{Exercise}
+
+\begin{Exercise}[title={Renversement en place d'une liste chaînée}]\\
+    On reprend le type {\tt liste} de l'exercice précédent. On souhaite écrire en C une fonction de signature \mintinline{c}{void renverse(liste *l)} qui inverse l'ordre des éléments de la liste \textbf{en place} (sans allouer de nouveaux maillons), en temps $\mathcal{O}(n)$ et en espace auxiliaire $\mathcal{O}(1)$.
+    \Question{Illustrer par un schéma de pointeurs le principe de l'algorithme consistant à parcourir la liste à l'aide de trois pointeurs {\tt prec}, {\tt courant} et {\tt suiv} afin de retourner les chaînages un par un.}
+    \Question{Écrire la fonction {\tt renverse} en langage C.}
+    \Question{En proposant un invariant de boucle, prouver la terminaison et la correction de votre fonction.}
 \end{Exercise}
 
 \begin{Exercise}[title={Un exemple de complexité amortie}]\\
-On prend l'exemple de la structure de données implémentant le type de \textit{list} de Python grâce à un tableau dynamique en C (voir TP). On considère une \textit{list} dont la taille initiale est $t_0>0$ et on supposera que la capacité initiale est $c_0=2t_0$. Sur cette structure de données, on souhaite déterminer la complexité amortie de l'opération {\tt append} qui consiste à ajouter un élément en fin de liste, deux cas peuvent se produire :
+On prend l'exemple de la structure de données implémentant le type \textit{list} de Python grâce à un tableau dynamique en C (voir TP). On considère une \textit{list} dont la taille initiale est $t_0 > 0$ et on suppose que la capacité initiale est $c_0 = 2t_0$. Sur cette structure de données, on souhaite déterminer la complexité amortie de l'opération {\tt append} qui consiste à ajouter un élément en fin de liste (on mesure le coût d'un appel par le nombre d'écritures effectuées dans le tableau) ; deux cas peuvent se produire :
 \begin{itemize}
-\item[\textbullet] $c>t$ et donc on peut ajouter un nouvel élément sans redimensionner le tableau.
-\item[\textbullet] $c=t$ et on redimensionne le tableau en \textit{doublant} la capacité du tableau afin d'y insérer le nouvel élément
+\item[\textbullet] $c > t$ : on peut ajouter un nouvel élément sans redimensionner le tableau ;
+\item[\textbullet] $c = t$ : on redimensionne le tableau en \textit{doublant} sa capacité afin d'y recopier les éléments et d'y insérer le nouvel élément.
 \end{itemize}
-Montrer que la complexité amortie de {\tt append} est un $\mathcal{O}(1)$. \\
-{\small \aide \;} Indication : on pourra introduire $\Phi(S) = 2t -c$.
+Montrer que la complexité amortie de {\tt append} est en $\mathcal{O}(1)$. \\
+{\small \aide \;} Indication : on pourra introduire la fonction de potentiel $\Phi(S) = 2t - c$.
 \end{Exercise}
 
-
-
+\begin{Exercise}[title={Complexité amortie d'un compteur binaire}]\\
+    On représente un entier naturel en base $2$ dans un tableau {\tt b} de $k$ bits initialement tous égaux à $0$ ({\tt b[0]} étant le bit de poids faible). L'opération {\tt incrementer} ajoute $1$ au compteur : elle passe à $0$ tous les bits consécutifs égaux à $1$ à partir de {\tt b[0]}, puis passe à $1$ le premier bit égal à $0$ rencontré. On définit le coût d'une incrémentation comme le nombre de bits modifiés.
+    \Question{Exécuter $8$ appels successifs à {\tt incrementer} à partir du compteur nul et relever le coût de chaque appel.}
+    \Question{Quelle est la complexité dans le pire cas d'une incrémentation ? En déduire une majoration naïve de la complexité d'une suite de $n$ incrémentations (avec $n < 2^k$).}
+    \Question{\textit{(Méthode du potentiel)} Retrouver ce résultat en introduisant la fonction de potentiel $\Phi$ égale au nombre de bits à $1$ dans le compteur.}
+\end{Exercise}
 
 \end{document}
