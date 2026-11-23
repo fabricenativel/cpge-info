@@ -1,0 +1,474 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\ModeExercice
+\TD{7}{Terminaison, correction, complexité}
+
+\setboolean{corrige}{false}
+\setcounter{Exercise}{0}
+
+\begin{Exercise}[title = {Intersection}]\\
+En OCaml, on représente une partie de $\N$ par une liste \textit{triée} d'entiers, par exemple $[9; 15; 22; 28]$.
+\Question{Écrire une fonction {\tt intersection} : {\tt int list -> int list -> int list} calculant l'intersection de deux parties (le résultat doit être trié).}
+\ifcorrige
+\inputpartOCaml{intersection.ml}{}{}{2}{10}
+\fi
+\tcor{
+On exploite le fait que les deux listes sont triées : si les deux têtes sont égales, l'élément appartient à l'intersection. Sinon, on avance dans la liste ayant la plus petite tête.
+}
+\Question{Prouver la terminaison de {\tt intersection}.}
+\tcor{
+Soit $V(l_1, l_2) = \mathrm{longueur}(l_1) + \mathrm{longueur}(l_2)$.\\
+La quantité $V(l_1, l_2)$ est à valeurs entières positives. À chaque appel récursif :
+\begin{itemize}
+    \item si $h_1 = h_2$, on appelle {\tt intersection t1 t2} : la somme des longueurs diminue de 2 ;
+    \item si $h_1 < h_2$, on appelle {\tt intersection t1 (h2::t2)} : la longueur de $l_1$ diminue de 1 et celle de $l_2$ est inchangée, donc la somme diminue de 1 ;
+    \item si $h_1 > h_2$, on appelle {\tt intersection (h1::t1) t2} : la somme des longueurs diminue de 1.
+\end{itemize}
+Dans tous les cas, $V \in \N$ décroît strictement à chaque appel récursif. C'est donc un variant qui assure la terminaison.
+}
+\end{Exercise}
+
+\begin{Exercise}[title = {Correction}]
+    \Question{Écrire en C une fonction de signature \mintinline{c}{int somme(int tab[], int taille)} renvoyant la somme des éléments d'un tableau.}
+    \ifcorrige
+    \inputpartC{somme.c}{\small}{}{4}{10}
+    \fi
+    \Question{Prouver la correction de votre fonction.}
+    \tcor{
+    Montrons la correction à l'aide d'un invariant de boucle.\\
+    Pour tout $i \in \intN{0}{\text{taille}}$, on note $\mathcal{I}(i)$ la propriété : \og{} Au début du tour d'indice $i$, la variable {\tt s} contient la somme des $i$ premiers éléments du tableau, c'est-à-dire $s = \sum_{k=0}^{i-1} \text{\tt tab}[k]$ \fg{} (avec la convention qu'une somme vide vaut 0).
+    \begin{itemize}
+        \item \textbf{Initialisation ($i=0$)} : à l'entrée dans la boucle, $s = 0$, ce qui correspond bien à la somme vide des 0 premiers éléments. $\mathcal{I}(0)$ est donc vérifiée.
+        \item \textbf{Conservation} : supposons $\mathcal{I}(i)$ vraie pour un entier $0 \leqslant i < \text{taille}$. Lors de l'itération, l'instruction $s \leftarrow s + \text{\tt tab}[i]$ met à jour $s$, puis l'indice passe à $i+1$. La nouvelle valeur de $s$ est $\left(\sum_{k=0}^{i-1} \text{\tt tab}[k]\right) + \text{\tt tab}[i] = \sum_{k=0}^{i} \text{\tt tab}[k]$. La propriété $\mathcal{I}(i+1)$ est donc vérifiée.
+        \item \textbf{Terminaison} : la boucle se termine lorsque $i = \text{taille}$. L'invariant $\mathcal{I}(\text{taille})$ garantit alors que $s = \sum_{k=0}^{\text{taille}-1} \text{\tt tab}[k]$, ce qui correspond exactement à la somme de tous les éléments du tableau. La valeur renvoyée est donc correcte.
+    \end{itemize}
+    }
+\end{Exercise}
+    
+
+\begin{Exercise}[title={Notation $\GO$}]
+\Question{Déterminer un grand $\GO$ des suites de terme général :}\\
+\begin{tabularx}{\linewidth}{XXX}
+a) $2023 n^2$ &
+b) $n^2 + 10^9 n$ &
+c) $3 n + 7 \log n$ \\
+d) $2^{n+7} + n^{10}$ &
+e) $\sqrt{19n^2+3}$ &
+f) $\log(3n)+\log(n)$ \\
+\end{tabularx}
+\tcor{
+a) $2023 n^2 = \GO(n^2)$ car $2023 n^2 \leqslant 2023 n^2$ pour tout $n \geqslant 1$.\\
+b) $n^2 + 10^9 n = \GO(n^2)$ car pour tout $n \geqslant 10^9$, $n^2 + 10^9 n \leqslant 2n^2$.\\
+c) $3n + 7\log n = \GO(n)$ car $\log n \leqslant n$, donc $3n + 7\log n \leqslant 10n$.\\
+d) $2^{n+7} + n^{10} = 128 \times 2^n + n^{10} = \GO(2^n)$ car par croissances comparées, $n^{10} = \GO(2^n)$.\\
+e) $\sqrt{19n^2 + 3} = \GO(n)$ car pour $n \geqslant 1$, $19n^2 + 3 \leqslant 20n^2$, d'où $\sqrt{19n^2+3} \leqslant \sqrt{20}\,n$.\\
+f) $\log(3n) + \log(n) = \log 3 + 2\log n = \GO(\log n)$.
+}
+\Question{Montrer que si $u_n = \GO(v_n)$ et $v_n = \GO(w_n)$, alors $u_n = \GO(w_n)$.}
+\tcor{
+Par définition, il existe des réels $K_1, K_2 > 0$ et des entiers $N_1, N_2 \in \N$ tels que pour tout $n \geqslant N_1$, $u_n \leqslant K_1 v_n$ et pour tout $n \geqslant N_2$, $v_n \leqslant K_2 w_n$.
+En posant $N = \max(N_1, N_2)$ et $K = K_1 K_2 > 0$, on a pour tout $n \geqslant N$ :
+$$u_n \leqslant K_1 v_n \leqslant K_1(K_2 w_n) = K w_n$$
+ce qui prouve que $u_n = \GO(w_n)$.
+}
+\Question{Montrer que $\GO(u_n) + \GO(v_n) = \GO(\max(u_n,v_n))$.}
+\tcor{
+Soit $x_n = \GO(u_n)$ et $y_n = \GO(v_n)$. Il existe des constantes $K_1, K_2 > 0$ et des rangs $N_1, N_2$ tels que pour tout $n \geqslant \max(N_1, N_2)$ :
+$$x_n + y_n \leqslant K_1 u_n + K_2 v_n \leqslant (K_1 + K_2) \max(u_n, v_n)$$
+Toute somme d'un élément de $\GO(u_n)$ et d'un élément de $\GO(v_n)$ est donc dominée par $\max(u_n, v_n)$, d'où $\GO(u_n) + \GO(v_n) = \GO(\max(u_n, v_n))$.
+}
+\Question{Montrer que si $u_n = \GO(a_n)$ et $v_n = \GO(b_n)$, alors $u_n v_n = \GO(a_n b_n)$.}
+\tcor{
+Il existe $K_1, K_2 > 0$ et $N_1, N_2 \in \N$ tels que pour tout $n \geqslant \max(N_1, N_2)$, $u_n \leqslant K_1 a_n$ et $v_n \leqslant K_2 b_n$. Comme les suites sont à termes strictement positifs :
+$$u_n v_n \leqslant (K_1 a_n)(K_2 b_n) = (K_1 K_2)(a_n b_n)$$
+ce qui établit que $u_n v_n = \GO(a_n b_n)$.
+}
+\Question{Déterminer un grand $\GO$ (le \og{} meilleur \fg{} possible) des expressions suivantes :}\\
+\begin{tabularx}{\linewidth}{XXX}
+a) $\GO(n^4)+\GO(n^2)$ &
+b) $\GO(n^5)+\GO(n^5)$ &
+c) $\GO(n^3)+\GO(\log(n))$ \\
+d) $\GO(n^4)\times \GO(n^3)$ &
+e) $\GO(n^4)\times \GO(\sqrt{n})$& 
+f) $\GO(n^2)\times \GO(\log(n))$ \\
+\end{tabularx}
+\tcor{
+a) $\GO(n^4) + \GO(n^2) = \GO(\max(n^4, n^2)) = \GO(n^4)$.\\
+b) $\GO(n^5) + \GO(n^5) = \GO(n^5)$.\\
+c) $\GO(n^3) + \GO(\log n) = \GO(n^3)$.\\
+d) $\GO(n^4) \times \GO(n^3) = \GO(n^{4+3}) = \GO(n^7)$.\\
+e) $\GO(n^4) \times \GO(\sqrt{n}) = \GO(n^{4 + 1/2}) = \GO(n^{9/2})$.\\
+f) $\GO(n^2) \times \GO(\log n) = \GO(n^2 \log n)$.
+}
+\end{Exercise}
+
+
+\begin{Exercise}[title={Multiplier en additionnant}]
+    \inputpartC{add_mult.c}{\small}{}{3}{8}
+\Question{En supposant $p>0$, montrer la terminaison de la fonction {\tt mult}.}
+\tcor{
+La variable $p$ est à valeurs entières. Comme $p > 0$ initialement et que $p$ décroît strictement de 1 à chaque itération ($p \leftarrow p - 1$), $p$ est un variant de boucle qui atteint 0 en exactement $p$ tours, ce qui garantit la terminaison.
+}
+\Question{Prouver que cette fonction renvoie bien $p \times n$.}
+\tcor{
+Notons $p_0$ la valeur initiale de $p$. Considérons l'invariant : $\text{\tt prod} + p \times n = p_0 \times n$.
+\begin{itemize}
+    \item \textbf{Entrée} : $\text{\tt prod} = 0$, donc $0 + p_0 \times n = p_0 \times n$, vérifié.
+    \item \textbf{Conservation} : lors d'un tour, $\text{\tt prod}' = \text{\tt prod} + n$ et $p' = p - 1$, donc $\text{\tt prod}' + p' n = (\text{\tt prod} + n) + (p - 1)n = \text{\tt prod} + pn = p_0 n$. L'invariant est conservé.
+    \item \textbf{Sortie} : la boucle s'arrête quand $p = 0$. Alors $\text{\tt prod} + 0 = p_0 n \implies \text{\tt prod} = p_0 n$. La fonction renvoie bien le produit attendu.
+\end{itemize}
+}
+\Question{Déterminer sa complexité.}
+\tcor{
+La boucle effectue exactement $p$ itérations, chacune contenant un nombre constant d'opérations élémentaires ($\GO(1)$). La complexité temporelle est donc en $\GO(p)$ (linéaire en $p$, indépendante de $n$).
+}
+\end{Exercise}
+
+\begin{Exercise}[title={Vérification du tri}]
+    \Question{Écrire un algorithme permettant de vérifier qu'un tableau est trié par ordre croissant.}
+    \ifcorrige
+    \inputpartC{tri.c}{\small}{}{5}{12}
+    \fi
+    \Question{En proposer une implémentation en OCaml permettant de vérifier qu'une liste est triée.}
+    \ifcorrige
+    \inputpartOCaml{tri.ml}{}{}{2}{4}
+    \fi
+    \Question{Prouver que votre algorithme est correct.}
+    \tcor{
+    $\bullet$ Si le tableau n'est pas trié, il existe au moins un indice $i$ tel que $t[i] > t[i+1]$. Dès la première occurrence d'une telle paire, l'instruction {\tt return false} est exécutée, ce qui est correct.\\
+    $\bullet$ Si le tableau est trié, la condition $t[i] > t[i+1]$ n'est jamais vérifiée pour tout $i \in \intN{0}{n-2}$. La boucle s'exécute jusqu'au bout et l'instruction {\tt return true} est atteinte, ce qui prouve la correction.
+    }
+    \Question{Déterminer sa complexité.}
+    \tcor{
+    $\bullet$ \textbf{Meilleur des cas} : $\GO(1)$ si les deux premiers éléments ne sont pas triés ($t[0] > t[1]$), la fonction s'arrête dès la première comparaison.\\
+    $\bullet$ \textbf{Pire des cas} : $\GO(n)$ si le tableau est trié (ou si la seule inversion se situe à la fin), la boucle effectue $n-1$ comparaisons.
+    }
+\end{Exercise}
+
+\begin{Exercise}[title={Exponentiation rapide}]\\
+On rappelle la fonction d'exponentiation rapide dans sa version itérative :
+\inputpartC{exp_rapide.c}{\small}{}{5}{13}
+\Question{Prouver que cet algorithme termine.}
+\tcor{
+La variable $n$ est un entier positif au départ. À chaque tour de boucle, $n$ est remplacé par sa division entière par 2 ($n \leftarrow \lfloor n/2 \rfloor$). Ainsi, $n$ décroît strictement pour tout $n \geqslant 1$ et prend ses valeurs dans $\N$. C'est un variant de boucle qui garantit la terminaison en au plus $\lfloor \log_2 n_0 \rfloor + 1$ itérations.
+}
+\Question{Prouver qu'il est correct.\\
+\aide \; En notant $n_0$ la valeur initiale de $n$, on pourra considérer l'invariant suivant : ${\tt res} \times {\tt cp}^n = a^{n_0}$.}
+\tcor{
+Montrons que ${\tt res} \times {\tt cp}^n = a^{n_0}$ est un invariant de boucle.
+\begin{itemize}
+    \item \textbf{Initialisation} : à l'entrée dans la boucle, ${\tt res} = 1$, ${\tt cp} = a$ et $n = n_0$, donc ${\tt res} \times {\tt cp}^n = 1 \times a^{n_0} = a^{n_0}$.
+    \item \textbf{Conservation} : soient ${\tt res}, {\tt cp}, n$ les valeurs au début d'un tour et ${\tt res}', {\tt cp}', n'$ les valeurs après le tour. On a ${\tt cp}' = {\tt cp}^2$ et $n' = \lfloor n/2 \rfloor$.
+    \begin{itemize}
+        \item Si $n$ est pair ($n = 2k$) : ${\tt res}' = {\tt res}$ et $n' = k$, donc :
+        $${\tt res}' \times ({\tt cp}')^{n'} = {\tt res} \times ({\tt cp}^2)^k = {\tt res} \times {\tt cp}^{2k} = {\tt res} \times {\tt cp}^n = a^{n_0}$$
+        \item Si $n$ est impair ($n = 2k+1$) : ${\tt res}' = {\tt res} \times {\tt cp}$ et $n' = k$, donc :
+        $${\tt res}' \times ({\tt cp}')^{n'} = ({\tt res} \times {\tt cp}) \times ({\tt cp}^2)^k = {\tt res} \times {\tt cp}^{2k+1} = {\tt res} \times {\tt cp}^n = a^{n_0}$$
+    \end{itemize}
+    L'invariant est conservé dans les deux cas.
+    \item \textbf{Sortie} : la boucle se termine quand $n = 0$. Alors ${\tt res} \times {\tt cp}^0 = a^{n_0} \implies {\tt res} = a^{n_0}$. L'algorithme renvoie bien $a^{n_0}$.
+\end{itemize}
+} 
+\Question{Donner sa complexité.} 
+\tcor{
+À chaque passage dans la boucle, la valeur de $n$ est divisée par 2. Le nombre d'itérations est donc $\lfloor \log_2 n \rfloor + 1$. Chaque itération effectuant un nombre borné d'opérations élémentaires ($\GO(1)$), la complexité temporelle est en $\GO(\log n)$.
+}
+\end{Exercise}
+
+\begin{Exercise}[title={Retour sur la multiplication}]\\
+On donne la fonction suivante :
+\inputpartC{add_mult2.c}{\small}{}{5}{12}
+
+\Question{Vérifier à la main, sur deux entiers naturels de votre choix, que cette fonction est conforme à sa spécification.}
+\tcor{
+Pour $n = 12$ et $p = 30$ :
+\begin{itemize}
+    \item Début : $\text{\tt prod} = 0, n = 12, p = 30$.
+    \item $n = 12$ (pair) : $\text{\tt prod} = 0, n = 6, p = 60$.
+    \item $n = 6$ (pair) : $\text{\tt prod} = 0, n = 3, p = 120$.
+    \item $n = 3$ (impair) : $\text{\tt prod} = 0 + 120 = 120, n = 1, p = 240$.
+    \item $n = 1$ (impair) : $\text{\tt prod} = 120 + 240 = 360, n = 0, p = 480$.
+\end{itemize}
+La boucle s'arrête ($n=0$) et renvoie $\text{\tt prod} = 360$, ce qui correspond bien à $12 \times 30 = 360$.
+}
+\Question{Montrer la terminaison de cette fonction.}
+\tcor{
+La variable $n \in \N$ est divisée par 2 à chaque itération ($n \leftarrow \lfloor n/2 \rfloor$). C'est un variant de boucle entier qui décroît strictement tant que $n > 0$ et s'annule en au plus $\lfloor \log_2 n_0 \rfloor + 1$ itérations, ce qui prouve la terminaison.
+}
+\Question{Montrer que cette fonction est bien conforme à sa spécification.}
+\tcor{
+Montrons que $\text{\tt prod} + n \times p = n_0 \times p_0$ est un invariant de boucle.
+\begin{itemize}
+    \item \textbf{Initialisation} : $\text{\tt prod} = 0$, donc $0 + n_0 p_0 = n_0 p_0$, vérifié.
+    \item \textbf{Conservation} : si $n$ est pair ($n = 2k$), $\text{\tt prod}' = \text{\tt prod}, n' = k, p' = 2p$, d'où :
+    $$\text{\tt prod}' + n' p' = \text{\tt prod} + k(2p) = \text{\tt prod} + np = n_0 p_0$$
+    Si $n$ est impair ($n = 2k+1$), $\text{\tt prod}' = \text{\tt prod} + p, n' = k, p' = 2p$, d'où :
+    $$\text{\tt prod}' + n' p' = \text{\tt prod} + p + 2kp = \text{\tt prod} + (2k+1)p = \text{\tt prod} + np = n_0 p_0$$
+    \item \textbf{Sortie} : quand $n = 0$, $\text{\tt prod} + 0 = n_0 p_0 \implies \text{\tt prod} = n_0 p_0$. La fonction est correcte.
+\end{itemize}
+}
+\Question{Déterminer sa complexité.}
+\tcor{
+La boucle effectue $\lfloor \log_2 n \rfloor + 1$ passages, chacun coûtant un nombre borné d'opérations élémentaires. La complexité temporelle est donc en $\GO(\log n)$ (algorithme de la multiplication russe).
+}
+\end{Exercise}
+
+\begin{Exercise}[title={Tri à bulles}]
+
+\Question{Rappeler le principe du tri à bulles.}
+\tcor{
+Le principe est de parcourir le tableau de gauche à droite en comparant chaque élément $t[i]$ à son successeur $t[i+1]$ et en les échangeant s'ils sont dans le mauvais ordre ($t[i] > t[i+1]$). À la fin du premier passage, le plus grand élément est remonté en dernière position. On réitère le processus sur le sous-tableau restant.
+}
+\Question{En écrire une implémentation en C, dans laquelle on vérifie à chaque passage qu'au moins une inversion a été effectuée. Si tel n'est pas le cas, on termine immédiatement l'algorithme puisque cela signifie que les éléments sont triés.}
+\ifcorrige
+\inputpartC{tri_bulles.c}{\small}{}{5}{20}
+\fi
+\Question{Montrer la terminaison de cette fonction.}
+\tcor{
+La quantité $(n - 1 - \text{\tt passage})$ est un variant de boucle : elle prend des valeurs entières, est positive au départ, et décroît strictement de 1 à chaque passage dans la boucle {\tt while}. De plus, la boucle peut s'arrêter prématurément si {\tt modif} reste {\tt false}. La terminaison est donc assurée.
+}
+\Question{Prouver qu'elle est correcte. \\
+\aide \; On pourra exhiber un invariant qui donne le nombre d'éléments figurant à leur place finale après chaque itération.
+}
+\tcor{
+$\bullet$ \textbf{Invariant} : après $k$ passages, les $k$ plus grands éléments du tableau occupent les positions finales $t[n-k \dots n-1]$ dans l'ordre trié, et sont supérieurs ou égaux à tous les éléments de $t[0 \dots n-k-1]$.\\
+$\bullet$ Si un passage s'effectue sans aucun échange ({\tt modif == false}), cela signifie que pour tout $i \in \intN{0}{n-2-\text{passage}}$, $t[i] \leqslant t[i+1]$. Le sous-tableau restant étant trié et ses éléments étant inférieurs à la zone finale, le tableau complet est trié : l'arrêt anticipé est parfaitement correct.
+}
+\Question{Déterminer la complexité de cet algorithme dans le pire des cas et dans le meilleur des cas.}
+\tcor{
+$\bullet$ \textbf{Meilleur des cas} : si le tableau est déjà trié, le premier passage n'effectue aucun échange ({\tt modif} reste {\tt false}). L'algorithme s'arrête après $n-1$ comparaisons, d'où une complexité en $\GO(n)$.\\
+$\bullet$ \textbf{Pire des cas} : si le tableau est trié par ordre décroissant, $n-1$ passages sont nécessaires, effectuant $\sum_{k=1}^{n-1} k = \frac{n(n-1)}{2} = \GO(n^2)$ comparaisons et échanges.
+}
+\end{Exercise}
+
+\begin{Exercise}[title={Recherche dichotomique}]
+\begin{algorithm}[H]
+    \footnotesize
+    \DontPrintSemicolon
+    \caption{Recherche dichotomique}
+    \Entree{$a \in \N$ et un tableau d'entiers $t$ \textbf{trié} de longueur $n$}
+    \Sortie{Booléen indiquant si $a \in t$.}
+    \everypar={\footnotesize \textcolor{gray}{\nl}}
+    $ d \leftarrow 0$ \;
+    $ f \leftarrow n-1$ \;
+    \Tq{$f - d \geqslant 0$}{
+        $ m \leftarrow (f+d)/2$ \;
+    \Si{$t[m]=a$}{
+        \Return Vrai 
+    }
+    \Si{$a<t[m]$}
+    {
+        $f \leftarrow m - 1$
+    }\Sinon
+    {   $d \leftarrow m + 1$}
+    }
+    \Return Faux
+  \end{algorithm} 
+  \Question{Étudier la terminaison de cet algorithme.}
+  \tcor{
+  Considérons la quantité $V = f - d + 1$. À l'entrée dans la boucle, $V = n \geqslant 0$. Tant que la condition de boucle est vérifiée, on a $f - d \geqslant 0$.
+  Soit $m = \lfloor (f+d)/2 \rfloor$.
+  \begin{itemize}
+      \item Si $a < t[m]$, la nouvelle borne supérieure est $f' = m - 1$, donc $f' - d' + 1 = m - d = \lfloor \frac{f-d}{2} \rfloor < f - d + 1$.
+      \item Si $a > t[m]$, la nouvelle borne inférieure est $d' = m + 1$, donc $f' - d' + 1 = f - m = \lceil \frac{f-d}{2} \rceil < f - d + 1$.
+  \end{itemize}
+  Dans les deux cas, $V \in \N$ décroît strictement à chaque itération. Il existe donc un moment où $V \leqslant 0$ (c'est-à-dire $f - d < 0$), ce qui prouve la terminaison.
+  }
+  \Question{Prouver que cet algorithme est totalement correct.}
+  \tcor{
+  $\bullet$ Si l'algorithme renvoie {\tt Vrai}, c'est qu'il a trouvé un indice $m$ tel que $t[m] = a$, donc $a \in t$ (correction partielle).\\
+  $\bullet$ Si l'algorithme renvoie {\tt Faux}, montrons l'invariant : \og{} Si $a \in t$, alors $a \in t[d \dots f]$ \fg{}.
+  \begin{itemize}
+      \item \textbf{Initialisation} : $d=0$ et $f=n-1$, le sous-tableau couvre tout $t$, la propriété est vraie.
+      \item \textbf{Conservation} : le tableau étant trié, si $a < t[m]$, alors pour tout $k \geqslant m$, $t[k] \geqslant t[m] > a$, donc $a$ ne peut pas appartenir à $t[m \dots f]$. S'il est présent, il est dans $t[d \dots m-1]$. De même si $a > t[m]$, il est nécessairement dans $t[m+1 \dots f]$.
+      \item \textbf{Sortie} : si la boucle termine sans trouver $a$, on a $f < d$, donc l'intervalle $t[d \dots f]$ est vide. L'invariant implique donc que $a \notin t$, et le renvoi de {\tt Faux} est correct.
+  \end{itemize}
+  L'algorithme se terminant toujours et étant partiellement correct, il est \textbf{totalement correct}.
+  }
+  \Question{Déterminer sa complexité.}
+  \tcor{
+  À chaque itération, la longueur de l'intervalle de recherche est divisée par 2. Le nombre maximal d'itérations est donc $\lfloor \log_2 n \rfloor + 1$. Chaque itération contenant un nombre borné d'opérations élémentaires ($\GO(1)$), la complexité temporelle est en $\GO(\log n)$.
+  }
+\end{Exercise}
+
+\begin{Exercise}[title={Nombre de chiffres d'un entier}]
+    \Question{Écrire en C une version itérative d'une fonction donnant le nombre de chiffres d'un entier naturel.}
+    \ifcorrige
+    \inputpartC{nb_chiffres.c}{\small}{}{4}{14}
+    \fi
+    \Question{Écrire une version récursive en OCaml.}
+    \ifcorrige
+    \inputpartOCaml{nb_chiffres.ml}{}{}{2}{4}
+    \fi
+    \Question{Prouver la terminaison dans les deux cas.}
+    \tcor{
+    Dans les deux cas, l'entier $n$ est strictement divisé par 10 (division entière) à chaque étape. La quantité $n \in \N$ est un variant qui décroît strictement pour $n > 0$ et atteint 0 (ou une valeur $< 10$) en exactement $\lfloor \log_{10} n \rfloor + 1$ étapes pour tout $n \geqslant 1$. La terminaison est donc garantie.
+    }
+    \Question{Prouver la correction dans les deux cas.}
+    \tcor{
+    Un entier naturel $n \geqslant 1$ s'écrit de manière unique en base 10 : $n = \sum_{k=0}^{c-1} d_k 10^k$ avec $d_{c-1} \neq 0$, où $c = \lfloor \log_{10} n \rfloor + 1$ est le nombre de chiffres. Chaque division entière par 10 élimine le chiffre de poids faible $d_0$. Le compteur s'incrémente de 1 à chaque division jusqu'à ce que tous les chiffres soient éliminés, ce qui donne exactement $c$. Pour $n=0$, la condition initiale traite le cas particulier et renvoie 1 (le chiffre 0).
+    }
+    \Question{Déterminer la complexité dans les deux cas.}
+    \tcor{
+    Le nombre d'opérations est proportionnel au nombre d'itérations ou d'appels récursifs, c'est-à-dire $\GO(\log_{10} n)$ (complexité logarithmique en la valeur de l'entier $n$, soit linéaire en la taille de son écriture décimale).
+    }
+\end{Exercise}
+
+\begin{Exercise}[title={Majorité absolue}]\\
+On considère les résultats d'un vote sous la forme d'un tableau d'entiers positifs : lorsqu'on rencontre la valeur {\tt i}, cela signifie que le candidat numéro {\tt i} a obtenu un vote. Par exemple, si le tableau contient les valeurs {\tt [2, 3, 1, 2, 2, 2, 4, 1, 1, 2]}, alors le candidat 1 a obtenu 3 voix, le candidat 2 a obtenu 5 voix, $\dots$.
+On cherche à concevoir un algorithme efficace permettant de déterminer (s'il existe) le candidat ayant obtenu la majorité absolue. Dans le cas où aucun candidat n'a la majorité absolue, l'algorithme doit renvoyer {\tt -1}.
+On note $C$ le nombre de candidats et $N$ le nombre de votes.
+
+\Question{Proposer un algorithme naïf permettant de résoudre ce problème et donner sa complexité.}
+\tcor{
+Un algorithme naïf consiste à parcourir le tableau pour chaque valeur candidate distincte afin de compter ses occurrences. Comme il y a au plus $N$ candidats distincts et que chaque comptage prend un temps $\GO(N)$, cet algorithme a une complexité temporelle en $\GO(N^2)$ (pour une mémoire auxiliaire en $\GO(1)$).
+}
+On donne ci-dessous \textbf{le début} de l'implémentation en C d'un algorithme proposé par R. Boyer et J. S. Moore :
+\inputpartC{vote.c}{\small}{}{7}{20}
+\Question{Prouver qu'à la fin de la boucle {\tt for}, la variable {\tt candidat} contient le numéro du seul candidat éventuellement majoritaire.}
+\tcor{
+L'algorithme de Boyer-Moore repose sur le principe d'élimination par paires d'éléments distincts : si deux votes pour des candidats distincts sont supprimés ensemble, le candidat majoritaire absolu (qui possède strictement plus de $N/2$ voix) conserve une majorité absolue stricte parmi les votes restants (puisqu'on retire au plus 1 vote pour lui et au moins 1 vote contre lui).\\
+La variable {\tt nb\_votes} compte l'excédent de voix du candidat courant. Lorsqu'elle atteint 0, cela signifie qu'un ensemble de votes a été apparié par paires distinctes et éliminé. À la sortie de la boucle, seul un candidat ayant la majorité absolue a pu être conservé dans {\tt candidat}.
+}
+\Question{Compléter l'implémentation en ajoutant les lignes permettant de vérifier après la boucle {\tt for} que ce candidat est effectivement majoritaire.}
+\ifcorrige
+\inputpartC{vote.c}{\small}{}{23}{38}
+\fi
+\Question{Donner la complexité de cet algorithme.}
+\tcor{
+L'algorithme effectue deux parcours consécutifs du tableau de taille $N$ : la passe d'élimination de Boyer-Moore puis la vérification du candidat. Chaque parcours prend un temps $\GO(N)$. La complexité temporelle est donc en $\GO(N)$, et la mémoire auxiliaire est en $\GO(1)$, ce qui est optimal.
+}
+\end{Exercise}
+
+
+
+\begin{Exercise}[title={Fonction 91}]\\
+    La fonction 91, notée $f_{91}$, due à l'informaticien J. McCarthy est définie sur $\N$ par : \\
+    $f_{91}(n) = \left\{
+        \begin{array}{lr}
+            n-10 & \text{ si } n>100, \\
+            f_{91}(f_{91}(n+11))  & \text{ si } n \leqslant 100.
+        \end{array}
+    \right.$
+    \Question{Calculer $f_{91}(101)$, $f_{91}(200)$, $f_{91}(2025)$.}
+    \tcor{
+    $\bullet$ $f_{91}(101) = 101 - 10 = 91$.\\
+    $\bullet$ $f_{91}(200) = 200 - 10 = 190$.\\
+    $\bullet$ $f_{91}(2025) = 2025 - 10 = 2015$.
+    }
+    \Question{Écrire une fonction {\tt f91} en OCaml calculant cette fonction.}
+    \ifcorrige
+    \inputpartOCaml{f91.ml}{}{}{2}{6}
+    \fi
+    \Question{Montrer que si $n \in \intN{90}{100}$ alors $f_{91}(n) = f_{91}(n+1)$. En déduire la valeur de $f_{91}$ sur $\intN{90}{100}$.}
+    \tcor{
+    Soit $n \in \intN{90}{100}$. Alors $n + 11 \in \intN{101}{111}$, donc $n + 11 > 100$.\\
+    Par définition, $f_{91}(n+11) = (n+11) - 10 = n+1$.\\
+    On en déduit :
+    $$f_{91}(n) = f_{91}(f_{91}(n+11)) = f_{91}(n+1)$$
+    Ainsi, la fonction $f_{91}$ est constante sur $\intN{90}{101}$ :
+    $$f_{91}(90) = f_{91}(91) = \dots = f_{91}(100) = f_{91}(101) = 91$$
+    }
+    \Question{Prouver que, pour tout $n \in \intN{0}{101}$, cette fonction termine et vaut $91$. On pourra considérer l'entier $p \in \N^*$ tel que $90 \leqslant n+11p \leqslant 100$.}
+    \tcor{
+    Soit $n \in \intN{0}{101}$. On raisonne par récurrence bien fondée sur le variant $V(n) = 101 - n \in \N$ :
+    \begin{itemize}
+        \item Si $n \in \intN{90}{101}$, on a déjà montré que la fonction termine et que $f_{91}(n) = 91$.
+        \item Si $n < 90$, soit $p = \left\lceil \frac{90-n}{11} \right\rceil \geqslant 1$ le plus petit entier tel que $90 \leqslant n + 11p \leqslant 100$.
+        On a $n + 11p \in \intN{90}{100}$, donc $f_{91}(n+11p) = 91$.
+        Par une récurrence descendante, chaque appel interne $f_{91}(n+11k)$ termine et se ramène finalement à $91$.
+    \end{itemize}
+    La fonction termine donc pour tout $n \in \intN{0}{101}$ et vaut identiquement 91.
+    }
+\end{Exercise}
+
+\begin{Exercise}[title={Équations de récurrence}]\\
+Dans l'étude d'algorithmes récursifs, le nombre d'opérations élémentaires $T(n)$ pour une entrée de taille $n$ satisfait souvent une équation de récurrence.
+On suppose dans tout l'exercice que $T(1) = 1$. Déterminer l'ordre de grandeur asymptotique en notation $\GO$ de $T(n)$ dans chacun des cas suivants :
+\Question{$T(n) = T(n-1) + n$ pour $n \geqslant 2$. Quel algorithme de tri usuel correspond à cette équation ?}
+\tcor{
+Par sommation télescopique :
+$$T(n) = T(1) + \sum_{k=2}^n k = 1 + \left(\frac{n(n+1)}{2} - 1\right) = \frac{n(n+1)}{2} = \GO(n^2)$$
+Cette récurrence correspond par exemple au \textbf{tri par sélection} (ou insertion) récursif, où trouver le minimum parmi $k$ éléments demande $k-1 = \GO(k)$ opérations, puis on trie récursivement les $k-1$ éléments restants.
+}
+\Question{$T(n) = 2T(n-1) + 1$ pour $n \geqslant 2$. À quel problème algorithmique classique correspond cette récurrence ?}
+\tcor{
+Posons $U(n) = T(n) + 1$. Alors $U(n) = 2T(n-1) + 2 = 2U(n-1)$.
+La suite $(U(n))$ est une suite géométrique de raison 2, avec $U(1) = T(1) + 1 = 2$.
+D'où $U(n) = 2^n$, soit $T(n) = 2^n - 1 = \GO(2^n)$.\\
+Cette équation correspond au problème des \textbf{tours de Hanoï} à $n$ disques (on déplace $n-1$ disques, puis le plus grand disque, puis à nouveau les $n-1$ disques).
+}
+\Question{$T(n) = 2T(\lfloor n/2 \rfloor) + n$ pour $n \geqslant 2$. On pourra d'abord expliciter $T(2^k)$ pour tout $k \in \N$, puis en déduire la complexité dans le cas général.}
+\tcor{
+Pour $n = 2^k$ avec $k = \log_2 n$, l'équation devient $T(2^k) = 2T(2^{k-1}) + 2^k$. En divisant par $2^k$ :
+$$\frac{T(2^k)}{2^k} = \frac{T(2^{k-1})}{2^{k-1}} + 1$$
+La suite $k \mapsto \frac{T(2^k)}{2^k}$ est une suite arithmétique de raison 1, avec $\frac{T(1)}{1} = 1$.
+D'où $\frac{T(2^k)}{2^k} = 1 + k = 1 + \log_2 n$, ce qui donne $T(2^k) = 2^k(1 + k) = n(1 + \log_2 n) = \GO(n \log n)$.\\
+Par croissance de $T(n)$ et encadrement entre deux puissances de 2 ($2^k \leqslant n < 2^{k+1}$), on conclut que dans le cas général $T(n) = \GO(n \log n)$. C'est la récurrence du \textbf{tri fusion} (\textit{Mergesort}).
+}
+\Question{$T(n) = 3T(\lfloor n/2 \rfloor) + n$ pour $n \geqslant 2$. Même méthode que précédemment en étudiant $n = 2^k$ (on rappelle que cette récurrence apparaît dans l'algorithme de multiplication rapide d'entiers de Karatsuba).}
+\tcor{
+Pour $n = 2^k$, posons $T(2^k) = 3T(2^{k-1}) + 2^k$. En divisant par $3^k$ :
+$$\frac{T(2^k)}{3^k} = \frac{T(2^{k-1})}{3^{k-1}} + \left(\frac{2}{3}\right)^k$$
+Par sommation télescopique :
+$$\frac{T(2^k)}{3^k} = \frac{T(1)}{1} + \sum_{j=1}^k \left(\frac{2}{3}\right)^j \leqslant 1 + \sum_{j=1}^{+\infty} \left(\frac{2}{3}\right)^j = 1 + \frac{2/3}{1 - 2/3} = 3$$
+Ainsi, $T(2^k) \leqslant 3 \times 3^k = 3 \times 3^{\log_2 n} = 3 \times n^{\log_2 3}$.
+Comme $\log_2 3 \approx 1{,}585$, on obtient une complexité en $\GO(n^{\log_2 3}) \approx \GO(n^{1{,}585})$.\\
+Cette équation correspond à l'algorithme de \textbf{multiplication rapide d'entiers de Karatsuba}.
+}
+\end{Exercise}
+
+\begin{Exercise}[title={Recherche simultanée du minimum et du maximum}]\\
+Soit $t$ un tableau d'entiers de taille $n \geqslant 1$. On souhaite déterminer simultanément la valeur minimale et la valeur maximale de $t$.
+\Question{Combien de comparaisons entre éléments du tableau effectue un algorithme naïf qui recherche successivement le minimum puis le maximum ?}
+\tcor{
+La recherche du minimum dans un tableau de taille $n$ effectue $n-1$ comparaisons. La recherche du maximum effectue également $n-1$ comparaisons (ou $n-2$ si l'on exclut le minimum déjà identifié). L'approche naïve effectue donc au moins $2n - 3$ comparaisons (et généralement $2n - 2$).
+}
+\Question{On propose d'optimiser le nombre de comparaisons en traitant les éléments par paires :
+\begin{itemize}
+    \item Si $n$ est impair, on initialise le minimum et le maximum courants à $t[0]$, et on examine les éléments restants deux par deux.
+    \item Si $n$ est pair, on compare $t[0]$ et $t[1]$ pour initialiser le minimum et le maximum courants, et on examine les éléments restants deux par deux.
+    \item Pour chaque paire $\{t[i], t[i+1]\}$, on compare d'abord ces deux éléments entre eux, puis on compare le plus petit au minimum courant et le plus grand au maximum courant.
+\end{itemize}
+Combien de comparaisons entre éléments du tableau sont effectuées pour chaque paire traitée ?}
+\tcor{
+Pour chaque paire $\{t[i], t[i+1]\}$ :
+\begin{enumerate}
+    \item on compare $t[i]$ et $t[i+1]$ entre eux (1 comparaison) ;
+    \item on compare le plus petit des deux au minimum courant (1 comparaison) ;
+    \item on compare le plus grand des deux au maximum courant (1 comparaison).
+\end{enumerate}
+On effectue donc exactement \textbf{3 comparaisons} pour 2 éléments examinés (soit $1{,}5$ comparaison par élément au lieu de 2).
+}
+\Question{En déduire le nombre total de comparaisons effectuées par cet algorithme en fonction de la parité de $n$. Montrer que, dans tous les cas, ce nombre vaut $\lceil \frac{3n}{2} \rceil - 2$.}
+\tcor{
+$\bullet$ \textbf{Si $n$ est impair ($n = 2k+1$)} : 0 comparaison initiale (${\tt min} = {\tt max} = t[0]$) et $k = \frac{n-1}{2}$ paires à traiter.
+Nombre total : $3 \times \frac{n-1}{2} = \frac{3n-3}{2}$.\\
+Or $\left\lceil \frac{3(2k+1)}{2} \right\rceil - 2 = \lceil 3k + 1{,}5 \rceil - 2 = (3k + 2) - 2 = 3k = \frac{3n-3}{2}$.\\
+$\bullet$ \textbf{Si $n$ est pair ($n = 2k$)} : 1 comparaison initiale entre $t[0]$ et $t[1]$, puis $k-1 = \frac{n-2}{2}$ paires à traiter.
+Nombre total : $1 + 3 \times \frac{n-2}{2} = \frac{3n-4}{2}$.\\
+Or $\left\lceil \frac{3(2k)}{2} \right\rceil - 2 = 3k - 2 = \frac{3n-4}{2}$.\\
+Dans les deux cas, la formule $\lceil \frac{3n}{2} \rceil - 2$ est rigoureusement exacte.
+}
+\Question{Écrire en C une fonction implémentant cet algorithme.}
+\ifcorrige
+\inputpartC{min_max.c}{\small}{}{4}{29}
+\fi
+\Question{Prouver formellement sa correction.}
+\tcor{
+\textbf{Preuve par invariant de boucle} :\\
+Soit $\mathcal{I}(i)$ la propriété : \og{} Les variables pointées par {\tt pmin} et {\tt pmax} contiennent respectivement le minimum et le maximum des éléments du sous-tableau $t[0 \dots i-1]$ \fg{}.
+\begin{itemize}
+    \item \textbf{Initialisation} : si $n$ est impair, $i=1$ et $t[0]$ est le seul élément examiné ; si $n$ est pair, $i=2$ et la comparaison entre $t[0]$ et $t[1]$ initialise correctement le min et le max de $t[0 \dots 1]$. Dans les deux cas, $\mathcal{I}(i)$ est vérifiée.
+    \item \textbf{Conservation} : supposons $\mathcal{I}(i)$ vraie. Lors de l'itération, on considère la paire $\{t[i], t[i+1]\}$. Soit $a = \min(t[i], t[i+1])$ et $b = \max(t[i], t[i+1])$. Le minimum de $t[0 \dots i+1]$ est $\min(\text{\tt *pmin}, a)$ et son maximum est $\max(\text{\tt *pmax}, b)$. Après les deux tests et mises à jour, puis l'incrémentation $i \leftarrow i + 2$, la propriété $\mathcal{I}(i+2)$ est vérifiée.
+    \item \textbf{Sortie} : la boucle se termine quand tous les éléments ont été traités ($i=n$). Alors $\mathcal{I}(n)$ garantit que {\tt *pmin} et {\tt *pmax} sont bien le minimum et le maximum du tableau complet $t[0 \dots n-1]$.
+\end{itemize}
+}
+\end{Exercise}
+
+\end{document}

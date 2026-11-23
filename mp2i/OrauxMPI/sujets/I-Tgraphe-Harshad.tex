@@ -1,0 +1,87 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+\newcommand{\SPATH}{/home/fenarius/Travail/Cours/cpge-info/docs/mp2i/files/}
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.2cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$0$}} \\
+		\hline
+	\end{tabular}
+}
+\ModeExercice
+
+\lhead{{\sc mpi --} {\bf Préparation aux oraux}}
+\rhead{2026}
+\setboolean{corrige}{false}
+\begin{center}
+	\textbf{\Large Sujet $\mathcal{I}$}
+\end{center}
+
+
+\setcounter{Exercise}{0}
+
+\newcommand{\cn}[1]{\TCircle{\tt #1}}
+\psset{arrows=->,treesep=1cm,levelsep=1cm}
+
+\begin{Exercise*}[title = type A]\\
+ On considère un graphe non orienté $G = (S,A)$ où $S = \{0, \dots, n-1 \}$. On dit qu'un sous-ensemble de $S$ à trois éléments $\{s,t,u\}$ est un \textit{triangle} de $G$ lorsque les arêtes $\{s,t\}$, $\{t,u\}$ et $\{s,u\}$ appartiennent à $A$.
+Par exemple, dans le graphe $g$ suivant, $\{0, 1, 3\}$ est un triangle, par contre $\{0, 1, 2\}$ n'est pas un triangle car $\{0, 2\}$ n'est pas une arête.
+\begin{center}
+    \begin{pspicture}(0,-2.2)(5,1)
+		\rput(1,0){\circlenode{x1}{$0$}}
+		\rput(3,0){\circlenode{x2}{$1$}}
+		\rput(5,-1){\circlenode{x3}{$2$}}
+		\rput(1,-2){\circlenode{x4}{$3$}}
+	   \rput(3,-2){\circlenode{x5}{$4$}}
+       \ncline{-}{x1}{x2}
+       \ncline{-}{x1}{x4}
+       \ncline{-}{x1}{x5}
+       \ncline{-}{x2}{x1}
+       \ncline{-}{x2}{x5}
+       \ncline{-}{x2}{x4}
+       \ncline{-}{x2}{x3}
+       \ncline{-}{x3}{x2}
+       \ncline{-}{x3}{x5}
+       \ncline{-}{x4}{x5}
+    \end{pspicture}
+\end{center}
+
+\Question{Donner une borne supérieure du nombre de triangles possibles dans un graphe  à $n$ sommets.}
+\tcor{Un graphe complet est un graphe dans lequel pour toute paire de sommets $(i,j)$, on a $ij$ qui est un arc c'est à dire $ij \in A$. Donc tous les triplets de sommets sont des triangles, donc il y a autant de triplets de sommets que de triangle, c'est à dire $\displaystyle{\binom{n}{3}}$ triangles}
+
+\Question{On dit qu'un graphe est bipartite lorsqu'il existe une partition de l'ensemble des sommets $S$ en deux ensembles $S_1$ et $S_2$ tel que toute arête ait un élément dans $S_1$ et l'autre dans $S_2$. Montrer qu'un graphe bipartite ne contient pas de triangles.}
+    \tcor{Soit $ij \in A$, et quitte à échanger leurs rôles supposons $i \in S_1$ et $j \in S_2$, alors pour tout autre sommet $k$ du graphe, soit $k \in S_1$ et donc $ik \notin A$ , soit $k \in S_2$ et donc $kj \notin A$. Donc $ijk$ n'est pas un triangle.}
+\Question{Montrer que pour un graphe $G = \{(0,\dots,n-1),A\}$ à $n$ sommets de matrice d'adjacence $M$, le nombre de chemins de longueur $k, (k \in \N^{*})$ entre le sommet $i$ ($0 \leqslant i < n$) et le sommet $j$ ($0 \leqslant j < n$) noté $c_{i,j,k}$ est le coefficient situé ligne $i$ colonne $j$ de $M^k$. On pourra procéder par récurrence sur $k$.}
+\Question{Déduire de la question précédente que le nombre de triangles d'un graphe $G$ de matrice d'adjacence $M$ est la trace (somme des éléments diagonaux) de $M^3$  divisée par 6.}
+\end{Exercise*}
+
+\begin{Exercise*}[title = {type B}]\\
+	On dit qu'un entier strictement positif est un \textit{nombre harshad} (ou nombre de Niven) lorsqu'il est divisible par la somme de ses chiffres dans une base donnée. Dans cet exercice, on s'intéresse aux nombres harshad en base 10. Par exemples, {\tt $48$} est un nombre harshad puisque 48 est divisible par $12$, de même $63$ (divisible par 9) ou encore $190$ (divisible par 10) sont aussi des nombres harshad. Par contre $28$, ou encore $104$ ne sont pas des nombres harshad.
+
+    \Question{Ecrire une fonction de signature \mintinline{c}{bool est_harshad(int n)} qui renvoie {\tt true} si et seulement si {\tt n} est un nombre harshad.}
+	\Question{Ecrire une fonction de signature \mintinline{c}{int nb_harshad(int limit)} qui renvoie le nombre de nombre harshad inférieur à {\tt limit}.}
+    \Question{On veut maintent écrire une fonction \mintinline{c}{int* get_harshad(int limit, int *nb)} qui prend en argument un entier {\tt limit}, et renvoie un tableau contenant les nombres de harshad inférieurs ou égaux à {\tt limit}. De plus {\tt *nb} doit contenir après appel le nombre de nombres harshad inférieurs ou égaux à {\tt limit}. Par exemple comme les nombres harshad inférieurs ou égaux à 20 sont {\tt \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 18, 20\}} l'appel {\tt get\_harshad(20, \&n)} renvoie un tableau contenant ces entiers et après l'appel {\tt n} contient la taille de ce tableau donc {\tt 13}. Pourquoi la signature de cette fonction ne pourrait pas être \mintinline{c}{int* get_harshad(int limit, int nb)} ?}
+	\Question{ On donne ci-dessous une proposition pour les premières lignes de la fonction {\tt get\_harshad} :
+	\begin{minted}{c}
+int* get_harshad(int limit, int *nb) {
+	*nb = nb_harshard(limit);
+	int nombres[*nb];
+	...
+}
+	\end{minted}
+	Un programme C peut stocker des données dans différentes régions de la mémoire. Citer ces régions. Dans laquelle est stockée le tableau {\tt nombres} de la troisième ligne ?
+	}
+	\Question{Expliquer pourquoi cela pose problème puis corriger et compléter le code de cette fonction.}
+    
+\end{Exercise*}
+
+
+
+\end{document}

@@ -1,0 +1,65 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+\usepackage{qrcode}
+\usepackage{tikz}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+
+% Entête de la fiche
+\Fiche{Énigmes de programmation}{\textsc{itc}}
+
+\pythonmode
+
+On appelle \textit{fourmi de Langton} une \og{}fourmi\fg{} évoluant sur une grille infinie de cases pouvant être noires ou blanches de la façon suivante : la fourmi inverse la couleur de la case sur laquelle elle se trouve, puis :
+\begin{itemize}
+ \item [\textbullet] si cette case était noire, alors elle tourne de $90^\circ$ à gauche et avance d'une case ;
+ \item [\textbullet] si cette case était blanche, alors elle tourne de $90^\circ$ à droite et avance d'une case.
+\end{itemize}
+
+\medskip
+\textbf{Exemple sur une grille $4 \times 4$ :} \\
+On illustre ci-dessous les 5 premiers déplacements d'une fourmi initialement placée sur la case de coordonnées $(1, 1)$ (en numérotant les lignes et colonnes de $0$ à $3$) et orientée vers le haut. La fourmi est représentée par un disque rouge muni d'une flèche blanche indiquant sa direction :
+
+\begin{center}
+\newcommand{\gridlangton}[4]{%
+\begin{tikzpicture}[scale=0.55, baseline=(current bounding box.center)]
+  \fill[white] (0,0) rectangle (4,4);
+  #1
+  \draw[step=1cm, gray!60, thin] (0,0) grid (4,4);
+  \draw[thick] (0,0) rectangle (4,4);
+  \pgfmathsetmacro{\antx}{#3 + 0.5}
+  \pgfmathsetmacro{\anty}{3 - #2 + 0.5}
+  \fill[red!85!black] (\antx, \anty) circle (0.28cm);
+  \draw[white, ->, >=stealth, very thick] (\antx, \anty) ++(#4+180:0.16cm) -- ++(#4:0.32cm);
+\end{tikzpicture}%
+}
+\begin{tabular}{cccccc}
+\gridlangton{}{1}{1}{90} &
+\gridlangton{\fill[black] (1,2) rectangle (2,3);}{1}{2}{0} &
+\gridlangton{\fill[black] (1,2) rectangle (2,3); \fill[black] (2,2) rectangle (3,3);}{2}{2}{270} &
+\gridlangton{\fill[black] (1,2) rectangle (2,3); \fill[black] (2,2) rectangle (3,3); \fill[black] (2,1) rectangle (3,2);}{2}{1}{180} &
+\gridlangton{\fill[black] (1,2) rectangle (2,3); \fill[black] (2,2) rectangle (3,3); \fill[black] (2,1) rectangle (3,2); \fill[black] (1,1) rectangle (2,2);}{1}{1}{90} &
+\gridlangton{\fill[black] (2,2) rectangle (3,3); \fill[black] (2,1) rectangle (3,2); \fill[black] (1,1) rectangle (2,2);}{1}{0}{180} \\
+{\footnotesize $t=0$} & {\footnotesize $t=1$} & {\footnotesize $t=2$} & {\footnotesize $t=3$} & {\footnotesize $t=4$} & {\footnotesize $t=5$} \\
+\end{tabular}
+\end{center}
+
+\begin{itemize}[leftmargin=1.5cm]
+ \item[\footnotesize $t=0$ :] la fourmi est en $(1, 1)$ orientée vers le haut, sur une case blanche.
+ \item[\footnotesize $t=1$ :] la case $(1, 1)$ devient noire, la fourmi tourne à droite (vers l'est) et avance en $(1, 2)$.
+ \item[\footnotesize $t=2$ :] la case $(1, 2)$ devient noire, la fourmi tourne à droite (vers le sud) et avance en $(2, 2)$.
+ \item[\footnotesize $t=3$ :] la case $(2, 2)$ devient noire, la fourmi tourne à droite (vers l'ouest) et avance en $(2, 1)$.
+ \item[\footnotesize $t=4$ :] la case $(2, 1)$ devient noire, la fourmi tourne à droite (vers le nord) et revient en $(1, 1)$.
+ \item[\footnotesize $t=5$ :] la case $(1, 1)$ était noire : elle redevient blanche, la fourmi tourne à gauche (vers l'ouest) et avance en $(1, 0)$.
+\end{itemize}
+
+\vspace{0.2cm}
+Pour une simulation informatique de ce processus, on utilisera une grille finie de dimension $100 \times 100$. La fourmi n'effectue alors aucun déplacement la faisant sortir de la grille.
+
+\begin{tcolorbox}[left=0cm,title=\textbf{\faQuestion{} Fourmi de Langton},colbacktitle=cfond]
+    En considérant une grille de départ complètement blanche et une fourmi initialement placée au centre de la grille (en position $(50, 50)$) et orientée vers le haut, déterminer la position de la fourmi après $1000$ déplacements.
+\end{tcolorbox}
+
+\end{document}

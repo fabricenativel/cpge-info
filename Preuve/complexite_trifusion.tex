@@ -1,0 +1,32 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{Act}
+
+\begin{document}
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex/Macros.tex}}
+
+On note :
+\begin{itemize}
+ \item $F(n)$ le nombre d'opérations nécessaire pour fusionner deux listes déjà triées de taille $n$, on sait qu'il existe $K \in \N$ tel que $F(n) \leq Kn$ car la fusion est de complexité linéaire.
+ \item $C(n)$ le nombre d'opérations élémentaires pour trier avec le tri fusion une liste de $n$ éléments.
+\end{itemize}
+Montrons par récurrence $\forall n \in \N$, $C(n) \leq K n\log_2(n)$
+
+Initialisation : $C(1) = 0$ et $K \times 1 \times \log_2(1) = 0$
+
+Hérédité : Soit $n \in \N$ tel que $C(n) \leq K n\log_2(n)$ montrons qu'alors $C(2n) \leq 2Kn\log_2(2n)$
+Le tri fusion d'une liste de taille $2n$ demande celui de deux listes de taille $n$ puis la fusion de ces deux listes, c'est-à-dire :
+$\begin{array}{lclr}
+C(2n) & =  & 2C(n) + F(n) & \\
+C(2n) & \leq & 2K n\log_2(n) + F(n) & (\text{par HR})\\
+C(2n) & \leq & 2K n\log_2(n) + Kn &  \\
+C(2n) & \leq & 2K n(\log_2(n) + 1) &  \\
+C(2n) & \leq & 2K n\log_2(2n) &  \\
+\end{array}$
+
+
+
+
+
+
+\end{document}

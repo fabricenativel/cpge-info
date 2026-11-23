@@ -1,0 +1,1384 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = fr_FR
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Concours commun INP                                %
+% https://www.concours-commun-inp.fr                 %
+% CC BY-NC-SA, Novembre 2023                         %
+% https://creativecommons.org/licenses/by-nc-sa/4.0/ %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Pour compiler : lualatex -shell-escape
+
+% \documentclass[a5paper, 12pt]{article}
+\documentclass[a4paper, 11pt]{article}
+
+% Pour supprimer les numéros de page
+%\pagestyle{empty}
+
+% Gestion des marges
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+% En-tête et pied de page
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{} % sets both header and footer to nothing
+\renewcommand{\headrulewidth}{0pt}
+\lhead{CCINP}
+\rhead{Filière MPI}
+\lfoot{\includegraphics[width=5em]{by-nc-sa.eu.png}}
+\cfoot{\thepage}
+\rfoot{24 octobre 2023}
+
+% Suppression de l'indentation des paragraphes
+\setlength{\parindent}{0pt}
+
+% Ajout automatique d'espace entre les paragraphes
+\usepackage{parskip}
+
+% Gestion du texte
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\usepackage{fontspec}
+
+% Gestion de la coloration syntaxique du code et pseudocode
+\usepackage{minted}
+
+% Minted Inline in C
+\newmintinline[mic]{c}{style=friendly, breaklines=true, autogobble}
+% Minted Inline in OCaml
+\newmintinline[mio]{ocaml}{style=friendly, breaklines=true, autogobble}
+% Minted Inline in SQL
+\newmintinline[miq]{sql}{style=friendly, breaklines=true, autogobble}
+
+% Gestion du pseudo code (encadré, et lignes numérotées par défault)
+\usepackage[french,boxed,linesnumbered]{algorithm2e}
+
+% Renommage des mots clés pour le pseudo-code
+% Commande générale \SetKwTruc{Motcle1}{Motcle2}{}...{mot affiché 1}{mot affiché 2}...{} avec Truc à retrouver dans la documentation de algorithm2e p31+ et p41+
+\SetKwInput{In}{Entrée}
+\SetKwInput{Out}{Sortie}
+\SetKw{Return}{renvoyer}
+\SetKwIF{If}{Elif}{Else}{si}{alors}{sinon si}{sinon}{}
+\SetKwSwitch{Switch}{Case}{Default}{distinguer selon}{}{cas où}{autres cas}{}{}
+\SetKwFor{For}{pour}{}{}
+\SetKwFor{While}{tant que}{}{}
+
+% Modifie le séparateur entre le titre et le nom de l'algo dans les légendes
+\SetAlgoCaptionSeparator{-}
+% Ajuste le blanc qui sépare le corps de l'algo et sa légende
+\SetAlCapSkip{2mm}
+% Modifie la fonte de la légende des algorithmes
+\newcommand\stylelegende[1]{\textsc{#1}}
+\SetAlCapSty{stylelegende}
+
+% Modifie la fonte des conditions pour qu'elle soit normale au lieu d'italique par défaut
+\SetArgSty{normaltext}
+
+% Inclusion d'images
+\usepackage{graphicx}
+
+% Création de figures
+\usepackage{tikz}
+% Options pour la création d'automates
+\usetikzlibrary{automata, positioning, arrows}
+
+% Gestion de symboles étoilés
+\usepackage{bbding}
+
+% Gestion des maths
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+% Permet d'écrire les brackets pour les intervalles d'entiers
+\usepackage{stmaryrd}
+
+% Gestion des arbres de preuve
+\usepackage{ebproof}
+
+% Gestion des tableaux
+\usepackage{tabularray}
+
+% Gestion des listes, option permettant de renommer les items
+\usepackage[shortlabels]{enumitem}
+% Permet des mettre le contenu sur plusieurs colonnes, en particulier dans une liste
+\usepackage{multicol}
+
+% Environnements perso colorés
+\usepackage[framemethod=tikz]{mdframed}
+
+% Gestion des couleurs
+\usepackage{xcolor}
+\usepackage{colortbl}
+\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
+\definecolor{babyblueeyes}{rgb}{0.63, 0.79, 0.95}
+\definecolor{bluebell}{rgb}{0.64, 0.64, 0.82}
+\definecolor{burgundy}{rgb}{0.5, 0.0, 0.13}
+
+
+\newenvironment{rq-env}
+{
+  \mdfsetup{
+    topline=false,
+    leftline=false,
+    bottomline=false,
+    rightline=false,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerleftmargin=4pt,
+    backgroundcolor={gray!10},
+    nobreak=true,
+  }
+  \begin{mdframed}[]
+    \textit{Remarque:}
+  }{\end{mdframed}}
+
+\newenvironment{def-env}[1]
+{
+  \mdfsetup{
+    roundcorner=3pt,
+    topline=true,
+    leftline=true,
+    bottomline=true,
+    rightline=true,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerlinewidth=2pt,
+    backgroundcolor={applegreen!05},
+    linecolor={applegreen!40},
+    linewidth=0.1pt,
+  }
+  \begin{mdframed}[]
+    \hfill \textbf{Définition}\newline
+    \textbf{#1}\newline
+  }{\end{mdframed}}
+
+\newenvironment{prop-env}[1]
+{
+  \mdfsetup{
+    roundcorner=3pt,
+    topline=true,
+    leftline=true,
+    bottomline=true,
+    rightline=true,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerlinewidth=2pt,
+    backgroundcolor={babyblueeyes!05},
+    linecolor={babyblueeyes!40},
+    linewidth=0.1pt,
+  }
+  \begin{mdframed}[]
+    \hfill \textbf{Proposition}\newline
+    \textbf{#1}\newline
+  }{\end{mdframed}}
+
+\newenvironment{ex-env}[1]
+{
+  \mdfsetup{
+    roundcorner=3pt,
+    topline=true,
+    leftline=true,
+    bottomline=true,
+    rightline=true,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerlinewidth=2pt,
+    backgroundcolor={gray!05},
+    linecolor={gray!40},
+    linewidth=0.1pt,
+    nobreak=true,
+  }
+  \begin{mdframed}[]
+    \hfill \textbf{Exemple}\newline
+    \textbf{#1}\newline
+  }{\end{mdframed}}
+
+\newenvironment{exo-env}[1]
+{
+  \mdfsetup{
+    roundcorner=3pt,
+    topline=true,
+    leftline=true,
+    bottomline=true,
+    rightline=true,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerlinewidth=2pt,
+    backgroundcolor={bluebell!05},
+    linecolor={bluebell!40},
+    linewidth=0.1pt,
+    nobreak=true,
+  }
+  \begin{mdframed}[]
+    \hfill \textbf{Exercice}\newline
+    \textbf{#1}\newline
+  }{\end{mdframed}}
+
+\newenvironment{proof-env}
+{
+  \mdfsetup{
+    roundcorner=3pt,
+    topline=true,
+    leftline=true,
+    bottomline=true,
+    rightline=true,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerlinewidth=2pt,
+    backgroundcolor={burgundy!05},
+    linecolor={burgundy!40},
+    linewidth=0.1pt,
+  }
+  \begin{mdframed}[]
+    \hfill \textbf{Démonstration}\newline
+  }{\end{mdframed}}
+
+\newenvironment{warning-env}
+{
+  \mdfsetup{
+    roundcorner=1pt,
+    topline=true,
+    leftline=true,
+    bottomline=true,
+    rightline=true,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerlinewidth=2pt,
+    backgroundcolor={burgundy!05},
+    linecolor={burgundy!70},
+    linewidth=0.1pt,
+  }
+  \begin{mdframed}[]
+    \hfill \textbf{Attention !}\newline
+  }{\end{mdframed}}
+
+
+\newenvironment{highlight-env}
+{
+  \mdfsetup{
+    roundcorner=3pt,
+    topline=true,
+    leftline=true,
+    bottomline=true,
+    rightline=true,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerlinewidth=1pt,
+    backgroundcolor={gray!30},
+    linecolor={black},
+    linewidth=0.1pt,
+  }
+  \begin{mdframed}[]
+
+  }{\end{mdframed}}
+
+% Environnement de pseudo-code (encadré, par défaut lignes numérotées)
+\newenvironment{pcode-env}
+{
+  \IncMargin{0.6cm}
+  \begin{algorithm}[H]
+  \DontPrintSemicolon
+  }{\end{algorithm}}
+
+% Environnement de pseudo-code sans lignes
+\newenvironment{pcode-nl-env}
+  {
+    \IncMargin{0.2cm}
+    \LinesNumberedHidden
+    \begin{algorithm}[H]
+    \DontPrintSemicolon
+    }{\end{algorithm}}
+
+
+% Environnement d'encadrement du code
+  \newenvironment{code-env}
+{
+  %\paragraph{Proposition de corrigé}
+  \mdfsetup{
+    roundcorner=2pt,
+    topline=true,
+    leftline=true,
+    bottomline=true,
+    rightline=true,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerlinewidth=1pt,
+    backgroundcolor={gray!10},
+    linecolor={gray!40},
+    linewidth=0.1pt,
+  }
+  \begin{mdframed}[]
+  }{\end{mdframed}}
+
+
+% Environnements de code paramétrables (l'argument peut être notamment ocaml, c ou sql)
+% Version encadrée sans numérotation des lignes
+  \newenvironment{fancy-code}[1]
+  {\VerbatimEnvironment
+    \begin{code-env}
+    \begin{minted}[
+    style=friendly, %ou tester avec colorful. Aude aime bien le default aussi.
+    %fontsize=\small,
+    escapeinside=~~, % Le contenu entre deux ~ est échappé de l'environnement. ~ ne peux plus être tilisé
+    mathescape=true,
+    numbersep=0pt,
+    autogobble,
+    breaklines=true,
+    xleftmargin=-2mm,
+    framesep=0.5mm,
+    linenos=false]{#1}}
+ {\end{minted}\end{code-env}}
+
+% Version encadrée avec numérotation des lignes
+ \newenvironment{fancy-code-l}[1]
+  {\VerbatimEnvironment
+    \begin{code-env}{}
+    \begin{minted}[
+    style=friendly, %ou tester avec colorful. Aude aime bien le default aussi.
+    %fontsize=\small,
+    escapeinside=~~, % Le contenu entre deux ~ est échappé de l'environnement. ~ ne peux plus être tilisé
+    mathescape=true,
+    numbersep=5pt,
+    autogobble,
+    breaklines=true,
+    framesep=1.5mm,
+    xleftmargin=2pt,
+    linenos=true]{#1}}
+ {\end{minted}\end{code-env}}
+
+% Version non encadrée sans numérotation de lignes 
+ \newenvironment{code}[1]
+ {\VerbatimEnvironment
+   \begin{minted}[
+   style=friendly, %ou tester avec colorful. Aude aime bien le default aussi.
+   %fontsize=\small,
+   escapeinside=~~, % Le contenu entre deux ~ est échappé de l'environnement. ~ ne peux plus être tilisé
+   mathescape=true,
+   numbersep=5pt,
+   autogobble,
+   breaklines=true,
+   framesep=1.5mm,
+   xleftmargin=2pt,
+   linenos=false]{#1}}
+{\end{minted}}
+
+% Version non encadrée avec numérotation de lignes 
+\newenvironment{code-l}[1]
+{\VerbatimEnvironment
+  \begin{minted}[
+  style=friendly, %ou tester avec colorful. Aude aime bien le default aussi.
+  %fontsize=\small,
+  escapeinside=~~, % Le contenu entre deux ~ est échappé de l'environnement. ~ ne peux plus être tilisé
+  mathescape=true,
+  numbersep=5pt,
+  autogobble,
+  breaklines=true,
+  framesep=1.5mm,
+  xleftmargin=2pt,
+  frame=leftline,
+  linenos=true]{#1}}
+{\end{minted}}
+
+
+
+% Gestion des liens
+\usepackage[colorlinks=true, urlcolor=blue]{hyperref}
+
+% Commandes spéciales :
+\newcommand{\True}{1}
+\newcommand{\False}{0}
+
+% Gestion de la nuémrotation des exercices
+\newcounter{exocntr}
+\newcommand{\exocommand}[1]{\stepcounter{exocntr} \textbf{Exercice \arabic{exocntr}} \textit{#1}}
+
+\title{Sélection de sujets posés lors de la session 2023}
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\section*{Exercices de type A}
+
+\exocommand{Grammaires algébriques (type A)}
+
+On considère la grammaire algébrique $G$ sur l'alphabet $\Sigma = \{a,b\}$ et d'axiome $S$ dont les règles sont : \[S \rightarrow SaS \, | \, b\]
+
+\begin{enumerate}
+    \item Cette grammaire est-elle ambiguë ? Justifier.
+    \item Déterminer (sans preuve pour cette question) le langage $L$ engendré par $G$. Quelle est la plus petite classe de langages à laquelle $L$ appartient ?
+    \item Prouver que $L = L(G)$.
+    \item Décrire une grammaire qui engendre $L$ de manière non ambiguë en justifiant de cette non ambiguité.
+    \item Montrer que tout langage dans la même classe de langages que $L$ peut être engendré par une grammaire algébrique non ambiguë.
+\end{enumerate}
+
+\paragraph*{Proposition de corrigé}
+
+
+\begin{enumerate}
+  \item Cette grammaire est ambiguë car le mot $babab \in L(G)$ admet les deux arbres syntaxiques suivants : \begin{center}
+      \begin{minipage}{6cm}
+              \begin{tikzpicture}
+                  \node {$S$}[level distance = 0.8cm, sibling distance = 1cm]
+                   child {node  {$S$}
+                          child{node  {$S$}
+                              child{ node {$b$}}}
+                          child{node {$a$}}
+                          child{node {$S$}
+                              child{ node {$b$}}}
+                          }
+                   child {node  {$a$} }
+                   child {node {$S$}
+                          child{node {$b$}}};
+                \end{tikzpicture}
+      \end{minipage}
+      \qquad
+      \begin{minipage}{6cm}
+          \begin{tikzpicture}
+              \node {$S$}[level distance = 0.8cm, sibling distance = 1cm]
+              child {node {$S$}
+                      child{node {$b$}}}
+              child {node  {$a$} }
+              child {node  {$S$}
+                      child{node  {$S$}
+                          child{ node {$b$}}}
+                      child{node {$a$}}
+                      child{node {$S$}
+                          child{ node {$b$}}}
+                      };
+            \end{tikzpicture}
+  \end{minipage}
+  \end{center}
+  Or ces derniers sont différents.
+  \item On constate que $L(G)$ est rationnel car dénoté par l'expression rationnelle $(ba)^{\star}b$.
+  
+ 
+  \item Montrons par récurrence forte sur $n \in \mathbb{N}^{\star}$ la propriété $H(n)$ suivante : si $u \in L$ est un mot de taille $n$ alors $u$ est engendré par la grammaire $G$. C'est bien sûr le cas pour $n = 1$ puisque le seul mot de $L$ de cette taille est $b$, engendré par la deuxième règle de $G$. 
+  
+  Soit donc $n \in \mathbb{N}^{\star}$ et $u$ un mot de $L$ de taille $n+1$. Comme $|u| \geq 2$, $ba$ est nécessairement préfixe de $u$ et il existe donc $v \in (ba)^{\star}b = L$ tel que $u = bav$. Par hypothèse, ce mot $v$ est engendré par $G$ : il existe une dérivation telle que $S \Rightarrow^{\star} v$. On en déduit que \[S \Rightarrow SaS \Rightarrow baS \Rightarrow^{\star} bav = u \] est une dérivation licite et donc que $u \in L(G)$. Cette récurrence montre que $L \subset L(G)$.
+
+  Montrons réciproquement que $L(G) \subset L$ en montrons par récurrence forte sur $n \in \mathbb{N}^{\star}$ la propriété $H(n)$ suivante : si $u \in \Sigma^{\star}$ se dérive de $S$ en $n$ dérivations alors $u \in L$. C'est acquis pour $n = 1$ : le seul mot de $\Sigma^{\star}$ qu'on peut obtenir en une dérivation est $b \in L$.
+
+  Soit donc $n \in \mathbb{N}^{\star}$ et $u$ un mot dans $L(G)$ tel que $S \Rightarrow^{n+1} u$. Comme ce mot est obtenu en au moins $2$ dérivations, les règles de $G$ nous informent que la première est nécessairement $S \rightarrow SaS$ (sans quoi ce serait $S \rightarrow b$ et dans ce cas $u$ serait obtenu en une seule dérivation). Donc la dérivation permettant d'obtenir $u$ se décompose en : \[S \Rightarrow SaS \Rightarrow^n u \] On en déduit qu'il existe $v,w \in \Sigma^{\star}$ et $k_1, k_2 \in \llbracket 1, n \rrbracket$ tels que $u = vaw$, $S \Rightarrow^{k_1} v$, $S \Rightarrow^{k_2} w$ et $k1 + k2 = n$. L'hypothèse de récurrence (forte) s'applique à $v$ et $w$ et on en déduit que ces deux mots appartiennent au langage dénoté par $(ba)^{\star}b$ donc qu'il existe $r_1,r_2 \in \mathbb{N}$ tels que $v = (ba)^{r_1}b$ et $w = (ba)^{r_2}b$. Par conséquent, $u =(ba)^{r_1}ba(ba)^{r_2}b = (ba)^{r_1+r_2+1}b \in L$.
+
+  \item On sait à présent que $L(G) = (ba)^{\star}b$ ; il s'agit donc de trouver une grammaire non ambiguë engendrant ce langage. On peut proposer par exemple la grammaire dont les règles sont : \[S \rightarrow Tb \qquad T \rightarrow baT \, | \, \varepsilon \] les règles sur $T$ permettant de générer le facteur dans $(ba)^{\star}$ et la première de rajouter le $b$ final.
+  
+  Cette grammaire $G'$ est non ambiguë car pour tout mot dans $L(G')$, il existe une unique dérivation permettant de le construire (donc évidemment un seul arbre syntaxique) ; cette unicité découlant du fait que dans cette grammaire un non terminal se dérive toujours en un mot qui contient au plus un seul non terminal.
+
+  \item La question demande de montrer que tout langage rationnel peut être engendré par une grammaire non ambiguë. Soit donc $L$ un langage rationnel. Par le théorème de Kleene, il existe un automate fini $A = (\Sigma, Q, \{q_0\}, F, \delta)$ qui reconnaît $L$ qu'on peut loisiblement supposer déterministe.
+  
+  Considérons alors la grammaire dont les non terminaux sont $\{V_q \, | \, q \in Q \}$, l'axiome est $V_{q_0}$, les terminaux sont les lettres de $\Sigma$ et dont les règles sont données par : \begin{itemize}
+      \item Pour toute transition $q \overset{a}{\rightarrow} q'$ dans $A$, on ajoute la règle $V_q \rightarrow a N_{q'}$.
+      \item Pour tout $q \in F$, on ajoute la règle $V_q \rightarrow \varepsilon$.
+  \end{itemize}
+  Cette grammaire engendre $L$ de manière non ambiguë graĉe au déterminisme de $A$.
+
+\end{enumerate}
+
+\paragraph{Commentaires du jury}
+
+\begin{enumerate}
+\item Le jury attend du candidat qu'il exhibe un mot montrant l'ambiguïté, en justifiant cette dernière via deux arbres syntaxiques différents ou bien deux dérivations gauches (ou droites) différentes.
+\item Il est attendu que le candidat exhibe une expression régulière pour ce langage (qui est donc régulier). Plusieurs sont possibles et toutes sont acceptées. Aucune justification n'est nécessaire à ce stade, sauf si l'expression proposée est démesurément complexe, auquel cas le jury invite le candidat à lui expliquer. Certains candidats n'ont pas compris ce qui était attendu par \guillemotleft la plus petite classe de langages \guillemotright, le jury a alors précisé ses attentes sans pénaliser pour autant ces candidats.
+
+Au moins un candidat a répondu à cette question en affirmant que $L(G)$ est en fait local. Il a été invité à poursuivre l'exercice avec cette réponse (correcte).
+\item On attend une preuve précise et rigoureuse, par exemple par double inclusion. Les explications vagues et les arguments d'évidence ne satisfont pas le jury sur cette question.
+\item Comme pour la deuxième question, plusieurs grammaires sont ici possibles. On n'attend pas une preuve rigoureuse de non ambiguïté.
+\item Proposer une construction correcte d'une grammaire non ambiguë pour un langage régulier (a priori à partir de l'automate associé) suffit à obtenir tous les points. Le jury n'hésitait pas à aiguiller le candidat si nécessaire pour cette question.
+\end{enumerate}
+
+\newpage
+
+\exocommand{Minima locaux dans des arbres (type A)}
+
+Dans cet exercice, on considère des arbres binaires étiquetés par des entiers relatifs deux à deux distincts. Un n\oe{}ud est un minimum local d'un arbre si son étiquette est plus petite que celle de son
+éventuel père et celles de ses éventuels fils. Considérons par exemple l'étiquetage (b) de l'arbre binaire non
+étiqueté (a) :
+
+\begin{figure}[h!]
+\centering
+\tikzset{noeud/.style={draw, circle, minimum size = 0.9cm}}
+\begin{tikzpicture}[scale=1, every node/.style={scale=0.7}]
+	\node[noeud] (3) at (0, 0) {};
+	\node[noeud] (2) at (-2, -1) {};
+	\node[noeud] (5) at (2, -1) {};
+	\node[noeud] (0) at (-3, -2) {};
+	\node[noeud] (4) at (1, -2) {};
+	\node[noeud] (7) at (3, -2) {};
+	\node[noeud] (1) at (-2.5, -3) {};
+	\node[noeud] (6) at (2.5, -3) {};
+	\node[noeud] (8) at (3.5, -3) {};
+        \node (l) at (0, -4) {(a)};
+	\draw (3) -- (2) -- (0) -- (1);
+	\draw (3) -- (5) -- (4);
+        \draw (5) -- (7) -- (6);
+        \draw (7) -- (8);
+\end{tikzpicture}
+\hspace{1cm}
+\begin{tikzpicture}[scale=1, every node/.style={scale=0.7}]
+	\node[noeud] (3) at (0, 0) {0};
+	\node[noeud] (2) at (-2, -1) {3};
+	\node[noeud] (5) at (2, -1) {2};
+	\node[noeud] (0) at (-3, -2) {-2};
+	\node[noeud] (4) at (1, -2) {8};
+	\node[noeud] (7) at (3, -2) {1};
+	\node[noeud] (1) at (-2.5, -3) {-4};
+	\node[noeud] (6) at (2.5, -3) {6};
+	\node[noeud] (8) at (3.5, -3) {4};
+        \node (l) at (0, -4) {(b)};
+	\draw (3) -- (2) -- (0) -- (1);
+	\draw (3) -- (5) -- (4);
+        \draw (5) -- (7) -- (6);
+        \draw (7) -- (8);
+\end{tikzpicture}
+\end{figure}
+
+\begin{enumerate}
+\item Déterminer le ou les minima locaux de l'arbre (b).
+\item Donner une définition inductive permettant de définir les arbres
+  binaires ainsi que la définition de la hauteur d'un arbre. Quelle
+  est la hauteur de l'arbre (b) ?
+\item Montrer que tout arbre non vide possède un minimum local.
+\item Proposer un algorithme permettant de trouver un minimum local
+  d'un arbre non vide et déterminer sa complexité.
+\end{enumerate}
+
+On considère un arbre binaire non étiqueté que l'on souhaite étiqueter
+par des entiers relatifs distincts deux à deux de manière à maximiser
+le nombre de minima locaux de cet arbre.
+
+\begin{enumerate}[resume]
+\item Proposer sans justifier un étiquetage de l'arbre $(a)$ qui
+  maximise le nombre de minima locaux.
+\item Proposer un algorithme qui, étant donné un arbre binaire non
+  étiqueté en entrée, permet de calculer le nombre maximal de minima
+  locaux qu'il est possible d'obtenir pour cet arbre. Déterminer la
+  complexité de votre algorithme.
+\item Montrer que, pour un arbre de taille $n \in \mathbb{N}$, le nombre
+  maximal de minima locaux est majoré par $\displaystyle \left\lfloor
+  \frac{2n + 1}{3} \right\rfloor$. \emph{On pourra remarquer que les
+  n\oe{}uds non minimaux couvrent l'ensemble des arêtes de l'arbre}.
+\end{enumerate}
+
+\paragraph{Proposition de corrigé}
+
+\begin{enumerate}
+\item Les n\oe{}uds d'étiquettes $-4$, $0$ et $1$ sont les
+  trois minima locaux.
+\item Un arbre est soit un arbre vide soit un n\oe{}ud formé
+  d'une étiquette et de deux sous-arbres. La hauteur est la profondeur
+  maximale d'une feuille, c'est-à-dire la longueur maximale d'un
+  chemin de la racine à une feuille. La hauteur de l'arbre (b) est
+  $3$.
+\item L'arbre possède un nombre fini non vide d'étiquettes et donc une
+  étiquette de valeur minimale, qui est un minimum global et donc
+  local.
+\item Si la racine de l'arbre est un minimum local on a trouvé
+  notre minimum local. Sinon, un des deux fils est non vide, avec une
+  étiquette à sa racine plus petite que celle de la racine de l'arbre.
+  Un appel récursif permet d'obtenir un minimum local de ce
+  sous-arbre, qui est également un minimum local de l'arbre (que ce
+  soit la racine du sous-arbre ou un descendant strict). La complexité
+  est linéaire en la hauteur de l'arbre.
+\item On propose l'étiquetage à la figure (c) dans lequels
+  les $5$ minima locaux sont étiquetés par des entiers strictement
+  négatifs.
+\end{enumerate}
+\begin{figure}[h!]
+\centering
+\tikzset{noeud/.style={draw, circle, minimum size = 0.9cm}}
+\begin{tikzpicture}[scale=1, every node/.style={scale=0.7}]
+	\node[noeud] (3) at (0, 0) {0};
+	\node[noeud] (2) at (-2, -1) {-1};
+        \node[noeud] (5) at (2, -1) {2};
+	\node[noeud] (0) at (-3, -2) {1};
+	\node[noeud] (4) at (1, -2) {-3};
+	\node[noeud] (7) at (3, -2) {3};
+	\node[noeud] (1) at (-2.5, -3) {-2};
+	\node[noeud] (6) at (2.5, -3) {-4};
+	\node[noeud] (8) at (3.5, -3) {-5};
+        \node (l) at (0, -4) {(c)};
+	\draw (3) -- (2) -- (0) -- (1);
+	\draw (3) -- (5) -- (4);
+        \draw (5) -- (7) -- (6);
+        \draw (7) -- (8);
+\end{tikzpicture}
+\end{figure}
+\begin{enumerate}[resume]
+\item On propose une approche récursive qui pour un arbre $a$ en
+  entrée calcule $m(a)$ le nombre maximal de n\oe{}uds qui peuvent
+  être des minima locaux dans un étiquetage de $a$, ainsi que, en même
+  temps, la quantité $m_-(a)$ correspondant à cette même quantité mais
+  en supposant de plus que la racine n'est pas un minimum local. Pour
+  un arbre vide, ces deux valeurs valent $0$. Pour un arbre $a$ de
+  fils gauche $f_g$ et de fils droit $f_d$, on peut obtenir par appels
+  récursifs les quantités $m(f_g)$, $m_-(f_g)$, $m(f_d)$ et
+  $m_-(f_d)$. On a alors $m_-(a) = m(f_g) + m(f_d)$ et $m(a) =
+  \max\left\lbrace m_-(a), 1 + m_-(f_g) + m_-(f_d)\right\rbrace$. La
+  complexité est linéaire en la taille de l'arbre, chaque n\oe{}ud est
+  visité exactement une fois avec un nombre d'opérations constant.
+\item Le résultat est vrai pour $n = 0$ et on peut donc supposer que
+  $n \geq 1$. Considérons un étiquetage et notons $X$ l'ensemble des
+  n\oe{}uds qui sont des minima locaux et $Y$ ceux qui ne le sont pas.
+  On remarque que deux n\oe{}uds adjacents ne peuvent pas être tous
+  les deux des minima locaux, puisque toutes les étiquettes sont deux
+  à deux distinctes. Ainsi toute arête de l'arbre est extrémité d'au
+  moins un n\oe{}ud de $Y$ et l'ensemble $Y$ couvre donc toutes les
+  arêtes. Comme chaque n\oe{}ud de $Y$ est incident à au plus $3$
+  arêtes et qu'il y a exactement $n - 1$ arêtes dans l'arbre, il faut
+  au moins $\frac{n - 1}{3}$ n\oe{}uds pour couvrir toutes les arêtes,
+  c'est-à-dire $|Y| \geq \frac{n - 1}{3}$. On a donc $|X| = n - |Y|
+  \leq n - \frac{n - 1}{3} = \frac{2n + 1}{3}$ et donc $|X| \leq
+  \left\lfloor \frac{2n + 1}{3} \right\rfloor$.
+\end{enumerate}
+
+\paragraph{Commentaires du jury}
+
+\begin{enumerate}
+\item On attend simplement du candidat qu'il propose les minima trouvés sans justification. Une réponse orale suffit. En cas d'erreur, le candidat est invité à expliquer son raisonnement.
+\item Dans le cas où le candidat propose une définition inductive des arbres avec une feuille pour cas de base, il est guidé vers une définition dont le cas de base est l'arbre vide de sorte à rendre compte du fait que les arbres considérés ne sont pas binaires stricts.
+\item Plusieurs stratégies sont ici acceptées (preuve par induction ou existence d'un minimum global qui est local par exemple).
+\item Si le candidat propose une solution linéaire en la taille de l'arbre, il est guidé vers une solution linéaire en la hauteur.
+\item Proposer un étiquetage correct suffit à obtenir tous les points.
+\item Le jury attend une complexité linéaire. Des indications peuvent être apportées pour aiguiller le candidat vers une telle solution.
+\item Très peu de candidats ont pu aborder cette question.
+\end{enumerate}
+
+\newpage
+
+\exocommand{Formules propositionnelles croissantes (type A)}
+
+On fixe un entier $n \ge 1$ et $E= \{x_1, \cdots , x_n\}$ un ensemble de variables propositionnelles. \'Etant données deux applications  $a:E \to \{ V , F\}$ et $b:E\to \{V,F\}$ on dit que  $a$ est plus petite que
+$b$ (que l'on note  $a\leq b$) si :
+ \begin{equation*}
+    \forall x\in E, a(x)=V \implies b(x)= V.
+\end{equation*}
+ Dans un but de simplification des calculs,  on pourra faire les abus de notation suivants : assimiler $V$à $1$ et  $F$ à  $0$ et vice versa. Avec cet abus, la propriété  $a\leq b$ se traduit par :
+ \begin{equation*}
+    \forall x \in E, a(x)\leq b(x).
+\end{equation*}
+
+\begin{enumerate}
+    \item \'Etant donnée une valuation sur $E$, rappeler comment on l'étend naturellement en une valuation sur les formules propositionnelles.
+    \end{enumerate}
+ On dit qu'une formule propositionnelle $P$ est \textit{croissante} si pour tout $a,b$
+        des valuations vérifiant  $a\leq b$, on a :
+        $$a(P)=V \implies b(P)=V. $$
+    \begin{enumerate}\setcounter{enumi}{1}
+    \item Montrer que si $P,Q$ sont des formules croissantes, alors  $P\wedge Q$ et  $P \vee Q$
+        sont des formules croissantes.
+    \item Soit $C$ une clause conjonctive satisfiable contenant au moins un littéral. Montrer
+        qu'elle est croissante si et seulement si elle ne contient aucun littéral de la forme $\neg x$
+        avec  $x\in E$.
+    \item On considère une formule propositionnelle $P$ qui n'est ni une tautologie, ni une antilogie.        \begin{enumerate}
+            \item Montrer que si $P$ est logiquement équivalente à une disjonction de clauses conjonctives dont aucune ne contient un littéral de la forme  $\neg x$
+        avec  $x\in E$, alors $P$ est une formule propositionnelle croissante.
+    \item Réciproquement, montrer que si  $P$ est une formule propositionnelle croissante, alors elle
+        est logiquement équivalente à une disjonction de clauses conjonctives dont aucune ne contient un littéral de la forme  $\neg x$ avec  $x\in E$.
+
+        \end{enumerate}
+\end{enumerate}
+
+\paragraph{Proposition de corrigé}
+
+ \begin{enumerate}
+     \item On fixe $a:E\to \{V,F\}$ une valuation. On étend $a$ par induction comme suit
+         $$\mbox{Si $P$ et $Q$ sont des formules propositionnelles, alors } 
+         \begin{array}{l}
+         a(\neg P)= \mbox{ Négation de } a(P) . \\
+         a(P \wedge Q)= a(P) \mbox{ et } a(Q), \\ 
+         a(P \vee Q) = a(P) \mbox{ ou } a(Q).
+     \end{array}$$ 
+
+         
+
+    \item  Soient $P,Q$ deux formules croissantes. Montrons que $P\wedge Q$ et  $P\vee Q$ sont croissantes.
+
+
+        Soient $a,b$ deux valuations vérifiant $a\leq b$. En utilisant l'abus de notation, 
+        on a les égalités suivantes :
+        \[
+            \begin{array}{ll}
+                a(P\wedge Q)=\min(a(P),a(Q)), &a(P\vee Q)=\max(a(P),a(Q)), \\ 
+                b(P\wedge Q)=\min(b(P),b(Q)), &b(P\vee Q)=\max(b(P),b(Q)).
+            \end{array}
+        .\] 
+                 Sachant que $a\leq b$, on a donc $a(P)\leq b(P)$ et $a(Q)\leq b(Q)$. On en déduit :
+        $$ \min(a(P),a(Q))\leq \min(b(P),b(Q)) \mbox{ et } \max(a(P),a(Q))\leq \max (b(P),b(Q)) $$
+        Autrement dit  $a(P\wedge Q)\leq b(P\wedge Q)$ et $a(P\vee Q) \leq b(P\vee Q)$.
+
+         $P\wedge Q$ et  $P\vee Q$ sont bien croissantes.
+
+            \item On montre par double implication.
+                \begin{itemize}
+                    \item (Sens réciproque). Soit $C$ une clause conjonctive satisfiable contenant au moins un littéral. 
+Un clause contenant un unique littéral positif est clairement croissant. Par récurrence et par stabilité des formules croissantes par l'opération $\wedge$, on en déduit que tout clause conjonctive contenant uniquement
+des littéraux positifs est croissante. 
+\item (Sens direct, par la contraposée). Considérons une clause conjonctive $C$ satisfiable contenant au moins un littéral. Montrons que si celle-ci
+est croissante, alors tout littéral apparaissant dans $C$ est positif.
+
+
+Supposons que $C$ contient au moins un littéral négatif et quitte à réarranger les termes, on considère que $C=\neg x \wedge C'$ avec  $C'$ une clause conjonctive ne contenant pas $x$ (possible car $C$ est satisfiable).
+
+
+Considérons une valuation $a$ vérifiant $a(C)=V$. On a alors  $a(\neg x)=V $ et $a(C')=V$. Donc $a(x)=F$.
+
+On choisit  $b$ qui coïncide avec $a$ sur toutes les variables propositionnelles exceptée sur $x$ où on a $b(x)=V$. Par construction, $a\leq b$. Mais  $b(C)=F$. Donc  $C$ n'est pas une formule croissante.
+                \end{itemize}
+On a bien l'équivalence demandée.
+                
+
+    \item 
+\begin{enumerate}
+    \item Si $P$ est logiquement équivalente à une disjonction de clauses conjonctives sans littéral négatif, par stabilité de la croissance par disjonction et les clauses conjonctives sans littéral négatif étant croissante, on en déduit que $P$ est croissante.
+
+        
+    \item Récriproquement, soit $P$ une formule croissante. On pose :
+        $$P' = \bigvee_{C \vDash P}C $$
+        où pour deux formules $P,Q$, on a $P\vDash Q$ si  pour toute valuation $a$ ,  $a(P)=V \implies a(Q)=V$. 
+
+        Dans notre cas, $C$ désigne une clause conjonctive croissante inférieure à  $P$ (Autrement dit, pour toute valuation $a$ : $a(C)\leq a(P)$).
+
+        Vérifions que  $P'$ est logiquement équivalente à  $P$. 
+
+         \begin{itemize}
+             \item soit $a$ une valuation vérifiant  $a(P')=V$.Il existe  $C\leq P$ une clause telle que  $a(C)=V$. On a bien $a(P)=V$.
+             \item Réciproquement, si $a$ est une valuation vérifiant $a(P)=V$, on pose :
+                 $$C = \bigwedge_{x \mbox{ positif }  a(x)=V}x$$. 
+                 Remarquons que si $C$ était indexé par l'ensemble vide, $a$ enverrait tous les littéraux sur $F$ et dans ce cas par croissance, 
+                 $P$ serait une tautologie ce qui contredit l'hypothèse de l'énoncé. 
+                 Les propriétés suivantes sont alors vérifiées :
+                 \begin{itemize}
+                     \item $C$ n'est pas indexé par le vide (sinon, $a$ enverrait tous les littéraux positifs sur $F$ et par croissance, $P$ serait une tautologie)
+                     \item $C$ contient uniquement des littéraux positifs,
+                     \item on a $C \vDash P$ par croissance de $P$.
+                 \end{itemize}
+                  Donc  $C$ apparaît dans  $P'$. D'où  $a(P')=V$.
+        \end{itemize}
+        Ainsi, $P$ et  $P'$ sont bien logiquement équivalentes. 
+\end{enumerate}         
+\end{enumerate}   
+
+\paragraph{Commentaires du jury}
+
+\begin{enumerate}
+\item Le jury profite de cette question pour vérifier que le candidat sait faire la différence entre syntaxe et sémantique.
+\item Le candidat est autorisé à utiliser l'abus introduit par l'énoncé (assimiler V à 1 et F à 0) mais le jury se réserve le droit de vérifier que le candidat a bien compris en quoi c'est un abus. Un candidat qui prouve rigoureusement la propriété souhaitée pour un des connecteurs et indique ce qu'il suffirait d'y changer pour l'autre obtient tous les points.
+\item Il ne faut pas oublier de traiter le caractère nécessaire et suffisant.
+\item Le jury peut donner une indication pour aider le candidat à trouver une formule permettant de répondre à cette question.
+\end{enumerate}
+
+\newpage
+
+\exocommand{Activation de processus (type A)}
+
+  Soit un système temps réel à $n$ processus asynchrones $i\in[\![1,n]\!]$ et $m$ ressources $r_j$. Quand un processus $i$ est actif, il bloque un certain nombre de ressources listées dans un ensemble $P_i$ et une ressource ne peut être utilisée que par un seul processus. On cherche à activer simultanément le plus de processus possible.
+
+  \smallskip
+
+  Le problème de décision \texttt{ACTIVATION} correspondant ajoute un entier $k$ aux entrées et cherche à répondre à la question : "Est-il possible d'activer au moins $k$ processus en même temps ?"
+
+  \begin{enumerate}
+  \item Soit $n=4$ et $m=5$. On suppose que $P_1=\{r_1,r_2\}$, $P_2=\{r_1,r_3\}$, $P_3=\{r_2,r_4,r_5\}$ et $P_4=\{r_1,r_2,r_4\}$. Est-il possible d'activer 2 processus en même temps ? Même question avec 3 processus.
+  \item Dans le cas où chaque processus n'utilise qu'une seule ressource, proposer un algorithme  résolvant le problème \texttt{ACTIVATION}. \'Evaluer la complexité de votre algorithme.
+  \end{enumerate}
+
+  On souhaite montrer que \texttt{ACTIVATION} est NP-complet.
+
+  \begin{enumerate}[resume]
+  \item Donner un certificat pour ce problème.
+  \item{\'Ecrire en pseudo code un algorithme de vérification polynomial. On supposera disposer de trois primitives, toutes trois de complexité polynomiale :
+  \begin{enumerate}
+      \item \texttt{appartient(c,i)} qui renvoie \texttt{Vrai} si le processus \texttt{i} est dans l'ensemble d'entiers \texttt{c}.
+      \item \texttt{intersecte(P$_i$,R)} qui renvoie \texttt{Vrai} si le processus \texttt{i} utilise une ressource incluse dans un ensemble de ressources \texttt{R}.
+      \item \texttt{ajoute(P$_i$,R)} qui ajoute les ressources \texttt{P$_i$} dans l'ensemble \texttt{R} et renvoie ce nouvel ensemble.
+  \end{enumerate}}
+\end{enumerate}
+
+  En théorie des graphes, le problème \texttt{STABLE} se pose la question de l'existence dans un graphe non orienté $G=(S,A)$ d'un ensemble d'au moins $k$ sommets ne contenant aucune paire de sommets voisins. En d'autres termes, existe-t-il $S'\subset S,\ |S'|\geq k$ tel que $s,p\in S'\Rightarrow (s,p)\notin A$ ?
+
+  \begin{enumerate}[resume]
+  \item{En utilisant le fait que \texttt{STABLE} est NP-complet, montrer par réduction que le problème \texttt{ACTIVATION} est également NP-complet.}
+\end{enumerate}
+
+\paragraph{Commentaires du jury}
+
+\begin{enumerate}
+\item On attend du candidat une réponse en oui / non avec une précision de quels processus activer dans le cas où la réponse est oui et une très rapide justification dans le cas où la réponse est non. Une réponse orale suffit.
+\item De multiples réponses sont possibles sur cette question et sont acceptées du moment qu'elles sont clairement décrites et correctement analysées. On n'attend pas une complexité optimale.
+\item Une courte phrase décrivant la nature d'un tel certificat et indiquant sa polynomialité en la taille de l'entrée suffit à obtenir tous les points.
+\item On attend un algorithme utilisant à bon escient les primitives proposées par le sujet.
+\item Le jury est attentif au fait que tous les arguments soient bien présents : description de la réduction, preuve que c'en est une et justification de son caractère polynomial pour le caractère NP-difficile ; caractère NP pour pouvoir conclure quant à la NP-complétude.
+\end{enumerate}
+
+\newpage
+
+\section*{Exercices de type B}
+
+\exocommand{Langages locaux (type B)}
+
+\textit{Consignes : Cet énoncé est accompagné d'un code compagnon en OCaml \textsf{localite.ml} fournissant le type décrit par l'énoncé et quelques fonctions auxiliaires : il est à compléter en y implémentant les fonctions demandées. On privilégiera un style de programmation fonctionnel. }
+
+On considère un alphabet $\Sigma$. Si $L$ est un langage sur $\Sigma$, on note : \begin{itemize}
+    \item[-] $P(L) = \{a \in \Sigma \, | \, a\Sigma^{\star} \cap L \neq \emptyset \}$ l'ensemble des premières lettres des mots de $L$.
+    \item[-] $D(L) = \{a \in \Sigma \, | \, \Sigma^{\star}a \cap L \neq \emptyset \}$ l'ensemble des dernières lettres des mots de $L$.
+    \item[-] $F(L) = \{m \in \Sigma^2 \, | \, \Sigma^{\star}m\Sigma^{\star} \cap L \neq \emptyset \}$ l'ensemble des facteurs de longueur $2$ des mots de $L$.
+    \item[-] $N(L) = \Sigma^2 \setminus F(L)$ l'ensemble des mots de taille $2$ qui ne sont pas facteurs de mots de $L$.
+\end{itemize}
+
+On rappelle qu'un langage $L$ est dit \textit{local} si et seulement si l'égalité de langages suivantes est vérifiée : \[L\setminus\{\varepsilon\} = (P(L)\Sigma^{\star} \cap \Sigma^{\star}D(L)) \setminus (\Sigma^{\star}N(L)\Sigma^{\star}) \]
+
+\begin{enumerate}
+    \item Calculer les ensembles $P(L), D(L), F(L)$ et $N(L)$ dans le cas où $L$ est le langage dénoté par l'expression régulière $a^{\star}(ab)^{\star} + aa$ sur l'alphabet $\{a,b\}$. Ce langage est-il local ? On vérifiera la cohérence entre les réponses à cette question et celles obtenues via les fonctions demandées dans la suite de l'énoncé.
+\end{enumerate}
+
+On cherche dans la suite de l'exercice à concevoir un algorithme répondant à la spécification suivante~: \begin{center}
+$\begin{cases}
+    \textbf{Entrée : } \text{Une expression régulière $e$ sur un alphabet $\Sigma$ ne faisant pas intervenir le symbole $\emptyset$.} \\
+    \textbf{Sortie : } \text{Vrai si le langage dénoté par $e$ est local, faux sinon.}
+\end{cases}$
+\end{center}
+
+Par défaut, dans la suite de l'énoncé, "expression régulière" signifie "expression régulière ne faisant pas intervenir le symbole $\emptyset$". Les expressions régulières seront manipulées en OCaml via le type somme suivant~:
+
+\medskip
+
+\begin{fancy-code}{ocaml}
+type regexp =
+  | Epsilon
+  | Letter of string (*La chaîne en question sera toujours de longueur 1*)
+  | Union of regexp * regexp
+  | Concat of regexp * regexp
+  | Star of regexp
+
+\end{fancy-code}
+
+On propose tout d'abord de calculer les ensembles $P(L)$, $D(L)$ et $F(L)$ à partir d'une expression régulière dénotant $L$. Ces ensembles seront représentés en OCaml par des listes de chaînes de caractères qui vérifieront les propriétés suivantes : \begin{itemize}
+    \item[-] Elles sont triées dans l'ordre croissant selon l'ordre lexicographique.
+    \item[-] Elles sont sans doublons.
+\end{itemize}
+
+ L'énoncé fournit une fonction \mio{union} permettant de calculer l'union sans doublons de deux listes triées. La définition inductive d'une expression régulière invite à calculer inductivement les ensembles $P(L)$, $D(L)$ et $F(L)$. C'est ce que propose la fonction \mio{compute_P} fournie par l'énoncé.
+
+\begin{enumerate}[resume]
+    \item En supposant que la fonction \mio{contains_epsilon : regexp -> bool} renvoie \mio{true} si et seulement si le langage dénoté par l'expression régulière en entrée contient le mot $\varepsilon$, justifier brièvement la correction de \mio{compute_P}.
+    \item Implémenter la fonction \mio{contains_epsilon}.
+    \item Sur le modèle de \mio{compute_P}, implémenter une fonction \mio{compute_D : regexp -> string list} permettant le calcul de l'ensemble $D(L)$ étant donnée une expression régulière dénotant le langage $L$.
+    \item Expliquer en langage naturel comment calculer récursivement l'ensemble $F(L)$ étant donnée une expression régulière $e$ dénotant le langage $L$. Si $e = e_1e_2$ on pourra exprimer $F(L)$ en fonction notamment de $P(L_2)$ et $D(L_1)$ où $L_1$ (resp. $L_2$) est le langage dénoté par $e_1$ (resp. $e_2$).
+    \item \'{E}crire une fonction \mio{prod : string list -> string list -> string list} calculant le produit cartésien des deux listes en entrée, qu'on pourra supposer triées dans l'ordre lexicographique croissant et sans doublons, puis qui pour chaque couple de chaînes dans la liste obtenue les concatène. Par exemple : \begin{center}
+        \mio{prod ["a";"c";"e"] ["b";"c"] = ["ab";"ac";"cb";"cc";"eb";"ec"]}
+    \end{center}
+    \item En déduire une fonction \mio{compute_F : regexp -> string list} déterminant l'ensemble $F(L)$ étant donnée une expression régulière dénontant le langage $L$.
+\end{enumerate}
+
+Dans les questions qui suivent, on ne demande PAS d'implémenter les algorithmes décrits.
+\begin{enumerate}[resume]
+    \item Décrire en pseudo-code ou en langage naturel un algorithme permettant de calculer un automate reconnaissant $(P(L)\Sigma^{\star} \cap \Sigma^{\star}D(L)) \setminus (\Sigma^{\star}N(L)\Sigma^{\star})$ étant donnée une expression régulière dénotant~$L$.
+    \item Décrire un algorithme permettant de détecter si le langage dénoté par une expression régulière est local ou non.
+    \item Pourquoi est-il légitime de ne considérer que les expressions régulières ne faisant pas intervenir $\emptyset$ ? Comment modifier l'algorithme obtenu dans le cas où cette contrainte n'est plus vérifiée~?
+\end{enumerate}
+
+\paragraph*{Proposition de corrigé}
+
+\begin{enumerate}
+    \item On obtient $P(L) = \{a\}$, $D(L) = \{a,b\}$, $F(L) = \{aa, ab, ba\}$ et donc $N(L) = \{bb\}$. Le langage $L$ n'est pas local : s'il l'était, il devrait contenir le mot $aba$ ce qui n'est~pas.
+    
+
+    \item La seule difficulté est de justifier la disjonction de cas pour les concaténations. Si $e = e_1e_2$ et $\varepsilon \notin L(e_1)$, une première lettre d'un mot de $e$ est nécessairement une première lettre d'un mot de $e_1$ (la réciproque étant évidente). Sinon, un mot de $L(e)$ peut aussi commencer de la même façon qu'un mot de $L(e_2)$.
+    
+
+    \item On filtre sans grande difficulté.
+    \smallskip
+    \begin{fancy-code}{ocaml}
+let rec contains_epsilon (e:regexp) :bool = match e with
+  |Epsilon -> true
+  |Letter _ -> false
+  |Union (e1, e2) -> (contains_epsilon e1) || (contains_epsilon e2)
+  |Concat (e1, e2) -> (contains_epsilon e1) && (contains_epsilon e2)
+  |Star _ -> true
+    \end{fancy-code}
+
+    \item  Comme pour \mio{compute_P}, la seule difficulté est le cas d'une concaténation.
+  \smallskip
+    \begin{fancy-code}{ocaml}
+let rec compute_D (e:regexp) :string list  = match e with
+  |Epsilon -> []
+  |Letter a -> [a]
+  |Union (e1, e2) -> union (compute_D e1) (compute_D e2)
+  |Concat (e1, e2) when contains_epsilon e2 ->
+     union (compute_D e1) (compute_D e2)
+  |Star e1 |Concat (_, e1) -> (compute_D e1)
+    \end{fancy-code}
+
+\pagebreak
+
+    \item Soit $e$ une expression régulière et $L$ le langage qu'elle dénote. On calcule $F(L)$ inductivement : \begin{itemize}
+        \item[-] Si $e = \varepsilon$ ou $e = a$ avec $a \in \Sigma$, $F(L) = \emptyset$.
+        \item[-] Si $e = e_1+e_2$, $F(L) = F(L_1) \cup F(L_2)$ où $L_i$ est le langage dénoté par $e_i$.
+        \item[-] Si $e = e_1e_2$, un facteur de taille $2$ d'un mot de $L$ est : soit un facteur de taille 2 de $L_1$, soit un facteur de taille 2 de $L_2$, soit un facteur "à cheval entre $L_1$ et $L_2$" c'est-à-dire dont la première lettre est la fin d'un mot de $L_1$ et la deuxième est le début d'un mot de $L_2$. Autrement dit : \[F(L) = F(L_1) \cup F(L_2) \cup D(L_1)P(L_2) \] 
+        \item[-] Si $e = e_1^{\star}$, on obtient similairement au cas précédent $F(L) = F(L_1) \cup D(L_1)P(L_1)$.
+    \end{itemize}
+    \item On peut remplacer le \mio{List.map} par une petite fonction auxiliaire au besoin.
+    \smallskip
+
+\begin{fancy-code}{ocaml}
+let rec prod (l1:string list) (l2:string list) = match l1, l2 with
+  |[], _ |_, [] -> []
+  |t::q, l -> union (List.map (fun x -> t^x) l) (prod q l)
+\end{fancy-code}
+\item C'est une traduction de la question 5.
+\smallskip
+
+\begin{fancy-code}{ocaml}
+let rec compute_F (e:regexp) :string list = match e with
+  |Epsilon |Letter _ -> []
+  |Union (e1, e2) -> union (compute_F e1) (compute_F e2)
+  |Concat (e1, e2) ->
+     let d_e1 = compute_D e1 and p_e2 = compute_P e2 in
+     union (union (compute_F e1) (compute_F e2)) (prod d_e1 p_e2)
+  |Star e1 ->
+     let d_e1 = compute_D e1 and p_e1 = compute_P e1 in
+     union (compute_F e1) (prod d_e1 p_e1)
+\end{fancy-code}
+
+
+\item On remarque qu'une fois calculé $F(L)$ on en déduit immédiatement $N(L)$ en calculant tous les facteurs de taille 2 de $\Sigma$ et en éliminant ceux qui sont dans $F(L)$. 
+
+Il est ensuite très facile de concevoir un automate pour chacun des langages $P(L)\Sigma^{\star}$, $\Sigma^{\star}D(L)$ et $\Sigma^{\star}N(L)\Sigma^{\star}$ ; les ensembles $P(L)$, $D(L)$ et $N(L)$ étant finis. De plus, on sait algorithmiquement construire l'intersection (automate produit) et le complémentaire (déterminisation puis échange des états finaux et non finaux) d'automates donc on peut construire un automate reconnaissant \[P(L)\Sigma^{\star} \cap \Sigma^{\star}D(L) \cap (\Sigma^{\star}N(L)\Sigma^{\star})^c = (P(L)\Sigma^{\star} \cap \Sigma^{\star}D(L)) \setminus (\Sigma^{\star}N(L)\Sigma^{\star})  \]
+
+\item On propose la méthode suivante : \begin{itemize}
+    \item[-] Calculer un automate $A$ reconnaissant $(P(L)\Sigma^{\star} \cap \Sigma^{\star}D(L)) \setminus (\Sigma^{\star}N(L)\Sigma^{\star})$ via la question 8.
+    \item[-] Calculer un automate $B$ reconnaissant $L\setminus\{\varepsilon\}$ à partir de l'expression régulière dénotant $L$, par exemple à l'aide de l'algorithme de Berry-Sethi.
+    \item[-] Calculer l'automate $A \Delta B$ reconnaissant la différence symétrique de ces deux langages (la différence symétrique se construisant à partir d'unions, intersections et complémentaires, opérations qu'on sait faire sur des automates finis).
+    \item[-] A l'aide d'un parcours, déterminer si un état final de $A\Delta B$ est accessible depuis un de ses états initiaux. Si non, le langage reconnu par $A \Delta B$ est vide donc les langages reconnus par $A$ et $B$ sont égaux donc $L$ est local. Si oui, le langage reconnu par $A \Delta B$ n'est pas vide donc les langages reconnus par $A$ et $B$ son différents et $L$ n'est pas local.
+\end{itemize}
+\item Si $e$ est un expression régulière telle que $L(e) \neq \emptyset$, il existe une expression régulière $e'$ ne contenant pas le symbole $\emptyset$ telle que $L(e') = L(e)$. Cela se montre aisément par induction sur $e$.
+
+Si on autorise les expressions régulières contenant $\emptyset$, et qu'on souhaite à partir de $e$ déterminer si $L(e)$ est local, on pourrait donc : \begin{itemize}
+    \item[-] Déterminer si $L(e)$ est vide à l'aide d'un automate reconnaissant ce langage. 
+    \item[-] S'il est vide, il est local. Sinon, on peut inductivement transformer $e$ en $e'$ telle que $L(e) = L(e')$ et $e'$ ne contient pas le symbole $\emptyset$ et on applique l'algorithme de la question 9 à $e'$.
+\end{itemize}
+
+Un code source \textsf{localite\_corrige.ml} est aussi disponible.
+
+\end{enumerate}
+
+
+\paragraph{Commentaires du jury}
+
+\begin{enumerate}
+\item On attend du candidat qu'il donne les ensembles demandés sans justification, possiblement à l'oral uniquement puis qu'il exhibe un mot montrant la non localité avec une brève justification.
+\item Le jury attend principalement deux arguments : le fait que l'on raisonne par induction et la justification de la disjonction de cas dans le cas d'une concaténation.
+\item
+\item
+\item Le jury attend un argument inductif et que le candidat précise les cas délicats (étoile et concaténation). Cette question peut être abordée en même temps que la question 7.
+\item Le jury souhaite une fonction récursive et la demande si cette approche n'est pas proposée. Le candidat est libre de proposer une solution faisant intervenir les fonctions du module \mio{List} ou de s'aider d'une fonction auxiliaire.
+\item
+\item Une description haut niveau de la construction de cet automate (exploitant par exemple les stabilités des langages rationnels) suffit.
+\item Le jury s'attend à ce que l'égalité de ces deux langages soit vérifiée par le biais d'automates les reconnaissant, à nouveau par une description de haut niveau.
+\item Là encore une justification haut niveau du fait qu'on peut se ramener à une expression régulière ne contenant pas le symbole vide suffit (on ne demande par exemple pas une preuve par induction de ce fait, simplement le fait qu'on pourrait le faire).
+\end{enumerate}
+
+\newpage
+
+
+\exocommand{Récolte dynamique de fleurs (type B)}
+
+\textit{Consignes : Cet énoncé est accompagné d’un code compagnon en C \textsf{bouquet\_enonce.c} fournissant certaines des fonctions mentionnées dans l’énoncé : il est à compléter en y implémentant les fonctions demandées. La ligne de compilation \textsf{gcc -o main.exe *.c -lm} vous permet de créer un exécutable \textsf{main.exe} à partir du ou des fichiers C fournis. Vous pouvez également utiliser l’utilitaire \textsf{make}. En ligne de commande, il suffit de taper \textsf{make}. Dans les deux cas, si la compilation réussit, le programme peut être exécuté avec la commande \textsf{./main.exe}. Si vous désirez forcer la compilation de tous les fichiers, vous pouvez au préalable nettoyer le répertoire en faisant \textsf{make clean} et relancer \textsf{make}.}
+
+
+  Une petite fille se trouve en haut à gauche (case A) d'un champ modélisé par un tableau rectangulaire de taille $m\times n$  et doit se rendre dans la case B en bas à droite du champ où réside sa grand-mère (figure ci-dessous).
+
+
+  \begin{center}
+    \begin{tblr}{colspec = {cccccc}, vlines, hlines}
+      A & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen \\
+      \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen \\
+      \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen \\
+      \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & \FiveFlowerOpen & B \\
+    \end{tblr}
+  \end{center}
+
+  \smallskip
+
+  Chaque case du tableau, \textit{y compris les cases A et B}, contient un certain nombre de fleurs. La petite fille, qui connaît depuis sa position initiale le nombre de fleurs de chaque case, doit se déplacer vers B de case en case, les seuls mouvements autorisés étant vers le bas ou vers la droite. \`A chaque déplacement, elle récolte les fleurs de la case atteinte. L'objectif pour elle est alors de faire le bouquet avec le plus de fleurs possible lors de son déplacement pour l'offrir à sa grand-mère.
+
+  \begin{enumerate}
+      \item On considère le champ suivant :
+      \begin{center}
+  \begin{tblr}{colspec = {cccc}, hlines, vlines}
+  0 (A)&1&2&3\\
+  1&2&3&4\\
+  2&3&4&0\\
+  3&4&0&1 (B)\\
+  \end{tblr}
+  \end{center}
+  Donner le nombre maximal de fleurs cueillies par la petite fille.
+
+      \item On note $n(i,j)$ le nombre maximum de fleurs que la petite fille peut récolter en se déplaçant de A à la case $(i,j)$. Exprimer $n(i,j)$ en fonction de $n(i-1,j)$ et $n(i,j-1)$. En déduire une fonction récursive de prototype \mic{int recolte(int champ[m][n], int i, int j)} qui, étant données les coordonnées \mic{i}, \mic{j} d'une case, calcule le nombre maximum de fleurs cueillies par la petite fille de A à la case (\mic{i}, \mic{j}).
+      \item On suppose  $m=n=4$ et on effectue donc un appel à \mic{recolte(champ,3,3)} pour résoudre le problème posé. Donner le nombre de fois où votre fonction calcule le nombre de fleurs maximum cueillies dans la case $(1,1)$ (deuxième case de la diagonale).
+\end{enumerate}
+
+D'une manière générale, le nombre d'appels à la fonction récursive est important. On a donc intérêt à transformer l'algorithme récursif en algorithme dynamique. On propose de déclarer dans le programme principal un tableau \mic{fleurs} dont la case $(i,j)$ est destinée à contenir la récolte maximale que la petite fille peut obtenir en cheminant de A vers la case $(i,j)$.
+
+  \begin{enumerate}[resume]
+     \item Dans quel ordre remplir le tableau \mic{fleurs} de sorte à éviter de recalculer une valeur ?
+      \item \'Ecrire une fonction de prototype \mic{int recolte_iterative(int champ[m][n], int i, int j, int fleurs[m][n])} qui calcule, stocke dans \mic{fleurs[i][j]} et retourne la cueillette maximale obtenue en parcourant le champ de A à la case (\mic{i}, \mic{j}).
+  \end{enumerate}
+
+      La fonction \mic{recolte_iterative} permet de déterminer la cueillette maximale en (\mic{i}, \mic{j}) mais ne précise pas le chemin parcouru pour l'obtenir.
+
+      \begin{enumerate}[resume]
+      \item \'Ecrire la fonction de prototype \mic{void deplacements(int fleurs[m][n], int i, int j)}
+      qui affiche la suite des déplacements effectués par la petite fille sur un chemin permettant de récolter le nombre maximum de fleurs entre (0,0) et (\mic{i}, \mic{j}).
+      \item Insérer un appel de \mic{deplacements} dans la fonction \mic{recolte_iterative} pour afficher le chemin parcouru.
+  \end{enumerate}
+
+  \paragraph*{Proposition de corrigé}
+
+  \begin{enumerate}
+    \item On trouve $11$ fleurs.
+    \item La récolte en une case dépend récursivement de celle de la case du haut et de celle de la case de gauche. La formule générique est donc à adapter lorsqu'on se trouve sur le bord gauche ou le bord haut du champ.
+    \medskip
+    \begin{fancy-code}{c}
+int recolte(int champ[m][n], int i, int j){
+  /* Cas de base */
+  if ( (i == 0) && (j == 0) )
+   return champ[0][0];
+  if (i == 0)
+    return champ[0][j] + recolte(champ,0, j - 1);
+  if (j == 0)
+    return champ[i][0] + recolte(champ,i - 1, 0
+  /* Cas général */
+  return champ[i][j] + max(recolte(champ,i - 1, j),recolte(champ,i, j - 1));
+}
+    \end{fancy-code}
+    \item On trouve $6$ appels à \mic{recolte}.
+%% De manière générale, lors de l'exécution de \mic{recolte(champ,i,j)}, le nombre d'appels à \mic{recolte(champ,x,y)} pour $1 \leq x \leq i$ et $1 \leq y \leq j$ est : \[\binom{i+j-x-y}{i-x} \]
+    \item On calcule d'abord les valeurs des cases sur les bords haut et gauche puis on propage soit en remplissant les lignes de gauche à droite, soit en remplissant les colonnes de haut en bas.
+    
+    \item Il s'agit d'une traduction des questions 2 et 4. Le code ci-dessous corrige aussi la question 7.
+    \medskip
+
+    \begin{fancy-code}{c}
+
+int recolte_iterative(int champ[m][n], int i, int j,int fleurs[m][n]){
+  int x, y;
+  fleurs[0][0] = champ[0][0];
+  /* Bord haut */
+  for (x = 1; x <= i; x++) {
+    fleurs[x][0] = champ[x][0] + fleurs[x - 1][0];
+  }
+  /* Bord gauche */
+  for (y = 1; y <= j; y++) {
+    fleurs[0][y] = champ[0][y] + fleurs[0][y - 1];
+  }
+  /* Autres cases */
+  for (y = 1; y <= j; y++) {
+    for (x = 1; x <= i; x++) {
+      fleurs[x][y] = champ[x][y] + max(fleurs[x - 1][y], fleurs[x][y - 1]);
+    } 
+  }
+
+  deplacements(fleurs,i, j);
+  return fleurs[i][j];
+}
+
+    \end{fancy-code}
+    \item On commence par distinguer les cas limites. Puis on appelle récursivement \mic{deplacements} en observant quelle est la case voisine qui avait permi d'obtenir le plus de fleurs.
+    \medskip
+
+    \begin{fancy-code}{c}
+void deplacements(int fleurs[m][n], int i, int j){
+  if (i == 0 && j == 0) {
+       printf("Case A, ");
+       return;
+  }
+  if (i == 0) {
+       deplacements(fleurs,0, j - 1);
+       printf("Aller à droite, ");
+       return;
+  }
+  if (j == 0) {
+       deplacements(fleurs,i - 1, 0);
+       printf("Descendre, ");
+       return;
+  }
+  if (fleurs[i - 1][j] > fleurs[i][j - 1]) {
+     deplacements(fleurs,i - 1, j);
+     printf("Descendre, ");
+  }
+  else {
+     deplacements(fleurs,i, j - 1);
+     printf("Aller à droite, ");
+  }
+}
+    \end{fancy-code}
+    \item Voir le code proposé à la question 5.
+  \end{enumerate}
+
+  Un code source \textsf{bouquet\_corrige.c} est aussi disponible.
+
+\paragraph{Commentaires du jury}
+
+\begin{enumerate}
+\item On attend une réponse orale ; si elle est correcte, le jury ne demande même pas de justification.
+\item Il est attendu des candidats qu'ils soient attentifs aux cas de base. Ils peuvent factoriser la présentation de leur code et l'établissement de la relation de récurrence.
+\item Plusieurs méthodes sont acceptées pour répondre à cette question ; le candidat peut par exemple compter le nombre d'appels en modifiant la fonction précédente ou à la main en déployant l'arbre d'appels.
+\item Une réponse orale claire peut suffire. Le candidat peut aussi s'aider d'un schéma indiquant les dépendances entre les différents termes à calculer.
+\item
+\item On attend bien l'affichage des déplacements, et pas uniquement leur calcul. La mise en forme de l'affichage (avec sauts de lignes, tabulations, ...) est en revanche libre.
+\item Le jury est attentif à l'endroit où l'appel à cette fonction est effectué.
+\end{enumerate}
+
+\newpage
+\exocommand{Chemins simples sans issue (type B)}
+
+\textit{Consignes : Cet exercice est à traiter en OCaml. Le fichier \textsf{chemins\_simples.ml} est fourni avec ce sujet. Il est à compléter en y implémentant les fonctions demandées.}
+
+
+L'objectif de cet exercice est de programmer une fonction générant la liste des chemins simples sans issue d'un graphe. On rappelle les définitions d'un graphe, d'un chemin, et on donne leur représentation en OCaml.
+
+
+Un \textit{graphe orienté} est un couple $(V,E)$ où  $V$ est un ensemble fini (ensemble des sommets), 
+$E$ est un sous-ensemble de  $V\times V$ où  tout élément $(v_1,v_2)\in E$ vérifie  $v_1\neq v_2$ (ensemble des arcs).
+
+\'Etant donné un graphe $G=(V,E)$ un \textit{chemin non vide} de $G$ est une suite finie $s_0,\cdots, s_n $ de sommets de  $V$ avec $n\ge 0$ et vérifiant $\displaystyle{\forall i \in \{0,\cdots ,n-1\}, (s_i,s_{i+1})\in E}$. On dit que ce chemin est \textit{simple} si  $s_0,\cdots , s_{n}$ sont distincts deux à deux. On dit qu'il est \textit{sans issue} si pour tout $s_{n+1}$ sommet tel que $(s_n,s_{n+1})\in E$, $s_{n+1}$ appartient à $\{s_0,\cdots ,s_{n}\}$.
+
+
+Dans la suite, les graphes considérés sont définis sur un ensemble de sommets de la forme $\{0,1,\cdots , n-1\}$. Pour représenter un graphe en OCaml, on utilise le type suivant :
+
+\medskip
+
+\begin{fancy-code}{ocaml}
+  type graphe = int list array
+\end{fancy-code}
+qui correspond à un encodage par un tableau de listes d'adjacence. Par exemple, le graphe $$G_1=(\{0,1,2,3\},\{(0,1),(0,3),(2,0),(2,1),(2,3),(3,1)\})$$ est représenté par le tableau \mio{[|[1;3];[];[0;1;3];[1]|]}. L'ordre dans lequel sont écrits les éléments dans les listes importe peu. Par contre, l'emplacement des listes dans le tableau est important. Par exemple, \mio{ [|[];[0];[0;3;1];[1]|]} représente le graphe
+\[G_2 = (\{0,1,2,3\},\{(1,0),(2,0),(2,1),(2,3),(3,1)\} \})\]
+
+On rappelle différentes fonctions pouvant être utiles :
+\begin{itemize}
+    \item \mio{List.filter : ('a -> bool) -> 'a list -> 'a list} où l'expression \mio{List.filter f l} est la liste obtenue en gardant uniquement les éléments \mio{x} de \mio{l} vérifiant
+        \mio{f}.
+    \item \mio{List.iter :('a -> unit) -> 'a list -> unit} où \mio{List.iter f l}
+        correspond à \mio{(f a0);(f a1);...;(f an)} dans le cas où on a \mio{ l = a0::a1::...::an::[]}.
+    \item \mio{List.rev : 'a list -> 'a list} est une fonction qui renvoie le retourné d'une liste.
+        Par exemple, \mio{List.rev [3;1;2;2;4]} est égal à \mio{[4;2;2;1;3]}.
+    \item \mio{Array.length : 'a array -> int} est une fonction qui renvoie la longueur d'un tableau.
+\end{itemize}
+
+Les questions de programmation sont à traiter dans le fichier \textsf{chemins\_simples.ml}. L'utilisation d'autres fonctions de la bibliothèque que celles mentionnées sont à reprogrammer.
+
+\begin{enumerate}
+    \item \'Ecrire une fonction \mio{est_sommet : graphe -> int -> bool} où \mio{est_sommet g a} est égal à \mio{true} si \mio{a} est un sommet du graphe \mio{g} et \mio{false} sinon.
+    \item \'Ecrire une fonction \mio{appartient : 'a list -> 'a  -> bool} où  \mio{appartient l x} est égal à \mio{true} si \mio{x} est un élément de \mio{l} et \mio{false} sinon.
+    \item \'Ecrire une fonction \mio{est_chemin : graphe -> int list -> bool}, où \mio{est_chemin g l} est égal à \mio{true} si \mio{l} est un chemin de \mio{g} et \mio{false} sinon. On suppose que la liste vide représente le chemin vide, qui est bien un chemin et que les éléments de \mio{l} sont bien des sommets du graphe \mio{g}.
+    \item Compléter la fonction \mio{est_chemin_simple_sans_issue : graphe -> int list -> bool}, où \mio{est_chemin g l} est égal à \mio{true} si \mio{l} est un chemin simple sans issue de \mio{g} et \mio{false} sinon.  On supposera que les éléments de \mio{l} sont des sommets du graphe \mio{g} et que le chemin vide n'est pas simple sans issue.
+    \item  On cherche à écrire une fonction qui construit la liste des chemins simples sans issue
+        d'un graphe. Pour cela, on procède à l'aide de parcours en profondeur et d'un algorithme
+        de retour sur trace. Compléter le code de la fonction \mio{genere_chemins_simples_sans_issue}
+        présent dans le fichier \textsf{chemins\_simples.ml} et qui permet de générer la liste des chemins simples sans issue d'un graphe.
+    \item \'Ecrire des expressions donnant les listes des chemins simples pour les deux graphes $G_1$ et  $G_2$.
+    \item Expliciter la complexité des fonctions \mio{appartient} et \mio{est_chemin_simple_sans_issue}.
+ \end{enumerate}
+
+\paragraph*{Proposition de corrigé}
+  \begin{enumerate}
+     \item  Voici le code demandé : 
+     \smallskip
+         \begin{fancy-code}{ocaml}
+let est_sommet g a =  (0 <=a) && (a < Array.length g)
+         \end{fancy-code}
+
+        
+     \item Une proposition de code : 
+     \smallskip
+\begin{fancy-code}{OCaml}
+let rec appartient liste a = match liste with
+    | [] -> false 
+    | b::suite -> (b = a) || (appartient suite a)
+\end{fancy-code}
+         
+     \item Une proposition de code :
+     \smallskip
+\begin{fancy-code}{ocaml}
+let rec est_chemin g liste = match liste with
+   | [] -> true
+   | [a] -> est_sommet g a 
+   | a::b::suite -> (appartient (g.(a)) b) && (est_chemin g (b::suite)) 
+
+\end{fancy-code}
+\item Voici le code demandé : 
+\smallskip
+    \begin{fancy-code}{ocaml}
+ let est_chemin_simple_sans_issue g liste =
+    let n = Array.length g in
+    let visites = Array.make n false in
+    let rec test_aux liste = match liste with
+        | [] -> false
+        | [a] -> [] = (List.filter (fun x -> not visites.(x)) (g.(a)))
+        | a::b::suite -> 
+            begin
+                visites.(a) <- true ;
+                (appartient g.(a) b) && (not visites.(b)) 
+                && (test_aux (b::suite))
+            end
+        in 
+        test_aux liste
+    \end{fancy-code}
+
+\item  Voici un exemple de solution : 
+\smallskip
+
+    \begin{fancy-code}{ocaml}
+let genere_chemins_simples_sans_issue (g:graphe) =
+  let taille = Array.length g in
+  (*garde en mémoire les chemins déjà trouvés*)
+  let liste_chemins = ref [] in
+  (*garde en mémoire les sommets en cours de visite *)
+  let visites = Array.make taille false in
+  (*garde en mémoire le début d'un chemin*)
+  let chemin_courant_envers = ref [] in
+
+  (*trouve tous les chemins simples sans issue commençant par s*)
+  let rec profondeur s =
+    if not visites.(s) then begin
+      visites.(s) <- true ;
+      chemin_courant_envers := s::(!chemin_courant_envers) ;
+      let voisins_libres =
+        List.filter (fun x -> not visites.(x)) g.(s)
+      in
+      if voisins_libres = [] then begin
+        liste_chemins := (List.rev !chemin_courant_envers)::(!liste_chemins)
+      end else begin
+        List.iter profondeur voisins_libres
+      end;
+      (*pour revenir en arrière *)
+      visites.(s) <- false ;
+      chemin_courant_envers := List.tl !chemin_courant_envers ;
+    end
+  in
+  for i = 0 to (taille-1) do
+    profondeur i
+  done ;
+  !liste_chemins
+    \end{fancy-code}
+\item Voici un exemple de solution :
+\smallskip
+    \begin{fancy-code}{ocaml}
+let liste1 = genere_chemins_simples_sans_issue g1
+let liste2 = genere_chemins_simples_sans_issue g2
+    \end{fancy-code}
+
+
+
+\item La complexité de \mio{appartient} est en $O(|l|)$ : en effet, on effectue un parcours de liste.
+
+    On note $A$ l'ensemble des arêtes du graphe en argument.
+    La complexité de \mio{est_chemin_sans_issue} est en $O(|l|+|A|)$. En effet, pour chaque sommet $s$ de la liste $l$, 
+        on effectue en terme de calcul de l'ordre de $1+ |g.(s)|$. En sommant sur tous les 
+        éléments de  $l$ (dans le cas où il serait tous distincts), on trouve une complexité en  $O(|l|+|A|)$.
+        Si un même sommet apparaît deux fois, le calcul est interrompu lors de la visite d'une première
+        répétition et on retrouve la même complexité.
+
+  \end{enumerate}
+
+\paragraph{Commentaires du jury}
+
+\begin{enumerate}
+\item Le candidat ne doit pas oublier de tester la positivité de l'entier en entrée.
+\item Le jury s'attend à une solution récursive. Dans cet exercice une approche impérative n'est néanmoins pas pénalisée.
+\item Même remarque que pour la question précédente.
+\item Plusieurs variantes de réponses à cette question sont possibles.
+\item Le jury s'attend à ce que les ajouts dans une liste soient faits en tête, quitte à renverser la liste à la fin.
+\item Le jury souhaite voir le résultat des tests demandés dans cette question : les candidats qui souhaitent compiler leur code doivent donc coder des fonctions d'affichage pertinentes pour obtenir tous les points ici.
+\item Le jury attend une borne précise sur ces complexités. Si le
+  candidat propose une borne en $\mathcal{O}(|l||A|)$ pour
+  \mio{est_chemin_simple_sans_issue}, il est invité à l'affiner.
+\end{enumerate}
+
+\newpage
+
+\exocommand{Calculs avec les flottants (type B)}
+
+\textit{Consignes : Cet énoncé est accompagné d'un code compagnon en C, \textsf{flottants.c} fournissant les structures de données et certaines fonctions mentionnées dans l'énoncé. Il est à compléter en y implémentant les fonctions demandées. La ligne de compilation \textsf{gcc -o main.exe *.c -lm} vous permet de créer un exécutable \textsf{main.exe}. Vous pouvez également utiliser l'utilitaire \textsf{make}. En ligne de commande, il suffit de taper \textsf{make}. Dans les deux cas, si
+la compilation réussit, le programme peut être exécuté avec la commande \textsf{./main.exe}. Si vous désirez forcer la compilation
+de tous les fichiers, vous pouvez au préalable nettoyer le répertoire en faisant \textsf{make clean} et relancer \textsf{make}.}
+
+Un nombre réel $x$ est représenté en machine en base $2$ par un flottant qui a un signe $s$, une mantisse $m$ et un exposant $e$ tel que $x=s\times m \times 2^e$. Dans la norme IEEE 754, en convention normalisé la partie entière de la mantisse est $1$ qui est un bit caché. En simple précision, le signe est codé sur $1$ bit, la partie décimale de la mantisse sur $23$ bits et l'exposant sur $8$ bits. En double précision, le signe est codé sur $1$ bit, la partie décimale de la mantisse sur $52$ bits  et l'exposant sur $11$ bits.
+
+Dans cet exercice, on observe le résultat de calculs obtenus par un programme. On pourra utiliser la fonction de signature : \mic{double pow(double v, double p)} qui calcule $v^p$.
+
+    \begin{enumerate}
+        \item Dans la fonction principale \mic{main}, on a défini 3 variables $a$, $b$, $c$ de type \mic{double}. Compléter le code pour calculer et afficher le résultat des opérations $(a+b)+c$ et $a+(b+c)$. Que constatez-vous?
+				\item Compte tenu des approximations faites lors du codage, on peut trouver plusieurs nombres $x$ tels que $1+x=1$ après un calcul fait par la machine. Le plus petit nombre représentable exactement en machine et supérieur à $1$ s'écrit $1+\epsilon$, avec $\epsilon$ un réel appelé $\epsilon$ machine.  On admet que $\epsilon$ s'écrit sous la forme $2^{-n}$ avec n un entier naturel strictement positif. \'Ecrire une fonction de signature \mic{double epsilon()} qui renvoie la valeur de $n$. Justifier cette valeur.
+				\item On considère une suite $(u_n)_{n\in \mathbb{N}}$ définie par
+$$
+\left\{
+    \begin{array}{lll}
+        u_0 &=& 2\\
+				u_1 &=&-4\\
+        u_n&=&111-\frac{1130}{u_{n-1}}+\frac{3000}{u_{n-1}\times u_{n-2}} \text{ si } n \geq 2
+    \end{array}
+\right.
+$$
+\'Ecrire une fonction de signature \mic{double u(int n)} qui renvoie la valeur du terme $u_n$.
+\item La limite théorique de la suite $(u_n)_{n\in \mathbb{N}}$ est 6. Compléter la fonction \mic{main} afin d'afficher les 22 premiers termes de la suite. Vers quelle valeur semble tendre la suite?
+				\item On définit une liste chaînée de nombres à l'aide d'une structure \mic{nb} comportant un double et un pointeur vers une structure \mic{nb} définie ci-dessous
+
+\medskip
+
+\begin{fancy-code}{c}
+struct nb {double x; struct nb* suivant;};
+\end{fancy-code}
+
+				Écrire une fonction de signature \mic{double somme(struct nb* tab)} qui calcule la somme des éléments de la liste \mic{tab}.
+				\item L'algorithme suivant permet d'augmenter la précision du calcul lors du calcul d'une somme.
+\begin{center}
+  \begin{minipage}{15cm}
+    
+\begin{pcode-nl-env}
+  \In{Une liste $l$ de réels triée dans l'ordre croissant de taille au moins $2$.}
+  \Out{La somme des réels contenus dans la liste $l$.}
+  \While{la liste $l$ contient strictement plus d'un élément}
+  {
+    Calculer la somme $s = x+y$ des deux premiers éléments $x$ et $y$ de $l$ \\
+    Supprimer $x$ et $y$ de $l$ \\
+    Insérer $s$ dans $l$ de sorte à ce que $l$ reste triée
+  }
+  \Return{l'unique élément de $l$}
+\end{pcode-nl-env}
+  \end{minipage}
+\end{center}
+
+\begin{itemize}
+	\item Compléter la fonction \mic{somme2} qui implémente cet algorithme.
+	\item La fonction proposée ne prend pas en compte un cas d'insertion. Illustrer ce propos.
+\end{itemize}
+
+    \end{enumerate}
+
+\paragraph{Commentaires du jury}
+
+\begin{enumerate}
+\item Le jury attend une brève explication du comportement constaté.
+\item Le jury attend une explication faisant le lien entre la valeur trouvée et le format de représentation des flottants rappelé dans l'énoncé.
+\item Une fonction récursive naïve suffit à obtenir tous les points à cette question mais le candidat est bien entendu libre de stocker les valeurs de la suite demandée pour éviter d'avoir à les recalculer.
+\item La question ne demande pas de justifier la limite théorique. Le jury doit voir apparaître les premiers termes correctement et clairement affichés.
+\item
+\item À cette question, un candidat qui aurait fait le choix d'implémenter \mic{somme2} directment et sans utiliser le code déjà fourni et en expliquant sa démarche aurait eu tous les points.
+\end{enumerate}
+
+\end{document}

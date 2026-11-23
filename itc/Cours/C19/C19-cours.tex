@@ -1,0 +1,875 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+
+\begin{document}
+
+\input{\detokenize{/home/fenarius/Travail/Cours/cpge-info/latex//MacrosCours.tex}}
+
+% Numéro et titre de chapitre
+\setcounter{numchap}{3}
+\newcommand{\Ctitle}{\cnum Modèle entité-association}
+
+\makess{Rappel}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Limitation du modèle à une seule table}
+		\begin{itemize}
+			\item<1-> Pour le moment, nous avons manipulé des bases de données contenant une seule et unique table (dotée d'une \textcolor{blue}{clé primaire}) Ce modèle n'est pas pertinent et conduit à dupliquer l'information. Par exemple pour une base de données de livres, on stockerait sur chaque enregistrement les informations du livre, de l'auteur et de l'éditeur.
+			\item<2-> Pour de multiples raisons (espace occupé, efficacité pour les recherches ou les modifications, \dots) une base de données est constituée d'un ensemble de tables liées entre elles.
+			\item<3-> Le modèle \textcolor{blue}{entité-association} permet de concevoir des bases de données de façon efficace.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\makess{Modèle entité-association}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Définitions}
+		\begin{itemize}
+			\item<1-> Une \textcolor{blue}{entité} est une modélisation d'un objet concret ou abstrait à propos duquel on souhaite conserver des informations. Une entité doit pouvoir être identifiée de façon unique via un \textcolor{blue}{identifiant d'identité}.
+				\onslide<2->\textcolor{gray}{Par exemple un livre (identifié par son {\sc isbn}), une facture (identifié par son code), un client (identifié par son email), un anniversaire (identifié par une personne et une date), une transaction commerciale (identifié par un code) \dots} \\
+			\item<3-> Une entité possède un ou plusieurs \textcolor{blue}{attributs}.
+				\onslide<4->\textcolor{gray}{Par exemple, l'entité \textit{film} peut avoir les attributs date, titre, année, \dots}
+			\item<5-> Une \textcolor{blue}{instance} d'une entité est un objet en particulier.
+				\onslide<6-> \textcolor{gray}{Par exemple, \textit{Forrest Gump} est une instance de l'entité \textit{Film}.}
+			\item<7->  Une \textcolor{blue}{association} est un lien entre plusieurs entités. Le degré d'une association est le nombre d'entités intervenant dans l'association.
+				\onslide<8->\textcolor{gray}{Par exemple, l'association \textit{écrit} de degré 2, relie l'entité \textit{auteur}  à l'entité \textit{livre}}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\makess{Modèle entité-association}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{alertblock}{Définitions}
+		\begin{itemize}
+			\item<2-> Pour les associations de degré 2 (binaire), on précise de chaque côté d'une association le nombre d'entités concernées. C'est la \textcolor{blue}{cardinalité} de l'association qui se résume à trois types principaux :
+				\begin{itemize}
+					\item<3-> \textcolor{blue}{1--1} association directe et exclusive entre deux entités (\textit{one to one}).
+						\onslide<4->\textcolor{gray}{Par exemple, un \textit{lycée} a un \textit{proviseur}, un \textit{pays} a une seule \textit{capitale}.}
+					\item<5-> \textcolor{blue}{1--*} (aussi noté \textcolor{blue}{1--1..N})  association d'une instance de la première entité à un ensemble d'instances de la seconde (\textit{one to many}).
+						\onslide<6->\textcolor{gray}{Par exemple, un \textit{propriétaire} peut avoir plusieurs \textit{voitures}, un \textit{client} peut avoir plusieurs \textit{numéro de téléphone}.}
+					\item<7-> \textcolor{blue}{*--*} (aussi noté \textcolor{blue}{1..N--1..N}) association d'un ensemble d'instances à un autre ensemble d'instance.
+						\onslide<8->\textcolor{gray}{Par exemple, un \textit{livre} peut avoir plusieurs \textit{auteurs} et un \textit{auteur} peut écrire plusieurs \textit{livres}.}
+				\end{itemize}
+			\item<9-> Les associations de types \textcolor{blue}{*--*} peuvent être séparées entre deux associations de type \textcolor{blue}{1--*} à l'aide d'une nouvelle entité. \\
+				\onslide<10->\textcolor{gray}{\small Par exemple, en créant une entité \textit{attribution}, un \textit{livre}  a plusieurs \textit{attributions} (car il a été écrit par plusieurs \textit{auteurs}) et un auteur à plusieurs \textit{attributions} (car il a écrit plusieurs livres)}
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<1-> Un exemple d'association \textit{one to one} :
+				\begin{center}
+					\renewcommand{\arraystretch}{1.1}
+					\begin{tabular}{|p{2cm}|}
+						\hline
+						\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Pays}}} \\
+						\hline
+						\cellcolor{white}\underline{\textbf {\footnotesize nom}}          \\
+						\hline
+						\cellcolor{white}{\footnotesize region}                           \\
+						\hline
+						\cellcolor{white}{\footnotesize population}                       \\
+						\hline
+						\cellcolor{white}{\footnotesize surface}                          \\
+						\hline
+					\end{tabular} \rnode{D}{$1$} \quad \quad \rnode{A}{$1$}
+					\ncline[offset=-0.2cm,nodesep=-0.3cm,linewidth=1pt]{D}{A}
+					\begin{tabular}{|p{2cm}|}
+						\hline
+						\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Capitale}}} \\
+						\hline
+						\cellcolor{white}\underline{\textbf {\footnotesize nomcap}}              \\
+						\hline
+						\cellcolor{white}{\footnotesize longitude}                            \\
+						\hline
+						\cellcolor{white}{\footnotesize latitude}                             \\
+						\hline
+					\end{tabular}
+				\end{center}
+			\item<2-> Un exemple d'association \textit{one to many} :
+				\begin{center}
+					\renewcommand{\arraystretch}{1.1}
+					\begin{tabular}{|p{2cm}|}
+						\hline
+						\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Client}}} \\
+						\hline
+						\cellcolor{white}\underline{\textbf {\footnotesize num}}            \\
+						\hline
+						\cellcolor{white}{\footnotesize nom}                                \\
+						\hline
+						\cellcolor{white}{\small prenom}                                    \\
+						\hline
+						\cellcolor{white}{\footnotesize email}                              \\
+						\hline
+					\end{tabular} \rnode{D}{$1$} \quad \quad \rnode{A}{\phantom{1}$*$}
+					\ncline[offset=-0.2cm,nodesepA=-0.3cm,nodesepB=-0.5cm,linewidth=1pt]{D}{A}
+					\begin{tabular}{|p{2cm}|}
+						\hline
+						\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Commande}}} \\
+						\hline
+						\cellcolor{white}\underline{\textbf {\footnotesize id}}               \\
+						\hline
+						\cellcolor{white}{\footnotesize prix}                                 \\
+						\hline
+						\cellcolor{white}{\footnotesize articles}                             \\
+						\hline
+						\cellcolor{white}{\footnotesize dates}                                \\
+						\hline
+					\end{tabular}
+				\end{center}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemples}
+		\begin{itemize}
+			\item<2-> Un exemple d'association \textit{many to many}:
+				\begin{center}
+					\renewcommand{\arraystretch}{1.1}
+					\begin{tabular}{|p{2cm}|}
+						\hline
+						\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Etudiant}}} \\
+						\hline
+						\cellcolor{white}\underline{\textbf {\footnotesize ine}}              \\
+						\hline
+						\cellcolor{white}{\footnotesize nom}                                  \\
+						\hline
+						\cellcolor{white}{\footnotesize prenom}                               \\
+						\hline
+						\cellcolor{white}{\footnotesize adresse}                              \\
+						\hline
+					\end{tabular} \rnode{D}{$*$} \quad \quad \rnode{A}{$*$}
+					\ncline[offset=-0.22cm,nodesep=-0.3cm,linewidth=1pt]{D}{A}
+					\begin{tabular}{|p{2cm}|}
+						\hline
+						\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Cours}}} \\
+						\hline
+						\cellcolor{white}\underline{\textbf {\footnotesize id}}            \\
+						\hline
+						\cellcolor{white}{\footnotesize matière}                           \\
+						\hline
+						\cellcolor{white}{\footnotesize durée}                             \\
+						\hline
+						\cellcolor{white}{\footnotesize description}                       \\
+						\hline
+					\end{tabular}
+				\end{center}
+			\item<3-> Sa transformation en deux associations \textit{one to many} à l'aide d'une table de liaison
+				\begin{center}
+					\renewcommand{\arraystretch}{1.1}
+					\begin{tabular}{|p{2cm}|}
+						\hline
+						\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Etudiant}}} \\
+						\hline
+						\cellcolor{white}\underline{\textbf {\footnotesize ine}}              \\
+						\hline
+						\cellcolor{white}{\footnotesize nom}                                  \\
+						\hline
+						\cellcolor{white}{\footnotesize prenom}                               \\
+						\hline
+						\cellcolor{white}{\footnotesize adresse}                              \\
+						\hline
+					\end{tabular} \rnode{D}{$1$} \quad \quad \rnode{E}{\phantom{1}$*$}
+					\ncline[offset=-0.22cm,nodesepA=-0.3cm,nodesepB=-0.45cm,linewidth=1pt]{D}{E}
+					\begin{tabular}{|p{2cm}|}
+						\hline
+						\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Inscription}}} \\
+						\hline
+						\cellcolor{white}\underline{\textbf {\footnotesize Etudiant}}            \\
+						\hline
+						\cellcolor{white}\underline{\textbf {\footnotesize Cours}}               \\
+						\hline
+					\end{tabular}
+					\rnode{F}{\phantom{1}$*$} \quad \quad \rnode{A}{$1$}
+					\ncline[offset=-0.22cm,nodesepA=-0.45cm,nodesepB=-0.3cm,linewidth=1pt]{F}{A}
+					\begin{tabular}{|p{2cm}|}
+						\hline
+						\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Cours}}} \\
+						\hline
+						\cellcolor{white}\underline{\textbf {\footnotesize id}}            \\
+						\hline
+						\cellcolor{white}{\footnotesize matière}                           \\
+						\hline
+						\cellcolor{white}{\footnotesize durée}                             \\
+						\hline
+						\cellcolor{white}{\footnotesize description}                       \\
+						\hline
+					\end{tabular}
+				\end{center}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Du modèle EA au modèle relationnel}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Méthode}
+		Pour passer du modèle entité association au modèle relationnel :
+		\begin{itemize}
+			\item<1-> Une entité devient une relation (c'est-à-dire une table)
+			\item<2-> L'identifiant d'identité devient la clé primaire de cette table
+			\item<3-> On transforme les associations suivant les cas de figure
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Cas des associations \textit{one to one} : fusion}
+		\onslide<1->{Deux entités associées en \textit{one to one} peuvent fusionner dans la même relation. \\}
+		\onslide<2->\textcolor{gray}{Par exemple, les entités \textit{pays} et \textit{capitale} peuvent fusionner dans une seule table \textit{pays} en ajoutant dans cette table les attributs des capitales.}
+		\onslide<3->
+		\begin{center}
+			\renewcommand{\arraystretch}{1.1}
+			\begin{tabular}{|p{2cm}|}
+				\hline
+				\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Pays}}} \\
+				\hline
+				\cellcolor{white}\underline{\textbf {\footnotesize nom}}          \\
+				\hline
+				\cellcolor{white}{\footnotesize region}                           \\
+				\hline
+				\cellcolor{white}{\footnotesize population}                       \\
+				\hline
+				\cellcolor{white}{\footnotesize surface}                          \\
+				\hline
+			\end{tabular} \rnode{D}{$1$} \quad \quad \rnode{A}{$1$}
+			\ncline[offset=-0.2cm,nodesep=-0.3cm,linewidth=1pt]{D}{A}
+			\begin{tabular}{|p{2cm}|}
+				\hline
+				\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Capitale}}} \\
+				\hline
+				\cellcolor{white}\underline{\textbf {\footnotesize nomcap}}              \\
+				\hline
+				\cellcolor{white}{\footnotesize longitude}                            \\
+				\hline
+				\cellcolor{white}{\footnotesize latitude}                             \\
+				\hline
+			\end{tabular} \rnode{X}{} \quad \quad \rnode{Y}{}
+			\ncline[doubleline=true,doublesep=2pt,doublecolor=blue,linecolor=blue,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{X}{Y}
+			\begin{tabular}{|p{2cm}>{\footnotesize \sc}r|}
+				\hline
+				\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Pays}}}                   \\
+				\hline
+				\cellcolor{white}\underline{\textbf {\footnotesize nom}} & \cellcolor{white}{text}  \\
+				\hline
+				\cellcolor{white}{\footnotesize region}                  & \cellcolor{white}{text}  \\
+				\hline
+				\cellcolor{white}{\footnotesize population}              & \cellcolor{white}{int}   \\
+				\hline
+				\cellcolor{white}{\footnotesize surface}                 & \cellcolor{white}{float} \\
+				\hline
+				\cellcolor{white}{\footnotesize nomcap}                & \cellcolor{white}{text}  \\
+				\hline
+				\cellcolor{white}{\footnotesize longitude}               & \cellcolor{white}{float} \\
+				\hline
+				\cellcolor{white}{\footnotesize latitude}                & \cellcolor{white}{float} \\
+				\hline
+			\end{tabular}
+		\end{center}
+		\onslide<4->{
+			On obtient alors le schéma relationnel suivant : \smallskip
+			\begin{mdframed}
+				\textbf{Pays} (\underline{nom}, region, population, surface, capitale, longitude, latitude)
+			\end{mdframed}}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Cas des associations \textit{one to one} : clé étrangère}
+		on peut aussi choisir de garder les deux entités séparées et donc dans deux relations différentes, on introduit alors le concept de \textcolor{blue}{clé étrangère} c'est-à-dire la clé primaire d'une autre table qui indique dans l'une des tables la référence vers l'autre\\
+		\onslide<2->{\begin{center}
+				\renewcommand{\arraystretch}{1.1}
+				\begin{tabular}{|l|}
+					\hline
+					\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Pays}}} \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize nom}}          \\
+					\hline
+					\cellcolor{white}{\footnotesize region}                           \\
+					\hline
+					\cellcolor{white}{\footnotesize population}                       \\
+					\hline
+					\cellcolor{white}{\footnotesize surface}                          \\
+					\hline
+				\end{tabular} \rnode{D}{$1$} \  \rnode{A}{$1$}
+				\ncline[offset=-0.2cm,nodesep=-0.3cm,linewidth=1pt]{D}{A}
+				\begin{tabular}{|l|}
+					\hline
+					\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Capitale}}} \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize nom}}              \\
+					\hline
+					\cellcolor{white}{\footnotesize longitude}                            \\
+					\hline
+					\cellcolor{white}{\footnotesize latitude}                             \\
+					\hline
+				\end{tabular} \rnode{X}{} \quad \quad \rnode{Y}{}
+				\ncline[doubleline=true,doublesep=2pt,doublecolor=blue,linecolor=blue,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{X}{Y}
+				\begin{tabular}{|l>{\footnotesize \sc}r|}
+					\hline
+					\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Pays}}}                                      \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize nom}}        & \cellcolor{white}{text}              \\
+					\hline
+					\cellcolor{white}{\footnotesize region}                         & \cellcolor{white}{text}              \\
+					\hline
+					\cellcolor{white}{\footnotesize population}                     & \cellcolor{white}{int}               \\
+					\hline
+					\cellcolor{white}{\footnotesize surface}                        & \cellcolor{white}{float}             \\
+					\hline
+					\cellcolor{white}{\footnotesize \textcolor{Sepia}{\# capitale}} & \cellcolor{white}{\rnode{DCE}{text}} \\
+					\hline
+				\end{tabular} \quad \quad
+				\begin{tabular}{|l>{\footnotesize \sc}r|}
+					\hline
+					\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Capitale}}}                            \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize \rnode{ACE}{nom}}} & \cellcolor{white}{text}  \\
+					\hline
+					\cellcolor{white}{\footnotesize longitude}                            & \cellcolor{white}{float} \\
+					\hline
+					\cellcolor{white}{\footnotesize latitude}                             & \cellcolor{white}{float} \\
+					\hline
+				\end{tabular}
+				\ncangle[nodesepA=0.1cm,angleA=0,angleB=180]{*->}{DCE}{ACE}
+			\end{center}}
+		\onslide<3->{
+			On obtient alors le schéma relationnel suivant : \smallskip
+			\begin{mdframed}
+				\textbf{Pays} (\underline{nom}, region, population, surface, \#capitale) \\
+				\textbf{Capitale} (\underline{nom}, longitude, latitude)
+			\end{mdframed}}
+		\onslide<4->{\textcolor{BrickRed}{\small \danger\;} \textcolor{BrickRed}{Intégrité référentielle} : un pays doit avoir une capitale !}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Cas des associations \textit{one to many}}
+		On utilise là aussi la \textcolor{blue}{clé étrangère} de façon à ce qu'un élément du côté \textit{"many"} de l'association soit associé à un unique élément du côté \textit{"one"}. \\
+		\onslide<2->{\begin{center}
+				\renewcommand{\arraystretch}{1.1}
+				\begin{tabular}{|l|}
+					\hline
+					\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Client}}} \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize num}}            \\
+					\hline
+					\cellcolor{white}{\footnotesize nom}                                \\
+					\hline
+					\cellcolor{white}{\small prenom}                                    \\
+					\hline
+					\cellcolor{white}{\footnotesize email}                              \\
+					\hline
+				\end{tabular} \rnode{D}{$1$} \  \rnode{A}{\phantom{1}$*$}
+				\ncline[offset=-0.2cm,nodesepA=-0.3cm,nodesepB=-0.5cm,linewidth=1pt]{D}{A}
+				\begin{tabular}{|l|}
+					\hline
+					\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Commande}}} \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize id}}               \\
+					\hline
+					\cellcolor{white}{\footnotesize prix}                                 \\
+					\hline
+					\cellcolor{white}{\footnotesize articles}                             \\
+					\hline
+					\cellcolor{white}{\footnotesize dates}                                \\
+					\hline
+				\end{tabular}
+				\rnode{X}{} \quad \quad \rnode{Y}{}
+				\ncline[doubleline=true,doublesep=2pt,doublecolor=blue,linecolor=blue,linewidth=1pt,arrowsize=10pt,arrowinset=0.2,arrowlength=1.2]{->}{X}{Y}
+				\begin{tabular}{|l>{\footnotesize \sc}r|}
+					\hline
+					\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Client}}}                             \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize \rnode{ACE}{num}}} & \cellcolor{white}{int}  \\
+					\hline
+					\cellcolor{white}{\footnotesize nom}                                  & \cellcolor{white}{text} \\
+					\hline
+					\cellcolor{white}{\footnotesize prenom}                               & \cellcolor{white}{text} \\
+					\hline
+					\cellcolor{white}{\footnotesize email}                                & \cellcolor{white}{text} \\
+					\hline
+				\end{tabular} \quad \quad
+				\begin{tabular}{|l>{\footnotesize \sc}r|}
+					\hline
+					\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Commande}}}                                     \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize id}}                        & \cellcolor{white}{int}   \\
+					\hline
+					\cellcolor{white}{\footnotesize \rnode{DCE}{\textcolor{Sepia}{\# id\_client}}} & \cellcolor{white}{int}   \\
+					\hline
+					\cellcolor{white}{\footnotesize prix}                                          & \cellcolor{white}{float} \\
+					\hline
+					\cellcolor{white}{\footnotesize articles}                                      & \cellcolor{white}{text}  \\
+					\hline
+					\cellcolor{white}{\footnotesize date}                                          & \cellcolor{white}{float} \\
+					\hline
+				\end{tabular}
+				\ncangle[nodesepA=0.1cm,angleA=180,angleB=0,nodesepB=1.5cm]{*->}{DCE}{ACE}
+			\end{center}}
+		\onslide<4->{
+			On obtient alors le schéma relationnel suivant : \smallskip
+			\begin{mdframed}
+				\textbf{Client} (\underline{num}, nom, prenom, email) \\
+				\textbf{Commande} (\underline{id}, \# id\_client, prix, articles, date)
+			\end{mdframed}}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Cas des associations \textit{many to many}}
+		On crée trois tables : une pour chacune des entités et la table de liaison, celle-ci a pour clé primaire l'union des clés primaires des deux entités et est en liaison avec celles-ci en utilisant des clés étrangères.
+		\onslide<2->{\begin{center}
+				\renewcommand{\arraystretch}{1.1}
+				\begin{tabular}{|p{2cm}|}
+					\hline
+					\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Etudiant}}} \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize ine}}              \\
+					\hline
+					\cellcolor{white}{\footnotesize nom}                                  \\
+					\hline
+					\cellcolor{white}{\footnotesize prenom}                               \\
+					\hline
+					\cellcolor{white}{\footnotesize adresse}                              \\
+					\hline
+				\end{tabular} \rnode{D}{$1$} \quad  \rnode{E}{\phantom{1}$*$}
+				\ncline[offset=-0.22cm,nodesepA=-0.3cm,nodesepB=-0.45cm,linewidth=1pt]{D}{E}
+				\begin{tabular}{|p{2cm}|}
+					\hline
+					\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Inscription}}} \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize Etudiant}}            \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize Cours}}               \\
+					\hline
+				\end{tabular}
+				\rnode{F}{\phantom{1}$*$} \quad  \rnode{A}{$1$}
+				\ncline[offset=-0.22cm,nodesepA=-0.45cm,nodesepB=-0.3cm,linewidth=1pt]{F}{A}
+				\begin{tabular}{|p{2cm}|}
+					\hline
+					\multicolumn{1}{|c|}{\cellcolor{lightgray}{\small \textbf{Cours}}} \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize id}}            \\
+					\hline
+					\cellcolor{white}{\footnotesize matière}                           \\
+					\hline
+					\cellcolor{white}{\footnotesize durée}                             \\
+					\hline
+					\cellcolor{white}{\footnotesize description}                       \\
+					\hline
+				\end{tabular}
+			\end{center} \vspace{0.4cm}}
+		\onslide<3->{\begin{center}
+				\begin{tabular}{|l>{\footnotesize \sc}r|}
+					\hline
+					\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Etudiant}}}                          \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize \rnode{AE}{ine}}} & \cellcolor{white}{int}  \\
+					\hline
+					\cellcolor{white}{\footnotesize nom}                                 & \cellcolor{white}{text} \\
+					\hline
+					\cellcolor{white}{\footnotesize prenom}                              & \cellcolor{white}{text} \\
+					\hline
+					\cellcolor{white}{\footnotesize adresse}                             & \cellcolor{white}{text} \\
+					\hline
+				\end{tabular} \quad \quad \quad
+				\begin{tabular}{|l>{\footnotesize \sc}r|}
+					\hline
+					\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Inscription}}}                                                 \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize \textcolor{Sepia}{\rnode{DE}{\# Etudiant}}}} & \cellcolor{white}{int} \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize \textcolor{Sepia}{\rnode{DC}{\# Cours}}}}    & \cellcolor{white}{int} \\
+					\hline
+				\end{tabular} \quad \quad \quad
+				\begin{tabular}{|l>{\footnotesize \sc}r|}
+					\hline
+					\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Cours}}}                            \\
+					\hline
+					\cellcolor{white}\underline{\textbf {\footnotesize \rnode{AC}{id}}} & \cellcolor{white}{int}  \\
+					\hline
+					\cellcolor{white}{\footnotesize matière}                            & \cellcolor{white}{text} \\
+					\hline
+					\cellcolor{white}{\footnotesize durée}                              & \cellcolor{white}{int}  \\
+					\hline
+					\cellcolor{white}{\footnotesize description}                        & \cellcolor{white}{text} \\
+					\hline
+				\end{tabular}
+				\ncangle[nodesepA=0.1cm,angleA=180,angleB=0,nodesepB=1.8cm]{*->}{DE}{AE}
+				\ncangle[angleA=0,angleB=180,nodesepA=1.3cm,nodesepB=0.1cm]{*->}{DC}{AC}
+			\end{center}}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Schéma relationnel}
+		\begin{center}
+			\begin{tabular}{|l>{\footnotesize \sc}r|}
+				\hline
+				\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Etudiant}}}                          \\
+				\hline
+				\cellcolor{white}\underline{\textbf {\footnotesize \rnode{AE}{ine}}} & \cellcolor{white}{int}  \\
+				\hline
+				\cellcolor{white}{\footnotesize nom}                                 & \cellcolor{white}{text} \\
+				\hline
+				\cellcolor{white}{\footnotesize prenom}                              & \cellcolor{white}{text} \\
+				\hline
+				\cellcolor{white}{\footnotesize adresse}                             & \cellcolor{white}{text} \\
+				\hline
+			\end{tabular} \quad \quad \quad
+			\begin{tabular}{|l>{\footnotesize \sc}r|}
+				\hline
+				\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Inscription}}}                                                 \\
+				\hline
+				\cellcolor{white}\underline{\textbf {\footnotesize \textcolor{Sepia}{\rnode{DE}{\# Etudiant}}}} & \cellcolor{white}{int} \\
+				\hline
+				\cellcolor{white}\underline{\textbf {\footnotesize \textcolor{Sepia}{\rnode{DC}{\# Cours}}}}    & \cellcolor{white}{int} \\
+				\hline
+			\end{tabular} \quad \quad \quad
+			\begin{tabular}{|l>{\footnotesize \sc}r|}
+				\hline
+				\multicolumn{2}{|c|}{\cellcolor{lightgray}{\small \textbf{Cours}}}                            \\
+				\hline
+				\cellcolor{white}\underline{\textbf {\footnotesize \rnode{AC}{id}}} & \cellcolor{white}{int}  \\
+				\hline
+				\cellcolor{white}{\footnotesize matière}                            & \cellcolor{white}{text} \\
+				\hline
+				\cellcolor{white}{\footnotesize durée}                              & \cellcolor{white}{int}  \\
+				\hline
+				\cellcolor{white}{\footnotesize description}                        & \cellcolor{white}{text} \\
+				\hline
+			\end{tabular}
+			\ncangle[nodesepA=0.1cm,angleA=180,angleB=0,nodesepB=1.8cm]{*->}{DE}{AE}
+			\ncangle[angleA=0,angleB=180,nodesepA=1.3cm,nodesepB=0.1cm]{*->}{DC}{AC}
+		\end{center}
+		\onslide<2->{
+			On obtient alors le schéma relationnel suivant : \smallskip
+			\begin{mdframed}
+				\textbf{Etudiant} (\underline{ine}, nom, prenom, adresse) \\
+				\textbf{Cours} (\underline{id}, matière, durée, description) \\
+				\textbf{Inscription} (\underline{\# Etudiant}, \underline{\# cours})
+			\end{mdframed}}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\onslide<2->{On souhaite créer une base de données permettant de gérer les notes obtenus par des élèves dans des matières.
+		\begin{itemize}
+			\item[-]<3-> Les élèves ont les attributs suivants : nom, prénom, date de naissance, et identifiant unique.
+			\item[-]<4-> Les matières ont les attributs suivants : nom (unique), horaire, coefficient
+			\item[-]<5-> Chaque élève peut avoir plusieurs notes par matière.
+		\end{itemize}
+		\begin{itemize}
+			\item<6-> Expliquer pourquoi un schéma relationnel d'une seule table notes n'est pas satisfaisant.
+			\item<8-> Proposer un schéma relationnel constitué de 3 tables issu du modèle entité-association.
+				}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+\makess{Requêtes sur plusieurs tables : opérations ensemblistes}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Union de deux tables}
+		Lorsque deux tables $T_1$ et $T_2$ ont \textcolor{BrickRed}{le même schéma relationnel} (c'est-à-dire les même colonnes), $T_1 \cup T_2$ contient les enregistrement de $T_1$ ou $T_2$ (sans duplication).
+		La syntaxe {\sc sql} correspondante est :
+		\onslide<2->{\mintinline{sql}{SELECT * FROM T1 UNION SELECT * FROM T2;}}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{\begin{center}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$7$                     & Payet   & Jean           \\
+					\hline
+					$28$                    & Hoarau  & Paul           \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$57$                    & Casimir & Tom            \\
+					\hline
+				\end{tabular}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$12$                    & Martin  & Pierre         \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$45$                    & Grondin & Eric           \\
+					\hline
+				\end{tabular} \quad
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 \cup T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom                  \\
+					\hline
+					$7$                     & Payet   & Jean                    \\
+					\hline
+					$28$                    & Hoarau  & Paul                    \\
+					\hline
+					$42$                    & Untel   & Sam                     \\
+					\hline
+					$57$                    & Casimir & Tom                     \\
+					\hline
+					$12$                    & Martin  & Pierre                  \\
+					\hline
+					$45$                    & Grondin & Eric                    \\
+					\hline
+				\end{tabular}
+			\end{center}}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Intersection de deux tables}
+		Lorsque deux tables $T_1$ et $T_2$ ont \textcolor{BrickRed}{le même schéma relationnel} (c'est-à-dire les même colonnes), $T_1 \cap T_2$ contient les enregistrement apparaissant dans $T_1$ et dans $T_2$.
+		\onslide<2->{La syntaxe {\sc sql} correspondante est : \\
+			\mintinline{sql}{SELECT * FROM T1 INTERSECT SELECT * FROM T2 ;}}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{\begin{center}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$7$                     & Payet   & Jean           \\
+					\hline
+					$28$                    & Hoarau  & Paul           \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$57$                    & Casimir & Tom            \\
+					\hline
+				\end{tabular} \quad
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$12$                    & Martin  & Pierre         \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$45$                    & Grondin & Eric           \\
+					\hline
+				\end{tabular}
+				\quad
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 \cap T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom   & Prénom                    \\
+					\hline
+					$42$                    & Untel & Sam                       \\
+					\hline
+				\end{tabular}
+			\end{center}}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Différence de deux tables}
+		Lorsque deux tables $T_1$ et $T_2$ ont \textcolor{BrickRed}{le même schéma relationnel} (c'est-à-dire les même colonnes), $T_1 - T_2$ contient les enregistrement apparaissant dans $T_1$ et pas dans $T_2$.
+		\onslide<2->{La syntaxe {\sc sql} correspondante est : \\
+			\mintinline{sql}{SELECT * FROM T1 EXCEPT SELECT * FROM T2 ;}}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{\begin{center}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$7$                     & Payet   & Jean           \\
+					\hline
+					$28$                    & Hoarau  & Paul           \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$57$                    & Casimir & Tom            \\
+					\hline
+				\end{tabular}
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom         \\
+					\hline
+					$12$                    & Martin  & Pierre         \\
+					\hline
+					$42$                    & Untel   & Sam            \\
+					\hline
+					$45$                    & Grondin & Eric           \\
+					\hline
+				\end{tabular}
+				\quad
+				\begin{tabular}{|>{\small}c|>{\small}c|>{\small}c|}
+					\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 - T_2$}} \\
+					\hline
+					\rowcolor{lightgray} Id & Nom     & Prénom               \\
+					\hline
+					$7$                     & Payet   & Jean                 \\
+					\hline
+					$28$                    & Hoarau  & Paul                 \\
+					\hline
+					$57$                    & Casimir & Tom                  \\
+					\hline
+				\end{tabular}
+			\end{center}}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Produit cartésien de deux tables}
+		On peut réaliser le \textcolor{Sepia}{produit cartésien} de deux tables, c'est-à-dire l'ensemble des enregistrements formé d'un enregistrement de la première table et d'un enregistrement de la seconde. \\
+		\onslide<2->{La syntaxe {\sc sql} correspondante est : \\ \mintinline{sql}{SELECT * FROM T1, T2 ;}}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<3->{
+			\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|}
+				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1$}} \\
+				\hline
+				\rowcolor{lightgray} Id & Nom   & Prénom           \\
+				\hline
+				$7$                     & Payet & Jean             \\
+				\hline
+				$42$                    & Untel & Sam              \\
+				\hline
+			\end{tabular}
+			\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|}
+				\multicolumn{2}{c}{\textcolor{Sepia}{Table $T_2$}} \\
+				\hline
+				\rowcolor{lightgray} Matière & Note                \\
+				\hline
+				Info                         & $15 $               \\
+				\hline
+				Maths                        & $9  $               \\
+				\hline
+				Physique                     & $10 $               \\
+				\hline
+			\end{tabular}
+			\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|}
+				\multicolumn{3}{c}{\textcolor{Sepia}{Table $T_1 \times T_2$}} \\
+				\hline
+				\rowcolor{lightgray} Id & Nom   & Prenom & Matière  & Note    \\
+				\hline
+				$7$                     & Payet & Jean   & Info     & $15 $   \\
+				\hline
+				$42$                    & Untel & Sam    & Info     & $15 $   \\
+				\hline
+				$7$                     & Payet & Jean   & Maths    & $9  $   \\
+				\hline
+				$42$                    & Untel & Sam    & Maths    & $9  $   \\
+				\hline
+				$7$                     & Payet & Jean   & Physique & $10 $   \\
+				\hline
+				$42$                    & Untel & Sam    & Physique & $10 $   \\
+				\hline
+			\end{tabular}}
+	\end{exampleblock}
+\end{frame}
+
+\makess{Requêtes sur plusieurs tables : jointures}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Définition}
+		\begin{itemize}
+			\item<1-> La jointure de deux tables $T_1$ et $T_2$ sur les colonnes $A$ et $B$ revient à combiner les enregistrements de $T_1$ et $T_2$ lorsque les colonnes $A$ et $B$ coïncident.
+			\item<2-> Cette jointure se note $T_1 \Join_{A=B} T_2$
+			\item<3-> Cette notion est \textcolor{blue}{fortement liée} à celle  de clé étrangère, on effectuera souvent les jointures avec $A$ une clé primaire et $B$ une clé étrangère correspondante.
+			\item<4-> La syntaxe {\sc sql} correspondante est : \\ \mintinline{sql}{SELECT * FROM T1 JOIN T2 on T1.A = T2.B}
+			\item<5-> On peut joindre plus de deux tables.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{exampleblock}{Exemple}
+		\begin{center}
+			\onslide<2->{\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|}
+					\multicolumn{2}{c}{\textcolor{Sepia}{Table Auteurs}} \\
+					\hline
+					\rowcolor{lightgray} Id   & Prénom & Nom             \\
+					\hline
+					\textcolor{blue}{1}       & Isaac  & Asimov          \\
+					\hline
+					\textcolor{BrickRed}{4}   & Franck & Herbert         \\
+					\hline
+					\textcolor{OliveGreen}{7} & Jules  & Verne           \\
+					\hline
+				\end{tabular}} \quad \quad
+			\onslide<3->{\begin{tabular}{|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|}
+					\multicolumn{2}{c}{\textcolor{Sepia}{Table Livres}}                      \\
+					\hline
+					\rowcolor{lightgray} Num & Auteur                    & Titre             \\
+					\hline
+					1                        & \textcolor{BrickRed}{4}   & Dune              \\
+					\hline
+					2                        & \textcolor{blue}{1}       & Les robots        \\
+					\hline
+					3                        & \textcolor{OliveGreen}{7} & L'île mystérieuse \\
+					\hline
+					4                        & \textcolor{blue}{1}       & Fondation         \\
+					\hline
+				\end{tabular}} \end{center}
+		\onslide<4->{La jointure de \textcolor{Sepia}{Auteurs} et \textcolor{Sepia}{Livres} sur les colonnes Id et Auteur donne :}
+		\onslide<5->{\begin{center}
+			\begin{tabular}{|>{\columncolor{fluo} \footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|>{\footnotesize}c|>{\columncolor{fluo}\footnotesize}c|>{\footnotesize}c|}
+				\hline
+				\rowcolor{lightgray} Id   & Prénom & Nom     & Num & Auteur                    & Titre             \\
+				\hline
+				\textcolor{blue}{1}       & Isaac  & Asimov  & 2   & \textcolor{blue}{1}       & Les robots        \\
+				\hline
+				\textcolor{blue}{1}       & Isaac  & Asimov  & 4   & \textcolor{blue}{1}       & Fondation         \\
+				\hline
+				\textcolor{BrickRed}{4}   & Franck & Herbert & 1   & \textcolor{BrickRed}{4}   & Dune              \\
+				\hline
+				\textcolor{OliveGreen}{7} & Jules  & Verne   & 3   & \textcolor{OliveGreen}{7} & L'île mystérieuse \\
+				\hline
+			\end{tabular}}\medskip \\
+			\onslide<6->\mintinline{sql}{SELECT * FROM Auteurs JOIN Livres on Auteurs.ID = Livres.Auteur}
+			\onslide<7->(On préfixe le nom des attributs par celui de la table afin d'éviter toute ambiguïté.)
+		\end{center}
+	\end{exampleblock}
+\end{frame}
+
+
+\makess{Requêtes imbriqués}
+\begin{frame}{\Ctitle}{\stitle}
+	\begin{block}{Requête dans le résultat d'une requête}
+		\begin{itemize}
+			\item<1-> Le résultat d'une requête peut-être utilisé afin d'effectuer une autre requête.
+			\item<2-> C'est le principe des \textcolor{blue}{requêtes imbriquées}.
+			\item<3-> C'est souvent dans un \mintinline{sql}{WHERE} ou un \mintinline{sql}{HAVING}
+		\end{itemize}
+	\end{block}
+	\begin{exampleblock}{Exemple}
+		\onslide<4->{Dans la relation \textit{Objet} (\underline{Référence} : {\sc int}, description : {\sc text}, prix : {\sc float}), comment retrouver le (ou les) objets ayant le prix le plus élevé ?}
+		\begin{itemize}
+			\item<5-> \mintinline{sql}{SELECT Référence, MAX(prix) FROM objet;} \\
+				\onslide<5-> Cette solution n'est pas satisfaisante car elle renverra une seule référence même si plusieurs objets ont le prix maximal.
+			\item<6-> \mintinline{sql}{SELECT Référence, prix FROM objet ORDER BY prix DESC LIMIT 1;}
+				\onslide<6-> De même pour cette solution !
+			\item<7-> \mintinline{sql}{SELECT Référence, prix FROM Objet } \\
+				\mintinline{sql}{WHERE note = (SELECT MAX(prix) FROM objet);}
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+\end{document}

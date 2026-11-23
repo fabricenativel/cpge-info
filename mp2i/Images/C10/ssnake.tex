@@ -1,0 +1,37 @@
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\documentclass[10pt]{beamer}
+\usepackage{Cours}
+
+\begin{document}
+
+
+\newcommand{\maillon}[3]{
+	\begin{tabular}{|p{0.6cm}|p{0.2cm}|}
+		\hline
+		\rnode{#2}{#1} & \rnode{#3}{\phantom{$(0,0)$}} \\
+		\hline
+	\end{tabular}
+}
+
+\begin{center}
+	\begin{tabular}{cclllcc}
+		\rnode{head}{\raisebox{-2pt}{\phantom{Y}}} & \maillon{$(3,1)$}{v0}{p0}                                                  & \maillon{$(3,2)$}{v1}{p1} & \maillon{$(3,3)$}{v2}{p2} & \maillon{$(3,4)$}{v3}{p3} & \maillon{$(3,5)$}{v4}{p4}                                         & \rnode{null}{\raisebox{-1pt}{$\bot$}} \\
+		                                           & \leavevmode \onslide<3->{\rnode{h}{\textcolor{BrickRed}{\small sortie}}} &                         &                         &                         & \leavevmode \onslide<4->{\textcolor{OliveGreen}{\small entrée}} &                                       \\
+	\end{tabular}\\
+	\ncline[nodesepB=0.25cm,nodesepA=-0.7cm]{*->}{p0}{v1}
+	\ncline[nodesepB=0.25cm,nodesepA=-0.7cm]{*->}{p1}{v2}
+	\ncline[nodesepB=0.25cm,nodesepA=-0.7cm]{*->}{p2}{v3}
+	\ncline[nodesepB=0.25cm,nodesepA=-0.7cm]{*->}{p3}{v4}
+	\ncline[nodesepB=0.05cm,nodesepA=-0.7cm]{*->}{p4}{null}
+	\begin{tabular}{|c|c|}
+        \multicolumn{1}{c}{Queue} & \multicolumn{1}{c}{Tête} \\
+		\hline
+		\rnode{debut}{\phantom{M}} & \rnode{fin}{\phantom{M}} \\
+		\hline
+		\multicolumn{2}{c}{\textcolor{BrickRed}{serpent}}
+	\end{tabular}\\
+	\ncbar[angleA=180,linecolor=BrickRed,nodesepB=0.2cm,nodesepA=-0.2cm]{*->}{debut}{v0}
+	\ncangle[angleA=0, angleB=-90,linecolor=BrickRed,nodesepB=0.1cm,nodesepA=-0.2cm,offsetB=0.2cm]{*->}{fin}{v4}
+\end{center}
+
+\end{document}
